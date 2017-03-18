@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/dark_gray" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_title" >
+
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <com.maibai.merchants.qrcodescan.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent" />
+
+        <TextView
+            android:id="@+id/tv_camera_permission"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/msg_camera_permission"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+        <include
+            android:id="@+id/two_dim_title"
+            layout="@layout/title_ceter_imageview" />
+    </FrameLayout>
+
+</RelativeLayout>

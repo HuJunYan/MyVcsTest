@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF5F4F9"
+    tools:context="com.maibai.user.activity.PayBillActivity">
+
+    <com.maibai.user.view.TitleBar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="消费账单" />
+
+    <ListView
+        android:id="@+id/lv_bill_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tb_title"
+        android:divider="@color/screen_bg"
+        android:dividerHeight="8dp"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_ver_info_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/title">
+
+        <ImageButton
+            android:id="@+id/ib_return_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:background="@color/transparent"
+            android:src="@mipmap/ok_next"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/common_white"
+            android:text="@string/verification_info" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_info_fill"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_ver_info_title">
+
+        <com.maibei.merchants.view.MyEditText
+            android:id="@+id/et_owner_mobile_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:hint="请输入手机号码"
+            app:maxLength="11"
+            app:inputType="number"
+            app:promp="手机号码" />
+
+        <com.maibei.merchants.view.MyEditText
+            android:id="@+id/et_phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@id/et_owner_mobile_pwd"
+            app:hint="请输入6位验证码"
+            app:inputType="number"
+            app:maxLength="6"
+            app:promp="验证码"
+            app:rt_text="获取验证码"/>
+
+        <View
+            android:id="@+id/v_interval_one"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:layout_below="@id/et_phone_num"/>
+
+        <Button
+            android:id="@+id/bt_next_back_pwd"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_below="@id/v_interval_one"
+            android:background="@drawable/button_next_select"
+            android:enabled="false"
+            android:text="确定"
+            android:textColor="@color/black"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

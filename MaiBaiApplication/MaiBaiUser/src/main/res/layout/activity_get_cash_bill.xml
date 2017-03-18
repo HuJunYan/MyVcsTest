@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_get_cash_bill"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/screen_bg"
+    tools:context="com.maibai.user.activity.WithdrawalsBillActivity">
+
+    <com.maibai.user.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="取现账单" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.maibai.user.view.XListView
+            android:id="@+id/lv_bill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"></com.maibai.user.view.XListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                >
+
+                <CheckBox
+                    android:id="@+id/cb_select_all"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    style="@style/repayment_check_style"
+                  />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="已选"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/tv_selected_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0"
+                    android:textColor="@color/dark_red"
+                    android:textSize="18sp"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:textSize="18sp"
+                    android:textColor="@color/dark_red"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_repay"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/dark_red"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="立即还款"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

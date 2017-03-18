@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_bg"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
+    tools:context="com.maibai.user.activity.ImproveQuotaActivity">
+
+    <com.maibai.user.view.TitleBar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="提升额度" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@color/dark_gray"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_current_quota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5000"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前额度"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toRightOf="@id/ll_left"
+                android:src="@mipmap/lift_jiantou" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_mid"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_most_quota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100000"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_most"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高总额"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="提交以下任意一项资料，都可以提高额度，最高至10万元"
+                android:textSize="11sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_operator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.maibai.user.view.ImageTextView
+
+                        android:id="@+id/itv_operator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:itvDrawable="@mipmap/lift_phone"
+                        app:itvLtWidth="40dp"
+                        app:itvRText="去认证"
+                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvText="运营商认证"
+
+                        app:tv_left_color="@color/black"
+                        app:tv_right_color="@color/not_authentication_color"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_taobao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.maibai.user.view.ImageTextView
+                        android:id="@+id/itv_taobao"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:itvDrawable="@mipmap/lift_taobao"
+                        app:itvLtWidth="40dp"
+                        app:itvRText="去认证"
+                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvText="淘宝认证"
+                        app:tv_left_color="@color/black"
+                        app:tv_right_color="@color/not_authentication_color"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_jingdong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.maibai.user.view.ImageTextView
+                        android:id="@+id/itv_jingdong"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:itvDrawable="@mipmap/lift_jingdong"
+                        app:itvLtWidth="40dp"
+                        app:itvRText="去认证"
+                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvText="京东认证"
+                        app:tv_left_color="@color/black"
+                        app:tv_right_color="@color/not_authentication_color"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_zhifubao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.maibai.user.view.ImageTextView
+                        android:id="@+id/itv_zhifubao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:itvDrawable="@mipmap/lift_alipay"
+                        app:itvLtWidth="40dp"
+                        app:itvRText="去认证"
+                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvText="支付宝认证"
+                        app:tv_left_color="@color/black"
+                        app:tv_right_color="@color/not_authentication_color"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_zhima"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <com.maibai.user.view.ImageTextView
+                        android:id="@+id/itv_zhima"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        app:itvDrawable="@mipmap/lift_grade"
+                        app:itvLtWidth="40dp"
+                        app:itvRText="去认证"
+                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvText="芝麻分认证"
+                        app:tv_left_color="@color/black"
+                        app:tv_right_color="@color/not_authentication_color"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray_line" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+
+                <Button
+                    android:id="@+id/bt_submite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:background="@drawable/select_bt"
+                    android:clickable="false"
+                    android:text="提交审核"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

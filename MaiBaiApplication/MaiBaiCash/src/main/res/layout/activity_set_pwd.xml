@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_bg"
+    tools:context=".activity.SetPayPwdActivity">
+
+    <com.maibai.cash.view.TitleBar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="设置支付密码" />
+
+    <com.maibai.cash.view.MyEditText
+        android:id="@+id/et_set_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tb_title"
+        android:layout_marginTop="5dp"
+        app:hint="设置6位数字支付密码"
+        app:inputType="number"
+        app:maxLength="6"
+        app:promp="设置密码" />
+
+    <com.maibai.cash.view.MyEditText
+        android:id="@+id/et_repeat_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_set_pwd"
+        app:hint="再次输入您的密码"
+        app:inputType="number"
+        app:maxLength="6"
+        app:promp="确认密码" />
+    <LinearLayout
+        android:id="@+id/pro_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_repeat_pwd"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/check_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已阅读并同意"/>
+        <TextView
+
+            android:id="@+id/tv_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《分期服务协议》"
+            android:textColor="@color/lt_blue"/>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/bt_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/pro_layout"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/select_bt"
+        android:text="确认密码"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+</RelativeLayout>

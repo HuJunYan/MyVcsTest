@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_bill_detail_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/tv_finish_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:layout_centerInParent="true"
+            />
+        <ImageView
+            android:id="@+id/iv_index_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/repayment_select_line"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_repay_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00元"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="center_vertical"
+        />
+    <TextView
+        android:id="@+id/tv_repay_late_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00元"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_explain"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</LinearLayout>

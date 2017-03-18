@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp">
+
+    <TextView
+        android:id="@+id/tv_promp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="25dp"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/ll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray_line"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="75dp"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textColor="#FF1FA5DF"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/ll_right"
+        android:layout_toRightOf="@id/tv_promp"
+        android:background="@null"
+        android:textColorHint="@color/gray_line"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/v_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray" />
+
+</RelativeLayout>

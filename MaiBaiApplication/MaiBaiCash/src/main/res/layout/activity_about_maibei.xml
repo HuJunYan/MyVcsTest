@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/shadow_color"
+    tools:context="com.maibai.cash.activity.AboutMaibeiActivity">
+<com.maibai.cash.view.TitleBar
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    app:tbImage="@mipmap/icon_houtui"
+    app:tbText="关于趣提钱"
+    ></com.maibai.cash.view.TitleBar>
+<ImageView
+    android:layout_marginTop="30dp"
+    android:src="@mipmap/about_qutiqian_logo"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_gravity="center_horizontal"
+    />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前版本"
+        android:textSize="16sp"/>
+
+    <com.maibai.cash.view.MyTextView
+        android:id="@+id/mtv_check_code"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_tv_content="检查更新"></com.maibai.cash.view.MyTextView>
+    <com.maibai.cash.view.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="微信号码"
+        app:setting_tv_right="130-0113-7644"
+        ></com.maibai.cash.view.MyTextView>
+    <com.maibai.cash.view.MyTextView
+        android:id="@+id/mtv_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="服务器"
+        app:setting_tv_right="测试"
+        ></com.maibai.cash.view.MyTextView>
+    <com.maibai.cash.view.MyTextView
+        android:id="@+id/mtv_resolve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="分辨率"
+        app:setting_tv_right="测试"
+        ></com.maibai.cash.view.MyTextView>
+
+</LinearLayout>

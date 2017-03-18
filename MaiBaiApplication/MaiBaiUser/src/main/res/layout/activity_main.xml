@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_bg"
+    tools:context=".activity.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_control_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <RadioButton
+            android:id="@+id/rb_zero_yuan_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/radio_tab_home"
+            android:button="@null"
+            android:textColor="@color/light_gray"
+            android:textSize="12dp" />
+
+        <RadioButton
+            android:id="@+id/rb_withdrawals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/get_red_package_select"
+            android:button="@null"
+            android:textColor="@color/light_gray"
+            android:textSize="12dp" />
+
+        <RadioButton
+            android:id="@+id/rb_my"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/radio_tab_my"
+            android:button="@null"
+            android:textColor="@color/light_gray"
+            android:textSize="12dp" />
+    </RadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rg_control_button"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/vp_main"
+        android:background="#60777777" />
+</RelativeLayout>

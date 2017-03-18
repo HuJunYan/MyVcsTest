@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bank_activity_back_color"
+    >
+    <com.maibai.user.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="我的银行卡"
+        ></com.maibai.user.view.TitleBar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+        <ListView
+            android:id="@+id/lv_bank_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bt_remove_binding"
+            android:visibility="gone"
+            ></ListView>
+        <RelativeLayout
+            android:background="@drawable/rl_add_bank_card_background"
+            android:id="@+id/rl_add_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
+           >
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 添加银行卡"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/bt_remove_binding"
+            android:background="@drawable/select_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:text="解除绑定"
+            android:textColor="@color/white"
+            android:visibility="gone"
+
+            />
+    </RelativeLayout>
+</LinearLayout>
+

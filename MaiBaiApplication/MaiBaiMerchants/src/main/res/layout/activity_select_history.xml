@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.maibei.merchants.activity.SelectHistoryActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_amount_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/title"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_houtui" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="提现记录"
+            android:textColor="@color/common_white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <com.maibei.merchants.view.MyTextView
+        android:id="@+id/mtv_amount_withdrawals_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="账户提现记录"
+        app:setting_img_right="@mipmap/icon_my_next" />
+    <com.maibei.merchants.view.MyTextView
+        android:id="@+id/mtv_amount_commi_withdrawals_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="佣金提现记录"
+        app:setting_img_right="@mipmap/icon_my_next"/>
+</LinearLayout>

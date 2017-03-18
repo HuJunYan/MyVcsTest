@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/v_line_top"
+            android:layout_width="2px"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/verify_step_line_gray" />
+
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/gurgle" />
+
+        <View
+            android:id="@+id/v_line_bottom"
+            android:layout_width="2px"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/verify_step_line_gray" />
+    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_person"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_zhang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <TextView
+                android:id="@+id/tv_had_again_verify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已重新认证"
+                android:textColor="@color/had_again_certify"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="12dp"
+                android:layout_marginRight="18dp"
+                android:background="@drawable/tv_again_verify_bg"
+                android:textSize="12sp"
+                android:visibility="invisible"/>
+            <View
+                android:id="@+id/v_line_bianjie"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_line"/>
+        </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyEditText">
+        <attr name="promp" format="string" />
+        <attr name="hint" format="string" />
+        <attr name="drawable" format="reference" />
+        <attr name="rt_text" format="string" />
+        <attr name="edit_text" format="string" />
+        <attr name="line_margin" format="dimension" />
+        <attr name="left_width" format="dimension" />
+        <attr name="is_edit" format="boolean" />
+        <attr name="inputType" format="enum">
+            <enum name="text" value="1" />
+            <enum name="number" value="2" />
+            <enum name="password" value="3" />
+
+        </attr>
+        <attr name="maxLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="PasswordInputView">
+        <attr name="pivBorderColor" format="color" />
+        <attr name="pivBorderWidth" format="dimension" />
+        <attr name="pivBorderRadius" format="dimension" />
+        <attr name="pivPasswordColor" format="color" />
+        <attr name="pivPasswordWidth" format="dimension" />
+        <attr name="pivPasswordRadius" format="dimension" />
+        <attr name="pivPasswordLength" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageTextView">
+        <attr name="itvDrawable" format="reference" />
+        <attr name="itvRtDrawable" format="reference" />
+        <attr name="itvRText" format="string" />
+        <attr name="itvText" format="string" />
+        <attr name="itvLtWidth" format="dimension" />
+        <attr name="itv_hint" format="string"/>
+        <attr name="tv_left_color" format="color"/>
+        <attr name="tv_right_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="TitleBar">
+        <attr name="tbImage" format="reference" />
+        <attr name="tbRtImage" format="reference" />
+        <attr name="tbText" format="string" />
+        <attr name="tbAddress" format="string" />
+        <attr name="tbHint" format="string" />
+        <attr name="tbType" format="enum">
+            <enum name="edittext" value="1" />
+            <enum name="textview" value="2" />
+        </attr>
+    </declare-styleable>
+<declare-styleable name="MyLoginEditText">
+    <attr name="login_edit_img_left" format="reference"/>
+    <attr name="login_edit_img_right" format="reference"/>
+    <attr name="login_edit_content" format="string"/>
+    <attr name="login_edit_if_edit" format="boolean" />
+    <attr name="login_edit_hint" format="string" />
+    <attr name="login_edit_img_size" format="integer"/>
+    <attr name="login_edit_text_size" format="integer"/>
+    <attr name="login_edit_maxLength" format="integer"/>
+    <attr name="login_edit_tv_right" format="string"/>
+    <attr name="login_edit_inputType" format="enum">
+        <enum name="text" value="1" />
+        <enum name="number" value="2" />
+        <enum name="password" value="3" />
+        <enum name="phone" value="4"/>
+    </attr>
+
+</declare-styleable>
+    <declare-styleable name="MyTextView">
+        <attr name="setting_tv_content" format="string"></attr>
+        <attr name="setting_img_right" format="reference"></attr>
+        <attr name="setting_tv_size" format="integer"></attr>
+        <attr name="setting_layout_father_height" format="integer"></attr>
+        <attr name="setting_tv_right" format="string"></attr>
+
+    </declare-styleable>
+    <declare-styleable name="ImproveEditText">
+        <attr name="improve_edit_text_img" format="reference"></attr>
+        <attr name="improve_edit_text_key" format="string"></attr>
+
+    </declare-styleable>
+</resources>

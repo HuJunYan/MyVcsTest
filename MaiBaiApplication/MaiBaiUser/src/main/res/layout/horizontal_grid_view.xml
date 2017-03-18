@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+
+            <com.maibai.user.view.MyGridView
+                android:id="@+id/grid"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:horizontalSpacing="1dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="spacingWidthUniform"
+                android:verticalSpacing="1dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

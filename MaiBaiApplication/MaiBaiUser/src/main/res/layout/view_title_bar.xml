@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/title_color">
+
+    <ImageView
+        android:id="@+id/iv_left"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:scaleType="center" />
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:scaleType="center" />
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/iv_right"
+        android:layout_toRightOf="@id/iv_left"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/iv_right"
+        android:layout_toRightOf="@id/iv_left"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/ic_dingwei"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/ic_dingwei1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <com.maibai.user.view.RightClickAbleEditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="15dp"
+        android:layout_toLeftOf="@id/iv_right"
+        android:layout_toRightOf="@id/iv_left"
+        android:background="@null"
+        android:drawableBottom="@drawable/edit_line"
+        android:drawableRight="@mipmap/ic_cuowu"
+        android:paddingLeft="5dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/white"
+        android:textColorHint="#FF6F6F6F"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

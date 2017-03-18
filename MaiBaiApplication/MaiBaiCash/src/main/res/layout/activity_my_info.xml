@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/screen_bg"
+    tools:context="com.maibai.cash.activity.MyInfoActivity">
+    <com.maibai.cash.view.TitleBar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="我的资料"
+        app:tbRtImage="@mipmap/submit"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            >
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvText="登录手机"
+                app:tv_left_color="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvText="本人姓名"
+                app:tv_left_color="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_id_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvText="身份证号"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_wechat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="本人微信账号"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_qq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="本人QQ账号"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="本人常住地址"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="工作单位"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_company_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="单位电话"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_company_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="单位地址"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_parent_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="父母姓名"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_parent_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="父母电话"
+                app:tv_left_color="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_parent_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="父母住址"
+                app:tv_left_color="@color/black" />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_brother_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="直亲姓名"
+                app:tv_left_color="@color/black" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_brother_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="直亲电话"
+                app:tv_left_color="@color/black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_friend_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="朋友姓名"
+                app:tv_left_color="@color/black"
+                />
+
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_friend_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="朋友电话"
+                app:tv_left_color="@color/black"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_line" />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_colleague_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="同事姓名"
+                app:tv_left_color="@color/black"
+                />
+            <com.maibai.cash.view.ImageTextView
+                android:id="@+id/itv_colleague_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingRight="10dp"
+                app:itvLtWidth="20dp"
+                app:itvRtDrawable="@mipmap/icon_my_next"
+                app:itvText="同事电话"
+                app:tv_left_color="@color/black"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

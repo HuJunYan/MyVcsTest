@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_reg_shop_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/title">
+
+        <ImageButton
+            android:id="@+id/ib_return_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:background="@color/transparent"
+            android:src="@mipmap/ok_next"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/common_white"
+            android:text="@string/regist_maibei" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_reg_shop_title">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_owner_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.maibei.merchants.view.MyEditText
+                android:id="@+id/et_shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="请输入您的店名"
+                app:promp="店        名" />
+
+
+            <com.maibei.merchants.view.MyEditText
+                android:id="@+id/et_owner_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_below="@id/et_shop_name"
+                app:hint="请输入手机号码"
+                app:maxLength="11"
+                app:inputType="number"
+                app:promp="手机号码" />
+
+            <com.maibei.merchants.view.MyEditText
+                android:id="@+id/et_phone_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_below="@id/et_owner_mobile"
+                app:hint="请输入验证码"
+                app:inputType="number"
+                app:maxLength="6"
+                app:promp="短信验证"
+                app:rt_text="获取验证码"/>
+
+            <com.maibei.merchants.view.LoginEditText
+                android:id="@+id/et_passwod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_below="@id/et_phone_num"
+                app:hint="字母、数字或符号的组合"
+                app:inputType="password"
+                app:drawable="@mipmap/icon_yincang"
+                app:promp="设置密码" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_owner_info"
+            android:background="#40777777">
+
+            <View
+                android:id="@+id/v_interval_three"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@id/v_interval_three">
+                <Button
+                    android:id="@+id/bt_next_reg"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="25dp"
+                    android:paddingBottom="2dp"
+                    android:background="@drawable/button_regist_select"
+                    android:enabled="false"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

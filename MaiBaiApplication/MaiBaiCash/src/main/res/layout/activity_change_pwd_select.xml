@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shadow_color"
+    android:orientation="vertical"
+    tools:context="com.maibai.cash.activity.ChangePwdSelectActivity">
+
+    <com.maibai.cash.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="修改密码" />
+
+    <com.maibai.cash.view.MyTextView
+        android:id="@+id/mtv_change_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_tv_content="修改登录密码" />
+
+    <com.maibai.cash.view.MyTextView
+        android:id="@+id/mtv_change_pay_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-1px"
+        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_tv_content="修改支付密码" />
+</LinearLayout>

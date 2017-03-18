@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_contacts_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shadow_color"
+    android:orientation="vertical"
+
+    tools:context="com.maibai.user.activity.ContactsInfoActivity">
+
+    <com.maibai.user.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tbImage="@mipmap/icon_houtui"
+        app:tbText="联系人信息" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="20dp"
+            android:orientation="vertical">
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_wechat_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您的微信号"
+                app:is_edit="true"
+                app:promp="本人微信号码" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_qq_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您的QQ号"
+                app:is_edit="true"
+                app:inputType="number"
+                app:promp="本人QQ号码" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="精确到街道路及门牌号"
+                app:is_edit="true"
+                app:promp="本人常用地址" />
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="请输入您的工作单位名称"
+                app:is_edit="true"
+                app:promp="工作单位" />
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_company_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="请输入您的工作单位电话"
+                app:is_edit="true"
+                app:promp="单位电话"
+                app:inputType="number"/>
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_company_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您的单位地址"
+                app:is_edit="true"
+                app:promp="单位地址" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_parent_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                app:hint="请输入您父亲或母亲的姓名"
+                app:is_edit="true"
+                app:promp="父母姓名" />
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_parent_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="请输入您父亲或母亲的电话"
+                app:is_edit="true"
+                app:promp="父母电话"
+                app:inputType="number"/>
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_parent_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="精确到街道路及门牌号"
+                app:is_edit="true"
+                app:promp="父母住址" />
+
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_brothers_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                app:hint="请输入您兄妹或配偶姓名"
+                app:is_edit="true"
+                app:promp="直亲姓名" />
+
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_brothers_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="请输入您兄妹或配偶的电话"
+                app:is_edit="true"
+                app:promp="直亲电话"
+                app:inputType="number"/>
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_friend_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您朋友的姓名"
+                app:is_edit="true"
+                app:promp="朋友姓名" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_friend_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您朋友的电话"
+                app:is_edit="true"
+                app:inputType="number"
+                app:promp="朋友电话" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_colleague_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您同事的姓名"
+                app:is_edit="true"
+                app:promp="同事姓名" />
+            <com.maibai.user.view.MyEditText
+                android:id="@+id/et_colleague_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:hint="输入您同事的电话"
+                app:is_edit="true"
+                app:inputType="number"
+                app:promp="同事电话" />
+            <Button
+                android:id="@+id/bt_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/select_bt"
+                android:text="下一步"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

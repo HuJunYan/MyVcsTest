@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_about_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/title">
+
+        <ImageButton
+            android:id="@+id/ib_return_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dp"
+            android:background="@color/transparent"
+            android:src="@mipmap/ok_next"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textColor="@color/common_white"
+            android:text="@string/about_maibei" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#40777777"
+        android:layout_below="@id/rl_about_title">
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="25dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:background="@mipmap/about_logo"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/tv_version_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
+
+            <com.maibei.merchants.view.MyTextView
+                android:id="@+id/itv_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                app:setting_tv_right="已是最新版本"
+                app:setting_tv_content="检查更新"/>
+
+            <com.maibei.merchants.view.MyTextView
+                android:id="@+id/itv_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:setting_tv_content="服务器"
+                app:itvLtWidth="30dp"/>
+
+            <com.maibei.merchants.view.MyTextView
+                android:id="@+id/itv_resolution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:setting_tv_content="分辨率"
+                app:itvLtWidth="30dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
