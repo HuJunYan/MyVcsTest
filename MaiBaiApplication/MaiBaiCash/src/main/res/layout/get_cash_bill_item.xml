@@ -32,14 +32,14 @@
                     android:id="@+id/tv_repay_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_red"
+                    android:textColor="@color/dark_green"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"/>
                 <TextView
                     android:id="@+id/tv_overdue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/dark_red"
+                    android:textColor="@color/dark_green"
                     android:textSize="10sp"
                     android:text="(含逾期0元)"
                   />

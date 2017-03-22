@@ -80,7 +80,7 @@ public class WithdrawalsBillAdapter extends BaseAdapter {
                 overdue="0";
             }
             viewHolder.tv_overdue.setText("(含逾期费"+Double.valueOf(overdue)/100+"元)");
-            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context,R.color.dark_red));
+            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context,R.color.dark_green));
         }else{
             viewHolder.tv_overdue.setVisibility(View.GONE);
             viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context,R.color.default_text_color));

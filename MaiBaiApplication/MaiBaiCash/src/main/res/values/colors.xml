@@ -24,7 +24,9 @@
     <color name="black">#FF231815</color>
     <color name="red">#FFFF0000</color>
     <color name="permission_dialog_bg_red">#F86049</color>
-    <color name="dark_red">#FFF16257</color>
+
+    <color name="dark_green">#5fbb14</color>
+
     <color name="light_red">#FFFCBDB4</color>
     <color name="shallow_red">#60FF0000</color>
     <color name="shallow_blue">#FF0BA5FF</color>
@@ -65,6 +67,7 @@
     <color name="red_text">#FFf2482f</color><!--红色字体颜色-->
     <color name="green_text">#FF24af19</color><!--绿色字体颜色（优惠颜色）-->
     <color name="stages_type_red_color">#FFC07372</color>
+    <color name="stages_type_green_color">#5fbb14</color>
     <color name="stages_type_gray_color">#FFE3E4E6</color>
     <color name="stages_type_nomal_color">#FFE5E5E5</color>
     <color name="pay_activity_input_color">#FF343434</color>

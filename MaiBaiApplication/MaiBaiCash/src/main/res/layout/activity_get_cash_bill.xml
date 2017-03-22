@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
-                    android:textColor="@color/dark_red"
+                    android:textColor="@color/dark_green"
                     android:textSize="18sp"
                     android:layout_gravity="center_vertical"/>
                 <TextView
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:text="元"
                     android:textSize="18sp"
-                    android:textColor="@color/dark_red"
+                    android:textColor="@color/dark_green"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@color/dark_red"
+                android:background="@color/dark_green"
                 android:gravity="center"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
