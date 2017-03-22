@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="趣提钱平台"
+                android:text="天神贷平台"
                 android:textColor="@color/black" />
         </LinearLayout>
 

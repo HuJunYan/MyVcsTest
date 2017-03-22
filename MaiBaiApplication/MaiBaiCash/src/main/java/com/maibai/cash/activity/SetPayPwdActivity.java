@@ -124,6 +124,10 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
                         public void onSuccess(ResponseBean mResponseBean) {
                             if (mBundle != null) {
                                 int applyType = mBundle.getInt(GlobalParams.APPLY_TYPE_KEY);
+
+
+                                LogUtil.d("abc","SetPaypwd---getInt--->"+applyType);
+
                                 switch (applyType) {
                                     case GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY:
                                         withdrawalsApply();
@@ -149,6 +153,9 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void withdrawalsApply() {
+
+        LogUtil.d("abc","SetPayPwd----withdrawalsApply");
+
         SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(this);
         WithdrawalsApply withdrawalsApply = new WithdrawalsApply(mContext);
         JSONObject jsonObject = new JSONObject();
@@ -169,7 +176,12 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
             withdrawalsApply.withdrawalsApply(jsonObject, bt_confirm, true, new BaseNetCallBack<WithdrawalsApplyBean>() {
                 @Override
                 public void onSuccess(WithdrawalsApplyBean paramT) {
+
                     String isNeedVerify = paramT.getData().getIs_need_verify();
+
+
+                    LogUtil.d("abc","SetPayPwd----withdrawalsApply---onSuccess---isNeedVerify--->"+isNeedVerify);
+
                     switch (isNeedVerify) {
                         case "1":
                             Bundle bundle = new Bundle();

@@ -11,14 +11,14 @@
     <com.maibai.cash.view.TitleBar
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="修改密码" />
 
     <com.maibai.cash.view.MyTextView
         android:id="@+id/mtv_change_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_img_right="@drawable/icon_my_next"
         app:setting_tv_content="修改登录密码" />
 
     <com.maibai.cash.view.MyTextView
@@ -26,6 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-1px"
-        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_img_right="@drawable/icon_my_next"
         app:setting_tv_content="修改支付密码" />
 </LinearLayout>

@@ -15,7 +15,7 @@ public class ConsumeSmallBillBean implements Serializable {
     private String consume_date; // 消费日期：2016-08-01 18:22
     private String amount; // 消费总金额，单位分
     private String down_payment; // 首付金额，单位分
-    private String borrow_amount; // 趣提钱代付金额，单位分
+    private String borrow_amount; // 天神贷代付金额，单位分
     private String repay_amount; // 带还总金额：单位分
     private String have_repay; // 已还金额，单位分
     private String total_times;//总期数

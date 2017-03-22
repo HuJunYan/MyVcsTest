@@ -12,7 +12,7 @@
     <com.maibai.cash.view.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="取现账单" />
 
     <RelativeLayout

@@ -138,7 +138,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
             tv_login.setVisibility(View.GONE);
             ll_circle_login.setVisibility(View.GONE);
-            ll_circle.setBackgroundResource(R.mipmap.bta_my_refund);
+            ll_circle.setBackgroundResource(R.drawable.bta_my_refund);
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("customer_id", UserUtil.getId(mContext));
@@ -198,7 +198,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
         layout_container.setVisibility(View.VISIBLE);
         ll_circle.setVisibility(View.VISIBLE);
-        ll_circle.setBackgroundResource(R.mipmap.bta_my_refund);
+        ll_circle.setBackgroundResource(R.drawable.bta_my_refund);
         final Mine mine = new Mine(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
@@ -241,7 +241,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private void changeToLogoutMode() {
         ll_circle.setVisibility(View.GONE);
 //        layout_transaction_container.setVisibility(View.GONE);
-        ll_circle.setBackgroundResource(R.mipmap.my_not_login);
+        ll_circle.setBackgroundResource(R.drawable.my_not_login);
         layout_container.setVisibility(View.GONE);
         tv_pay_back.setVisibility(View.GONE);
         iv_promt.setVisibility(View.GONE);

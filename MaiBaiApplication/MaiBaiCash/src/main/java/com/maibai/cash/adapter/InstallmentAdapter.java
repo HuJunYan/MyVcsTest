@@ -59,9 +59,9 @@ public class InstallmentAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if(datas.get(position).isChecked()){
-            viewHolder.iv_is_checked.setImageResource(R.mipmap.selected);
+            viewHolder.iv_is_checked.setImageResource(R.drawable.selected);
         }else{
-            viewHolder.iv_is_checked.setImageResource(R.mipmap.selection);
+            viewHolder.iv_is_checked.setImageResource(R.drawable.selection);
         }
         String repayTotal=datas.get(position).getRepay_total();
         if("".equals(repayTotal)||null==repayTotal){

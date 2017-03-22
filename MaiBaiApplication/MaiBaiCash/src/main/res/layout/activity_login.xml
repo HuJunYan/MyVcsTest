@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/qutiqian_logo_pass" />
+                android:src="@drawable/qutiqian_logo_pass" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:src="@mipmap/icon_houtui" />
+                android:src="@drawable/icon_houtui" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             app:login_edit_hint="输入手机号"
-            app:login_edit_img_left="@mipmap/icon_phone"
+            app:login_edit_img_left="@drawable/icon_phone"
             app:login_edit_inputType="phone"
             app:login_edit_maxLength="11"
             app:login_edit_text_size="15" />
@@ -75,8 +75,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             app:login_edit_hint="输入密码"
-            app:login_edit_img_left="@mipmap/icon_password"
-            app:login_edit_img_right="@mipmap/icon_yincang"
+            app:login_edit_img_left="@drawable/icon_password"
+            app:login_edit_img_right="@drawable/icon_yincang"
             app:login_edit_inputType="password"
             app:login_edit_text_size="15" />
 

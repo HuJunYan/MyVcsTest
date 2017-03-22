@@ -14,8 +14,8 @@ public class HomePageUtil {
 
 
     private static String[] shareNames = {"微信好友", "微信朋友圈", "QQ好友", "QQ空间"};
-    private static int[] shareImgs = {R.mipmap.share_wechat, R.mipmap.share_wechat_friends,
-            R.mipmap.share_qq_friends, R.mipmap.share_qq_space};
+    private static int[] shareImgs = {R.drawable.share_wechat, R.drawable.share_wechat_friends,
+            R.drawable.share_qq_friends, R.drawable.share_qq_space};
 
     public static List<ShareTypeBean> getShareList() {
         List<ShareTypeBean> list = new ArrayList<ShareTypeBean>();

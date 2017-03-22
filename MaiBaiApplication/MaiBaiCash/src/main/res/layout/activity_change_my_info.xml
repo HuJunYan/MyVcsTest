@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tbText="修改内容"
-        app:tbImage="@mipmap/icon_houtui"
-        app:tbRtImage="@mipmap/save"
+        app:tbImage="@drawable/icon_houtui"
+        app:tbRtImage="@drawable/save"
         />
     <RelativeLayout
         android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
             android:id="@+id/iv_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/clean_up"
+            android:src="@drawable/clean_up"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:visibility="gone"

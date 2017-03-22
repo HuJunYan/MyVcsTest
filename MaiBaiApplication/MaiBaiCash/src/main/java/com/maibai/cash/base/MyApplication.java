@@ -33,7 +33,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SDKInitializer.initialize(this);
-        FMAgent.init(getApplication(), NetConstantValue.getService());
+        FMAgent.init(getApplication(), NetConstantValue.checkIsReleaseService());
 //		if (Utils.isApplicationRepeat(this)) {
 //			return;
 //		}

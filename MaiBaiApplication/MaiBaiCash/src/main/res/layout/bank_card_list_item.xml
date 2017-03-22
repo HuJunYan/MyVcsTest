@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_bank_card"/>
+            android:src="@drawable/icon_bank_card"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -13,7 +13,7 @@
        <ImageView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:src="@mipmap/permission_forbid"
+           android:src="@drawable/permission_forbid"
            android:layout_centerHorizontal="true"/>
    </RelativeLayout>
     <RelativeLayout
@@ -45,7 +45,7 @@
         android:layout_gravity="center_horizontal"
         android:paddingLeft="80dp"
         android:paddingRight="80dp"
-        android:src="@mipmap/premission_quit"
+        android:src="@drawable/premission_quit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="知道了"

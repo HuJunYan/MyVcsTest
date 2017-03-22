@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:tbText="注册"
-            app:tbImage="@mipmap/icon_houtui"
+            app:tbImage="@drawable/icon_houtui"
             />
 
     <LinearLayout

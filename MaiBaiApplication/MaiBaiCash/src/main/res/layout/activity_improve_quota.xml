@@ -13,7 +13,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="提升额度" />
 
     <LinearLayout
@@ -60,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
                 android:layout_toRightOf="@id/ll_left"
-                android:src="@mipmap/lift_jiantou" />
+                android:src="@drawable/lift_jiantou" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -124,10 +124,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        app:itvDrawable="@mipmap/lift_phone"
+                        app:itvDrawable="@drawable/lift_phone"
                         app:itvLtWidth="40dp"
                         app:itvRText="去认证"
-                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvRtDrawable="@drawable/icon_my_next"
                         app:itvText="运营商认证"
 
                         app:tv_left_color="@color/black"
@@ -153,10 +153,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        app:itvDrawable="@mipmap/lift_taobao"
+                        app:itvDrawable="@drawable/lift_taobao"
                         app:itvLtWidth="40dp"
                         app:itvRText="去认证"
-                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvRtDrawable="@drawable/icon_my_next"
                         app:itvText="淘宝认证"
                         app:tv_left_color="@color/black"
                         app:tv_right_color="@color/not_authentication_color"/>
@@ -180,10 +180,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        app:itvDrawable="@mipmap/lift_jingdong"
+                        app:itvDrawable="@drawable/lift_jingdong"
                         app:itvLtWidth="40dp"
                         app:itvRText="去认证"
-                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvRtDrawable="@drawable/icon_my_next"
                         app:itvText="京东认证"
                         app:tv_left_color="@color/black"
                         app:tv_right_color="@color/not_authentication_color"/>
@@ -206,10 +206,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        app:itvDrawable="@mipmap/lift_alipay"
+                        app:itvDrawable="@drawable/lift_alipay"
                         app:itvLtWidth="40dp"
                         app:itvRText="去认证"
-                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvRtDrawable="@drawable/icon_my_next"
                         app:itvText="支付宝认证"
                         app:tv_left_color="@color/black"
                         app:tv_right_color="@color/not_authentication_color"/>
@@ -232,10 +232,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        app:itvDrawable="@mipmap/lift_grade"
+                        app:itvDrawable="@drawable/lift_grade"
                         app:itvLtWidth="40dp"
                         app:itvRText="去认证"
-                        app:itvRtDrawable="@mipmap/icon_my_next"
+                        app:itvRtDrawable="@drawable/icon_my_next"
                         app:itvText="芝麻分认证"
                         app:tv_left_color="@color/black"
                         app:tv_right_color="@color/not_authentication_color"/>

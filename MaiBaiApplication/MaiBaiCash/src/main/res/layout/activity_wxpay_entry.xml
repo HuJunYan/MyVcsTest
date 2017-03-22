@@ -11,7 +11,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="支付结果"
         />
     <TextView

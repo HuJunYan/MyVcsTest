@@ -537,7 +537,13 @@ public class ResultActivity extends BaseActivity {
                         backActivity();
                         return;
                     }
-                    gotoActivity(mContext,ImproveQuotaActivity.class,getIntent().getExtras());
+
+                    LogUtil.d("abc","ResultActivity--putInt-3");
+
+                    Bundle bundle = getIntent().getExtras();
+                    bundle.putInt(GlobalParams.APPLY_TYPE_KEY, GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY);
+                    gotoActivity(mContext,ImproveQuotaActivity.class,bundle);
+
                     UserUtil.setRealName(mContext, mIDCardBean.name);
                     UserUtil.setIdNum(mContext, mIDCardBean.id_card_number);
                     UserUtil.setCreditStep(mContext, GlobalParams.HAVE_UPLOAD_IDCARD_INFO + "");
@@ -794,7 +800,7 @@ public class ResultActivity extends BaseActivity {
     private void showScanErrorDialog(String name,String idCardNum){
         AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
         builder.setTitle("信息校验");
-        builder.setMessage("请确认您的信息，若信息有误，请联系趣提钱\n姓名："+name+"\n"+"身份证号："+idCardNum);
+        builder.setMessage("请确认您的信息，若信息有误，请联系天神贷\n姓名："+name+"\n"+"身份证号："+idCardNum);
         builder.setCancelable(false);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override

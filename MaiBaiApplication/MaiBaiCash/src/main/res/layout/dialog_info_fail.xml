@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="30dp"
-        android:src="@mipmap/lift_dcline"/>
+        android:src="@drawable/lift_dcline"/>
 
     <TextView
         android:id="@+id/tv_fail_tishi"

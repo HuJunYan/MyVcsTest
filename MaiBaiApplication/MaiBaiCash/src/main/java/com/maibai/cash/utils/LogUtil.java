@@ -29,30 +29,73 @@ public class LogUtil {
 
 	public static void i(String tag, String msg) {
 		if (isShowingLog) {
-			Log.i(tag, msg);
+
+			int p = 2048;
+			msg = formatContent(msg);
+			long length = msg.length();
+			if (length < p || length == p) {
+				Log.i(tag, msg);
+			} else {
+				while (msg.length() > p) {
+					String logContent = msg.substring(0, p);
+					msg = msg.replace(logContent, "");
+					Log.i(tag, logContent);
+				}
+				Log.i(tag, msg);
+			}
+
 			String fileFullPath = getExternalStoragePath() + "/" + GlobalParams.LOG_FILE;
 			String logMsg = "[info] [tag = " + tag + "] " + msg + "\n";
 			writeToFile(fileFullPath, logMsg);
 		}
 	}
 
+	public static void d(String tag, String msg) {
+		if (isShowingLog) {
+
+			int p = 2048;
+			msg = formatContent(msg);
+			long length = msg.length();
+			if (length < p || length == p) {
+				Log.d(tag, msg);
+			} else {
+				while (msg.length() > p) {
+					String logContent = msg.substring(0, p);
+					msg = msg.replace(logContent, "");
+					Log.d(tag, logContent);
+				}
+				Log.d(tag, msg);
+			}
+
+			String fileFullPath = getExternalStoragePath() + "/" + GlobalParams.LOG_FILE;
+			String logMsg = "[debug] [tag = " + tag + "] " + msg + "\n";
+			writeToFile(fileFullPath, logMsg);
+		}
+	}
+
 	public static void e(String tag, String msg) {
 		if (isShowingLog) {
-			Log.e(tag, msg);
+
+			int p = 2048;
+			msg = formatContent(msg);
+			long length = msg.length();
+			if (length < p || length == p) {
+				Log.e(tag, msg);
+			} else {
+				while (msg.length() > p) {
+					String logContent = msg.substring(0, p);
+					msg = msg.replace(logContent, "");
+					Log.e(tag, logContent);
+				}
+				Log.e(tag, msg);
+			}
+
 			String fileFullPath = getExternalStoragePath() + "/" + GlobalParams.LOG_FILE;
 			String logMsg = "[error] [tag = " + tag + "] " + msg + "\n";
 			writeToFile(fileFullPath, logMsg);
 		}
 	}
 
-	public static void d(String tag, String msg) {
-		if (isShowingLog) {
-			Log.d(tag, msg);
-			String fileFullPath = getExternalStoragePath() + "/" + GlobalParams.LOG_FILE;
-			String logMsg = "[debug] [tag = " + tag + "] " + msg + "\n";
-			writeToFile(fileFullPath, logMsg);
-		}
-	}
 
 	public static String getExternalStoragePath() {
 		return Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -130,5 +173,9 @@ public class LogUtil {
               
         }  
         return false;  
-    }  
+    }
+
+	private static String formatContent(String content) {
+		return String.format("%s %s", Thread.currentThread().getName(), content);
+	}
 }

@@ -11,7 +11,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="设置支付密码" />
 
     <com.maibai.cash.view.MyEditText

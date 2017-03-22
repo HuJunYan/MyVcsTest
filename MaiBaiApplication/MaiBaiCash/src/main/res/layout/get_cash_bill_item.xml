@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/repayment_next" />
+                android:src="@drawable/repayment_next" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -10,12 +10,12 @@
 <com.maibai.cash.view.TitleBar
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    app:tbImage="@mipmap/icon_houtui"
-    app:tbText="关于趣提钱"
+    app:tbImage="@drawable/icon_houtui"
+    app:tbText="关于天神贷"
     ></com.maibai.cash.view.TitleBar>
 <ImageView
     android:layout_marginTop="30dp"
-    android:src="@mipmap/about_qutiqian_logo"
+    android:src="@drawable/about_qutiqian_logo"
     android:layout_width="80dp"
     android:layout_height="80dp"
     android:layout_gravity="center_horizontal"
@@ -34,7 +34,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:setting_img_right="@mipmap/icon_my_next"
+        app:setting_img_right="@drawable/icon_my_next"
         app:setting_tv_content="检查更新"></com.maibai.cash.view.MyTextView>
     <com.maibai.cash.view.MyTextView
         android:layout_width="match_parent"

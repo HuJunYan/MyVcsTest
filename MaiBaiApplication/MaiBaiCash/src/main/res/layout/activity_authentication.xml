@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tbText="认证"
-        app:tbImage="@mipmap/icon_back"
-        app:tbRtImage="@mipmap/metion_quit"
+        app:tbImage="@drawable/icon_back"
+        app:tbRtImage="@drawable/metion_quit"
         />
 
     <WebView

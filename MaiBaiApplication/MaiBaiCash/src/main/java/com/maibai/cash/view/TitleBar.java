@@ -79,7 +79,7 @@ public class TitleBar extends RelativeLayout implements RightClickAbleEditText.D
         String address = arr.getString(R.styleable.TitleBar_tbAddress);
         String hint = arr.getString(R.styleable.TitleBar_tbHint);
         int type = arr.getInt(R.styleable.TitleBar_tbType, 0);
-        if (!(arr.getResourceId(R.styleable.TitleBar_tbImage, 1) == R.mipmap.icon_houtui||arr.getResourceId(R.styleable.TitleBar_tbImage, 1) == R.mipmap.metion_quit)) {
+        if (!(arr.getResourceId(R.styleable.TitleBar_tbImage, 1) == R.drawable.icon_houtui||arr.getResourceId(R.styleable.TitleBar_tbImage, 1) == R.drawable.metion_quit)) {
             isBack = false;
         }
         if (img != null) {
@@ -128,7 +128,7 @@ public class TitleBar extends RelativeLayout implements RightClickAbleEditText.D
             isRightClickAble = false;
         } else {
             if (et_content.getCompoundDrawables()[2] == null) {
-                et_content.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_cuowu, 0);
+                et_content.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_cuowu, 0);
             }
             iv_right.setVisibility(View.VISIBLE);
             isRightClickAble = true;

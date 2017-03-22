@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tbText="借款成功"
-        app:tbImage="@mipmap/icon_houtui"/>
+        app:tbImage="@drawable/icon_houtui"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

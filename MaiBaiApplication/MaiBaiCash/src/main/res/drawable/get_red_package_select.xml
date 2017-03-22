@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true">
-        <bitmap android:gravity="center" android:src="@mipmap/enchashment" />
+        <bitmap android:gravity="center" android:src="@drawable/enchashment" />
     </item>
     <item android:state_checked="false">
-        <bitmap android:gravity="center" android:src="@mipmap/enchashment_line" />
+        <bitmap android:gravity="center" android:src="@drawable/enchashment_line" />
     </item>
 </selector>

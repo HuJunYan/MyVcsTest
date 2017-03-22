@@ -29,10 +29,10 @@ public class ShareUtils {
     private IWXAPI wxApi;
     private static final int SHARE_PIC = R.mipmap.ic_launcher;
     private static final String SHARE_PIC_WEB = "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif";
-    private static final String SHARE_TITLE = "趣提钱";
-    private static final String SHARE_DESCRIPTION = "现在用趣提钱，可用500-10000信用额度";
+    private static final String SHARE_TITLE = "天神贷";
+    private static final String SHARE_DESCRIPTION = "现在用天神贷，可用500-10000信用额度";
     private static final String SHARE_WEBURL = "http://123.56.252.169/Public/Download/index.html";
-    private static final String SHARE_BACK = "返回趣提钱";
+    private static final String SHARE_BACK = "返回天神贷";
     public ShareUtils(Context context) {
         this.mContext = context;
     }
@@ -60,8 +60,8 @@ public class ShareUtils {
         params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, SHARE_WEBURL);//跳转URL
         params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imgURLs);//图片链接ArrayList
 
-//        params.putString(QQShare.SHARE_TO_QQ_TITLE, "趣提钱");//标题
-//        params.putString(QQShare.SHARE_TO_QQ_APP_NAME,  "返回趣提钱");
+//        params.putString(QQShare.SHARE_TO_QQ_TITLE, "天神贷");//标题
+//        params.putString(QQShare.SHARE_TO_QQ_APP_NAME,  "返回天神贷");
         params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_ITEM_HIDE);
         mTencent.shareToQzone((Activity)mContext, params, listener);
     }

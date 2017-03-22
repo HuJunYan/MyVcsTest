@@ -12,7 +12,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="激活额度" />
 
     <View
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:drawable="@mipmap/lift_photo"
+        app:drawable="@drawable/lift_photo"
         app:is_edit="false"
         app:promp="商家合影" />
 

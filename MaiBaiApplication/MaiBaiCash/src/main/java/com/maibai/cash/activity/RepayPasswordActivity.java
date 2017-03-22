@@ -260,7 +260,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                                     new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION,null);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("amount", mBundle.getString("totalAmount"));
-                                    bundle.putString("merchant", "趣提钱");
+                                    bundle.putString("merchant", "天神贷");
                                     bundle.putString("repay_type", "银行还款");
                                     bundle.putString("time", "12:00");
                                     bundle.putString("orderNum", "00000000");
@@ -271,7 +271,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                                     new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION,null);
                                     Bundle bundle2 = new Bundle();
                                     bundle2.putString("amount", mBundle.getString("totalAmount"));
-                                    bundle2.putString("merchant", "趣提钱");
+                                    bundle2.putString("merchant", "天神贷");
                                     bundle2.putString("repay_type", "银行还款");
                                     bundle2.putString("time", "12:00");
                                     bundle2.putString("orderNum", "00000000");

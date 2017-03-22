@@ -22,7 +22,7 @@
             android:id="@+id/iv_circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/gurgle" />
+            android:src="@drawable/gurgle" />
 
         <View
             android:id="@+id/v_line_bottom"

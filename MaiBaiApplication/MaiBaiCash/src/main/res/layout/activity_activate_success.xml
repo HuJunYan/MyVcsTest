@@ -12,7 +12,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="激活成功" />
 
     <ImageView
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:src="@mipmap/activetion_success" />
+        android:src="@drawable/activetion_success" />
 
     <TextView
         android:id="@+id/tv_success"

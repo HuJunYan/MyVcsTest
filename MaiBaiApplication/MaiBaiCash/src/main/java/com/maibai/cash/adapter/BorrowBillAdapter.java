@@ -84,7 +84,7 @@ public class BorrowBillAdapter extends BaseAdapter {
             time="";
         }
         viewHolder.tv_repay_type.setText("共"+time+"期");
-        viewHolder.tv_merchant_name.setText("趣提钱现金贷平台");
+        viewHolder.tv_merchant_name.setText("天神贷现金贷平台");
         viewHolder.rl_bt_holder.setVisibility(View.GONE);
         return convertView;
     }

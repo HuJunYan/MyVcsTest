@@ -131,7 +131,7 @@ public class UpdateManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    android.os.Process.killProcess(android.os.Process.myPid());//获取PID
+                    Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }
             });
@@ -181,7 +181,7 @@ public class UpdateManager {
                     errorTimer.cancel();
                     dialog.dismiss();
                     interceptFlag = true;
-                    android.os.Process.killProcess(android.os.Process.myPid());//获取PID
+                    Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }
             });
@@ -291,7 +291,7 @@ public class UpdateManager {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
         mContext.startActivity(i);
-        android.os.Process.killProcess(Process.myPid());
+        Process.killProcess(Process.myPid());
 
     }
 

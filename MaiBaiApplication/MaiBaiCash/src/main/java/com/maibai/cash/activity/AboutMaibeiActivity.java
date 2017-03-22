@@ -35,7 +35,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         width = metric.widthPixels;  // 宽度（PX）
         height = metric.heightPixels;  // 高度（PX）
-        if(!NetConstantValue.getService()){
+        if(!NetConstantValue.checkIsReleaseService()){
             ToastUtil.showToast(mContext,UserUtil.getId(mContext)+"");
         }
         initData();
@@ -85,7 +85,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void initData() {
-        if(NetConstantValue.getService()) {
+        if(NetConstantValue.checkIsReleaseService()) {
             mtv_service.setTv_right("正式");
         }
         else{

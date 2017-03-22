@@ -47,9 +47,9 @@ public class PermissionUtils {
             json.put("permission_type",type+"");
             json.put("device_id",UserUtil.getDeviceId(mContext));
             json.put("device_os","android");
-            json.put("device_os_version", android.os.Build.VERSION.RELEASE);
+            json.put("device_os_version", Build.VERSION.RELEASE);
             json.put("device_mode", Build.MODEL);
-            json.put("device_brand", android.os.Build.MANUFACTURER);
+            json.put("device_brand", Build.MANUFACTURER);
             getPermissionHint.getPermissionHint(json, new BaseNetCallBack< PermissionHintBean>(){
                 @Override
                 public void onSuccess(PermissionHintBean paramT) {

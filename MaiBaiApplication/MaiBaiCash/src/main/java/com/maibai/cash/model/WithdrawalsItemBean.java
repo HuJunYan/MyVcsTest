@@ -15,7 +15,7 @@ public class WithdrawalsItemBean implements Serializable {
     private String repay_times; // 分期期数:3
     private String id; // 分期id值
     private List<CashSubItemBean> cash_data;
-    private String repay_unit;//分期利息单位;
+    private String repay_unit;//借款期限单位，2代表天,1代表月
     private boolean isCheck=false;
 
     public String getRepay_unit() {

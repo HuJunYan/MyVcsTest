@@ -27,7 +27,7 @@
         android:layout_marginLeft="30dip"
         android:layout_marginRight="20dip"
         android:gravity="center"
-        android:src="@mipmap/ic_pulltorefresh_arrow_up"
+        android:src="@drawable/ic_pulltorefresh_arrow_up"
         android:visibility="visible" />
 
     <TextView

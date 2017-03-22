@@ -27,7 +27,7 @@
             android:id="@+id/iv_index_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/repayment_select_line"/>
+            android:src="@drawable/repayment_select_line"/>
     </RelativeLayout>
 
 

@@ -122,7 +122,7 @@ public class NetBase {
                 if (view != null) {
                     view.setEnabled(true);
                 }
-                LogUtil.d("ret", "failed: url = " + url + " ; m = " + m);
+                LogUtil.d("ret", "failed: url = " + url + " ; m = " + m + "--ExceptionCode-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
                 DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
                 ViewUtil.cancelLoadingDialog();
@@ -195,7 +195,7 @@ public class NetBase {
                 if (view != null) {
                     view.setEnabled(true);
                 }
-                LogUtil.d("ret", "failed: url = " + url + ",response = " + s);
+                LogUtil.d("ret", "failed: url = " + url + ",response = " + s + "--ExceptionCode-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
                 ViewUtil.cancelLoadingDialog();
             }

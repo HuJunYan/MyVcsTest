@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tbText="输入验证码"
-        app:tbImage="@mipmap/icon_houtui"></com.maibai.cash.view.TitleBar>
+        app:tbImage="@drawable/icon_houtui"></com.maibai.cash.view.TitleBar>
     <TextView
         android:id="@+id/tv_mobile_num"
         android:layout_marginTop="20dp"

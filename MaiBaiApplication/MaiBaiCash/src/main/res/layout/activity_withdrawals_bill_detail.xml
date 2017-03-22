@@ -11,7 +11,7 @@
     <com.maibai.cash.view.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="账单详情" />
 
     <RelativeLayout
@@ -302,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
-                            android:src="@mipmap/question"
+                            android:src="@drawable/question"
                             android:visibility="gone" />
                     </LinearLayout>
 

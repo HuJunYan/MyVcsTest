@@ -10,7 +10,7 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    app:tbImage="@mipmap/icon_houtui"
+    app:tbImage="@drawable/icon_houtui"
 
     ></com.maibai.cash.view.TitleBar>
     <WebView

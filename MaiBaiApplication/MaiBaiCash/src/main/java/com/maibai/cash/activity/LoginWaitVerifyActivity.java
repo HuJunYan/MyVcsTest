@@ -36,7 +36,7 @@ public class LoginWaitVerifyActivity extends BaseActivity implements View.OnClic
         switch (signInBean.getData().getCredit().getStatus()){
             case "2":
                 tb_title.setTitle("待审核");
-                iv_result.setImageResource(R.mipmap.loading_audit);
+                iv_result.setImageResource(R.drawable.loading_audit);
                 tv_reason.setVisibility(View.GONE);
                 tv_valuation.setVisibility(View.GONE);
                 tv_reason.setText("您的信息已成功提交\\n请等待系统审核");
@@ -74,7 +74,7 @@ public class LoginWaitVerifyActivity extends BaseActivity implements View.OnClic
                 tb_title.setTitle("审核未通过");
                 tv_reason.setVisibility(View.VISIBLE);
                 tv_valuation.setVisibility(View.VISIBLE);
-                iv_result.setImageResource(R.mipmap.pay_loser);
+                iv_result.setImageResource(R.drawable.pay_loser);
                 tv_reason.setText(signInBean.getData().getCredit().getReason());
                 tv_reason.setText(signInBean.getData().getCredit().getReason());
                 tv_valuation.setText(signInBean.getData().getCredit().getValuation());

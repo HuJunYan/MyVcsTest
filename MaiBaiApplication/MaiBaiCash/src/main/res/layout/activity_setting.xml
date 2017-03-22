@@ -11,7 +11,7 @@
     android:id="@+id/title_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:tbImage="@mipmap/icon_houtui"
+    app:tbImage="@drawable/icon_houtui"
     app:tbText="设置"
     ></com.maibai.cash.view.TitleBar>
 <com.maibai.cash.view.MyTextView
@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:setting_tv_content="修改密码"
-    app:setting_img_right="@mipmap/icon_my_next"
+    app:setting_img_right="@drawable/icon_my_next"
     app:setting_tv_size="15"
     app:setting_layout_father_height="100"
     ></com.maibai.cash.view.MyTextView>

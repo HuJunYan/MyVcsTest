@@ -109,7 +109,7 @@ public class CreditStatusAdapter extends BaseAdapter {
         if(1==i){
             if("1".equals(data.getData().getDiscount())){
                 viewHolder.iv_zhang.setVisibility(View.VISIBLE);
-                viewHolder.iv_zhang.setImageResource(R.mipmap.preferential_single);
+                viewHolder.iv_zhang.setImageResource(R.drawable.preferential_single);
             }else{
                 viewHolder.iv_zhang.setVisibility(View.GONE);
             }
@@ -117,7 +117,7 @@ public class CreditStatusAdapter extends BaseAdapter {
         if(i==currentStep){
             viewHolder.v_line_top.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_red));
             viewHolder.v_line_bottom.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_gray));
-            viewHolder.iv_circle.setImageResource(R.mipmap.red_two);
+            viewHolder.iv_circle.setImageResource(R.drawable.red_two);
             if("1".equals(data.getData().getErr_code())){
                 viewHolder.tv_had_again_verify.setVisibility(View.VISIBLE);
                 viewHolder.tv_content.setTextColor(ContextCompat.getColor(context,R.color.had_again_certify));
@@ -135,11 +135,11 @@ public class CreditStatusAdapter extends BaseAdapter {
         }else if(i<currentStep){
             viewHolder.v_line_top.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_red));
             viewHolder.v_line_bottom.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_red));
-            viewHolder.iv_circle.setImageResource(R.mipmap.red);
+            viewHolder.iv_circle.setImageResource(R.drawable.red);
         }else if(i>currentStep){
             viewHolder.v_line_top.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_gray));
             viewHolder.v_line_bottom.setBackgroundColor(ContextCompat.getColor(context,R.color.verify_step_line_gray));
-            viewHolder.iv_circle.setImageResource(R.mipmap.gurgle);
+            viewHolder.iv_circle.setImageResource(R.drawable.gurgle);
         }
         return view;
     }

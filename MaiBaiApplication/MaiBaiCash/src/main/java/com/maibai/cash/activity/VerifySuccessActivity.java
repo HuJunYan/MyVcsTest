@@ -130,12 +130,12 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
     private void initCheck(int type) {
         switch (type) {
             case GlobalParams.REPAY_BY_BANK_CARD:
-                iv_repay_by_wechat.setImageResource(R.mipmap.unrouted);
-                iv_repay_by_bank_card.setImageResource(R.mipmap.lift_ok);
+                iv_repay_by_wechat.setImageResource(R.drawable.unrouted);
+                iv_repay_by_bank_card.setImageResource(R.drawable.lift_ok);
                 break;
             case GlobalParams.REPAY_BY_WECHAT:
-                iv_repay_by_wechat.setImageResource(R.mipmap.lift_ok);
-                iv_repay_by_bank_card.setImageResource(R.mipmap.unrouted);
+                iv_repay_by_wechat.setImageResource(R.drawable.lift_ok);
+                iv_repay_by_bank_card.setImageResource(R.drawable.unrouted);
                 break;
         }
     }

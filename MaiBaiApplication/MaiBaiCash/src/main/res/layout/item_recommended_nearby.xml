@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:scaleType="centerInside"
-        android:background="@mipmap/loading_img"
+        android:background="@drawable/loading_img"
          />
 
     <RelativeLayout

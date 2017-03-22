@@ -46,7 +46,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/hint_five"
+            android:background="@drawable/hint_five"
             />
     </LinearLayout>
 
@@ -96,7 +96,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/hint_two"
+            android:background="@drawable/hint_two"
             />
     </LinearLayout>
 

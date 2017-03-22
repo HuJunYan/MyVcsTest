@@ -24,7 +24,7 @@
     android:layout_width="15dp"
     android:layout_height="15dp"
     android:layout_centerVertical="true"
-    android:src="@mipmap/icon_my_next"
+    android:src="@drawable/icon_my_next"
     android:layout_alignParentRight="true"
     android:layout_marginRight="20dp"
     android:visibility="gone"

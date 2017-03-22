@@ -27,10 +27,10 @@ public class ProtocolActivity extends BaseActivity {
     public void init() {
         if (pro_type == GlobalParams.PRO_REGISTE) {
             protocolURL = NetConstantValue.getUserLoginPro();//用户注册协议的地址
-            title_bar.setTitle("趣提钱用户注册协议");
+            title_bar.setTitle("天神贷用户注册协议");
         } else if (pro_type == GlobalParams.PRO_SERVER) {
             protocolURL = NetConstantValue.getServerURL();//用户服务协议的地址
-            title_bar.setTitle("趣提钱分期付款服务协议");
+            title_bar.setTitle("天神贷分期付款服务协议");
         }
         wv_content.loadUrl(protocolURL);
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开

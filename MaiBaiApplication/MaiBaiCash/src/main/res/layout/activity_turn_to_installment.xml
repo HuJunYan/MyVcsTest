@@ -12,7 +12,7 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbImage="@mipmap/icon_houtui"
+        app:tbImage="@drawable/icon_houtui"
         app:tbText="转为分期还款" />
 
     <ScrollView
@@ -33,7 +33,7 @@
                 android:background="@color/white"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                app:itvDrawable="@mipmap/win_total"
+                app:itvDrawable="@drawable/win_total"
                 app:itvRText="￥8000"
                 app:itvText="转分期金额" />
 
@@ -44,7 +44,7 @@
                 android:background="@color/white"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                app:itvDrawable="@mipmap/win_date"
+                app:itvDrawable="@drawable/win_date"
                 app:itvRText="每月10日之前"
                 app:itvText="每期还款日" />
 

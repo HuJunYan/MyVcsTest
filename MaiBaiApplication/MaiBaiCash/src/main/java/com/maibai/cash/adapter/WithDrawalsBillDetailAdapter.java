@@ -103,11 +103,11 @@ public class WithDrawalsBillDetailAdapter extends BaseAdapter {
                 viewHolder.tv_repay_total.setText((Double.valueOf(repayAmount)/100)+"元");
                 if(isCheck){
                     viewHolder.tv_finish_index.setVisibility(View.GONE);
-                    viewHolder.iv_index_back.setImageResource(R.mipmap.repayment_select);
+                    viewHolder.iv_index_back.setImageResource(R.drawable.repayment_select);
                 }else {
                     viewHolder.tv_finish_index.setVisibility(View.VISIBLE);
                     viewHolder.tv_finish_index.setText(position+1+"");
-                    viewHolder.iv_index_back.setImageResource(R.mipmap.repayment_select_line);
+                    viewHolder.iv_index_back.setImageResource(R.drawable.repayment_select_line);
                     viewHolder.tv_finish_index.setTextColor(ContextCompat.getColor(mContext,R.color.blue));
                 }
                 if (lateFee>0) {
@@ -130,11 +130,11 @@ public class WithDrawalsBillDetailAdapter extends BaseAdapter {
                 viewHolder.tv_repay_total.setText((Double.valueOf(repayAmount)/100)+"元");
                 if(isCheck){
                     viewHolder.tv_finish_index.setVisibility(View.GONE);
-                    viewHolder.iv_index_back.setImageResource(R.mipmap.repayment_select);
+                    viewHolder.iv_index_back.setImageResource(R.drawable.repayment_select);
                 }else {
                     viewHolder.tv_finish_index.setVisibility(View.VISIBLE);
                     viewHolder.tv_finish_index.setText(position+1+"");
-                    viewHolder.iv_index_back.setImageResource(R.mipmap.repayment_select_line);
+                    viewHolder.iv_index_back.setImageResource(R.drawable.repayment_select_line);
                     viewHolder.tv_finish_index.setTextColor(ContextCompat.getColor(mContext,R.color.blue));
                 }
                 if (lateFee>0) {
@@ -172,6 +172,6 @@ public class WithDrawalsBillDetailAdapter extends BaseAdapter {
         LinearLayout rl_bill_detail_item;
     }
     public interface Control{
-        public void check(int position,boolean isCheck);
+        public void check(int position, boolean isCheck);
     }
 }

@@ -31,7 +31,7 @@ public class TakePictureUtils {
 
     public void getCamera(int requestCode, String path){
         Intent takePictureFromCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takePictureFromCameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
+        takePictureFromCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
         activity.startActivityForResult(takePictureFromCameraIntent, requestCode);
     }
     public void resizeBitmap(String path){

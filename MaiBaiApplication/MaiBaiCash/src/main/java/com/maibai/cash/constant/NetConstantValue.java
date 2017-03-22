@@ -8,7 +8,9 @@ public class NetConstantValue {
 //    public static String COMMONURI = "http://qtqapi.9maibei.com/Home/";
 
     // test
-    public static String COMMONURI = "http://dev.qtqapi.9maibei.com/Home/";
+//    public static String COMMONURI = "http://dev.qtqapi.9maibei.com/Home/";
+
+    public static String COMMONURI = "http://118.190.83.21/Home/";
 
     /**
      * 用户登录
@@ -29,14 +31,14 @@ public class NetConstantValue {
     public static String getServerURL(){
         return COMMONURI+"Protocol/order";
     }
-    public static boolean getService(){
-        if(COMMONURI.equals("http://qtqapi.9maibei.com/Home/")){
-            return true;
-        }
-        if(COMMONURI.equals("http://dev.qtqapi.9maibei.com/Home/")){
-            return false;
-        }
-        return false;
+
+    /**
+     * 判断当前是否是正式服务器
+     *
+     * @return true 代表正式服务器，false代表测试服务器
+     */
+    public static boolean checkIsReleaseService() {
+        return "http://qtqapi.9maibei.com/Home/".equals(COMMONURI);
     }
 
     public static String getRedPackageUrl() {

@@ -38,7 +38,7 @@
     <ImageView
         android:id="@+id/iv_cancel"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/premission_quit"
+        android:src="@drawable/premission_quit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

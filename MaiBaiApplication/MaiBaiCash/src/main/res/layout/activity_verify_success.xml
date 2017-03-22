@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:tbText="审核结果"
-    app:tbImage="@mipmap/icon_houtui"
+    app:tbImage="@drawable/icon_houtui"
     />
     <LinearLayout
         android:background="@color/white"
@@ -20,7 +20,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/audit_pass"
+            android:src="@drawable/audit_pass"
             />
         <LinearLayout
             android:orientation="vertical"
@@ -65,7 +65,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/pay_background"/>
+        android:src="@drawable/pay_background"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/selection_bank_card"/>
+                    android:src="@drawable/selection_bank_card"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                 android:id="@+id/iv_repay_by_bank_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/unrouted"
+                android:src="@drawable/unrouted"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
@@ -167,7 +167,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/selection_wechat"/>
+                    android:src="@drawable/selection_wechat"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                 android:id="@+id/iv_repay_by_wechat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/lift_ok"
+                android:src="@drawable/lift_ok"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@mipmap/selection" />
+            android:src="@drawable/selection" />
 
         <TextView
             android:id="@+id/tv_installment_count"

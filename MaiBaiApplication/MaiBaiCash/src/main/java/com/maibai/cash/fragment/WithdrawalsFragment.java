@@ -78,15 +78,16 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
 
     private TextView tv_quota;
     private TextView tv_max_quota;
-    private TextView tv_repay_amount_month1;
+    private TextView tv_repay_amount_month1; //没有登录或者没有额度下还款的金额
     private TextView tv_min_quota;
     private TextView tv_user_num;
-    private TextView tv_arrival_amount;
-    private TextView tv_repay_amount_month2;
-    private TextView tv_repay_time;
+    private TextView tv_arrival_amount; //到账金额具体数字
+    private TextView tv_repay_amount_month2;//到期还款具体数字
+    private TextView tv_repay_time; //借款期限具体数字
+    private TextView tv_unite; //借款期限 后面的单位
     private TextView tv_repay_type;
     private TextView tv_repay_type2;
-    private TextView tv_unite;
+
 
     private Button bt_apply_quota;
     private SeekBar sb_quota; //滑动条
@@ -174,7 +175,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        int seekBarHeight = BitmapFactory.decodeResource(this.getResources(), R.mipmap.icon_movement).getHeight();
+        int seekBarHeight = BitmapFactory.decodeResource(this.getResources(), R.drawable.icon_movement).getHeight();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.topMargin = seekBarHeight / 2 + 20;
         rl_min_max_quota.setLayoutParams(params);
@@ -354,28 +355,36 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
             }
         }
         adapter.notifyDataSetChanged();
+
+        //最大提现金额
         String maxCash = selWithdrawalsBean.getMax_cash();
         if ("".equals(maxCash) || null == maxCash) {
             maxCash = "0";
         }
         maxAmount = Integer.valueOf(maxCash) / 100;
 
+        //滑块单位
         String cashUnite = selWithdrawalsBean.getUnit();
         if ("".equals(cashUnite) || null == cashUnite) {
             cashUnite = "0";
         }
         uniteAmount = Integer.valueOf(cashUnite) / 100;
+
+        //当前默认金额
+        String defCash = selWithdrawalsBean.getDef_cash();
+        if ("".equals(defCash) || null == defCash) {
+            defCash = "0";
+        }
+        defAmount = Integer.valueOf(defCash) / 100;
+
         tv_max_quota.setText(maxAmount + "");
         if (maxAmount > uniteAmount) {
             tv_min_quota.setText(uniteAmount + "");
         } else {
             tv_min_quota.setText("0");
         }
-        String defCash = selWithdrawalsBean.getDef_cash();
-        if ("".equals(defCash) || null == defCash) {
-            defCash = "0";
-        }
-        defAmount = Integer.valueOf(defCash) / 100;
+
+
         sb_quota.setMax(maxAmount - uniteAmount);
         sb_quota.setProgress(defAmount);
         refreshView(selectPosition);

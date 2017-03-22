@@ -8,7 +8,7 @@
     <com.maibai.cash.view.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tbText="趣提钱" />
+        app:tbText="天神贷" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:thumb="@mipmap/icon_movement" />
+                    android:thumb="@drawable/icon_movement" />
 
                 <RelativeLayout
                     android:id="@+id/rl_min_max_quota"
@@ -312,7 +312,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人加入趣提钱"
+                    android:text="人加入天神贷"
                     />
             </LinearLayout>
 
