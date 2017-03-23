@@ -538,11 +538,7 @@ public class ResultActivity extends BaseActivity {
                         return;
                     }
 
-                    LogUtil.d("abc","ResultActivity--putInt-3");
-
-                    Bundle bundle = getIntent().getExtras();
-                    bundle.putInt(GlobalParams.APPLY_TYPE_KEY, GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY);
-                    gotoActivity(mContext,ImproveQuotaActivity.class,bundle);
+                    gotoActivity(mContext, ImproveQuotaActivity.class, intent.getExtras());
 
                     UserUtil.setRealName(mContext, mIDCardBean.name);
                     UserUtil.setIdNum(mContext, mIDCardBean.id_card_number);

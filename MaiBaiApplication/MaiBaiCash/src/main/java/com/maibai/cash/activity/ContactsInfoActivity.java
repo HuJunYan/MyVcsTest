@@ -190,6 +190,7 @@ public class ContactsInfoActivity extends BaseActivity implements View.OnClickLi
             case GlobalParams.HAVE_UPLOAD_CONTACTS_INFO:
                 Intent intent = new Intent(mContext, ResultActivity.class);
                 intent.putExtra(GlobalParams.SCAN_ID_CARD_KEY, GlobalParams.SCAN_ID_CARD_TYPE);
+                intent.putExtras(mBundle);
                 startActivityForResult(intent, GlobalParams.INTO_IDCARDSCAN_FRONT_PAGE);
                 break;
         }
