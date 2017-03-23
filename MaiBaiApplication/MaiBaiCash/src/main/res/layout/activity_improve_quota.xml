@@ -45,7 +45,6 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tv_current"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前额度"
@@ -71,7 +70,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_most_quota"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100000"
@@ -79,7 +77,6 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/tv_most"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="最高总额"

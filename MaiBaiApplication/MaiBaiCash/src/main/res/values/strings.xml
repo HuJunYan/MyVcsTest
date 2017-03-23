@@ -2,27 +2,13 @@
     <string name="app_name">天神贷</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="check_network">请检查网络</string>
     <string name="loading">数据加载中……</string>
     <string name="ServiceFaile">网络不给力</string>
-    <string name="msg_camera_permission">将二维码放入框内，可自动扫描</string>
-    <string name="scan_qrcode">扫描二维码</string>
-    <string name="Taking_pictures">拍照</string>
-    <string name="Choose_from_album">从相册中选择</string>
     <string name="SendSuccess">发送成功</string>
     <string name="Sendfaile">发送失败</string>
     <string name="network_error">网络不给力~</string>
     <string name="not_get_image_uploading_fail">无法获取缓存图片，上传失败！</string>
-
-    <string name="info_pass">亲，您的信息已经提交成功了</string>
-    <string name="info_fail">亲，很遗憾，您之前提交的信息未通过系统审核，请重新提交新的证件信息</string>
-    <string name="pull_to_refresh">下拉刷新</string>
-    <string name="release_to_refresh">释放立即刷新</string>
-    <string name="refreshing">正在刷新...</string>
-    <string name="refresh_succeed">刷新成功</string>
-    <string name="refresh_fail">刷新失败</string>
-    <string name="loadmore">加载更多</string>
 
     <string name="pull_to_refresh_pull_label">下拉刷新</string>
     <string name="pull_to_refresh_release_label">松开后刷新</string>
@@ -31,11 +17,7 @@
     <string name="pull_to_refresh_footer_pull_label">上拉加载更多</string>
     <string name="pull_to_refresh_footer_refreshing_label">加载中\u2026</string>
 
-    <string name="app_tip">提示</string>
-    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
     <!-- WXPayEntryActivity -->
-
-    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
 
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

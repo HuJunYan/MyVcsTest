@@ -69,12 +69,6 @@
     </style>
 
 
-    <style name="shareAnimation">
-        <!-- PopupWindow左右弹出的效果 -->
-        <item name="android:windowEnterAnimation">@anim/share_down_in</item>
-        <item name="android:windowExitAnimation">@anim/share_down_out</item>
-    </style>
-
     <style name="remove_bind_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
