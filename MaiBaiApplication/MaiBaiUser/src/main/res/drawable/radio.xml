@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true">
-        <bitmap android:gravity="left|center_vertical" android:src="@mipmap/bat_pay_s" />
-    </item>
-    <item android:state_checked="false">
-        <bitmap android:gravity="left|center_vertical" android:src="@mipmap/bat_pay_n" />
-    </item>
-</selector>
