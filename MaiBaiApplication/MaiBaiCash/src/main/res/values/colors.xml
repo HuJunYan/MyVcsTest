@@ -47,8 +47,8 @@
     <color name="stages_type_green_color">#5fbb14</color>
     <color name="stages_type_gray_color">#FFE3E4E6</color>
     <color name="stages_type_nomal_color">#FFE5E5E5</color>
-    <color name="seek_bar_progress">#FFF86049</color>
-    <color name="seek_background">#FFFFBAAB</color>
+    <color name="seek_bar_progress">#ff9d00</color>
+    <color name="seek_background">#ffdb79</color>
     <color name="text_yellow">#FFFDF900</color>
     <color name="withdr_success_back">#FF47A3FF</color>
     <color name="borrow_bill_detail_textColor_gray">#FF8F8F8F</color>
