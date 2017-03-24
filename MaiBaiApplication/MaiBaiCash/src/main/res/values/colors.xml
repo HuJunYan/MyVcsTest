@@ -59,4 +59,8 @@
     <color name="verify_step_line_gray">#FFe1e5eb</color>
     <color name="had_again_certify">#FFfd5c48</color>
     <color name="verify_error_color">#FFf55e4e</color>
+
+
+    <color name="global_bg_white">#ffffff</color>
+
 </resources>
