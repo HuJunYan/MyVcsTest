@@ -17,6 +17,7 @@ import com.maibai.cash.adapter.MyViewPagerAdapter;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.base.MyApplication;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.fragment.HomeFragment;
 import com.maibai.cash.fragment.MyFragment;
 import com.maibai.cash.fragment.WithdrawalsFragment;
 import com.maibai.cash.model.JpushAddBorrowTermBean;
@@ -32,7 +33,8 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private RadioButton  rb_my, rb_withdrawals;
     private MyFragment mMyFragment;
-    private WithdrawalsFragment mWithdrawalsFragment;
+//    private WithdrawalsFragment mWithdrawalsFragment;
+    private HomeFragment mHomeFragment;
     private ViewPager vp_main;
     private ArrayList<Fragment> mFragmentList;
     private MyViewPagerAdapter mViewPagerAdapter;
@@ -131,9 +133,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void addFragment() {
 
-        if (mWithdrawalsFragment == null) {
-            mWithdrawalsFragment = new WithdrawalsFragment();
+//        if (mWithdrawalsFragment == null) {
+//            mWithdrawalsFragment = new WithdrawalsFragment();
+//        }
+
+        if (mHomeFragment == null) {
+            mHomeFragment = new HomeFragment();
         }
+
         if (mMyFragment == null) {
             mMyFragment = new MyFragment();
         }
@@ -141,7 +148,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<Fragment>();// 初始化数据
 //            mFragmentList.add(mZeroYuanBuyFragment);
-            mFragmentList.add(mWithdrawalsFragment);
+//            mFragmentList.add(mWithdrawalsFragment);
+            mFragmentList.add(mHomeFragment);
             mFragmentList.add(mMyFragment);
         }
     }
