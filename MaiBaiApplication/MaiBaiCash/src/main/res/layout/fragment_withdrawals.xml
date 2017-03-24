@@ -22,9 +22,7 @@
             <ListView
                 android:id="@+id/lv_promt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                ></ListView>
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -99,8 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -292,27 +289,30 @@
                 android:background="@drawable/select_bt"
                 android:text="申请额度"
                 android:textColor="@color/white" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="目前已有" />
+
                 <TextView
                     android:id="@+id/tv_user_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/orange"/>
+                    android:textColor="@color/orange" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人加入天神贷"
-                    />
+                    android:text="人加入天神贷" />
             </LinearLayout>
 
         </LinearLayout>
