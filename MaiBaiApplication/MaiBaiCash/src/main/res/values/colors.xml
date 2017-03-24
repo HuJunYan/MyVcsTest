@@ -62,5 +62,10 @@
 
 
     <color name="global_bg_white">#ffffff</color>
+    <color name="global_bg_gray">#f3f7ee</color>
+    <color name="global_txt_white">#ffffff</color>
+    <color name="global_txt_green">#5fbb14</color>
+
+    <color name="home_tian_shen_card_yellow">#fee900</color>
 
 </resources>
