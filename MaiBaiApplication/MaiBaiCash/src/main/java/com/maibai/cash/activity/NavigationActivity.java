@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 
 import com.maibai.cash.R;
@@ -36,14 +37,25 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+//        init();
       /*  JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), null, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
 
             }
         });*/
-        uploadLog(mContext);
+//        uploadLog(mContext);
+
+
+        //暂时直接进入主页面
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                gotoActivity(NavigationActivity.this, MainActivity.class, null);
+                NavigationActivity.this.finish();
+            }
+        }, 1000);
+
+
     }
     private void uploadLog(Context context){
         if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
