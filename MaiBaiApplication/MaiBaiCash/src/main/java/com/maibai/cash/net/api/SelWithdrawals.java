@@ -65,11 +65,21 @@ public class SelWithdrawals extends NetBase {
             getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {
+
+                    LogUtil.d("abc","onSuccess-->"+result);
+                    LogUtil.d("abc","url-->"+url);
+
+
                     successHandle(result, url, mSelWithdrawalsCallBack);
                 }
 
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
+
+                    LogUtil.d("abc","onFailure--result>"+result);
+                    LogUtil.d("abc","onFailure--errorType>"+errorType);
+                    LogUtil.d("abc","onFailure--errorCode>"+errorCode);
+
                     failureHandle(result, errorType, errorCode, mSelWithdrawalsCallBack);
                 }
             });

@@ -8,8 +8,17 @@ import android.widget.TextView;
 
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
+import com.maibai.cash.model.SelWithdrawalsBean;
+import com.maibai.cash.net.api.SelWithdrawals;
+import com.maibai.cash.net.base.BaseNetCallBack;
+import com.maibai.cash.net.base.UserUtil;
+import com.maibai.cash.utils.LogUtil;
+import com.maibai.cash.utils.MainUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -71,6 +80,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariable() {
+        selWithdrawals();
+    }
+
+    private void selWithdrawals() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            if (!(MainUtil.isLogin(mContext))) {
+                jsonObject.put("customer_id", "0");
+            } else {
+                jsonObject.put("customer_id", UserUtil.getId(mContext));
+            }
+            jsonObject.put("init", "1");
+            final SelWithdrawals selWithdrawals = new SelWithdrawals(mContext);
+            selWithdrawals.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<SelWithdrawalsBean>() {
+                @Override
+                public void onSuccess(SelWithdrawalsBean paramT) {
+                    LogUtil.d("abc","paramT--->"+paramT.getMax_cash());
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
