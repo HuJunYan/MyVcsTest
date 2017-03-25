@@ -1,150 +1,294 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/global_bg_gray"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_home_top"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/global_bg_white"
-        android:orientation="vertical">
+        android:background="@color/global_bg_white">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/ic_logo_name" />
 
-        <RelativeLayout
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_home_top"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/ic_tianshen_card_bg"
-            android:paddingBottom="20dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:paddingTop="25dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_home_tianshen_card_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="天神贷罗汉卡"
-                    android:textColor="@color/global_txt_white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/home_tian_shen_card_yellow"
-                    android:text="可借款"
-                    android:textColor="@color/global_txt_green"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_home_tianshen_card_limit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥"
-                    android:textColor="@color/global_txt_white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tv_home_user_limit_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1000"
-                    android:textColor="@color/global_txt_white"
-                    android:textSize="36sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignRight="@+id/ll_home_tianshen_card_limit"
-                android:layout_below="@+id/ll_home_tianshen_card_limit"
-                android:text="信用额度"
-                android:textColor="@color/global_txt_white"
-                android:textSize="12sp" />
+            android:layout_height="wrap_content"
+            android:background="@color/global_bg_white"
+            android:orientation="vertical">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="5dp">
+                android:layout_height="190dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/ic_tianshen_card_bg"
+                android:paddingBottom="20dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingTop="25dp">
 
-                <TextView
-                    android:id="@+id/tv_home_tianshen_card_num"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:text="8888 8888 8888 8888"
-                    android:textColor="@color/global_txt_white"
-                    android:textSize="14sp" />
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/tv_home_tianshen_card_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="天神贷罗汉卡"
+                        android:textColor="@color/global_txt_white"
+                        android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_home_tianshen_card_renzheng"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/home_tian_shen_card_yellow"
+                        android:text="可借款"
+                        android:textColor="@color/global_txt_green"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_home_tianshen_card_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/ic_tianshen_card_renzhen_bg"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="12dp"
-                    android:text="认证2/3"
-                    android:textColor="@color/global_txt_green"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥"
+                        android:textColor="@color/global_txt_white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_home_user_limit_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        android:textColor="@color/global_txt_white"
+                        android:textSize="36sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignRight="@+id/ll_home_tianshen_card_limit"
+                    android:layout_below="@+id/ll_home_tianshen_card_limit"
+                    android:text="信用额度"
+                    android:textColor="@color/global_txt_white"
                     android:textSize="12sp" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_home_tianshen_card_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="8888 8888 8888 8888"
+                        android:textColor="@color/global_txt_white"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_home_tianshen_card_renzheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ic_tianshen_card_renzhen_bg"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="12dp"
+                        android:text="认证2/3"
+                        android:textColor="@color/global_txt_green"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
 
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="恭喜 xxx 成功借款1000元"
+                android:textSize="11dp" />
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_gray"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:text="恭喜 xxx 成功借款1000元"
-            android:textSize="11dp" />
+                <com.maibai.cash.view.BubbleSeekBar
+                    android:id="@+id/bubble_seekbar_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="35dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/global_line_bg" />
 
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ll_home_top"
-        android:background="@color/global_bg_gray">
+                    <TextView
+                        android:id="@+id/tv_loan_num_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="借款金额"
+                        android:textColor="@color/global_txt_black2"
+                        android:textSize="11sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="下面的内容" />
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_loan_num_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_loan_num_key"
+                        android:text="1000 元"
+                        android:textColor="@color/global_txt_black1"
+                        android:textSize="18sp" />
 
-</RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_procedures_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_procedures_home" />
+
+                    <TextView
+                        android:id="@+id/tv_procedures_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/iv_procedures_home"
+                        android:text="90 元"
+                        android:textColor="@color/global_txt_black1"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_procedures_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/tv_procedures_value"
+                        android:text="手续费用"
+                        android:textColor="@color/global_txt_black2"
+                        android:textSize="11sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/global_line_bg" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <TextView
+                        android:id="@+id/tv_loan_day_key"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="借款天数"
+                        android:textColor="@color/global_txt_black2"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_loan_day_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_loan_day_key"
+                        android:text="18 天"
+                        android:textColor="@color/global_txt_black1"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_loan_day_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="30dp"
+                        android:paddingTop="10dp"
+                        android:src="@drawable/ic_arrow_down" />
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/global_line_bg" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/global_bg_green"
+                    android:gravity="center"
+                    android:text="立即申请"
+                    android:textColor="@color/global_txt_white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#607D8B</color>
+    <color name="colorPrimaryDark">#455A64</color>
+    <color name="colorAccent">#FF9800</color>
+
+
     <color name="text_gray">#FF88837A</color>
     <color name="transparent">#00009000</color>
     <color name="blue">#FF0000FF</color>
@@ -60,11 +62,19 @@
     <color name="had_again_certify">#FFfd5c48</color>
     <color name="verify_error_color">#FFf55e4e</color>
 
-
+    <!--全局背景颜色-->
     <color name="global_bg_white">#ffffff</color>
     <color name="global_bg_gray">#f3f7ee</color>
+    <color name="global_bg_green">#5fbb14</color>
+
+    <!--全局文字背景颜色-->
     <color name="global_txt_white">#ffffff</color>
     <color name="global_txt_green">#5fbb14</color>
+    <color name="global_txt_black1">#000000</color>
+    <color name="global_txt_black2">#555555</color>
+
+    <!--全局分割线颜色-->
+    <color name="global_line_bg">#e0e0e0</color>
 
     <color name="home_tian_shen_card_yellow">#fee900</color>
 

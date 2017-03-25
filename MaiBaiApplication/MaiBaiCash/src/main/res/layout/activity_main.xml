@@ -37,13 +37,11 @@
             android:textSize="12dp" />
     </RadioGroup>
 
-    <android.support.v4.view.ViewPager
+    <com.maibai.cash.view.MyViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/rg_control_button"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" />
+        android:layout_above="@id/rg_control_button" />
 
     <View
         android:layout_width="match_parent"

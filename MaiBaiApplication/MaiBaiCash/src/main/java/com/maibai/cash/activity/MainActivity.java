@@ -26,6 +26,7 @@ import com.maibai.cash.utils.LocationUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.RequestPermissionUtil;
 import com.maibai.cash.utils.WithdrawalsApplyResultUtil;
+import com.maibai.cash.view.MyViewPager;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MyFragment mMyFragment;
 //    private WithdrawalsFragment mWithdrawalsFragment;
     private HomeFragment mHomeFragment;
-    private ViewPager vp_main;
+    private MyViewPager vp_main;
     private ArrayList<Fragment> mFragmentList;
     private MyViewPagerAdapter mViewPagerAdapter;
     private LoginBordcast mLoginBordcast;
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //        rb_zero_yuan_buy = (RadioButton) findViewById(R.id.rb_zero_yuan_buy);
         rb_withdrawals = (RadioButton) findViewById(R.id.rb_withdrawals);
         rb_my = (RadioButton) findViewById(R.id.rb_my);
-        vp_main = (ViewPager) findViewById(R.id.vp_main);
+        vp_main = (MyViewPager) findViewById(R.id.vp_main);
     }
 
     @Override
@@ -158,7 +159,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mViewPagerAdapter == null) {
             mViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), mFragmentList);
             vp_main.setAdapter(mViewPagerAdapter);
-            vp_main.setOffscreenPageLimit(3);
+            vp_main.setOffscreenPageLimit(mFragmentList.size());
         }
     }
 
