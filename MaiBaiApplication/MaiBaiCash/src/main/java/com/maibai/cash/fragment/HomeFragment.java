@@ -6,20 +6,25 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.litesuits.orm.LiteOrm;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
+import com.maibai.cash.manager.DBManager;
 import com.maibai.cash.model.SelWithdrawalsBean;
+import com.maibai.cash.model.User;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.MainUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -84,19 +89,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void selWithdrawals() {
+
+
         try {
             JSONObject jsonObject = new JSONObject();
-            if (!(MainUtil.isLogin(mContext))) {
-                jsonObject.put("customer_id", "0");
-            } else {
+
+            boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+            if (mIsLogin) {
+                jsonObject.put("init", "0");
                 jsonObject.put("customer_id", UserUtil.getId(mContext));
+            } else {
+                jsonObject.put("init", "1");
             }
-            jsonObject.put("init", "1");
             final SelWithdrawals selWithdrawals = new SelWithdrawals(mContext);
             selWithdrawals.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<SelWithdrawalsBean>() {
                 @Override
                 public void onSuccess(SelWithdrawalsBean paramT) {
-                    LogUtil.d("abc","paramT--->"+paramT.getMax_cash());
+                    LogUtil.d("abc", "paramT--->" + paramT.getMax_cash());
                 }
 
                 @Override
