@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ll_home_top)
     LinearLayout llHomeTop;
     @BindView(R.id.rl_loan_day)
-    RelativeLayout rlLoanDay;
+    RelativeLayout rlLoanDay; //借款天数外层的RelativeLayout
 
     @Override
     protected int setContentView() {
@@ -73,6 +73,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void initVariable() {
     }
 
+    /**
+     * 初始化滑动条
+     */
     private void initBubbleSeekBar() {
         bubbleSeekbarHome.getConfigBuilder()
                 .min(500)
@@ -97,6 +100,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 .build();
     }
 
+    /**
+     * 选择借款天数
+     */
+    private void selectLoanDay() {
+        ToastUtil.showToast(mContext, "点击了借款天数");
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -106,13 +116,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * 选择借款天数
-     */
-    private void selectLoanDay() {
-        ToastUtil.showToast(mContext, "点击了借款天数");
-    }
 
+    /**
+     * 滑动条监听
+     */
     private class MyOnProgressChangedListenerAdapter extends BubbleSeekBar.OnProgressChangedListenerAdapter {
         @Override
         public void onProgressChanged(int progress, float progressFloat) {
