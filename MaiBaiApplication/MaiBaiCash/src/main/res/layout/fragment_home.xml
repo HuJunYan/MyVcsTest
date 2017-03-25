@@ -190,7 +190,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@id/tv_loan_num_key"
-                        android:text="1000 元"
+                        android:text="0 元"
                         android:textColor="@color/global_txt_black1"
                         android:textSize="18sp" />
 
@@ -210,7 +210,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@id/iv_procedures_home"
-                        android:text="90 元"
+                        android:text="0 元"
                         android:textColor="@color/global_txt_black1"
                         android:textSize="18sp" />
 
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="借款天数"
+                        android:text="借款期限"
                         android:textColor="@color/global_txt_black2"
                         android:textSize="11sp" />
 

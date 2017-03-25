@@ -11,8 +11,10 @@ import com.litesuits.orm.LiteOrm;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.manager.DBManager;
+import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
 import com.maibai.cash.model.User;
+import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
@@ -26,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -129,6 +132,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void refreshUI() {
         refreshCardUI();
+        refreshLoanDayUI();
         refreshBubbleSeekBarUI();
     }
 
@@ -189,6 +193,55 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 刷新借款期限UI
+     */
+    private void refreshLoanDayUI() {
+
+        List<WithdrawalsItemBean> withdrawalsItemBeens = mSelWithdrawalsBean.getData();
+        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeens.get(0);
+        String repayTimes = withdrawalsItemBean.getRepay_times();
+        String repay_unit = withdrawalsItemBean.getRepay_unit();
+        if ("1".equals(repay_unit)) { //判断是月还是天  1-月，2-天
+            tvLoanDayValue.setText(repayTimes + " 月");
+        } else {
+            tvLoanDayValue.setText(repayTimes + " 天");
+        }
+
+    }
+
+    /**
+     * 刷新当前借款的金额，和手续费用
+     */
+    private void refreshLoanNumUI(int progress) {
+
+        //设置借款金额
+        String s = String.format(Locale.CHINA, "%d", progress);
+        tvLoanNumValue.setText(s + " 元");
+
+        List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
+        for (int i = 0; i < withdrawalsItemBeen.size(); i++) { //遍历所有产品
+            WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(i);
+            String mCurrentLoanDayValue = (String) tvLoanDayValue.getText();
+            String repayTimes = withdrawalsItemBean.getRepay_times();
+            if (mCurrentLoanDayValue.contains(repayTimes)) { //根据当前选择期限筛选出当前选择的产品
+                List<CashSubItemBean> cash_data = withdrawalsItemBean.getCash_data();
+                for (int j = 0; j < cash_data.size(); j++) {
+                    CashSubItemBean cashSubItemBean = cash_data.get(j);
+                    String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
+                    int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
+                    if (progress == withdrawalAmountInt) {
+                        String transfer_amount = cashSubItemBean.getTransfer_amount();
+                        int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
+                        int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+                        //设置手续金额
+                        tvProceduresValue.setText(procedures + " 元");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * 初始化滑动条
      */
     private void initBubbleSeekBar() {
@@ -219,7 +272,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 选择借款天数
      */
     private void selectLoanDay() {
-        ToastUtil.showToast(mContext, "点击了借款天数");
+        ToastUtil.showToast(mContext, "点击了借款期限");
     }
 
     @Override
@@ -236,10 +289,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 滑动条监听
      */
     private class MyOnProgressChangedListenerAdapter extends BubbleSeekBar.OnProgressChangedListenerAdapter {
+
+        private int mProgress = 0;
+
         @Override
         public void onProgressChanged(int progress, float progressFloat) {
-            String s = String.format(Locale.CHINA, "%d", progress);
-            tvLoanNumValue.setText(s + " 元");
+            if (mProgress != progress) {
+                refreshLoanNumUI(progress);
+                mProgress = progress;
+            }
         }
 
         @Override
@@ -248,8 +306,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void getProgressOnFinally(int progress, float progressFloat) {
-            String s = String.format(Locale.CHINA, "%d", progress);
-            tvLoanNumValue.setText(s + " 元");
+            if (mProgress != progress) {
+                refreshLoanNumUI(progress);
+                mProgress = progress;
+            }
         }
     }
 }
