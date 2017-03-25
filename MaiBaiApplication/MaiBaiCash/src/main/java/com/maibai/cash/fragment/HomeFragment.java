@@ -1,5 +1,6 @@
 package com.maibai.cash.fragment;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,6 +67,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.rl_loan_day)
     RelativeLayout rlLoanDay; //借款天数外层的RelativeLayout
 
+
+    private SelWithdrawalsBean mSelWithdrawalsBean;
+
+
     @Override
     protected int setContentView() {
         return R.layout.fragment_home;
@@ -104,8 +109,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             final SelWithdrawals selWithdrawals = new SelWithdrawals(mContext);
             selWithdrawals.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<SelWithdrawalsBean>() {
                 @Override
-                public void onSuccess(SelWithdrawalsBean paramT) {
-                    LogUtil.d("abc", "paramT--->" + paramT.getMax_cash());
+                public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
+                    mSelWithdrawalsBean = selWithdrawalsBean;
+                    refreshUI();
                 }
 
                 @Override
@@ -116,6 +122,70 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 刷新UI
+     */
+    private void refreshUI() {
+        refreshCardUI();
+        refreshBubbleSeekBarUI();
+    }
+
+    /**
+     * 刷新天神卡
+     */
+    private void refreshCardUI() {
+
+        String max_cash = mSelWithdrawalsBean.getMax_cash();
+        if (TextUtils.isEmpty(max_cash)) {
+            max_cash = "0";
+        }
+        int max_cashInt = Integer.valueOf(max_cash) / 100;
+        tvHomeUserLimitValue.setText(max_cashInt + "");
+    }
+
+    /**
+     * 刷新seekBar
+     */
+    private void refreshBubbleSeekBarUI() {
+
+        //总长度
+        String max_cash = mSelWithdrawalsBean.getMax_cash();
+        if (TextUtils.isEmpty(max_cash)) {
+            max_cash = "0";
+        }
+        int max_cashInt = Integer.valueOf(max_cash) / 100;
+
+        //每一个刻度的长度
+        String unit = mSelWithdrawalsBean.getUnit();
+        if (TextUtils.isEmpty(unit)) {
+            unit = "0";
+        }
+        int unitInt = Integer.valueOf(unit) / 100;
+
+        //得到seekBar分成几份
+        int sectionCount = (max_cashInt - unitInt) / unitInt;
+        bubbleSeekbarHome.getConfigBuilder()
+                .min(unitInt)
+                .max(max_cashInt)
+                .sectionCount(sectionCount)
+//                .trackColor(ContextCompat.getColor(getContext(), R.color.color_gray))
+//                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.color_blue))
+//                .thumbColor(ContextCompat.getColor(getContext(), R.color.color_blue))
+//                .showSectionText()
+//                .sectionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+//                .sectionTextSize(18)
+//                .showThumbText()
+//                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.color_red))
+//                .thumbTextSize(18)
+//                .bubbleColor(ContextCompat.getColor(getContext(), R.color.color_green))
+//                .bubbleTextSize(18)
+                .showSectionMark()
+                .seekBySection()
+                .autoAdjustSectionMark()
+                .sectionTextPosition(BubbleSeekBar.TextPosition.BOTTOM_SIDES)
+                .build();
     }
 
     /**
