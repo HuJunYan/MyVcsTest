@@ -1,22 +1,22 @@
 package com.maibai.cash.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
+import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
 
+import java.util.Locale;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 
     @BindView(R.id.tv_home_tianshen_card_name)
@@ -49,6 +49,8 @@ public class HomeFragment extends BaseFragment {
     ImageView ivLoanDayArrow;
     @BindView(R.id.ll_home_top)
     LinearLayout llHomeTop;
+    @BindView(R.id.rl_loan_day)
+    RelativeLayout rlLoanDay;
 
     @Override
     protected int setContentView() {
@@ -62,7 +64,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void setListensers() {
-
+        rlLoanDay.setOnClickListener(this);
+        bubbleSeekbarHome.setOnProgressChangedListener(new MyOnProgressChangedListenerAdapter());
     }
 
     @Override
@@ -93,4 +96,37 @@ public class HomeFragment extends BaseFragment {
                 .build();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_loan_day:
+                selectLoanDay();
+                break;
+        }
+    }
+
+    /**
+     * 选择借款天数
+     */
+    private void selectLoanDay() {
+        ToastUtil.showToast(mContext, "点击了借款天数");
+    }
+
+    private class MyOnProgressChangedListenerAdapter extends BubbleSeekBar.OnProgressChangedListenerAdapter {
+        @Override
+        public void onProgressChanged(int progress, float progressFloat) {
+            String s = String.format(Locale.CHINA, "%d", progress);
+            tvLoanNumValue.setText(s + " 元");
+        }
+
+        @Override
+        public void getProgressOnActionUp(int progress, float progressFloat) {
+        }
+
+        @Override
+        public void getProgressOnFinally(int progress, float progressFloat) {
+            String s = String.format(Locale.CHINA, "%d", progress);
+            tvLoanNumValue.setText(s + " 元");
+        }
+    }
 }
