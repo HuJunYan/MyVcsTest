@@ -59,11 +59,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void findViews(View rootView) {
-        initBubbleSeekBar();
+
     }
 
     @Override
     protected void setListensers() {
+        initBubbleSeekBar();
         rlLoanDay.setOnClickListener(this);
         bubbleSeekbarHome.setOnProgressChangedListener(new MyOnProgressChangedListenerAdapter());
     }
