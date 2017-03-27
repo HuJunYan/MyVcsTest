@@ -1,7 +1,10 @@
 package com.maibai.cash.fragment;
 
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
+import com.maibai.cash.activity.LoginActivity;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
@@ -16,9 +20,7 @@ import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
-import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
-import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
 
 import org.json.JSONException;
@@ -29,6 +31,8 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -65,8 +69,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ll_home_top)
     LinearLayout llHomeTop;
     @BindView(R.id.rl_loan_day)
-    RelativeLayout rlLoanDay; //借款天数外层的RelativeLayout
-
+    RelativeLayout rlLoanDay;
+    @BindView(R.id.rl_home_tianshen_card)
+    RelativeLayout rlHomeTianshenCard;
+    @BindView(R.id.tv_home_apply)
+    TextView tvHomeApply;
 
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
@@ -84,7 +91,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setListensers() {
+        rlHomeTianshenCard.setOnClickListener(this);
         rlLoanDay.setOnClickListener(this);
+        tvHomeApply.setOnClickListener(this);
         bubbleSeekbarHome.setOnProgressChangedListener(new MyOnProgressChangedListenerAdapter());
     }
 
@@ -158,7 +167,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-
         String max_cash = mSelWithdrawalsBean.getMax_cash();
         if (TextUtils.isEmpty(max_cash)) {
             max_cash = "0";
@@ -256,13 +264,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
+        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+        if (!mIsLogin) {//先判断用户有没有登录，如果没有登录就跳转到登录页面进行登录
+            gotoActivity(mContext, LoginActivity.class, null);
+            return;
+        }
+
         switch (view.getId()) {
-            case R.id.rl_loan_day:
+            case R.id.rl_home_tianshen_card: //点击了天神卡
+                break;
+            case R.id.rl_loan_day: //点击了期限选择
                 selectLoanDay();
+                break;
+            case R.id.tv_home_apply: //点击了立即申请
                 break;
         }
     }
-
 
     /**
      * 滑动条监听
