@@ -23,4 +23,17 @@ public class TianShenUserUtil {
         }
     }
 
+    /**
+     * 得到用户登录的Token
+     */
+    public static String getUserToken(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用
+            return "";
+        } else {
+            return user.get(0).getToken();
+        }
+    }
+
 }

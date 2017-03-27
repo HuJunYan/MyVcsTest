@@ -10,7 +10,9 @@ public class NetConstantValue {
     // test
 //    public static String COMMONURI = "http://dev.qtqapi.9maibei.com/Home/";
 
-    public static String COMMONURI = "http://118.190.83.21/Home/";
+//    public static String COMMONURI = "http://118.190.83.21/Home/";
+
+    public static String COMMONURI = "http://118.190.83.21:8081/Home/";
 
     /**
      * 用户登录

@@ -18,6 +18,15 @@ public class User {
     private String age;
     private String phone;
     private String sex;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public long getId() {
         return id;

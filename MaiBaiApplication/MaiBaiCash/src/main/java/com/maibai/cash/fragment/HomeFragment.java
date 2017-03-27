@@ -124,7 +124,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     refreshUI();
                 }
 
-
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
 

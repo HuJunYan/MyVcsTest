@@ -37,14 +37,25 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+
+//        init();
       /*  JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), null, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
 
             }
         });*/
-        uploadLog(mContext);
+
+//        uploadLog(mContext);
+
+        //先直接跳转到主页面
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                gotoActivity(NavigationActivity.this, MainActivity.class, null);
+                NavigationActivity.this.finish();
+            }
+        }, 1000);
+
     }
     private void uploadLog(Context context){
         if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
@@ -66,7 +77,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     protected void onResume() {
         super.onResume();
         startTime = System.currentTimeMillis();
-        checkUpdate();
+//        checkUpdate();
         JPushInterface.onResume(mContext);
     }
 

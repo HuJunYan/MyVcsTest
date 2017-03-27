@@ -17,11 +17,14 @@ import com.maibai.cash.model.ResponseBean;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.MemoryAddressUtils;
 import com.maibai.cash.utils.SignUtils;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
+import com.maibai.cash.utils.VersionUtil;
 import com.maibai.cash.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -70,10 +73,29 @@ public class NetBase {
             String loadText = this.mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
             ViewUtil.createLoadingDialog((Activity) this.mContext, loadText, false);
         }
+
+        //外层嵌套一层信息
+        JSONObject objectRoot = new JSONObject();
+        //得到用户登录的token
+        String userToken = TianShenUserUtil.getUserToken(mContext);
+        //得到版本号
+        String version = VersionUtil.getVersion(mContext);
+        //得到时间戳
+        String timestamp = System.currentTimeMillis() + "";
+        try {
+            objectRoot.put("token", userToken); //token
+            objectRoot.put("version", version);
+            objectRoot.put("type", "1"); //客户端类型0h5,1android,2ios,3winphone
+            objectRoot.put("timestamp", timestamp);
+            objectRoot.put("data", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         StringEntity mStringEntity = null;
         try {
-            LogUtil.d("ret", "url = " + url + ";  json = " + object);
-            mStringEntity = new StringEntity(object.toString(), "UTF-8");
+            LogUtil.d("ret", "url = " + url + ";  json = " + objectRoot.toString());
+            mStringEntity = new StringEntity(objectRoot.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e1) {
             MobclickAgent.reportError(this.mContext, LogUtil.getException(e1));
             e1.printStackTrace();
@@ -118,7 +140,7 @@ public class NetBase {
             }
 
             public void onFailure(HttpException e, String m) {
-				ToastUtil.showToast(NetBase.this.mContext, MemoryAddressUtils.ServiceFaile());
+                ToastUtil.showToast(NetBase.this.mContext, MemoryAddressUtils.ServiceFaile());
                 if (view != null) {
                     view.setEnabled(true);
                 }
@@ -137,7 +159,6 @@ public class NetBase {
     public boolean isShowNoNetworksPrompt() {
         return true;
     }
-
 
 
     protected void uploadFileByPost(String url, RequestParams requestParams, final CallBack callBack) {
