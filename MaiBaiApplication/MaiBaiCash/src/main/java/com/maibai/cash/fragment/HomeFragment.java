@@ -7,19 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.litesuits.orm.LiteOrm;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
-import com.maibai.cash.manager.DBManager;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
-import com.maibai.cash.model.User;
 import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
-import com.maibai.cash.utils.LogUtil;
-import com.maibai.cash.utils.MainUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
@@ -27,7 +22,6 @@ import com.maibai.cash.view.BubbleSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -93,10 +87,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariable() {
-        selWithdrawals();
+        initSelWithdrawalsData();
     }
 
-    private void selWithdrawals() {
+    private void initSelWithdrawalsData() {
 
 
         try {
