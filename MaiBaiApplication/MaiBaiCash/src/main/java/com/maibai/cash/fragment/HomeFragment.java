@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.model.CashSubItemBean;
@@ -15,6 +16,7 @@ import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
+import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.BubbleSeekBar;
@@ -22,6 +24,7 @@ import com.maibai.cash.view.BubbleSeekBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,8 +68,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlLoanDay; //借款天数外层的RelativeLayout
 
 
-    private SelWithdrawalsBean mSelWithdrawalsBean;
-
+    private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
+    private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
+    private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
 
     @Override
     protected int setContentView() {
@@ -108,8 +112,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
                     mSelWithdrawalsBean = selWithdrawalsBean;
+                    initLoanDayData();
                     refreshUI();
                 }
+
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
@@ -118,6 +124,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             });
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 解析出借款期限
+     */
+    private void initLoanDayData() {
+        mLoanDays = new ArrayList<>();
+        List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
+        for (int i = 0; i < withdrawalsItemBeen.size(); i++) {
+            WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(i);
+            String repay_unit = withdrawalsItemBean.getRepay_unit();
+            String repay_times = withdrawalsItemBean.getRepay_times();
+            if ("1".equals(repay_unit)) {
+                mLoanDays.add(repay_times + "个月");
+            } else {
+                mLoanDays.add(repay_times + "天");
+            }
         }
     }
 
@@ -213,24 +238,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tvLoanNumValue.setText(s + " 元");
 
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
-        for (int i = 0; i < withdrawalsItemBeen.size(); i++) { //遍历所有产品
-            WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(i);
-            String mCurrentLoanDayValue = (String) tvLoanDayValue.getText();
-            String repayTimes = withdrawalsItemBean.getRepay_times();
-            if (mCurrentLoanDayValue.contains(repayTimes)) { //根据当前选择期限筛选出当前选择的产品
-                List<CashSubItemBean> cash_data = withdrawalsItemBean.getCash_data();
-                for (int j = 0; j < cash_data.size(); j++) {
-                    CashSubItemBean cashSubItemBean = cash_data.get(j);
-                    String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
-                    int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
-                    if (progress == withdrawalAmountInt) {
-                        String transfer_amount = cashSubItemBean.getTransfer_amount();
-                        int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
-                        int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
-                        //设置手续金额
-                        tvProceduresValue.setText(procedures + " 元");
-                    }
-                }
+        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
+        List<CashSubItemBean> cash_data = withdrawalsItemBean.getCash_data();
+        for (int i = 0; i < cash_data.size(); i++) {
+            CashSubItemBean cashSubItemBean = cash_data.get(i);
+            String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
+            int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
+            if (progress == withdrawalAmountInt) {
+                String transfer_amount = cashSubItemBean.getTransfer_amount();
+                int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
+                int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+                //设置手续金额
+                tvProceduresValue.setText(procedures + " 元");
             }
         }
     }
@@ -266,7 +285,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 选择借款天数
      */
     private void selectLoanDay() {
-        ToastUtil.showToast(mContext, "点击了借款期限");
+        new MaterialDialog.Builder(mContext)
+                .title("选择期限")
+                .items(mLoanDays)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mCurrentLoanDaysIndex = position;
+                    }
+                })
+                .show();
     }
 
     @Override

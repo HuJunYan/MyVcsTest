@@ -85,4 +85,5 @@ dependencies {
     compile files('libs/zmxySDKALCmini_V1.01450366738902_release.jar')
     compile 'com.jakewharton:butterknife:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.afollestad.material-dialogs:commons:0.9.4.2'
 }
