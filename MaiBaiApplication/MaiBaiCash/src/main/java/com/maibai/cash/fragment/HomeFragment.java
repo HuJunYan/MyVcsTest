@@ -192,21 +192,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 .min(unitInt)
                 .max(max_cashInt)
                 .sectionCount(sectionCount)
-//                .trackColor(ContextCompat.getColor(getContext(), R.color.color_gray))
-//                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.color_blue))
-//                .thumbColor(ContextCompat.getColor(getContext(), R.color.color_blue))
-//                .showSectionText()
-//                .sectionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-//                .sectionTextSize(18)
-//                .showThumbText()
-//                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.color_red))
-//                .thumbTextSize(18)
-//                .bubbleColor(ContextCompat.getColor(getContext(), R.color.color_green))
-//                .bubbleTextSize(18)
-                .showSectionMark()
-                .seekBySection()
-                .autoAdjustSectionMark()
-                .sectionTextPosition(BubbleSeekBar.TextPosition.BOTTOM_SIDES)
                 .build();
     }
 
