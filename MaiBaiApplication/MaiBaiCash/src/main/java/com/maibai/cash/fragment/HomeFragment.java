@@ -84,7 +84,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setListensers() {
-        initBubbleSeekBar();
         rlLoanDay.setOnClickListener(this);
         bubbleSeekbarHome.setOnProgressChangedListener(new MyOnProgressChangedListenerAdapter());
     }
@@ -252,33 +251,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tvProceduresValue.setText(procedures + " 元");
             }
         }
-    }
-
-    /**
-     * 初始化滑动条
-     */
-    private void initBubbleSeekBar() {
-        bubbleSeekbarHome.getConfigBuilder()
-                .min(500)
-                .max(3000)
-//                .progress(20)
-                .sectionCount(5)
-//                .trackColor(ContextCompat.getColor(getContext(), R.color.color_gray))
-//                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.color_blue))
-//                .thumbColor(ContextCompat.getColor(getContext(), R.color.color_blue))
-//                .showSectionText()
-//                .sectionTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-//                .sectionTextSize(18)
-//                .showThumbText()
-//                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.color_red))
-//                .thumbTextSize(18)
-//                .bubbleColor(ContextCompat.getColor(getContext(), R.color.color_green))
-//                .bubbleTextSize(18)
-                .showSectionMark()
-                .seekBySection()
-                .autoAdjustSectionMark()
-                .sectionTextPosition(BubbleSeekBar.TextPosition.BOTTOM_SIDES)
-                .build();
     }
 
     /**
