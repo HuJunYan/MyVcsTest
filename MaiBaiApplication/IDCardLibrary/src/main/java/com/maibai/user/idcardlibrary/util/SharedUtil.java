@@ -1,4 +1,4 @@
-package com.maibai.user.idcardlibrary.util;
+package com.tianshen.user.idcardlibrary.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

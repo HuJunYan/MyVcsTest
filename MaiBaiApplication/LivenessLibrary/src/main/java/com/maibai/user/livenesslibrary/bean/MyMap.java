@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary.bean;
+package com.tianshen.user.livenesslibrary.bean;
 
 import java.io.Serializable;
 import java.util.HashMap;

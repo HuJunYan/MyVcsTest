@@ -1,4 +1,4 @@
-package com.maibai.user.idcardlibrary.activity;
+package com.tianshen.user.idcardlibrary.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,12 +24,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.maibai.user.idcardlibrary.R;
-import com.maibai.user.idcardlibrary.util.DialogUtil;
-import com.maibai.user.idcardlibrary.util.ICamera;
-import com.maibai.user.idcardlibrary.util.IDCardIndicator;
-import com.maibai.user.idcardlibrary.util.RotaterUtil;
-import com.maibai.user.idcardlibrary.util.Util;
+import com.tianshen.user.idcardlibrary.R;
+import com.tianshen.user.idcardlibrary.util.DialogUtil;
+import com.tianshen.user.idcardlibrary.util.ICamera;
+import com.tianshen.user.idcardlibrary.util.IDCardIndicator;
+import com.tianshen.user.idcardlibrary.util.RotaterUtil;
+import com.tianshen.user.idcardlibrary.util.Util;
 import com.megvii.idcardquality.IDCardQualityAssessment;
 import com.megvii.idcardquality.IDCardQualityResult;
 import com.megvii.idcardquality.bean.IDCardAttr;

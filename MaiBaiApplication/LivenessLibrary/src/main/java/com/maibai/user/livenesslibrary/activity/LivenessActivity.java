@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary.activity;
+package com.tianshen.user.livenesslibrary.activity;
 
 import java.util.List;
 
@@ -25,17 +25,17 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.maibai.user.livenesslibrary.R;
-import com.maibai.user.livenesslibrary.bean.MyMap;
-import com.maibai.user.livenesslibrary.util.ConUtil;
-import com.maibai.user.livenesslibrary.util.DialogUtil;
-import com.maibai.user.livenesslibrary.util.ICamera;
-import com.maibai.user.livenesslibrary.util.IDetection;
-import com.maibai.user.livenesslibrary.util.IFile;
-import com.maibai.user.livenesslibrary.util.IMediaPlayer;
-import com.maibai.user.livenesslibrary.util.Screen;
-import com.maibai.user.livenesslibrary.util.SensorUtil;
-import com.maibai.user.livenesslibrary.view.FaceMask;
+import com.tianshen.user.livenesslibrary.R;
+import com.tianshen.user.livenesslibrary.bean.MyMap;
+import com.tianshen.user.livenesslibrary.util.ConUtil;
+import com.tianshen.user.livenesslibrary.util.DialogUtil;
+import com.tianshen.user.livenesslibrary.util.ICamera;
+import com.tianshen.user.livenesslibrary.util.IDetection;
+import com.tianshen.user.livenesslibrary.util.IFile;
+import com.tianshen.user.livenesslibrary.util.IMediaPlayer;
+import com.tianshen.user.livenesslibrary.util.Screen;
+import com.tianshen.user.livenesslibrary.util.SensorUtil;
+import com.tianshen.user.livenesslibrary.view.FaceMask;
 import com.megvii.livenessdetection.DetectionConfig;
 import com.megvii.livenessdetection.DetectionFrame;
 import com.megvii.livenessdetection.Detector;

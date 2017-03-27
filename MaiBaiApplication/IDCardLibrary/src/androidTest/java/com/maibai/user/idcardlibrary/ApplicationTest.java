@@ -1,4 +1,4 @@
-package com.maibai.user.idcardlibrary;
+package com.tianshen.user.idcardlibrary;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

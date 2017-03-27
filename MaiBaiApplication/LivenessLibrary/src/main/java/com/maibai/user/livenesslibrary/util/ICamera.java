@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary.util;
+package com.tianshen.user.livenesslibrary.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

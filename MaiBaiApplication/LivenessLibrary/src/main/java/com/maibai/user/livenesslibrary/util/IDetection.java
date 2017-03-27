@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary.util;
+package com.tianshen.user.livenesslibrary.util;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.maibai.user.livenesslibrary.R;
+import com.tianshen.user.livenesslibrary.R;
 import com.megvii.livenessdetection.Detector.DetectionType;
 
 import java.util.ArrayList;

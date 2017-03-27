@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary.util;
+package com.tianshen.user.livenesslibrary.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,7 +32,7 @@ import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.maibai.user.livenesslibrary.R;
+import com.tianshen.user.livenesslibrary.R;
 
 public class ConUtil {
 	

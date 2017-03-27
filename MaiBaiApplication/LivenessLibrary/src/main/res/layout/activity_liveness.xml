@@ -12,18 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.maibai.user.livenesslibrary.view.AutoRatioImageview
+    <com.tianshen.user.livenesslibrary.view.AutoRatioImageview
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/liveness_layout_camera_mask" />
 
-    <com.maibai.user.livenesslibrary.view.FaceMask
+    <com.tianshen.user.livenesslibrary.view.FaceMask
         android:id="@+id/liveness_layout_facemask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.maibai.user.livenesslibrary.view.AutoRatioImageview
+    <com.tianshen.user.livenesslibrary.view.AutoRatioImageview
         android:id="@+id/liveness_layout_head_mask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

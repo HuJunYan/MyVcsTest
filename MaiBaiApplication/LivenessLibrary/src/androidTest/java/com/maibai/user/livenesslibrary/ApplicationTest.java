@@ -1,4 +1,4 @@
-package com.maibai.user.livenesslibrary;
+package com.tianshen.user.livenesslibrary;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

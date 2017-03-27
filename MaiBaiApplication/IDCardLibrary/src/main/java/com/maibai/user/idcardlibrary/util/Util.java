@@ -1,4 +1,4 @@
-package com.maibai.user.idcardlibrary.util;
+package com.tianshen.user.idcardlibrary.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.maibai.user.idcardlibrary.R;
+import com.tianshen.user.idcardlibrary.R;
 import com.megvii.idcardquality.IDCardQualityResult;
 import com.megvii.idcardquality.bean.IDCardAttr;
 
