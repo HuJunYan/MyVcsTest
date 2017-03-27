@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.maibai.user.idcardlibrary.util.IDCardIndicator
+    <com.tianshen.user.idcardlibrary.util.IDCardIndicator
         android:id="@+id/idcardscan_layout_indicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -30,7 +30,7 @@
         android:textColor="#ffffffff"
         android:visibility="gone" />
 
-    <com.maibai.user.idcardlibrary.util.MyTextView
+    <com.tianshen.user.idcardlibrary.util.MyTextView
         android:id="@+id/idcardscan_layout_topTitle"
         android:layout_width="wrap_content"
         android:layout_height="300dp"

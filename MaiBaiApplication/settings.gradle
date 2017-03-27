@@ -1,1 +1,1 @@
-include ':IDCardLibrary', ':LivenessLibrary', ':MaiBaiCash'
+include ':IDCardLibrary', ':LivenessLibrary', ':TianShenCash'

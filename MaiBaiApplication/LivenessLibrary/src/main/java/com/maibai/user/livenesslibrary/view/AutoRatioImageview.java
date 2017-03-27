@@ -1,11 +1,11 @@
-package com.maibai.user.livenesslibrary.view;
+package com.tianshen.user.livenesslibrary.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.maibai.user.livenesslibrary.R;
+import com.tianshen.user.livenesslibrary.R;
 
 /**
  * Created by binghezhouke on 14-1-2.

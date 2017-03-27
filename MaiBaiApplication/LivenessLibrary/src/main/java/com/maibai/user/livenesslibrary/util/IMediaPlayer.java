@@ -1,10 +1,10 @@
-package com.maibai.user.livenesslibrary.util;
+package com.tianshen.user.livenesslibrary.util;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
-import com.maibai.user.livenesslibrary.R;
+import com.tianshen.user.livenesslibrary.R;
 import com.megvii.livenessdetection.Detector;
 
 public class IMediaPlayer {
