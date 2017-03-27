@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/global_bg_gray"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <com.maibai.cash.view.BubbleSeekBar
+        android:id="@+id/bubble_seekbar_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="35dp"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_max="1000"
+        app:bsb_min="100"
+        app:bsb_section_count="9"
+        app:bsb_section_text_position="bottom_sides"
+        app:bsb_seek_by_section="true"
+        app:bsb_show_section_mark="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/global_line_bg" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_loan_num_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="借款金额"
+            android:textColor="@color/global_txt_black2"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tv_loan_num_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/tv_loan_num_key"
+            android:text="0 元"
+            android:textColor="@color/global_txt_black1"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_procedures_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_procedures_home" />
+
+        <TextView
+            android:id="@+id/tv_procedures_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_procedures_home"
+            android:text="0 元"
+            android:textColor="@color/global_txt_black1"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_procedures_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/tv_procedures_value"
+            android:text="手续费用"
+            android:textColor="@color/global_txt_black2"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/global_line_bg" />
+
+    <RelativeLayout
+        android:id="@+id/rl_loan_day"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_loan_day_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="借款期限"
+            android:textColor="@color/global_txt_black2"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tv_loan_day_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/tv_loan_day_key"
+            android:text="18 天"
+            android:textColor="@color/global_txt_black1"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_loan_day_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_arrow_down" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/global_line_bg" />
+
+
+    <TextView
+        android:id="@+id/tv_home_apply"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/global_bg_green"
+        android:gravity="center"
+        android:text="立即申请"
+        android:textColor="@color/global_txt_white"
+        android:textSize="18sp" />
+
+
+</LinearLayout>
+
+
+
