@@ -13,8 +13,11 @@ import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.base.MyApplication;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.SignInBean;
 import com.maibai.cash.model.SignUpBean;
+import com.maibai.cash.model.TianShenLoginBean;
+import com.maibai.cash.model.User;
 import com.maibai.cash.model.VerifyCodeBean;
 import com.maibai.cash.net.api.GetVerifyCode;
 import com.maibai.cash.net.api.SignIn;
@@ -26,13 +29,16 @@ import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.RegexUtil;
 import com.maibai.cash.utils.SendBroadCastUtil;
 import com.maibai.cash.utils.SharedPreferencesUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -205,12 +211,27 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
             jsonObject.put("password",password);
             jsonObject.put("push_id", push_id);
             SignIn signIn=new SignIn(mContext);
-            signIn.signIn(jsonObject, null, true, new BaseNetCallBack<SignInBean>() {
+            signIn.signIn(jsonObject, null, true, new BaseNetCallBack<TianShenLoginBean>() {
                 @Override
-                public void onSuccess(SignInBean paramT) {
+                public void onSuccess(TianShenLoginBean paramT) {
                     SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, push_id);
-                    UserUtil.setLoginPassword(mContext, password);
-                    Set<String> tags=new HashSet<String>();
+//                    UserUtil.setLoginPassword(mContext, password);
+//                    Set<String> tags=new HashSet<String>();
+//                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
+//                    if (bdLocation != null) {
+//                        tags.add(bdLocation.getCityCode());
+//                        tags.add(bdLocation.getCountryCode());
+//                        tags.add(bdLocation.getProvince());
+//                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
+//                    }
+//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
+//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
+//                    ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+//                    setResult(REGISTESUCCESS);
+//                    backActivity();
+
+                    SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, push_id);
+                    Set<String> tags = new HashSet<String>();
                     BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
                     if (bdLocation != null) {
                         tags.add(bdLocation.getCityCode());
@@ -218,10 +239,15 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                         tags.add(bdLocation.getProvince());
                         JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
                     }
-                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
-                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
-                    ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
-                    setResult(REGISTESUCCESS);
+
+                    //保存用户信息
+                    User user = new User();
+                    user.setToken(paramT.getData().getToken());
+                    user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
+                    user.setJpush_id(push_id);
+                    TianShenUserUtil.saveUser(mContext, user);
+
+                    EventBus.getDefault().post(new RegisterAndLoginSuccessEvent());
                     backActivity();
                 }
 

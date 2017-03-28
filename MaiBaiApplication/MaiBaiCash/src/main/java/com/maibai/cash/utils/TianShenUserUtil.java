@@ -24,6 +24,27 @@ public class TianShenUserUtil {
     }
 
     /**
+     * 得到当前登录用户的对象
+     */
+    public static User getUser(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return null;
+        } else {
+            return user.get(0);
+        }
+    }
+
+    /**
+     * 保存登录的用户
+     */
+    public static void saveUser(Context context, User user) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        liteOrm.save(user);
+    }
+
+    /**
      * 得到用户登录的Token
      */
     public static String getUserToken(Context context) {
@@ -33,6 +54,19 @@ public class TianShenUserUtil {
             return "";
         } else {
             return user.get(0).getToken();
+        }
+    }
+
+    /**
+     * 得到当前登录用户的id
+     */
+    public static long getUserId(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return 0;
+        } else {
+            return user.get(0).getId();
         }
     }
 

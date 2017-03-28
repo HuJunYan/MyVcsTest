@@ -511,24 +511,24 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
                 push_id = JPushInterface.getRegistrationID(mContext);
             }
             json.put("push_id", push_id);
-            mSignIn.signIn(json, null, isShowLoadingDialog, new BaseNetCallBack<SignInBean>() {
-                @Override
-                public void onSuccess(SignInBean paramT) {
-                    UserUtil.setLoginPassword(mContext, password);
-                    init();
-                    if (isSignInFirstSuccess) {
-                        isSignInFirstSuccess = false;
-                        MainActivity mainActivity = (MainActivity) getActivity();
-                        mainActivity.validateCashApplyStatus();
-                    }
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-                    Log.e("loginError", "errorType" + errorType + "  erroCode" + errorCode);
-
-                }
-            });
+//            mSignIn.signIn(json, null, isShowLoadingDialog, new BaseNetCallBack<SignInBean>() {
+//                @Override
+//                public void onSuccess(SignInBean paramT) {
+//                    UserUtil.setLoginPassword(mContext, password);
+//                    init();
+//                    if (isSignInFirstSuccess) {
+//                        isSignInFirstSuccess = false;
+//                        MainActivity mainActivity = (MainActivity) getActivity();
+//                        mainActivity.validateCashApplyStatus();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(String url, int errorType, int errorCode) {
+//                    Log.e("loginError", "errorType" + errorType + "  erroCode" + errorCode);
+//
+//                }
+//            });
         } catch (JSONException e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));

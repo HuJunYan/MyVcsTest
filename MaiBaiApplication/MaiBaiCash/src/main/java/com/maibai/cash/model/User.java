@@ -19,6 +19,15 @@ public class User {
     private String phone;
     private String sex;
     private String token;
+    private String jpush_id;//激光推送的id
+
+    public String getJpush_id() {
+        return jpush_id;
+    }
+
+    public void setJpush_id(String jpush_id) {
+        this.jpush_id = jpush_id;
+    }
 
     public String getToken() {
         return token;

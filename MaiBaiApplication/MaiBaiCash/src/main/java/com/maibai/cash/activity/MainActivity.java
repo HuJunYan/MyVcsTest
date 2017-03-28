@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -17,6 +18,7 @@ import com.maibai.cash.adapter.MyViewPagerAdapter;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.base.MyApplication;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.fragment.HomeFragment;
 import com.maibai.cash.fragment.MyFragment;
 import com.maibai.cash.fragment.WithdrawalsFragment;
@@ -25,9 +27,12 @@ import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LocationUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.RequestPermissionUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.WithdrawalsApplyResultUtil;
 import com.maibai.cash.view.MyViewPager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -267,6 +272,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
+    }
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+        rb_withdrawals.performClick();
     }
 
 }
