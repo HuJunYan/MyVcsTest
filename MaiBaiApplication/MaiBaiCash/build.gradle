@@ -83,8 +83,16 @@ dependencies {
     compile files('libs/jpush-android-2.1.7.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile files('libs/zmxySDKALCmini_V1.01450366738902_release.jar')
+    compile files('libs/baidumapapi_base_v4_0_0.jar')
+
+    //butterknife
     compile 'com.jakewharton:butterknife:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //eventbus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //dialogs
     compile 'com.afollestad.material-dialogs:commons:0.9.4.2'
-    compile files('libs/baidumapapi_base_v4_0_0.jar')
+
 }
