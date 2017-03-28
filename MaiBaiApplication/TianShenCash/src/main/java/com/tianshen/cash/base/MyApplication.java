@@ -21,13 +21,7 @@ public class MyApplication extends Application {
     public static Typeface typeFace;
     private Context mResumeContext;
 
-    public Context getResumeContext() {
-        return mResumeContext;
-    }
-
-    public void setResumeContext(Context mResumeContext) {
-        this.mResumeContext = mResumeContext;
-    }
+    private String on_verify; //0为正常视图，1为正在审核中的视图" 为了让电子市场审核通过
 
     @Override
     public void onCreate() {
@@ -37,8 +31,8 @@ public class MyApplication extends Application {
 //		if (Utils.isApplicationRepeat(this)) {
 //			return;
 //		}
-		JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
-		JPushInterface.init(this); // 初始化 JPush
+        JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this); // 初始化 JPush
 //		LogUtil.autoSetDebugOrReleaseMode(MyApplication.this);
 //		GsonUtil.init(MyApplication.this);
     }
@@ -47,6 +41,14 @@ public class MyApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         clearTempActivityInBackStack();
+    }
+
+    public Context getResumeContext() {
+        return mResumeContext;
+    }
+
+    public void setResumeContext(Context mResumeContext) {
+        this.mResumeContext = mResumeContext;
     }
 
     public synchronized void addTempActivityInBackStack(Activity activity) {
@@ -97,5 +99,13 @@ public class MyApplication extends Application {
 
     public ArrayList<Activity> getAllActivities() {
         return mTempActivity;
+    }
+
+    public String getOn_verify() {
+        return on_verify;
+    }
+
+    public void setOn_verify(String on_verify) {
+        this.on_verify = on_verify;
     }
 }

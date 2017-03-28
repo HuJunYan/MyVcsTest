@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -9,6 +10,7 @@ import android.telephony.TelephonyManager;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
@@ -130,7 +132,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         CheckUpgrade checkUpgrade = new CheckUpgrade(NavigationActivity.this);
         JSONObject mjson = new JSONObject();
         try {
-            mjson.put("current_version", vesionNo);
+            mjson.put("current_version", "1.0.0");
             mjson.put("app_type", "1");
             mjson.put("device_id",UserUtil.getDeviceId(mContext));
             mjson.put("channel_id", GlobalParams.CHANNEL_ID);
@@ -138,11 +140,21 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {
                     if (paramT.getCode() == 0) {//0为应用有升级
+
+                        //设置当前APP显示什么视图标记位
+                        MyApplication myApplication = (MyApplication) mContext.getApplicationContext();
+                        myApplication.setOn_verify(paramT.getData().getOn_verify());
+
                         String apkUrl = paramT.getData().getDownload_url();//更新下载路径
                         String explain = paramT.getData().getIntroduction();//更新说明
                         String upgradeType = paramT.getData().getForce_upgrade();//更新类型
-                        UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
-                        mUpdateManager.checkUpdateInfo();
+                        String is_ignore = paramT.getData().getIs_ignore();//是否忽略升级
+                        if ("1".equals(is_ignore)) {
+                            gotoMainAcitivity();
+                        }else {
+                            UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
+                            mUpdateManager.checkUpdateInfo();
+                        }
                     }
                 }
 

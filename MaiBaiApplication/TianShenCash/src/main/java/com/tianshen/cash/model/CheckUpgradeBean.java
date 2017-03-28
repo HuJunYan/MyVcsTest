@@ -45,6 +45,24 @@ public class CheckUpgradeBean implements Serializable {
         private String download_url;  // http://serverName/download/app/android-1.2.apk
         private String introduction;  // 升级介绍
         private String force_upgrade;  // 0：非强制升级，1:强制升级
+        private String on_verify;//"0为正常视图，1为正在审核中的视图"
+        private String is_ignore;//"0"是否忽略更新，0为不忽略，1为忽略
+
+        public String getOn_verify() {
+            return on_verify;
+        }
+
+        public void setOn_verify(String on_verify) {
+            this.on_verify = on_verify;
+        }
+
+        public String getIs_ignore() {
+            return is_ignore;
+        }
+
+        public void setIs_ignore(String is_ignore) {
+            this.is_ignore = is_ignore;
+        }
 
         public String getApp_type() {
             return app_type;

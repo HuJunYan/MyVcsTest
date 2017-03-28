@@ -8,9 +8,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.MyViewPagerAdapter;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private RadioButton  rb_my, rb_withdrawals;
+    private RadioGroup  rg_control_button;
     private MyFragment mMyFragment;
     private WithdrawalsFragment mWithdrawalsFragment;
     private ViewPager vp_main;
@@ -38,6 +43,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MyViewPagerAdapter mViewPagerAdapter;
     private LoginBordcast mLoginBordcast;
     private LocationUtil mLocationUtil;
+
+    private RelativeLayout rl_main_root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mLocationUtil = LocationUtil.getInstance(MainActivity.this);
         regist();
         InitView();
+        isShowVerifyView();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -62,9 +71,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void findViews() {
 //        rb_zero_yuan_buy = (RadioButton) findViewById(R.id.rb_zero_yuan_buy);
+        rg_control_button = (RadioGroup) findViewById(R.id.rg_control_button);
         rb_withdrawals = (RadioButton) findViewById(R.id.rb_withdrawals);
         rb_my = (RadioButton) findViewById(R.id.rb_my);
         vp_main = (ViewPager) findViewById(R.id.vp_main);
+        rl_main_root = (RelativeLayout) findViewById(R.id.rl_main_root);
     }
 
     @Override
@@ -150,7 +161,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         if (mViewPagerAdapter == null) {
             mViewPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), mFragmentList);
             vp_main.setAdapter(mViewPagerAdapter);
-            vp_main.setOffscreenPageLimit(3);
+            vp_main.setOffscreenPageLimit(2);
         }
     }
 
@@ -178,6 +189,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         intentFilter.addAction(GlobalParams.ADD_BORROW_TERM_KEY_ACTION);
         mLoginBordcast = new LoginBordcast();
         registerReceiver(mLoginBordcast, intentFilter);
+    }
+
+
+    /**
+     * 根据服务器返回来的标志显示"正在审核中的视图"
+     */
+    private void isShowVerifyView() {
+        MyApplication myApplication = (MyApplication) mContext.getApplicationContext();
+        String on_verify = myApplication.getOn_verify();
+
+        if ("1".equals(on_verify)) {//1为审核中的视图
+            Log.d("abc","显示正在审核视图");
+            rg_control_button.setVisibility(View.GONE);
+            vp_main.setVisibility(View.GONE);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.rl_main_root, new MyFragment());
+            ft.commit();
+        }
     }
 
     public class LoginBordcast extends BroadcastReceiver {
