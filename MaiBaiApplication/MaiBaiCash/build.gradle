@@ -86,4 +86,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.2'
+    compile files('libs/baidumapapi_base_v4_0_0.jar')
 }
