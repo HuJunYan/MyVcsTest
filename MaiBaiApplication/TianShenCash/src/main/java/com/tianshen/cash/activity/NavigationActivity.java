@@ -132,7 +132,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         CheckUpgrade checkUpgrade = new CheckUpgrade(NavigationActivity.this);
         JSONObject mjson = new JSONObject();
         try {
-            mjson.put("current_version", "1.0.0");
+            mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
             mjson.put("device_id",UserUtil.getDeviceId(mContext));
             mjson.put("channel_id", GlobalParams.CHANNEL_ID);
