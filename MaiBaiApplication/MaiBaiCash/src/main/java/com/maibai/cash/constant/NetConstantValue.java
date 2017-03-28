@@ -436,4 +436,11 @@ public class NetConstantValue {
     public static String getRecordPopupTimeUrl(){
         return COMMONURI+"Customer/RecordPopupTimes";
     }
+
+    /**
+     * 得到用户配置
+     */
+    public static String getUserConfigUrl() {
+        return COMMONURI + "UserCenter/userConfig";
+    }
 }

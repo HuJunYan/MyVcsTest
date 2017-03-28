@@ -18,11 +18,14 @@ import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
+import com.maibai.cash.model.UserConfig;
 import com.maibai.cash.model.WithdrawalsItemBean;
+import com.maibai.cash.net.api.GetUserConfig;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
+import com.maibai.cash.utils.StringUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.view.BubbleSeekBar;
 
@@ -83,6 +86,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
     private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
 
+    private UserConfig mUserConfig; //用户的配置信息
+
     @Override
     protected int setContentView() {
         return R.layout.fragment_home;
@@ -103,7 +108,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariable() {
-        initSelWithdrawalsData();
+        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+        if (mIsLogin) {
+            initUserConfig();
+        } else {
+            initSelWithdrawalsData();
+        }
     }
 
     private void initSelWithdrawalsData() {
@@ -115,10 +125,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 jsonObject.put("init", "0");
                 long userId = TianShenUserUtil.getUserId(mContext);
                 jsonObject.put("customer_id", userId);
-
-                LogUtil.d("abc","userId--->"+userId);
-
+                LogUtil.d("abc", "已经登录--->" + userId);
             } else {
+                LogUtil.d("abc", "未登录--->");
                 jsonObject.put("init", "1");
             }
             final SelWithdrawals selWithdrawals = new SelWithdrawals(mContext);
@@ -140,6 +149,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+
+    /**
+     * 得到用户配置信息
+     */
+    private void initUserConfig() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            GetUserConfig getUserConfig = new GetUserConfig(mContext);
+            getUserConfig.userConfig(jsonObject, null, true, new BaseNetCallBack<UserConfig>() {
+                @Override
+                public void onSuccess(UserConfig paramT) {
+                    mUserConfig = paramT;
+                    initSelWithdrawalsData();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 解析出借款期限
@@ -172,12 +207,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-        String max_cash = mSelWithdrawalsBean.getMax_cash();
-        if (TextUtils.isEmpty(max_cash)) {
-            max_cash = "0";
+
+        if (mSelWithdrawalsBean != null) {
+            String max_cash = mSelWithdrawalsBean.getMax_cash();
+            if (TextUtils.isEmpty(max_cash)) {
+                max_cash = "0";
+            }
+            int max_cashInt = Integer.valueOf(max_cash) / 100;
+            //设置信用额度
+            tvHomeUserLimitValue.setText(max_cashInt + "");
         }
-        int max_cashInt = Integer.valueOf(max_cash) / 100;
-        tvHomeUserLimitValue.setText(max_cashInt + "");
+
+        if (mUserConfig != null) {
+            //设置天神卡号
+            String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
+            String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
+            tvHomeTianshenCardNum.setText(cardNum);
+            String cur_credit_step = mUserConfig.getData().getCur_credit_step();
+            String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+            //设置认证步骤
+            tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
+        }
+
     }
 
     /**
@@ -325,6 +376,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+        initUserConfig();
     }
 
 }
