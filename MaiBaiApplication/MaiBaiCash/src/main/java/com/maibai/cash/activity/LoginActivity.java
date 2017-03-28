@@ -15,7 +15,9 @@ import com.baidu.location.BDLocation;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.SignInBean;
+import com.maibai.cash.model.TianShenLoginBean;
 import com.maibai.cash.net.api.SignIn;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
@@ -29,6 +31,7 @@ import com.maibai.cash.view.ChangeInterface;
 import com.maibai.cash.view.MyLoginEditText;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -211,24 +214,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
             json.put("push_id", push_id);
             final String finalPush_id = push_id;
-            mSignIn.signIn(json, bt_login, true, new BaseNetCallBack<SignInBean>() {
+            mSignIn.signIn(json, bt_login, true, new BaseNetCallBack<TianShenLoginBean>() {
                 @Override
-                public void onSuccess(SignInBean paramT) {
-                    SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, finalPush_id);
-                    UserUtil.setLoginPassword(mContext, password);
-                    setResult(LOGINSUCCESS);
-                    Set<String> tags=new HashSet<String>();
-                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
-                    if (bdLocation != null) {
-                        tags.add(bdLocation.getCityCode());
-                        tags.add(bdLocation.getCountryCode());
-                        tags.add(bdLocation.getProvince());
-                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
-                    }
-                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
-                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
-                    //Todo
-                    backActivity();
+                public void onSuccess(TianShenLoginBean paramT) {
+//                    SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, finalPush_id);
+//                    UserUtil.setLoginPassword(mContext, password);
+//                    setResult(LOGINSUCCESS);
+//                    Set<String> tags=new HashSet<String>();
+//                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
+//                    if (bdLocation != null) {
+//                        tags.add(bdLocation.getCityCode());
+//                        tags.add(bdLocation.getCountryCode());
+//                        tags.add(bdLocation.getProvince());
+//                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
+//                    }
+//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
+//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
+//                    //Todo
+//                    backActivity();
                 }
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
@@ -251,5 +254,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 break;
         }
+    }
+
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+        backActivity();
     }
 }

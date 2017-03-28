@@ -5,6 +5,8 @@ import android.view.View;
 
 import com.maibai.cash.constant.NetConstantValue;
 import com.maibai.cash.model.SignInBean;
+import com.maibai.cash.model.TianShenLoginBean;
+import com.maibai.cash.model.User;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.CallBack;
 import com.maibai.cash.net.base.GsonUtil;
@@ -12,6 +14,7 @@ import com.maibai.cash.net.base.NetBase;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.SignUtils;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -36,31 +39,7 @@ public class SignIn extends NetBase {
         mUrl = NetConstantValue.getSignInUrl();
     }
 
-    public void signIn(JSONObject jsonObject, final BaseNetCallBack<SignInBean> mSignInCallBack) {
-        try {
-            encryptPassowrd(jsonObject);
-            mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
-            if (mJSONObject == null) {
-                return;
-            }
-            getDataFromServerByPost(mUrl, mJSONObject, new CallBack() {
-                @Override
-                public void onSuccess(String result, String url) {
-                    successHandle(result, url, mSignInCallBack);
-                }
-
-                @Override
-                public void onFailure(String result, int errorType, int errorCode) {
-                    failureHandle(result, errorType, errorCode, mSignInCallBack);
-                }
-            });
-        } catch (Exception e) {
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            e.printStackTrace();
-        }
-    }
-
-    public void signIn(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<SignInBean> mSignInCallBack) {
+    public void signIn(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<TianShenLoginBean> mSignInCallBack) {
         try {
             encryptPassowrd(jsonObject);
             mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
@@ -84,33 +63,19 @@ public class SignIn extends NetBase {
         }
     }
 
-    private void successHandle(String result, String url, BaseNetCallBack<SignInBean> mSignInCallBack) {
+    private void successHandle(String result, String url, BaseNetCallBack<TianShenLoginBean> mSignInCallBack) {
         try {
-            SignInBean mSignInBean;
-            if (isRelease) {
-                mSignInBean = (SignInBean) GsonUtil.json2bean(result, SignInBean.class);
-            } else {
-                mSignInBean = test();
-            }
-            UserUtil.removeUser(mContext);
-            UserUtil.setUser(mContext, mSignInBean);
+            TianShenLoginBean mSignInBean = GsonUtil.json2bean(result, TianShenLoginBean.class);
             mSignInCallBack.onSuccess(mSignInBean);
-
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             e.printStackTrace();
         }
     }
 
-    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<SignInBean> mSignInCallBack) {
+    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<TianShenLoginBean> mSignInCallBack) {
         try {
-            if (isRelease) {
-                mSignInCallBack.onFailure(result, errorType, errorCode);
-            } else {
-                SignInBean mSignInBean = test();
-                mSignInCallBack.onSuccess(mSignInBean);
-                UserUtil.setUser(mContext, mSignInBean);
-            }
+            mSignInCallBack.onFailure(result, errorType, errorCode);
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             e.printStackTrace();

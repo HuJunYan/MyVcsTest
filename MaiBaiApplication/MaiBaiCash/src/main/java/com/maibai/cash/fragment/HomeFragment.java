@@ -2,6 +2,7 @@ package com.maibai.cash.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
 import com.maibai.cash.activity.LoginActivity;
 import com.maibai.cash.base.BaseFragment;
+import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
 import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
+import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.view.BubbleSeekBar;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -104,14 +108,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void initSelWithdrawalsData() {
 
-
         try {
             JSONObject jsonObject = new JSONObject();
-
             boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
             if (mIsLogin) {
                 jsonObject.put("init", "0");
-                jsonObject.put("customer_id", UserUtil.getId(mContext));
+                long userId = TianShenUserUtil.getUserId(mContext);
+                jsonObject.put("customer_id", userId);
+
+                LogUtil.d("abc","userId--->"+userId);
+
             } else {
                 jsonObject.put("init", "1");
             }
@@ -249,6 +255,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 选择借款天数
      */
     private void selectLoanDay() {
+        if (mLoanDays == null) {
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择期限")
                 .items(mLoanDays)
@@ -308,4 +318,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     }
+
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+    }
+
 }

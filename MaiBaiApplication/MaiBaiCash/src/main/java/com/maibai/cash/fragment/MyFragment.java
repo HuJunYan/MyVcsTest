@@ -28,6 +28,7 @@ import com.maibai.cash.activity.SettingActivity;
 import com.maibai.cash.activity.WithdrawalsBillActivity;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.MineBean;
 import com.maibai.cash.model.MineCardInfoBean;
 import com.maibai.cash.net.api.Mine;
@@ -37,11 +38,13 @@ import com.maibai.cash.utils.GetTelephoneUtils;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.MainUtil;
 import com.maibai.cash.utils.SharedPreferencesUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.ImageTextView;
 import com.maibai.cash.view.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -129,7 +132,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initMineData() {
-        if (MainUtil.isLogin(mContext)) {
+
+        LogUtil.d("abc","我的页面initMineData");
+
+        boolean login = TianShenUserUtil.isLogin(mContext);
+        if (login) {
             iv_promt.setVisibility(View.VISIBLE);
             tv_pay_back.setVisibility(View.VISIBLE);
 //            layout_transaction_container.setVisibility(View.VISIBLE);
@@ -141,7 +148,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             ll_circle.setBackgroundResource(R.drawable.bta_my_refund);
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("customer_id", UserUtil.getId(mContext));
+                long userId = TianShenUserUtil.getUserId(mContext);
+                jsonObject.put("customer_id", userId + "");
                 Mine mine = new Mine(mContext);
                 mine.mine(jsonObject, null, false, new BaseNetCallBack<MineBean>() {
                     @Override
@@ -156,13 +164,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                         if ("".equals(consumeBillAmount) || null == consumeBillAmount) {
                             consumeBillAmount = "0";
                         }
-                        tv_amout_this_month.setText(Double.valueOf(Long.parseLong(consumeBillAmount))/ 100 + "");
+                        tv_amout_this_month.setText(Double.valueOf(Long.parseLong(consumeBillAmount)) / 100 + "");
 
-                        String withdrawalsBillAmount=mineBean.getData().getWithdrawals_bill_amount();
-                        if("".equals(withdrawalsBillAmount)||null==withdrawalsBillAmount){
-                            withdrawalsBillAmount="0";
+                        String withdrawalsBillAmount = mineBean.getData().getWithdrawals_bill_amount();
+                        if ("".equals(withdrawalsBillAmount) || null == withdrawalsBillAmount) {
+                            withdrawalsBillAmount = "0";
                         }
-                        tv_withdrawals_repay_this_month.setText(Double.valueOf(Long.valueOf(withdrawalsBillAmount))/100+"");
+                        tv_withdrawals_repay_this_month.setText(Double.valueOf(Long.valueOf(withdrawalsBillAmount)) / 100 + "");
                         myCards = mineBean.getData().getBank_card_list();
                         SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.IS_MY_PAGE_NEED_REFRESH, "not_need_refresh");
                     }
