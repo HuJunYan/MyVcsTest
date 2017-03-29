@@ -21,14 +21,18 @@ import android.widget.ViewSwitcher;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
 import com.maibai.cash.activity.LoginActivity;
+import com.maibai.cash.adapter.PrompAdapter;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
+import com.maibai.cash.model.StatisticsRollBean;
+import com.maibai.cash.model.StatisticsRollDataBean;
 import com.maibai.cash.model.UserConfig;
 import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.GetUserConfig;
 import com.maibai.cash.net.api.SelWithdrawals;
+import com.maibai.cash.net.api.StatisticsRoll;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.StringUtil;
@@ -95,20 +99,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ts_home_news)
     TextSwitcher tsHomeNews;
 
-    private String[] mTempString = new String[]{
-            "恭喜 ss借到了1000元",
-            "恭喜 XX借到了300元",
-            "恭喜 XX借到了200元",
-            "恭喜 tt借到了500元",
-            "恭喜 ss借到了800元",
-            "恭喜 XX借到了500元"
-    };
-
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
     private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
 
     private UserConfig mUserConfig; //用户的配置信息
+    private List<StatisticsRollDataBean> mStatisticsRollDataBeans; //滚动条得到的数据
+    private List<String> mStatisticsRollDatas; //滚动条真实显示的数据
 
     private int mCurrentIndex;
 
@@ -120,7 +117,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             switch (message.what) {
                 case MSG_SHOW_TEXT:
                     mCurrentIndex++;
-                    if (mCurrentIndex == mTempString.length) {
+                    if (mCurrentIndex == mStatisticsRollDatas.size()) {
                         mCurrentIndex = 0;
                     }
                     refreshTextSwitcherUI(mCurrentIndex);
@@ -186,7 +183,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     initLoanDayData();
-                    refreshUI();
+                    initStaticsRoll();
                 }
 
                 @Override
@@ -199,6 +196,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 得到滚动条数据
+     */
+    private void initStaticsRoll() {
+        final StatisticsRoll statisticsRoll = new StatisticsRoll(mContext);
+        statisticsRoll.getStatisticsRoll(new JSONObject(), new BaseNetCallBack<StatisticsRollBean>() {
+            @Override
+            public void onSuccess(StatisticsRollBean paramT) {
+                mStatisticsRollDataBeans = paramT.getData();
+                initStatisticsRollData();
+                refreshUI();
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+
+    }
 
     /**
      * 得到用户配置信息
@@ -243,6 +260,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         }
     }
+
+
+    /**
+     * 解析出滚动条的数据
+     */
+    private void initStatisticsRollData() {
+        mStatisticsRollDatas = new ArrayList<>();
+        for (int i = 0; i < mStatisticsRollDataBeans.size(); i++) {
+            StatisticsRollDataBean statisticsRollDataBean = mStatisticsRollDataBeans.get(i);
+            String mobile = statisticsRollDataBean.getMobile();
+            String money = statisticsRollDataBean.getMoney();
+            if (TextUtils.isEmpty(money)) {
+                money = "0";
+            }
+            int moneyInt = Integer.valueOf(money) / 100;
+            mStatisticsRollDatas.add("恭喜 " + mobile + "成功借款" + moneyInt + "元");
+        }
+    }
+
 
     /**
      * 初始化TextSwitcher
@@ -311,7 +347,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新滚动条(恭喜 xxx借到了xxx元钱)
      */
     private void refreshTextSwitcherUI(int index) {
-        tsHomeNews.setText(mTempString[index]);
+        if (mCurrentIndex == 0) {
+            tsHomeNews.setCurrentText(mStatisticsRollDatas.get(index));
+        } else {
+            tsHomeNews.setText(mStatisticsRollDatas.get(index));
+        }
         mHandler.removeMessages(MSG_SHOW_TEXT);
         mHandler.sendEmptyMessageDelayed(MSG_SHOW_TEXT, SHOW_TEXT_TIME);
     }

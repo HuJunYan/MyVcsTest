@@ -423,8 +423,11 @@ public class NetConstantValue {
         return COMMONURI+"Credit/creditMobile";
     }
 
+    /**
+     * 首页滚动数据
+     */
     public static String getStatisticsRollUrl() {
-        return COMMONURI+"UserCenter/getDemographic";
+        return COMMONURI + "UserCenter/getDemographic";
     }
 
 
