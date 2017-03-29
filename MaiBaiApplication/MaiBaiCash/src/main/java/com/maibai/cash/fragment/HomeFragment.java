@@ -228,6 +228,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(UserConfig paramT) {
                     mUserConfig = paramT;
+                    if (mUserConfig == null) {
+                        //TODO 展示解析错误的UI
+                        return;
+                    }
                     initSelWithdrawalsData();
                 }
 
