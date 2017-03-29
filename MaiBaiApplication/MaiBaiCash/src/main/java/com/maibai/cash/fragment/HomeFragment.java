@@ -251,6 +251,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         try {
             minMaxSb.setMaxMin(max_cashInt, unitInt, unitInt);
+            minMaxSb.setCurrentProgress(unitInt);
         } catch (SeekBarStepException e) {
             e.printStackTrace();
         }
@@ -264,7 +265,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void refreshLoanDayUI() {
 
         List<WithdrawalsItemBean> withdrawalsItemBeens = mSelWithdrawalsBean.getData();
-        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeens.get(0);
+        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeens.get(mCurrentLoanDaysIndex);
         String repayTimes = withdrawalsItemBean.getRepay_times();
         String repay_unit = withdrawalsItemBean.getRepay_unit();
         if ("1".equals(repay_unit)) { //判断是月还是天  1-月，2-天
@@ -317,6 +318,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mCurrentLoanDaysIndex = position;
+                        refreshLoanDayUI();
+                        refreshBubbleSeekBarUI();
                     }
                 })
                 .show();
