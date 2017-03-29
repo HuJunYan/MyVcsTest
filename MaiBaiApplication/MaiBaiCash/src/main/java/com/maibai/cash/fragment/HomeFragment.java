@@ -178,7 +178,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
                     mSelWithdrawalsBean = selWithdrawalsBean;
-                    initLoanDayData();
+                    parserLoanDayData();
                     initStaticsRoll();
                 }
 
@@ -201,7 +201,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(StatisticsRollBean paramT) {
                 mStatisticsRollDataBeans = paramT.getData();
-                initStatisticsRollData();
+                parserStatisticsRollData();
                 refreshUI();
             }
 
@@ -242,7 +242,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 解析出借款期限
      */
-    private void initLoanDayData() {
+    private void parserLoanDayData() {
         mLoanDays = new ArrayList<>();
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         for (int i = 0; i < withdrawalsItemBeen.size(); i++) {
@@ -261,7 +261,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 解析出滚动条的数据
      */
-    private void initStatisticsRollData() {
+    private void parserStatisticsRollData() {
         mStatisticsRollDatas = new ArrayList<>();
         for (int i = 0; i < mStatisticsRollDataBeans.size(); i++) {
             StatisticsRollDataBean statisticsRollDataBean = mStatisticsRollDataBeans.get(i);
