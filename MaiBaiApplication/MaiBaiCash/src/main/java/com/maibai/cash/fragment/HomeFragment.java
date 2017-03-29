@@ -20,6 +20,8 @@ import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
+import com.maibai.cash.activity.AddBankCardActivity;
+import com.maibai.cash.activity.AuthCenterActivity;
 import com.maibai.cash.activity.LoginActivity;
 import com.maibai.cash.adapter.PrompAdapter;
 import com.maibai.cash.base.BaseFragment;
@@ -456,20 +458,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
         boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
         if (!mIsLogin) {//先判断用户有没有登录，如果没有登录就跳转到登录页面进行登录
             gotoActivity(mContext, LoginActivity.class, null);
             return;
         }
-
         switch (view.getId()) {
             case R.id.rl_home_tianshen_card: //点击了天神卡
+                gotoActivity(mContext, AuthCenterActivity.class, null);
                 break;
             case R.id.rl_loan_day: //点击了期限选择
                 selectLoanDay();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
+                gotoActivity(mContext, AuthCenterActivity.class, null);
                 break;
         }
     }

@@ -357,6 +357,10 @@
             android:name=".activity.BorrowRepayActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.AuthCenterActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />

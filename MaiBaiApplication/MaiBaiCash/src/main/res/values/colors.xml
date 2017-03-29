@@ -73,7 +73,7 @@
     <color name="global_txt_black1">#000000</color>
     <color name="global_txt_black2">#555555</color>
     <color name="global_txt_black3">#888888</color>
-
+    <color name="global_txt_black4">#333333</color>
 
     <!--全局分割线颜色-->
     <color name="global_line_bg">#e0e0e0</color>
