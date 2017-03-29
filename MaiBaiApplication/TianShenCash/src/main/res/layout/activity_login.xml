@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@color/login_theme_red"
+        android:background="@color/stages_type_green_color"
         android:orientation="vertical">
 
         <RelativeLayout
