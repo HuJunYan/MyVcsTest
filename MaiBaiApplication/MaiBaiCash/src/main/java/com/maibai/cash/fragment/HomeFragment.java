@@ -1,11 +1,22 @@
 package com.maibai.cash.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
@@ -34,6 +45,8 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -79,12 +92,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView tvHomeMinSb;
     @BindView(R.id.tv_home_max_sb)
     TextView tvHomeMaxSb;
+    @BindView(R.id.ts_home_news)
+    TextSwitcher tsHomeNews;
+
+    private String[] mTempString = new String[]{
+            "恭喜 ss借到了1000元",
+            "恭喜 XX借到了300元",
+            "恭喜 XX借到了200元",
+            "恭喜 tt借到了500元",
+            "恭喜 ss借到了800元",
+            "恭喜 XX借到了500元"
+    };
 
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
     private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
 
     private UserConfig mUserConfig; //用户的配置信息
+
+    private int mCurrentIndex;
+
+    private static final int MSG_SHOW_TEXT = 1;
+    private static final int SHOW_TEXT_TIME = 5 * 1000;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case MSG_SHOW_TEXT:
+                    mCurrentIndex++;
+                    if (mCurrentIndex == mTempString.length) {
+                        mCurrentIndex = 0;
+                    }
+                    refreshTextSwitcherUI(mCurrentIndex);
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected int setContentView() {
@@ -103,6 +147,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tvHomeApply.setOnClickListener(this);
 
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
+        initTextSwitcher();
     }
 
     @Override
@@ -113,6 +158,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             initSelWithdrawalsData();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     private void initSelWithdrawalsData() {
@@ -194,10 +245,36 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 初始化TextSwitcher
+     */
+    private void initTextSwitcher() {
+
+        tsHomeNews.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView tv = new TextView(mContext);
+                tv.setTextSize(11);
+                tv.setTextColor(getResources().getColor(R.color.global_txt_black2));
+                tv.setSingleLine();
+                tv.setEllipsize(TextUtils.TruncateAt.END);
+                Drawable drawable = getResources().getDrawable(R.drawable.the_trumpet);
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv.setCompoundDrawables(drawable, null, null, null);//设置TextView的drawableleft
+                tv.setCompoundDrawablePadding(10);//设置图片和text之间的间距
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.gravity = Gravity.CENTER;
+                tv.setLayoutParams(lp);
+                return tv;
+            }
+        });
+    }
+
+    /**
      * 刷新UI
      */
     private void refreshUI() {
         refreshCardUI();
+        refreshTextSwitcherUI(mCurrentIndex);
         refreshLoanDayUI();
         refreshBubbleSeekBarUI();
     }
@@ -228,6 +305,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
         }
 
+    }
+
+    /**
+     * 刷新滚动条(恭喜 xxx借到了xxx元钱)
+     */
+    private void refreshTextSwitcherUI(int index) {
+        tsHomeNews.setText(mTempString[index]);
+        mHandler.removeMessages(MSG_SHOW_TEXT);
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_TEXT, SHOW_TEXT_TIME);
     }
 
     /**

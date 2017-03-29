@@ -140,14 +140,15 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+            <TextSwitcher
+                android:id="@+id/ts_home_news"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:text="恭喜 xxx 成功借款1000元"
-                android:textSize="11dp" />
+                android:inAnimation="@anim/push_up_in"
+                android:outAnimation="@anim/push_up_out" />
+
 
             <include
                 android:id="@+id/ll_not_login"
