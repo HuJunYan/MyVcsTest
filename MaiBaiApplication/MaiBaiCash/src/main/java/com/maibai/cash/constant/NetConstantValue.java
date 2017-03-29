@@ -446,4 +446,11 @@ public class NetConstantValue {
     public static String getUserConfigUrl() {
         return COMMONURI + "UserCenter/userConfig";
     }
+
+    /**
+     * 得到用户认证中心信息
+     */
+    public static String getUserAuthCenter() {
+        return COMMONURI + "UserCenter/authCenter";
+    }
 }
