@@ -10,6 +10,7 @@
         android:background="@color/global_bg_white">
 
         <TextView
+            android:id="@+id/tv_auth_center_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -29,6 +30,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_auth_center_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -44,6 +46,11 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/xrecyclerview_auth_center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
