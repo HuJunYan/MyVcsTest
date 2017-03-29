@@ -116,7 +116,7 @@ public class NetBase {
                     String result = (String) responseInfo.result;
 //                    if (url != null && url.contains("bindVerifySms")) {
 //                        LogUtil.d("ret", "url = " + url + ";  result = " + result);
-                    LogUtil.d("ret", "url = " + url + ";  before handle result = " + result);
+//                    LogUtil.d("ret", "url = " + url + ";  before handle result = " + result);
                     int fristIntdex = result.indexOf("{");
                     int lastIntdex = result.lastIndexOf("}") + 1;
                     result = result.substring(fristIntdex, lastIntdex);
