@@ -107,7 +107,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private List<StatisticsRollDataBean> mStatisticsRollDataBeans; //滚动条得到的数据
     private List<String> mStatisticsRollDatas; //滚动条真实显示的数据
 
-    private int mCurrentIndex;
+    private int mCurrentIndex;//当前滚动条的位置
 
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
@@ -116,11 +116,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         public void handleMessage(Message message) {
             switch (message.what) {
                 case MSG_SHOW_TEXT:
-                    mCurrentIndex++;
-                    if (mCurrentIndex == mStatisticsRollDatas.size()) {
-                        mCurrentIndex = 0;
-                    }
-                    refreshTextSwitcherUI(mCurrentIndex);
+                    refreshTextSwitcherUI();
                     break;
             }
         }
@@ -310,7 +306,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void refreshUI() {
         refreshCardUI();
-        refreshTextSwitcherUI(mCurrentIndex);
+        refreshTextSwitcherUI();
         refreshLoanDayUI();
         refreshBubbleSeekBarUI();
     }
@@ -346,12 +342,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 刷新滚动条(恭喜 xxx借到了xxx元钱)
      */
-    private void refreshTextSwitcherUI(int index) {
+    private void refreshTextSwitcherUI() {
         if (mCurrentIndex == 0) {
-            tsHomeNews.setCurrentText(mStatisticsRollDatas.get(index));
+            //第一次不执行动画，立刻显示
+            tsHomeNews.setCurrentText(mStatisticsRollDatas.get(mCurrentIndex));
+        } else if (mCurrentIndex == mStatisticsRollDatas.size()) {
+            //跳回第一次
+            mCurrentIndex = 0;
+            tsHomeNews.setText(mStatisticsRollDatas.get(mCurrentIndex));
         } else {
-            tsHomeNews.setText(mStatisticsRollDatas.get(index));
+            //执行动画
+            tsHomeNews.setText(mStatisticsRollDatas.get(mCurrentIndex));
         }
+        mCurrentIndex++;
         mHandler.removeMessages(MSG_SHOW_TEXT);
         mHandler.sendEmptyMessageDelayed(MSG_SHOW_TEXT, SHOW_TEXT_TIME);
     }
