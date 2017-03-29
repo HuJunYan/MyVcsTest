@@ -6,6 +6,14 @@ public class AuthCenterItemBean {
     private String name;
     private int status;
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public int getDrawable_id() {
         return drawable_id;
     }
@@ -22,12 +30,5 @@ public class AuthCenterItemBean {
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
 }

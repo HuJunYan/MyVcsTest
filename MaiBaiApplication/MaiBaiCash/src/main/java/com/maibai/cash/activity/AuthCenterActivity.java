@@ -14,7 +14,17 @@ import com.maibai.cash.R;
 import com.maibai.cash.adapter.AuthCenterAdapter;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.model.AuthCenterItemBean;
+import com.maibai.cash.model.UserAuthCenterBean;
+import com.maibai.cash.model.UserConfig;
+import com.maibai.cash.net.api.GetUserAuthCenter;
+import com.maibai.cash.net.api.GetUserConfig;
+import com.maibai.cash.net.base.BaseNetCallBack;
+import com.maibai.cash.utils.LogUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -35,6 +45,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.xrecyclerview_auth_center)
     XRecyclerView xrecyclerviewAuthCenter;
 
+    private UserAuthCenterBean mUserAuthCenterBean;
     private ArrayList<AuthCenterItemBean> mAuthCenterItemBeans;
 
     public static final int MSG_CLICK_ITEM = 1;
@@ -52,6 +63,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     };
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initAuthCenterData();
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_auth_center;
     }
@@ -65,8 +82,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     protected void setListensers() {
         tvAuthCenterBack.setOnClickListener(this);
         tvAuthCenterPost.setOnClickListener(this);
-        mAuthCenterItemBeans = initXRecyclerviewData();
-        initXRecyclerview();
     }
 
     private void initXRecyclerview() {
@@ -102,30 +117,73 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     /**
+     * 得到用户认证信息
+     */
+    private void initAuthCenterData() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            GetUserAuthCenter getUserAuthCenter = new GetUserAuthCenter(mContext);
+            getUserAuthCenter.userAuthCenter(jsonObject, null, true, new BaseNetCallBack<UserAuthCenterBean>() {
+                @Override
+                public void onSuccess(UserAuthCenterBean paramT) {
+                    mUserAuthCenterBean = paramT;
+                    mAuthCenterItemBeans = initXRecyclerviewData();
+                    initXRecyclerview();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /**
      * 得到初始化数据(从本地得到)
      */
     private ArrayList<AuthCenterItemBean> initXRecyclerviewData() {
+
+        UserAuthCenterBean.Data mUserAuthCenterBeanData = mUserAuthCenterBean.getData();
+        int id_num = mUserAuthCenterBeanData.getId_num();
+        int userdetail_pass = mUserAuthCenterBeanData.getUserdetail_pass();
+        int contacts_pass = mUserAuthCenterBeanData.getContacts_pass();
+        int bankcard_pass = mUserAuthCenterBeanData.getBankcard_pass();
+        int china_mobile = mUserAuthCenterBeanData.getChina_mobile();
+
+
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
 
         AuthCenterItemBean authCenterItemBean0 = new AuthCenterItemBean();
         authCenterItemBean0.setName("身份认证");
         authCenterItemBean0.setDrawable_id(R.drawable.ic_auth_center_identity_item);
+        authCenterItemBean0.setStatus(id_num);
 
         AuthCenterItemBean authCenterItemBean1 = new AuthCenterItemBean();
         authCenterItemBean1.setName("个人信息");
         authCenterItemBean1.setDrawable_id(R.drawable.ic_auth_center_info_item);
+        authCenterItemBean1.setStatus(userdetail_pass);
 
         AuthCenterItemBean authCenterItemBean2 = new AuthCenterItemBean();
         authCenterItemBean2.setName("紧急联系人");
         authCenterItemBean2.setDrawable_id(R.drawable.ic_auth_center_urgent_item);
+        authCenterItemBean2.setStatus(contacts_pass);
 
         AuthCenterItemBean authCenterItemBean3 = new AuthCenterItemBean();
         authCenterItemBean3.setName("收款银行卡");
         authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
+        authCenterItemBean3.setStatus(bankcard_pass);
 
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
         authCenterItemBean4.setName("手机运营商");
         authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_phone_item);
+        authCenterItemBean4.setStatus(china_mobile);
 
         AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
         authCenterItemBean5.setName("更多信息可选填");

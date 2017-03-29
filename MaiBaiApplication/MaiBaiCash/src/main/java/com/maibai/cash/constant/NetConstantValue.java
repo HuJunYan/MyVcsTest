@@ -4,7 +4,7 @@ package com.maibai.cash.constant;
  * Created by zhangchi on 2016/6/14.
  */
 public class NetConstantValue {
-   // release
+    // release
 //    public static String COMMONURI = "http://qtqapi.9maibei.com/Home/";
 
     // test
@@ -19,19 +19,19 @@ public class NetConstantValue {
      * api: com.maibei.merchants.net.api.SignIn.signIn()
      *
      * @return
-     *
      */
     public static String getSignInUrl() {
         return COMMONURI + "UserCenter/signIn";
     }
 
 
-    public static String getUserLoginPro(){
+    public static String getUserLoginPro() {
         //用户注册协议
-        return COMMONURI+"Protocol/customerSignUp";
+        return COMMONURI + "Protocol/customerSignUp";
     }
-    public static String getServerURL(){
-        return COMMONURI+"Protocol/order";
+
+    public static String getServerURL() {
+        return COMMONURI + "Protocol/order";
     }
 
     /**
@@ -46,6 +46,7 @@ public class NetConstantValue {
     public static String getRedPackageUrl() {
         return COMMONURI + "Webapp/activity";
     }
+
     /**
      * 获取验证码
      * api: com.maibei.merchants.net.api.GetVerifyCode.getVerifyCode()
@@ -285,122 +286,121 @@ public class NetConstantValue {
     * 微信支付下单
     * api:com.maibei.user.net.api.GetWeChatOrder.getWeChatOrder()
     * */
-    public static String getWeChatOrderURl(){
-        return COMMONURI+"Pay/wxpayConfirm";
+    public static String getWeChatOrderURl() {
+        return COMMONURI + "Pay/wxpayConfirm";
     }
 
     /*
     * 获取用户当前认证信息
     * api:com.maibei.user.net.api.GetCustomerAuth.getCustomerAuth()
     * */
-    public static String getCustomerAuthURl(){
-        return COMMONURI+"Credit/getCustomerAuth";
+    public static String getCustomerAuthURl() {
+        return COMMONURI + "Credit/getCustomerAuth";
     }
 
     /*
     * 获取提升额度界面显示列表状态
     *api:com.maibei.user.net.api.GetAuthListStatus.getAuthList()
     * */
-    public static String getAuthListURL(){
-        return COMMONURI+"Credit/getAuthList";
+    public static String getAuthListURL() {
+        return COMMONURI + "Credit/getAuthList";
     }
-
 
 
     /*
      * 上传联系人信息
      *api:com.maibei.user.net.api.UploadContactsInfo.uploadContactsInfo()
     * */
-    public static String getUploadContactsInfoURL(){
-        return COMMONURI+"Credit/uploadContactsInfo";
+    public static String getUploadContactsInfoURL() {
+        return COMMONURI + "Credit/uploadContactsInfo";
     }
 
     /*
     * 获取联系人信息
     *api:com.maibei.user.net.api.GetContactsInfo.getContactsInfo()
     * */
-    public static String getGetContactsInfoURL(){
-        return COMMONURI+"Credit/getContactsInfo";
+    public static String getGetContactsInfoURL() {
+        return COMMONURI + "Credit/getContactsInfo";
     }
 
     /*
     * 修改联系人信息
     *api:com.maibei.user.net.api.ChangeContactsInfo.changeContactsInfo()
     * */
-    public static String getChangeContactsInfoURL(){
-        return COMMONURI+"Credit/changeContactsInfo";
+    public static String getChangeContactsInfoURL() {
+        return COMMONURI + "Credit/changeContactsInfo";
     }
 
     /*
     * 获取提现账单
     *api:com.maibei.user.net.api.GetWithdrawalsBill.getWithdrawalsBill()
     * */
-    public static String getGetWithdrawalsBillURL(){
-        return COMMONURI+"UserCenter/getWithdrawalsBill";
+    public static String getGetWithdrawalsBillURL() {
+        return COMMONURI + "UserCenter/getWithdrawalsBill";
     }
 
     /*
     * 提现账单还款
     *api:com.maibei.user.net.api.RepayWithdrawals.repayWithdrawals()
     * */
-    public static String getRepayWithdrawalsURL(){
-        return COMMONURI+"UserCenter/repayWithdrawals";
+    public static String getRepayWithdrawalsURL() {
+        return COMMONURI + "UserCenter/repayWithdrawals";
     }
 
     /*
     * 提现产品选择
     *api:com.maibei.user.net.api.SelWithdrawals.selWithdrawals()
     * */
-    public static String getSelWithdrawalsURL(){
-        return COMMONURI+"WithdrawalsOrder/selWithdrawals";
+    public static String getSelWithdrawalsURL() {
+        return COMMONURI + "WithdrawalsOrder/selWithdrawals";
     }
 
     /*
     * 现金贷申请
     *api:com.maibei.user.net.api.WithdrawalsApply.withdrawalsApply()
     * */
-    public static String getWithdrawalsApplyURL(){
-        return COMMONURI+"WithdrawalsOrder/withdrawalsApply";
+    public static String getWithdrawalsApplyURL() {
+        return COMMONURI + "WithdrawalsOrder/withdrawalsApply";
     }
 
     /*
     * 提现待审核刷新
     *api:com.maibei.user.net.api.WithdrawalsRefresh.withdrawalsRefresh()
     * */
-    public static String getWithdrawalsRefreshURL(){
-        return COMMONURI+"WithdrawalsOrder/withdrawalsRefresh";
+    public static String getWithdrawalsRefreshURL() {
+        return COMMONURI + "WithdrawalsOrder/withdrawalsRefresh";
     }
 
     /*
     * 现金贷提现下单
     *api:com.maibei.user.net.api.WithdrawalsOrder.withdrawalsOrder()
     * */
-    public static String getWithdrawalsOrderURL(){
-        return COMMONURI+"WithdrawalsOrder/withdrawalsOrder";
+    public static String getWithdrawalsOrderURL() {
+        return COMMONURI + "WithdrawalsOrder/withdrawalsOrder";
     }
 
     /*
     * 获取提现账单详情
     *api:com.maibei.user.net.api.GetWithdrawalsBillInfo.getWithdrawalsBillInfo()
     * */
-    public static String getWithdrawalsBillInfoURL(){
-        return COMMONURI+"UserCenter/GetWithdrawalsBillInfo";
+    public static String getWithdrawalsBillInfoURL() {
+        return COMMONURI + "UserCenter/GetWithdrawalsBillInfo";
     }
 
     /*
     * 获取取现记录
     *api:com.maibei.user.net.api.GetWithdrawalsRecord.getWithdrawalsRecord()
     * */
-    public static String getWithdrawalsRecordURL(){
-        return COMMONURI+"UserCenter/getWithdrawalsRecord";
+    public static String getWithdrawalsRecordURL() {
+        return COMMONURI + "UserCenter/getWithdrawalsRecord";
     }
 
     /*
     * 现金贷审核通过的确认
     *api:com.maibei.user.net.api.CashVerifyConfirm.cashVerifyConfirm()
     * */
-    public static String getCashVerifyConfirmURL(){
-        return COMMONURI+"UserCenter/cashVerifyConfirm";
+    public static String getCashVerifyConfirmURL() {
+        return COMMONURI + "UserCenter/cashVerifyConfirm";
     }
 
 
@@ -408,8 +408,8 @@ public class NetConstantValue {
     * 日志上传接口
     * api:com.maibei.merchants.net.api.UploadLog.uploadLog()
     * */
-    public static String getUploadLogUrl(){
-        return COMMONURI+"UserCenter/uploadUserLog";
+    public static String getUploadLogUrl() {
+        return COMMONURI + "UserCenter/uploadUserLog";
 //        return COMMONURI + "MerchantCRO/merchantUploadImage";
 //        return "http://192.168.31.178:8080/UploadFileServer/upload";
     }
@@ -419,8 +419,8 @@ public class NetConstantValue {
     * 分期消费等待审核界面使用
     *
     * */
-    public static String getAgainUrl(){
-        return COMMONURI+"Credit/creditMobile";
+    public static String getAgainUrl() {
+        return COMMONURI + "Credit/creditMobile";
     }
 
     /**
@@ -432,12 +432,10 @@ public class NetConstantValue {
 
 
     /**
-     *
-     *
      * 决策拒绝通知后台
      */
-    public static String getRecordPopupTimeUrl(){
-        return COMMONURI+"Customer/RecordPopupTimes";
+    public static String getRecordPopupTimeUrl() {
+        return COMMONURI + "Customer/RecordPopupTimes";
     }
 
     /**
@@ -450,7 +448,7 @@ public class NetConstantValue {
     /**
      * 得到用户认证中心信息
      */
-    public static String getUserAuthCenter() {
+    public static String getUserAuthCenterUrl() {
         return COMMONURI + "UserCenter/authCenter";
     }
 }

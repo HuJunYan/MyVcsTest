@@ -6,12 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,12 +57,12 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
             viewHolder.tv_auth_center_status_item.setCompoundDrawables(null, null, drawable, null);//设置TextView的drawable的位置(右边)
             viewHolder.tv_auth_center_status_item.setCompoundDrawablePadding(15);//设置图片和text之间的间距
         } else {
-            if (status == 0) {//没有认证
+            if (0 == status) {//没有认证
                 viewHolder.tv_auth_center_status_item.setText("待填写");
-                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_green));
+                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_orange));
             } else {
                 viewHolder.tv_auth_center_status_item.setText("已认证");
-                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_orange));
+                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_green));
             }
             Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_arraw_right);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
