@@ -1,11 +1,7 @@
 package com.maibai.cash.fragment;
 
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,11 +19,11 @@ import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.GetUserConfig;
 import com.maibai.cash.net.api.SelWithdrawals;
 import com.maibai.cash.net.base.BaseNetCallBack;
-import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.StringUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
-import com.maibai.cash.view.BubbleSeekBar;
+import com.maibai.cash.view.MinMaxSeekBar;
+import com.maibai.cash.view.SeekBarStepException;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
@@ -38,8 +34,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -55,8 +49,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView tvHomeTianshenCardNum;
     @BindView(R.id.tv_home_tianshen_card_renzheng)
     TextView tvHomeTianshenCardRenzheng;
-    @BindView(R.id.bubble_seekbar_home)
-    BubbleSeekBar bubbleSeekbarHome;
     @BindView(R.id.tv_loan_num_key)
     TextView tvLoanNumKey;
     @BindView(R.id.tv_loan_num_value)
@@ -81,6 +73,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlHomeTianshenCard;
     @BindView(R.id.tv_home_apply)
     TextView tvHomeApply;
+    @BindView(R.id.min_max_sb)
+    MinMaxSeekBar minMaxSb;
+    @BindView(R.id.tv_home_min_sb)
+    TextView tvHomeMinSb;
+    @BindView(R.id.tv_home_max_sb)
+    TextView tvHomeMaxSb;
 
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
@@ -103,7 +101,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlHomeTianshenCard.setOnClickListener(this);
         rlLoanDay.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
-        bubbleSeekbarHome.setOnProgressChangedListener(new MyOnProgressChangedListenerAdapter());
+
+        minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
     @Override
@@ -250,13 +249,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         int unitInt = Integer.valueOf(unit) / 100;
 
-        //得到seekBar分成几份
-        int sectionCount = (max_cashInt - unitInt) / unitInt;
-        bubbleSeekbarHome.getConfigBuilder()
-                .min(unitInt)
-                .max(max_cashInt)
-                .sectionCount(sectionCount)
-                .build();
+        try {
+            minMaxSb.setMaxMin(max_cashInt, unitInt, unitInt);
+        } catch (SeekBarStepException e) {
+            e.printStackTrace();
+        }
+        tvHomeMinSb.setText(unitInt + "元");
+        tvHomeMaxSb.setText(max_cashInt + "元");
     }
 
     /**
@@ -300,6 +299,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tvProceduresValue.setText(procedures + " 元");
             }
         }
+
     }
 
     /**
@@ -343,30 +343,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 滑动条监听
+     * seekbar滑动监听
      */
-    private class MyOnProgressChangedListenerAdapter extends BubbleSeekBar.OnProgressChangedListenerAdapter {
-
-        private int mProgress = 0;
+    private class MyOnMinMaxSeekBarChangeListener implements MinMaxSeekBar.OnMinMaxSeekBarChangeListener {
 
         @Override
-        public void onProgressChanged(int progress, float progressFloat) {
-            if (mProgress != progress) {
-                refreshLoanNumUI(progress);
-                mProgress = progress;
-            }
+        public void onProgressChanged(float progress) {
+            refreshLoanNumUI((int) progress);
         }
 
         @Override
-        public void getProgressOnActionUp(int progress, float progressFloat) {
+        public void onStartTrackingTouch(float progress) {
+
         }
 
         @Override
-        public void getProgressOnFinally(int progress, float progressFloat) {
-            if (mProgress != progress) {
-                refreshLoanNumUI(progress);
-                mProgress = progress;
-            }
+        public void onStopTrackingTouch(float progress) {
+            refreshLoanNumUI((int) progress);
         }
     }
 

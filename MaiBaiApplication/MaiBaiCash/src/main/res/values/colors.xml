@@ -50,7 +50,7 @@
     <color name="stages_type_gray_color">#FFE3E4E6</color>
     <color name="stages_type_nomal_color">#FFE5E5E5</color>
     <color name="seek_bar_progress">#ff9d00</color>
-    <color name="seek_background">#ffdb79</color>
+    <color name="seek_background">#e2d8bf</color>
     <color name="text_yellow">#FFFDF900</color>
     <color name="withdr_success_back">#FF47A3FF</color>
     <color name="borrow_bill_detail_textColor_gray">#FF8F8F8F</color>
@@ -72,6 +72,8 @@
     <color name="global_txt_green">#5fbb14</color>
     <color name="global_txt_black1">#000000</color>
     <color name="global_txt_black2">#555555</color>
+    <color name="global_txt_black3">#888888</color>
+
 
     <!--全局分割线颜色-->
     <color name="global_line_bg">#e0e0e0</color>
