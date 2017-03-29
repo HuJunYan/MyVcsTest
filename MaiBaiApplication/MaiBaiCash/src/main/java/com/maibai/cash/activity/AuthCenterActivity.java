@@ -1,8 +1,10 @@
 package com.maibai.cash.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.TextView;
@@ -72,6 +74,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         xrecyclerviewAuthCenter.setLayoutManager(layoutManager);
+        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.item_divider);
+        xrecyclerviewAuthCenter.addItemDecoration(xrecyclerviewAuthCenter.new DividerItemDecoration(dividerDrawable));
         xrecyclerviewAuthCenter.setLoadingMoreEnabled(false);
         xrecyclerviewAuthCenter.setPullRefreshEnabled(false);
         AuthCenterAdapter mAdapter = new AuthCenterAdapter(mContext, mAuthCenterItemBeans, mHandler);
