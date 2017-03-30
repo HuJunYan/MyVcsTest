@@ -4,13 +4,10 @@ package com.tianshen.cash.constant;
  * Created by zhangchi on 2016/6/14.
  */
 public class NetConstantValue {
-   // release
-//    public static String COMMONURI = "http://qtqapi.9maibei.com/Home/";
-
+    // release
+    public static String COMMONURI = "http://tsdapi.9maibei.com/Home/";
     // test
-//    public static String COMMONURI = "http://dev.qtqapi.9maibei.com/Home/";
-
-    public static String COMMONURI = "http://118.190.83.21/Home/";
+//    public static String COMMONURI = "http://118.190.83.21/Home/";
 
     /**
      * 用户登录
@@ -38,7 +35,7 @@ public class NetConstantValue {
      * @return true 代表正式服务器，false代表测试服务器
      */
     public static boolean checkIsReleaseService() {
-        return "http://qtqapi.9maibei.com/Home/".equals(COMMONURI);
+        return "http://tsdapi.9maibei.com/Home/".equals(COMMONURI);
     }
 
     public static String getRedPackageUrl() {
