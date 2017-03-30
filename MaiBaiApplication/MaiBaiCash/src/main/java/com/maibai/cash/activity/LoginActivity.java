@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,22 +16,23 @@ import com.baidu.location.BDLocation;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.constant.GlobalParams;
-import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
-import com.maibai.cash.model.SignInBean;
+import com.maibai.cash.event.LoginSuccessEvent;
 import com.maibai.cash.model.TianShenLoginBean;
+import com.maibai.cash.model.User;
 import com.maibai.cash.net.api.SignIn;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LocationUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.RegexUtil;
-import com.maibai.cash.utils.SendBroadCastUtil;
 import com.maibai.cash.utils.SharedPreferencesUtil;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.view.ChangeInterface;
 import com.maibai.cash.view.MyLoginEditText;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -208,12 +210,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             json.put("device_id", mUniqueId);
             json.put("mobile", mobile);
             json.put("password", password);
-            String push_id = SharedPreferencesUtil.getInstance(mContext).getString(GlobalParams.JPUSH_ID_KEY);
-            if (null == push_id || "".equals(push_id)) {
-                push_id = JPushInterface.getRegistrationID(mContext);
+
+            String jpushId = TianShenUserUtil.getUserJPushId(mContext);
+            if (TextUtils.isEmpty(jpushId)) {
+                jpushId = JPushInterface.getRegistrationID(mContext);
             }
-            json.put("push_id", push_id);
-            final String finalPush_id = push_id;
+            json.put("push_id", jpushId);
+            final String finalJpushId = jpushId;
             mSignIn.signIn(json, bt_login, true, new BaseNetCallBack<TianShenLoginBean>() {
                 @Override
                 public void onSuccess(TianShenLoginBean paramT) {
@@ -232,6 +235,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
 //                    //Todo
 //                    backActivity();
+
+                    Set<String> tags = new HashSet<>();
+                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
+                    if (bdLocation != null) {
+                        tags.add(bdLocation.getCityCode());
+                        tags.add(bdLocation.getCountryCode());
+                        tags.add(bdLocation.getProvince());
+                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
+                    }
+
+                    //保存用户信息
+                    User user = new User();
+                    user.setToken(paramT.getData().getToken());
+                    user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
+                    user.setJpush_id(finalJpushId);
+                    TianShenUserUtil.saveUser(mContext, user);
+
+                    EventBus.getDefault().post(new LoginSuccessEvent());
+
+
                 }
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
@@ -261,7 +284,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 收到了在注册页面登录成功的消息
      */
     @Subscribe
-    public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+    public void onLoginSuccess(LoginSuccessEvent event) {
         backActivity();
     }
 }

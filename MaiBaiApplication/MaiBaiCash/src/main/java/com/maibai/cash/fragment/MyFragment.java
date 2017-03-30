@@ -28,7 +28,6 @@ import com.maibai.cash.activity.SettingActivity;
 import com.maibai.cash.activity.WithdrawalsBillActivity;
 import com.maibai.cash.base.BaseFragment;
 import com.maibai.cash.constant.GlobalParams;
-import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
 import com.maibai.cash.model.MineBean;
 import com.maibai.cash.model.MineCardInfoBean;
 import com.maibai.cash.net.api.Mine;

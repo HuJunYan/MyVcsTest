@@ -1,13 +1,10 @@
 package com.maibai.cash.fragment;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -20,12 +17,10 @@ import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
-import com.maibai.cash.activity.AddBankCardActivity;
 import com.maibai.cash.activity.AuthCenterActivity;
 import com.maibai.cash.activity.LoginActivity;
-import com.maibai.cash.adapter.PrompAdapter;
 import com.maibai.cash.base.BaseFragment;
-import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
+import com.maibai.cash.event.LoginSuccessEvent;
 import com.maibai.cash.model.CashSubItemBean;
 import com.maibai.cash.model.SelWithdrawalsBean;
 import com.maibai.cash.model.StatisticsRollBean;
@@ -51,8 +46,6 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -506,7 +499,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 收到了在注册页面登录成功的消息
      */
     @Subscribe
-    public void onRegisterAndLoginSuccess(RegisterAndLoginSuccessEvent event) {
+    public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
         initUserConfig();
     }
 

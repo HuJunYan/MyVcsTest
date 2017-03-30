@@ -13,8 +13,7 @@ import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.base.MyApplication;
 import com.maibai.cash.constant.GlobalParams;
-import com.maibai.cash.event.RegisterAndLoginSuccessEvent;
-import com.maibai.cash.model.SignInBean;
+import com.maibai.cash.event.LoginSuccessEvent;
 import com.maibai.cash.model.SignUpBean;
 import com.maibai.cash.model.TianShenLoginBean;
 import com.maibai.cash.model.User;
@@ -27,7 +26,6 @@ import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LocationUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.RegexUtil;
-import com.maibai.cash.utils.SendBroadCastUtil;
 import com.maibai.cash.utils.SharedPreferencesUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
@@ -38,7 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -231,7 +228,7 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
 //                    backActivity();
 
                     SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, push_id);
-                    Set<String> tags = new HashSet<String>();
+                    Set<String> tags = new HashSet<>();
                     BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
                     if (bdLocation != null) {
                         tags.add(bdLocation.getCityCode());
@@ -247,7 +244,7 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                     user.setJpush_id(push_id);
                     TianShenUserUtil.saveUser(mContext, user);
 
-                    EventBus.getDefault().post(new RegisterAndLoginSuccessEvent());
+                    EventBus.getDefault().post(new LoginSuccessEvent());
                     backActivity();
                 }
 
