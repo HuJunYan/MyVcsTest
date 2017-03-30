@@ -9,17 +9,17 @@ android {
         minSdkVersion 17
         targetSdkVersion 22
         versionCode 101
-        versionName "1.0.1"
+        versionName "1.0.0"
         multiDexEnabled true
         resConfigs "zh","en"
     }
     signingConfigs {
         releaseConfig {
-            keyAlias 'maibeicash'
-            keyPassword 'maibei2016'
+//            keyAlias 'maibeicash'
+//            keyPassword 'maibei2016'
 //            storeFile file('/Users/crslljj/workspace/maibeiWorkspace/MaiBai/doc/jks/maibei_cash/maibeicash.jks')
-            storeFile file('../../doc/jks/maibei_cash/maibeicash.jks')
-            storePassword 'maibei2016'
+//            storeFile file('../../doc/jks/maibei_cash/maibeicash.jks')
+//            storePassword 'maibei2016'
         }
     }
     buildTypes {
@@ -45,7 +45,7 @@ android {
             def oldFile = output.outputFile
             def newName = '';
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'TianShenCash' + '_' + variant.productFlavors[0].name + '_r1.0.1_201701172325_release.apk'
+                def releaseApkName = 'TianShenCash' + '_' + variant.productFlavors[0].name + '_r1.0.0_release.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
