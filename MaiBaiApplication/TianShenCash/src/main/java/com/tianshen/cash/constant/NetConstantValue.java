@@ -5,9 +5,9 @@ package com.tianshen.cash.constant;
  */
 public class NetConstantValue {
     // release
-    public static String COMMONURI = "http://tsdapi.9maibei.com/Home/";
+//    public static String COMMONURI = "http://tsdapi.9maibei.com/Home/";
     // test
-//    public static String COMMONURI = "http://118.190.83.21/Home/";
+    public static String COMMONURI = "http://118.190.83.21/Home/";
 
     /**
      * 用户登录
