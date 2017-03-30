@@ -71,17 +71,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="VFZUIVXcnUH2mWXNWmgshMykQcx0znL1" />
+
         <meta-data
             android:name="PARTNER_CODE"
             android:value="9maibei" />
 
+        <!-- baidu(百度地图) start -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="yWO1GjAHCVrOhjcNVRub7D7zZ06QAUh6" />
+        <!-- baidu(百度地图) end -->
 
         <activity
             android:name=".activity.NavigationActivity"
