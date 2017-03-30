@@ -49,7 +49,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="com.tianshen.cash.permission.JPUSH_MESSAGE" />
+
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -60,9 +60,6 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <permission
-        android:name="com.tianshen.cash.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
 
     <application
         android:name=".base.MyApplication"
@@ -75,17 +72,6 @@
         <meta-data
             android:name="PARTNER_CODE"
             android:value="9maibei" />
-
-        <!-- baidu(百度地图) start -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote" />
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="yWO1GjAHCVrOhjcNVRub7D7zZ06QAUh6" />
-        <!-- baidu(百度地图) end -->
 
         <activity
             android:name=".activity.NavigationActivity"
@@ -169,6 +155,91 @@
             android:name=".activity.AboutMaibeiActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.MyBankCardActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.InputVerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisteActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
+        <!-- 芝麻信用 -->
+        <activity
+            android:name="com.android.moblie.zmxy.antgroup.creditsdk.app.SDKActivity"
+            android:label="芝麻信用"
+            android:screenOrientation="portrait" />
+
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".activity.RePayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AuthenticationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangePwdSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginWaitVerifyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ConsumptionRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VerifyFailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VerifySuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawalsOrBillDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContactsInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangeMyInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawalsBillActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawalsConfirmActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawalsSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BorrowRepayActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.UploadLogService"
+            android:exported="false" />
+
+        <!-- jpush(极光推送) start -->
+        <uses-permission android:name="com.tianshen.cash.permission.JPUSH_MESSAGE" />
+        <permission
+            android:name="com.tianshen.cash.permission.JPUSH_MESSAGE"
+            android:protectionLevel="signature" />
         <!-- Required SDK 核心功能 -->
         <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
         <!-- 如：android:process=":remote" -->
@@ -260,7 +331,19 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="460548cc2a627362ea4da52f" />
+            android:value="18b3e0866fb0af8e4c546faf" />
+        <!-- jpush(极光推送) end -->
+
+        <!-- baidu(百度地图) start -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="yWO1GjAHCVrOhjcNVRub7D7zZ06QAUh6" />
+        <!-- baidu(百度地图) end -->
 
         <!-- umeng(友盟) start -->
         <meta-data
@@ -271,95 +354,6 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
         <!-- umeng  end -->
-
-        <activity
-            android:name=".activity.MyBankCardActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.InputVerificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RegisteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
-        <!-- 芝麻信用 -->
-        <activity
-            android:name="com.android.moblie.zmxy.antgroup.creditsdk.app.SDKActivity"
-            android:label="芝麻信用"
-            android:screenOrientation="portrait" />
-
-        <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <activity
-            android:name=".activity.RePayActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.AuthenticationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ChangePwdSelectActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.LoginWaitVerifyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ConsumptionRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.VerifyFailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.VerifySuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsOrBillDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ContactsInfoActivity"
-            android:screenOrientation="portrait">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
-        <activity
-            android:name=".activity.MyInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ChangeMyInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsBillActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsConfirmActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.BorrowRepayActivity"
-            android:screenOrientation="portrait" />
-
-        <service
-            android:name=".service.UploadLogService"
-            android:exported="false" />
 
     </application>
 
