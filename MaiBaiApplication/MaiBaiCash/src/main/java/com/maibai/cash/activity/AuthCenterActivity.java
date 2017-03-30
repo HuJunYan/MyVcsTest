@@ -150,12 +150,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private ArrayList<AuthCenterItemBean> initXRecyclerviewData() {
 
-        UserAuthCenterBean.Data mUserAuthCenterBeanData = mUserAuthCenterBean.getData();
-        int id_num = mUserAuthCenterBeanData.getId_num();
-        int userdetail_pass = mUserAuthCenterBeanData.getUserdetail_pass();
-        int contacts_pass = mUserAuthCenterBeanData.getContacts_pass();
-        int bankcard_pass = mUserAuthCenterBeanData.getBankcard_pass();
-        int china_mobile = mUserAuthCenterBeanData.getChina_mobile();
+        UserAuthCenterBean.DataBean data = mUserAuthCenterBean.getData();
+        String id_num = data.getId_num();
+        String userdetail_pass = data.getUserdetail_pass();
+        String contacts_pass = data.getContacts_pass();
+        String bankcard_pass = data.getBankcard_pass();
+        String china_mobile = data.getChina_mobile();
 
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();

@@ -3,15 +3,22 @@ package com.maibai.cash.model;
 
 public class UserAuthCenterBean {
 
-    private int code;
-    private String msg;
-    private Data data;
 
-    public int getCode() {
+    /**
+     * code : 0
+     * msg : 成功
+     * data : {"id_num":"1","contacts_pass":"0","bankcard_pass":"0","china_mobile":"0","userdetail_pass":"0","china_mobile_url":"url"}
+     */
+
+    private String code;
+    private String msg;
+    private DataBean data;
+
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -23,70 +30,77 @@ public class UserAuthCenterBean {
         this.msg = msg;
     }
 
-    public Data getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
-    public class Data {
+    public static class DataBean {
+        /**
+         * id_num : 1
+         * contacts_pass : 0
+         * bankcard_pass : 0
+         * china_mobile : 0
+         * userdetail_pass : 0
+         * china_mobile_url : url
+         */
 
-        private int id_num;//身份证认证0:没有认证；1:已经认证”,
-        private int userdetail_pass;//用户详情认证
-        private int contacts_pass;//联系人认证
-        private int bankcard_pass;//银行认证
-        private int china_mobile;//运营商认证
-        private int china_mobile_url;//运营商认证地址,如果is_china_mobile_credit＝1，返回空”
+        private String id_num;
+        private String contacts_pass;
+        private String bankcard_pass;
+        private String china_mobile;
+        private String userdetail_pass;
+        private String china_mobile_url;
 
-        public int getId_num() {
+        public String getId_num() {
             return id_num;
         }
 
-        public void setId_num(int id_num) {
+        public void setId_num(String id_num) {
             this.id_num = id_num;
         }
 
-        public int getUserdetail_pass() {
-            return userdetail_pass;
-        }
-
-        public void setUserdetail_pass(int userdetail_pass) {
-            this.userdetail_pass = userdetail_pass;
-        }
-
-        public int getContacts_pass() {
+        public String getContacts_pass() {
             return contacts_pass;
         }
 
-        public void setContacts_pass(int contacts_pass) {
+        public void setContacts_pass(String contacts_pass) {
             this.contacts_pass = contacts_pass;
         }
 
-        public int getBankcard_pass() {
+        public String getBankcard_pass() {
             return bankcard_pass;
         }
 
-        public void setBankcard_pass(int bankcard_pass) {
+        public void setBankcard_pass(String bankcard_pass) {
             this.bankcard_pass = bankcard_pass;
         }
 
-        public int getChina_mobile() {
+        public String getChina_mobile() {
             return china_mobile;
         }
 
-        public void setChina_mobile(int china_mobile) {
+        public void setChina_mobile(String china_mobile) {
             this.china_mobile = china_mobile;
         }
 
-        public int getChina_mobile_url() {
+        public String getUserdetail_pass() {
+            return userdetail_pass;
+        }
+
+        public void setUserdetail_pass(String userdetail_pass) {
+            this.userdetail_pass = userdetail_pass;
+        }
+
+        public String getChina_mobile_url() {
             return china_mobile_url;
         }
 
-        public void setChina_mobile_url(int china_mobile_url) {
+        public void setChina_mobile_url(String china_mobile_url) {
             this.china_mobile_url = china_mobile_url;
         }
-
     }
 }

@@ -43,7 +43,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
         AuthCenterItemBean authCenterItemBean = mAuthCenterItemBeans.get(position);
         String name = authCenterItemBean.getName();
         int drawable_id = authCenterItemBean.getDrawable_id();
-        int status = authCenterItemBean.getStatus();//0没有认证，1已经认证
+        String status = authCenterItemBean.getStatus();//0没有认证，1已经认证
 
         viewHolder.tv_auth_center_name_item.setText(name);
         viewHolder.iv_auth_center_item.setImageDrawable(mContext.getResources().getDrawable(drawable_id));
@@ -57,7 +57,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
             viewHolder.tv_auth_center_status_item.setCompoundDrawables(null, null, drawable, null);//设置TextView的drawable的位置(右边)
             viewHolder.tv_auth_center_status_item.setCompoundDrawablePadding(15);//设置图片和text之间的间距
         } else {
-            if (0 == status) {//没有认证
+            if ("0".equals(status)) {//没有认证
                 viewHolder.tv_auth_center_status_item.setText("待填写");
                 viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_orange));
             } else {

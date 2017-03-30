@@ -4,13 +4,13 @@ public class AuthCenterItemBean {
 
     private int drawable_id;
     private String name;
-    private int status;
+    private String status;
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
