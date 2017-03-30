@@ -35,7 +35,6 @@ import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.StringUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.view.MinMaxSeekBar;
-import com.maibai.cash.view.SeekBarStepException;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
@@ -380,7 +379,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         try {
             minMaxSb.setMaxMin(max_cashInt, unitInt, unitInt);
             minMaxSb.setCurrentProgress(unitInt);
-        } catch (SeekBarStepException e) {
+        } catch (MinMaxSeekBar.SeekBarStepException e) {
             e.printStackTrace();
         }
         tvHomeMinSb.setText(unitInt + "元");

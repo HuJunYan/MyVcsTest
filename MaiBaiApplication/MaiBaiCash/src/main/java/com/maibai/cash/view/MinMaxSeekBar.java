@@ -7,7 +7,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
  * 带最小最大及刻度的SeekBar
- * <p>
  * Created by ERIC on 11/03/2015.
  */
 public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
@@ -143,4 +142,11 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
         return mStep;
     }
 
+    public class SeekBarStepException extends Exception {
+
+        // public void
+        public SeekBarStepException(String message) {
+            super(message);
+        }
+    }
 }
