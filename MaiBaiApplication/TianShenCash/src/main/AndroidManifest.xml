@@ -258,19 +258,15 @@
             android:name="JPUSH_APPKEY"
             android:value="460548cc2a627362ea4da52f" />
 
-
-        <!--测试服appkey-->
-       <!-- <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="586f12b5f29d98014100161e" />-->
-        <!-- umeng 正式服 begin -->
+        <!-- umeng(友盟) start -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="586f129e75ca356c95001555" />
-        <!-- umeng 正式服 end -->
+            android:value="58d8d84f04e2055475001ba2" />
+
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
+        <!-- umeng  end -->
 
         <activity
             android:name=".activity.MyBankCardActivity"
