@@ -60,6 +60,11 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <uses-permission android:name="com.tianshen.cash.permission.JPUSH_MESSAGE" />
+
+    <permission
+        android:name="com.tianshen.cash.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
 
     <application
         android:name=".base.MyApplication"
@@ -236,10 +241,6 @@
             android:exported="false" />
 
         <!-- jpush(极光推送) start -->
-        <uses-permission android:name="com.tianshen.cash.permission.JPUSH_MESSAGE" />
-        <permission
-            android:name="com.tianshen.cash.permission.JPUSH_MESSAGE"
-            android:protectionLevel="signature" />
         <!-- Required SDK 核心功能 -->
         <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
         <!-- 如：android:process=":remote" -->
