@@ -21,6 +21,7 @@ import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.utils.VersionUtil;
 import com.maibai.cash.utils.ViewUtil;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.entity.StringEntity;
@@ -95,6 +96,8 @@ public class NetBase {
         StringEntity mStringEntity = null;
         try {
             LogUtil.d("ret", "url = " + url + ";  json = " + objectRoot.toString());
+            Logger.i("上行url-->" + url);
+            Logger.json(objectRoot.toString());
             mStringEntity = new StringEntity(objectRoot.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e1) {
             MobclickAgent.reportError(this.mContext, LogUtil.getException(e1));
@@ -122,6 +125,8 @@ public class NetBase {
                     result = result.substring(fristIntdex, lastIntdex);
 //                    }
                     LogUtil.d("ret", "url = " + url + ";  after handle result = " + result);
+                    Logger.i("下行onSuccess");
+                    Logger.json(result);
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
                     } else {
@@ -145,6 +150,9 @@ public class NetBase {
                     view.setEnabled(true);
                 }
                 LogUtil.d("ret", "failed: url = " + url + " ; m = " + m + "--ExceptionCode-->" + e.getExceptionCode());
+                Logger.d("下行failed");
+                Logger.d(e);
+                Logger.d(m);
                 callBack.onFailure("", -3, -1000);
                 DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
                 ViewUtil.cancelLoadingDialog();

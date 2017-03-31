@@ -10,7 +10,9 @@ import android.graphics.Typeface;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.maibai.cash.constant.NetConstantValue;
-
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
+import com.maibai.cash.adapter.AndroidLogAdapter;
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
 
@@ -41,6 +43,8 @@ public class MyApplication extends Application {
 		JPushInterface.init(this); // 初始化 JPush
 //		LogUtil.autoSetDebugOrReleaseMode(MyApplication.this);
 //		GsonUtil.init(MyApplication.this);
+
+        initLogger();
     }
 
     @Override
@@ -97,5 +101,15 @@ public class MyApplication extends Application {
 
     public ArrayList<Activity> getAllActivities() {
         return mTempActivity;
+    }
+
+    private void initLogger() {
+        Logger
+                .init("abc")                 // default PRETTYLOGGER or use just init()
+                .methodCount(0)                 // default 2
+                .hideThreadInfo()               // default shown
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+                .methodOffset(0)                // default 0
+                .logAdapter(new AndroidLogAdapter()); //default AndroidLogAdapter
     }
 }
