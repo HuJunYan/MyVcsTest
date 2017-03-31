@@ -358,7 +358,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.IdentityAuthActivity"
+            android:name=".activity.AuthIdentityActivity"
             android:screenOrientation="portrait" />
 
         <activity

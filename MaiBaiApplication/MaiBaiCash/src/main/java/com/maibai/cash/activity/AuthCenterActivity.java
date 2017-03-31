@@ -15,11 +15,8 @@ import com.maibai.cash.adapter.AuthCenterAdapter;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.model.AuthCenterItemBean;
 import com.maibai.cash.model.UserAuthCenterBean;
-import com.maibai.cash.model.UserConfig;
 import com.maibai.cash.net.api.GetUserAuthCenter;
-import com.maibai.cash.net.api.GetUserConfig;
 import com.maibai.cash.net.base.BaseNetCallBack;
-import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 
@@ -29,7 +26,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 用户认证中心页面
@@ -116,7 +112,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         switch (position) {
             case 0:
                 //跳转到身份认证
-                gotoActivity(mContext, IdentityAuthActivity.class, null);
+                gotoActivity(mContext, AuthIdentityActivity.class, null);
                 break;
         }
     }
