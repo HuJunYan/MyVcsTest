@@ -58,6 +58,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
+import com.tianshen.cash.view.MinMaxSeekBar;
 import com.tianshen.cash.view.MyGridView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -90,7 +91,8 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
 
 
     private Button bt_apply_quota;
-    private SeekBar sb_quota; //滑动条
+//    private SeekBar sb_quota; //滑动条
+    private MinMaxSeekBar min_max_sb;
     private MyGridView mgv_repay_time; //借款期限
     private ListView lv_promt; //顶部滚动条
 
@@ -194,7 +196,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
         tv_repay_amount_month1 = (TextView) rootView.findViewById(R.id.tv_repay_amount_month1);
         mgv_repay_time = (MyGridView) rootView.findViewById(R.id.mgv_repay_time);
         bt_apply_quota = (Button) rootView.findViewById(R.id.bt_apply_quota);
-        sb_quota = (SeekBar) rootView.findViewById(R.id.sb_quota);
+        min_max_sb =(MinMaxSeekBar) rootView.findViewById(R.id.min_max_sb);
         ll_initial = (LinearLayout) rootView.findViewById(R.id.ll_initial);
         ll_not_initial = (LinearLayout) rootView.findViewById(R.id.ll_not_initial);
         tv_arrival_amount = (TextView) rootView.findViewById(R.id.tv_arrival_amount);
@@ -227,29 +229,32 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
                 refreshView(selectPosition);
             }
         });
-        sb_quota.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+        min_max_sb.setOnMinMaxSeekBarChangeListener(new MinMaxSeekBar.OnMinMaxSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(float progress) {
                 if (maxAmount < uniteAmount) {
                     tv_quota.setText("¥0");
                 } else {
-                    tv_quota.setText("¥" + (progress + uniteAmount));
+                    tv_quota.setText("¥" + (progress));
                 }
-                quota = progress;
+                quota = (int) progress;
                 if (0 == progress + uniteAmount) {
                     bt_apply_quota.setBackgroundResource(R.drawable.button_gray);
                 } else {
                     bt_apply_quota.setBackgroundResource(R.drawable.select_bt);
                 }
+
+                refreshView(selectPosition);
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(float progress) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(float progress) {
                 refreshView(selectPosition);
             }
         });
@@ -384,9 +389,20 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
             tv_min_quota.setText("0");
         }
 
+        try {
+            if (defAmount == maxAmount && uniteAmount == defAmount) {//特殊情况 100 100 100
+                min_max_sb.setMaxMin(maxAmount, 0, uniteAmount);
+                min_max_sb.setCurrentProgress(defAmount);
+                min_max_sb.setEnabled(false);
+            } else {
+                min_max_sb.setMaxMin(maxAmount, uniteAmount, uniteAmount);
+                min_max_sb.setCurrentProgress(defAmount);
+                min_max_sb.setEnabled(true);
+            }
 
-        sb_quota.setMax(maxAmount - uniteAmount);
-        sb_quota.setProgress(defAmount);
+        } catch (MinMaxSeekBar.SeekBarStepException e) {
+            e.printStackTrace();
+        }
         refreshView(selectPosition);
     }
 
@@ -409,13 +425,13 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
             } else {
                 quota = default_unit * (int) (quota / default_unit);
             }
-            sb_quota.setProgress(quota);
+//            sb_quota.setProgress(quota);
         }
 
         List<CashSubItemBean> cashSubItemBeanList = withdrawalsItemBeanList.get(selectPosition).getCash_data();
         for (int i = 0; i < cashSubItemBeanList.size(); i++) {
             int withDrawalAmount = Integer.valueOf(cashSubItemBeanList.get(i).getWithdrawal_amount());
-            if ((int) (withDrawalAmount / 100) == (quota + uniteAmount)) {
+            if ((int) (withDrawalAmount / 100) == quota) {
                 cashSubItemBean = cashSubItemBeanList.get(i);
                 String repayTotal = cashSubItemBean.getRepay_total();
                 if ("".equals(repayTotal) || null == repayTotal) {

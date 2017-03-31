@@ -31,14 +31,24 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <SeekBar
-                    android:id="@+id/sb_quota"
+                <!--<SeekBar-->
+                    <!--android:id="@+id/sb_quota"-->
+                    <!--style="@style/mprogress_horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:thumb="@drawable/icon_movement" />-->
+
+                <com.tianshen.cash.view.MinMaxSeekBar
+                    android:id="@+id/min_max_sb"
                     style="@style/mprogress_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:thumb="@drawable/icon_movement" />
+
 
                 <RelativeLayout
                     android:id="@+id/rl_min_max_quota"
@@ -282,7 +292,6 @@
             <Button
                 android:id="@+id/bt_apply_quota"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_margin="5dp"
