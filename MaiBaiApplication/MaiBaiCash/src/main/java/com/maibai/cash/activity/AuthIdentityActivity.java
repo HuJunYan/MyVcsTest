@@ -65,14 +65,35 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_identity_auth_pic:
-                ToastUtil.showToast(mContext, "点击了身份证正面");
+                onClickIdentity();
                 break;
             case R.id.tv_identity_auth_pic2:
-                ToastUtil.showToast(mContext, "点击了身份证反面");
+                onClickIdentityBack();
                 break;
             case R.id.tv_identity_auth_face:
-                ToastUtil.showToast(mContext, "点击了人脸识别");
+                onClickFace();
                 break;
         }
+    }
+
+    /**
+     * 点击了身份证正面
+     */
+    private void onClickIdentity() {
+
+    }
+
+    /**
+     * 点击了身份证反面
+     */
+    private void onClickIdentityBack() {
+
+    }
+
+    /**
+     * 点击了人脸识别
+     */
+    private void onClickFace() {
+
     }
 }
