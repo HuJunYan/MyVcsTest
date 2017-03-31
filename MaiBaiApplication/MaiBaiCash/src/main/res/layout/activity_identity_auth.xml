@@ -43,8 +43,6 @@
             <TextView
                 android:id="@+id/tv_identity_auth_name"
                 style="@style/auth_center_txt_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="您的姓名" />
@@ -54,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/tv_identity_auth_name"
                 android:background="@null"
                 android:hint="请输入您身份证上的姓名"
@@ -71,8 +69,6 @@
             <TextView
                 android:id="@+id/tv_identity_auth_num"
                 style="@style/auth_center_txt_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="身份证号" />
@@ -82,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/tv_identity_auth_num"
                 android:background="@null"
                 android:hint="请输入您的身份证号"
@@ -91,6 +87,107 @@
         </RelativeLayout>
 
         <View style="@style/split_line_style" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_pic_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="身份证照\n(人像面)" />
+
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_identity_auth_pic_key"
+                    android:background="@drawable/ic_identity_auth_pic"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="6dp"
+                    android:text="上传身份证正面"
+                    android:textColor="@color/global_txt_white" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_pic2_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="身份证照\n(国徽面)" />
+
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_pic2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_identity_auth_pic2_key"
+                    android:background="@drawable/ic_identity_auth_pic2"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="6dp"
+                    android:text="上传身份证反面"
+                    android:textColor="@color/global_txt_white" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_face_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="人脸识别" />
+
+                <TextView
+                    android:id="@+id/tv_identity_auth_face"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_identity_auth_face_key"
+                    android:background="@drawable/ic_identity_auth_face"
+                    android:gravity="bottom|center_horizontal"
+                    android:paddingBottom="6dp"
+                    android:text="根据提示做动作"
+                    android:textColor="@color/global_txt_white" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 

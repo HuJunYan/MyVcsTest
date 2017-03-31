@@ -143,10 +143,10 @@
 
     <!-- 认证中心文字样式 (key)-->
     <style name="auth_center_txt_style">
-        <item name="android:maxLines">1</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/global_txt_black5</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <!-- 分割线样式-->
