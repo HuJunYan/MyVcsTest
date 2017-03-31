@@ -408,6 +408,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void refreshLoanNumUI(int progress) {
 
+        if (mSelWithdrawalsBean == null) {
+            return;
+        }
+
         //设置借款金额
         String s = String.format(Locale.CHINA, "%d", progress);
         tvLoanNumValue.setText(s + " 元");
