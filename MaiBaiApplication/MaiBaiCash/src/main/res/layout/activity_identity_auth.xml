@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/global_bg_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/global_bg_white">
+
+        <TextView
+            android:id="@+id/tv_identity_auth_back"
+            style="@style/title_back_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/title_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="身份认证" />
+
+        <TextView
+            android:id="@+id/tv_identity_post"
+            style="@style/auth_center_title_post_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="11dp"
+        android:background="@color/global_bg_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/tv_identity_auth_name"
+                style="@style/auth_center_txt_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="您的姓名" />
+
+            <EditText
+                android:id="@+id/et_identity_auth_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@id/tv_identity_auth_name"
+                android:background="@null"
+                android:hint="请输入您身份证上的姓名"
+                android:textSize="14dp" />
+
+        </RelativeLayout>
+
+        <View style="@style/split_line_style" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:id="@+id/tv_identity_auth_num"
+                style="@style/auth_center_txt_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:text="身份证号" />
+
+            <EditText
+                android:id="@+id/et_identity_auth_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="50dp"
+                android:layout_toRightOf="@id/tv_identity_auth_num"
+                android:background="@null"
+                android:hint="请输入您的身份证号"
+                android:textSize="14dp" />
+
+        </RelativeLayout>
+
+        <View style="@style/split_line_style" />
+
+    </LinearLayout>
+
+</LinearLayout>

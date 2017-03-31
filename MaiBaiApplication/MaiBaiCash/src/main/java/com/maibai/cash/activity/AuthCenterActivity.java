@@ -113,7 +113,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      * 点击了列表
      */
     private void onClickItem(int position) {
-        ToastUtil.showToast(mContext, "点击了--->" + position);
+        switch (position) {
+            case 0:
+                //跳转到身份认证
+                gotoActivity(mContext, IdentityAuthActivity.class, null);
+                break;
+        }
     }
 
     /**

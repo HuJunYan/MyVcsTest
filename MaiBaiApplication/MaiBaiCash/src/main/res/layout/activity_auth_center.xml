@@ -11,39 +11,21 @@
 
         <TextView
             android:id="@+id/tv_auth_center_back"
+            style="@style/title_back_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:drawableLeft="@drawable/ic_arraw_left"
-            android:drawablePadding="5dp"
-            android:text="返回"
-            android:textColor="@color/global_txt_black4"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content" />
 
         <TextView
+            style="@style/title_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="认证中心"
-            android:textColor="@color/global_txt_black4"
-            android:textSize="16sp" />
+            android:text="认证中心" />
 
         <TextView
             android:id="@+id/tv_auth_center_post"
+            style="@style/auth_center_title_post_txt_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@color/global_bg_green"
-            android:paddingBottom="7dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="7dp"
-            android:text="提交"
-            android:textColor="@color/global_txt_white"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
