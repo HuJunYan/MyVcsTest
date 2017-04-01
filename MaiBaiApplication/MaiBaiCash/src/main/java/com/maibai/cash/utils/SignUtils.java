@@ -20,45 +20,48 @@ public class SignUtils {
     public static final int NOT_JSON = 0;
     public static final int JSONOBJ = 1;
     public static final int JSONARRAY = 2;
+
     public static <T> List<T> copyIterator(Iterator<T> iter) {
         List<T> copy = new ArrayList<T>();
         while (iter.hasNext())
             copy.add(iter.next());
         return copy;
     }
+
     public static JSONObject signJsonNotContainList(JSONObject jsonObject) {
         List<String> keyList = getSortedKeyList(jsonObject);
         String paramString = "";
         try {
             for (int i = 0; i < keyList.size(); i++) {
                 String key = keyList.get(i);
-                paramString += key+"="+jsonObject.getString(key);
-                if (i != keyList.size()-1) {
+                paramString += key + "=" + jsonObject.getString(key);
+                if (i != keyList.size() - 1) {
                     paramString += "&";
                 }
             }
-            String secretKey = Utils.md5(paramString+ GlobalParams.getSlot());
+            String secretKey = Utils.md5(paramString + GlobalParams.getSlot());
             jsonObject.put("sign", secretKey);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
+
     public static List<String> getSortedKeyList(JSONObject jsonObject) {
         List<String> keyList = copyIterator(jsonObject.keys());
         Collections.sort(keyList);
         return keyList;
     }
 
-    public static JSONObject signJsonContainTwoLevelList (JSONObject jsonObject, String firstLevelList, String secondLevelList) {
+    public static JSONObject signJsonContainTwoLevelList(JSONObject jsonObject, String firstLevelList, String secondLevelList) {
         JSONArray jsonArray;
         try {
             JSONObject newSubJson = new JSONObject();
             jsonArray = jsonObject.getJSONArray(firstLevelList);
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = (JSONObject)(jsonArray.get(i));
+                JSONObject json = (JSONObject) (jsonArray.get(i));
                 String md5 = signListJsonMd5(json, secondLevelList);
-                newSubJson.put(i+"", md5);
+                newSubJson.put(i + "", md5);
             }
 
             String newJsonMd5String = getJsonObjectSignForList(newSubJson);  // 数字大小排
@@ -80,9 +83,9 @@ public class SignUtils {
             JSONObject newSubJson = new JSONObject();
             jsonArray = jsonObject.getJSONArray(listType);
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = (JSONObject)(jsonArray.get(i));
+                JSONObject json = (JSONObject) (jsonArray.get(i));
                 String md5Str = getJsonObjectSign(json);
-                newSubJson.put(i+"", md5Str);
+                newSubJson.put(i + "", md5Str);
             }
 
             String newJsonMd5String = getJsonObjectSignForList(newSubJson);  // 数字大小排
@@ -105,9 +108,9 @@ public class SignUtils {
             JSONObject newSubJson = new JSONObject();
             jsonArray = jsonObject.getJSONArray(listType);
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = (JSONObject)(jsonArray.get(i));
+                JSONObject json = (JSONObject) (jsonArray.get(i));
                 String md5Str = getJsonObjectSign(json);
-                newSubJson.put(i+"", md5Str);
+                newSubJson.put(i + "", md5Str);
             }
 
             String newJsonMd5String = getJsonObjectSignForList(newSubJson);  // 数字大小排
@@ -131,8 +134,8 @@ public class SignUtils {
         try {
             for (int i = 0; i < keyList.size(); i++) {
                 String key = keyList.get(i);
-                paramString += key+"="+jsonObject.getString(key);
-                if (i != keyList.size()-1) {
+                paramString += key + "=" + jsonObject.getString(key);
+                if (i != keyList.size() - 1) {
                     paramString += "&";
                 }
             }
@@ -152,8 +155,8 @@ public class SignUtils {
         try {
             for (int i = 0; i < keyList.size(); i++) {
                 String key = keyList.get(i);
-                paramString += key+"="+jsonObject.getString(key);
-                if (i != keyList.size()-1) {
+                paramString += key + "=" + jsonObject.getString(key);
+                if (i != keyList.size() - 1) {
                     paramString += "&";
                 }
             }

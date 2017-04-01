@@ -479,4 +479,19 @@ public class NetConstantValue {
     public static String getSaveExtroContactsUrl() {
         return COMMONURI + "Customer/saveExtroContacts";
     }
+
+    /**
+     * 得到用户个人信息
+     */
+    public static String getCustomerInfoUrl() {
+        return COMMONURI + "Customer/getCustomerInfo";
+    }
+
+    /**
+     * 保存用户个人信息
+     */
+    public static String getSaveCustomerInfoUrl() {
+        return COMMONURI + "Customer/saveCustomerInfo";
+    }
+
 }
