@@ -62,10 +62,23 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void setListensers() {
+        tvAuthInfoPost.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_auth_info_post:
+                break;
+        }
     }
+
+    /**
+     * 提交个人信息
+     */
+    private void postUserInfo() {
+
+    }
+
 
 }
