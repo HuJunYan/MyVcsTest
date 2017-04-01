@@ -140,8 +140,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         }
         ArrayList<ExtroContactsBean.Data> datas = extroContactsBean.getData();
 
-        String contact_mobile1 = datas.get(0).getContact_mobile();
-        String contact_mobile2 = datas.get(1).getContact_mobile();
+        String contact_phone1 = datas.get(0).getContact_phone();
+        String contact_phone2 = datas.get(1).getContact_phone();
 
         String contact_name1 = datas.get(1).getContact_name();
         String contact_name2 = datas.get(1).getContact_name();
@@ -151,8 +151,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
         etAuthNexusName1.setText(contact_name1);
         etAuthNexusName2.setText(contact_name2);
-        etAuthNexusPhone.setText(contact_mobile1);
-        etAuthNexusPhone2.setText(contact_mobile2);
+        etAuthNexusPhone.setText(contact_phone1);
+        etAuthNexusPhone2.setText(contact_phone2);
 
         int index1 = Integer.parseInt(contact_type1) - 1;
         int index2 = Integer.parseInt(contact_type2) - 1;
@@ -216,13 +216,13 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("relavtion_type", type1 + "");
             jsonObject1.put("contact_name", name1);
-            jsonObject1.put("contact_mobile", phone1);
+            jsonObject1.put("contact_phone", phone1);
 
 
             JSONObject jsonObject2 = new JSONObject();
             jsonObject2.put("relavtion_type", type2 + "");
             jsonObject2.put("contact_name", name2);
-            jsonObject2.put("contact_mobile", phone2);
+            jsonObject2.put("contact_phone", phone2);
 
 
             JSONArray jsonArray = new JSONArray();
