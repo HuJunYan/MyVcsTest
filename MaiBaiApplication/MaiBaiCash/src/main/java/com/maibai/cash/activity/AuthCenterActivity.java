@@ -116,6 +116,9 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             case 1://跳转到个人信息
                 gotoActivity(mContext, AuthInfoActivity.class, null);
                 break;
+            case 2://跳转到紧急联系人
+                gotoActivity(mContext, AuthExtroContactsActivity.class, null);
+                break;
 
         }
     }

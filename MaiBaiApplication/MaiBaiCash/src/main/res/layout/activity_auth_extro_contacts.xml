@@ -1,0 +1,235 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/global_bg_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/global_bg_white">
+
+        <TextView
+            android:id="@+id/tv_auth_info_back"
+            style="@style/title_back_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/title_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="紧急联系人" />
+
+        <TextView
+            android:id="@+id/tv_auth_info_post"
+            style="@style/auth_center_title_post_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus1_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="与我关系" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tv_auth_nexus1_key">
+
+            <TextView
+                android:id="@+id/tv_auth_nexus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="父母"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_arrow_down" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus_name1_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="姓    名" />
+
+        <EditText
+            android:id="@+id/et_auth_nexus_name1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_auth_nexus_name1_key"
+            android:background="@null"
+            android:hint="请输入姓名"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus_phone"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="电    话" />
+
+        <EditText
+            android:id="@+id/et_auth_nexus_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_auth_nexus_phone"
+            android:background="@null"
+            android:hint="请输入联系电话"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus2_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="与我关系" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tv_auth_nexus2_key">
+
+            <TextView
+                android:id="@+id/tv_auth_nexus2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="朋友"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_arrow_down" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus_name2_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="姓    名" />
+
+        <EditText
+            android:id="@+id/et_auth_nexus_name2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_auth_nexus_name2_key"
+            android:background="@null"
+            android:hint="请输入姓名"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_auth_nexus_phone2"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="电    话" />
+
+        <EditText
+            android:id="@+id/et_auth_nexus_phone2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_auth_nexus_phone2"
+            android:background="@null"
+            android:hint="请输入联系电话"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+</LinearLayout>

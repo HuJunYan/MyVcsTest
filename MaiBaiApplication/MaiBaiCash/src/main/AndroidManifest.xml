@@ -260,9 +260,9 @@
 
 
         <!--测试服appkey-->
-       <!-- <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="586f12b5f29d98014100161e" />-->
+        <!-- <meta-data
+             android:name="UMENG_APPKEY"
+             android:value="586f12b5f29d98014100161e" />-->
         <!-- umeng 正式服 begin -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -367,6 +367,10 @@
 
         <activity
             android:name=".activity.AuthInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.AuthExtroContactsActivity"
             android:screenOrientation="portrait" />
 
         <service
