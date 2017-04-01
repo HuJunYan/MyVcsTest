@@ -451,4 +451,18 @@ public class NetConstantValue {
     public static String getUserAuthCenterUrl() {
         return COMMONURI + "UserCenter/authCenter";
     }
+
+    /**
+     * 保存用户身份证正面信息
+     */
+    public static String getSaveFrontIdCardInfoUrl() {
+        return COMMONURI + "Customer/saveFrontIdCardInfo";
+    }
+
+    /**
+     * 保存用户身份证反面信息
+     */
+    public static String getSaveBackIdCardInfoUrl() {
+        return COMMONURI + "Customer/saveBackIdCardInfo";
+    }
 }

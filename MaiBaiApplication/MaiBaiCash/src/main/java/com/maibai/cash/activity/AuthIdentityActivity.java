@@ -17,19 +17,25 @@ import android.widget.TextView;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.model.IDCardBean;
+import com.maibai.cash.model.SaveIdCardBean;
 import com.maibai.cash.model.UploadImageBean;
+import com.maibai.cash.net.api.IDCardAction;
+import com.maibai.cash.net.api.SaveIdCardInformation;
 import com.maibai.cash.net.api.UploadImage;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.SignUtils;
 import com.maibai.cash.utils.ToastUtil;
+import com.maibai.cash.utils.ViewUtil;
 import com.maibai.user.idcardlibrary.activity.IDCardScanActivity;
 import com.maibai.user.idcardlibrary.util.Util;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.licensemanager.Manager;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
@@ -72,6 +78,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     ImageView ivIdentityAuthFace;
 
     private String[] mImageFullPath = new String[7];
+    private IDCardBean mIDCardBean;
 
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，2==人脸识别
     private final int IMAGE_TYPE_ID_CARD_FRONT = 20;
@@ -144,6 +151,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     protected void setListensers() {
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
+        ivIdentityAuthPic2.setEnabled(false);
         ivIdentityAuthPic.setOnClickListener(this);
         ivIdentityAuthPic2.setOnClickListener(this);
         ivIdentityAuthFace.setOnClickListener(this);
@@ -248,6 +256,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 public void onSuccess(UploadImageBean uploadImageBean) {
                     switch (type) {
                         case IMAGE_TYPE_ID_CARD_FRONT:
+                            getIdcardFrontInfo(imageByte);
+                            ivIdentityAuthPic2.setEnabled(true);
                             break;
                         case IMAGE_TYPE_ID_CARD_BACK:
                             break;
@@ -256,12 +266,60 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
+
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
+    }
+
+    /**
+     * 得到身份证正面信息
+     */
+    private void getIdcardFrontInfo(byte[] data) {
+        ViewUtil.createLoadingDialog(this, "", false);
+        new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
+            @Override
+            public void onSuccess(IDCardBean paramT) {
+                ViewUtil.cancelLoadingDialog();
+                mIDCardBean = paramT;
+                if (mIDCardBean.id_card_number.length() != 18) {
+                    ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                ToastUtil.showToast(mContext, "请使用身份证原件");
+                backActivity();
+                ViewUtil.cancelLoadingDialog();
+            }
+        });
+    }
+
+    /**
+     * 得到身份证反面信息
+     */
+    private void getIdcardBackInfo(byte[] data) {
+        ViewUtil.createLoadingDialog(this, "", false);
+        new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
+            @Override
+            public void onSuccess(IDCardBean paramT) {
+                ViewUtil.cancelLoadingDialog();
+                if (mIDCardBean != null && paramT != null) {
+                    mIDCardBean.issued_by = paramT.issued_by;
+                    mIDCardBean.valid_date = paramT.valid_date;
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                ToastUtil.showToast(mContext, "请使用身份证原件");
+                ViewUtil.cancelLoadingDialog();
+            }
+        });
     }
 
     public static String saveJPGFile(Context mContext, byte[] data, int type) {
