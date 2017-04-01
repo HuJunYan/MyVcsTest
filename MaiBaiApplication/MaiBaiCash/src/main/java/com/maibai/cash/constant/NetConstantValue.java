@@ -465,4 +465,11 @@ public class NetConstantValue {
     public static String getSaveBackIdCardInfoUrl() {
         return COMMONURI + "Customer/saveBackIdCardInfo";
     }
+
+    /**
+     * 保存用户的紧急联系人信息
+     */
+    public static String getSaveExtroContactsUrl() {
+        return COMMONURI + "Customer/saveExtroContacts";
+    }
 }
