@@ -20,7 +20,9 @@ import com.maibai.cash.net.base.GsonUtil;
 import com.maibai.cash.net.base.NetCheck;
 import com.maibai.cash.net.base.XUtilsManager;
 import com.maibai.cash.utils.MemoryAddressUtils;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
+import com.maibai.cash.utils.VersionUtil;
 import com.maibai.cash.utils.ViewUtil;
 
 import org.json.JSONException;
@@ -37,7 +39,7 @@ public class UploadImage {
     private String mUrl;
     private String mFileFullPath;
     private Context mContext;
-    private JSONObject mJSONObject;
+    //    private JSONObject mJSONObject;
     protected HttpUtils mHttpUtils;
     protected BitmapUtils mBitmapUtils;
 
@@ -46,14 +48,36 @@ public class UploadImage {
         mUrl = NetConstantValue.GetUploadImageUrl();
         initXUtils();
     }
+
     private void initXUtils() {
         XUtilsManager xUtilsManager = XUtilsManager.getInstance(mContext);
         mHttpUtils = xUtilsManager.getHttpUtils();
         mBitmapUtils = xUtilsManager.getBitmapUtils();
     }
+
     public void uploadImage(JSONObject jsonObject, String fileFullPath, boolean isShowDialog, final BaseNetCallBack<UploadImageBean> mUploadImageCallBack) {
         Log.d("ret", "fileFullPath ==== " + fileFullPath);
-        mJSONObject = jsonObject;
+
+
+        //外层嵌套一层信息
+        JSONObject objectRoot = new JSONObject();
+        //得到用户登录的token
+        String userToken = TianShenUserUtil.getUserToken(mContext);
+        //得到版本号
+        String version = VersionUtil.getVersion(mContext);
+        //得到时间戳
+        String timestamp = System.currentTimeMillis() + "";
+        try {
+            objectRoot.put("token", userToken); //token
+            objectRoot.put("version", version);
+            objectRoot.put("type", "1"); //客户端类型0h5,1android,2ios,3winphone
+            objectRoot.put("timestamp", timestamp);
+            objectRoot.put("data", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         mFileFullPath = fileFullPath;
         if (!NetCheck.isNetConnected(this.mContext)) {
             if (isShowNoNetworksPrompt()) {
@@ -79,8 +103,8 @@ public class UploadImage {
                 ToastUtil.showToast(mContext, R.string.not_get_image_uploading_fail);
                 return;
             }
-            Log.d("ret", "uploadImage: " + jsonObject.toString());
-            requestParams.addBodyParameter("json", jsonObject.toString());
+            Log.d("ret", "uploadImage: " + objectRoot.toString());
+            requestParams.addBodyParameter("json", objectRoot.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,18 +123,11 @@ public class UploadImage {
                         if (isRelease) {
                             UploadImageBean mUploadImageBean = GsonUtil.json2bean(responseInfo.result, UploadImageBean.class);
                             mUploadImageCallBack.onSuccess(mUploadImageBean);
-                        } else {
-                            mUploadImageCallBack.onSuccess(test());
                         }
-//                        ToastUtil.showToast(mContext, R.string.SendSuccess);
                     } else {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
-//                            ToastUtil.showToast(mContext, R.string.Sendfaile);
-                        } else {
-                            mUploadImageCallBack.onSuccess(test());
-//                            ToastUtil.showToast(mContext, R.string.SendSuccess);
                         }
                     }
                 } catch (Exception e) {
@@ -126,9 +143,6 @@ public class UploadImage {
                 if (isRelease) {
                     mUploadImageCallBack.onFailure("", -3, -1000);
                     ToastUtil.showToast(mContext, R.string.network_error);
-                } else {
-                    mUploadImageCallBack.onSuccess(test());
-                    ToastUtil.showToast(mContext, R.string.SendSuccess);
                 }
                 ViewUtil.cancelLoadingDialog();
             }
@@ -155,7 +169,7 @@ public class UploadImage {
             for (int i = 0; i < fileFullPathArray.length; i++) {
                 File mPhotoFile = new File(fileFullPathArray[i]);
                 if (mPhotoFile.exists()) {
-                    requestParams.addBodyParameter("file"+i, new FileInputStream(mPhotoFile), mPhotoFile.length(),
+                    requestParams.addBodyParameter("file" + i, new FileInputStream(mPhotoFile), mPhotoFile.length(),
                             mPhotoFile.getName(), "application/octet-stream");
                 } else {
                     ToastUtil.showToast(mContext, R.string.not_get_image_uploading_fail);
@@ -182,17 +196,14 @@ public class UploadImage {
                         if (isRelease) {
                             UploadImageBean mUploadImageBean = GsonUtil.json2bean(responseInfo.result, UploadImageBean.class);
                             mUploadImageCallBack.onSuccess(mUploadImageBean);
-                        } else {
-                            mUploadImageCallBack.onSuccess(test());
-                        }
-                        ToastUtil.showToast(mContext, R.string.SendSuccess);
+                        } else
+                            ToastUtil.showToast(mContext, R.string.SendSuccess);
                     } else {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
                             ToastUtil.showToast(mContext, R.string.Sendfaile);
                         } else {
-                            mUploadImageCallBack.onSuccess(test());
                             ToastUtil.showToast(mContext, R.string.SendSuccess);
                         }
                     }
@@ -210,7 +221,6 @@ public class UploadImage {
                     mUploadImageCallBack.onFailure("", -3, -1000);
                     ToastUtil.showToast(mContext, R.string.network_error);
                 } else {
-                    mUploadImageCallBack.onSuccess(test());
                     ToastUtil.showToast(mContext, R.string.SendSuccess);
                 }
                 ViewUtil.cancelLoadingDialog();
@@ -222,41 +232,5 @@ public class UploadImage {
         return true;
     }
 
-    private UploadImageBean test() {
-        if (mJSONObject == null) {
-            throw new RuntimeException("jsonObject is null");
-        }
-        String customer_id = "";
-        try {
-            customer_id = mJSONObject.getString("customer_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (customer_id == null || "".equals(customer_id)) {
-            throw new RuntimeException("customer_id is null");
-        }
-
-        String type = "";
-        try {
-            type = mJSONObject.getString("type");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (type == null || "".equals(type)) {
-            throw new RuntimeException("type is null");
-        }
-
-        File file = new File(mFileFullPath);
-        if (!file.exists()) {
-            throw new RuntimeException("file : " + mFileFullPath + " is not exists");
-        }
-        UploadImageBean mUploadImageBean = new UploadImageBean();
-        mUploadImageBean.setCode(0);
-        mUploadImageBean.setMsg("uploadImage in success");
-        mUploadImageBean.getData().setFile_name("测试文件名xxxx.png");
-
-        return mUploadImageBean;
-    }
 
 }

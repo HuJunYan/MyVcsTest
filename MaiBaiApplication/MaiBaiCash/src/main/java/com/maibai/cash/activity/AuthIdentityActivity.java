@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,18 +29,21 @@ import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.SignUtils;
+import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.utils.ViewUtil;
 import com.maibai.user.idcardlibrary.activity.IDCardScanActivity;
 import com.maibai.user.idcardlibrary.util.Util;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.licensemanager.Manager;
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -152,6 +157,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
         ivIdentityAuthPic2.setEnabled(false);
+        tvIdentityPost.setOnClickListener(this);
         tvIdentityAuthBack.setOnClickListener(this);
         ivIdentityAuthPic.setOnClickListener(this);
         ivIdentityAuthPic2.setOnClickListener(this);
@@ -163,6 +169,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.tv_identity_auth_back:
                 backActivity();
+                break;
+            case R.id.tv_identity_post:
+                postImageTest();
                 break;
             case R.id.iv_identity_auth_pic:
                 onClickIdentity();
@@ -247,6 +256,57 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
         }
     }
+
+    /**
+     * 上传图片测试
+     */
+    private void postImageTest() {
+
+        try {
+            UploadImage uploadImage = new UploadImage(mContext);
+            JSONObject jsonObject = new JSONObject();
+
+            long customer_id = TianShenUserUtil.getUserId(mContext);
+
+            jsonObject.put("customer_id", customer_id + "");
+            jsonObject.put("type", "20");
+            JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
+            Drawable drawable = ivIdentityAuthFace.getDrawable();
+            Bitmap bitmap = Bitmap
+                    .createBitmap(
+                            drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(),
+                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                    : Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+            drawable.draw(canvas);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] bytes = baos.toByteArray();
+            String path = saveJPGFile(mContext, bytes, 20);
+
+            ivIdentityAuthPic.setImageBitmap(bitmap);
+
+            uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
+                @Override
+                public void onSuccess(UploadImageBean uploadImageBean) {
+                    ToastUtil.showToast(mContext, "上传成功!");
+                }
+
+                @Override
+                public void onFailure(String result, int errorType, int errorCode) {
+                    ToastUtil.showToast(mContext, "上传失败!errorCode--->"+errorCode);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+
+    }
+
 
     private void upLoadImage(final byte[] imageByte, final int type) {
         try {
