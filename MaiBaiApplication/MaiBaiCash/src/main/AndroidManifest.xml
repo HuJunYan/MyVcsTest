@@ -373,6 +373,10 @@
             android:name=".activity.AuthExtroContactsActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.AuthBankCardActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
