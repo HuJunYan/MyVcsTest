@@ -74,6 +74,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @Override
     protected void setListensers() {
         tvAuthExtroPost.setOnClickListener(this);
+        tvAuthInfoBack.setOnClickListener(this);
         rlAuthNexus1.setOnClickListener(this);
         rlAuthNexus2.setOnClickListener(this);
     }
@@ -81,6 +82,9 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_auth_info_back:
+                backActivity();
+                break;
             case R.id.tv_auth_extro_post:
                 postExtroData();
                 break;

@@ -152,6 +152,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
         ivIdentityAuthPic2.setEnabled(false);
+        tvIdentityAuthBack.setOnClickListener(this);
         ivIdentityAuthPic.setOnClickListener(this);
         ivIdentityAuthPic2.setOnClickListener(this);
         ivIdentityAuthFace.setOnClickListener(this);
@@ -160,6 +161,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_identity_auth_back:
+                backActivity();
+                break;
             case R.id.iv_identity_auth_pic:
                 onClickIdentity();
                 break;
