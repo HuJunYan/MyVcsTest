@@ -110,10 +110,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private void onClickItem(int position) {
         switch (position) {
-            case 0:
-                //跳转到身份认证
+            case 0://跳转到身份认证
                 gotoActivity(mContext, AuthIdentityActivity.class, null);
                 break;
+            case 1://跳转到个人信息
+                gotoActivity(mContext, AuthInfoActivity.class, null);
+                break;
+
         }
     }
 

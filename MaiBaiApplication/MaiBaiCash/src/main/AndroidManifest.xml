@@ -365,6 +365,10 @@
             android:name=".activity.AuthCenterActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.AuthInfoActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
