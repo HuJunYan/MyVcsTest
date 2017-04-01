@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
+import com.maibai.cash.model.ExtroContactsBean;
 import com.maibai.cash.model.PostDataBean;
+import com.maibai.cash.net.api.GetExtroContacts;
 import com.maibai.cash.net.api.SaveExtroContacts;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.utils.TianShenUserUtil;
@@ -68,6 +70,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDialogData();
+        initExtroData();
     }
 
     @Override
@@ -129,10 +132,64 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     }
 
     /**
+     * 刷新整体UI
+     */
+    private void refreshRootUI(ExtroContactsBean extroContactsBean) {
+        if (extroContactsBean == null) {
+            return;
+        }
+        ArrayList<ExtroContactsBean.Data> datas = extroContactsBean.getData();
+
+        String contact_mobile1 = datas.get(0).getContact_mobile();
+        String contact_mobile2 = datas.get(1).getContact_mobile();
+
+        String contact_name1 = datas.get(1).getContact_name();
+        String contact_name2 = datas.get(1).getContact_name();
+
+        String contact_type1 = datas.get(1).getRelavtion_type();
+        String contact_type2 = datas.get(1).getRelavtion_type();
+
+        etAuthNexusName1.setText(contact_name1);
+        etAuthNexusName2.setText(contact_name2);
+        etAuthNexusPhone.setText(contact_mobile1);
+        etAuthNexusPhone2.setText(contact_mobile2);
+
+        int index1 = Integer.parseInt(contact_type1) - 1;
+        int index2 = Integer.parseInt(contact_type2) - 1;
+
+        String nexus1 = mNexus.get(index1);
+        String nexus2 = mNexus.get(index2);
+
+        tvAuthNexus1.setText(nexus1);
+        tvAuthNexus2.setText(nexus2);
+
+    }
+
+    /**
      * 得到紧急联系人信息
      */
     private void initExtroData() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
 
+            GetExtroContacts getExtroContacts = new GetExtroContacts(mContext);
+            getExtroContacts.getExtroContacts(jsonObject, new BaseNetCallBack<ExtroContactsBean>() {
+                @Override
+                public void onSuccess(ExtroContactsBean extroContactsBean) {
+                    refreshRootUI(extroContactsBean);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -467,6 +467,13 @@ public class NetConstantValue {
     }
 
     /**
+     * 得到用户的紧急联系人信息
+     */
+    public static String getExtroContactsUrl() {
+        return COMMONURI + "Customer/getExtroContacts";
+    }
+
+    /**
      * 保存用户的紧急联系人信息
      */
     public static String getSaveExtroContactsUrl() {

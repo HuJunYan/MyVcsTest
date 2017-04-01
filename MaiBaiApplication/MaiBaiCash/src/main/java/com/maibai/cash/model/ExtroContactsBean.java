@@ -1,5 +1,7 @@
 package com.maibai.cash.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by cuiyue on 2017/4/1.
  */
@@ -8,7 +10,7 @@ public class ExtroContactsBean {
 
     private int code;
     private String msg;
-    private Data data;
+    private ArrayList<Data> data;
 
     public int getCode() {
         return code;
@@ -26,14 +28,13 @@ public class ExtroContactsBean {
         this.msg = msg;
     }
 
-    public Data getData() {
+    public ArrayList<Data> getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(ArrayList<Data> data) {
         this.data = data;
     }
-
 
     public class Data {
 
