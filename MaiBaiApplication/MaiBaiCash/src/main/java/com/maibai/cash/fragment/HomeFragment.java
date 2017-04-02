@@ -437,7 +437,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 选择借款天数
      */
-    private void selectLoanDay() {
+    private void showSelectLoanDayDialog() {
         if (mLoanDays == null) {
             return;
         }
@@ -452,8 +452,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         refreshLoanDayUI();
                         refreshBubbleSeekBarUI();
                     }
-                })
-                .show();
+                }).show();
     }
 
     @Override
@@ -468,7 +467,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 gotoActivity(mContext, AuthCenterActivity.class, null);
                 break;
             case R.id.rl_loan_day: //点击了期限选择
-                selectLoanDay();
+                showSelectLoanDayDialog();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
                 gotoActivity(mContext, AuthCenterActivity.class, null);

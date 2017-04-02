@@ -62,10 +62,10 @@
     <View style="@style/split_line_style" />
 
     <RelativeLayout
+        android:id="@+id/rl_bank_card"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/global_bg_white">
-
         <View style="@style/split_line_style" />
 
         <TextView
@@ -75,15 +75,13 @@
             android:layout_marginLeft="15dp"
             android:text="选择银行" />
 
-        <EditText
-            android:id="@+id/et_bank_card"
+        <TextView
+            android:id="@+id/tv_bank_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_key"
-            android:background="@null"
-            android:enabled="false"
             android:hint="请选择所属银行"
             android:textSize="14dp" />
 
