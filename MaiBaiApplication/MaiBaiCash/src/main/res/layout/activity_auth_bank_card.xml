@@ -66,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/global_bg_white">
+
         <View style="@style/split_line_style" />
 
         <TextView
@@ -115,7 +116,7 @@
             android:text="银行卡号" />
 
         <EditText
-            android:id="@+id/et_auth_info_work_name"
+            android:id="@+id/et_auth_card_num_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -123,6 +124,7 @@
             android:layout_toRightOf="@id/tv_bank_card_num_key"
             android:background="@null"
             android:hint="请输入您的银行卡号"
+            android:inputType="number"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -152,6 +154,7 @@
             android:layout_toRightOf="@id/tv_bank_card_phone_num_key"
             android:background="@null"
             android:hint="请输入预留手机号"
+            android:inputType="number"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -181,6 +184,7 @@
             android:layout_toRightOf="@id/tv_severity_code_key"
             android:background="@null"
             android:hint="请输入验证码"
+            android:inputType="number"
             android:textSize="14dp" />
 
 

@@ -3,8 +3,11 @@ package com.maibai.cash.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,8 +22,10 @@ import com.maibai.cash.adapter.BankListAdapter;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.model.BankListBean;
 import com.maibai.cash.model.BankListItemBean;
+import com.maibai.cash.model.BindVerifySmsBean;
 import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.GetAllBankList;
+import com.maibai.cash.net.api.GetBindVerifySms;
 import com.maibai.cash.net.base.BaseNetCallBack;
 import com.maibai.cash.net.base.UserUtil;
 import com.maibai.cash.utils.GetTelephoneUtils;
@@ -28,6 +33,7 @@ import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,8 +66,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     TextView tv_bank_card;
     @BindView(R.id.tv_bank_card_num_key)
     TextView tvBankCardNumKey;
-    @BindView(R.id.et_auth_info_work_name)
-    EditText etAuthInfoWorkName;
+    @BindView(R.id.et_auth_card_num_name)
+    EditText et_auth_card_num_name;
     @BindView(R.id.tv_bank_card_phone_num_key)
     TextView tvBankCardPhoneNumKey;
     @BindView(R.id.et_bank_card_phone_num)
@@ -77,6 +83,23 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private ArrayList<String> mDialogData;// //银行卡列表dialog数据
 
     private int mCurrentBankCardIndex;//当前用户选择银行卡的位置
+
+    private int mStartTime = 59;
+
+
+    private static final int MSG_SEVERITY_TIME = 1;
+    private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case MSG_SEVERITY_TIME:
+                    refreshSeverityTextUI();
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +121,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         tvAuthBankCardBack.setOnClickListener(this);
         tvAuthInfoPost.setOnClickListener(this);
         rl_bank_card.setOnClickListener(this);
+        tvSeverityCode.setOnClickListener(this);
     }
 
 
@@ -113,9 +137,16 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             case R.id.rl_bank_card:
                 initBankListData();
                 break;
+            case R.id.tv_severity_code:
+                initSeverityCode();
+                tvSeverityCode.setEnabled(false);
+                break;
         }
     }
 
+    /**
+     * 得到银行卡列表数据
+     */
     private void initBankListData() {
         try {
             JSONObject jsonObject = new JSONObject();
@@ -158,9 +189,66 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void showBankListDialog() {
+    /**
+     * 得到验证码
+     */
+    private void initSeverityCode() {
+        BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+        String bank_name = itemBean.getBank_name(); //银行卡名字
+        String bankId = itemBean.getBank_id();
+        String card_user_name = etAuthBankCardPerson.getText().toString().trim();
+        String card_num = et_auth_card_num_name.getText().toString().trim();
+        String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
 
-        LogUtil.d("abc", "showBankListDialog---in");
+        if (TextUtils.isEmpty(tv_bank_card.getText())) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(card_user_name)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(card_num)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(reserved_mobile)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        long userId = TianShenUserUtil.getUserId(mContext);
+
+        try {
+            JSONObject mJson = new JSONObject();
+            mJson.put("bank_name", bank_name);
+            mJson.put("bank_id", bankId);
+            mJson.put("customer_id", userId + "");
+            mJson.put("card_user_name", card_user_name);
+            mJson.put("card_num", card_num);
+            mJson.put("reserved_mobile", reserved_mobile);
+            GetBindVerifySms mGetBindVerifyCode = new GetBindVerifySms(mContext);
+            mGetBindVerifyCode.getBindVerifySms(mJson, tvSeverityCode, true, new BaseNetCallBack<BindVerifySmsBean>() {
+                @Override
+                public void onSuccess(BindVerifySmsBean paramT) {
+                    ToastUtil.showToast(mContext, "验证码发送成功");
+                    refreshSeverityTextUI();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+
+    }
+
+    /**
+     * 显示银行卡列表Dialog
+     */
+    private void showBankListDialog() {
 
         new MaterialDialog.Builder(mContext)
                 .title("选择银行卡")
@@ -184,6 +272,24 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void refreshBankUI() {
         String bankCardName = mDialogData.get(mCurrentBankCardIndex);
         tv_bank_card.setText(bankCardName);
+    }
+
+
+    /**
+     * 刷新验证码UI
+     */
+    private void refreshSeverityTextUI() {
+        tvSeverityCode.setText(mStartTime + "");
+        mStartTime--;
+        if (mStartTime == 0) {
+            tvSeverityCode.setText("获取验证码");
+            mStartTime = 59;
+            tvSeverityCode.setEnabled(true);
+            mHandler.removeMessages(MSG_SEVERITY_TIME);
+        } else {
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
     }
 
 }
