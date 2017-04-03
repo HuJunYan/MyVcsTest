@@ -494,4 +494,25 @@ public class NetConstantValue {
         return COMMONURI + "Customer/saveCustomerInfo";
     }
 
+    /**
+     * 得到省份
+     */
+    public static String getProvinceUrl() {
+        return COMMONURI + "Customer/getProvince";
+    }
+
+    /**
+     * 得到城市
+     */
+    public static String getCityUrl() {
+        return COMMONURI + "Customer/getCity";
+    }
+
+    /**
+     * 得到区域
+     */
+    public static String getCountyUrl() {
+        return COMMONURI + "Customer/getCounty";
+    }
+
 }

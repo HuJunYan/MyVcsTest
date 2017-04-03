@@ -1,0 +1,81 @@
+package com.maibai.cash.model;
+
+import java.util.ArrayList;
+
+/**
+ *
+ */
+
+public class AddressBean {
+
+    private int code;  // 返回码
+    private String msg;  // 消息内容
+    private ArrayList<Data> data;
+
+
+    public ArrayList<Data> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<Data> data) {
+        this.data = data;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public class Data {
+
+        private int provice_id;
+        private String provice_name;
+
+        private int city_id;
+        private String city_name;
+
+        public int getProvice_id() {
+            return provice_id;
+        }
+
+        public void setProvice_id(int provice_id) {
+            this.provice_id = provice_id;
+        }
+
+        public String getProvice_name() {
+            return provice_name;
+        }
+
+        public void setProvice_name(String provice_name) {
+            this.provice_name = provice_name;
+        }
+
+        public int getCity_id() {
+            return city_id;
+        }
+
+        public void setCity_id(int city_id) {
+            this.city_id = city_id;
+        }
+
+        public String getCity_name() {
+            return city_name;
+        }
+
+        public void setCity_name(String city_name) {
+            this.city_name = city_name;
+        }
+
+    }
+}

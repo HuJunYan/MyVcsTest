@@ -69,20 +69,19 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_auth_info_home_address"
+            android:id="@+id/tv_auth_info_home_address_key"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="常住地址" />
 
-        <EditText
-            android:id="@+id/et_auth_info_home_address"
+        <TextView
+            android:id="@+id/tv_auth_info_home_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_auth_info_home_address"
-            android:background="@null"
+            android:layout_toRightOf="@id/tv_auth_info_home_address_key"
             android:hint="省--市--区"
             android:textSize="14dp" />
 
@@ -185,20 +184,19 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_auth_info_work_address"
+            android:id="@+id/tv_auth_info_work_address_key"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="单位地址" />
 
-        <EditText
-            android:id="@+id/et_auth_info_work_address"
+        <TextView
+            android:id="@+id/tv_auth_info_work_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_auth_info_work_address"
-            android:background="@null"
+            android:layout_toRightOf="@id/tv_auth_info_work_address_key"
             android:hint="省--市--区"
             android:textSize="14dp" />
 
