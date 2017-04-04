@@ -19,11 +19,16 @@ import android.widget.TextView;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
 import com.maibai.cash.constant.GlobalParams;
+import com.maibai.cash.model.AddressBean;
 import com.maibai.cash.model.IDCardBean;
+import com.maibai.cash.model.PostDataBean;
 import com.maibai.cash.model.SaveIdCardBean;
 import com.maibai.cash.model.UploadImageBean;
 import com.maibai.cash.model.WithdrawalsItemBean;
+import com.maibai.cash.net.api.GetProvince;
 import com.maibai.cash.net.api.IDCardAction;
+import com.maibai.cash.net.api.SaveIDCardBack;
+import com.maibai.cash.net.api.SaveIDCardFront;
 import com.maibai.cash.net.api.SaveIdCardInformation;
 import com.maibai.cash.net.api.UploadImage;
 import com.maibai.cash.net.base.BaseNetCallBack;
@@ -120,12 +125,13 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     // TODO 先上传正面身份证照
                     byte[] frontImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[0] = saveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
-                    upLoadImage(frontImg, IMAGE_TYPE_ID_CARD_FRONT);
+                    upLoadImage(frontImg);
                     break;
                 case GlobalParams.INTO_IDCARDSCAN_BACK_PAGE:
                     // TODO 先上传反面身份证照
                     byte[] backImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[1] = saveJPGFile(mContext, backImg, IMAGE_TYPE_ID_CARD_BACK);
+                    upLoadImage(backImg);
                     break;
                 case GlobalParams.PAGE_INTO_LIVENESS:
                     // TODO 先上次活体检测照片
@@ -153,7 +159,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     protected void setListensers() {
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
-        ivIdentityAuthPic2.setEnabled(false);
+//        ivIdentityAuthPic2.setEnabled(false);//先不让用户点击身份证反面
         tvIdentityPost.setOnClickListener(this);
         tvIdentityAuthBack.setOnClickListener(this);
         ivIdentityAuthPic.setOnClickListener(this);
@@ -307,38 +313,46 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     /**
      * 上传图片
      */
-    private void upLoadImage(final byte[] imageByte, final int type) {
-        LogUtil.d("abc","upLoadImage--in");
+    private void upLoadImage(final byte[] imageByte) {
 
         long userID = TianShenUserUtil.getUserId(mContext);
+
+        String path = "";
+        String type = "";
+        switch (mIsClickPosition) {
+            case 0:
+                type = IMAGE_TYPE_ID_CARD_FRONT + "";
+                path = mImageFullPath[0];
+                break;
+            case 1:
+                type = IMAGE_TYPE_ID_CARD_BACK + "";
+                path = mImageFullPath[1];
+                break;
+            case 2:
+                break;
+        }
 
         try {
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("customer_id", userID);
-            jsonObject.put("type", type + "");
+            jsonObject.put("type", type);
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
-
-            String path = "";
-            switch (type) {
-                case IMAGE_TYPE_ID_CARD_FRONT:
-                    path = mImageFullPath[0];
-                    break;
-                case IMAGE_TYPE_ID_CARD_BACK:
-                    path = mImageFullPath[1];
-                    break;
-            }
 
             uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
-                    LogUtil.d("abc","upLoadImage--onSuccess");
-                    switch (type) {
-                        case IMAGE_TYPE_ID_CARD_FRONT:
+                    LogUtil.d("abc", "upLoadImage--onSuccess");
+                    switch (mIsClickPosition) {
+                        case 0:
                             setImageSource(imageByte);
                             getIdcardFrontInfo(imageByte);
                             break;
-                        case IMAGE_TYPE_ID_CARD_BACK:
+                        case 1:
+                            setImageSource(imageByte);
+                            getIdcardBackInfo(imageByte);
+                            break;
+                        case 2:
                             break;
                     }
                 }
@@ -354,8 +368,93 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * 保存身份证正面信息到云端
+     */
+    private void initSaveIDCardFront() {
+
+        String real_name = mIDCardBean.name; //身份证姓名
+        String gender = mIDCardBean.gender; // 身份证性别
+        String nation = mIDCardBean.race; // 民族
+        IDCardBean.Birthday birthdayBean = mIDCardBean.birthday;
+        String year = birthdayBean.year;
+        String month = birthdayBean.month;
+        String day = birthdayBean.day;
+        String birthday = year + month + day; //出生日期
+        String birthplace = mIDCardBean.address; //住址
+        String id_num = mIDCardBean.id_card_number; // 身份证号
+
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("real_name", real_name);
+            jsonObject.put("gender", gender);
+            jsonObject.put("nation", nation);
+            jsonObject.put("birthday", birthday);
+            jsonObject.put("birthplace", birthplace);
+            jsonObject.put("id_num", id_num);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final SaveIDCardFront saveIDCardFront = new SaveIDCardFront(mContext);
+        saveIDCardFront.saveIDCardFront(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                int code = paramT.getCode();
+                if (0 == code) {
+                    ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
+                    ivIdentityAuthPic2.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+
+    }
+
+    /**
+     * 保存身份证反面信息到云端
+     */
+    private void initSaveIDCardBack() {
+
+        String sign_organ = mIDCardBean.issued_by; //身份证签发机关
+        String valid_date = mIDCardBean.valid_date; //身份证有效期限
+
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("sign_organ", sign_organ);
+            jsonObject.put("valid_date", valid_date);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final SaveIDCardBack saveIDCardBack = new SaveIDCardBack(mContext);
+        saveIDCardBack.saveIDCardBack(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                int code = paramT.getCode();
+                if (0 == code) {
+                    ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
+                    ivIdentityAuthPic2.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+    }
+
     private void setImageSource(byte[] imageSource) {
-        LogUtil.d("abc","setImageSource");
+        LogUtil.d("abc", "setImageSource");
         Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
         switch (mIsClickPosition) {
             case 0:
@@ -374,17 +473,18 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 得到身份证正面信息
      */
     private void getIdcardFrontInfo(byte[] data) {
-        LogUtil.d("abc","getIdcardFrontInfo");
+        LogUtil.d("abc", "getIdcardFrontInfo");
         ViewUtil.createLoadingDialog(this, "", false);
         new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
             @Override
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
                 mIDCardBean = paramT;
-                refreshNameAndNumUI();
                 if (mIDCardBean.id_card_number.length() != 18) {
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
+                refreshNameAndNumUI();
+                initSaveIDCardFront();
             }
 
             @Override
@@ -419,6 +519,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 if (mIDCardBean != null && paramT != null) {
                     mIDCardBean.issued_by = paramT.issued_by;
                     mIDCardBean.valid_date = paramT.valid_date;
+                    initSaveIDCardBack();
                 }
             }
 

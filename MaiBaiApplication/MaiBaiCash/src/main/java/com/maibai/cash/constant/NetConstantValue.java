@@ -458,7 +458,6 @@ public class NetConstantValue {
     public static String getSaveFrontIdCardInfoUrl() {
         return COMMONURI + "Customer/saveFrontIdCardInfo";
     }
-
     /**
      * 保存用户身份证反面信息
      */
