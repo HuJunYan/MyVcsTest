@@ -2,6 +2,7 @@ package com.maibai.cash.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -67,7 +68,9 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     EditText etAuthInfoWorkAddressDetails;
 
 
-    private AddressBean mAddressBean;
+    private AddressBean mProvinceBean;
+    private AddressBean mCityBean;
+    private AddressBean mCountyBean;
     private ArrayList<String> mProvinceData;
     private ArrayList<String> mCityData;
     private ArrayList<String> mCountyData;
@@ -129,7 +132,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 new BaseNetCallBack<AddressBean>() {
                     @Override
                     public void onSuccess(AddressBean paramT) {
-                        mAddressBean = paramT;
+                        mProvinceBean = paramT;
                         parserProvinceListData();
                         showProvinceListDialog();
                     }
@@ -148,8 +151,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
 
         JSONObject jsonObject = new JSONObject();
         long userId = TianShenUserUtil.getUserId(mContext);
-        AddressBean.Data data = mAddressBean.getData().get(mProvincePosition);
-        int province_id = data.getProvice_id();
+        AddressBean.Data data = mProvinceBean.getData().get(mProvincePosition);
+        String province_id = data.getProvice_id();
         LogUtil.d("abc", "province_id-->" + province_id);
         try {
             jsonObject.put("customer_id", userId);
@@ -163,16 +166,19 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 new BaseNetCallBack<AddressBean>() {
                     @Override
                     public void onSuccess(AddressBean paramT) {
-                        mAddressBean = paramT;
+
+                        LogUtil.d("abc", "onSuccess--->");
+                        mCityBean = paramT;
                         parserCityListData();
                         showCityListDialog();
                     }
 
                     @Override
                     public void onFailure(String url, int errorType, int errorCode) {
-
+                        LogUtil.d("abc", "onFailure--->");
                     }
                 });
+
     }
 
 
@@ -180,7 +186,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 解省数据给dialog用
      */
     private void parserProvinceListData() {
-        ArrayList<AddressBean.Data> datas = mAddressBean.getData();
+        ArrayList<AddressBean.Data> datas = mProvinceBean.getData();
         mProvinceData = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             AddressBean.Data data = datas.get(i);
@@ -193,7 +199,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 解城市数据给dialog用
      */
     private void parserCityListData() {
-        ArrayList<AddressBean.Data> datas = mAddressBean.getData();
+        ArrayList<AddressBean.Data> datas = mCityBean.getData();
+
+
+        LogUtil.d("abc","parserCityListData--->"+datas.size());
+
         mCityData = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             AddressBean.Data data = datas.get(i);
@@ -206,7 +216,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 解区域数据给dialog用
      */
     private void parserCountyListData() {
-        ArrayList<AddressBean.Data> datas = mAddressBean.getData();
+        ArrayList<AddressBean.Data> datas = mCountyBean.getData();
         mCountyData = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             AddressBean.Data data = datas.get(i);
@@ -234,9 +244,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
 
 
     /**
-     * 显示省的Dialog
+     * 显示城市的Dialog
      */
     private void showCityListDialog() {
+
+        LogUtil.d("abc","showCityListDialog--in"+mCityData.size());
+
         new MaterialDialog.Builder(mContext)
                 .title("选择城市")
                 .items(mCityData)
@@ -246,6 +259,9 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                         mCityPosition = position;
                     }
                 }).show();
+
+
+        LogUtil.d("abc","showCityListDialog--out");
     }
 
 

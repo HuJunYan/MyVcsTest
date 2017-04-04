@@ -134,6 +134,7 @@ public class NetBase {
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {
+                    Logger.i("下行Exception");
                     String g = (String) responseInfo.result;
                     callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
                     DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");

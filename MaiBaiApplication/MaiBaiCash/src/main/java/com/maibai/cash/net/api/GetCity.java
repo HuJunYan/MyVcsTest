@@ -49,8 +49,10 @@ public class GetCity extends NetBase {
     }
 
     private void successHandle(String result, String url, BaseNetCallBack<AddressBean> callBack) {
+        LogUtil.d("abc","解析前-----》");
         AddressBean addressBean = GsonUtil.json2bean(result, AddressBean.class);
         callBack.onSuccess(addressBean);
+        LogUtil.d("abc","解析后-----》");
     }
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<AddressBean> callBack) {
