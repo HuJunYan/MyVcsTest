@@ -22,6 +22,7 @@ import com.maibai.cash.constant.GlobalParams;
 import com.maibai.cash.model.IDCardBean;
 import com.maibai.cash.model.SaveIdCardBean;
 import com.maibai.cash.model.UploadImageBean;
+import com.maibai.cash.model.WithdrawalsItemBean;
 import com.maibai.cash.net.api.IDCardAction;
 import com.maibai.cash.net.api.SaveIdCardInformation;
 import com.maibai.cash.net.api.UploadImage;
@@ -35,6 +36,7 @@ import com.maibai.cash.utils.ViewUtil;
 import com.maibai.user.idcardlibrary.activity.IDCardScanActivity;
 import com.maibai.user.idcardlibrary.util.Util;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
+import com.megvii.idcardquality.bean.IDCardAttr;
 import com.megvii.licensemanager.Manager;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
@@ -47,6 +49,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,9 +89,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private IDCardBean mIDCardBean;
 
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，2==人脸识别
-    private final int IMAGE_TYPE_ID_CARD_FRONT = 20;
-    private final int IMAGE_TYPE_ID_CARD_BACK = 21;
-    private final int IMAGE_TYPE_SCAN_FACE = 25;
+    private final int IMAGE_TYPE_ID_CARD_FRONT = 20; //上传图片 type  身份证正面
+    private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
+    private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
 
 
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++联网授权成功
@@ -118,17 +121,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     byte[] frontImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[0] = saveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
                     upLoadImage(frontImg, IMAGE_TYPE_ID_CARD_FRONT);
-
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(frontImg, 0, frontImg.length);
-                    ivIdentityAuthPic.setImageBitmap(bitmap);
                     break;
                 case GlobalParams.INTO_IDCARDSCAN_BACK_PAGE:
                     // TODO 先上传反面身份证照
                     byte[] backImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[1] = saveJPGFile(mContext, backImg, IMAGE_TYPE_ID_CARD_BACK);
-//                    upLoadImage(backImg, IMAGE_TYPE_ID_CARD_BACK);
-                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(backImg, 0, backImg.length);
-                    ivIdentityAuthPic2.setImageBitmap(bitmap2);
                     break;
                 case GlobalParams.PAGE_INTO_LIVENESS:
                     // TODO 先上次活体检测照片
@@ -171,7 +168,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_identity_post:
-                postImageTest();
                 break;
             case R.id.iv_identity_auth_pic:
                 onClickIdentity();
@@ -297,7 +293,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
-                    ToastUtil.showToast(mContext, "上传失败!errorCode--->"+errorCode);
+                    ToastUtil.showToast(mContext, "上传失败!errorCode--->" + errorCode);
                 }
             });
         } catch (Exception e) {
@@ -308,20 +304,39 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
 
+    /**
+     * 上传图片
+     */
     private void upLoadImage(final byte[] imageByte, final int type) {
+        LogUtil.d("abc","upLoadImage--in");
+
+        long userID = TianShenUserUtil.getUserId(mContext);
+
         try {
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", userID);
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
-            uploadImage.uploadImage(newJson, mImageFullPath[type - 20], true, new BaseNetCallBack<UploadImageBean>() {
+
+            String path = "";
+            switch (type) {
+                case IMAGE_TYPE_ID_CARD_FRONT:
+                    path = mImageFullPath[0];
+                    break;
+                case IMAGE_TYPE_ID_CARD_BACK:
+                    path = mImageFullPath[1];
+                    break;
+            }
+
+            uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
+                    LogUtil.d("abc","upLoadImage--onSuccess");
                     switch (type) {
                         case IMAGE_TYPE_ID_CARD_FRONT:
+                            setImageSource(imageByte);
                             getIdcardFrontInfo(imageByte);
-                            ivIdentityAuthPic2.setEnabled(true);
                             break;
                         case IMAGE_TYPE_ID_CARD_BACK:
                             break;
@@ -339,16 +354,34 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    private void setImageSource(byte[] imageSource) {
+        LogUtil.d("abc","setImageSource");
+        Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
+        switch (mIsClickPosition) {
+            case 0:
+                ivIdentityAuthPic.setImageBitmap(idcardBmp);
+                break;
+            case 1:
+                ivIdentityAuthPic2.setImageBitmap(idcardBmp);
+                break;
+            case 2:
+                ivIdentityAuthFace.setImageBitmap(idcardBmp);
+                break;
+        }
+    }
+
     /**
      * 得到身份证正面信息
      */
     private void getIdcardFrontInfo(byte[] data) {
+        LogUtil.d("abc","getIdcardFrontInfo");
         ViewUtil.createLoadingDialog(this, "", false);
         new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
             @Override
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
                 mIDCardBean = paramT;
+                refreshNameAndNumUI();
                 if (mIDCardBean.id_card_number.length() != 18) {
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
@@ -361,6 +394,17 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 ViewUtil.cancelLoadingDialog();
             }
         });
+    }
+
+    /**
+     * 刷新名字和身份证号UI
+     */
+    private void refreshNameAndNumUI() {
+        String name = mIDCardBean.name;
+        String num = mIDCardBean.id_card_number;
+        etIdentityAuthName.setText(name);
+        etIdentityAuthNum.setText(num);
+
     }
 
     /**
