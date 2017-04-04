@@ -149,17 +149,17 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         JSONObject jsonObject = new JSONObject();
         long userId = TianShenUserUtil.getUserId(mContext);
         AddressBean.Data data = mAddressBean.getData().get(mProvincePosition);
-        int provice_id = data.getProvice_id();
-        LogUtil.d("abc","provice_id-->"+provice_id);
+        int province_id = data.getProvice_id();
+        LogUtil.d("abc", "province_id-->" + province_id);
         try {
             jsonObject.put("customer_id", userId);
-            jsonObject.put("provice_id",provice_id);
+            jsonObject.put("province_id", province_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         final GetCity getCity = new GetCity(mContext);
-        getCity.getCity(new JSONObject(), tvAuthInfoHomeAddress, true,
+        getCity.getCity(jsonObject, tvAuthInfoHomeAddress, true,
                 new BaseNetCallBack<AddressBean>() {
                     @Override
                     public void onSuccess(AddressBean paramT) {
