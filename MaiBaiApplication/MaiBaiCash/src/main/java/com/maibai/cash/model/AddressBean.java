@@ -39,10 +39,31 @@ public class AddressBean {
 
     public class Data {
 
+        private String provice_name;
         private String provice_id;
+
         private String city_id;
         private String city_name;
-        private String provice_name;
+
+        private String county_id;
+        private String county_name;
+
+        public String getCounty_id() {
+            return county_id;
+        }
+
+        public void setCounty_id(String county_id) {
+            this.county_id = county_id;
+        }
+
+        public String getCounty_name() {
+            return county_name;
+        }
+
+        public void setCounty_name(String county_name) {
+            this.county_name = county_name;
+        }
+
 
         public String getProvice_id() {
             return provice_id;

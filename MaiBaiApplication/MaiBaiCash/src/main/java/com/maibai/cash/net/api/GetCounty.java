@@ -30,7 +30,7 @@ public class GetCounty extends NetBase {
         mUrl = NetConstantValue.getCountyUrl();
     }
 
-    public void GetCounty(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<AddressBean> callBack) {
+    public void getCounty(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<AddressBean> callBack) {
         mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
         if (mJSONObject == null) {
             return;

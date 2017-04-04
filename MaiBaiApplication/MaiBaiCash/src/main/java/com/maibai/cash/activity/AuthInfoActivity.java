@@ -13,6 +13,7 @@ import com.maibai.cash.model.AddressBean;
 import com.maibai.cash.model.BankListItemBean;
 import com.maibai.cash.model.StatisticsRollBean;
 import com.maibai.cash.net.api.GetCity;
+import com.maibai.cash.net.api.GetCounty;
 import com.maibai.cash.net.api.GetProvince;
 import com.maibai.cash.net.api.StatisticsRoll;
 import com.maibai.cash.net.base.BaseNetCallBack;
@@ -77,6 +78,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
 
     private int mProvincePosition;//选择省的位置
     private int mCityPosition;//选择城市的位置
+    private int mCountyPosition;//选择区域的位置
 
     @Override
     protected int setContentView() {
@@ -148,12 +150,10 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 得到城市信息
      */
     private void initCityData() {
-
         JSONObject jsonObject = new JSONObject();
         long userId = TianShenUserUtil.getUserId(mContext);
         AddressBean.Data data = mProvinceBean.getData().get(mProvincePosition);
         String province_id = data.getProvice_id();
-        LogUtil.d("abc", "province_id-->" + province_id);
         try {
             jsonObject.put("customer_id", userId);
             jsonObject.put("province_id", province_id);
@@ -166,8 +166,6 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 new BaseNetCallBack<AddressBean>() {
                     @Override
                     public void onSuccess(AddressBean paramT) {
-
-                        LogUtil.d("abc", "onSuccess--->");
                         mCityBean = paramT;
                         parserCityListData();
                         showCityListDialog();
@@ -175,12 +173,40 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
 
                     @Override
                     public void onFailure(String url, int errorType, int errorCode) {
-                        LogUtil.d("abc", "onFailure--->");
                     }
                 });
 
     }
 
+    /**
+     * 得到区域信息
+     */
+    private void initCountyData() {
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        AddressBean.Data data = mCityBean.getData().get(mCityPosition);
+        String city_id = data.getCity_id();
+        try {
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("city_id", city_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final GetCounty getCounty = new GetCounty(mContext);
+        getCounty.getCounty(jsonObject, tvAuthInfoHomeAddress, true,
+                new BaseNetCallBack<AddressBean>() {
+                    @Override
+                    public void onSuccess(AddressBean paramT) {
+                        mCityBean = paramT;
+                        parserCountyListData();
+                        showCountyListDialog();
+                    }
+
+                    @Override
+                    public void onFailure(String url, int errorType, int errorCode) {
+                    }
+                });
+    }
 
     /**
      * 解省数据给dialog用
@@ -200,10 +226,6 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void parserCityListData() {
         ArrayList<AddressBean.Data> datas = mCityBean.getData();
-
-
-        LogUtil.d("abc","parserCityListData--->"+datas.size());
-
         mCityData = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             AddressBean.Data data = datas.get(i);
@@ -242,14 +264,10 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 }).show();
     }
 
-
     /**
      * 显示城市的Dialog
      */
     private void showCityListDialog() {
-
-        LogUtil.d("abc","showCityListDialog--in"+mCityData.size());
-
         new MaterialDialog.Builder(mContext)
                 .title("选择城市")
                 .items(mCityData)
@@ -257,13 +275,25 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mCityPosition = position;
+                        initCountyData();
                     }
                 }).show();
-
-
-        LogUtil.d("abc","showCityListDialog--out");
     }
 
+    /**
+     * 显示区域的Dialog
+     */
+    private void showCountyListDialog() {
+        new MaterialDialog.Builder(mContext)
+                .title("选择区域")
+                .items(mCountyData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mCountyPosition = position;
+                    }
+                }).show();
+    }
 
     /**
      * 提交个人信息
