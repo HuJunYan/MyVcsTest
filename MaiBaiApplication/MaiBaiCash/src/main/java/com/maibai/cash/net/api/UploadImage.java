@@ -24,6 +24,7 @@ import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
 import com.maibai.cash.utils.VersionUtil;
 import com.maibai.cash.utils.ViewUtil;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +105,9 @@ public class UploadImage {
                 return;
             }
             Log.d("ret", "uploadImage: " + objectRoot.toString());
+            Logger.i("uploadImage");
+            Logger.json(objectRoot.toString());
+
             requestParams.addBodyParameter("json", objectRoot.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,6 +143,10 @@ public class UploadImage {
 
             @Override
             public void onFailure(HttpException error, String msg) {
+
+                Logger.d("uploadImage--failed");
+                Logger.d(error);
+                Logger.d(msg);
 
                 if (isRelease) {
                     mUploadImageCallBack.onFailure("", -3, -1000);
@@ -176,8 +184,29 @@ public class UploadImage {
                     return;
                 }
             }
-            Log.d("ret", "uploadImage: " + jsonObject.toString());
-            requestParams.addBodyParameter("json", jsonObject.toString());
+            //外层嵌套一层信息
+            JSONObject objectRoot = new JSONObject();
+            //得到用户登录的token
+            String userToken = TianShenUserUtil.getUserToken(mContext);
+            //得到版本号
+            String version = VersionUtil.getVersion(mContext);
+            //得到时间戳
+            String timestamp = System.currentTimeMillis() + "";
+            try {
+                objectRoot.put("token", userToken); //token
+                objectRoot.put("version", version);
+                objectRoot.put("type", "1"); //客户端类型0h5,1android,2ios,3winphone
+                objectRoot.put("timestamp", timestamp);
+                objectRoot.put("data", jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("ret", "uploadImage: " + objectRoot.toString());
+            Logger.i("uploadImage");
+            Logger.json(objectRoot.toString());
+
+            requestParams.addBodyParameter("json", objectRoot.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,6 +221,9 @@ public class UploadImage {
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 try {
                     Log.d("ret", "mUrl = " + mUrl + " ; result = " + responseInfo.result);
+                    Logger.i("下行onSuccess--mUrl-->"+mUrl);
+                    Logger.json(responseInfo.result);
+
                     if (responseInfo != null && GsonUtil.isSuccess(responseInfo.result)) {
                         if (isRelease) {
                             UploadImageBean mUploadImageBean = GsonUtil.json2bean(responseInfo.result, UploadImageBean.class);
@@ -216,6 +248,10 @@ public class UploadImage {
 
             @Override
             public void onFailure(HttpException error, String msg) {
+
+                Logger.d("uploadImage--failed");
+                Logger.d(error);
+                Logger.d(msg);
 
                 if (isRelease) {
                     mUploadImageCallBack.onFailure("", -3, -1000);

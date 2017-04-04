@@ -1,30 +1,43 @@
 package com.maibai.cash.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.maibai.cash.R;
 import com.maibai.cash.base.BaseActivity;
+import com.maibai.cash.base.MyApplication;
 import com.maibai.cash.constant.GlobalParams;
 import com.maibai.cash.model.AddressBean;
 import com.maibai.cash.model.IDCardBean;
+import com.maibai.cash.model.ImageVerifyRequestBean;
 import com.maibai.cash.model.PostDataBean;
+import com.maibai.cash.model.ResponseBean;
 import com.maibai.cash.model.SaveIdCardBean;
 import com.maibai.cash.model.UploadImageBean;
+import com.maibai.cash.model.User;
 import com.maibai.cash.model.WithdrawalsItemBean;
+import com.maibai.cash.net.api.CreditFace;
 import com.maibai.cash.net.api.GetProvince;
 import com.maibai.cash.net.api.IDCardAction;
 import com.maibai.cash.net.api.SaveIDCardBack;
@@ -37,24 +50,34 @@ import com.maibai.cash.utils.LogUtil;
 import com.maibai.cash.utils.SignUtils;
 import com.maibai.cash.utils.TianShenUserUtil;
 import com.maibai.cash.utils.ToastUtil;
+import com.maibai.cash.utils.Utils;
 import com.maibai.cash.utils.ViewUtil;
 import com.maibai.user.idcardlibrary.activity.IDCardScanActivity;
 import com.maibai.user.idcardlibrary.util.Util;
+import com.maibai.user.livenesslibrary.activity.LivenessActivity;
+import com.maibai.user.livenesslibrary.bean.MyMap;
+import com.maibai.user.livenesslibrary.util.ConUtil;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.idcardquality.bean.IDCardAttr;
 import com.megvii.licensemanager.Manager;
+import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,6 +115,14 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
     private String[] mImageFullPath = new String[7];
     private IDCardBean mIDCardBean;
+    private MediaPlayer mMediaPlayer = null;
+
+    private byte[] mHeadImg;
+
+    private double confidence = 0;
+    private int facePassScore = 65;
+
+    private int mUpLoadCreditFaceTimes = 0;
 
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，2==人脸识别
     private final int IMAGE_TYPE_ID_CARD_FRONT = 20; //上传图片 type  身份证正面
@@ -99,8 +130,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
 
 
-    private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++联网授权成功
-    private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++联网授权失败
+    private boolean isCanPressBack = true;
+
+    private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
+    private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
+    private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
+    private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
 
 
     private Handler mHandler = new Handler() {
@@ -112,6 +147,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 case MSG_IDCARD_NETWORK_WARRANTY_ERROR:
                     ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
                     break;
+                case MSG_IDCARD_NETWORK_FACE_OK:
+                    gotoFaceAddAddActivity();
+                    break;
+                case MSG_IDCARD_NETWORK_FACE_ERROR:
+                    ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
+                    break;
             }
         }
     };
@@ -119,22 +160,25 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+
         if (data != null && resultCode == RESULT_OK) {
             switch (requestCode) {
                 case GlobalParams.INTO_IDCARDSCAN_FRONT_PAGE:
-                    // TODO 先上传正面身份证照
+                    LogUtil.d("abc", "onActivityResult--身份证正面");
+
                     byte[] frontImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[0] = saveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
                     upLoadImage(frontImg);
                     break;
                 case GlobalParams.INTO_IDCARDSCAN_BACK_PAGE:
-                    // TODO 先上传反面身份证照
+                    LogUtil.d("abc", "onActivityResult--身份证反面");
                     byte[] backImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[1] = saveJPGFile(mContext, backImg, IMAGE_TYPE_ID_CARD_BACK);
                     upLoadImage(backImg);
                     break;
                 case GlobalParams.PAGE_INTO_LIVENESS:
-                    // TODO 先上次活体检测照片
+                    LogUtil.d("abc", "onActivityResult--人脸识别");
+                    livenessResult(data.getExtras());
                     break;
             }
         } else if (resultCode == GlobalParams.RETURN_FROM_ACTIVITY_ERROR) {
@@ -208,7 +252,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      */
     private void onClickFace() {
         mIsClickPosition = 2;
-        idCardNetWorkWarranty();
+        livenessNetWorkWarranty();
     }
 
 
@@ -235,6 +279,27 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 活体联网授权
+     */
+    private void livenessNetWorkWarranty() {
+        ViewUtil.createLoadingDialog(this, "正在联网授权", false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Manager manager = new Manager(mContext);
+                LivenessLicenseManager licenseManager = new LivenessLicenseManager(mContext);
+                manager.registerLicenseManager(licenseManager);
+                manager.takeLicenseFromNetwork(ConUtil.getUUIDString(mContext));
+                if (licenseManager.checkCachedLicense() > 0) {
+                    mHandler.sendEmptyMessage(MSG_IDCARD_NETWORK_FACE_OK);
+                } else {
+                    mHandler.sendEmptyMessage(MSG_IDCARD_NETWORK_FACE_ERROR);
+                }
+            }
+        }).start();
+    }
+
+    /**
      * 跳转到face++的页面
      */
     private void gotoFaceAddAddActivity() {
@@ -253,9 +318,74 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(idCardScanBackIntent, GlobalParams.INTO_IDCARDSCAN_BACK_PAGE);
                 ToastUtil.showToast(mContext, "请拍摄身份证反面");
                 break;
-            case 2:
+            case 2://人脸检测
+                startActivityForResult(new Intent(mContext, LivenessActivity.class), GlobalParams.PAGE_INTO_LIVENESS);
                 break;
 
+        }
+    }
+
+    private void livenessResult(Bundle bundle) {
+        String resultOBJ = bundle.getString("result");
+        try {
+            JSONObject result = new JSONObject(resultOBJ);
+            int resID = result.getInt("resultcode");
+            if (resID == R.string.verify_success) {
+                doPlay(R.raw.meglive_success);
+            } else if (resID == R.string.liveness_detection_failed_not_video) {
+                doPlay(R.raw.meglive_failed);
+            } else if (resID == R.string.liveness_detection_failed_timeout) {
+                doPlay(R.raw.meglive_failed);
+            } else if (resID == R.string.liveness_detection_failed) {
+                doPlay(R.raw.meglive_failed);
+            } else {
+                doPlay(R.raw.meglive_failed);
+            }
+            boolean isSuccess = result.getString("result").equals(getResources().getString(R.string.verify_success));
+            if (isSuccess) {
+                // 保存活体检测时的照片
+                MyMap map = (MyMap) bundle.getSerializable("images");
+                saveLivenessImage(map);
+                upLoadLivenessImage(result.getString("delta"), map, IMAGE_TYPE_SCAN_FACE);
+            } else {
+                ToastUtil.showToast(mContext, "检测失败，请重新检测");
+                gotoFaceAddAddActivity();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+    }
+
+    private void saveLivenessImage(MyMap map) {
+        int count = map.getImages().size();
+        if (count > 5) {
+            count = 5;
+        }
+        int i = 0;
+        for (Map.Entry<String, byte[]> entry : map.getImages().entrySet()) {
+            mImageFullPath[i + 2] = saveJPGFile(mContext, entry.getValue(), i + 25);
+            i++;
+        }
+    }
+
+    private void doPlay(int rawId) {
+        if (mMediaPlayer == null)
+            mMediaPlayer = new MediaPlayer();
+
+        mMediaPlayer.reset();
+        try {
+            AssetFileDescriptor localAssetFileDescriptor = getResources()
+                    .openRawResourceFd(rawId);
+            mMediaPlayer.setDataSource(
+                    localAssetFileDescriptor.getFileDescriptor(),
+                    localAssetFileDescriptor.getStartOffset(),
+                    localAssetFileDescriptor.getLength());
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (Exception localIOException) {
+            localIOException.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(localIOException));
         }
     }
 
@@ -369,9 +499,230 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 上传扫脸照片
+     */
+    private void upLoadLivenessImage(final String delta, final MyMap map, final int type) {
+
+        LogUtil.d("abc", "upLoadLivenessImage");
+
+        try {
+            int count = map.getImages().size();
+            if (count < 5) {
+                count = 5;
+            }
+            String[] imageFullPatyArray = new String[5];
+            for (int i = 0; i < count; i++) {
+                imageFullPatyArray[i] = mImageFullPath[i + 2];
+            }
+
+
+            for (int i = 0; i < imageFullPatyArray.length; i++) {
+                String path = imageFullPatyArray[i];
+                LogUtil.d("abc", "i---->" + i + "----->"+path);
+            }
+
+            long userID = TianShenUserUtil.getUserId(mContext);
+
+            UploadImage uploadImage = new UploadImage(mContext);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("customer_id", userID + "");
+            jsonObject.put("type", type + "");
+            JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
+            uploadImage.uploadImageArray(newJson, imageFullPatyArray, true, new BaseNetCallBack<UploadImageBean>() {
+                @Override
+                public void onSuccess(UploadImageBean uploadImageBean) {
+                    LogUtil.d("abc", "upLoadLivenessImage---onSuccess");
+                    compareImage(delta, map);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    LogUtil.d("abc", "upLoadLivenessImage---onFailure");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+    }
+
+    private void compareImage(String delta, MyMap map) {
+        ImageVerifyRequestBean bean = new ImageVerifyRequestBean();
+
+
+        User user = TianShenUserUtil.getUser(mContext);
+        String name = user.getName();
+        String id_num = user.getId_num();
+
+        bean.name = name;
+        bean.idcard = id_num;
+        bean.imageref = Utils.saveJPGFile(this, mHeadImg, "image_ref1");
+        bean.delta = delta;
+        bean.images = map.getImages();
+        imageVerify_2_noScanIDCard(bean);
+    }
+
+
+    private void imageVerify_2_noScanIDCard(final ImageVerifyRequestBean bean) {
+        LogUtil.d("abc", "imageVerify_2_noScanIDCard--in");
+
+        ViewUtil.createLoadingDialog(this, "正在与身份证比对，请稍候", false);
+        RequestParams requestParams = new RequestParams();
+        try {
+            requestParams.put("idcard_name", bean.name);
+            requestParams.put("idcard_number", bean.idcard);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+        requestParams.put("delta", bean.delta);
+        requestParams.put("api_key", "cX9UMpO-z5GG1KJkuRslGCTiC9JQOUUJ");
+        requestParams.put("api_secret", "f8NhOZausOpR1pKNpQA5dgHNr0w3pdn5");
+        requestParams.put("comparison_type", "1");
+        requestParams.put("face_image_type", "meglive");
+        for (Map.Entry<String, byte[]> entry : bean.images.entrySet()) {
+            requestParams.put(entry.getKey(), new ByteArrayInputStream(entry.getValue()));
+        }
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        String url = "https://api.megvii.com/faceid/v2/verify";
+        asyncHttpClient.post(url, requestParams,
+                new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        ViewUtil.cancelLoadingDialog();
+                        String successStr = new String(bytes);
+                        Log.d("ret", successStr);
+
+                        LogUtil.d("abc", "imageVerify_2_noScanIDCard--successStr-->" + successStr);
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(successStr);
+                            if (!jsonObject.has("error")) {
+                                // 活体最好的一张照片和公安部系统上身份证上的照片比较
+                                confidence = jsonObject.getJSONObject("result_faceid").getDouble("confidence");
+                                // 活体最好的一张照片和拍摄身份证上的照片的比较
+                                // 解析faceGen
+                                JSONObject jObject = jsonObject.getJSONObject("face_genuineness");
+                                float mask_confidence = (float) jObject.getDouble("mask_confidence");
+                                float screen_replay_confidence = (float) jObject.getDouble("screen_replay_confidence");
+                                float synthetic_face_confidence = (float) jObject.getDouble("synthetic_face_confidence");
+                                if (mask_confidence > (float) facePassScore / 100 || screen_replay_confidence > (float) facePassScore / 100 || synthetic_face_confidence > (float) facePassScore / 100 || confidence < facePassScore) {
+                                    ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
+                                    selectLivenessControl(bean.name, bean.idcard);
+                                } else {
+                                    conformCreditFace();
+                                }
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                            MobclickAgent.reportError(mContext, LogUtil.getException(e1));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int i, Header[] headers,
+                                          byte[] bytes, Throwable throwable) {
+                        ViewUtil.cancelLoadingDialog();
+                        ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
+                        gotoFaceAddAddActivity();
+                    }
+                });
+    }
+
+
+    private void conformCreditFace() throws JSONException {
+        LogUtil.d("abc", "conformCreditFace---in");
+
+        CreditFace creditFace = new CreditFace(mContext);
+        long userID = TianShenUserUtil.getUserId(mContext);
+
+        JSONObject json = new JSONObject();
+        json.put("customer_id", userID);
+        json.put("face_pass", "1");
+        isCanPressBack = false;
+        creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {
+            @Override
+            public void onSuccess(ResponseBean paramT) {
+
+
+                LogUtil.d("abc", "扫脸成功!!!!");
+
+                Utils.delJPGFile(mContext);
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                double mLivenessResult = 0;
+                mLivenessResult = confidence;
+                bundle.putDouble("result", mLivenessResult);
+                bundle.putSerializable(GlobalParams.ID_CARD_BEAN_KEY, mIDCardBean);
+                intent.putExtras(bundle);
+                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_SCAN_FACE + "");
+                NumberFormat nFormat = NumberFormat.getNumberInstance();
+                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
+                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
+                isCanPressBack = true;
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                if (mUpLoadCreditFaceTimes < 3) {
+                    try {
+                        conformCreditFace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        MobclickAgent.reportError(mContext, LogUtil.getException(e));
+                    }
+                    mUpLoadCreditFaceTimes++;
+                }
+            }
+        });
+    }
+
+    private void selectLivenessControl(String name, String idCardNum) {
+        int scanTime = UserUtil.getScanTimes(mContext);
+        UserUtil.setScanTimes(mContext, ++scanTime);
+        if (2 <= scanTime && scanTime < 5) {
+            showScanErrorDialog(name, idCardNum);
+        } else if (5 <= scanTime) {
+            UserUtil.setCashCreditReason(mContext, "您不符合我们的征信条件");
+            gotoActivity(mContext, VerifyFailActivity.class, null);
+            backActivity();
+        } else {
+            gotoFaceAddAddActivity();
+        }
+    }
+
+    private void showScanErrorDialog(String name, String idCardNum) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("信息校验");
+        builder.setMessage("请确认您的信息，若信息有误，请联系天神贷\n姓名：" + name + "\n" + "身份证号：" + idCardNum);
+        builder.setCancelable(false);
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                gotoFaceAddAddActivity();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ((MyApplication) getApplication()).clearTempActivityInBackStack(MainActivity.class);
+            }
+        });
+        builder.create().show();
+    }
+
+    /**
      * 保存身份证正面信息到云端
      */
     private void initSaveIDCardFront() {
+
+
+        //TODO 后续这段代码要放到下面成功的回调之中
+        User user = TianShenUserUtil.getUser(mContext);
+        user.setName(mIDCardBean.name);
+        user.setId_num(mIDCardBean.id_card_number);
+        TianShenUserUtil.saveUser(mContext, user);
+
 
         String real_name = mIDCardBean.name; //身份证姓名
         String gender = mIDCardBean.gender; // 身份证性别
@@ -458,6 +809,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
         switch (mIsClickPosition) {
             case 0:
+                mHeadImg = imageSource;
                 ivIdentityAuthPic.setImageBitmap(idcardBmp);
                 break;
             case 1:
@@ -574,6 +926,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             }
         }
         return null;
+    }
+
+    @Override
+    protected boolean isOnKeyDown() {
+        return isCanPressBack;
     }
 
 }

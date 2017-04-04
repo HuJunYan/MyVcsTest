@@ -20,6 +20,15 @@ public class User {
     private String sex;
     private String token;
     private String jpush_id;//激光推送的id
+    private String id_num; //身份证号
+
+    public String getId_num() {
+        return id_num;
+    }
+
+    public void setId_num(String id_num) {
+        this.id_num = id_num;
+    }
 
     public String getJpush_id() {
         return jpush_id;
