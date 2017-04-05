@@ -15,11 +15,10 @@ android {
     }
     signingConfigs {
         releaseConfig {
-//            keyAlias 'maibeicash'
-//            keyPassword 'maibei2016'
-//            storeFile file('/Users/crslljj/workspace/maibeiWorkspace/MaiBai/doc/jks/maibei_cash/maibeicash.jks')
-//            storeFile file('../../doc/jks/maibei_cash/maibeicash.jks')
-//            storePassword 'maibei2016'
+            keyAlias 'tianshencash'
+            keyPassword 'tianshen2017'
+            storeFile file('../../doc/jks/tianshen_cash/tianshencash.jks')
+            storePassword 'tianshen2017'
         }
     }
     buildTypes {
