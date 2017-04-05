@@ -196,6 +196,9 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                 bt_submite.setBackgroundResource(R.drawable.button_gray);
             }
         }
+
+
+        checkChinaIsOK(china_mobile);
     }
 
     public void updateView(ImageTextView view, String isAuthentication) {
@@ -207,6 +210,17 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         } else {
             view.setRightText("去认证");
             view.setRightTextColor(ContextCompat.getColor(mContext, R.color.not_authentication_color));
+            mIsChinaMobileOK = false;
+        }
+    }
+
+    /**
+     * 检查运营商认证是否成功
+     */
+    private void checkChinaIsOK(String isAuthentication) {
+        if (GlobalParams.ALREADY_AUTHENTICATION.equals(isAuthentication)) {
+            mIsChinaMobileOK = true;
+        } else {
             mIsChinaMobileOK = false;
         }
     }
@@ -269,6 +283,9 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showToast(mContext, "请先去认证！");
                     return;
                 }
+
+                LogUtil.d("abc","onClick---mIsChinaMobileOK--->"+mIsChinaMobileOK);
+
                 if (!mIsChinaMobileOK) {
                     ToastUtil.showToast(mContext, "请先进行运营商认证！");
                     return;
