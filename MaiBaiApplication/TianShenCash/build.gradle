@@ -44,7 +44,7 @@ android {
             def oldFile = output.outputFile
             def newName = '';
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'TianShenCash' +'_TianShenCash_1-0-2_04051619.apk'+ variant.productFlavors[0].name + '_r1.0.0_release.apk'
+                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_1-0-2_04051619.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
