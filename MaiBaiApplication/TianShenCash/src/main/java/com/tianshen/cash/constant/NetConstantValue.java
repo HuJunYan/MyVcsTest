@@ -23,10 +23,15 @@ public class NetConstantValue {
 
     public static String getUserLoginPro(){
         //用户注册协议
-        return COMMONURI+"Protocol/customerSignUp";
+        String commUrl = COMMONURI;
+        commUrl = commUrl.replace("Home", "h5");
+        return commUrl+"protocol/customerSignUp.html";
+//        return COMMONURI+"Protocol/customerSignUp";
     }
     public static String getServerURL(){
-        return COMMONURI+"Protocol/order";
+        String commUrl = COMMONURI;
+        commUrl = commUrl.replace("Home", "h5");
+        return commUrl+"protocol/order.html";
     }
 
     /**
