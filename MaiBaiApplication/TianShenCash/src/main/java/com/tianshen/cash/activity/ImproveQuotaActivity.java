@@ -52,6 +52,9 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
     private CustomerAuthBean customerAuthBean;
     private Bundle mBundle;
     private TitleBar tb_title;
+
+    private boolean mIsChinaMobileOK = false;
+
     Handler mhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -200,9 +203,11 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
             already_authentication_num++;
             view.setRightText("已认证");
             view.setRightTextColor(ContextCompat.getColor(mContext, R.color.is_authentication_color));
+            mIsChinaMobileOK = true;
         } else {
             view.setRightText("去认证");
             view.setRightTextColor(ContextCompat.getColor(mContext, R.color.not_authentication_color));
+            mIsChinaMobileOK = false;
         }
     }
 
@@ -262,6 +267,10 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                 if (customerAuthBean == null || customerAuthBean.getData() == null || customerAuthBean.getData().getCredit_must() == null
                         || "".equals(customerAuthBean.getData().getCredit_must())) {
                     ToastUtil.showToast(mContext, "请先去认证！");
+                    return;
+                }
+                if (!mIsChinaMobileOK) {
+                    ToastUtil.showToast(mContext, "请先进行运营商认证！");
                     return;
                 }
                 int creditMust = Integer.parseInt(customerAuthBean.getData().getCredit_must());
