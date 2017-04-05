@@ -622,7 +622,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
 
     private void gotoTargetActivity() {
         if (null == cashSubItemBean) {
-            ToastUtil.showToast(mContext, "数据错误");
+            ToastUtil.showToast(mContext, "可提现金额可为0");
             return;
         }
         Bundle bundle = new Bundle();
