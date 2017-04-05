@@ -206,11 +206,9 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
             already_authentication_num++;
             view.setRightText("已认证");
             view.setRightTextColor(ContextCompat.getColor(mContext, R.color.is_authentication_color));
-            mIsChinaMobileOK = true;
         } else {
             view.setRightText("去认证");
             view.setRightTextColor(ContextCompat.getColor(mContext, R.color.not_authentication_color));
-            mIsChinaMobileOK = false;
         }
     }
 
@@ -283,9 +281,6 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showToast(mContext, "请先去认证！");
                     return;
                 }
-
-                LogUtil.d("abc","onClick---mIsChinaMobileOK--->"+mIsChinaMobileOK);
-
                 if (!mIsChinaMobileOK) {
                     ToastUtil.showToast(mContext, "请先进行运营商认证！");
                     return;
