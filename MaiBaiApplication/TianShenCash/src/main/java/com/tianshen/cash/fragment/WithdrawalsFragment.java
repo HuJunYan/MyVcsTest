@@ -327,14 +327,17 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
             selWithdrawals.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<SelWithdrawalsBean>() {
                 @Override
                 public void onSuccess(SelWithdrawalsBean paramT) {
+                    LogUtil.d("ret", "selWithdrawals======0");
                     selWithdrawalsBean = paramT;
                     withdrawalsItemBeanList.clear();
                     String defaultUnit = paramT.getUnit();
                     if ("".equals(defaultUnit) || null == defaultUnit) {
                         defaultUnit = "100";
+                        LogUtil.d("ret", "selWithdrawals======1");
                     }
                     default_unit = (int) ((Double.valueOf(defaultUnit)) / 100);
                     withdrawalsItemBeanList.addAll(selWithdrawalsBean.getData());
+                    LogUtil.d("ret", "selWithdrawals======2   withdrawalsItemBeanList.size = " + withdrawalsItemBeanList.size());
                     updateView();
                 }
 
@@ -349,9 +352,12 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void updateView() {
+        LogUtil.d("ret", "updateView======0");
         if (withdrawalsItemBeanList.size() == 0) {
+            LogUtil.d("ret", "updateView======1");
             return;
         }
+        LogUtil.d("ret", "updateView======2");
         for (int i = 0; i < withdrawalsItemBeanList.size(); i++) {
             if (i == selectPosition) {
                 withdrawalsItemBeanList.get(selectPosition).setCheck(true);
@@ -402,6 +408,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
 
         } catch (MinMaxSeekBar.SeekBarStepException e) {
             e.printStackTrace();
+            LogUtil.d("ret", "updateView======3");
         }
         refreshView(selectPosition);
     }
@@ -412,7 +419,15 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void refreshView(int selectPosition) {
-        if (withdrawalsItemBeanList.size() == 0) {
+        LogUtil.d("ret", "refreshView======0 withdrawalsItemBeanList.size = " + withdrawalsItemBeanList.size());
+        if (withdrawalsItemBeanList.size() == 0 || withdrawalsItemBeanList.get(selectPosition).getCash_data().size() == 0) {
+            tv_repay_type.setText("到期总还款（元）");
+            tv_arrival_amount.setText("0");
+            tv_repay_amount_month1.setText("0");
+            tv_unite.setText("天");
+            tv_repay_type2.setText("到期应还（含服务费）");
+            tv_repay_time.setText("0");
+            tv_repay_amount_month2.setText("0");
             return;
         }
         if (selectPosition >= withdrawalsItemBeanList.size()) {
@@ -429,6 +444,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
         }
 
         List<CashSubItemBean> cashSubItemBeanList = withdrawalsItemBeanList.get(selectPosition).getCash_data();
+        LogUtil.d("ret", "refreshView======1 cashSubItemBeanList.size = " + cashSubItemBeanList.size());
         for (int i = 0; i < cashSubItemBeanList.size(); i++) {
             int withDrawalAmount = Integer.valueOf(cashSubItemBeanList.get(i).getWithdrawal_amount());
             if ((int) (withDrawalAmount / 100) == quota) {
@@ -746,7 +762,9 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
                 }
             } else if (GlobalParams.LOGIN_SUCCESS_ACTION.equals(action) || GlobalParams.WITHDRAWALS_VERIFY_FINISHED_ACTION.equals(action) || GlobalParams.WITHDRAWALS_ORDER_SUCCESS_ACTION.equals(action) || GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION.equals(action)) {
                 freshBalanceAmount(MainUtil.isLogin(mContext));
+                LogUtil.d("ret", "WithdrawalsReciver======0");
             } else if (GlobalParams.LOGOUT_ACTION.equals(action)) {
+                LogUtil.d("ret", "WithdrawalsReciver======1");
                 init();
             }
         }

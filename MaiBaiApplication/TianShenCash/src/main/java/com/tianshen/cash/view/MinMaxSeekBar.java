@@ -98,8 +98,13 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
             // return false;
         }
         float value = (max - min);
-        if (value <= 0) {
-            throw new SeekBarStepException("max = " + max + " < min = " + min);
+        if (value < 0) {
+//        if (value <= 0) {
+            float tmp = 0;
+            tmp = max;
+            max = min;
+            min = tmp;
+//            throw new SeekBarStepException("max = " + max + " < min = " + min);
 
         }
 
