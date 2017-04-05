@@ -162,6 +162,15 @@ public class UserUtil {
         return SharedPreferencesUtil.getInstance(context).getString("face_pass_score");
     }
 
+    /**
+     * 客服电话
+     * @param context
+     * @return
+     */
+    public static String getServicePhone(Context context) {
+
+        return SharedPreferencesUtil.getInstance(context).getString("service_phone");
+    }
 
 
     public static String getAlreadyNums(Context context){
@@ -499,6 +508,15 @@ public class UserUtil {
         SharedPreferencesUtil.getInstance(context).putString("face_pass_score", face_pass_score);
     }
 
+    /**
+     * 客服电话
+     * @param context
+     * @return
+     */
+    public static void setServicePhone(Context context, String service_phone) {
+        SharedPreferencesUtil.getInstance(context).putString("service_phone", service_phone);
+    }
+
 
 
     /**
@@ -816,6 +834,9 @@ public class UserUtil {
         }
         if(!TextUtils.isEmpty(signIn.getData().getCash_credit().getHope_nums())){
             setHopeNums(context,signIn.getData().getCash_credit().getHope_nums());
+        }
+        if(!TextUtils.isEmpty(signIn.getData().getCustomer().getService_phone())){
+            setServicePhone(context,signIn.getData().getCustomer().getService_phone());
         }
     }
 

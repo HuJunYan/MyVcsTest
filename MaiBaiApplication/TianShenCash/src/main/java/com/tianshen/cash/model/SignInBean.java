@@ -89,6 +89,7 @@ public class SignInBean implements Serializable {
             private String cash_amount; // 当前总的现金贷信用额度，单位分
             private String balance_cash_amount; // 当前剩余现金贷信用额度, 单位分
             private String face_pass_score; // face++通过的分数
+            private String service_phone; // 客服电话
 
             public String getId() {
                 return id;
@@ -208,6 +209,14 @@ public class SignInBean implements Serializable {
 
             public void setFace_pass_score(String face_pass_score) {
                 this.face_pass_score = face_pass_score;
+            }
+
+            public String getService_phone() {
+                return service_phone;
+            }
+
+            public void setService_phone(String service_phone) {
+                this.service_phone = service_phone;
             }
         }
 
