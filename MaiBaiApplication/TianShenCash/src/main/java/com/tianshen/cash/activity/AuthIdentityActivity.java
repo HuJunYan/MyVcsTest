@@ -871,7 +871,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         try {
             jsonObject.put("customer_id", userId);
             jsonObject.put("sign_organ", sign_organ);
-            jsonObject.put("valid_date", valid_date);
+            jsonObject.put("valid_period", valid_date);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -901,12 +901,15 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             case 0:
                 mHeadImg = imageSource;
                 ivIdentityAuthPic.setImageBitmap(idcardBmp);
+                LogUtil.d("abc","设置身份证正面");
                 break;
             case 1:
                 ivIdentityAuthPic2.setImageBitmap(idcardBmp);
+                LogUtil.d("abc","设置身份证反面");
                 break;
             case 2:
                 ivIdentityAuthFace.setImageBitmap(idcardBmp);
+                LogUtil.d("abc","设置人脸识别");
                 break;
         }
     }
