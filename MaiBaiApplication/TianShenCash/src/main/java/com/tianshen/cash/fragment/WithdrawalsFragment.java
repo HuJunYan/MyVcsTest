@@ -236,7 +236,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
                 if (maxAmount < uniteAmount) {
                     tv_quota.setText("¥0");
                 } else {
-                    tv_quota.setText("¥" + (progress));
+                    tv_quota.setText("¥" + (int) progress);
                 }
                 quota = (int) progress;
                 if (0 == progress + uniteAmount) {
