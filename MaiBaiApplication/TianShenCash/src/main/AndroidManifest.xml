@@ -73,7 +73,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="VFZUIVXcnUH2mWXNWmgshMykQcx0znL1" />
+            android:value="yWO1GjAHCVrOhjcNVRub7D7zZ06QAUh6" />
         <meta-data
             android:name="PARTNER_CODE"
             android:value="9maibei" />
@@ -256,7 +256,7 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="460548cc2a627362ea4da52f" />
+            android:value="18b3e0866fb0af8e4c546faf" />
 
 
         <!--测试服appkey-->
@@ -266,7 +266,7 @@
         <!-- umeng 正式服 begin -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="586f129e75ca356c95001555" />
+            android:value="58d8d84f04e2055475001ba2" />
         <!-- umeng 正式服 end -->
         <meta-data
             android:name="UMENG_CHANNEL"
