@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AddressBean;
 import com.tianshen.cash.model.IDCardBean;
+import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
@@ -38,6 +40,8 @@ import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.CreditFace;
+import com.tianshen.cash.net.api.GetCounty;
+import com.tianshen.cash.net.api.GetIdNumInfo;
 import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.api.IDCardAction;
 import com.tianshen.cash.net.api.SaveIDCardBack;
@@ -46,8 +50,10 @@ import com.tianshen.cash.net.api.SaveIdCardInformation;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
+import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
@@ -112,6 +118,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     ImageView ivIdentityAuthPic2;
     @BindView(R.id.iv_identity_auth_face)
     ImageView ivIdentityAuthFace;
+
+    private IdNumInfoBean mIdNumInfoBean;
 
     private String[] mImageFullPath = new String[7];
     private IDCardBean mIDCardBean;
@@ -190,6 +198,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initIdNumInfo();
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_auth_identity;
     }
@@ -232,6 +246,35 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 得到用户认证的信息
+     */
+    private void initIdNumInfo() {
+
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final GetIdNumInfo getIdNumInfo = new GetIdNumInfo(mContext);
+
+        getIdNumInfo.getIdNumInfo(jsonObject, false,
+                new BaseNetCallBack<IdNumInfoBean>() {
+                    @Override
+                    public void onSuccess(IdNumInfoBean paramT) {
+                        mIdNumInfoBean = paramT;
+                        refreshRootUI();
+                    }
+
+                    @Override
+                    public void onFailure(String url, int errorType, int errorCode) {
+
+                    }
+                });
+    }
+
+    /**
      * 点击了身份证正面
      */
     private void onClickIdentity() {
@@ -255,6 +298,41 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         livenessNetWorkWarranty();
     }
 
+
+    /**
+     * 刷新整体UI
+     */
+    private void refreshRootUI() {
+
+        if (mIdNumInfoBean == null) {
+            return;
+        }
+
+        String real_name = mIdNumInfoBean.getData().getReal_name();
+        String id_num = mIdNumInfoBean.getData().getId_num();
+
+        String front_idCard_url = mIdNumInfoBean.getData().getFront_idCard_url();
+        String back_idCard_url = mIdNumInfoBean.getData().getBack_idCard_url();
+        String face_url = mIdNumInfoBean.getData().getFace_url();
+        etIdentityAuthName.setText(real_name);
+        etIdentityAuthNum.setText(id_num);
+
+        ImageLoader.load(this, front_idCard_url, ivIdentityAuthPic);
+        ImageLoader.load(this, back_idCard_url, ivIdentityAuthPic2);
+        ImageLoader.load(this, face_url, ivIdentityAuthFace);
+
+    }
+
+    /**
+     * 刷新名字和身份证号UI
+     */
+    private void refreshNameAndNumUI() {
+        String name = mIDCardBean.name;
+        String num = mIDCardBean.id_card_number;
+        etIdentityAuthName.setText(name);
+        etIdentityAuthNum.setText(num);
+
+    }
 
     /**
      * 身份证联网授权
@@ -518,7 +596,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
             for (int i = 0; i < imageFullPatyArray.length; i++) {
                 String path = imageFullPatyArray[i];
-                LogUtil.d("abc", "i---->" + i + "----->"+path);
+                LogUtil.d("abc", "i---->" + i + "----->" + path);
             }
 
             long userID = TianShenUserUtil.getUserId(mContext);
@@ -848,16 +926,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    /**
-     * 刷新名字和身份证号UI
-     */
-    private void refreshNameAndNumUI() {
-        String name = mIDCardBean.name;
-        String num = mIDCardBean.id_card_number;
-        etIdentityAuthName.setText(name);
-        etIdentityAuthNum.setText(num);
-
-    }
 
     /**
      * 得到身份证反面信息
