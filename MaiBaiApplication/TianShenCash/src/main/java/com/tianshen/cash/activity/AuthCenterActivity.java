@@ -13,6 +13,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
@@ -41,6 +42,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.xrecyclerview_auth_center)
     XRecyclerView xrecyclerviewAuthCenter;
 
+    private boolean mIsFromCard;
+
     private UserAuthCenterBean mUserAuthCenterBean;
     private ArrayList<AuthCenterItemBean> mAuthCenterItemBeans;
 
@@ -61,6 +64,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsFromCard = getIntent().getExtras().getBoolean(GlobalParams.IS_FROM_CARD_KEY);
         initAuthCenterData();
     }
 
@@ -100,10 +104,23 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 backActivity();
                 break;
             case R.id.tv_auth_center_post:
-                ToastUtil.showToast(mContext, "点击了提交");
+                onClickPost();
                 break;
         }
     }
+
+    private void onClickPost() {
+
+        if (mIsFromCard) {
+            ToastUtil.showToast(mContext, "来自卡片点击了提交");
+            backActivity();
+        } else {
+            ToastUtil.showToast(mContext, "来自提交按钮点击了提交");
+        }
+
+
+    }
+
 
     /**
      * 点击了列表

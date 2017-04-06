@@ -1,6 +1,7 @@
 package com.tianshen.cash.fragment;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.BaseFragment;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -464,13 +466,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.rl_home_tianshen_card: //点击了天神卡
-                gotoActivity(mContext, AuthCenterActivity.class, null);
+                Bundle cardBundle = new Bundle();
+                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
+                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
                 break;
             case R.id.rl_loan_day: //点击了期限选择
                 showSelectLoanDayDialog();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
-                gotoActivity(mContext, AuthCenterActivity.class, null);
+                Bundle applyBundle = new Bundle();
+                applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
+                gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
                 break;
         }
     }

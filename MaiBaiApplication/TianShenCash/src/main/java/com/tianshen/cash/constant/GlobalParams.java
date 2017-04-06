@@ -283,4 +283,7 @@ public class GlobalParams {
 	public static final String REPAY_FROM_CONSUME_DETAIL="repay_from_consume_detail";//从消费账单详情进入
 /*	public static final String REPAY_TYPE="1";//还款
 	public static final String SHOUFU_TYPE="2";//付首付*/
+
+	public static final String IS_FROM_CARD_KEY = "is_from_card_key";
+
 }
