@@ -139,6 +139,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
 
     private boolean isCanPressBack = true;
+    private boolean mSaveIDCardFront; //是否上传身份证正面
+    private boolean mSaveIDCardBack;//是否上传了身份证背面
 
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
@@ -287,6 +289,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      */
     private void onClickIdentityBack() {
         mIsClickPosition = 1;
+        //先判断没有上传身份证正面
+        if (!mSaveIDCardFront) {
+            ToastUtil.showToast(mContext, "先上传身份证正面");
+            return;
+        }
         idCardNetWorkWarranty();
     }
 
@@ -295,6 +302,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      */
     private void onClickFace() {
         mIsClickPosition = 2;
+        //判断没有上传身份证背面
+        if (!mSaveIDCardBack) {
+            ToastUtil.showToast(mContext, "先上传身份证");
+            return;
+        }
         livenessNetWorkWarranty();
     }
 
@@ -833,8 +845,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (0 == code) {
+                    mSaveIDCardFront = true;
                     ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
-                    ivIdentityAuthPic2.setEnabled(true);
                 }
             }
 
@@ -870,8 +882,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (0 == code) {
+                    mSaveIDCardBack = true;
                     ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
-                    ivIdentityAuthPic2.setEnabled(true);
                 }
             }
 
