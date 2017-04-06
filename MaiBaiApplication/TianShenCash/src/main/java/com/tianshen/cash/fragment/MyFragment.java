@@ -357,9 +357,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 //        view.getBackground().setAlpha(100);//0~255透明度值
         TextView tv_cancel=(TextView)view.findViewById(R.id.tv_cancel);
         TextView tv_call=(TextView)view.findViewById(R.id.tv_call);
-        TextView tv_service_phone = (TextView)view.findViewById(R.id.tv_service_phone);
+//        TextView tv_service_phone = (TextView)view.findViewById(R.id.tv_service_phone);
         String servicePhpne = UserUtil.getServicePhone(mContext);
-        tv_service_phone.setText(servicePhpne);
+//        tv_service_phone.setText(servicePhpne);
 
         tv_call.setOnClickListener(new View.OnClickListener() {
             @Override
