@@ -130,8 +130,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private double confidence = 0;
     private int facePassScore = 65;
 
-    private int mUpLoadCreditFaceTimes = 0;
-
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，2==人脸识别
     private final int IMAGE_TYPE_ID_CARD_FRONT = 20; //上传图片 type  身份证正面
     private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
@@ -233,6 +231,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_identity_post:
+                conformCreditFace();
                 break;
             case R.id.iv_identity_auth_pic:
                 onClickIdentity();
@@ -553,11 +552,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 imageFullPatyArray[i] = mImageFullPath[i + 2];
             }
 
-
-            for (int i = 0; i < imageFullPatyArray.length; i++) {
-                String path = imageFullPatyArray[i];
-                LogUtil.d("abc", "i---->" + i + "----->" + path);
-            }
+            //扫脸的照片存到SD卡路径
+            final String facePath = imageFullPatyArray[0];
 
             long userID = TianShenUserUtil.getUserId(mContext);
 
@@ -570,6 +566,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
                     LogUtil.d("abc", "upLoadLivenessImage---onSuccess");
+                    ToastUtil.showToast(mContext, "人脸识别成功!");
+                    ImageLoader.load(getApplicationContext(), facePath, ivIdentityAuthFace);
                     compareImage(delta, map);
                 }
 
@@ -630,7 +628,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                         ViewUtil.cancelLoadingDialog();
                         String successStr = new String(bytes);
                         Log.d("ret", successStr);
-
                         LogUtil.d("abc", "imageVerify_2_noScanIDCard--successStr-->" + successStr);
                         JSONObject jsonObject;
                         try {
@@ -647,8 +644,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                                 if (mask_confidence > (float) facePassScore / 100 || screen_replay_confidence > (float) facePassScore / 100 || synthetic_face_confidence > (float) facePassScore / 100 || confidence < facePassScore) {
                                     ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
                                     selectLivenessControl(bean.name, bean.idcard);
-                                } else {
-                                    conformCreditFace();
                                 }
                             }
                         } catch (Exception e1) {
@@ -668,49 +663,41 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-    private void conformCreditFace() throws JSONException {
+    /**
+     * 扫脸成功告诉服务器
+     */
+    private void conformCreditFace() {
         LogUtil.d("abc", "conformCreditFace---in");
 
         CreditFace creditFace = new CreditFace(mContext);
         long userID = TianShenUserUtil.getUserId(mContext);
 
         JSONObject json = new JSONObject();
-        json.put("customer_id", userID);
-        json.put("face_pass", "1");
+        try {
+            json.put("customer_id", userID);
+            json.put("face_pass", "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         isCanPressBack = false;
         creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {
             @Override
             public void onSuccess(ResponseBean paramT) {
-
-
-                LogUtil.d("abc", "扫脸成功!!!!");
-
                 Utils.delJPGFile(mContext);
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                double mLivenessResult = 0;
-                mLivenessResult = confidence;
-                bundle.putDouble("result", mLivenessResult);
-                bundle.putSerializable(GlobalParams.ID_CARD_BEAN_KEY, mIDCardBean);
-                intent.putExtras(bundle);
-                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_SCAN_FACE + "");
-                NumberFormat nFormat = NumberFormat.getNumberInstance();
-                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
-                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
+//                double mLivenessResult = 0;
+//                mLivenessResult = confidence;
+//                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_SCAN_FACE + "");
+//                NumberFormat nFormat = NumberFormat.getNumberInstance();
+//                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
+//                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
                 isCanPressBack = true;
+                ToastUtil.showToast(mContext, "保存成功!");
+                backActivity();
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                if (mUpLoadCreditFaceTimes < 3) {
-                    try {
-                        conformCreditFace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        MobclickAgent.reportError(mContext, LogUtil.getException(e));
-                    }
-                    mUpLoadCreditFaceTimes++;
-                }
+                ToastUtil.showToast(mContext, "提交失败!");
             }
         });
     }
@@ -843,22 +830,17 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setImageSource(byte[] imageSource) {
-        LogUtil.d("abc", "setImageSource");
         Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
-        Drawable drawable =new BitmapDrawable(idcardBmp);
+        Drawable drawable = new BitmapDrawable(idcardBmp);
         switch (mIsClickPosition) {
             case 0:
                 mHeadImg = imageSource;
                 ivIdentityAuthPic.setImageDrawable(drawable);
-                LogUtil.d("abc","设置身份证正面");
+                LogUtil.d("abc", "设置身份证正面");
                 break;
             case 1:
                 ivIdentityAuthPic2.setImageDrawable(drawable);
-                LogUtil.d("abc","设置身份证反面");
-                break;
-            case 2:
-                ivIdentityAuthFace.setImageDrawable(drawable);
-                LogUtil.d("abc","设置人脸识别");
+                LogUtil.d("abc", "设置身份证反面");
                 break;
         }
     }
