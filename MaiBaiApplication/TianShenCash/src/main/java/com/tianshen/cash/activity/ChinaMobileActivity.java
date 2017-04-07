@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -40,7 +41,13 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void findViews() {
-
+        findViewById(R.id.tv_china_mobile_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.d("abc","java调用JS");
+                wvChinaMobile.loadUrl("javascript:javacalljs()");
+            }
+        });
     }
 
     @Override
@@ -62,15 +69,16 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         webSettings.setJavaScriptEnabled(true); //支持js
         webSettings.setSupportZoom(true); //支持缩放
         webSettings.setAppCacheEnabled(true);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         webSettings.setDefaultTextEncodingName("UTF-8");
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
     }
 
     private void setWebView() {
+        wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
 
         String url = "http://118.190.83.21:8081/h5/mobile_auth/mobile_auth.html";
         wvChinaMobile.loadUrl(url);
-        wvChinaMobile.addJavascriptInterface(new JSCallback(), "android");
+
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -86,8 +94,8 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
         //将显示Toast和对话框的方法暴露给JS脚本调用
         @JavascriptInterface
-        public void showToast(String str) {
-            ToastUtil.showToast(mContext, "JS-->" + str);
+        public void showToast() {
+            ToastUtil.showToast(mContext, "JS-->调用了android");
         }
 
     }
