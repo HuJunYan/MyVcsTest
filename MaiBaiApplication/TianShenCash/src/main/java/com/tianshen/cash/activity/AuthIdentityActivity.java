@@ -173,7 +173,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             switch (requestCode) {
                 case GlobalParams.INTO_IDCARDSCAN_FRONT_PAGE:
                     LogUtil.d("abc", "onActivityResult--身份证正面");
-
                     byte[] frontImg = data.getByteArrayExtra("idcardImg");
                     mImageFullPath[0] = saveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
                     upLoadImage(frontImg);
@@ -231,7 +230,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_identity_post:
-                conformCreditFace();
+                ToastUtil.showToast(mContext,"保存成功!");
+                backActivity();
                 break;
             case R.id.iv_identity_auth_pic:
                 onClickIdentity();
@@ -569,6 +569,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showToast(mContext, "人脸识别成功!");
                     ImageLoader.load(getApplicationContext(), facePath, ivIdentityAuthFace);
                     compareImage(delta, map);
+                    conformCreditFace();
                 }
 
                 @Override
@@ -691,13 +692,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 //                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
 //                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
                 isCanPressBack = true;
-                ToastUtil.showToast(mContext, "保存成功!");
-                backActivity();
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                ToastUtil.showToast(mContext, "提交失败!");
             }
         });
     }

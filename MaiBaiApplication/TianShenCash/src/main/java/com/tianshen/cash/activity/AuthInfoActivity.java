@@ -197,7 +197,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 new BaseNetCallBack<AddressBean>() {
                     @Override
                     public void onSuccess(AddressBean paramT) {
-                        mCityBean = paramT;
+                        mCountyBean = paramT;
                         parserCountyListData();
                         showCountyListDialog();
                     }
