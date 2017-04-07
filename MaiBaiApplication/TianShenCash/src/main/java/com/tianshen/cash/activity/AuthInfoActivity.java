@@ -80,6 +80,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private int mCityPosition;//选择城市的位置
     private int mCountyPosition;//选择区域的位置
 
+    private boolean mIsClickHome;
+
     @Override
     protected int setContentView() {
         return R.layout.activity_auth_info;
@@ -108,10 +110,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 postUserInfo();
                 break;
             case R.id.tv_auth_info_home_address:
+                mIsClickHome = true;
                 initProvinceData();
                 break;
             case R.id.tv_auth_info_work_address:
-                postUserInfo();
+                mIsClickHome = false;
+                initProvinceData();
                 break;
         }
     }
@@ -291,8 +295,25 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mCountyPosition = position;
+                        refreshUI();
                     }
                 }).show();
+    }
+
+
+    /**
+     * 刷新UI
+     */
+    private void refreshUI() {
+        String province = mProvinceData.get(mProvincePosition);
+        String city = mCityData.get(mCityPosition);
+        String county = mCountyData.get(mCountyPosition);
+        String address = province + "-" + city + "-" + county;
+        if (mIsClickHome) {
+            tvAuthInfoHomeAddress.setText(address);
+        } else {
+            tvAuthInfoWorkAddress.setText(address);
+        }
     }
 
     /**
