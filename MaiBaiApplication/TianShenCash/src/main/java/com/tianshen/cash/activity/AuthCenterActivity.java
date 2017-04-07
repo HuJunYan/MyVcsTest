@@ -117,13 +117,11 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     private void onClickPost() {
-
         if (mIsFromCard) {
             backActivity();
         } else {
-            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+            gotoActivity(mContext, ConfirmBankCardActivity.class, null);
         }
-
     }
 
 
