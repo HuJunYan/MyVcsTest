@@ -219,7 +219,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     protected void setListensers() {
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
-//        ivIdentityAuthPic2.setEnabled(false);//先不让用户点击身份证反面
         tvIdentityPost.setOnClickListener(this);
         tvIdentityAuthBack.setOnClickListener(this);
         ivIdentityAuthPic.setOnClickListener(this);
@@ -329,9 +328,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         etIdentityAuthName.setText(real_name);
         etIdentityAuthNum.setText(id_num);
 
-        ImageLoader.load(this, front_idCard_url, ivIdentityAuthPic);
-        ImageLoader.load(this, back_idCard_url, ivIdentityAuthPic2);
-        ImageLoader.load(this, face_url, ivIdentityAuthFace);
+        ImageLoader.load(getApplicationContext(), front_idCard_url, ivIdentityAuthPic);
+        ImageLoader.load(getApplicationContext(), back_idCard_url, ivIdentityAuthPic2);
+        ImageLoader.load(getApplicationContext(), face_url, ivIdentityAuthFace);
 
     }
 
@@ -478,57 +477,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             MobclickAgent.reportError(mContext, LogUtil.getException(localIOException));
         }
     }
-
-    /**
-     * 上传图片测试
-     */
-    private void postImageTest() {
-
-        try {
-            UploadImage uploadImage = new UploadImage(mContext);
-            JSONObject jsonObject = new JSONObject();
-
-            long customer_id = TianShenUserUtil.getUserId(mContext);
-
-            jsonObject.put("customer_id", customer_id + "");
-            jsonObject.put("type", "20");
-            JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
-            Drawable drawable = ivIdentityAuthFace.getDrawable();
-            Bitmap bitmap = Bitmap
-                    .createBitmap(
-                            drawable.getIntrinsicWidth(),
-                            drawable.getIntrinsicHeight(),
-                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-                                    : Bitmap.Config.RGB_565);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
-            drawable.draw(canvas);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] bytes = baos.toByteArray();
-            String path = saveJPGFile(mContext, bytes, 20);
-
-            ivIdentityAuthPic.setImageBitmap(bitmap);
-
-            uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
-                @Override
-                public void onSuccess(UploadImageBean uploadImageBean) {
-                    ToastUtil.showToast(mContext, "上传成功!");
-                }
-
-                @Override
-                public void onFailure(String result, int errorType, int errorCode) {
-                    ToastUtil.showToast(mContext, "上传失败!errorCode--->" + errorCode);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-        }
-
-    }
-
 
     /**
      * 上传图片
@@ -897,18 +845,19 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void setImageSource(byte[] imageSource) {
         LogUtil.d("abc", "setImageSource");
         Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
+        Drawable drawable =new BitmapDrawable(idcardBmp);
         switch (mIsClickPosition) {
             case 0:
                 mHeadImg = imageSource;
-                ivIdentityAuthPic.setImageBitmap(idcardBmp);
+                ivIdentityAuthPic.setImageDrawable(drawable);
                 LogUtil.d("abc","设置身份证正面");
                 break;
             case 1:
-                ivIdentityAuthPic2.setImageBitmap(idcardBmp);
+                ivIdentityAuthPic2.setImageDrawable(drawable);
                 LogUtil.d("abc","设置身份证反面");
                 break;
             case 2:
-                ivIdentityAuthFace.setImageBitmap(idcardBmp);
+                ivIdentityAuthFace.setImageDrawable(drawable);
                 LogUtil.d("abc","设置人脸识别");
                 break;
         }
