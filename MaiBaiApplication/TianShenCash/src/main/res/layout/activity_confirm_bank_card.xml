@@ -36,38 +36,11 @@
 
 
         <TextView
-            android:id="@+id/tv_confirm_withdrawal_key"
+            android:id="@+id/tv_confirm_banck_card_user_key"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="借款金额" />
-
-        <TextView
-            android:id="@+id/tv_confirm_withdrawal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_confirm_withdrawal_key"
-            android:text="500元"
-            android:textSize="14dp" />
-
-    </RelativeLayout>
-
-    <View style="@style/split_line_style" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/global_bg_white">
-
-
-        <TextView
-            android:id="@+id/tv_confirm_time_key"
-            style="@style/auth_center_txt_style"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="借款天数" />
+            android:text="持卡人" />
 
         <TextView
             android:id="@+id/tv_confirm_time"
@@ -75,8 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_confirm_time_key"
-            android:text="7天"
+            android:layout_toRightOf="@id/tv_confirm_banck_card_user_key"
+            android:text="XXX"
+            android:textColor="@color/global_txt_black4"
             android:textSize="14dp" />
 
     </RelativeLayout>
