@@ -273,13 +273,10 @@ public class NetConstantValue {
     }
 
     /**
-     * 活体检测成功通知
-     * api: com.maibei.merchants.net.api.CreditFace.creditFace()
-     *
-     * @return
+     * 扫脸成功通知服务器
      */
     public static String getCreditFaceUrl() {
-        return COMMONURI + "Credit/CreditFace";
+        return COMMONURI + "Customer/creditFace";
     }
 
     /*
