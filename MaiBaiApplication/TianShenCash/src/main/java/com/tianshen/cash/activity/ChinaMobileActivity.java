@@ -59,7 +59,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         webSettings.setJavaScriptEnabled(true); //支持js
         webSettings.setSupportZoom(true); //支持缩放
         webSettings.setAppCacheEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
 
     private void setWebView() {
