@@ -242,8 +242,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         mCountyData = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             AddressBean.Data data = datas.get(i);
-            String city_name = data.getCity_name();
-            mCountyData.add(city_name);
+            String county_name = data.getCounty_name();
+            mCountyData.add(county_name);
         }
     }
 
