@@ -386,6 +386,10 @@
             android:name=".activity.ConfirmMoneyActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.ConfirmBankCardActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
