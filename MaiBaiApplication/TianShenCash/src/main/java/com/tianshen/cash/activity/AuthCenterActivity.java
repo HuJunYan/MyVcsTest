@@ -20,6 +20,7 @@ import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -45,6 +46,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     XRecyclerView xrecyclerviewAuthCenter;
 
     private boolean mIsFromCard;
+
+    private AuthCenterAdapter mAdapter;
 
     private UserAuthCenterBean mUserAuthCenterBean;
     private ArrayList<AuthCenterItemBean> mAuthCenterItemBeans;
@@ -92,16 +95,20 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initXRecyclerview() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        xrecyclerviewAuthCenter.setLayoutManager(layoutManager);
-        Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.item_divider);
-        xrecyclerviewAuthCenter.addItemDecoration(xrecyclerviewAuthCenter.new DividerItemDecoration(dividerDrawable));
-        xrecyclerviewAuthCenter.setLoadingMoreEnabled(false);
-        xrecyclerviewAuthCenter.setPullRefreshEnabled(false);
-        AuthCenterAdapter mAdapter = new AuthCenterAdapter(mContext, mAuthCenterItemBeans, mHandler);
-        xrecyclerviewAuthCenter.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            xrecyclerviewAuthCenter.setLayoutManager(layoutManager);
+            Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.item_divider);
+            xrecyclerviewAuthCenter.addItemDecoration(xrecyclerviewAuthCenter.new DividerItemDecoration(dividerDrawable));
+            xrecyclerviewAuthCenter.setLoadingMoreEnabled(false);
+            xrecyclerviewAuthCenter.setPullRefreshEnabled(false);
+            mAdapter = new AuthCenterAdapter(mContext, mAuthCenterItemBeans, mHandler);
+            xrecyclerviewAuthCenter.setAdapter(mAdapter);
+        } else {
+            mAdapter.setData(mAuthCenterItemBeans);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

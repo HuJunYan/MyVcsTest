@@ -82,6 +82,10 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
 
     }
 
+    public void setData(ArrayList<AuthCenterItemBean> authCenterItemBeans) {
+        this.mAuthCenterItemBeans = authCenterItemBeans;
+    }
+
     //获取数据的数量
     @Override
     public int getItemCount() {
