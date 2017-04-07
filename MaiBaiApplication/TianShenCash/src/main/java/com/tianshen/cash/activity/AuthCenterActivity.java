@@ -112,12 +112,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     private void onClickPost() {
 
         if (mIsFromCard) {
-            ToastUtil.showToast(mContext, "来自卡片点击了提交");
             backActivity();
         } else {
-            ToastUtil.showToast(mContext, "来自提交按钮点击了提交");
+            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
         }
-
 
     }
 
