@@ -22,6 +22,7 @@ import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -508,6 +509,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
+        initUserConfig();
+    }
+
+    /**
+     * 收到了在确认借款页面发送的消息
+     */
+    @Subscribe
+    public void onApply(ApplyEvent event) {
+        LogUtil.d("abc","HomeFragmeng---onApply");
         initUserConfig();
     }
 
