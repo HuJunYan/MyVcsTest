@@ -149,10 +149,15 @@
                 android:inAnimation="@anim/push_up_in"
                 android:outAnimation="@anim/push_up_out" />
 
-
             <include
                 android:id="@+id/ll_not_order"
                 layout="@layout/layout_not_order" />
+
+
+            <include
+                android:id="@+id/ll_order"
+                layout="@layout/layout_order" />
+
         </LinearLayout>
 
     </ScrollView>

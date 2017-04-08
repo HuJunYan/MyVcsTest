@@ -96,6 +96,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ts_home_news)
     TextSwitcher tsHomeNews;
 
+    @BindView(R.id.ll_order)
+    LinearLayout ll_order;
+
+    @BindView(R.id.ll_not_order)
+    LinearLayout ll_not_order;
+
+
+    private static final String STATUS_NEW = "0"; //新用户，没有下过单
+
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
     private ArrayList<String> mLoanDays;//借款期限(点击借款期限的Dialog用到) 每一个期限就代表一个产品
     private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
@@ -109,11 +118,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
             switch (message.what) {
                 case MSG_SHOW_TEXT:
-                    refreshTextSwitcherUI();
+                    refreshStaticsRollUI();
                     break;
             }
         }
@@ -148,6 +158,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             initSelWithdrawalsData();
         }
+        initStaticsRoll();
     }
 
     @Override
@@ -176,7 +187,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     parserLoanDayData();
-                    initStaticsRoll();
+                    refreshCardUI();
+                    refreshLoanDayUI();
+                    refreshBubbleSeekBarUI();
                 }
 
                 @Override
@@ -199,7 +212,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(StatisticsRollBean paramT) {
                 mStatisticsRollDataBeans = paramT.getData();
                 parserStatisticsRollData();
-                refreshUI();
+                refreshStaticsRollUI();
             }
 
             @Override
@@ -223,11 +236,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(UserConfig paramT) {
                     mUserConfig = paramT;
-                    if (mUserConfig == null) {
-                        //TODO 展示解析错误的UI
-                        return;
-                    }
-                    initSelWithdrawalsData();
+                    checkUserConfig();
                 }
 
                 @Override
@@ -238,6 +247,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 检查用户当前的状态，显示不同的UI
+     */
+    private void checkUserConfig() {
+        if (mUserConfig == null) {
+            //TODO 展示解析错误的UI
+            return;
+        }
+        String status = mUserConfig.getData().getStatus();
+        status = "1"; //先模拟用户订单正在进行中
+        if (STATUS_NEW.equals(status)) { //用户还没下过订单,拉取产品数据
+            initSelWithdrawalsData();
+        } else {
+            showConsumeStatusUI();//显示用户订单轨迹的UI
+        }
+
+    }
+
+    /**
+     * 显示订单轨迹UI
+     */
+    private void showConsumeStatusUI() {
+        ll_not_order.setVisibility(View.GONE);
+        ll_order.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -303,16 +338,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 刷新UI
-     */
-    private void refreshUI() {
-        refreshCardUI();
-        refreshTextSwitcherUI();
-        refreshLoanDayUI();
-        refreshBubbleSeekBarUI();
-    }
-
-    /**
      * 刷新天神卡
      */
     private void refreshCardUI() {
@@ -343,7 +368,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 刷新滚动条(恭喜 xxx借到了xxx元钱)
      */
-    private void refreshTextSwitcherUI() {
+    private void refreshStaticsRollUI() {
         if (mCurrentIndex == 0) {
             //第一次不执行动画，立刻显示
             tsHomeNews.setCurrentText(mStatisticsRollDatas.get(mCurrentIndex));
@@ -517,7 +542,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onApply(ApplyEvent event) {
-        LogUtil.d("abc","HomeFragmeng---onApply");
+        LogUtil.d("abc", "HomeFragmeng---onApply");
         initUserConfig();
     }
 
