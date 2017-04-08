@@ -1,38 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_auth_center_item"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
     android:background="@color/global_bg_white">
 
-    <ImageView
-        android:id="@+id/iv_auth_center_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/about_qutiqian_logo" />
+    <RelativeLayout
+        android:id="@+id/rl_time_line_left"
+        android:layout_width="60dp"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_auth_center_name_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dip"
-        android:layout_toRightOf="@+id/iv_auth_center_item"
-        android:gravity="center"
-        android:textColor="@color/global_txt_black4"
-        android:textSize="14dp" />
+        <ImageView
+            android:id="@+id/iv_time_line_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_time_line_old" />
 
-    <TextView
-        android:id="@+id/tv_auth_center_status_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:textColor="@color/global_txt_black4"
-        android:textSize="14dp" />
+        <ImageView
+            android:id="@+id/iv_time_line_line_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/iv_time_line_status"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_time_line_line" />
 
+        <ImageView
+            android:id="@+id/iv_time_line_line_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_time_line_status"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_time_line_line" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/rl_time_line_left">
+
+        <TextView
+            android:id="@+id/iv_time_line_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="申请提交成功"
+            android:textColor="@color/global_txt_black4"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/iv_time_line_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_time_line_title"
+            android:layout_marginTop="5dp"
+            android:text="申请借款500元,期限7天,手续费用10.5元"
+            android:textColor="@color/global_txt_black5"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/iv_time_line_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="03.20 10.12"
+            android:textColor="@color/global_txt_gray"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
