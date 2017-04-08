@@ -329,22 +329,26 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        String company_address_city = constantBean.getData().getCompany_address_city();
-        String company_address_county = constantBean.getData().getCompany_address_county();
-        String company_address_detail = constantBean.getData().getCompany_address_detail();
-        String company_address_provice = constantBean.getData().getCompany_address_provice();
+
+        user_address_provice = constantBean.getData().getUser_address_provice();
+        user_address_city = constantBean.getData().getUser_address_city();
+        user_address_county = constantBean.getData().getUser_address_county();
+
+        company_address_city = constantBean.getData().getCompany_address_city();
+        company_address_county = constantBean.getData().getCompany_address_county();
+        company_address_provice = constantBean.getData().getCompany_address_provice();
+
+        String qq_num = constantBean.getData().getQq_num();
         String company_name = constantBean.getData().getCompany_name();
         String company_phone = constantBean.getData().getCompany_phone();
-        String qq_num = constantBean.getData().getQq_num();
-        String user_address_city = constantBean.getData().getUser_address_city();
-        String user_address_county = constantBean.getData().getUser_address_county();
+        String company_address_detail = constantBean.getData().getCompany_address_detail();
         String user_address_detail = constantBean.getData().getUser_address_detail();
-        String user_address_provice = constantBean.getData().getUser_address_provice();
-        String HomeAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
-        String workAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
+        String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
+        String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
+
 
         etAuthInfoQq.setText(qq_num);
-        tvAuthInfoHomeAddress.setText(HomeAddress);
+        tvAuthInfoHomeAddress.setText(homeAddress);
         tvAuthInfoWorkAddress.setText(workAddress);
         etAuthInfoAddressDetails.setText(company_address_detail);
         etAuthInfoWorkName.setText(company_name);
