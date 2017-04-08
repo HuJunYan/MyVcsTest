@@ -68,6 +68,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             viewHolder.tv_auth_center_status_item.setCompoundDrawables(null, null, drawable, null);
             viewHolder.tv_auth_center_status_item.setCompoundDrawablePadding(15);
+            viewHolder.tv_auth_center_name_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_black4));
         }
 
         viewHolder.rl_auth_center_item.setOnClickListener(new View.OnClickListener() {
