@@ -151,8 +151,8 @@
 
 
             <include
-                android:id="@+id/ll_not_login"
-                layout="@layout/layout_not_login" />
+                android:id="@+id/ll_not_order"
+                layout="@layout/layout_not_order" />
         </LinearLayout>
 
     </ScrollView>
