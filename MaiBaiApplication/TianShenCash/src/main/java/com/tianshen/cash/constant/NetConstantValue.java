@@ -12,7 +12,7 @@ public class NetConstantValue {
 
 //    public static String COMMONURI = "http://118.190.83.21/Home/";
 
-    public static String COMMONURI = "http://118.190.83.21:8081/Home/";
+    public static String COMMONURI = "http://118.190.83.21/Home/";
 
     /**
      * 用户登录
