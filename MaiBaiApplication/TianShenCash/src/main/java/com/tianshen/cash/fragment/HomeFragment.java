@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -17,9 +19,12 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.adapter.AuthCenterAdapter;
+import com.tianshen.cash.adapter.OrderStatusAdapter;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.ApplyEvent;
@@ -102,6 +107,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ll_not_order)
     LinearLayout ll_not_order;
 
+    @BindView(R.id.xrecyclerview_order_status)
+    XRecyclerView xrecyclerview_order_status;
+
+
+    private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
 
@@ -273,6 +283,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void showConsumeStatusUI() {
         ll_not_order.setVisibility(View.GONE);
         ll_order.setVisibility(View.VISIBLE);
+        initXRecyclerview();
+    }
+
+
+    private void initXRecyclerview() {
+        if (mOrderStatusAdapter == null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            xrecyclerview_order_status.setLayoutManager(layoutManager);
+            xrecyclerview_order_status.setLoadingMoreEnabled(false);
+            xrecyclerview_order_status.setPullRefreshEnabled(false);
+            mOrderStatusAdapter = new OrderStatusAdapter(mContext, mUserConfig);
+            xrecyclerview_order_status.setAdapter(mOrderStatusAdapter);
+        } else {
+            mOrderStatusAdapter.setData(mUserConfig);
+            mOrderStatusAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -293,7 +320,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-
     /**
      * 解析出滚动条的数据
      */
@@ -310,7 +336,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mStatisticsRollDatas.add("恭喜 " + mobile + "成功借款" + moneyInt + "元");
         }
     }
-
 
     /**
      * 初始化TextSwitcher
