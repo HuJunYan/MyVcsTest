@@ -11,14 +11,19 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.AddressBean;
 import com.tianshen.cash.model.BankListItemBean;
+import com.tianshen.cash.model.ConstantBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetCounty;
+import com.tianshen.cash.net.api.GetCustomerInfo;
 import com.tianshen.cash.net.api.GetProvince;
+import com.tianshen.cash.net.api.SaveUserInfo;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,6 +85,15 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private int mCityPosition;//选择城市的位置
     private int mCountyPosition;//选择区域的位置
 
+    private String user_address_provice;//用户常驻地址省份,
+    private String user_address_city;//用户常驻地址县市
+    private String user_address_county;//用户常驻地址地区
+
+    private String company_address_provice;//用户公司地址省份
+    private String company_address_city;//用户公司地址县市
+    private String company_address_county;//用户公司地址地区
+
+
     private boolean mIsClickHome;
 
     @Override
@@ -98,6 +112,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         tvAuthInfoPost.setOnClickListener(this);
         tvAuthInfoHomeAddress.setOnClickListener(this);
         tvAuthInfoWorkAddress.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initUserInfo();
     }
 
     @Override
@@ -295,25 +315,90 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mCountyPosition = position;
-                        refreshUI();
+                        refreshAddressUI();
                     }
                 }).show();
     }
 
 
     /**
+     * 刷新整体UI
+     */
+    private void refreshRootUI(ConstantBean constantBean) {
+        if (constantBean == null) {
+            return;
+        }
+
+        String company_address_city = constantBean.getData().getCompany_address_city();
+        String company_address_county = constantBean.getData().getCompany_address_county();
+        String company_address_detail = constantBean.getData().getCompany_address_detail();
+        String company_address_provice = constantBean.getData().getCompany_address_provice();
+        String company_name = constantBean.getData().getCompany_name();
+        String company_phone = constantBean.getData().getCompany_phone();
+        String qq_num = constantBean.getData().getQq_num();
+        String user_address_city = constantBean.getData().getUser_address_city();
+        String user_address_county = constantBean.getData().getUser_address_county();
+        String user_address_detail = constantBean.getData().getUser_address_detail();
+        String user_address_provice = constantBean.getData().getUser_address_provice();
+        String HomeAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
+        String workAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
+
+        etAuthInfoQq.setText(qq_num);
+        tvAuthInfoHomeAddress.setText(HomeAddress);
+        tvAuthInfoWorkAddress.setText(workAddress);
+        etAuthInfoAddressDetails.setText(company_address_detail);
+        etAuthInfoWorkName.setText(company_name);
+        etAuthInfoWorkNum.setText(company_phone);
+        etAuthInfoWorkAddressDetails.setText(user_address_detail);
+    }
+
+    /**
      * 刷新UI
      */
-    private void refreshUI() {
+    private void refreshAddressUI() {
         String province = mProvinceData.get(mProvincePosition);
         String city = mCityData.get(mCityPosition);
         String county = mCountyData.get(mCountyPosition);
         String address = province + "-" + city + "-" + county;
         if (mIsClickHome) {
+            user_address_provice = province;
+            user_address_city = city;
+            user_address_county = county;
             tvAuthInfoHomeAddress.setText(address);
         } else {
+            company_address_provice = province;
+            company_address_city = city;
+            company_address_county = county;
             tvAuthInfoWorkAddress.setText(address);
         }
+    }
+
+
+    /**
+     * 得到用户数据
+     */
+    private void initUserInfo() {
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        GetCustomerInfo getCustomerInfo = new GetCustomerInfo(mContext);
+        getCustomerInfo.getCustomerInfo(jsonObject, null, true, new BaseNetCallBack<ConstantBean>() {
+            @Override
+            public void onSuccess(ConstantBean paramT) {
+                refreshRootUI(paramT);
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
     }
 
     /**
@@ -321,6 +406,48 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void postUserInfo() {
 
+        String qq = etAuthInfoQq.getText().toString().trim();
+        String user_address_detail = etAuthInfoAddressDetails.getText().toString().trim();
+        String company_name = etAuthInfoWorkName.getText().toString().trim();
+        String company_phone = etAuthInfoWorkNum.getText().toString().trim();
+        String company_address_detail = etAuthInfoWorkAddressDetails.getText().toString().trim();
+
+        JSONObject jsonObject = new JSONObject();
+        long userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("qq_num", qq);
+            jsonObject.put("user_address_provice", user_address_provice);
+            jsonObject.put("user_address_city", user_address_city);
+            jsonObject.put("user_address_county", user_address_county);
+            jsonObject.put("user_address_detail", user_address_detail);
+            jsonObject.put("company_name", company_name);
+            jsonObject.put("company_phone", company_phone);
+            jsonObject.put("company_address_provice", company_address_provice);
+            jsonObject.put("company_address_city", company_address_city);
+            jsonObject.put("company_address_county", company_address_county);
+            jsonObject.put("company_address_detail", company_address_detail);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        SaveUserInfo saveUserInfo = new SaveUserInfo(mContext);
+        saveUserInfo.saveCustomerInfoUrl(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                int code = paramT.getCode();
+                if (code == 0) {
+                    ToastUtil.showToast(mContext, "保存成功!");
+                    backActivity();
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
 
     }
 }
