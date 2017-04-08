@@ -3,8 +3,6 @@ package com.tianshen.cash.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
-import com.tianshen.cash.activity.AuthCenterActivity;
-import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.UserConfig;
 
 import java.util.ArrayList;
@@ -43,6 +39,22 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
+        Drawable ic_time_line_old = mContext.getResources().getDrawable(R.drawable.ic_time_line_old);
+        Drawable ic_time_line_current = mContext.getResources().getDrawable(R.drawable.ic_time_line_current);
+
+        if (position == 0) {
+            viewHolder.iv_time_line_line_top.setVisibility(View.GONE);
+            viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_old);
+        } else if (position == 2) {
+            viewHolder.iv_time_line_line_bottom.setVisibility(View.GONE);
+            viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_current);
+        } else {
+            viewHolder.iv_time_line_line_top.setVisibility(View.VISIBLE);
+            viewHolder.iv_time_line_line_bottom.setVisibility(View.VISIBLE);
+            viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_old);
+        }
+
+
     }
 
     public void setData(UserConfig userConfig) {
@@ -55,24 +67,27 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
 //        if (consume_status_list == null) {
 //            return 0;
 //        }
-        return 10;
+        return 3;
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public RelativeLayout rl_auth_center_item;
-        public ImageView iv_auth_center_item;
-        public TextView tv_auth_center_name_item;
-        public TextView tv_auth_center_status_item;
+        public ImageView iv_time_line_status;
+        public ImageView iv_time_line_line_top;
+        public ImageView iv_time_line_line_bottom;
+        public TextView iv_time_line_title;
+        public TextView iv_time_line_description;
+        public TextView iv_time_line_time;
 
         public ViewHolder(View view) {
             super(view);
-            rl_auth_center_item = (RelativeLayout) view.findViewById(R.id.rl_auth_center_item);
-            iv_auth_center_item = (ImageView) view.findViewById(R.id.iv_auth_center_item);
-            tv_auth_center_name_item = (TextView) view.findViewById(R.id.tv_auth_center_name_item);
-            tv_auth_center_status_item = (TextView) view.findViewById(R.id.tv_auth_center_status_item);
-
+            iv_time_line_status = (ImageView) view.findViewById(R.id.iv_time_line_status);
+            iv_time_line_line_top = (ImageView) view.findViewById(R.id.iv_time_line_line_top);
+            iv_time_line_line_bottom = (ImageView) view.findViewById(R.id.iv_time_line_line_bottom);
+            iv_time_line_title = (TextView) view.findViewById(R.id.iv_time_line_title);
+            iv_time_line_description = (TextView) view.findViewById(R.id.iv_time_line_description);
+            iv_time_line_time = (TextView) view.findViewById(R.id.iv_time_line_time);
         }
     }
 }

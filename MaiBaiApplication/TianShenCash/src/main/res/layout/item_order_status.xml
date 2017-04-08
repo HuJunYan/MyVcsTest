@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="90dp"
     android:background="@color/global_bg_white">
 
     <RelativeLayout
@@ -50,11 +50,13 @@
 
         <TextView
             android:id="@+id/iv_time_line_description"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_time_line_title"
             android:layout_marginTop="5dp"
-            android:text="申请借款500元,期限7天,手续费用10.5元"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="期限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元期期限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元"
             android:textColor="@color/global_txt_black5"
             android:textSize="11dp" />
 
