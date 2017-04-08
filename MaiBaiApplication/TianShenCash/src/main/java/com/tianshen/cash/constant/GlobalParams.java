@@ -285,5 +285,6 @@ public class GlobalParams {
 	public static final String SHOUFU_TYPE="2";//付首付*/
 
 	public static final String IS_FROM_CARD_KEY = "is_from_card_key";
+	public static final String CHINA_MOBILE_URL_KEY = "china_mobile_url_key";
 
 }

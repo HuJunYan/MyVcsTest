@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -25,9 +27,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.wv_china_mobile)
     WebView wvChinaMobile;
 
+    private String mUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUrl = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_URL_KEY);
         initWebView();
     }
 
@@ -64,10 +69,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private void setWebView() {
         wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
-
-        String url = "http://118.190.83.21:8081/h5/mobile_auth/mobile_auth.html";
-
-        wvChinaMobile.loadUrl(url);
+        wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

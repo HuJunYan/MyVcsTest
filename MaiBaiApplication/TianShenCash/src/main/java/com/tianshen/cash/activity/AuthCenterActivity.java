@@ -150,10 +150,20 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
             case 4://跳转到运营商认证
-                gotoActivity(mContext, ChinaMobileActivity.class, null);
+                gotoChinaMobileActivity();
                 break;
 
         }
+    }
+
+    /**
+     * 跳转到运营商认证
+     */
+    private void gotoChinaMobileActivity(){
+        String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, china_mobile_url);
+        gotoActivity(mContext, ChinaMobileActivity.class, bundle);
     }
 
     /**
