@@ -110,6 +110,8 @@
 
     </RelativeLayout>
 
+    <View style="@style/split_line_style" />
+
     <TextView
         android:id="@+id/tv_confirm_repay_apply"
         android:layout_width="match_parent"

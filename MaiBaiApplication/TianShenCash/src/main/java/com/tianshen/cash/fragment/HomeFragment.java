@@ -35,6 +35,7 @@ import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.adapter.OrderStatusAdapter;
@@ -130,6 +131,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     XRecyclerView xrecyclerview_order_status;
 
 
+    @BindView(R.id.tv_goto_repay)
+    TextView tv_goto_repay;
+
+
     private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
@@ -174,10 +179,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlHomeTianshenCard.setOnClickListener(this);
         rlLoanDay.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
-
+        tv_goto_repay.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
     }
+
+
+    @Override
+    public void onClick(View view) {
+        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+        if (!mIsLogin) {//先判断用户有没有登录，如果没有登录就跳转到登录页面进行登录
+            gotoActivity(mContext, LoginActivity.class, null);
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.rl_home_tianshen_card: //点击了天神卡
+                Bundle cardBundle = new Bundle();
+                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
+                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
+                break;
+            case R.id.rl_loan_day: //点击了期限选择
+                showSelectLoanDayDialog();
+                break;
+            case R.id.tv_home_apply: //点击了立即申请
+                Bundle applyBundle = new Bundle();
+                applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
+                gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
+                break;
+            case R.id.tv_goto_repay: //点击了立即还款
+                gotoActivity(mContext, ConfirmRepayActivity.class, null);
+                break;
+        }
+    }
+
 
     @Override
     protected void initVariable() {
@@ -287,9 +321,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
         String status = mUserConfig.getData().getStatus();
-        initSelWithdrawalsData();//显示用户没有下单的UI
+
+//        initSelWithdrawalsData();//显示用户没有下单的UI
 //        showConsumeStatusUI();//显示用户订单轨迹的UI
-//        showRepayUI();//显示还款的UI
+        showRepayUI();//显示还款的UI
     }
 
     /**
@@ -560,31 +595,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         mDialog.show();
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
-        if (!mIsLogin) {//先判断用户有没有登录，如果没有登录就跳转到登录页面进行登录
-            gotoActivity(mContext, LoginActivity.class, null);
-            return;
-        }
-        switch (view.getId()) {
-            case R.id.rl_home_tianshen_card: //点击了天神卡
-                Bundle cardBundle = new Bundle();
-                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
-                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
-                break;
-            case R.id.rl_loan_day: //点击了期限选择
-                showSelectLoanDayDialog();
-                break;
-            case R.id.tv_home_apply: //点击了立即申请
-                Bundle applyBundle = new Bundle();
-                applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
-                gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
-                break;
-        }
     }
 
     /**
