@@ -284,7 +284,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
         String status = mUserConfig.getData().getStatus();
-        status = "1"; //先模拟用户订单正在进行中
+//        status = "1"; //先模拟用户订单正在进行中
         if (STATUS_NEW.equals(status)) { //用户还没下过订单,拉取产品数据
             initSelWithdrawalsData();
         } else {
