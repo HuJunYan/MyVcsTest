@@ -1,15 +1,25 @@
 package com.tianshen.cash.fragment;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +28,10 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.internal.MDTintHelper;
+import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
@@ -42,7 +55,10 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.view.MinMaxSeekBar;
+import com.tianshen.user.idcardlibrary.util.Util;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
@@ -488,7 +504,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 选择借款天数
+     * 显示借款天数Dialog
      */
     private void showSelectLoanDayDialog() {
         if (mLoanDays == null) {
@@ -507,6 +523,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 }).show();
     }
+
+
+    /**
+     * 显示友情提示Dialog
+     */
+    private void showFriendlyTipsDialog() {
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_friendly_tips, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        TextView tv_dialog_friendly_tips = (TextView) view.findViewById(R.id.tv_dialog_friendly_tips);
+        tv_dialog_friendly_tips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
+
 
     @Override
     public void onClick(View view) {
