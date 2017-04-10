@@ -2,14 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/global_bg_gray"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/global_bg_gray" />
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrecyclerview_order_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp" />
+        android:layout_marginBottom="20dp" />
 
 </LinearLayout>
 

@@ -117,11 +117,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ts_home_news)
     TextSwitcher tsHomeNews;
 
+    @BindView(R.id.ll_not_order)
+    LinearLayout ll_not_order;
+
     @BindView(R.id.ll_order)
     LinearLayout ll_order;
 
-    @BindView(R.id.ll_not_order)
-    LinearLayout ll_not_order;
+    @BindView(R.id.ll_repay)
+    LinearLayout ll_repay;
 
     @BindView(R.id.xrecyclerview_order_status)
     XRecyclerView xrecyclerview_order_status;
@@ -213,6 +216,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 public void onSuccess(SelWithdrawalsBean selWithdrawalsBean) {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     parserLoanDayData();
+                    showNoPayUI();
                     refreshCardUI();
                     refreshLoanDayUI();
                     refreshBubbleSeekBarUI();
@@ -267,7 +271,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-
                 }
             });
         } catch (JSONException e) {
@@ -284,13 +287,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
         String status = mUserConfig.getData().getStatus();
-//        status = "1"; //先模拟用户订单正在进行中
-        if (STATUS_NEW.equals(status)) { //用户还没下过订单,拉取产品数据
-            initSelWithdrawalsData();
-        } else {
-            showConsumeStatusUI();//显示用户订单轨迹的UI
-        }
+        initSelWithdrawalsData();//显示用户没有下单的UI
+//        showConsumeStatusUI();//显示用户订单轨迹的UI
+//        showRepayUI();//显示还款的UI
+    }
 
+    /**
+     * 显示未登录或者未下订单UI
+     */
+    private void showNoPayUI() {
+        ll_not_order.setVisibility(View.VISIBLE);
+        ll_order.setVisibility(View.GONE);
+        ll_repay.setVisibility(View.GONE);
     }
 
     /**
@@ -300,6 +308,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_not_order.setVisibility(View.GONE);
         ll_order.setVisibility(View.VISIBLE);
         initXRecyclerview();
+    }
+
+
+    /**
+     * 显示还款UI
+     */
+    private void showRepayUI() {
+        ll_not_order.setVisibility(View.GONE);
+        ll_order.setVisibility(View.GONE);
+        ll_repay.setVisibility(View.VISIBLE);
     }
 
 

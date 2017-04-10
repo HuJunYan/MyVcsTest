@@ -149,14 +149,23 @@
                 android:inAnimation="@anim/push_up_in"
                 android:outAnimation="@anim/push_up_out" />
 
+            <!--未登录或者未下单-->
             <include
                 android:id="@+id/ll_not_order"
-                layout="@layout/layout_not_order" />
+                layout="@layout/layout_not_order"
+                android:visibility="gone" />
 
-
+            <!--已经下单等待中-->
             <include
                 android:id="@+id/ll_order"
-                layout="@layout/layout_order" />
+                layout="@layout/layout_order"
+                android:visibility="gone" />
+
+            <!--已经借到钱了，还钱中-->
+            <include
+                android:id="@+id/ll_repay"
+                layout="@layout/layout_repay"
+                android:visibility="gone" />
 
         </LinearLayout>
 
