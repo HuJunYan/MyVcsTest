@@ -29,4 +29,5 @@
 
 
     <string name="confirm_protocol">&lt;&lt;天神贷借款协议&gt;&gt;</string>
+    <string name="pay_protocol">&lt;&lt;快捷支付协议&gt;&gt;</string>
 </resources>

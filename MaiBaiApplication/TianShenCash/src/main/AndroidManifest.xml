@@ -390,6 +390,10 @@
             android:name=".activity.ConfirmBankCardActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.ConfirmRepayActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
