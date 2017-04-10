@@ -69,6 +69,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private void setWebView() {
         wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
+
+//        mUrl = "file:///android_asset/abc.html";
+
         wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
@@ -83,15 +86,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     public class JSCallback {
 
-        //将显示Toast和对话框的方法暴露给JS脚本调用
         @JavascriptInterface
-        public void showToast() {
-            ToastUtil.showToast(mContext, "JS-->调用了android");
-        }
-
-        @JavascriptInterface
-        public void showToast(String str) {
-            ToastUtil.showToast(mContext, "JS-->调用了android-->"+str);
+        public void authCallBack(boolean result) {
+            ToastUtil.showToast(mContext, "运营商认证结果-->" + result);
         }
 
     }
