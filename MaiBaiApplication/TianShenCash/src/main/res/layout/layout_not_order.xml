@@ -15,8 +15,8 @@
         style="@style/mprogress_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:layout_marginTop="30dp"
         android:thumb="@drawable/ic_seekbar_thumb" />
 
