@@ -8,7 +8,7 @@ import com.litesuits.orm.db.enums.AssignType;
  * 存储当前登录的用户
  */
 
-@Table("ser")
+@Table("user")
 public class User {
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
