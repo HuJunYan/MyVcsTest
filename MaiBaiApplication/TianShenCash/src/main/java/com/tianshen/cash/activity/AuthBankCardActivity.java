@@ -74,8 +74,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     TextView tv_bank_card;
     @BindView(R.id.tv_bank_card_num_key)
     TextView tvBankCardNumKey;
-    @BindView(R.id.et_auth_card_num_name)
-    EditText et_auth_card_num_name;
+    @BindView(R.id.et_auth_card_num)
+    EditText et_auth_card_num;
     @BindView(R.id.tv_bank_card_phone_num_key)
     TextView tvBankCardPhoneNumKey;
     @BindView(R.id.et_bank_card_phone_num)
@@ -169,7 +169,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String reserved_mobile = bankCardInfoBean.getData().getReserved_mobile();
         tv_bank_card.setText(bank_name);
         etAuthBankCardPerson.setText(card_user_name);
-        et_auth_card_num_name.setText(card_num);
+        et_auth_card_num.setText(card_num);
         etAuthBankCardPerson.setText(card_user_name);
         etBankCardPhoneNum.setText(reserved_mobile);
     }
@@ -250,7 +250,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String bank_name = itemBean.getBank_name(); //银行卡名字
         String bankId = itemBean.getBank_id();
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
-        String card_num = et_auth_card_num_name.getText().toString().trim();
+        String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
 
         if (TextUtils.isEmpty(tv_bank_card.getText())) {
@@ -352,7 +352,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void bindBankCard() {
         long customer_id = TianShenUserUtil.getUserId(mContext);
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
-        String card_num = et_auth_card_num_name.getText().toString().trim();
+        String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
         String verify_code = etSeverityCode.getText().toString().trim();
         String bank_name = mBankListBean.getData().get(mCurrentBankCardIndex).getBank_name();
