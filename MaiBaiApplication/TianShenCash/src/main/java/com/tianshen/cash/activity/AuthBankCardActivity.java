@@ -20,14 +20,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.BankListAdapter;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.model.BankCardInfoBean;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetAllBankList;
+import com.tianshen.cash.net.api.GetBankCardInfo;
 import com.tianshen.cash.net.api.GetBindVerifySms;
+import com.tianshen.cash.net.api.GetUserAuthCenter;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
@@ -111,6 +115,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initBankData();
     }
 
     @Override
@@ -148,6 +153,49 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 initSeverityCode();
                 tvSeverityCode.setEnabled(false);
                 break;
+        }
+    }
+
+    /**
+     * 刷新UI
+     */
+    private void refreshUI(BankCardInfoBean bankCardInfoBean) {
+        if (bankCardInfoBean == null) {
+            return;
+        }
+        String bank_name = bankCardInfoBean.getData().getBank_name();
+        String card_num = bankCardInfoBean.getData().getCard_num();
+        String card_user_name = bankCardInfoBean.getData().getCard_user_name();
+        String reserved_mobile = bankCardInfoBean.getData().getReserved_mobile();
+        tv_bank_card.setText(bank_name);
+        etAuthBankCardPerson.setText(card_user_name);
+        et_auth_card_num_name.setText(card_num);
+        etAuthBankCardPerson.setText(card_user_name);
+        etBankCardPhoneNum.setText(reserved_mobile);
+    }
+
+    /**
+     * 得到用户认证信息
+     */
+    private void initBankData() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            GetBankCardInfo getBankCardInfo = new GetBankCardInfo(mContext);
+            getBankCardInfo.getBankCardInfo(jsonObject, new BaseNetCallBack<BankCardInfoBean>() {
+                @Override
+                public void onSuccess(BankCardInfoBean paramT) {
+                    refreshUI(paramT);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

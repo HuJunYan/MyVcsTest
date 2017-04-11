@@ -518,4 +518,11 @@ public class NetConstantValue {
         return COMMONURI + "Customer/getCounty";
     }
 
+    /**
+     * 得到用户绑卡的信息
+     */
+    public static String getBankCardInfoUrl() {
+        return COMMONURI + "UserCenter/getBankCardInfo";
+    }
+
 }

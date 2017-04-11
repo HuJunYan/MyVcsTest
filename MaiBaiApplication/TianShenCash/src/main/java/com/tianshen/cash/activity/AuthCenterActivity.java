@@ -191,8 +191,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**
