@@ -259,7 +259,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     parserLoanDayData();
                     showNoPayUI();
-                    refreshCardUI();
                     refreshLoanDayUI();
                     refreshBubbleSeekBarUI();
                 }
@@ -328,6 +327,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             //TODO 展示解析错误的UI
             return;
         }
+
+        refreshCardUI();
+
         String status = mUserConfig.getData().getStatus();
 
 //        initSelWithdrawalsData();//显示用户没有下单的UI
