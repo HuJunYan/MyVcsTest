@@ -69,12 +69,8 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private void setWebView() {
         wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
-
-//        mUrl = "file:///android_asset/abc.html";
         mUrl = mUrl + "?src=android";
-
         LogUtil.d("abc","运营商URL--->"+mUrl);
-
         wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
