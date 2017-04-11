@@ -14,6 +14,7 @@ import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -143,11 +144,14 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         String contact_phone1 = datas.get(0).getContact_phone();
         String contact_phone2 = datas.get(1).getContact_phone();
 
-        String contact_name1 = datas.get(1).getContact_name();
+        String contact_name1 = datas.get(0).getContact_name();
         String contact_name2 = datas.get(1).getContact_name();
 
-        String contact_type1 = datas.get(1).getRelavtion_type();
+        String contact_type1 = datas.get(0).getRelavtion_type();
         String contact_type2 = datas.get(1).getRelavtion_type();
+
+        LogUtil.d("abc","contact_type1-->"+contact_type1);
+        LogUtil.d("abc","contact_type2-->"+contact_type2);
 
         etAuthNexusName1.setText(contact_name1);
         etAuthNexusName2.setText(contact_name2);
@@ -156,6 +160,13 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
         int index1 = Integer.parseInt(contact_type1) - 1;
         int index2 = Integer.parseInt(contact_type2) - 1;
+
+        if (index1 < 0) {
+            index1 = 0;
+        }
+        if (index2 < 0) {
+            index2 = 0;
+        }
 
         String nexus1 = mNexus.get(index1);
         String nexus2 = mNexus.get(index2);
