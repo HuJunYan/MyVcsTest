@@ -346,14 +346,13 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
         String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
 
-
         etAuthInfoQq.setText(qq_num);
         tvAuthInfoHomeAddress.setText(homeAddress);
         tvAuthInfoWorkAddress.setText(workAddress);
-        etAuthInfoAddressDetails.setText(company_address_detail);
+        etAuthInfoAddressDetails.setText(user_address_detail);
         etAuthInfoWorkName.setText(company_name);
         etAuthInfoWorkNum.setText(company_phone);
-        etAuthInfoWorkAddressDetails.setText(user_address_detail);
+        etAuthInfoWorkAddressDetails.setText(company_address_detail);
     }
 
     /**
