@@ -130,6 +130,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.xrecyclerview_order_status)
     XRecyclerView xrecyclerview_order_status;
 
+    @BindView(R.id.tv_home_confirm_money)
+    TextView tv_home_confirm_money;
+
 
     @BindView(R.id.tv_goto_repay)
     TextView tv_goto_repay;
@@ -180,6 +183,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlLoanDay.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
         tv_goto_repay.setOnClickListener(this);
+        tv_home_confirm_money.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
     }
@@ -208,6 +212,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.tv_goto_repay: //点击了立即还款
                 gotoActivity(mContext, ConfirmRepayActivity.class, null);
+                break;
+            case R.id.tv_home_confirm_money: //点击了确认按钮
+                showFriendlyTipsDialog();
                 break;
         }
     }
@@ -322,8 +329,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         String status = mUserConfig.getData().getStatus();
 
-        initSelWithdrawalsData();//显示用户没有下单的UI
-//        showConsumeStatusUI();//显示用户订单轨迹的UI
+//        initSelWithdrawalsData();//显示用户没有下单的UI
+        showConsumeStatusUI();//显示用户订单轨迹的UI
 //        showRepayUI();//显示还款的UI
     }
 
@@ -587,6 +594,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
         mDialog.setContentView(view);
         mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
         TextView tv_dialog_friendly_tips = (TextView) view.findViewById(R.id.tv_dialog_friendly_tips);
         tv_dialog_friendly_tips.setOnClickListener(new View.OnClickListener() {
             @Override

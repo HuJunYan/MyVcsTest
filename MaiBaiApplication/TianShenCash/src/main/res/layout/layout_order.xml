@@ -16,6 +16,20 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp" />
 
+    <TextView
+        android:id="@+id/tv_home_confirm_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/confirm_money_style"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/global_txt_orange"
+        android:textSize="14sp" />
+
 </LinearLayout>
 
 
