@@ -42,6 +42,7 @@ import com.tianshen.cash.adapter.OrderStatusAdapter;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.ApplyEvent;
+import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -632,6 +633,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
+        LogUtil.d("abc", "收到了登录成功消息--刷新UI");
+        initUserConfig();
+    }
+
+    /**
+     * 从认证中心返回主页
+     */
+    @Subscribe
+    public void onAuthCenterBack(AuthCenterBackEvent event) {
+        LogUtil.d("abc", "从认证中心页面返回--刷新UI");
         initUserConfig();
     }
 
@@ -640,7 +651,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onApply(ApplyEvent event) {
-        LogUtil.d("abc", "HomeFragmeng---onApply");
+        LogUtil.d("abc", "收到了确认借款页面的消息---刷新UI");
         initUserConfig();
     }
 

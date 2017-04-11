@@ -8,6 +8,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.AuthCenterBackEvent;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
@@ -24,6 +27,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -115,12 +119,23 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_auth_center_back:
+                EventBus.getDefault().post(new AuthCenterBackEvent());
                 backActivity();
                 break;
             case R.id.tv_auth_center_post:
                 onClickPost();
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            EventBus.getDefault().post(new AuthCenterBackEvent());
+            backActivity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void onClickPost() {
