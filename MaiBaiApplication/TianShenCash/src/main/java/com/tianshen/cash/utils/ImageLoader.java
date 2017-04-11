@@ -45,6 +45,9 @@ public class ImageLoader {
     }
 
     public static void load(Context context, String imageUrl, ImageView view) {
+        if (TextUtils.isEmpty(imageUrl)) {
+            return;
+        }
         Glide.with(context).load(imageUrl).crossFade().into(view);
     }
 

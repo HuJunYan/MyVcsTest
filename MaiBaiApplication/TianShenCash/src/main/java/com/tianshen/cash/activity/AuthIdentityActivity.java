@@ -330,7 +330,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         ImageLoader.load(getApplicationContext(), front_idCard_url, ivIdentityAuthPic);
         ImageLoader.load(getApplicationContext(), back_idCard_url, ivIdentityAuthPic2);
         ImageLoader.load(getApplicationContext(), face_url, ivIdentityAuthFace);
-
     }
 
     /**
