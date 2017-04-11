@@ -23,7 +23,9 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
+import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.WithdrawalsItemBean;
+import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetAllBankList;
 import com.tianshen.cash.net.api.GetBindVerifySms;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -42,6 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.tianshen.cash.R.id.et_verification_code;
 
 /**
  * 银行卡信息
@@ -81,6 +85,9 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
     private BankListBean mBankListBean; //银行卡列表数据
     private ArrayList<String> mDialogData;// //银行卡列表dialog数据
+
+    private String bind_no;//获取验证码时候得到的
+
 
     private int mCurrentBankCardIndex;//当前用户选择银行卡的位置
 
@@ -132,7 +139,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_auth_info_post:
-                ToastUtil.showToast(mContext, "点击了提交");
+                bindBankCard();
                 break;
             case R.id.rl_bank_card:
                 initBankListData();
@@ -184,8 +191,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             BankListItemBean bankListItemBean = datas.get(i);
             String bank_name = bankListItemBean.getBank_name();
             mDialogData.add(bank_name);
-
-            LogUtil.d("abc", "bank_name--->" + bank_name);
         }
     }
 
@@ -231,6 +236,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void onSuccess(BindVerifySmsBean paramT) {
                     ToastUtil.showToast(mContext, "验证码发送成功");
+                    bind_no = paramT.getData().getBind_no();
                     refreshSeverityTextUI();
                 }
 
@@ -288,6 +294,76 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             mHandler.removeMessages(MSG_SEVERITY_TIME);
         } else {
             mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
+    }
+
+    /**
+     * 绑定银行卡
+     */
+    private void bindBankCard() {
+        long customer_id = TianShenUserUtil.getUserId(mContext);
+        String card_user_name = etAuthBankCardPerson.getText().toString().trim();
+        String card_num = et_auth_card_num_name.getText().toString().trim();
+        String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
+        String verify_code = etSeverityCode.getText().toString().trim();
+        String bank_name = mBankListBean.getData().get(mCurrentBankCardIndex).getBank_name();
+        String bank_id = mBankListBean.getData().get(mCurrentBankCardIndex).getBank_id();
+
+
+        if (TextUtils.isEmpty(card_user_name)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(card_num)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(reserved_mobile)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(bank_name)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(bank_id)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(verify_code)) {
+            ToastUtil.showToast(mContext, "请先获取验证码!");
+            return;
+        }
+        try {
+            JSONObject mJson = new JSONObject();
+            mJson.put("customer_id", customer_id);
+            mJson.put("card_user_name", card_user_name);
+            mJson.put("card_num", card_num);
+            mJson.put("reserved_mobile", reserved_mobile);
+            mJson.put("verify_code", verify_code);
+            mJson.put("bank_name", bank_name);
+            mJson.put("bank_id", bank_id);
+            mJson.put("bind_no", bind_no);
+            BindBankCard mBindBankCard = new BindBankCard(mContext);
+            mBindBankCard.bindBankCard(mJson, tvAuthInfoPost, true, new BaseNetCallBack<ResponseBean>() {
+                @Override
+                public void onSuccess(ResponseBean paramT) {
+                    int code = paramT.getCode();
+                    if (code == 0) {
+                        ToastUtil.showToast(mContext, "绑卡成功!");
+                        backActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
 
     }
