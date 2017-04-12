@@ -515,12 +515,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void refreshBubbleSeekBarUI() {
 
+        //最小值
+        String min_cash = mSelWithdrawalsBean.getMin_cash();
+        if (TextUtils.isEmpty(min_cash)) {
+            min_cash = "0";
+        }
+        int min_cashInt = Integer.valueOf(min_cash) / 100;
+
         //总长度
         String max_cash = mSelWithdrawalsBean.getMax_cash();
         if (TextUtils.isEmpty(max_cash)) {
             max_cash = "0";
         }
         int max_cashInt = Integer.valueOf(max_cash) / 100;
+
+        //默认值
+        String def_cash = mSelWithdrawalsBean.getDef_cash();
+        if (TextUtils.isEmpty(def_cash)) {
+            def_cash = "0";
+        }
+        int def_cashInt = Integer.valueOf(def_cash) / 100;
 
         //每一个刻度的长度
         String unit = mSelWithdrawalsBean.getUnit();
@@ -530,12 +544,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         int unitInt = Integer.valueOf(unit) / 100;
 
         try {
-            minMaxSb.setMaxMin(max_cashInt, unitInt, unitInt);
-            minMaxSb.setCurrentProgress(unitInt);
+            minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
+            minMaxSb.setCurrentProgress(def_cashInt);
         } catch (MinMaxSeekBar.SeekBarStepException e) {
             e.printStackTrace();
         }
-        tvHomeMinSb.setText(unitInt + "元");
+        tvHomeMinSb.setText(min_cashInt + "元");
         tvHomeMaxSb.setText(max_cashInt + "元");
     }
 

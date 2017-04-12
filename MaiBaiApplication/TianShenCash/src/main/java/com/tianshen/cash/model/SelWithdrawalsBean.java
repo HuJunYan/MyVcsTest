@@ -9,16 +9,32 @@ import java.util.List;
  */
 public class SelWithdrawalsBean implements Serializable {
     private static final long serialVersionUID = 1L;
+
     public SelWithdrawalsBean() {
         data = new ArrayList<WithdrawalsItemBean>() {
         };
     }
+
     private int code;  // 返回码
     private String msg;  // 消息内容
+    private String min_cash; // 最小提现金额（单位分）
     private String max_cash; // 最大提现金额（单位分）
     private String def_cash; // 当前默认金额（单位分）
     private String unit; // 滑块单位（单位分）
     private List<WithdrawalsItemBean> data; // 可提现数据
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getMin_cash() {
+        return min_cash;
+    }
+
+    public void setMin_cash(String min_cash) {
+        this.min_cash = min_cash;
+    }
+
 
     public int getCode() {
         return code;
