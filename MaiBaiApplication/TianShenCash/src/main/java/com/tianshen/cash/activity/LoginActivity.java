@@ -204,7 +204,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public void login(String mobile, final String password) {
+    public void login(final String mobile, final String password) {
         try {
             JSONObject json = new JSONObject();
             json.put("device_id", mUniqueId);
@@ -249,6 +249,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     User user = new User();
                     user.setToken(paramT.getData().getToken());
                     user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
+                    user.setPhone(mobile);
                     user.setJpush_id(finalJpushId);
                     TianShenUserUtil.saveUser(mContext, user);
 

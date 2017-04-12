@@ -83,4 +83,17 @@ public class TianShenUserUtil {
         }
     }
 
+    /**
+     * 得到当前登录的手机号
+     */
+    public static String getUserPhoneNum(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return "";
+        } else {
+            return user.get(0).getPhone();
+        }
+    }
+
 }
