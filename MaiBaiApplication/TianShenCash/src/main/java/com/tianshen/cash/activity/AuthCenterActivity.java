@@ -51,6 +51,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
     private boolean mIsFromCard;
 
+    private boolean mIsAllAuthOK;
+
     private AuthCenterAdapter mAdapter;
 
     private UserAuthCenterBean mUserAuthCenterBean;
@@ -113,6 +115,25 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             mAdapter.setData(mAuthCenterItemBeans);
             mAdapter.notifyDataSetChanged();
         }
+        checkIsAllAuthOK();
+    }
+
+    /**
+     * 检查是否全部认证成功
+     */
+    private void checkIsAllAuthOK() {
+        boolean isAllAuthOK = false;
+        for (int i = 0; i < mAuthCenterItemBeans.size(); i++) {
+            AuthCenterItemBean authCenterItemBean = mAuthCenterItemBeans.get(i);
+            String status = authCenterItemBean.getStatus();
+            if ("0".equals(status)) {//没有认证
+                isAllAuthOK = false;
+                break;
+            } else {
+                isAllAuthOK = true;
+            }
+        }
+        mIsAllAuthOK = isAllAuthOK;
     }
 
     @Override
@@ -142,7 +163,11 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         if (mIsFromCard) {
             backActivity();
         } else {
-            gotoActivity(mContext, ConfirmBankCardActivity.class, null);
+            if (mIsAllAuthOK) {
+                gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+            } else {
+                ToastUtil.showToast(mContext, "请先认证!");
+            }
         }
     }
 
@@ -174,7 +199,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     /**
      * 跳转到运营商认证
      */
-    private void gotoChinaMobileActivity(){
+    private void gotoChinaMobileActivity() {
         String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, china_mobile_url);
