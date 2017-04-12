@@ -332,8 +332,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         String status = mUserConfig.getData().getStatus();
 
-//        initSelWithdrawalsData();//显示用户没有下单的UI
-        showConsumeStatusUI();//显示用户订单轨迹的UI
+        initSelWithdrawalsData();//显示用户没有下单的UI
+//        showConsumeStatusUI();//显示用户订单轨迹的UI
 //        showRepayUI();//显示还款的UI
     }
 
