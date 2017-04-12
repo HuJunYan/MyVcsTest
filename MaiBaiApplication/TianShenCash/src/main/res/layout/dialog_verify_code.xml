@@ -58,6 +58,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/shape_verify_border"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
             android:text="获取验证码"
             android:textColor="@color/global_txt_orange"
             android:textSize="14sp" />
