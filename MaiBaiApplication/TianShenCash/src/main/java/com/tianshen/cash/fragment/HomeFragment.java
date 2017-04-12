@@ -35,6 +35,7 @@ import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.adapter.AuthCenterAdapter;
@@ -207,9 +208,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 showSelectLoanDayDialog();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
-                Bundle applyBundle = new Bundle();
-                applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
-                gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
+                onClickApply();
                 break;
             case R.id.tv_goto_repay: //点击了立即还款
                 gotoActivity(mContext, ConfirmRepayActivity.class, null);
@@ -236,6 +235,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+
+    /**
+     * 点击了立即申请按钮
+     */
+    private void onClickApply() {
+
+        if (mUserConfig == null){
+            return;
+        }
+        String cur_credit_step = mUserConfig.getData().getCur_credit_step();
+        String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+
+        if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
+            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+        } else {//没有认证完毕跳转到认证中心页面
+            Bundle applyBundle = new Bundle();
+            applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
+            gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
+        }
+
     }
 
     private void initSelWithdrawalsData() {
