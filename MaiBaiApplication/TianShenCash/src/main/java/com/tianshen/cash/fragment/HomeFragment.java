@@ -353,9 +353,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         String status = mUserConfig.getData().getStatus();
 
-        initSelWithdrawalsData();//显示用户没有下单的UI
+//        initSelWithdrawalsData();//显示用户没有下单的UI
 //        showConsumeStatusUI();//显示用户订单轨迹的UI
 //        showRepayUI();//显示还款的UI
+
+        showVerifyCodeDialog();
     }
 
     /**
@@ -638,6 +640,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mDialog.setCancelable(false);
         TextView tv_dialog_friendly_tips = (TextView) view.findViewById(R.id.tv_dialog_friendly_tips);
         tv_dialog_friendly_tips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
+
+    /**
+     * 显示第三方产品(掌众)输入验证码Dialog
+     */
+    private void showVerifyCodeDialog() {
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_verify_code, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        TextView tv_dialog_get_money = (TextView) view.findViewById(R.id.tv_dialog_get_money);
+        tv_dialog_get_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDialog.dismiss();
