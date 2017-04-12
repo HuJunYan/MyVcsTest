@@ -1,25 +1,21 @@
 package com.tianshen.cash.fragment;
 
 
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.BaseFragment;
-import com.tianshen.cash.model.User;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment implements View.OnClickListener {
 
 
     @BindView(R.id.iv_me_user)
@@ -46,6 +42,18 @@ public class MeFragment extends BaseFragment {
     ImageView ivMeSetting;
     @BindView(R.id.tv_me_setting)
     TextView tvMeSetting;
+    @BindView(R.id.rl_me_user)
+    RelativeLayout rlMeUser;
+    @BindView(R.id.rl_me_history)
+    RelativeLayout rlMeHistory;
+    @BindView(R.id.rl_me_bank_card)
+    RelativeLayout rlMeBankCard;
+    @BindView(R.id.rl_me_tianshen_service)
+    RelativeLayout rlMeTianshenService;
+    @BindView(R.id.rl_me_about)
+    RelativeLayout rlMeAbout;
+    @BindView(R.id.rl_me_setting)
+    RelativeLayout rlMeSetting;
 
     @Override
     protected void initVariable() {
@@ -71,7 +79,12 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void setListensers() {
-
+        rlMeUser.setOnClickListener(this);
+        rlMeHistory.setOnClickListener(this);
+        rlMeBankCard.setOnClickListener(this);
+        rlMeTianshenService.setOnClickListener(this);
+        rlMeAbout.setOnClickListener(this);
+        rlMeSetting.setOnClickListener(this);
     }
 
     private void refreshUI() {
@@ -80,6 +93,34 @@ public class MeFragment extends BaseFragment {
             tvMeUserName.setText("未登录");
         } else {
             tvMeUserName.setText(phoneNum);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (!TianShenUserUtil.isLogin(mContext)) {
+            gotoActivity(mContext, LoginActivity.class, null);
+        }
+
+        switch (view.getId()) {
+            case R.id.rl_me_user:
+                break;
+            case R.id.rl_me_history:
+                ToastUtil.showToast(mContext, "点击了借款记录");
+                break;
+            case R.id.rl_me_bank_card:
+                ToastUtil.showToast(mContext, "点击了银行卡");
+                break;
+            case R.id.rl_me_tianshen_service:
+                ToastUtil.showToast(mContext, "点击了联系客服");
+                break;
+            case R.id.rl_me_about:
+                ToastUtil.showToast(mContext, "点击了关于天神贷");
+                break;
+            case R.id.rl_me_setting:
+                ToastUtil.showToast(mContext, "点击了设置");
+                break;
         }
     }
 }
