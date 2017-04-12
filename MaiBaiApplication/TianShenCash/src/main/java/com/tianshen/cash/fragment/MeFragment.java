@@ -1,17 +1,26 @@
 package com.tianshen.cash.fragment;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.activity.AboutMaibeiActivity;
+import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.activity.MyBankCardActivity;
+import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
+import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
-import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -107,20 +116,48 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.rl_me_user:
                 break;
             case R.id.rl_me_history:
-                ToastUtil.showToast(mContext, "点击了借款记录");
+                gotoActivity(mContext, ConsumptionRecordActivity.class, null);
                 break;
             case R.id.rl_me_bank_card:
-                ToastUtil.showToast(mContext, "点击了银行卡");
+                gotoActivity(mContext, MyBankCardActivity.class, null);
                 break;
             case R.id.rl_me_tianshen_service:
-                ToastUtil.showToast(mContext, "点击了联系客服");
+                showMyKefu();
                 break;
             case R.id.rl_me_about:
-                ToastUtil.showToast(mContext, "点击了关于天神贷");
+                gotoActivity(mContext, AboutMaibeiActivity.class, null);
                 break;
             case R.id.rl_me_setting:
-                ToastUtil.showToast(mContext, "点击了设置");
+                gotoActivity(mContext, SettingActivity.class, null);
                 break;
         }
+    }
+
+    private void showMyKefu(){
+        final Dialog dialog = new AlertDialog.Builder(mContext, R.style.withdrawals_diaog).create();
+        View view = LayoutInflater.from(mContext).inflate(R.layout.view_dialog_mykefu, null);
+        TextView tv_cancel=(TextView)view.findViewById(R.id.tv_cancel);
+        TextView tv_call=(TextView)view.findViewById(R.id.tv_call);
+
+        tv_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                new GetTelephoneUtils(mContext).changeLight();
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:13001137644"));
+                startActivity(intent);
+            }
+        });
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                new GetTelephoneUtils(mContext).changeLight();
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.setContentView(view);
+        new GetTelephoneUtils(mContext).changeDark();
     }
 }
