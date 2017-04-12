@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 设置背景色 -->
+    <solid android:color="#FFBA00" />
+
+    <!-- 设置底部个圆角的半径 -->
+    <corners
+        android:bottomLeftRadius="5dp"
+        android:bottomRightRadius="5dp" />
+
+</shape>
