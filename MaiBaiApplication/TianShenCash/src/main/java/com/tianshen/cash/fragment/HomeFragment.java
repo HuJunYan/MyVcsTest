@@ -243,7 +243,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void onClickApply() {
 
-        if (mUserConfig == null){
+        if (mUserConfig == null) {
             return;
         }
         String cur_credit_step = mUserConfig.getData().getCur_credit_step();
@@ -590,6 +590,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             CashSubItemBean cashSubItemBean = cash_data.get(i);
             String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
             int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
+
             if (progress == withdrawalAmountInt) {
                 String transfer_amount = cashSubItemBean.getTransfer_amount();
                 int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
@@ -618,6 +619,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         mCurrentLoanDaysIndex = position;
                         refreshLoanDayUI();
                         refreshBubbleSeekBarUI();
+                        int currentProgress = minMaxSb.getMinMaxSeekBarCurrentProgress();
+                        refreshLoanNumUI(currentProgress);
                     }
                 }).show();
     }

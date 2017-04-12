@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.tianshen.cash.utils.LogUtil;
+
 /**
  * 带最小最大及刻度的SeekBar
  * Created by ERIC on 11/03/2015.
@@ -15,6 +17,7 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
     private float mMin = 0;
     private float mStep = 1;
     private int MAX = 100;
+    private int mCurrentProgress; //当前的进度
     private OnMinMaxSeekBarChangeListener mOnMinMaxSeekBarChangeListener = null;
 
     public interface OnMinMaxSeekBarChangeListener {
@@ -65,6 +68,7 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
         float d = mMax - mMin;
         float x1 = progress1 * d / MAX;
         x1 += mMin;
+        mCurrentProgress = (int) x1;
         if (mOnMinMaxSeekBarChangeListener != null) {
             mOnMinMaxSeekBarChangeListener.onProgressChanged(x1);
         }
@@ -76,6 +80,7 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
         float d = mMax - mMin;
         float x1 = progress * d / MAX;
         x1 += mMin;
+        mCurrentProgress = (int) x1;
         if (mOnMinMaxSeekBarChangeListener != null) {
             mOnMinMaxSeekBarChangeListener.onStartTrackingTouch(x1);
         }
@@ -87,6 +92,7 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
         float d = mMax - mMin;
         float x1 = progress * d / MAX;
         x1 += mMin;
+        mCurrentProgress = (int) x1;
         if (mOnMinMaxSeekBarChangeListener != null) {
             mOnMinMaxSeekBarChangeListener.onStopTrackingTouch(x1);
         }
@@ -120,14 +126,24 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
     }
 
     public void setCurrentProgress(float progress) throws SeekBarStepException {
+
+        mCurrentProgress = (int) progress;
         if (progress >= mMin && progress <= mMax) {
             float d = mMax - mMin;
             float x = (progress - mMin) * MAX / d;
             int value = (int) x;
+
             this.setProgress(value);
         } else {
             throw new SeekBarStepException("progress = " + progress + " out of range min-max");
         }
+    }
+
+    /**
+     * 得到当前的进度
+     */
+    public int getMinMaxSeekBarCurrentProgress() {
+        return mCurrentProgress;
     }
 
     public float getSeekBarStepMax() {
