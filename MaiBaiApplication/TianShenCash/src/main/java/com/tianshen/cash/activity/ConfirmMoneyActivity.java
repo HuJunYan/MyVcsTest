@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,11 +9,9 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
-import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.net.api.GetOrderConfirm;
-import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +58,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
 
+    private OrderConfirmBean mOrderConfirmBean;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             getOrderConfirm.getOrderConfirm(jsonObject, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
                 public void onSuccess(OrderConfirmBean bean) {
-
+                    mOrderConfirmBean = bean;
+                    refreshUI();
                 }
 
                 @Override
@@ -122,6 +124,47 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 onClickApply();
                 break;
         }
+    }
+
+
+    /**
+     * 刷新UI
+     */
+    private void refreshUI() {
+        if (mOrderConfirmBean == null) {
+            return;
+        }
+
+//        "type":"0为自己的产品，1为掌众的产品"
+//        "consume_amount":"用户申请金额",
+//                "timer":"借款时长",
+//                "poundage":"手续费",
+//                "amount":到账金额,
+//                "bank_name":"绑定银行卡所属银行",
+//                "id_num":"绑定银行卡卡号",
+//                "detail":"手续费计算明细"
+
+
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
+        String timer = mOrderConfirmBean.getData().getTimer();//借款时长
+        String poundage = mOrderConfirmBean.getData().getPoundage();//手续费
+        String amount = mOrderConfirmBean.getData().getAmount();//到账金额
+        String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
+        String id_num = mOrderConfirmBean.getData().getId_num();//绑定银行卡卡号
+        try {
+            String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
+            String poundageY = MoneyUtils.changeF2Y(poundage);
+            String amountY = MoneyUtils.changeF2Y(amount);
+            tvConfirmWithdrawal.setText(consume_amountY + "元");
+            tvConfirmProcedures.setText(poundageY + "元");
+            tvConfirmTransfer.setText(amountY + "元");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tvConfirmTime.setText(timer + "天");
+        tvConfirmBanckCard.setText(bank_name + id_num);
+        tvConfirmRepay.setText("???????????????");
     }
 
     /**

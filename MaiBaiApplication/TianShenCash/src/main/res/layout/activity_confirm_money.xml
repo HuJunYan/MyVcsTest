@@ -49,7 +49,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_withdrawal_key"
-            android:text="500元"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -76,7 +75,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_time_key"
-            android:text="7天"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -103,7 +101,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_procedures_key"
-            android:text="10元"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -134,7 +131,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_transfer_key"
-            android:text="500元"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -161,7 +157,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_banck_card_key"
-            android:text="工商银行***0013"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -188,7 +183,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_confirm_repay_key"
-            android:text="500元"
             android:textSize="14dp" />
 
     </RelativeLayout>
