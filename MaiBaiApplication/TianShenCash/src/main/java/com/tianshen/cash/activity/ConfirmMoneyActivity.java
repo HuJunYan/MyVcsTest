@@ -7,9 +7,17 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.event.ApplyEvent;
-import com.tianshen.cash.event.LoginSuccessEvent;
+import com.tianshen.cash.model.OrderConfirmBean;
+import com.tianshen.cash.model.SelWithdrawalsBean;
+import com.tianshen.cash.net.api.GetOrderConfirm;
+import com.tianshen.cash.net.api.SelWithdrawals;
+import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -51,6 +59,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initOrderConfirmData();
+    }
+
     @Override
     protected int setContentView() {
         return R.layout.activity_confirm_money;
@@ -64,6 +79,40 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void setListensers() {
         tvConfirmApply.setOnClickListener(this);
+    }
+
+    /**
+     * 得到确认借款数据
+     */
+    private void initOrderConfirmData() {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+
+            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
+            String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
+
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("repay_id", repay_id);
+            jsonObject.put("consume_amount", consume_amount);
+
+            final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
+            getOrderConfirm.getOrderConfirm(jsonObject, new BaseNetCallBack<OrderConfirmBean>() {
+                @Override
+                public void onSuccess(OrderConfirmBean bean) {
+
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

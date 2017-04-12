@@ -49,6 +49,7 @@ import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetUserConfig;
@@ -154,6 +155,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private int mCurrentIndex;//当前滚动条的位置
 
+    private String mCurrentOrderMoney;
+
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
@@ -248,6 +251,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         String cur_credit_step = mUserConfig.getData().getCur_credit_step();
         String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+
+
+        //存储借款订单信息(到订单确认页面会用到)
+        List<WithdrawalsItemBean> withdrawalsItemBeens = mSelWithdrawalsBean.getData();
+        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeens.get(mCurrentLoanDaysIndex);
+        String id = withdrawalsItemBean.getId();//选择产品的ID
+        User user = TianShenUserUtil.getUser(mContext);
+        user.setRepay_id(id);
+        user.setConsume_amount(mCurrentOrderMoney);
+        TianShenUserUtil.saveUser(mContext, user);
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
             gotoActivity(mContext, ConfirmMoneyActivity.class, null);
@@ -592,6 +605,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
 
             if (progress == withdrawalAmountInt) {
+                mCurrentOrderMoney = withdrawalAmount;
                 String transfer_amount = cashSubItemBean.getTransfer_amount();
                 int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
                 int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额

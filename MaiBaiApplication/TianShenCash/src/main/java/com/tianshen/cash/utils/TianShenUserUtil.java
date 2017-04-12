@@ -96,4 +96,30 @@ public class TianShenUserUtil {
         }
     }
 
+    /**
+     * 得到当前用户借款选择产品的ID
+     */
+    public static String getUserRepayId(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return "";
+        } else {
+            return user.get(0).getRepay_id();
+        }
+    }
+
+    /**
+     * 得到当前用户借款的金额
+     */
+    public static String getUserConsumeAmount(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return "";
+        } else {
+            return user.get(0).getConsume_amount();
+        }
+    }
+
 }

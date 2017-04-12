@@ -21,6 +21,24 @@ public class User {
     private String token;
     private String jpush_id;//激光推送的id
     private String id_num; //身份证号
+    private String repay_id; //选择产品的id (借款)
+    private String consume_amount; //用户借款的金额(单位分)(借款)
+
+    public String getRepay_id() {
+        return repay_id;
+    }
+
+    public void setRepay_id(String repay_id) {
+        this.repay_id = repay_id;
+    }
+
+    public String getConsume_amount() {
+        return consume_amount;
+    }
+
+    public void setConsume_amount(String consume_amount) {
+        this.consume_amount = consume_amount;
+    }
 
     public String getId_num() {
         return id_num;

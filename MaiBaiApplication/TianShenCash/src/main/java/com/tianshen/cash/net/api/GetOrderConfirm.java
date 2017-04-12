@@ -14,6 +14,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
+/**
+ * 借款确认
+ */
 public class GetOrderConfirm extends NetBase {
     private boolean isRelease = true;
     private String mUrl;
