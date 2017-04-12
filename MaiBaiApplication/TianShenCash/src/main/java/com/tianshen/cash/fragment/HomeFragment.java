@@ -57,6 +57,7 @@ import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -479,15 +480,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-
         if (mSelWithdrawalsBean != null) {
-            String max_cash = mSelWithdrawalsBean.getMax_cash();
-            if (TextUtils.isEmpty(max_cash)) {
-                max_cash = "0";
-            }
-            int max_cashInt = Integer.valueOf(max_cash) / 100;
             //设置信用额度
-            tvHomeUserLimitValue.setText(max_cashInt + "");
+            try {
+                String max_cash = mSelWithdrawalsBean.getMax_cash();
+                String max_cashY = MoneyUtils.changeF2Y(max_cash);
+                tvHomeUserLimitValue.setText(max_cashY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         if (mUserConfig != null) {
@@ -528,42 +529,36 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void refreshBubbleSeekBarUI() {
 
-        //最小值
-        String min_cash = mSelWithdrawalsBean.getMin_cash();
-        if (TextUtils.isEmpty(min_cash)) {
-            min_cash = "0";
-        }
-        int min_cashInt = Integer.valueOf(min_cash) / 100;
-
-        //总长度
-        String max_cash = mSelWithdrawalsBean.getMax_cash();
-        if (TextUtils.isEmpty(max_cash)) {
-            max_cash = "0";
-        }
-        int max_cashInt = Integer.valueOf(max_cash) / 100;
-
-        //默认值
-        String def_cash = mSelWithdrawalsBean.getDef_cash();
-        if (TextUtils.isEmpty(def_cash)) {
-            def_cash = "0";
-        }
-        int def_cashInt = Integer.valueOf(def_cash) / 100;
-
-        //每一个刻度的长度
-        String unit = mSelWithdrawalsBean.getUnit();
-        if (TextUtils.isEmpty(unit)) {
-            unit = "0";
-        }
-        int unitInt = Integer.valueOf(unit) / 100;
-
         try {
+            //最小值
+            String min_cash = mSelWithdrawalsBean.getMin_cash();
+            String min_cashY = MoneyUtils.changeF2Y(min_cash);
+            int min_cashInt = Integer.valueOf(min_cashY);
+
+            //最大值
+            String max_cash = mSelWithdrawalsBean.getMax_cash();
+            String max_cashY = MoneyUtils.changeF2Y(max_cash);
+            int max_cashInt = Integer.valueOf(max_cashY);
+
+            //默认值
+            String def_cash = mSelWithdrawalsBean.getDef_cash();
+            String def_cashY = MoneyUtils.changeF2Y(def_cash);
+            int def_cashInt = Integer.valueOf(def_cashY);
+
+            //刻度值
+            String unit = mSelWithdrawalsBean.getUnit();
+            String unitY = MoneyUtils.changeF2Y(unit);
+            int unitInt = Integer.valueOf(unitY);
+
             minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
             minMaxSb.setCurrentProgress(def_cashInt);
-        } catch (MinMaxSeekBar.SeekBarStepException e) {
+            tvHomeMinSb.setText(min_cashInt + "元");
+            tvHomeMaxSb.setText(max_cashInt + "元");
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        tvHomeMinSb.setText(min_cashInt + "元");
-        tvHomeMaxSb.setText(max_cashInt + "元");
+
     }
 
     /**
@@ -602,15 +597,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         for (int i = 0; i < cash_data.size(); i++) {
             CashSubItemBean cashSubItemBean = cash_data.get(i);
             String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
-            int withdrawalAmountInt = Integer.valueOf(withdrawalAmount) / 100; //申请的金额也就是滑动当前位置的金额
-
-            if (progress == withdrawalAmountInt) {
-                mCurrentOrderMoney = withdrawalAmount;
-                String transfer_amount = cashSubItemBean.getTransfer_amount();
-                int transfer_amountInt = Integer.valueOf(transfer_amount) / 100; //到账金额
-                int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
-                //设置手续金额
-                tvProceduresValue.setText(procedures + " 元");
+            try {
+                String withdrawalAmountY = MoneyUtils.changeF2Y(withdrawalAmount);
+                int withdrawalAmountInt = Integer.valueOf(withdrawalAmountY); //申请的金额也就是滑动当前位置的金额
+                if (progress == withdrawalAmountInt) {
+                    mCurrentOrderMoney = withdrawalAmount;
+                    String transfer_amount = cashSubItemBean.getTransfer_amount();
+                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
+                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
+                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+                    //设置手续金额
+                    tvProceduresValue.setText(procedures + " 元");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
