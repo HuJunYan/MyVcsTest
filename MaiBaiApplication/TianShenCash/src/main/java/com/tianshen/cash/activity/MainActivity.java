@@ -18,6 +18,7 @@ import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.fragment.HomeFragment;
+import com.tianshen.cash.fragment.MeFragment;
 import com.tianshen.cash.fragment.MyFragment;
 import com.tianshen.cash.model.JpushAddBorrowTermBean;
 import com.tianshen.cash.net.base.UserUtil;
@@ -34,7 +35,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private RadioButton  rb_my, rb_withdrawals;
-    private MyFragment mMyFragment;
+//    private MyFragment mMyFragment;
+    private MeFragment mMeFragment;
 //    private WithdrawalsFragment mWithdrawalsFragment;
     private HomeFragment mHomeFragment;
     private MyViewPager vp_main;
@@ -138,13 +140,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //        if (mWithdrawalsFragment == null) {
 //            mWithdrawalsFragment = new WithdrawalsFragment();
 //        }
+//        if (mMyFragment == null) {
+//            mMyFragment = new MyFragment();
+//        }
+
 
         if (mHomeFragment == null) {
             mHomeFragment = new HomeFragment();
         }
 
-        if (mMyFragment == null) {
-            mMyFragment = new MyFragment();
+        if (mMeFragment == null) {
+            mMeFragment = new MeFragment();
         }
 
         if (mFragmentList == null) {
@@ -152,7 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //            mFragmentList.add(mZeroYuanBuyFragment);
 //            mFragmentList.add(mWithdrawalsFragment);
             mFragmentList.add(mHomeFragment);
-            mFragmentList.add(mMyFragment);
+            mFragmentList.add(mMeFragment);
         }
     }
 
