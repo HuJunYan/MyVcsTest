@@ -49,11 +49,20 @@ public class UserAuthCenterBean {
          */
 
         private String id_num;
+        private String face_pass;
         private String contacts_pass;
         private String bankcard_pass;
         private String china_mobile;
         private String userdetail_pass;
         private String china_mobile_url;
+
+        public String getFace_pass() {
+            return face_pass;
+        }
+
+        public void setFace_pass(String face_pass) {
+            this.face_pass = face_pass;
+        }
 
         public String getId_num() {
             return id_num;

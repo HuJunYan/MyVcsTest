@@ -240,7 +240,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         UserAuthCenterBean.DataBean data = mUserAuthCenterBean.getData();
         String id_num = data.getId_num();
-        String userdetail_pass = data.getUserdetail_pass();
+        String face_pass = data.getFace_pass();
         String contacts_pass = data.getContacts_pass();
         String bankcard_pass = data.getBankcard_pass();
         String china_mobile = data.getChina_mobile();
@@ -248,6 +248,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
 
+        String userdetail_pass;
+        if ("0".equals(id_num) || "0".equals(face_pass)) {
+            userdetail_pass = "0";
+        } else {
+            userdetail_pass = "1";
+        }
         AuthCenterItemBean authCenterItemBean0 = new AuthCenterItemBean();
         authCenterItemBean0.setName("身份认证");
         authCenterItemBean0.setDrawable_id(R.drawable.ic_auth_center_identity_item);
