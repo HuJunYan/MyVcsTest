@@ -125,7 +125,7 @@ public class NetBase {
                     result = result.substring(fristIntdex, lastIntdex);
 //                    }
                     LogUtil.d("ret", "url = " + url + ";  after handle result = " + result);
-                    Logger.i("下行onSuccess");
+                    Logger.i("下行onSuccess--url->"+url);
                     Logger.json(result);
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
@@ -135,7 +135,7 @@ public class NetBase {
                     }
                 } catch (Exception e) {
                     String g = (String) responseInfo.result;
-                    Logger.i("下行Exception-result->" + g);
+                    Logger.i("下行Exception-->" + url + "result--->" + g);
                     callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
                     DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
@@ -151,7 +151,7 @@ public class NetBase {
                     view.setEnabled(true);
                 }
                 LogUtil.d("ret", "failed: url = " + url + " ; m = " + m + "--ExceptionCode-->" + e.getExceptionCode());
-                Logger.d("下行failed");
+                Logger.d("下行failed--url->"+url);
                 Logger.d(e);
                 Logger.d(m);
                 callBack.onFailure("", -3, -1000);
