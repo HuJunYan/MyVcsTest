@@ -12,6 +12,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -69,8 +70,10 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private void setWebView() {
         wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
-        mUrl = mUrl + "?src=android";
-        LogUtil.d("abc","运营商URL--->"+mUrl);
+        long userId = TianShenUserUtil.getUserId(mContext);
+        String userToken = TianShenUserUtil.getUserToken(mContext);
+        mUrl = mUrl + "?src=android&uid=" + userId + "&token=" + userToken;
+        LogUtil.d("abc", "运营商URL--->" + mUrl);
         wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
