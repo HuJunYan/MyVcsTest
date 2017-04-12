@@ -525,4 +525,11 @@ public class NetConstantValue {
         return COMMONURI + "UserCenter/getBankCardInfo";
     }
 
+    /**
+     * 得到订单确认信息
+     */
+    public static String getOrderConfirmUrl() {
+        return COMMONURI + "Order/orderConfirm";
+    }
+
 }
