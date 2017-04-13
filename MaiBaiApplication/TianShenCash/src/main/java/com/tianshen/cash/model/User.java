@@ -23,6 +23,15 @@ public class User {
     private String id_num; //身份证号
     private String repay_id; //选择产品的id (借款)
     private String consume_amount; //用户借款的金额(单位分)(借款)
+    private String is_payway;
+
+    public String getIs_payway() {
+        return is_payway;
+    }
+
+    public void setIs_payway(String is_payway) {
+        this.is_payway = is_payway;
+    }
 
     public String getRepay_id() {
         return repay_id;

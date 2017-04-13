@@ -1,6 +1,7 @@
 package com.tianshen.cash.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.manager.DBManager;
@@ -97,19 +98,6 @@ public class TianShenUserUtil {
     }
 
     /**
-     * 得到当前用户借款选择产品的ID
-     */
-    public static String getUserRepayId(Context context) {
-        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return "";
-        } else {
-            return user.get(0).getRepay_id();
-        }
-    }
-
-    /**
      * 得到当前用户借款的金额
      */
     public static String getUserConsumeAmount(Context context) {
@@ -121,5 +109,48 @@ public class TianShenUserUtil {
             return user.get(0).getConsume_amount();
         }
     }
+
+    /**
+     * 判断当前用户申请产品的类型（自营产品或者第三方产品(掌众)）
+     * 自营产品返回true --第三方产品返回false
+     */
+    public static boolean isPayWayBySelf(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return true;
+        }
+        String is_payway = user.get(0).getIs_payway();
+        if (TextUtils.isEmpty(is_payway)) {
+            return true;
+        }
+        if ("0".equals(is_payway)) { //"0:自营业务，1:掌众"
+            return true;
+        } else if ("1".equals(is_payway)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * 得到当前用户借款选择产品的ID(如果是自己的产品就返回selWithdrawals里面的id,如果第三方产品返回0)
+     */
+    public static String getUserRepayId(Context context) {
+        String repayId = "0";
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return repayId;
+        }
+        boolean isPayWayBySelf = isPayWayBySelf(context);
+        if (isPayWayBySelf) {
+            repayId = user.get(0).getRepay_id();
+        } else {
+            repayId = "0";
+        }
+        return repayId;
+    }
+
 
 }

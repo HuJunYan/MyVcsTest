@@ -43,10 +43,48 @@ public class UserConfig {
         private String overdue_days;
         private String overdue_amount;//金额
         private String amount;//还款金额
+        private String whethe_review_status;
+        private String is_payway;
+        private String consume_amount;
+        private String repayment_time_year;
         private String repayment_time_month;
-        private String remaining_days;
         private String repayment_time_day;
+        private String remaining_days;
+
         private ArrayList<Consume> consume_status_list;
+
+
+        public String getWhethe_review_status() {
+            return whethe_review_status;
+        }
+
+        public void setWhethe_review_status(String whethe_review_status) {
+            this.whethe_review_status = whethe_review_status;
+        }
+
+        public String getIs_payway() {
+            return is_payway;
+        }
+
+        public void setIs_payway(String is_payway) {
+            this.is_payway = is_payway;
+        }
+
+        public String getConsume_amount() {
+            return consume_amount;
+        }
+
+        public void setConsume_amount(String consume_amount) {
+            this.consume_amount = consume_amount;
+        }
+
+        public String getRepayment_time_year() {
+            return repayment_time_year;
+        }
+
+        public void setRepayment_time_year(String repayment_time_year) {
+            this.repayment_time_year = repayment_time_year;
+        }
 
         public String getOverdue_days() {
             return overdue_days;

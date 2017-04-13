@@ -92,9 +92,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             JSONObject jsonObject = new JSONObject();
             long userId = TianShenUserUtil.getUserId(mContext);
 
-            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
             String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
-
+            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
             jsonObject.put("customer_id", userId);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);

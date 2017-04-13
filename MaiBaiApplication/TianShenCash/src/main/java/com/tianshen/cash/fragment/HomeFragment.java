@@ -367,6 +367,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         String status = mUserConfig.getData().getStatus();
 
+        String is_payway = mUserConfig.getData().getIs_payway();
+
+        User user = TianShenUserUtil.getUser(mContext);
+        user.setIs_payway(is_payway);
+        TianShenUserUtil.saveUser(mContext,user);
+
         initSelWithdrawalsData();//显示用户没有下单的UI
 //        showConsumeStatusUI();//显示用户订单轨迹的UI
 //        showRepayUI();//显示还款的UI
