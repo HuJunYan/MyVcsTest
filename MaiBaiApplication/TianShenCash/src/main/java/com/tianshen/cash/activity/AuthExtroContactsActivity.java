@@ -150,9 +150,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         String contact_type1 = datas.get(0).getType();
         String contact_type2 = datas.get(1).getType();
 
-        LogUtil.d("abc","contact_type1-->"+contact_type1);
-        LogUtil.d("abc","contact_type2-->"+contact_type2);
-
         etAuthNexusName1.setText(contact_name1);
         etAuthNexusName2.setText(contact_name2);
         etAuthNexusPhone.setText(contact_phone1);
