@@ -9,8 +9,11 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetOrderConfirm;
+import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.SafeUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -160,8 +163,63 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
-        EventBus.getDefault().post(new ApplyEvent());
-        gotoActivity(mContext, MainActivity.class, null);
+//                 "customer_id": "（int）用户ID",
+//                "type":"0为自己的产品，1为掌众的产品"
+//                "consume_amount": "(int)提现金额,单位分",
+//
+//                "location": "用户坐标，格式：(string)当前用户所在的坐标值 如：123.4212128,45.098324 经度在前纬度在后英文逗号隔开",
+//                "province": "用户消费地所在的省",
+//                "city": "用户消费地所在的市没有传空字符",
+//                "country": "用户消费地所在的区/县",
+//                "address": "用户消费地所在的详细地址",
+//                "black_box": "指纹黑盒数据，同盾指纹，android和ios必传，h5不传",
+//                "push_id": "推送消息id，android必传，ios和h5不传",
+//                "repay_id":"选择的产品id,如果是掌众写0,注意：该字段是selWithdrawals接口的data.id值"
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            long userId = TianShenUserUtil.getUserId(mContext);
+            String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
+            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
+            boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
+            String type;
+            if (payWayBySelf) {
+                type = "0";
+            } else {
+                type = "1";
+            }
+            String black_box = new GetTelephoneUtils(mContext).getBlackBox();
+
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("type", type);
+            jsonObject.put("consume_amount", consume_amount);
+            jsonObject.put("location", "");
+            jsonObject.put("city", "");
+            jsonObject.put("country", "");
+            jsonObject.put("address", "");
+            jsonObject.put("black_box", black_box);
+            jsonObject.put("push_id", "");
+            jsonObject.put("repay_id", repay_id);
+
+            final Order order = new Order(mContext);
+            order.order(jsonObject, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    if (paramT.getCode() == 0) {
+                        EventBus.getDefault().post(new ApplyEvent());
+                        gotoActivity(mContext, MainActivity.class, null);
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
