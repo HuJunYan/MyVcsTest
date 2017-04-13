@@ -10,133 +10,15 @@
         android:layout_height="4dp"
         android:background="@color/global_bg_gray" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal">
+    <include
+        android:id="@+id/ll_repay_normal"
+        layout="@layout/layout_repay_layout_normal"
+        android:visibility="gone" />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_repay_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="3"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/tv_repay_month_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="月"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/tv_repay_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="30"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="24sp" />
-
-
-                <TextView
-                    android:id="@+id/tv_repay_day_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="日"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:text="还款日期"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/global_line_bg" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_repay_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="500"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="24sp" />
-
-
-                <TextView
-                    android:id="@+id/tv_repay_money_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="元"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:text="还款金额"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
+    <include
+        android:id="@+id/ll_repay_danger"
+        layout="@layout/layout_repay_layout_danger"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_goto_repay"

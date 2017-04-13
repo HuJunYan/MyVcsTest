@@ -137,10 +137,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_confirm_money)
     TextView tv_home_confirm_money;
 
-
     @BindView(R.id.tv_goto_repay)
     TextView tv_goto_repay;
 
+    @BindView(R.id.ll_repay_normal)
+    LinearLayout ll_repay_normal;
+
+    @BindView(R.id.ll_repay_danger)
+    LinearLayout ll_repay_danger;
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -442,8 +446,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_not_order.setVisibility(View.GONE);
         ll_order.setVisibility(View.GONE);
         ll_repay.setVisibility(View.VISIBLE);
-    }
 
+        String overdueDays = mUserConfig.getData().getOverdue_days();
+        if (TextUtils.isEmpty(overdueDays)) {
+            overdueDays = "0";
+        }
+        int overdueDaysInt = Integer.parseInt(overdueDays);
+
+
+        overdueDaysInt = 3;
+
+        if (overdueDaysInt > 0) {//显示逾期的UI
+            ll_repay_normal.setVisibility(View.GONE);
+            ll_repay_danger.setVisibility(View.VISIBLE);
+        } else {//显示正常还钱的UI
+            ll_repay_normal.setVisibility(View.VISIBLE);
+            ll_repay_danger.setVisibility(View.GONE);
+        }
+    }
 
     private void initXRecyclerview() {
         if (mOrderStatusAdapter == null) {
