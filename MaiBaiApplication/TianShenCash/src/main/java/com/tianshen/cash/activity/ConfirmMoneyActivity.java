@@ -144,14 +144,16 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String amount = mOrderConfirmBean.getData().getAmount();//到账金额
         String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
         String id_num = mOrderConfirmBean.getData().getId_num();//绑定银行卡卡号
+        String repayment_amout = mOrderConfirmBean.getData().getRepayment_amout();//到期还款金额
         try {
             String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
             String poundageY = MoneyUtils.changeF2Y(poundage);
             String amountY = MoneyUtils.changeF2Y(amount);
+            String repaymentAmoutY = MoneyUtils.changeF2Y(repayment_amout);
             tvConfirmWithdrawal.setText(consume_amountY + "元");
             tvConfirmProcedures.setText(poundageY + "元");
             tvConfirmTransfer.setText(amountY + "元");
-            tvConfirmRepay.setText(consume_amountY + "元");
+            tvConfirmRepay.setText(repaymentAmoutY + "元");
             tvConfirmTime.setText(timer + "天");
             String cardNum = SafeUtil.encodeBankCardNum(id_num);
             tvConfirmBanckCard.setText(bank_name + cardNum);

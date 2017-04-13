@@ -40,6 +40,15 @@ public class OrderConfirmBean {
         private String bank_name;
         private String id_num;
         private String detail;
+        private String repayment_amout;
+
+        public String getRepayment_amout() {
+            return repayment_amout;
+        }
+
+        public void setRepayment_amout(String repayment_amout) {
+            this.repayment_amout = repayment_amout;
+        }
 
         public String getType() {
             return type;
