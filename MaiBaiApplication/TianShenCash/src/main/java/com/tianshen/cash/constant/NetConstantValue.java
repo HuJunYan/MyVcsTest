@@ -4,15 +4,25 @@ package com.tianshen.cash.constant;
  * Created by zhangchi on 2016/6/14.
  */
 public class NetConstantValue {
-    // release
-//    public static String COMMONURI = "http://qtqapi.9maibei.com/Home/";
 
-    // test
-//    public static String COMMONURI = "http://dev.qtqapi.9maibei.com/Home/";
+    //测试
+    public static String HOST = "http://118.190.83.21/";
 
-//    public static String COMMONURI = "http://118.190.83.21/Home/";
+    public static String COMMONURI = HOST + "Home/";
 
-    public static String COMMONURI = "http://118.190.83.21/Home/";
+    /**
+     * 得到天神贷用户服务协议URL
+     */
+    public static String getUserServiceProtocolURL() {
+        return HOST + "h5/protocol/customerSignUp.html";
+    }
+
+    /**
+     * 得到天神贷分期付款服务协议URL
+     */
+    public static String getUserPayProtocolURL() {
+        return HOST + "h5/protocol/order.html";
+    }
 
     /**
      * 用户登录
