@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
@@ -30,7 +32,6 @@ import butterknife.BindView;
  */
 
 public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickListener {
-
 
     @BindView(R.id.tv_confirm_money_back)
     TextView tvConfirmMoneyBack;
@@ -65,7 +66,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     private OrderConfirmBean mOrderConfirmBean;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +85,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void setListensers() {
         tvConfirmApply.setOnClickListener(this);
+        tvConfirmProtocol.setOnClickListener(this);
     }
 
     /**
@@ -127,9 +128,11 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_confirm_apply:
                 onClickApply();
                 break;
+            case R.id.tv_confirm_protocol:
+                gotoWebActivity();
+                break;
         }
     }
-
 
     /**
      * 刷新UI
@@ -233,7 +236,16 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * 跳转到WebActivity
+     */
+    private void gotoWebActivity() {
+        String userPayProtocolURL = NetConstantValue.getUserPayProtocolURL();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURL);
+        gotoActivity(mContext, WebActivity.class, bundle);
     }
 
 }
