@@ -10,6 +10,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.tianshen.cash.model.User;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -106,6 +107,15 @@ public class LocationUtil implements BDLocationListener {
             share.putString("country", address.district);
             share.putString("address", address.address);
 //            Log.d("ret", "province = " + address.province + " ; city = " + address.city + " ; country = " + address.district);
+
+            User user = TianShenUserUtil.getUser(mContext);
+            user.setLocation(bdLocation.getLatitude() + "," + bdLocation.getLongitude());
+            user.setProvince(address.province);
+            user.setCity(address.city);
+            user.setCountry(address.district);
+            user.setAddress(address.address);
+            TianShenUserUtil.saveUser(mContext, user);
+
         }
         if (isRequest) {
             if (mReqListener != null) {

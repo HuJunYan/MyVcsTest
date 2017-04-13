@@ -10,6 +10,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -178,9 +179,18 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
         try {
             JSONObject jsonObject = new JSONObject();
-            long userId = TianShenUserUtil.getUserId(mContext);
-            String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
-            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
+
+
+            User user = TianShenUserUtil.getUser(mContext);
+
+            long userId = user.getId();
+            String consume_amount = user.getConsume_amount();
+            String repay_id = user.getRepay_id();
+            String location = user.getLocation();
+            String city = user.getCity();
+            String country = user.getCountry();
+            String address = user.getAddress();
+            String province = user.getProvince();
             boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
             String type;
             if (payWayBySelf) {
@@ -193,10 +203,11 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("customer_id", userId);
             jsonObject.put("type", type);
             jsonObject.put("consume_amount", consume_amount);
-            jsonObject.put("location", "");
-            jsonObject.put("city", "");
-            jsonObject.put("country", "");
-            jsonObject.put("address", "");
+            jsonObject.put("location", location);
+            jsonObject.put("province", province);
+            jsonObject.put("city", city);
+            jsonObject.put("country", country);
+            jsonObject.put("address", address);
             jsonObject.put("black_box", black_box);
             jsonObject.put("push_id", "");
             jsonObject.put("repay_id", repay_id);

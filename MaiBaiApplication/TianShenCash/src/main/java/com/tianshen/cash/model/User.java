@@ -23,7 +23,52 @@ public class User {
     private String id_num; //身份证号
     private String repay_id; //选择产品的id (借款)
     private String consume_amount; //用户借款的金额(单位分)(借款)
-    private String is_payway;
+    private String is_payway; //是否是自营的产品，自己的产品为0
+    private String location;//坐标
+    private String province; //省
+    private String city;//城市
+    private String country;//区域
+    private String address;//详细地址
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getIs_payway() {
         return is_payway;
