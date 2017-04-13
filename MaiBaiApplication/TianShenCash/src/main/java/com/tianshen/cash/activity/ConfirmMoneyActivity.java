@@ -134,17 +134,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         if (mOrderConfirmBean == null) {
             return;
         }
-
-//        "type":"0为自己的产品，1为掌众的产品"
-//        "consume_amount":"用户申请金额",
-//                "timer":"借款时长",
-//                "poundage":"手续费",
-//                "amount":到账金额,
-//                "bank_name":"绑定银行卡所属银行",
-//                "id_num":"绑定银行卡卡号",
-//                "detail":"手续费计算明细"
-
-
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
         String poundage = mOrderConfirmBean.getData().getPoundage();//手续费
@@ -158,13 +147,12 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             tvConfirmWithdrawal.setText(consume_amountY + "元");
             tvConfirmProcedures.setText(poundageY + "元");
             tvConfirmTransfer.setText(amountY + "元");
-
+            tvConfirmRepay.setText(consume_amountY + "元");
+            tvConfirmTime.setText(timer + "天");
+            tvConfirmBanckCard.setText(bank_name + id_num);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        tvConfirmTime.setText(timer + "天");
-        tvConfirmBanckCard.setText(bank_name + id_num);
-        tvConfirmRepay.setText("???????????????");
     }
 
     /**
