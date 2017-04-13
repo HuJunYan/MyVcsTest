@@ -367,13 +367,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         //存储当前产品类型
         String is_payway = mUserConfig.getData().getIs_payway();
         User user = TianShenUserUtil.getUser(mContext);
+
+
+        boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
+        boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
+
         user.setIs_payway(is_payway);
         TianShenUserUtil.saveUser(mContext, user);
 
         // "0:新用户，没有提交过订单；1:订单待审核；2:审核通过；3:放款成功（钱已经到银行卡）；
         // 4:审核失败；5:放款失败;6放款中 ；7 已还款 ;8已经提交还款（还款金额还没到账）;9决策失败"
         String status = mUserConfig.getData().getStatus();
-        LogUtil.d("abc","status---->"+status);
+
+        status = "3";
+
         switch (status) {
             case "0":
                 initSelWithdrawalsData();//显示用户没有下单的UI
@@ -387,9 +394,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "3":
-                //TODO 判断用户没有点过按钮，没有点过按钮吧按钮显示出来
-                showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
+                if (clickedHomeGetMoneyButton) {//判断用户没有点过按钮，没有点过按钮吧按钮显示出来
+                    showRepayUI();
+                } else {
+                    showConsumeStatusUI();
+                    tv_home_confirm_money.setVisibility(View.VISIBLE);
+                }
                 break;
             case "4":
                 showConsumeStatusUI();//显示用户订单轨迹的UI
@@ -684,6 +694,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 User user = TianShenUserUtil.getUser(mContext);
                 user.setClickedHomeGetMoneyButton(true);
                 TianShenUserUtil.saveUser(mContext, user);
+                showRepayUI();
                 mDialog.dismiss();
             }
         });
