@@ -364,18 +364,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         refreshCardUI();
-
-        String status = mUserConfig.getData().getStatus();
-
+        //存储当前产品类型
         String is_payway = mUserConfig.getData().getIs_payway();
-
         User user = TianShenUserUtil.getUser(mContext);
         user.setIs_payway(is_payway);
-        TianShenUserUtil.saveUser(mContext,user);
+        TianShenUserUtil.saveUser(mContext, user);
 
-        initSelWithdrawalsData();//显示用户没有下单的UI
-//        showConsumeStatusUI();//显示用户订单轨迹的UI
-//        showRepayUI();//显示还款的UI
+        // "0:新用户，没有提交过订单；1:订单待审核；2:审核通过；3:放款成功（钱已经到银行卡）；
+        // 4:审核失败；5:放款失败;6放款中 ；7 已还款 ;8已经提交还款（还款金额还没到账）;9决策失败"
+        String status = mUserConfig.getData().getStatus();
+        LogUtil.d("abc","status---->"+status);
+        switch (status) {
+            case "0":
+                initSelWithdrawalsData();//显示用户没有下单的UI
+                break;
+            case "1":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+            case "2":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+            case "3":
+                showRepayUI();//显示还款的UI();
+                break;
+            case "4":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+            case "5":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+            case "6":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+            case "7":
+                showConsumeStatusUI();//显示用户订单轨迹的UI
+                break;
+        }
+
     }
 
     /**

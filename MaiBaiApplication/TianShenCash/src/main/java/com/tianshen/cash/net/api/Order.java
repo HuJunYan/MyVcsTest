@@ -24,7 +24,7 @@ public class Order extends NetBase {
     public Order(Context context) {
         super(context);
         mContext = context;
-        mUrl = NetConstantValue.getWithdrawalsOrderURL();
+        mUrl = NetConstantValue.getWithdrawalsApplyURL();
     }
 
     public void order(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
