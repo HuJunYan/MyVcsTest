@@ -100,6 +100,16 @@
             android:hint="请输入姓名"
             android:textSize="14dp" />
 
+
+        <ImageView
+            android:id="@+id/iv_auth_contacts1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_contacts" />
+
     </RelativeLayout>
 
     <View style="@style/split_line_style" />
@@ -203,6 +213,14 @@
             android:hint="请输入姓名"
             android:textSize="14dp" />
 
+        <ImageView
+            android:id="@+id/iv_auth_contacts2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/ic_contacts" />
     </RelativeLayout>
 
     <View style="@style/split_line_style" />

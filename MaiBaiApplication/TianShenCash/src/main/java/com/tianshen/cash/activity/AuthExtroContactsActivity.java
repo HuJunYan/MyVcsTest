@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -23,6 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -65,6 +69,14 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @BindView(R.id.rl_auth_nexus2)
     RelativeLayout rlAuthNexus2;
 
+    @BindView(R.id.iv_auth_contacts1)
+    ImageView iv_auth_contacts1;
+
+    @BindView(R.id.iv_auth_contacts2)
+    ImageView iv_auth_contacts2;
+
+    private boolean mIsClickContacts1;
+
     private ArrayList<String> mNexus = new ArrayList<>();
 
     @Override
@@ -90,6 +102,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         tvAuthInfoBack.setOnClickListener(this);
         rlAuthNexus1.setOnClickListener(this);
         rlAuthNexus2.setOnClickListener(this);
+        iv_auth_contacts1.setOnClickListener(this);
+        iv_auth_contacts2.setOnClickListener(this);
     }
 
     @Override
@@ -107,6 +121,14 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             case R.id.rl_auth_nexus2:
                 showExtroDialog(1);
                 break;
+            case R.id.iv_auth_contacts1:
+                mIsClickContacts1 = true;
+                showContactsDialog();
+                break;
+            case R.id.iv_auth_contacts2:
+                mIsClickContacts1 = false;
+                showContactsDialog();
+                break;
         }
     }
 
@@ -121,6 +143,13 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                     }
                 })
                 .show();
+    }
+
+    /**
+     * 显示选择联系人的dialog
+     */
+    private void showContactsDialog() {
+        List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
     }
 
 
