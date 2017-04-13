@@ -12,6 +12,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.ExtroContactsBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -76,6 +77,12 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     ImageView iv_auth_contacts2;
 
     private boolean mIsClickContacts1;
+    private int mContactsPoistion;
+
+
+    private List<HashMap<String, String>> mContacts;
+
+    ArrayList<String> mContactsDialogDada;
 
     private ArrayList<String> mNexus = new ArrayList<>();
 
@@ -149,7 +156,36 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
      * 显示选择联系人的dialog
      */
     private void showContactsDialog() {
-        List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
+
+        mContacts = PhoneUtils.getAllContactInfo(mContext);
+        parserContactsData(mContacts);
+
+        new MaterialDialog.Builder(mContext)
+                .title("选择联系人")
+                .items(mContactsDialogDada)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mContactsPoistion = position;
+                        refreshContactUI();
+                    }
+                })
+                .show();
+    }
+
+
+    /**
+     * 解析出联系人信息
+     */
+    private void parserContactsData(List<HashMap<String, String>> contacts) {
+        mContactsDialogDada = new ArrayList<>();
+        for (int i = 0; i < contacts.size(); i++) {
+            HashMap<String, String> contactMap = contacts.get(i);
+            String name = contactMap.get("name");
+            String phone = contactMap.get("phone");
+
+            mContactsDialogDada.add(name + "-" + phone);
+        }
     }
 
 
@@ -158,6 +194,20 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             tvAuthNexus1.setText(mNexus.get(selectPosition));
         } else {
             tvAuthNexus2.setText(mNexus.get(selectPosition));
+        }
+    }
+
+
+    private void refreshContactUI() {
+        HashMap<String, String> hashMap = mContacts.get(mContactsPoistion);
+        String name = hashMap.get("name");
+        String phone = hashMap.get("phone");
+        if (mIsClickContacts1) {
+            etAuthNexusName1.setText(name);
+            etAuthNexusPhone.setText(phone);
+        } else {
+            etAuthNexusName2.setText(name);
+            etAuthNexusPhone2.setText(phone);
         }
     }
 
