@@ -486,28 +486,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-        if (mSelWithdrawalsBean != null) {
-            //设置信用额度
-            try {
-                String max_cash = mSelWithdrawalsBean.getMax_cash();
-                String max_cashY = MoneyUtils.changeF2Y(max_cash);
-                tvHomeUserLimitValue.setText(max_cashY);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        //设置天神卡号
+        String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
+        String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
+        tvHomeTianshenCardNum.setText(cardNum);
+        String cur_credit_step = mUserConfig.getData().getCur_credit_step();
+        String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+        //设置认证步骤
+        tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
+        //设置信用额度
+        try {
+            String max_cash = mUserConfig.getData().getMax_cash();
+            String max_cashY = MoneyUtils.changeF2Y(max_cash);
+            tvHomeUserLimitValue.setText(max_cashY);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (mUserConfig != null) {
-            //设置天神卡号
-            String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
-            String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
-            tvHomeTianshenCardNum.setText(cardNum);
-            String cur_credit_step = mUserConfig.getData().getCur_credit_step();
-            String total_credit_step = mUserConfig.getData().getTotal_credit_step();
-            //设置认证步骤
-            tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
-        }
-
     }
 
     /**

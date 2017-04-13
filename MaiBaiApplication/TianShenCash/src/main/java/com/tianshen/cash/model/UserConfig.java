@@ -50,9 +50,16 @@ public class UserConfig {
         private String repayment_time_month;
         private String repayment_time_day;
         private String remaining_days;
-
+        private String max_cash;
         private ArrayList<Consume> consume_status_list;
 
+        public String getMax_cash() {
+            return max_cash;
+        }
+
+        public void setMax_cash(String max_cash) {
+            this.max_cash = max_cash;
+        }
 
         public String getWhethe_review_status() {
             return whethe_review_status;
