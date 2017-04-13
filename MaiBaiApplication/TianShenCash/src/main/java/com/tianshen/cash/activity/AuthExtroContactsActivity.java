@@ -147,8 +147,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         String contact_name1 = datas.get(0).getContact_name();
         String contact_name2 = datas.get(1).getContact_name();
 
-        String contact_type1 = datas.get(0).getRelavtion_type();
-        String contact_type2 = datas.get(1).getRelavtion_type();
+        String contact_type1 = datas.get(0).getType();
+        String contact_type2 = datas.get(1).getType();
 
         LogUtil.d("abc","contact_type1-->"+contact_type1);
         LogUtil.d("abc","contact_type2-->"+contact_type2);
@@ -225,13 +225,13 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             jsonObject.put("customer_id", userId);
 
             JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("relavtion_type", type1 + "");
+            jsonObject1.put("type", type1 + "");
             jsonObject1.put("contact_name", name1);
             jsonObject1.put("contact_phone", phone1);
 
 
             JSONObject jsonObject2 = new JSONObject();
-            jsonObject2.put("relavtion_type", type2 + "");
+            jsonObject2.put("type", type2 + "");
             jsonObject2.put("contact_name", name2);
             jsonObject2.put("contact_phone", phone2);
 

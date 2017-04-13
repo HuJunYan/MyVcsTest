@@ -38,9 +38,17 @@ public class ExtroContactsBean {
 
     public class Data {
 
-        private String relavtion_type; //关系类型，1: 父母，2: 配偶，3: 直亲，4: 朋友，5: 同事”
+        private String type; //关系类型，1: 父母，2: 配偶，3: 直亲，4: 朋友，5: 同事”
         private String contact_name;
         private String contact_phone;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String getContact_phone() {
             return contact_phone;
@@ -50,13 +58,6 @@ public class ExtroContactsBean {
             this.contact_phone = contact_phone;
         }
 
-        public String getRelavtion_type() {
-            return relavtion_type;
-        }
-
-        public void setRelavtion_type(String relavtion_type) {
-            this.relavtion_type = relavtion_type;
-        }
 
         public String getContact_name() {
             return contact_name;
