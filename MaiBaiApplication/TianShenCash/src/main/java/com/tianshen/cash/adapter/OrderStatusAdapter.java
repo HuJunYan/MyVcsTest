@@ -42,18 +42,25 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         Drawable ic_time_line_old = mContext.getResources().getDrawable(R.drawable.ic_time_line_old);
         Drawable ic_time_line_current = mContext.getResources().getDrawable(R.drawable.ic_time_line_current);
 
-        if (position == 0) {
+        if (position == 0) { //顶部时间轴
             viewHolder.iv_time_line_line_top.setVisibility(View.GONE);
             viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_old);
-        } else if (position == 2) {
+        } else if (position == consume_status_list.size() - 1) { //尾部时间轴
             viewHolder.iv_time_line_line_bottom.setVisibility(View.GONE);
             viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_current);
-        } else {
+        } else { //中间的时间轴
             viewHolder.iv_time_line_line_top.setVisibility(View.VISIBLE);
             viewHolder.iv_time_line_line_bottom.setVisibility(View.VISIBLE);
             viewHolder.iv_time_line_status.setImageDrawable(ic_time_line_old);
         }
 
+        UserConfig.Data.Consume consume = consume_status_list.get(position);
+        String consume_status_title = consume.getConsume_status_title();
+        String consume_status_description = consume.getConsume_status_description();
+        String consume_status_time = consume.getConsume_status_time();
+        viewHolder.iv_time_line_title.setText(consume_status_title);
+        viewHolder.iv_time_line_description.setText(consume_status_description);
+        viewHolder.iv_time_line_time.setText(consume_status_time);
 
     }
 
@@ -64,10 +71,10 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     //获取数据的数量
     @Override
     public int getItemCount() {
-//        if (consume_status_list == null) {
-//            return 0;
-//        }
-        return 3;
+        if (consume_status_list == null) {
+            return 0;
+        }
+        return consume_status_list.size();
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
