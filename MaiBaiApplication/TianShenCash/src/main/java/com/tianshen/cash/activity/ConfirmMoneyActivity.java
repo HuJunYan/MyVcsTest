@@ -12,6 +12,7 @@ import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.MoneyUtils;
+import com.tianshen.cash.utils.SafeUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -149,7 +150,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             tvConfirmTransfer.setText(amountY + "元");
             tvConfirmRepay.setText(consume_amountY + "元");
             tvConfirmTime.setText(timer + "天");
-            tvConfirmBanckCard.setText(bank_name + id_num);
+            String cardNum = SafeUtil.encodeBankCardNum(id_num);
+            tvConfirmBanckCard.setText(bank_name + cardNum);
         } catch (Exception e) {
             e.printStackTrace();
         }
