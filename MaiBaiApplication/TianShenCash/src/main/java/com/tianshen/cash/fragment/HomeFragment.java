@@ -146,6 +146,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.ll_repay_danger)
     LinearLayout ll_repay_danger;
 
+    @BindView(R.id.tv_repay_month)
+    TextView tv_repay_month;
+
+    @BindView(R.id.tv_repay_day)
+    TextView tv_repay_day;
+
+    @BindView(R.id.tv_repay_money)
+    TextView tv_repay_money;
+
+    @BindView(R.id.tv_repay_overdue_day)
+    TextView tv_repay_overdue_day;
+
+    @BindView(R.id.tv_repay_overdue_sum_money)
+    TextView tv_repay_overdue_sum_money;
+
+    @BindView(R.id.tv_repay_principal_money)
+    TextView tv_repay_principal_money;
+
+    @BindView(R.id.tv_repay_danger_money_key)
+    TextView tv_repay_danger_money_key;
+
     private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
@@ -453,15 +474,40 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         int overdueDaysInt = Integer.parseInt(overdueDays);
 
-
-        overdueDaysInt = 3;
-
         if (overdueDaysInt > 0) {//显示逾期的UI
             ll_repay_normal.setVisibility(View.GONE);
             ll_repay_danger.setVisibility(View.VISIBLE);
+            tv_repay_overdue_day.setText(overdueDays);
+            try {
+
+                String consume_amount = mUserConfig.getData().getConsume_amount(); //本金
+                String overdue_amount = mUserConfig.getData().getOverdue_amount();//罚金
+
+                String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
+                String overdue_amountY = MoneyUtils.changeF2Y(overdue_amount);
+
+                tv_repay_principal_money.setText(consume_amountY); //本金
+                tv_repay_danger_money_key.setText(overdue_amountY);//罚金
+                String sum = MoneyUtils.add(consume_amountY, overdue_amountY);
+                tv_repay_overdue_sum_money.setText(sum);//一共
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {//显示正常还钱的UI
             ll_repay_normal.setVisibility(View.VISIBLE);
             ll_repay_danger.setVisibility(View.GONE);
+
+            String repayment_time_month = mUserConfig.getData().getRepayment_time_month();
+            String repayment_time_day = mUserConfig.getData().getRepayment_time_day();
+            String consumeAmount = mUserConfig.getData().getConsume_amount();
+            tv_repay_month.setText(repayment_time_month);
+            tv_repay_day.setText(repayment_time_day);
+            try {
+                String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
+                tv_repay_money.setText(consumeAmountY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
