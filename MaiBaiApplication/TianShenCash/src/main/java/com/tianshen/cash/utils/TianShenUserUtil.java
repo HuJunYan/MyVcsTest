@@ -152,5 +152,28 @@ public class TianShenUserUtil {
         return repayId;
     }
 
+    /**
+     * 判断用户是否点过主页面的确认借款按钮
+     */
+    public static boolean isClickedHomeGetMoneyButton(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return false;
+        }
+        return user.get(0).isClickedHomeGetMoneyButton();
+    }
+
+    /**
+     * 判断用户是否点过主页面的还款按钮
+     */
+    public static boolean isClickedHomeRePayMoneyButton(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) { //当前没有用户登录
+            return false;
+        }
+        return user.get(0).isClickedHomeRePayMoneyButton();
+    }
 
 }

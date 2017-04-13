@@ -380,12 +380,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "1":
                 showConsumeStatusUI();//显示用户订单轨迹的UI
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "2":
                 showConsumeStatusUI();//显示用户订单轨迹的UI
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "3":
-                showRepayUI();//显示还款的UI();
+                //TODO 判断用户没有点过按钮，没有点过按钮吧按钮显示出来
+                showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "4":
                 showConsumeStatusUI();//显示用户订单轨迹的UI
@@ -420,7 +424,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_order.setVisibility(View.VISIBLE);
         initXRecyclerview();
     }
-
 
     /**
      * 显示还款UI
@@ -664,7 +667,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 }).show();
     }
 
-
     /**
      * 显示友情提示Dialog
      */
@@ -679,6 +681,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_dialog_friendly_tips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User user = TianShenUserUtil.getUser(mContext);
+                user.setClickedHomeGetMoneyButton(true);
+                TianShenUserUtil.saveUser(mContext, user);
                 mDialog.dismiss();
             }
         });

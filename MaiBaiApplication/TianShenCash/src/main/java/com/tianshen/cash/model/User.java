@@ -29,6 +29,25 @@ public class User {
     private String city;//城市
     private String country;//区域
     private String address;//详细地址
+    private boolean isClickedHomeGetMoneyButton;//用户是否点过放款确认按钮
+    private boolean isClickedHomeRePayMoneyButton;//用户是否点过还款确认按钮
+
+    public boolean isClickedHomeGetMoneyButton() {
+        return isClickedHomeGetMoneyButton;
+    }
+
+    public void setClickedHomeGetMoneyButton(boolean clickedHomeGetMoneyButton) {
+        isClickedHomeGetMoneyButton = clickedHomeGetMoneyButton;
+    }
+
+    public boolean isClickedHomeRePayMoneyButton() {
+        return isClickedHomeRePayMoneyButton;
+    }
+
+    public void setClickedHomeRePayMoneyButton(boolean clickedHomeRePayMoneyButton) {
+        isClickedHomeRePayMoneyButton = clickedHomeRePayMoneyButton;
+    }
+
 
     public String getLocation() {
         return location;
