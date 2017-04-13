@@ -193,6 +193,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             String country = user.getCountry();
             String address = user.getAddress();
             String province = user.getProvince();
+            String jpush_id = user.getJpush_id();
             boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
             String type;
             if (payWayBySelf) {
@@ -211,7 +212,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("country", country);
             jsonObject.put("address", address);
             jsonObject.put("black_box", black_box);
-            jsonObject.put("push_id", "");
+            jsonObject.put("push_id", jpush_id);
             jsonObject.put("repay_id", repay_id);
 
             final Order order = new Order(mContext);
