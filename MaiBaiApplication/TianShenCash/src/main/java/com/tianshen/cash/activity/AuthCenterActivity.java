@@ -244,16 +244,15 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String contacts_pass = data.getContacts_pass();
         String bankcard_pass = data.getBankcard_pass();
         String china_mobile = data.getChina_mobile();
-
+        String userdetail_pass = data.getUserdetail_pass();
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
-
-        String userdetail_pass;
-        if ("0".equals(id_num) || "0".equals(face_pass)) {
-            userdetail_pass = "0";
+        if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
+            id_num = "0";
         } else {
-            userdetail_pass = "1";
+            id_num = "1";
         }
+
         AuthCenterItemBean authCenterItemBean0 = new AuthCenterItemBean();
         authCenterItemBean0.setName("身份认证");
         authCenterItemBean0.setDrawable_id(R.drawable.ic_auth_center_identity_item);
