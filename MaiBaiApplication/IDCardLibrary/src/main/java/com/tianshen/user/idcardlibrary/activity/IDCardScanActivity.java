@@ -273,9 +273,10 @@ public class IDCardScanActivity extends Activity implements
 										}
 										long currentTime = System.currentTimeMillis();
 										if (currentTime - lastStartTime > SCAN_TIME && !mIsDialogShow) {
-											mIsContinueScan = false;
-											mIsDialogShow = true;
-											showOpenTipDialog();
+											//用户30秒之内没有扫描成功弹出来dialog
+//											mIsContinueScan = false;
+//											mIsDialogShow = true;
+//											showOpenTipDialog();
 										}
 										errorType.setText(stringBuilder.toString());
 									}
