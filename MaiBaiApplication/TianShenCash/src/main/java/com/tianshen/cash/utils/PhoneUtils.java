@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.Contacts;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -15,14 +16,23 @@ public class PhoneUtils {
 
 
     /**
-     * 获取手机联系人
+     * 获取手机联系人，优先从手机里面获取，如果获取不到再从SIM卡里面获取
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>}</p>
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.READ_CONTACTS"/>}</p>
-     *
-     * @param context 上下文;
-     * @return 联系人链表
      */
     public static List<HashMap<String, String>> getAllContactInfo(Context context) {
+        List<HashMap<String, String>> allContactInfoOfPhone = getAllContactInfoOfPhone(context);
+        if (allContactInfoOfPhone.size() == 0) {
+            allContactInfoOfPhone = getAllContactInfoOfSIM(context);
+        }
+        return allContactInfoOfPhone;
+    }
+
+
+    /**
+     * 获取手机联系人
+     */
+    public static List<HashMap<String, String>> getAllContactInfoOfPhone(Context context) {
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
         // 1.获取内容解析者
         ContentResolver resolver = context.getContentResolver();
@@ -75,6 +85,27 @@ public class PhoneUtils {
         }
         // 12.关闭cursor
         cursor.close();
+        return list;
+    }
+
+    /**
+     * 从SIM卡获取联系人
+     */
+    public static List<HashMap<String, String>> getAllContactInfoOfSIM(Context context) {
+        //content://icc/adn
+        //content://sim/adn
+        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+        Uri uri = Uri.parse("content://icc/adn");
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String id = cursor.getString(cursor.getColumnIndex(Contacts.People._ID));
+            String name = cursor.getString(cursor.getColumnIndex(Contacts.People.NAME));
+            String phoneNumber = cursor.getString(cursor.getColumnIndex(Contacts.People.NUMBER));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("name", name);
+            map.put("phone", phoneNumber);
+            list.add(map);
+        }
         return list;
     }
 
