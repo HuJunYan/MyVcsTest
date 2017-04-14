@@ -34,12 +34,11 @@ public class TianShenUserUtil {
      */
     public static synchronized User getUser(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        boolean mIsLogin = isLogin(context);
-        if (mIsLogin) {
-            ArrayList<User> user = liteOrm.query(User.class);
-            return user.get(0);
+        ArrayList<User> user = liteOrm.query(User.class);
+        if (user == null || user.size() == 0) {
+            return null;
         }
-        return null;
+        return user.get(0);
     }
 
     /**
