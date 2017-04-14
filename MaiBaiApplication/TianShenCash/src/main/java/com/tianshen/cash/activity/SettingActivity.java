@@ -68,41 +68,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_unregist:
-                LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
-                liteOrm.delete(User.class);
-                EventBus.getDefault().post(new LogoutSuccessEvent());
-                backActivity();
-//                try {
-//                    String customerId = UserUtil.getId(mContext);
-//                    if (customerId == null || "".equals(customerId)) {
-//                        ToastUtil.showToast(mContext, "您未登录，无需退出", Toast.LENGTH_SHORT);
-//                        return;
-//                    }
-//                    Logout logout = new Logout(mContext);
-//                    JSONObject json = new JSONObject();
-//                    json.put("customer_id", customerId);
-//                    logout.logout(json, new BaseNetCallBack<ResponseBean>() {
-//
-//                        @Override
-//                        public void onSuccess(ResponseBean paramT) {
-//
-//                            UserUtil.removeUser(mContext);
-//                            new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGOUT_ACTION, null);
-//                            isResume = true;
-//                            GlobalParams.isNotice = true;
-//                            setResult(UNREGISTERE);
-//                            backActivity();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(String url, int errorType, int errorCode) {
-//                        }
-//                    });
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    MobclickAgent.reportError(mContext, LogUtil.getException(e));
-//                }
+                logout();
                 break;
             case R.id.my_tv_changepassword:
                 if (isResume) {
@@ -114,10 +80,50 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * 退出登录
+     */
+    private void logout() {
+        try {
+            boolean login = TianShenUserUtil.isLogin(mContext);
+            String customerId = TianShenUserUtil.getUserId(mContext);
+            if (!login) {
+                ToastUtil.showToast(mContext, "您未登录，无需退出", Toast.LENGTH_SHORT);
+                return;
+            }
+            Logout logout = new Logout(mContext);
+            JSONObject json = new JSONObject();
+            json.put("customer_id", customerId);
+            logout.logout(json, new BaseNetCallBack<ResponseBean>() {
+
+                @Override
+                public void onSuccess(ResponseBean paramT) {
+                    UserUtil.removeUser(mContext);
+//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGOUT_ACTION, null);
+//                    isResume = true;
+//                    GlobalParams.isNotice = true;
+//                    setResult(UNREGISTERE);
+                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
+                    liteOrm.delete(User.class);
+                    EventBus.getDefault().post(new LogoutSuccessEvent());
+                    backActivity();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+    }
+
     @Override
     public void onLeftClick(View view) {
-        setResult(isResume ? UNREGISTERE : 0);
-        finish();
+//        setResult(isResume ? UNREGISTERE : 0);
+        backActivity();
     }
 
     @Override

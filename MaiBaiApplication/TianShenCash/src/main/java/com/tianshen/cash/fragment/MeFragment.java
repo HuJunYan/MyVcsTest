@@ -112,26 +112,42 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        if (!TianShenUserUtil.isLogin(mContext)) {
-            gotoActivity(mContext, LoginActivity.class, null);
-        }
-
         switch (view.getId()) {
             case R.id.rl_me_user:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 break;
             case R.id.rl_me_history:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 gotoActivity(mContext, ConsumptionRecordActivity.class, null);
                 break;
             case R.id.rl_me_bank_card:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 gotoActivity(mContext, MyBankCardActivity.class, null);
                 break;
             case R.id.rl_me_tianshen_service:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 showMyKefu();
                 break;
             case R.id.rl_me_about:
                 gotoActivity(mContext, AboutMaibeiActivity.class, null);
                 break;
             case R.id.rl_me_setting:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 gotoActivity(mContext, SettingActivity.class, null);
                 break;
         }
