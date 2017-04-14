@@ -258,7 +258,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     private void initExtroData() {
         try {
             JSONObject jsonObject = new JSONObject();
-            long userId = TianShenUserUtil.getUserId(mContext);
+            String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userId);
 
             GetExtroContacts getExtroContacts = new GetExtroContacts(mContext);
@@ -297,7 +297,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
         try {
             JSONObject jsonObject = new JSONObject();
-            long userId = TianShenUserUtil.getUserId(mContext);
+            String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userId);
 
             JSONObject jsonObject1 = new JSONObject();

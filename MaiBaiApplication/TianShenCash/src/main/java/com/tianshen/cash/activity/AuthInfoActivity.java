@@ -146,7 +146,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void initProvinceData() {
 
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
         } catch (JSONException e) {
@@ -175,7 +175,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void initCityData() {
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         AddressBean.Data data = mProvinceBean.getData().get(mProvincePosition);
         String province_id = data.getProvice_id();
         try {
@@ -207,7 +207,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void initCountyData() {
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         AddressBean.Data data = mCityBean.getData().get(mCityPosition);
         String city_id = data.getCity_id();
         try {
@@ -382,7 +382,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void initUserInfo() {
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
 
@@ -416,7 +416,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_address_detail = etAuthInfoWorkAddressDetails.getText().toString().trim();
 
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
             jsonObject.put("qq_num", qq);

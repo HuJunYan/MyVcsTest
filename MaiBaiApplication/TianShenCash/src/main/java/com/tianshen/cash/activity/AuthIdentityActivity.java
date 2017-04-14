@@ -251,7 +251,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void initIdNumInfo() {
 
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
         } catch (JSONException e) {
@@ -481,7 +481,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      */
     private void upLoadImage(final byte[] imageByte) {
 
-        long userID = TianShenUserUtil.getUserId(mContext);
+        String userID = TianShenUserUtil.getUserId(mContext);
 
         String path = "";
         String type = "";
@@ -554,11 +554,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             //扫脸的照片存到SD卡路径
             final String facePath = imageFullPatyArray[0];
 
-            long userID = TianShenUserUtil.getUserId(mContext);
+            String userID = TianShenUserUtil.getUserId(mContext);
 
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", userID + "");
+            jsonObject.put("customer_id", userID);
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImageArray(newJson, imageFullPatyArray, true, new BaseNetCallBack<UploadImageBean>() {
@@ -670,7 +670,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         LogUtil.d("abc", "conformCreditFace---in");
 
         CreditFace creditFace = new CreditFace(mContext);
-        long userID = TianShenUserUtil.getUserId(mContext);
+        String userID = TianShenUserUtil.getUserId(mContext);
 
         JSONObject json = new JSONObject();
         try {
@@ -758,7 +758,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String id_num = mIDCardBean.id_card_number; // 身份证号
 
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
             jsonObject.put("real_name", real_name);
@@ -799,7 +799,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String valid_date = mIDCardBean.valid_date; //身份证有效期限
 
         JSONObject jsonObject = new JSONObject();
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
         try {
             jsonObject.put("customer_id", userId);
             jsonObject.put("sign_organ", sign_organ);

@@ -180,7 +180,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void initBankData() {
         try {
             JSONObject jsonObject = new JSONObject();
-            long userId = TianShenUserUtil.getUserId(mContext);
+            String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userId);
             GetBankCardInfo getBankCardInfo = new GetBankCardInfo(mContext);
             getBankCardInfo.getBankCardInfo(jsonObject, new BaseNetCallBack<BankCardInfoBean>() {
@@ -205,7 +205,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void initBankListData() {
         try {
             JSONObject jsonObject = new JSONObject();
-            long userID = TianShenUserUtil.getUserId(mContext);
+            String userID = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userID);
             GetAllBankList getAllBankList = new GetAllBankList(mContext);
             getAllBankList.getAllBankList(jsonObject, null, true, new BaseNetCallBack<BankListBean>() {
@@ -269,13 +269,13 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "请完善资料");
             return;
         }
-        long userId = TianShenUserUtil.getUserId(mContext);
+        String userId = TianShenUserUtil.getUserId(mContext);
 
         try {
             JSONObject mJson = new JSONObject();
             mJson.put("bank_name", bank_name);
             mJson.put("bank_id", bankId);
-            mJson.put("customer_id", userId + "");
+            mJson.put("customer_id", userId);
             mJson.put("card_user_name", card_user_name);
             mJson.put("card_num", card_num);
             mJson.put("reserved_mobile", reserved_mobile);
@@ -350,7 +350,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 绑定银行卡
      */
     private void bindBankCard() {
-        long customer_id = TianShenUserUtil.getUserId(mContext);
+        String customer_id = TianShenUserUtil.getUserId(mContext);
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
         String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();

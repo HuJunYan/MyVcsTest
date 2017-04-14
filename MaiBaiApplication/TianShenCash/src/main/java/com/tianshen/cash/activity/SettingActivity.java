@@ -11,6 +11,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LoginSuccessEvent;
+import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.User;
@@ -70,7 +71,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 User user = TianShenUserUtil.getUser(mContext);
                 LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
                 liteOrm.delete(user);
-                EventBus.getDefault().post(new LoginSuccessEvent());
+                EventBus.getDefault().post(new LogoutSuccessEvent());
                 backActivity();
 //                try {
 //                    String customerId = UserUtil.getId(mContext);

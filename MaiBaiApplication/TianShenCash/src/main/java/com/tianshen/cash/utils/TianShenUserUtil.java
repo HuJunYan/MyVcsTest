@@ -34,12 +34,12 @@ public class TianShenUserUtil {
      */
     public static synchronized User getUser(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return null;
-        } else {
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
             return user.get(0);
         }
+        return null;
     }
 
     /**
@@ -58,25 +58,25 @@ public class TianShenUserUtil {
      */
     public static String getUserToken(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用
-            return "";
-        } else {
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
             return user.get(0).getToken();
         }
+        return "";
     }
 
     /**
      * 得到当前登录用户的id
      */
-    public static long getUserId(Context context) {
+    public static String getUserId(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return 0;
-        } else {
-            return user.get(0).getId();
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
+            return user.get(0).getId() + "";
         }
+        return "";
     }
 
     /**
@@ -84,12 +84,12 @@ public class TianShenUserUtil {
      */
     public static String getUserJPushId(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return "";
-        } else {
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
             return user.get(0).getJpush_id();
         }
+        return "";
     }
 
     /**
@@ -97,12 +97,12 @@ public class TianShenUserUtil {
      */
     public static String getUserPhoneNum(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return "";
-        } else {
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
             return user.get(0).getPhone();
         }
+        return "";
     }
 
     /**
@@ -110,12 +110,12 @@ public class TianShenUserUtil {
      */
     public static String getUserConsumeAmount(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
-            return "";
-        } else {
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
             return user.get(0).getConsume_amount();
         }
+        return "";
     }
 
     /**
@@ -125,7 +125,8 @@ public class TianShenUserUtil {
     public static boolean isPayWayBySelf(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
+        boolean mIsLogin = isLogin(context);
+        if (!mIsLogin) {
             return true;
         }
         String is_payway = user.get(0).getIs_payway();
@@ -148,7 +149,8 @@ public class TianShenUserUtil {
         String repayId = "0";
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
             return repayId;
         }
         boolean isPayWayBySelf = isPayWayBySelf(context);
@@ -164,11 +166,12 @@ public class TianShenUserUtil {
      * 判断用户是否点过主页面的确认借款按钮
      */
     public static boolean isClickedHomeGetMoneyButton(Context context) {
-        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
+        boolean mIsLogin = isLogin(context);
+        if (!mIsLogin) {
             return false;
         }
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
         return user.get(0).isClickedHomeGetMoneyButton();
     }
 
@@ -176,11 +179,12 @@ public class TianShenUserUtil {
      * 判断用户是否点过主页面的还款按钮
      */
     public static boolean isClickedHomeRePayMoneyButton(Context context) {
-        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
-        ArrayList<User> user = liteOrm.query(User.class);
-        if (user == null || user.size() == 0) { //当前没有用户登录
+        boolean mIsLogin = isLogin(context);
+        if (!mIsLogin) {
             return false;
         }
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> user = liteOrm.query(User.class);
         return user.get(0).isClickedHomeRePayMoneyButton();
     }
 

@@ -308,7 +308,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
             if (mIsLogin) {
                 jsonObject.put("init", "0");
-                long userId = TianShenUserUtil.getUserId(mContext);
+                String userId = TianShenUserUtil.getUserId(mContext);
                 jsonObject.put("customer_id", userId);
                 LogUtil.d("abc", "已经登录--->" + userId);
             } else {
@@ -363,7 +363,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void initUserConfig() {
         try {
             JSONObject jsonObject = new JSONObject();
-            long userId = TianShenUserUtil.getUserId(mContext);
+            String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userId);
             GetUserConfig getUserConfig = new GetUserConfig(mContext);
             getUserConfig.userConfig(jsonObject, null, true, new BaseNetCallBack<UserConfig>() {
@@ -609,6 +609,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 重置天神卡UI
+     */
+    private void resetCardUI(){
+        String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
+        tvHomeTianshenCardNum.setText(cardNum);
+        tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 3);
+        tvHomeUserLimitValue.setText("0");
+    }
+
+    /**
      * 刷新滚动条(恭喜 xxx借到了xxx元钱)
      */
     private void refreshStaticsRollUI() {
@@ -824,8 +834,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
         LogUtil.d("abc", "收到了退出登录成功消息--刷新UI");
-        initUserConfig();
+        initSelWithdrawalsData();
+        initStaticsRoll();
+        resetCardUI();
     }
+
 
     /**
      * 从认证中心返回主页

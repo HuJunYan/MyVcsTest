@@ -147,8 +147,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             ll_circle.setBackgroundResource(R.drawable.bta_my_refund);
             JSONObject jsonObject = new JSONObject();
             try {
-                long userId = TianShenUserUtil.getUserId(mContext);
-                jsonObject.put("customer_id", userId + "");
+                String userId = TianShenUserUtil.getUserId(mContext);
+                jsonObject.put("customer_id", userId);
                 Mine mine = new Mine(mContext);
                 mine.mine(jsonObject, null, false, new BaseNetCallBack<MineBean>() {
                     @Override
