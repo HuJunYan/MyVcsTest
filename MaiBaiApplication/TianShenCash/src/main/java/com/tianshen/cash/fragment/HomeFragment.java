@@ -408,7 +408,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String status = mUserConfig.getData().getStatus();
         switch (status) {
             case "0":
-                initSelWithdrawalsData();//显示用户没有下单的UI
+                ArrayList<UserConfig.Data.Consume> consume_status_list = mUserConfig.getData().getConsume_status_list();
+                if (consume_status_list == null || consume_status_list.size() == 0) {
+                    initSelWithdrawalsData();//显示用户没有下单的UI
+                } else {
+                    showConsumeStatusUI();//显示用户订单轨迹的UI (已经还款需要点"我知道了,点击我知道了需要调用一个接口")
+                }
                 break;
             case "1":
                 showConsumeStatusUI();//显示用户订单轨迹的UI
@@ -611,7 +616,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 重置天神卡UI
      */
-    private void resetCardUI(){
+    private void resetCardUI() {
         String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
         tvHomeTianshenCardNum.setText(cardNum);
         tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 3);
