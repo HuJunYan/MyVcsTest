@@ -156,21 +156,29 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
      * 显示选择联系人的dialog
      */
     private void showContactsDialog() {
-
-        mContacts = PhoneUtils.getAllContactInfo(mContext);
-        parserContactsData(mContacts);
-
-        new MaterialDialog.Builder(mContext)
-                .title("选择联系人")
-                .items(mContactsDialogDada)
-                .itemsCallback(new MaterialDialog.ListCallback() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mContacts = PhoneUtils.getAllContactInfo(mContext);
+                parserContactsData(mContacts);
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        mContactsPoistion = position;
-                        refreshContactUI();
+                    public void run() {
+                        new MaterialDialog.Builder(mContext)
+                                .title("选择联系人")
+                                .items(mContactsDialogDada)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                        mContactsPoistion = position;
+                                        refreshContactUI();
+                                    }
+                                })
+                                .show();
                     }
-                })
-                .show();
+                });
+            }
+        }).start();
     }
 
 
