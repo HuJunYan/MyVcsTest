@@ -20,6 +20,11 @@ public class TianShenUserUtil {
         if (user == null || user.size() == 0) { //当前没有用户登录
             return false;
         } else {
+            User u = user.get(0);
+            String token = u.getToken();
+            if (TextUtils.isEmpty(token)) {
+                return false;
+            }
             return true;
         }
     }
@@ -31,7 +36,7 @@ public class TianShenUserUtil {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         ArrayList<User> user = liteOrm.query(User.class);
         if (user == null || user.size() == 0) { //当前没有用户登录
-            return new User();
+            return null;
         } else {
             return user.get(0);
         }
@@ -41,6 +46,9 @@ public class TianShenUserUtil {
      * 保存登录的用户
      */
     public static void saveUser(Context context, User user) {
+        if (user == null) {
+            return;
+        }
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         liteOrm.save(user);
     }

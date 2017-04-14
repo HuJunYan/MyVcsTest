@@ -247,6 +247,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                     //保存用户信息
                     User user = TianShenUserUtil.getUser(mContext);
+                    if (user == null) {
+                        user = new User();
+                    }
                     user.setToken(paramT.getData().getToken());
                     user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
                     user.setPhone(mobile);

@@ -109,6 +109,9 @@ public class LocationUtil implements BDLocationListener {
 //            Log.d("ret", "province = " + address.province + " ; city = " + address.city + " ; country = " + address.district);
 
             User user = TianShenUserUtil.getUser(mContext);
+            if (user == null) {
+                user = new User();
+            }
             user.setLocation(bdLocation.getLatitude() + "," + bdLocation.getLongitude());
             user.setProvince(address.province);
             user.setCity(address.city);
