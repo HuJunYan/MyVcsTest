@@ -129,6 +129,12 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
     protected void setListensers() {
         tvAuthBankCardBack.setOnClickListener(this);
         tvAuthInfoPost.setOnClickListener(this);
