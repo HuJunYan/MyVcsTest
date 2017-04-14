@@ -619,7 +619,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void resetCardUI() {
         String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
         tvHomeTianshenCardNum.setText(cardNum);
-        tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 3);
+        tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 5);
         tvHomeUserLimitValue.setText("0");
     }
 
