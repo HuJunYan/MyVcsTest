@@ -251,7 +251,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         user = new User();
                     }
                     user.setToken(paramT.getData().getToken());
-                    user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
+                    user.setCustomer_id(paramT.getData().getCustomer_id());
                     user.setPhone(mobile);
                     user.setJpush_id(finalJpushId);
                     TianShenUserUtil.saveUser(mContext, user);

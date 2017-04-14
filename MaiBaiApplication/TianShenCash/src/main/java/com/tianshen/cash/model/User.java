@@ -12,8 +12,9 @@ import com.litesuits.orm.db.enums.AssignType;
 public class User {
 
     @PrimaryKey(AssignType.AUTO_INCREMENT)
-    private long id;
+    private long id; //本地表里面的ID
 
+    private String customer_id; //天神用户ID
     private String name;
     private String age;
     private String phone;
@@ -31,6 +32,14 @@ public class User {
     private String address;//详细地址
     private boolean isClickedHomeGetMoneyButton;//用户是否点过放款确认按钮
     private boolean isClickedHomeRePayMoneyButton;//用户是否点过还款确认按钮
+
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
+    }
 
     public boolean isClickedHomeGetMoneyButton() {
         return isClickedHomeGetMoneyButton;

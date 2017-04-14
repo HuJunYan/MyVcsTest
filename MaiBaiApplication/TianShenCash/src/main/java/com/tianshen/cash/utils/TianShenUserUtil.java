@@ -74,7 +74,7 @@ public class TianShenUserUtil {
         boolean mIsLogin = isLogin(context);
         if (mIsLogin) {
             ArrayList<User> user = liteOrm.query(User.class);
-            return user.get(0).getId() + "";
+            return user.get(0).getCustomer_id() + "";
         }
         return "";
     }

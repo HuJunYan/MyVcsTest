@@ -243,7 +243,7 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                         user = new User();
                     }
                     user.setToken(paramT.getData().getToken());
-                    user.setId(Integer.parseInt(paramT.getData().getCustomer_id()));
+                    user.setCustomer_id(paramT.getData().getCustomer_id());
                     user.setJpush_id(push_id);
                     TianShenUserUtil.saveUser(mContext, user);
 
