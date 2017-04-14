@@ -68,9 +68,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_unregist:
-                User user = TianShenUserUtil.getUser(mContext);
                 LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
-                liteOrm.delete(user);
+                liteOrm.delete(User.class);
                 EventBus.getDefault().post(new LogoutSuccessEvent());
                 backActivity();
 //                try {
