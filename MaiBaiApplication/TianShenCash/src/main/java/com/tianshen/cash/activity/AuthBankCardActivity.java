@@ -339,6 +339,11 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 刷新验证码UI
      */
     private void refreshSeverityTextUI() {
+
+        if (isFinishing()){
+            return;
+        }
+
         tvSeverityCode.setText(mStartTime + "");
         mStartTime--;
         if (mStartTime == 0) {
