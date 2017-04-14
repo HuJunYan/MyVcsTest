@@ -19,8 +19,12 @@ import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
+import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.utils.GetTelephoneUtils;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
@@ -159,5 +163,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         dialog.show();
         dialog.setContentView(view);
         new GetTelephoneUtils(mContext).changeDark();
+    }
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onLoginoutSuccess(LogoutSuccessEvent event) {
+        tvMeUserName.setText("未登录");
     }
 }

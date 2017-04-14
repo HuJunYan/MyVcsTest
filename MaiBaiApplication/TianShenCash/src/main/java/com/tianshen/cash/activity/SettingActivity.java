@@ -10,6 +10,7 @@ import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.User;
@@ -24,6 +25,7 @@ import com.tianshen.cash.view.MyTextView;
 import com.tianshen.cash.view.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,6 +70,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 User user = TianShenUserUtil.getUser(mContext);
                 LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
                 liteOrm.delete(user);
+                EventBus.getDefault().post(new LoginSuccessEvent());
                 backActivity();
 //                try {
 //                    String customerId = UserUtil.getId(mContext);

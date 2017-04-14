@@ -46,6 +46,7 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
+import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -814,6 +815,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
         LogUtil.d("abc", "收到了登录成功消息--刷新UI");
+        initUserConfig();
+    }
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onLoginoutSuccess(LogoutSuccessEvent event) {
+        LogUtil.d("abc", "收到了退出登录成功消息--刷新UI");
         initUserConfig();
     }
 
