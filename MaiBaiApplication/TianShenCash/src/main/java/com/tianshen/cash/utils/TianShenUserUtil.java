@@ -27,11 +27,11 @@ public class TianShenUserUtil {
     /**
      * 得到当前登录用户的对象
      */
-    public static User getUser(Context context) {
+    public static synchronized User getUser(Context context) {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         ArrayList<User> user = liteOrm.query(User.class);
         if (user == null || user.size() == 0) { //当前没有用户登录
-            return null;
+            return new User();
         } else {
             return user.get(0);
         }
