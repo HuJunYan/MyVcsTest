@@ -187,6 +187,11 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
             case 3://跳转到收款银行卡
+                String status = mAuthCenterItemBeans.get(0).getStatus();
+                if ("0".equals(status)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
                 gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
             case 4://跳转到运营商认证
