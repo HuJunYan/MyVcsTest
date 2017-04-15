@@ -89,7 +89,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
         @JavascriptInterface
         public void authCallBack(boolean result) {
-            ToastUtil.showToast(mContext, "运营商认证结果-->" + result);
+            if (result) {
+                ToastUtil.showToast(mContext, "认证成功!");
+            } else {
+                ToastUtil.showToast(mContext, "认证失败!");
+            }
+            backActivity();
         }
 
     }
