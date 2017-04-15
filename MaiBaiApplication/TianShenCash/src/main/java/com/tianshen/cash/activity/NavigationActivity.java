@@ -157,6 +157,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                             Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             MyApplication.getApp().startActivity(intent);
+                            return;
                         }
                     }
 
