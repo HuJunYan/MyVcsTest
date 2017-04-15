@@ -149,7 +149,7 @@ public class TianShenUserUtil {
         LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
         ArrayList<User> user = liteOrm.query(User.class);
         boolean mIsLogin = isLogin(context);
-        if (mIsLogin) {
+        if (!mIsLogin) {
             return repayId;
         }
         boolean isPayWayBySelf = isPayWayBySelf(context);
