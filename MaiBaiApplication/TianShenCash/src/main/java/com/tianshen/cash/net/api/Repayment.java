@@ -42,8 +42,28 @@ public class Repayment extends NetBase {
      * @param mResponseCallBack
      */
     public void repayment(JSONObject jsonObject, View view, boolean isShowDialog, int type, final BaseNetCallBack<ResponseBean> mResponseCallBack) {
+
         try {
-            mJSONObject = SignUtils.signJsonContainList(jsonObject, "consume_data");
+            if (jsonObject == null) {
+                return;
+            }
+//            jsonObject.put("pay_pass", Utils.MD5SHA1AndReverse(jsonObject.getString("pay_pass")));
+            switch (type) {
+                case 0:
+                    mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
+                    break;
+                case 1:
+                    mJSONObject = SignUtils.signJsonContainList(jsonObject, "consume_data");
+                    break;
+                case 2:
+                case 5:
+                    mJSONObject = SignUtils.signJsonContainTwoLevelList(jsonObject, "consume_data", "installment_history");
+                    break;
+            }
+            if (mJSONObject == null) {
+                return;
+            }
+
             getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {

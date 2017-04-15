@@ -179,34 +179,26 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
             String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
 
-            LogUtil.d("abc","1111");
-
-            ConsumeDataBean consumeDataBean = new ConsumeDataBean();
-            consumeDataBean.setConsume_id(consumeId);
-            consumeDataBean.setType("5");
-            consumeDataBean.setRepay_date("");
-            consumeDataBean.setAmount("");
-            consumeDataBean.setOverdue_amount("");
-
-            LogUtil.d("abc","2222");
-
-            ArrayList<InstallmentHistoryBean> installmentHistoryBeans = new ArrayList<>();
-            InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
-            installmentHistoryBean.setId(id);
-            installmentHistoryBean.setRepay_date(repayDate);
-            installmentHistoryBean.setAmount(consumeAmount);
-            installmentHistoryBean.setOverdue_amount(overdueAmount);
-            installmentHistoryBeans.add(installmentHistoryBean);
-
-            consumeDataBean.setInstallment_history(installmentHistoryBeans);
-
-            jsonObject.put("consume_data", new JSONArray(GsonUtil.bean2json(consumeDataBean)));
-
+            JSONObject consumeDataJSON= new JSONObject();
+            consumeDataJSON.put("consume_id",consumeId);
+            consumeDataJSON.put("type","5");
+            consumeDataJSON.put("repay_date","");
+            consumeDataJSON.put("amount","");
+            consumeDataJSON.put("overdue_amount","");
+            JSONObject installmentHistoryJSON= new JSONObject();
+            installmentHistoryJSON.put("id",id);
+            installmentHistoryJSON.put("repay_date",repayDate);
+            installmentHistoryJSON.put("amount",consumeAmount);
+            installmentHistoryJSON.put("overdue_amount",overdueAmount);
+            JSONArray historyArray = new JSONArray();
+            historyArray.put(installmentHistoryJSON);
+            consumeDataJSON.put("installment_history",historyArray);
+            JSONArray consume_data_array = new JSONArray();
+            consume_data_array.put(consumeDataJSON);
+            jsonObject.put("consume_data",consume_data_array);
             Repayment getRepayInfo = new Repayment(mContext);
 
-            LogUtil.d("abc","33333");
-
-            getRepayInfo.repayment(jsonObject, null, true, 0, new BaseNetCallBack<ResponseBean>() {
+            getRepayInfo.repayment(jsonObject, null, true, 5, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
                 }
