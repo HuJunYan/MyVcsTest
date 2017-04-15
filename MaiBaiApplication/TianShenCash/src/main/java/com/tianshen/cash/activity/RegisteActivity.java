@@ -13,6 +13,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.SignUpBean;
 import com.tianshen.cash.model.TianShenLoginBean;
@@ -173,8 +174,10 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                     signUp.signUp(jsonObject, null, true, new BaseNetCallBack<SignUpBean>() {
                         @Override
                         public void onSuccess(SignUpBean paramT) {
-                            ToastUtil.showToast(mContext,"注册成功");
-                           login(et_mobile.getEditTextString().trim(),et_password.getEditTextString().trim());
+                            ToastUtil.showToast(mContext, "注册成功");
+                            gotoActivity(mContext, LoginActivity.class, null);
+                            finish();
+//                           login(et_mobile.getEditTextString().trim(),et_password.getEditTextString().trim());
                         }
 
                         @Override
@@ -189,12 +192,17 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
             case R.id.img_back:
                 backActivity();
                 break;
-            case R.id.tv_protocol:
-                Bundle bundle = new Bundle();
-                bundle.putInt("pro_type", GlobalParams. PRO_REGISTE); // 用户注册协议
-                gotoActivity(mContext, ProtocolActivity.class, bundle);
+            case R.id.tv_protocol:// 用户注册协议
+                gotoWebActivity();
                 break;
         }
+    }
+
+    private void gotoWebActivity(){
+        String userServiceProtocolURL = NetConstantValue.getUserServiceProtocolURL();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, userServiceProtocolURL);
+        gotoActivity(mContext, WebActivity.class, bundle);
     }
 
     private void login(String mobile,final String password){
