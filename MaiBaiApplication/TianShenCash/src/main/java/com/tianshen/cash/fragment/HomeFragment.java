@@ -47,6 +47,7 @@ import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -870,6 +871,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onApply(ApplyEvent event) {
         LogUtil.d("abc", "收到了确认借款页面的消息---刷新UI");
+        initUserConfig();
+    }
+
+    /**
+     * 收到了还款的消息
+     */
+    @Subscribe
+    public void onRepay(RepayEvent event) {
+        LogUtil.d("abc", "收到了还款的消息--刷新UI");
         initUserConfig();
     }
 

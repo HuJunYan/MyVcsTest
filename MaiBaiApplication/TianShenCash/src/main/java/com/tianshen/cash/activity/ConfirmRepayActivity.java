@@ -8,6 +8,8 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.model.ConsumeDataBean;
 import com.tianshen.cash.model.InstallmentHistoryBean;
 import com.tianshen.cash.model.RepayInfoBean;
@@ -21,6 +23,7 @@ import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -185,22 +188,29 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             consumeDataJSON.put("repay_date","");
             consumeDataJSON.put("amount","");
             consumeDataJSON.put("overdue_amount","");
+
             JSONObject installmentHistoryJSON= new JSONObject();
             installmentHistoryJSON.put("id",id);
             installmentHistoryJSON.put("repay_date",repayDate);
             installmentHistoryJSON.put("amount",consumeAmount);
             installmentHistoryJSON.put("overdue_amount",overdueAmount);
+
             JSONArray historyArray = new JSONArray();
             historyArray.put(installmentHistoryJSON);
+
             consumeDataJSON.put("installment_history",historyArray);
             JSONArray consume_data_array = new JSONArray();
             consume_data_array.put(consumeDataJSON);
             jsonObject.put("consume_data",consume_data_array);
-            Repayment getRepayInfo = new Repayment(mContext);
 
+            Repayment getRepayInfo = new Repayment(mContext);
             getRepayInfo.repayment(jsonObject, null, true, 5, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
+                    if (paramT.getCode() == 0) {
+                        EventBus.getDefault().post(new RepayEvent());
+                        backActivity();
+                    }
                 }
 
                 @Override
