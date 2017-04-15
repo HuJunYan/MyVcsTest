@@ -1,6 +1,8 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -80,12 +82,29 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     private boolean mIsClickContacts1;
     private int mContactsPoistion;
 
+    private boolean isGetContactsing;//当前是否正在获取联系人
 
     private List<HashMap<String, String>> mContacts;
 
     ArrayList<String> mContactsDialogDada;
 
     private ArrayList<String> mNexus = new ArrayList<>();
+
+    private static final int MSG_SHOW_CONTACTS_DIALOG = 1;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case MSG_SHOW_CONTACTS_DIALOG:
+                    mContacts = (List<HashMap<String, String>>) message.obj;
+                    parserContactsData(mContacts);
+                    showContactsDialog();
+                    isGetContactsing = false;
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +121,12 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @Override
     protected void findViews() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -131,11 +156,11 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                 break;
             case R.id.iv_auth_contacts1:
                 mIsClickContacts1 = true;
-                showContactsDialog();
+                getContacts();
                 break;
             case R.id.iv_auth_contacts2:
                 mIsClickContacts1 = false;
-                showContactsDialog();
+                getContacts();
                 break;
         }
     }
@@ -159,33 +184,44 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                 .show();
     }
 
+
+    /**
+     * 得到联系人信息
+     */
+    private void getContacts() {
+
+        if (isGetContactsing) {
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isGetContactsing = true;
+                List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
+                Message msg = Message.obtain();
+                msg.what = MSG_SHOW_CONTACTS_DIALOG;
+                msg.obj = contacts;
+                mHandler.sendMessage(msg);
+            }
+        }).start();
+    }
+
     /**
      * 显示选择联系人的dialog
      */
     private void showContactsDialog() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mContacts = PhoneUtils.getAllContactInfo(mContext);
-                parserContactsData(mContacts);
-                runOnUiThread(new Runnable() {
+        new MaterialDialog.Builder(mContext)
+                .title("选择联系人")
+                .items(mContactsDialogDada)
+                .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
-                    public void run() {
-                        new MaterialDialog.Builder(mContext)
-                                .title("选择联系人")
-                                .items(mContactsDialogDada)
-                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                    @Override
-                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                        mContactsPoistion = position;
-                                        refreshContactUI();
-                                    }
-                                })
-                                .show();
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mContactsPoistion = position;
+                        refreshContactUI();
                     }
-                });
-            }
-        }).start();
+                })
+                .show();
     }
 
 
