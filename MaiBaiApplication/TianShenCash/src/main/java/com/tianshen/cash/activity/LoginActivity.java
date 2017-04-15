@@ -256,6 +256,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     user.setJpush_id(finalJpushId);
                     TianShenUserUtil.saveUser(mContext, user);
 
+                    gotoActivity(mContext, MainActivity.class, null);
                     EventBus.getDefault().post(new LoginSuccessEvent());
 
 
