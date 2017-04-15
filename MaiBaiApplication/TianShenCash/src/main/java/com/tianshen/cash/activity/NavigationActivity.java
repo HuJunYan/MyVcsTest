@@ -7,10 +7,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
 import com.tianshen.cash.net.api.CheckUpgrade;
@@ -22,6 +25,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TimeCount;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -140,6 +144,22 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {
+
+                    if (paramT == null) {
+                        return;
+                    }
+                    String force_upgrade = paramT.getData().getForce_upgrade();
+                    String is_ignore = paramT.getData().getIs_ignore();
+                    if (!TextUtils.isEmpty(force_upgrade) && !TextUtils.isEmpty(is_ignore)) {
+                        if ("1".equals(force_upgrade) && "0".equals(is_ignore)) {
+                            UserUtil.removeUser(mContext);
+                            EventBus.getDefault().post(new FinishCurrentActivityEvent());
+                            Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            MyApplication.getApp().startActivity(intent);
+                        }
+                    }
+
                     if (paramT.getCode() == 0) {//0为应用有升级
                         String apkUrl = paramT.getData().getDownload_url();//更新下载路径
                         String explain = paramT.getData().getIntroduction();//更新说明

@@ -8,9 +8,11 @@ import java.io.Serializable;
 
 public class CheckUpgradeBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    public CheckUpgradeBean () {
+
+    public CheckUpgradeBean() {
         data = new Data();
     }
+
     private int code;  // 返回码
     private String msg;  // 消息内容
     private Data data; // 数据内容
@@ -45,6 +47,15 @@ public class CheckUpgradeBean implements Serializable {
         private String download_url;  // http://serverName/download/app/android-1.2.apk
         private String introduction;  // 升级介绍
         private String force_upgrade;  // 0：非强制升级，1:强制升级
+        private String is_ignore; //是否忽略更新
+
+        public String getIs_ignore() {
+            return is_ignore;
+        }
+
+        public void setIs_ignore(String is_ignore) {
+            this.is_ignore = is_ignore;
+        }
 
         public String getApp_type() {
             return app_type;
