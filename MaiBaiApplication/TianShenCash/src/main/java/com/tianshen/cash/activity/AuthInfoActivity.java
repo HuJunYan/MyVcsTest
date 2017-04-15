@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -414,6 +415,52 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_name = etAuthInfoWorkName.getText().toString().trim();
         String company_phone = etAuthInfoWorkNum.getText().toString().trim();
         String company_address_detail = etAuthInfoWorkAddressDetails.getText().toString().trim();
+
+        if (TextUtils.isEmpty(user_address_provice)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(user_address_city)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(user_address_county)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_address_provice)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_address_city)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_address_county)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(qq)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(user_address_detail)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_name)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_phone)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(company_address_detail)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+
 
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
