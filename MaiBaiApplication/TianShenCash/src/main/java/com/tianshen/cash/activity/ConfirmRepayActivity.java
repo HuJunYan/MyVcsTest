@@ -1,11 +1,21 @@
 package com.tianshen.cash.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.model.RepayInfoBean;
+import com.tianshen.cash.model.UserConfig;
+import com.tianshen.cash.net.api.GetRepayInfo;
+import com.tianshen.cash.net.api.GetUserConfig;
+import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -36,6 +46,12 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmProtocol;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initRepayData();
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_confirm_repay;
     }
@@ -60,6 +76,31 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_confirm_repay_apply:
                 onClickApply();
                 break;
+        }
+    }
+
+    /**
+     * 得到确认还款信息
+     */
+    private void initRepayData() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            GetRepayInfo getRepayInfo = new GetRepayInfo(mContext);
+            getRepayInfo.getRepayInfo(jsonObject, null, true, new BaseNetCallBack<RepayInfoBean>() {
+                @Override
+                public void onSuccess(RepayInfoBean paramT) {
+
+
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

@@ -542,4 +542,11 @@ public class NetConstantValue {
         return COMMONURI + "Order/orderConfirm";
     }
 
+    /**
+     * 得到还款信息
+     */
+    public static String getRepayInfoUrl() {
+        return COMMONURI + "Order/getRepayInfo";
+    }
+
 }
