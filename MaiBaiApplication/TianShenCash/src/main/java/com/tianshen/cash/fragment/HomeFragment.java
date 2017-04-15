@@ -448,6 +448,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 显示数据错误UI
+     */
+    private void showErrorUI() {
+        ll_not_order.setVisibility(View.GONE);
+        ll_order.setVisibility(View.GONE);
+        ll_repay.setVisibility(View.GONE);
+    }
+
+    /**
      * 显示未登录或者未下订单UI
      */
     private void showNoPayUI() {
@@ -669,12 +678,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String unitY = MoneyUtils.changeF2Y(unit);
             int unitInt = Integer.valueOf(unitY);
 
-            minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
-            minMaxSb.setCurrentProgress(def_cashInt);
             tvHomeMinSb.setText(min_cashInt + "元");
             tvHomeMaxSb.setText(max_cashInt + "元");
-
+            minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
+            minMaxSb.setCurrentProgress(def_cashInt);
         } catch (Exception e) {
+            showErrorUI();
+            ToastUtil.showToast(mContext, "数据错误!");
             e.printStackTrace();
         }
 
