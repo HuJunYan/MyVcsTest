@@ -7,10 +7,9 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.RepayInfoBean;
-import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.net.api.GetRepayInfo;
-import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -44,6 +43,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmRepayApply;
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
+
+    private RepayInfoBean mRepayInfoBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +92,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             getRepayInfo.getRepayInfo(jsonObject, null, true, new BaseNetCallBack<RepayInfoBean>() {
                 @Override
                 public void onSuccess(RepayInfoBean paramT) {
-
-
+                    mRepayInfoBean = paramT;
+                    refreshUI();
                 }
 
                 @Override
@@ -103,6 +104,32 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
     }
+
+    /**
+     * 刷新天神卡
+     */
+    private void refreshUI() {
+
+        if (mRepayInfoBean == null) {
+            return;
+        }
+        String bank_card_num = mRepayInfoBean.getData().getBank_card_num();
+        String bank_name = mRepayInfoBean.getData().getBank_name();
+        String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
+        String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
+
+        try {
+            String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
+            String overdueAmountY = MoneyUtils.changeF2Y(overdueAmount);
+            String repayMoney = MoneyUtils.add(consumeAmountY, overdueAmountY);
+            tvConfirmRepay.setText(repayMoney + "元");
+            tvConfirmRepayBank.setText(bank_name);
+            tvConfirmRepayNumBank.setText(bank_card_num);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 点击了确认
