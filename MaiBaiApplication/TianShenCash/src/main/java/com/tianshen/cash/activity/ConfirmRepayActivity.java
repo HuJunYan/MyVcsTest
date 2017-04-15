@@ -141,7 +141,27 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
-        ToastUtil.showToast(mContext, "点击了还款");
+        boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
+        if (payWayBySelf) {
+            repayBySelf();
+        } else {
+            repayByZhangZhong();
+        }
+    }
+
+    /**
+     * 自己产品还款
+     */
+    private void repayBySelf() {
+        ToastUtil.showToast(mContext, "自己产品还款");
+        backActivity();
+    }
+
+    /**
+     * 掌众还款
+     */
+    private void repayByZhangZhong() {
+        ToastUtil.showToast(mContext, "掌众产品还款");
         backActivity();
     }
 

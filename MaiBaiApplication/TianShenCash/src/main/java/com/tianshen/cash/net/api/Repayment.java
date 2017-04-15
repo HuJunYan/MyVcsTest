@@ -33,30 +33,6 @@ public class Repayment extends NetBase {
         mUrl = NetConstantValue.getRepaymentUrl();
     }
 
-//    public void repayment(JSONObject jsonObject, final BaseNetCallBack<ResponseBean> mResponseCallBack) {
-//        try {
-//            jsonObject.put("pay_pass", Utils.MD5SHA1AndReverse(jsonObject.getString("pay_pass")));
-//            mJSONObject = SignUtils.signJsonContainTwoLevelList(jsonObject, "consume_data", "installment_history");
-//            if (mJSONObject == null) {
-//                return;
-//            }
-//            getDataFromServerByPost(mUrl, mJSONObject, null, true, new CallBack() {
-//                @Override
-//                public void onSuccess(String result, String url) {
-//                    successHandle(result, url, mResponseCallBack);
-//                }
-//
-//                @Override
-//                public void onFailure(String result, int errorType, int errorCode) {
-//                    failureHandle(result, errorType, errorCode, mResponseCallBack);
-//                }
-//            });
-//        } catch (Exception e) {
-//            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-//            e.printStackTrace();
-//        }
-//    }
-
     /**
      *
      * @param jsonObject
@@ -67,25 +43,7 @@ public class Repayment extends NetBase {
      */
     public void repayment(JSONObject jsonObject, View view, boolean isShowDialog, int type, final BaseNetCallBack<ResponseBean> mResponseCallBack) {
         try {
-            if (jsonObject == null) {
-                return;
-            }
-            jsonObject.put("pay_pass", Utils.MD5SHA1AndReverse(jsonObject.getString("pay_pass")));
-            switch (type) {
-                case 0:
-                    mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
-                    break;
-                case 1:
-                    mJSONObject = SignUtils.signJsonContainList(jsonObject, "consume_data");
-                    break;
-                case 2:
-                case 5:
-                    mJSONObject = SignUtils.signJsonContainTwoLevelList(jsonObject, "consume_data", "installment_history");
-                    break;
-            }
-            if (mJSONObject == null) {
-                return;
-            }
+            mJSONObject = SignUtils.signJsonContainList(jsonObject, "consume_data");
             getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {
