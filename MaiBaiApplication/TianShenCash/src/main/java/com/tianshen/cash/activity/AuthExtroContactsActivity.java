@@ -140,9 +140,15 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     }
 
     private void showExtroDialog(final int clickPosition) {
+
+        ArrayList<String> mNexus1 = new ArrayList<>();
+        if (clickPosition == 0) {
+            mNexus1.add(mNexus.get(0));
+            mNexus1.add(mNexus.get(1));
+        }
         new MaterialDialog.Builder(mContext)
                 .title("与我关系")
-                .items(mNexus)
+                .items(clickPosition == 0 ? mNexus1 :mNexus)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
