@@ -549,4 +549,11 @@ public class NetConstantValue {
         return COMMONURI + "Order/getRepayInfo";
     }
 
+    /**
+     * 还款点击我知道按钮调用
+     */
+    public static String getIKnowUrl() {
+        return COMMONURI + "Order/iKnow";
+    }
+
 }

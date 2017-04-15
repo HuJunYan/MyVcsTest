@@ -782,6 +782,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 showFriendlyTipsDialog();
                 break;
             case "7": //还款成功
+                //TODO 调用服务器我知道接口 已经封装好了 IKNOW
                 break;
         }
     }
