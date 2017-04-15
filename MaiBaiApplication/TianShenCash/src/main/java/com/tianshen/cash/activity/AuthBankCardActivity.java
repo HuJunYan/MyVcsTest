@@ -361,6 +361,12 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 绑定银行卡
      */
     private void bindBankCard() {
+
+        if (mBankListBean == null) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
+
         String customer_id = TianShenUserUtil.getUserId(mContext);
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
         String card_num = et_auth_card_num.getText().toString().trim();
@@ -368,7 +374,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String verify_code = etSeverityCode.getText().toString().trim();
         String bank_name = mBankListBean.getData().get(mCurrentBankCardIndex).getBank_name();
         String bank_id = mBankListBean.getData().get(mCurrentBankCardIndex).getBank_id();
-
 
         if (TextUtils.isEmpty(card_user_name)) {
             ToastUtil.showToast(mContext, "请先完善资料!");
@@ -394,6 +399,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "请先获取验证码!");
             return;
         }
+
         try {
             JSONObject mJson = new JSONObject();
             mJson.put("customer_id", customer_id);
