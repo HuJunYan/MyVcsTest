@@ -397,18 +397,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String is_payway = mUserConfig.getData().getIs_payway();
         User user = TianShenUserUtil.getUser(mContext);
 
-
         boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
         boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
 
         user.setIs_payway(is_payway);
         TianShenUserUtil.saveUser(mContext, user);
 
-        // "0:新用户，没有提交过订单；1:订单待审核；2:审核通过；3:放款成功（钱已经到银行卡）；
-        // 4:审核失败；5:放款失败;6放款中 ；7 已还款 ;8已经提交还款（还款金额还没到账）;9决策失败"
         String status = mUserConfig.getData().getStatus();
         switch (status) {
-            case "0":
+            case "0"://0:新用户，没有提交过订单；
                 ArrayList<UserConfig.Data.Consume> consume_status_list = mUserConfig.getData().getConsume_status_list();
                 if (consume_status_list == null || consume_status_list.size() == 0) {
                     initSelWithdrawalsData();//显示用户没有下单的UI
@@ -416,15 +413,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     showConsumeStatusUI();//显示用户订单轨迹的UI (已经还款需要点"我知道了,点击我知道了需要调用一个接口")
                 }
                 break;
-            case "1":
+            case "1"://1:订单待审核；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
-            case "2":
+            case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
-            case "3":
+            case "3"://3:放款成功（钱已经到银行卡）；
                 if (clickedHomeGetMoneyButton) {//判断用户没有点过按钮，没有点过按钮吧按钮显示出来
                     showRepayUI();
                 } else {
@@ -432,17 +429,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     tv_home_confirm_money.setVisibility(View.VISIBLE);
                 }
                 break;
-            case "4":
-                showConsumeStatusUI();//显示用户订单轨迹的UI
+            case "4"://4:审核失败
+                showConsumeStatusUI();
                 break;
-            case "5":
-                showConsumeStatusUI();//显示用户订单轨迹的UI
+            case "5"://5:放款失败
+                showConsumeStatusUI();
                 break;
-            case "6":
-                showConsumeStatusUI();//显示用户订单轨迹的UI
+            case "6"://6放款中
+                showConsumeStatusUI();
                 break;
-            case "7":
-                showConsumeStatusUI();//显示用户订单轨迹的UI
+            case "7"://7 已还款
+                showConsumeStatusUI();
+                break;
+            case "8": //8已经提交还款（还款金额还没到账
+                showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.GONE);
+                break;
+            case "9": //9决策失败
                 break;
         }
 
