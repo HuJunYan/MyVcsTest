@@ -39,6 +39,15 @@ public class RepayInfoBean {
         private String consume_id;
         private String id;
         private String repay_date;
+        private String is_payway;
+
+        public String getIs_payway() {
+            return is_payway;
+        }
+
+        public void setIs_payway(String is_payway) {
+            this.is_payway = is_payway;
+        }
 
         public String getConsume_amount() {
             return consume_amount;

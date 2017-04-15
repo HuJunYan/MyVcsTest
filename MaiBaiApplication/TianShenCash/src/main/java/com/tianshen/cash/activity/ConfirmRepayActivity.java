@@ -8,15 +8,24 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.model.ConsumeDataBean;
+import com.tianshen.cash.model.InstallmentHistoryBean;
 import com.tianshen.cash.model.RepayInfoBean;
+import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
+import com.tianshen.cash.net.api.Repayment;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -141,8 +150,12 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
-        boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
-        if (payWayBySelf) {
+        if (mRepayInfoBean == null) {
+            ToastUtil.showToast(mContext, "数据错误!");
+            return;
+        }
+        String is_payway = mRepayInfoBean.getData().getIs_payway();
+        if ("0".equals(is_payway)) {
             repayBySelf();
         } else {
             repayByZhangZhong();
@@ -153,8 +166,58 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 自己产品还款
      */
     private void repayBySelf() {
-        ToastUtil.showToast(mContext, "自己产品还款");
-        backActivity();
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("paytype", "1"); // (支付渠道，写死1 联动优势)
+            jsonObject.put("type", "1"); // （支付类型 1还款 2付首付 不传默认为1）
+
+            String id = mRepayInfoBean.getData().getId();
+            String consumeId = mRepayInfoBean.getData().getConsume_id();
+            String repayDate = mRepayInfoBean.getData().getRepay_date();
+            String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
+            String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
+
+            LogUtil.d("abc","1111");
+
+            ConsumeDataBean consumeDataBean = new ConsumeDataBean();
+            consumeDataBean.setConsume_id(consumeId);
+            consumeDataBean.setType("5");
+            consumeDataBean.setRepay_date("");
+            consumeDataBean.setAmount("");
+            consumeDataBean.setOverdue_amount("");
+
+            LogUtil.d("abc","2222");
+
+            ArrayList<InstallmentHistoryBean> installmentHistoryBeans = new ArrayList<>();
+            InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
+            installmentHistoryBean.setId(id);
+            installmentHistoryBean.setRepay_date(repayDate);
+            installmentHistoryBean.setAmount(consumeAmount);
+            installmentHistoryBean.setOverdue_amount(overdueAmount);
+            installmentHistoryBeans.add(installmentHistoryBean);
+
+            consumeDataBean.setInstallment_history(installmentHistoryBeans);
+
+            jsonObject.put("consume_data", new JSONArray(GsonUtil.bean2json(consumeDataBean)));
+
+            Repayment getRepayInfo = new Repayment(mContext);
+
+            LogUtil.d("abc","33333");
+
+            getRepayInfo.repayment(jsonObject, null, true, 0, new BaseNetCallBack<ResponseBean>() {
+                @Override
+                public void onSuccess(ResponseBean paramT) {
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
