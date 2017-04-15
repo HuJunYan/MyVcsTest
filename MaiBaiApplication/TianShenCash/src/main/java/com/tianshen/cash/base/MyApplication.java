@@ -18,6 +18,8 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MyApplication extends Application {
 
+    private static MyApplication sApplication;
+
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<Activity>();
 
     public static Typeface typeFace;
@@ -34,6 +36,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        sApplication = this;
         SDKInitializer.initialize(this);
         FMAgent.init(getApplication(), NetConstantValue.checkIsReleaseService());
 //		if (Utils.isApplicationRepeat(this)) {
@@ -45,6 +48,10 @@ public class MyApplication extends Application {
 //		GsonUtil.init(MyApplication.this);
 
         initLogger();
+    }
+
+    public static MyApplication getApp() {
+        return sApplication;
     }
 
     @Override
