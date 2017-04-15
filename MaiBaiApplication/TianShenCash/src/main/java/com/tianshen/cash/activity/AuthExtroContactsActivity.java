@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -148,7 +149,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         }
         new MaterialDialog.Builder(mContext)
                 .title("与我关系")
-                .items(clickPosition == 0 ? mNexus1 :mNexus)
+                .items(clickPosition == 0 ? mNexus1 : mNexus)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
@@ -303,6 +304,24 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
         String phone1 = etAuthNexusPhone.getText().toString().trim();
         String phone2 = etAuthNexusPhone2.getText().toString().trim();
+
+
+        if (TextUtils.isEmpty(name1)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(name2)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(phone1)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(phone2)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
 
         String nexusTxt1 = (String) tvAuthNexus1.getText();
         String nexusTxt2 = (String) tvAuthNexus2.getText();
