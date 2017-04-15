@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.RepayInfoBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -66,6 +68,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmRepayApply.setOnClickListener(this);
+        tvConfirmProtocol.setOnClickListener(this);
     }
 
     @Override
@@ -76,6 +79,9 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.tv_confirm_repay_apply:
                 onClickApply();
+                break;
+            case R.id.tv_confirm_protocol:
+                gotoWebActivity();
                 break;
         }
     }
@@ -137,6 +143,17 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     private void onClickApply() {
         ToastUtil.showToast(mContext, "点击了还款");
         backActivity();
+    }
+
+
+    /**
+     * 跳转到WebActivity
+     */
+    private void gotoWebActivity() {
+        String userPayProtocolURL = NetConstantValue.getUserPayProtocolURL();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURL);
+        gotoActivity(mContext, WebActivity.class, bundle);
     }
 
 }
