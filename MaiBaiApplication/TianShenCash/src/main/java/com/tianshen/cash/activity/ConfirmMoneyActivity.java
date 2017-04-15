@@ -188,7 +188,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
             User user = TianShenUserUtil.getUser(mContext);
 
-            long userId = user.getId();
+            String customer_id = user.getCustomer_id();
             String consume_amount = user.getConsume_amount();
             String repay_id = user.getRepay_id();
             String location = user.getLocation();
@@ -206,7 +206,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             }
             String black_box = new GetTelephoneUtils(mContext).getBlackBox();
 
-            jsonObject.put("customer_id", userId);
+            jsonObject.put("customer_id", customer_id);
             jsonObject.put("type", type);
             jsonObject.put("consume_amount", consume_amount);
             jsonObject.put("location", location);
