@@ -247,7 +247,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 gotoActivity(mContext, ConfirmRepayActivity.class, null);
                 break;
             case R.id.tv_home_confirm_money: //点击了确认按钮
-                showFriendlyTipsDialog();
+                onClickIKnow();
                 break;
         }
     }
@@ -770,6 +770,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         refreshLoanNumUI(currentProgress);
                     }
                 }).show();
+    }
+
+    /**
+     * 点击了我知道按钮
+     */
+    private void onClickIKnow() {
+        String status = mUserConfig.getData().getStatus();
+        switch (status) {
+            case "3": //借款成功
+                showFriendlyTipsDialog();
+                break;
+            case "7": //还款成功
+                break;
+        }
     }
 
     /**
