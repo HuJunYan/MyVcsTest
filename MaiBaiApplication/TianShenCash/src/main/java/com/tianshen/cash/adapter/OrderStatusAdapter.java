@@ -17,15 +17,13 @@ import com.tianshen.cash.model.UserConfig;
 import java.util.ArrayList;
 
 public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.ViewHolder> {
-    private UserConfig mUserConfig;
     private Context mContext;
     private ArrayList<UserConfig.Data.Consume> consume_status_list;
 
 
     public OrderStatusAdapter(Context context, UserConfig userConfig) {
         this.mContext = context;
-        this.mUserConfig = userConfig;
-        this.consume_status_list = mUserConfig.getData().getConsume_status_list();
+        this.consume_status_list = userConfig.getData().getConsume_status_list();
     }
 
     //创建新View，被LayoutManager所调用
@@ -65,7 +63,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     }
 
     public void setData(UserConfig userConfig) {
-        this.mUserConfig = userConfig;
+        this.consume_status_list = userConfig.getData().getConsume_status_list();
     }
 
     //获取数据的数量
