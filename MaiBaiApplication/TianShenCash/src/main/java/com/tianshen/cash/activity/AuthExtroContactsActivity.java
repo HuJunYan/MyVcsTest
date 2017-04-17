@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,9 +21,11 @@ import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.ViewUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,6 +101,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                 case MSG_SHOW_CONTACTS_DIALOG:
                     mContacts = (List<HashMap<String, String>>) message.obj;
                     parserContactsData(mContacts);
+                    ViewUtil.cancelLoadingDialog();
                     showContactsDialog();
                     isGetContactsing = false;
                     break;
@@ -188,11 +192,14 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     /**
      * 得到联系人信息
      */
-    private void getContacts() {
+    private synchronized void getContacts() {
 
         if (isGetContactsing) {
             return;
         }
+
+        String loadText = this.mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
+        ViewUtil.createLoadingDialog((Activity) this.mContext, loadText, false);
 
         new Thread(new Runnable() {
             @Override
@@ -211,6 +218,12 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
      * 显示选择联系人的dialog
      */
     private void showContactsDialog() {
+
+        if (mContactsDialogDada.size() == 0) {
+            ToastUtil.showToast(mContext, "没有查找到联系人");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择联系人")
                 .items(mContactsDialogDada)

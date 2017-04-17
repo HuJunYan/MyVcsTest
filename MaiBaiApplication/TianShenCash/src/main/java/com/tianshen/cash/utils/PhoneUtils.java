@@ -44,8 +44,12 @@ public class PhoneUtils {
         Uri date_uri = Uri.parse("content://com.android.contacts/data");
         // 4.查询操作,先查询raw_contacts,查询contact_id
         // projection : 查询的字段
-        Cursor cursor = resolver.query(raw_uri, new String[]{"contact_id"},
-                null, null, null);
+        Cursor cursor = resolver.query(raw_uri, new String[]{"contact_id"}, null, null, null);
+
+        if (cursor == null) {
+            return list;
+        }
+
         // 5.解析cursor
         while (cursor.moveToNext()) {
             // 6.获取查询的数据
@@ -59,8 +63,7 @@ public class PhoneUtils {
                 // selectionArgs :查询条件的参数
                 // sortOrder : 排序
                 // 空指针: 1.null.方法 2.参数为null
-                Cursor c = resolver.query(date_uri, new String[]{"data1",
-                                "mimetype"}, "raw_contact_id=?",
+                Cursor c = resolver.query(date_uri, new String[]{"data1", "mimetype"}, "raw_contact_id=?",
                         new String[]{contact_id}, null);
                 HashMap<String, String> map = new HashMap<String, String>();
                 // 8.解析c
@@ -97,6 +100,11 @@ public class PhoneUtils {
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
         Uri uri = Uri.parse("content://icc/adn");
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+
+        if (cursor == null) {
+            return list;
+        }
+
         while (cursor.moveToNext()) {
             String id = cursor.getString(cursor.getColumnIndex(Contacts.People._ID));
             String name = cursor.getString(cursor.getColumnIndex(Contacts.People.NAME));
