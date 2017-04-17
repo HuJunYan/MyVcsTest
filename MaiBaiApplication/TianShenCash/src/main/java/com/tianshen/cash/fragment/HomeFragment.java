@@ -416,6 +416,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     initSelWithdrawalsData();//显示用户没有下单的UI
                 } else {
                     showConsumeStatusUI();//显示用户订单轨迹的UI (已经还款需要点"我知道了,点击我知道了需要调用一个接口")
+                    tv_home_confirm_money.setVisibility(View.VISIBLE);
                 }
                 break;
             case "1"://1:订单待审核；
@@ -445,8 +446,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "7"://7 已还款
-                showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
+//                showConsumeStatusUI();
+//                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "8": //8已经提交还款（还款金额还没到账
                 showConsumeStatusUI();
@@ -481,6 +482,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void showConsumeStatusUI() {
         ll_not_order.setVisibility(View.GONE);
+        ll_repay.setVisibility(View.GONE);
         ll_order.setVisibility(View.VISIBLE);
         initXRecyclerview();
     }
@@ -788,7 +790,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "3": //借款成功
                 showFriendlyTipsDialog();
                 break;
-            case "7": //还款成功
+            case "0": //还款成功
                 repayIknow();
                 break;
         }
@@ -798,16 +800,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击还款我知道了
      */
     private void repayIknow() {
+
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        TianShenUserUtil.getUserRepayId(mContext);
+        String consume_id = mUserConfig.getData().getConsume_id();
+        try {
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("consume_id", consume_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         final IKnow iKnow = new IKnow(mContext);
-        iKnow.know(new JSONObject(), new BaseNetCallBack<PostDataBean>() {
+        iKnow.know(jsonObject, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
-                if (paramT.getCode() == 0){
+                if (paramT.getCode() == 0) {
                     TianShenUserUtil.clearMoneyStatus(mContext);
                     initUserConfig();
                 }
             }
-
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
 
