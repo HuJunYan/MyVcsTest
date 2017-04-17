@@ -30,7 +30,7 @@ public class IKnow extends NetBase {
         mUrl = NetConstantValue.getIKnowUrl();
     }
 
-    public void getUserInfo(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
+    public void know(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
         try {
             mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
             if (mJSONObject == null) {

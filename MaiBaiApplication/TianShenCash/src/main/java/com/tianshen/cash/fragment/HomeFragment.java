@@ -50,6 +50,7 @@ import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.CashSubItemBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
@@ -57,6 +58,7 @@ import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetUserConfig;
+import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -397,8 +399,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String is_payway = mUserConfig.getData().getIs_payway();
         User user = TianShenUserUtil.getUser(mContext);
 
-        boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
         boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
+        boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
 
         user.setIs_payway(is_payway);
         TianShenUserUtil.saveUser(mContext, user);
@@ -443,7 +445,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "8": //8已经提交还款（还款金额还没到账
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "9": //9决策失败
                 break;
@@ -782,9 +784,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 showFriendlyTipsDialog();
                 break;
             case "7": //还款成功
-                //TODO 调用服务器我知道接口 已经封装好了 IKNOW
+                repayIknow();
                 break;
         }
+    }
+
+    /**
+     * 点击还款我知道了
+     */
+    private void repayIknow() {
+        final IKnow iKnow = new IKnow(mContext);
+        iKnow.know(new JSONObject(), new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                if (paramT.getCode() == 0){
+                    TianShenUserUtil.clearMoneyStatus(mContext);
+                    initUserConfig();
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
     }
 
     /**

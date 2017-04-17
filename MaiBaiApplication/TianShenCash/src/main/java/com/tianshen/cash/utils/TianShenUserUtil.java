@@ -187,4 +187,23 @@ public class TianShenUserUtil {
         return user.get(0).isClickedHomeRePayMoneyButton();
     }
 
+    /**
+     * 清除之前借款存储的一些信息
+     */
+    public static void clearMoneyStatus(Context context) {
+        boolean mIsLogin = isLogin(context);
+        if (!mIsLogin) {
+            return;
+        }
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        ArrayList<User> users = liteOrm.query(User.class);
+        User user = users.get(0);
+        user.setConsume_amount("0");
+        user.setIs_payway("0");
+        user.setRepay_id("0");
+        user.setClickedHomeGetMoneyButton(false);
+        user.setClickedHomeRePayMoneyButton(false);
+        liteOrm.save(user);
+    }
+
 }
