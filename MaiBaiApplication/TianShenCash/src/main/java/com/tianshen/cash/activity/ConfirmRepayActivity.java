@@ -135,6 +135,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         String bank_name = mRepayInfoBean.getData().getBank_name();
         String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
         String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
+        String is_payway = mRepayInfoBean.getData().getIs_payway();
 
         try {
             String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
@@ -143,6 +144,14 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             tvConfirmRepay.setText(repayMoney + "元");
             tvConfirmRepayBank.setText(bank_name);
             tvConfirmRepayNumBank.setText(bank_card_num);
+
+            if ("0".equals(is_payway)) {//0为自己的产品，1为掌众的产品" 为1的时候需要展示获取验证码的UI
+
+            } else {
+
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
