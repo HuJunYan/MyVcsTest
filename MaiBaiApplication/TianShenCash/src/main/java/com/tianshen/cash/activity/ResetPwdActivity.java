@@ -182,7 +182,6 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
             JSONObject json = new JSONObject();
             json.put("password", password);
             json.put("verify_code", mBundle.getString("verify_code"));
-            json.put("type", mBundle.getString("type"));
             json.put("mobile", mBundle.getString("mobile"));
             resetPassword.resetPassword(json, bt_next, true, new BaseNetCallBack<ResponseBean>() {
                 @Override

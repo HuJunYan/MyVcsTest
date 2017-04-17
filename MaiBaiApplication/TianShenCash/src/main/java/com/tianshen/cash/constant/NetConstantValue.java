@@ -208,7 +208,7 @@ public class NetConstantValue {
      * @return
      */
     public static String getResetPasswordUrl() {
-        return COMMONURI + "Customer/resetPassword";
+        return COMMONURI + "UserCenter/resetPassword";
     }
 
 
