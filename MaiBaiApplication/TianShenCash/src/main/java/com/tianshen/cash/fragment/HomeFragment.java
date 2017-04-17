@@ -442,13 +442,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "6"://6放款中
                 showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "7"://7 已还款
                 showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "8": //8已经提交还款（还款金额还没到账
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "9": //9决策失败
                 break;

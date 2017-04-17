@@ -27,7 +27,7 @@
         android:visibility="gone"
         android:background="@drawable/confirm_money_style"
         android:gravity="center"
-        android:text="确认"
+        android:text="我知道了"
         android:textColor="@color/global_txt_orange"
         android:textSize="14sp" />
 
