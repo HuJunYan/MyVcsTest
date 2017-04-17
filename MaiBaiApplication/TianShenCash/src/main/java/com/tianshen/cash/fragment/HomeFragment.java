@@ -264,6 +264,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             initSelWithdrawalsData();
         }
         initStaticsRoll();
+
+        String jPushId = TianShenUserUtil.getUserJPushId(mContext);
+        LogUtil.d("abc","jPushId--->"+jPushId);
     }
 
     @Override

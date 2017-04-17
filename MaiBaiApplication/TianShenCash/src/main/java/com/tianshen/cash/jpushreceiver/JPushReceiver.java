@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.JpushAddBorrowTermBean;
@@ -15,6 +16,7 @@ import com.tianshen.cash.net.base.JpushCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
@@ -27,48 +29,60 @@ public class JPushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
         mContext = context;
-        LogUtil.d("JPush", JPushInterface.getRegistrationID(context) + "" + (UserUtil.getId(mContext) != null));
-        LogUtil.d("JPush", JPushInterface.EXTRA_EXTRA);
-        if (null != intent && null != intent.getAction()) {
-            if (intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
-                if (UserUtil.getId(context) != null && !"".equals(UserUtil.getId(context))) {
-                    try {
-                        Bundle bundle = intent.getExtras();
-                        JpushHandle mJpushHandle = new JpushHandle(mContext);
-                        String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                        LogUtil.d("ret", "jpushResult = " + result);
-                        mJpushHandle.jpushHandle(result, new JpushCallBack() {
-                            @Override
-                            public void onResult(int type, Object object) {
-                                switch (type) {
-                                    case GlobalParams.VERIFY_FINISHED:
-                                        sendVerifyFinishedBroadCast(GlobalParams.VERIFY_FINISHED_ACTION, (OrderRefreshBean)object);
-                                        break;
-                                    case GlobalParams.WITHDRAWALS_VERIFY_FINISHED:
-                                        sendWithdrawalsVerifyFinishedBroadCast(GlobalParams.WITHDRAWALS_VERIFY_FINISHED_ACTION, (WithdrawalsRefreshBean)object);
-                                        break;
-                                    case GlobalParams.UPDATE_LOG_STATUS:
-//                                        ToastUtil.showToast(mContext,"接收到请求，即将执行日志上传");
-                                        UserUtil.setLogStatus(context,GlobalParams.LOG_STATUS_NEED_UPLOAD);
-                                        uploadLog(context);
-                                        break;
-                                    case GlobalParams.A_LOT_OF_VERIFY: // 各种审核状态
-                                        sendLotOfVerifyStatusBroadCast(GlobalParams.LOT_OF_VERIFY_STATUE_ACTION, (JpushLotOfVerifyStatusBean)object);
-                                        break;
-                                    case GlobalParams.ADD_BORROW_TERM: // 延长借款期限
-                                        sendAddBorrowTermBroadCast(GlobalParams.ADD_BORROW_TERM_KEY_ACTION, (JpushAddBorrowTermBean)object);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
 
-                    } catch (Exception e) {
-                        MobclickAgent.reportError(mContext, LogUtil.getException(e));
-                        LogUtil.e("error", LogUtil.getException(e));
+        LogUtil.d("abc","JPush-id->"+JPushInterface.getRegistrationID(context));
+        LogUtil.d("abc","JPush-userid->"+TianShenUserUtil.getUserId(context));
+        LogUtil.d("abc","JPush-EXTRA_EXTRA->"+JPushInterface.EXTRA_EXTRA);
+
+        if (intent == null) {
+            return;
+        }
+
+        String action = intent.getAction();
+        if (TextUtils.isEmpty(action)) {
+            return;
+        }
+
+        if (action.equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)) {
+            boolean login = TianShenUserUtil.isLogin(mContext);
+            if (!login) {
+                return;
+            }
+            try {
+                Bundle bundle = intent.getExtras();
+                JpushHandle mJpushHandle = new JpushHandle(mContext);
+                String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                LogUtil.d("abc", "jpushResult-->" + result);
+                mJpushHandle.jpushHandle(result, new JpushCallBack() {
+                    @Override
+                    public void onResult(int type, Object object) {
+                        switch (type) {
+                            case GlobalParams.VERIFY_FINISHED:
+                                sendVerifyFinishedBroadCast(GlobalParams.VERIFY_FINISHED_ACTION, (OrderRefreshBean)object);
+                                break;
+                            case GlobalParams.WITHDRAWALS_VERIFY_FINISHED:
+                                sendWithdrawalsVerifyFinishedBroadCast(GlobalParams.WITHDRAWALS_VERIFY_FINISHED_ACTION, (WithdrawalsRefreshBean)object);
+                                break;
+                            case GlobalParams.UPDATE_LOG_STATUS:
+//                                        ToastUtil.showToast(mContext,"接收到请求，即将执行日志上传");
+                                UserUtil.setLogStatus(context,GlobalParams.LOG_STATUS_NEED_UPLOAD);
+                                uploadLog(context);
+                                break;
+                            case GlobalParams.A_LOT_OF_VERIFY: // 各种审核状态
+                                sendLotOfVerifyStatusBroadCast(GlobalParams.LOT_OF_VERIFY_STATUE_ACTION, (JpushLotOfVerifyStatusBean)object);
+                                break;
+                            case GlobalParams.ADD_BORROW_TERM: // 延长借款期限
+                                sendAddBorrowTermBroadCast(GlobalParams.ADD_BORROW_TERM_KEY_ACTION, (JpushAddBorrowTermBean)object);
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
+                });
+
+            } catch (Exception e) {
+                MobclickAgent.reportError(mContext, LogUtil.getException(e));
+                LogUtil.e("error", LogUtil.getException(e));
             }
         }
     }
