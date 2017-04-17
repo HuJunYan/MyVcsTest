@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-1px"
+        android:visibility="gone"
         app:setting_img_right="@drawable/icon_my_next"
         app:setting_tv_content="修改支付密码" />
 </LinearLayout>
