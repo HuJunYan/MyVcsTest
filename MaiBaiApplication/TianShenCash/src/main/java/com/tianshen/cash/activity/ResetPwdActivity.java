@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -9,7 +10,9 @@ import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.ResetPassword;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -20,6 +23,7 @@ import com.tianshen.cash.view.ChangeInterface;
 import com.tianshen.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 public class ResetPwdActivity extends BaseActivity implements View.OnClickListener {
@@ -189,9 +193,14 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                      if(GlobalParams.CHANGE_LOGIN_PASSWORD.equals(mBundle.getString("type"))) {
                          UserUtil.setLoginPassword(mContext, password);
                      }
-                    setResult(SETTING_PASSWORD_SUCCESS);
-                    backActivity();
+//                    setResult(SETTING_PASSWORD_SUCCESS);
+//                    backActivity();
                     ToastUtil.showToast(mContext, "密码设置成功", Toast.LENGTH_SHORT);
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
+                    Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    MyApplication.getApp().startActivity(intent);
+
                 }
 
                 @Override
