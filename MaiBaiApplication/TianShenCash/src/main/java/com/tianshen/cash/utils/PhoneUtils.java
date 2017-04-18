@@ -44,6 +44,9 @@ public class PhoneUtils {
         if (allContactInfoOfPhone.size() == 0) {
             allContactInfoOfPhone = getAllContactInfoOfSIM(context);
         }
+        if (allContactInfoOfPhone.size() == 0) {
+            new PermissionUtils(context).showPermissionDialog(1);//通讯录
+        }
         return allContactInfoOfPhone;
     }
 
@@ -75,9 +78,6 @@ public class PhoneUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (list.size() == 0) {
-            new PermissionUtils(context).showPermissionDialog(1);//通讯录
         }
         return list;
     }
