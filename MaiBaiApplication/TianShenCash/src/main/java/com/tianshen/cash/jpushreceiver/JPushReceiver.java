@@ -17,6 +17,7 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
@@ -33,7 +34,7 @@ public class JPushReceiver extends BroadcastReceiver {
         LogUtil.d("abc","JPush-id->"+JPushInterface.getRegistrationID(context));
         LogUtil.d("abc","JPush-userid->"+TianShenUserUtil.getUserId(context));
         LogUtil.d("abc","JPush-EXTRA_EXTRA->"+JPushInterface.EXTRA_EXTRA);
-
+        ToastUtil.showToast(mContext,"收到了推送~~~");
         if (intent == null) {
             return;
         }
