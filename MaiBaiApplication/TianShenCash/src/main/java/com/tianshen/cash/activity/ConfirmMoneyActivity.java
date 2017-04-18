@@ -84,6 +84,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void setListensers() {
+        tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
     }
@@ -125,6 +126,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_confirm_money_back:
+                backActivity();
+                break;
             case R.id.tv_confirm_apply:
                 onClickApply();
                 break;
