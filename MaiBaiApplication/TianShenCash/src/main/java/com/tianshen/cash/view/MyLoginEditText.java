@@ -41,6 +41,9 @@ public class MyLoginEditText extends LinearLayout implements View.OnFocusChangeL
     private final int INPUT_PASSWORD = 3;
     private final int INPUT_PHONE=4;
 
+    Drawable draw_right;
+    Drawable draw_right2;
+
     public MyLoginEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -75,7 +78,8 @@ public class MyLoginEditText extends LinearLayout implements View.OnFocusChangeL
         String hint=array.getString(R.styleable.MyLoginEditText_login_edit_hint);
 
         Drawable draw_left = array.getDrawable(R.styleable.MyLoginEditText_login_edit_img_left);
-        Drawable draw_right = array.getDrawable(R.styleable.MyLoginEditText_login_edit_img_right);
+        draw_right = array.getDrawable(R.styleable.MyLoginEditText_login_edit_img_right);
+        draw_right2 = array.getDrawable(R.styleable.MyLoginEditText_login_edit_img_right2);
         int inputType = array.getInt(R.styleable.MyLoginEditText_login_edit_inputType, 0);
         int textSize=array.getInteger(R.styleable.MyLoginEditText_login_edit_text_size,15);
         String tv_right=array.getString(R.styleable.MyLoginEditText_login_edit_tv_right);
@@ -144,10 +148,12 @@ public class MyLoginEditText extends LinearLayout implements View.OnFocusChangeL
         switch (v.getId()){
             case R.id.img_right:
                 if(hide){
+                    img_right.setImageDrawable(draw_right2);
                     hide=false;
                     edit_content.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 else{
+                    img_right.setImageDrawable(draw_right);
                     hide=true;
                     edit_content.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }

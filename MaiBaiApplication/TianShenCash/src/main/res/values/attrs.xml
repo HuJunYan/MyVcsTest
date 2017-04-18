@@ -53,6 +53,7 @@
     <declare-styleable name="MyLoginEditText">
         <attr name="login_edit_img_left" format="reference" />
         <attr name="login_edit_img_right" format="reference" />
+        <attr name="login_edit_img_right2" format="reference" />
         <attr name="login_edit_content" format="string" />
         <attr name="login_edit_if_edit" format="boolean" />
         <attr name="login_edit_hint" format="string" />
