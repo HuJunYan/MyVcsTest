@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             app:promp="设置密码"
             app:maxLength="18"
+            app:inputType="password"
             app:hint="请设置6~18位登录密码"
             />
 
@@ -55,6 +56,7 @@
             android:layout_height="wrap_content"
            app:hint="请再次输入密码"
             app:maxLength="18"
+            app:inputType="password"
             app:promp="重复密码"
 
             />
