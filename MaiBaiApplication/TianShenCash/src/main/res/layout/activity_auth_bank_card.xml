@@ -123,6 +123,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_num_key"
             android:background="@null"
+            android:maxLength="19"
             android:hint="请输入您的银行卡号"
             android:inputType="number"
             android:textSize="14dp" />
@@ -153,6 +154,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_phone_num_key"
             android:background="@null"
+            android:maxLength="11"
             android:hint="请输入预留手机号"
             android:inputType="number"
             android:textSize="14dp" />
@@ -184,6 +186,7 @@
             android:layout_toRightOf="@id/tv_severity_code_key"
             android:background="@null"
             android:hint="请输入验证码"
+            android:maxLength="6"
             android:inputType="number"
             android:textSize="14dp" />
 
