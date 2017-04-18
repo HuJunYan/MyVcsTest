@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -67,6 +68,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmProtocol;
 
     private OrderConfirmBean mOrderConfirmBean;
+
+    private boolean mIsTimeOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,11 +235,14 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     EventBus.getDefault().post(new ApplyEvent());
                     gotoActivity(mContext, MainActivity.class, null);
                 }
+                mIsTimeOut= false;
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
+                mIsTimeOut= true;
                 tvConfirmApply.setEnabled(false);
+                tvConfirmMoneyBack.setEnabled(false);
                 new Handler().postDelayed(new Runnable(){
                     public void run() {
                         EventBus.getDefault().post(new TimeOutEvent());
@@ -256,6 +262,17 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURL);
         gotoActivity(mContext, WebActivity.class, bundle);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsTimeOut) {
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }
