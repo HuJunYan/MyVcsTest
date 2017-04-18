@@ -28,27 +28,22 @@ public class Order extends NetBase {
         mUrl = NetConstantValue.getWithdrawalsApplyURL();
     }
 
-    public void order(JSONObject jsonObject, View view , final BaseNetCallBack<PostDataBean> callBack) {
-        try {
-            mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
-            if (mJSONObject == null) {
-                return;
-            }
-            getDataFromServerByPost(mUrl, mJSONObject, view, true, new CallBack() {
-                @Override
-                public void onSuccess(String result, String url) {
-                    successHandle(result, url, callBack);
-                }
-
-                @Override
-                public void onFailure(String result, int errorType, int errorCode) {
-                    failureHandle(result, errorType, errorCode, callBack);
-                }
-            });
-        } catch (Exception e) {
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            e.printStackTrace();
+    public void order(JSONObject jsonObject, View view, final BaseNetCallBack<PostDataBean> callBack) {
+        mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
+        if (mJSONObject == null) {
+            return;
         }
+        getDataFromServerByPost(mUrl, mJSONObject, view, true, new CallBack() {
+            @Override
+            public void onSuccess(String result, String url) {
+                successHandle(result, url, callBack);
+            }
+
+            @Override
+            public void onFailure(String result, int errorType, int errorCode) {
+                failureHandle(result, errorType, errorCode, callBack);
+            }
+        });
     }
 
     private void successHandle(String result, String url, BaseNetCallBack<PostDataBean> callBack) {
@@ -57,6 +52,7 @@ public class Order extends NetBase {
     }
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
+        callBack.onFailure(mUrl, errorType, errorCode);
     }
 
 }

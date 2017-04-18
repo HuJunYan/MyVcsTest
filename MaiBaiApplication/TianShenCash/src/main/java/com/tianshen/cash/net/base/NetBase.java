@@ -16,6 +16,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.utils.LogUtil;
@@ -169,7 +170,12 @@ public class NetBase {
             }
 
             public void onFailure(HttpException e, String m) {
-                ToastUtil.showToast(NetBase.this.mContext, MemoryAddressUtils.ServiceFaile());
+                //如果是下单页面就不弹出来错误toast, 调用这个接口服务器会超时
+                // (暂时服务器不处理)呵呵哒
+                String withdrawalsApplyURL = NetConstantValue.getWithdrawalsApplyURL();
+                if (!withdrawalsApplyURL.equals(url)) {
+                    ToastUtil.showToast(NetBase.this.mContext, MemoryAddressUtils.ServiceFaile());
+                }
                 if (view != null) {
                     view.setEnabled(true);
                 }

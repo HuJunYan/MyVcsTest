@@ -63,22 +63,22 @@ public class Repayment extends NetBase {
             if (mJSONObject == null) {
                 return;
             }
-
-            getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
-                @Override
-                public void onSuccess(String result, String url) {
-                    successHandle(result, url, mResponseCallBack);
-                }
-
-                @Override
-                public void onFailure(String result, int errorType, int errorCode) {
-                    failureHandle(result, errorType, errorCode, mResponseCallBack);
-                }
-            });
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             e.printStackTrace();
         }
+        getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
+            @Override
+            public void onSuccess(String result, String url) {
+                successHandle(result, url, mResponseCallBack);
+            }
+
+            @Override
+            public void onFailure(String result, int errorType, int errorCode) {
+                failureHandle(result, errorType, errorCode, mResponseCallBack);
+            }
+        });
+
     }
 
     private void successHandle(String result, String url, BaseNetCallBack<ResponseBean> mResponseCallBack) {
@@ -96,16 +96,7 @@ public class Repayment extends NetBase {
     }
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<ResponseBean> mResponseCallBack) {
-        try {
-            if (isRelease) {
-                mResponseCallBack.onFailure(result, errorType, errorCode);
-            } else {
-                mResponseCallBack.onSuccess(test());
-            }
-        } catch (Exception e) {
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            e.printStackTrace();
-        }
+        mResponseCallBack.onFailure(result, errorType, errorCode);
     }
 
     private ResponseBean test() {

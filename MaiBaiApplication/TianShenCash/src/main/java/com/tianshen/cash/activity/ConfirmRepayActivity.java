@@ -12,6 +12,7 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.RepayEvent;
+import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.ConsumeDataBean;
 import com.tianshen.cash.model.InstallmentHistoryBean;
 import com.tianshen.cash.model.RepayInfoBean;
@@ -226,10 +227,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             getRepayInfo.repayment(jsonObject, null, true, 5, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                    if (paramT.getCode() == 0) {
-                        EventBus.getDefault().post(new RepayEvent());
-                        backActivity();
-                    }
+                    EventBus.getDefault().post(new RepayEvent());
+                    backActivity();
                 }
 
                 @Override

@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
+import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.User;
@@ -185,10 +187,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 //                "black_box": "指纹黑盒数据，同盾指纹，android和ios必传，h5不传",
 //                "push_id": "推送消息id，android必传，ios和h5不传",
 //                "repay_id":"选择的产品id,如果是掌众写0,注意：该字段是selWithdrawals接口的data.id值"
-
+        JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject jsonObject = new JSONObject();
-
 
             User user = TianShenUserUtil.getUser(mContext);
 
@@ -221,25 +221,31 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("black_box", black_box);
             jsonObject.put("push_id", jpush_id);
             jsonObject.put("repay_id", repay_id);
-
-            final Order order = new Order(mContext);
-            order.order(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
-                @Override
-                public void onSuccess(PostDataBean paramT) {
-                    if (paramT.getCode() == 0) {
-                        EventBus.getDefault().post(new ApplyEvent());
-                        gotoActivity(mContext, MainActivity.class, null);
-                    }
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-
-                }
-            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        final Order order = new Order(mContext);
+        order.order(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                if (paramT.getCode() == 0) {
+                    EventBus.getDefault().post(new ApplyEvent());
+                    gotoActivity(mContext, MainActivity.class, null);
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                tvConfirmApply.setEnabled(false);
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                        EventBus.getDefault().post(new TimeOutEvent());
+                        gotoActivity(mContext, MainActivity.class, null);
+                    }
+                }, 2500);
+            }
+        });
+
     }
 
     /**
