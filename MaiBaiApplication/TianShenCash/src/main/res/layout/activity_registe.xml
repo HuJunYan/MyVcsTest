@@ -23,7 +23,7 @@
         <com.tianshen.cash.view.MyEditText
             android:layout_marginTop="20dp"
             android:id="@+id/et_mobile"
-
+            app:maxLength="11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:promp="手机号码"
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             app:hint="请输入验证码"
             app:promp="验证码    "
+            app:maxLength="6"
             app:rt_text="获取验证码"
             app:inputType="number"
             />
@@ -44,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:promp="设置密码"
+            app:maxLength="18"
             app:hint="请设置6~18位登录密码"
             />
 
@@ -52,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            app:hint="请再次输入密码"
+            app:maxLength="18"
             app:promp="重复密码"
 
             />
