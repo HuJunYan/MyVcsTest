@@ -1,0 +1,4 @@
+应用名：天神贷
+包名：com.tianshen.cash
+密码：tianshen2017
+Alias: tianshencash

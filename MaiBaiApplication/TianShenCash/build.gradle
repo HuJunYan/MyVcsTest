@@ -9,18 +9,18 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 102
+        versionName "1.0.2"
         multiDexEnabled true
         resConfigs "zh","en"
     }
     signingConfigs {
         releaseConfig {
-            keyAlias 'maibeicash'
-            keyPassword 'maibei2016'
+            keyAlias 'tianshencash'
+            keyPassword 'tianshen2017'
 //            storeFile file('/Users/crslljj/workspace/maibeiWorkspace/MaiBai/doc/jks/maibei_cash/maibeicash.jks')
-            storeFile file('../../doc/jks/maibei_cash/maibeicash.jks')
-            storePassword 'maibei2016'
+            storeFile file('../../doc/jks/tianshen_cash/tianshencash.jks')
+            storePassword 'tianshen2017'
         }
     }
     buildTypes {
@@ -35,6 +35,9 @@ android {
 
 
         release {
+            resValue "string", "githash", gitHash
+            resValue "string", "build_time", buildTime
+
             signingConfig signingConfigs.releaseConfig
             minifyEnabled false
 //            zipAlignEnabled true
@@ -44,7 +47,7 @@ android {
     }
 
     productFlavors {
-        baidu {}
+        ceshi {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -56,8 +59,7 @@ android {
             def oldFile = output.outputFile
             def newName = '';
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'MaiBeiCash' + '_' + variant.productFlavors[0].name + '_r1.0.1_201701172325_release.apk'
-//                def releaseApkName = 'MaiBeiUser' + '_' + variant.productFlavors[0].name + 'r2.0.0_20161026_debug.apk'
+                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_1-0-2_04051619.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
@@ -93,7 +95,7 @@ dependencies {
     compile files('libs/jpush-android-2.1.7.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile files('libs/zmxySDKALCmini_V1.01450366738902_release.jar')
-    compile files('libs/baidumapapi_base_v4_0_0.jar')
+    compile files('libs/ceshimapapi_base_v4_0_0.jar')
     //butterknife
     compile 'com.jakewharton:butterknife:8.5.1'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'

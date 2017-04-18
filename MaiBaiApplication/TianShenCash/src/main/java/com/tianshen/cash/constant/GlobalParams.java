@@ -5,7 +5,7 @@ public class GlobalParams {
 	public static final String APP_ID_WX_PAY="wx16a8376c4c40638d";
 
 	// 整型常量
-	public static final int CHANNEL_ID = 2006;
+	public static final int CHANNEL_ID = 1;
 	public static final int IMG_WIDTH=216;
 	public static final int IMG_HEIGHT=172;
 
