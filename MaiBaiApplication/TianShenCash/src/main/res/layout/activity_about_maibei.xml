@@ -56,5 +56,12 @@
         app:setting_tv_content="分辨率"
         app:setting_tv_right="测试"
         ></com.tianshen.cash.view.MyTextView>
-
+    <com.tianshen.cash.view.MyTextView
+        android:id="@+id/mtv_test_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:setting_tv_content="测试版本"
+        android:visibility="gone"
+        app:setting_tv_right="测试版本"
+        ></com.tianshen.cash.view.MyTextView>
 </LinearLayout>

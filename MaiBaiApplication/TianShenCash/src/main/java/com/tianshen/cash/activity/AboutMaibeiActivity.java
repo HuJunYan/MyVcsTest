@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
+
+import com.tianshen.cash.BuildConfig;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -25,7 +27,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
 
     private int width = 0, height = 0;
     private TextView tv_code;
-    private MyTextView mtv_check_code, mtv_service, mtv_resolve;
+    private MyTextView mtv_check_code, mtv_service, mtv_resolve,mtv_test_version;
     private UpdateManager mUpdateManager;
 
     @Override
@@ -52,6 +54,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         mtv_check_code = (MyTextView) findViewById(R.id.mtv_check_code);
         mtv_service = (MyTextView) findViewById(R.id.mtv_service);
         mtv_resolve = (MyTextView) findViewById(R.id.mtv_resolve);
+        mtv_test_version = (MyTextView) findViewById(R.id.mtv_test_version);
     }
 
     @Override
@@ -93,6 +96,13 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         }
         mtv_resolve.setTv_right(width + "*" + height);
         tv_code.setText("当前版本 " + getVersion());
+
+        if (BuildConfig.DEBUG) {
+            mtv_test_version.setVisibility(View.VISIBLE);
+            mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
+        }else {
+            mtv_test_version.setVisibility(View.GONE);
+        }
     }
     /**
      * 检测更新

@@ -24,6 +24,16 @@ android {
         }
     }
     buildTypes {
+
+        def gitHash = "git rev-parse --short HEAD".execute().text.trim()
+        def buildTime = new Date().format("yyyy-MM-dd HH:mm")
+
+        debug {
+            resValue "string", "githash", gitHash
+            resValue "string", "build_time", buildTime
+        }
+
+
         release {
             signingConfig signingConfigs.releaseConfig
             minifyEnabled false
