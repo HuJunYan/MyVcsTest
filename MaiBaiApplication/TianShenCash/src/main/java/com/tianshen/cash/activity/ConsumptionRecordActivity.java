@@ -119,7 +119,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
                     if (isClear) {
                         withdrawalsRecordItemBeanList.clear();
                     }
-                    withdrawalsRecordItemBeanList.addAll(paramT.getData());
+                    withdrawalsRecordItemBeanList.addAll(paramT.getData().getList());
                     borrowBillAdapter.notifyDataSetChanged();
                     borrow_bill_init=false;
                     new Timer().schedule(new TimerTask() {

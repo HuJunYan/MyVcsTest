@@ -83,8 +83,6 @@ public class GetWithdrawalsRecord extends NetBase {
             if (isRelease) {
                 WithdrawalsRecordBean mWithdrawalsRecordBean = (WithdrawalsRecordBean) GsonUtil.json2bean(result, WithdrawalsRecordBean.class);
                 mWithdrawalsRecordCallBack.onSuccess(mWithdrawalsRecordBean);
-            } else {
-                mWithdrawalsRecordCallBack.onSuccess(test());
             }
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
@@ -96,8 +94,6 @@ public class GetWithdrawalsRecord extends NetBase {
         try {
             if (isRelease) {
                 mWithdrawalsRecordCallBack.onFailure(result, errorType, errorCode);
-            } else {
-                mWithdrawalsRecordCallBack.onSuccess(test());
             }
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
@@ -105,64 +101,4 @@ public class GetWithdrawalsRecord extends NetBase {
         }
     }
 
-    private WithdrawalsRecordBean test() {
-        if (mJSONObject == null) {
-            throw new RuntimeException("jsonObject is null");
-        }
-        String customer_id = "";
-        try {
-            customer_id = mJSONObject.getString("customer_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (customer_id == null || "".equals(customer_id)) {
-            throw new RuntimeException("customer_id is null");
-        }
-
-        String offset = "";
-        try {
-            offset = mJSONObject.getString("offset");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (offset == null || "".equals(offset)) {
-            throw new RuntimeException("offset is null");
-        }
-
-        String length = "";
-        try {
-            length = mJSONObject.getString("length");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (length == null || "".equals(length)) {
-            throw new RuntimeException("length is null");
-        }
-
-
-        WithdrawalsRecordBean mWithdrawalsRecordBean = new WithdrawalsRecordBean();
-        mWithdrawalsRecordBean.setCode(0);
-        mWithdrawalsRecordBean.setMsg("GetWithdrawalsRecord in success");
-        int max = 0;
-        if (Integer.parseInt(offset, 10) + Integer.parseInt(length, 10) > 200) {
-            max = 200;
-        } else {
-            max = Integer.parseInt(offset, 10) + Integer.parseInt(length, 10);
-        }
-
-        mWithdrawalsRecordBean.setOffset(offset);
-        mWithdrawalsRecordBean.setLength(length);
-        for (int i = Integer.parseInt(offset); i < max; i++) {
-            WithdrawalsRecordItemBean withdrawalsRecordItemBean = new WithdrawalsRecordItemBean();
-            withdrawalsRecordItemBean.setConsume_id((1000 - i) + "");
-            int amount = ((int) (Math.random() * 30))*10000 + 100000;
-            withdrawalsRecordItemBean.setAmount(amount+"");
-            withdrawalsRecordItemBean.setConsume_time("2016-07-10 08:08:08");
-            int repay_times = ((int) (Math.random() * 10)) + 3;
-            withdrawalsRecordItemBean.setRepay_times(repay_times+"");
-            mWithdrawalsRecordBean.getData().add(withdrawalsRecordItemBean);
-        }
-
-        return mWithdrawalsRecordBean;
-    }
 }
