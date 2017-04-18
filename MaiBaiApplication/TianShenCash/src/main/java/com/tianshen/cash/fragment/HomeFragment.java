@@ -330,6 +330,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     showNoPayUI();
                     refreshLoanDayUI();
                     refreshBubbleSeekBarUI();
+                    refreshLoanNumUI(minMaxSb.getMinMaxSeekBarCurrentProgress());
                 }
 
                 @Override
@@ -690,7 +691,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String unit = mSelWithdrawalsBean.getUnit();
             String unitY = MoneyUtils.changeF2Y(unit);
             int unitInt = Integer.valueOf(unitY);
-
+            if (max_cashInt <= min_cashInt) {
+                minMaxSb.setEnabled(false);
+            } else {
+                minMaxSb.setEnabled(true);
+            }
             tvHomeMinSb.setText(min_cashInt + "元");
             tvHomeMaxSb.setText(max_cashInt + "元");
             minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);

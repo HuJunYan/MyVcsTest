@@ -103,11 +103,11 @@ public class MinMaxSeekBar extends SeekBar implements OnSeekBarChangeListener {
             throw new SeekBarStepException("step = " + step + " < 0");
             // return false;
         }
-        float value = (max - min);
-        if (value <= 0) {
-            throw new SeekBarStepException("max = " + max + " < min = " + min);
-
-        }
+//        float value = (max - min);
+//        if (value <= 0) {
+//            throw new SeekBarStepException("max = " + max + " < min = " + min);
+//
+//        }
 
 //        if (value <= step) {
 //            String str = "Distance of min & max is less than step.\n";
