@@ -137,9 +137,11 @@ public class NetBase {
                         JSONObject jsonObject = new JSONObject(result);
                         final String msg = jsonObject.optString("msg", "");
                         final int code = jsonObject.optInt("code", 0);
+                        if (code != 0) {
+                            ToastUtil.showToast(mContext, msg);
+                        }
                         switch (code) {
                             case -2:
-                                ToastUtil.showToast(mContext, msg);
                                 finishActivityAndGotoLoginActivity();
                                 break;
                         }

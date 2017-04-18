@@ -120,7 +120,6 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-                    ToastUtil.showToast(mContext, "验证码发送失败");
                     et_get_verification.finishTimer();
                 }
             });
