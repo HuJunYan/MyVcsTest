@@ -19,6 +19,7 @@ import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.net.api.GetWithdrawalsRecord;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.XListView;
 
 import org.json.JSONException;
@@ -29,7 +30,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 /*
 * 消费记录
 * */
@@ -108,7 +108,8 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
             jsonObject.put("offset", isClear ? "0" : withdrawalsRecordItemBeanList.size() + "");
             jsonObject.put("length", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH);
             GetWithdrawalsRecord getWithdrawalsRecord=new GetWithdrawalsRecord(mContext);
