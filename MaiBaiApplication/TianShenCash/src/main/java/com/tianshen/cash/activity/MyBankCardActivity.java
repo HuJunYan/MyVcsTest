@@ -26,6 +26,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TelephoneScreenChangeUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -91,7 +92,8 @@ public class MyBankCardActivity extends BaseActivity implements View.OnClickList
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {
