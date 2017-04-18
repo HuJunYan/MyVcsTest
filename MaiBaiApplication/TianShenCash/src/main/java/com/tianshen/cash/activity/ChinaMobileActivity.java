@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -112,4 +113,22 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            boolean canGoBack = wvChinaMobile.canGoBack();
+            if (canGoBack) {
+                wvChinaMobile.goBack();
+            } else {
+                backActivity();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
 }
