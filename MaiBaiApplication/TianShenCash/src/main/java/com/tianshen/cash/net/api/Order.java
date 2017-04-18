@@ -2,6 +2,7 @@ package com.tianshen.cash.net.api;
 
 
 import android.content.Context;
+import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.PostDataBean;
@@ -27,13 +28,13 @@ public class Order extends NetBase {
         mUrl = NetConstantValue.getWithdrawalsApplyURL();
     }
 
-    public void order(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
+    public void order(JSONObject jsonObject, View view , final BaseNetCallBack<PostDataBean> callBack) {
         try {
             mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
             if (mJSONObject == null) {
                 return;
             }
-            getDataFromServerByPost(mUrl, mJSONObject, null, true, new CallBack() {
+            getDataFromServerByPost(mUrl, mJSONObject, view, true, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {
                     successHandle(result, url, callBack);

@@ -223,7 +223,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("repay_id", repay_id);
 
             final Order order = new Order(mContext);
-            order.order(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            order.order(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
                     if (paramT.getCode() == 0) {
