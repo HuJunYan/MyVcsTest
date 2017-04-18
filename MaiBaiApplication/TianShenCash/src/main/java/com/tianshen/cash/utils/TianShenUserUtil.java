@@ -188,6 +188,32 @@ public class TianShenUserUtil {
     }
 
     /**
+     * 得到服务电话
+     */
+    public static String getServiceTelephone(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
+            return user.get(0).getService_telephone();
+        }
+        return "";
+    }
+
+    /**
+     * 得到微信号
+     */
+    public static String getWeiXin(Context context) {
+        LiteOrm liteOrm = DBManager.getInstance(context.getApplicationContext()).getLiteOrm();
+        boolean mIsLogin = isLogin(context);
+        if (mIsLogin) {
+            ArrayList<User> user = liteOrm.query(User.class);
+            return user.get(0).getWechat_id();
+        }
+        return "";
+    }
+
+    /**
      * 清除之前借款存储的一些信息
      */
     public static void clearMoneyStatus(Context context) {

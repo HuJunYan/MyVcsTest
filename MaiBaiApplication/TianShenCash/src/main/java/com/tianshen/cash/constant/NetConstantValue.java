@@ -556,4 +556,11 @@ public class NetConstantValue {
         return COMMONURI + "Order/iKnow";
     }
 
+    /**
+     * 得到公司信息
+     */
+    public static String getCompanyInformationUrl() {
+        return COMMONURI + "Customer/companyInformation";
+    }
+
 }

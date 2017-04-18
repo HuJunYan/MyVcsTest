@@ -20,11 +20,19 @@ import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.model.CompanyInfoBean;
+import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.User;
+import com.tianshen.cash.net.api.GetCompayInfo;
+import com.tianshen.cash.net.api.IKnow;
+import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -77,6 +85,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             refreshUI();
+            initCompanyInfo();
         }
     }
 
@@ -153,18 +162,54 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    private void showMyKefu(){
+
+    /**
+     * 得到公司信息
+     */
+    private void initCompanyInfo() {
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final GetCompayInfo getCompayInfo = new GetCompayInfo(mContext);
+        getCompayInfo.compayInfo(jsonObject, rlMeTianshenService, true, new BaseNetCallBack<CompanyInfoBean>() {
+
+            @Override
+            public void onSuccess(CompanyInfoBean paramT) {
+                String wechatId = paramT.getData().getWechat_id();
+                String service_telephone = paramT.getData().getService_telephone();
+                User user = TianShenUserUtil.getUser(mContext);
+                user.setService_telephone(service_telephone);
+                user.setWechat_id(wechatId);
+                TianShenUserUtil.saveUser(mContext, user);
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+    }
+
+    private void showMyKefu() {
         final Dialog dialog = new AlertDialog.Builder(mContext, R.style.withdrawals_diaog).create();
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_dialog_mykefu, null);
-        TextView tv_cancel=(TextView)view.findViewById(R.id.tv_cancel);
-        TextView tv_call=(TextView)view.findViewById(R.id.tv_call);
+        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        TextView tv_call = (TextView) view.findViewById(R.id.tv_call);
+        TextView tv_dialog_service_phone = (TextView) view.findViewById(R.id.tv_dialog_service_phone);
+
+        final String serviceTelephone = TianShenUserUtil.getServiceTelephone(mContext);
+        tv_dialog_service_phone.setText(serviceTelephone);
 
         tv_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
                 new GetTelephoneUtils(mContext).changeLight();
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:13001137644"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + serviceTelephone));
                 startActivity(intent);
             }
         });

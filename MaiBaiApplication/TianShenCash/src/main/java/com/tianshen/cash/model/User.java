@@ -30,8 +30,27 @@ public class User {
     private String city;//城市
     private String country;//区域
     private String address;//详细地址
+    private String service_telephone; //服务电话
+    private String wechat_id; //微信号
+
     private boolean isClickedHomeGetMoneyButton;//用户是否点过放款确认按钮
     private boolean isClickedHomeRePayMoneyButton;//用户是否点过还款确认按钮
+
+    public String getService_telephone() {
+        return service_telephone;
+    }
+
+    public void setService_telephone(String service_telephone) {
+        this.service_telephone = service_telephone;
+    }
+
+    public String getWechat_id() {
+        return wechat_id;
+    }
+
+    public void setWechat_id(String wechat_id) {
+        this.wechat_id = wechat_id;
+    }
 
     public String getCustomer_id() {
         return customer_id;
