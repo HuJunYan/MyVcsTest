@@ -43,7 +43,8 @@ public class PermissionUtils {
         GetPermissionHint getPermissionHint=new GetPermissionHint(mContext);
         try{
             JSONObject json=new JSONObject();
-            json.put("customer_id", UserUtil.getId(mContext));
+            String userId = TianShenUserUtil.getUserId(mContext);
+            json.put("customer_id", userId);
             json.put("permission_type",type+"");
             json.put("device_id",UserUtil.getDeviceId(mContext));
             json.put("device_os","android");
