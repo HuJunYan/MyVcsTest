@@ -170,6 +170,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_info_work_num"
             android:background="@null"
+            android:maxLength="11"
             android:hint="请输入您的单位电话"
             android:inputType="phone"
             android:textSize="14dp" />
