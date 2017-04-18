@@ -103,7 +103,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_china_mobile_back:
-                backActivity();
+                boolean canGoBack = wvChinaMobile.canGoBack();
+                if (canGoBack) {
+                    wvChinaMobile.goBack();
+                } else {
+                    backActivity();
+                }
                 break;
         }
     }
