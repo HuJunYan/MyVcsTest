@@ -49,6 +49,7 @@ import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.TimeOutEvent;
+import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.PostDataBean;
@@ -954,6 +955,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onTimeOut(TimeOutEvent event) {
         LogUtil.d("abc", "收到了超时的消息--刷新UI");
+        initUserConfig();
+    }
+
+    /**
+     * 收到了极光推送过来的消息
+     */
+    @Subscribe
+    public void onUserConfigChangedEvent(UserConfigChangedEvent event) {
+        LogUtil.d("abc", "收到了极光推送的消息--刷新UI");
         initUserConfig();
     }
 

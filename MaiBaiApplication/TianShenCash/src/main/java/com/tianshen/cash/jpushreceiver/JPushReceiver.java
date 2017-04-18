@@ -7,18 +7,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.model.JpushAddBorrowTermBean;
-import com.tianshen.cash.model.JpushLotOfVerifyStatusBean;
-import com.tianshen.cash.model.OrderRefreshBean;
-import com.tianshen.cash.model.WithdrawalsRefreshBean;
+import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.net.api.JpushHandle;
 import com.tianshen.cash.net.base.JpushCallBack;
-import com.tianshen.cash.net.base.UserUtil;
-import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
-import com.tianshen.cash.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -31,10 +27,6 @@ public class JPushReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         mContext = context;
 
-        LogUtil.d("abc","JPush-id->"+JPushInterface.getRegistrationID(context));
-        LogUtil.d("abc","JPush-userid->"+TianShenUserUtil.getUserId(context));
-        LogUtil.d("abc","JPush-EXTRA_EXTRA->"+JPushInterface.EXTRA_EXTRA);
-        ToastUtil.showToast(mContext,"收到了推送~~~");
         if (intent == null) {
             return;
         }
@@ -59,21 +51,8 @@ public class JPushReceiver extends BroadcastReceiver {
                     public void onResult(int type, Object object) {
                         switch (type) {
                             case GlobalParams.VERIFY_FINISHED:
-                                sendVerifyFinishedBroadCast(GlobalParams.VERIFY_FINISHED_ACTION, (OrderRefreshBean)object);
-                                break;
-                            case GlobalParams.WITHDRAWALS_VERIFY_FINISHED:
-                                sendWithdrawalsVerifyFinishedBroadCast(GlobalParams.WITHDRAWALS_VERIFY_FINISHED_ACTION, (WithdrawalsRefreshBean)object);
-                                break;
-                            case GlobalParams.UPDATE_LOG_STATUS:
-//                                        ToastUtil.showToast(mContext,"接收到请求，即将执行日志上传");
-                                UserUtil.setLogStatus(context,GlobalParams.LOG_STATUS_NEED_UPLOAD);
-                                uploadLog(context);
-                                break;
-                            case GlobalParams.A_LOT_OF_VERIFY: // 各种审核状态
-                                sendLotOfVerifyStatusBroadCast(GlobalParams.LOT_OF_VERIFY_STATUE_ACTION, (JpushLotOfVerifyStatusBean)object);
-                                break;
-                            case GlobalParams.ADD_BORROW_TERM: // 延长借款期限
-                                sendAddBorrowTermBroadCast(GlobalParams.ADD_BORROW_TERM_KEY_ACTION, (JpushAddBorrowTermBean)object);
+                                // 1
+                                EventBus.getDefault().post(new UserConfigChangedEvent());
                                 break;
                             default:
                                 break;
@@ -86,48 +65,5 @@ public class JPushReceiver extends BroadcastReceiver {
                 LogUtil.e("error", LogUtil.getException(e));
             }
         }
-    }
-
-    private void uploadLog(Context context){
-        if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
-            Intent intent = new Intent(context, UploadLogService.class);
-            context.startService(intent);
-        }
-    }
-
-    private void sendVerifyFinishedBroadCast(String action, OrderRefreshBean orderRefreshBean){
-        Intent intent=new Intent();
-        intent.setAction(action);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(GlobalParams.VERIFY_FINISHED_KEY, orderRefreshBean);
-        intent.putExtras(bundle);
-        mContext.sendBroadcast(intent);
-    }
-
-    private void sendWithdrawalsVerifyFinishedBroadCast(String action, WithdrawalsRefreshBean withdrawalsRefreshBean){
-        Intent intent=new Intent();
-        intent.setAction(action);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(GlobalParams.WITHDRAWALS_VERIFY_FINISH_KEY, withdrawalsRefreshBean);
-        intent.putExtras(bundle);
-        mContext.sendBroadcast(intent);
-    }
-
-    private void sendLotOfVerifyStatusBroadCast(String action, JpushLotOfVerifyStatusBean jpushLotOfVerifyStatusBean){
-        Intent intent=new Intent();
-        intent.setAction(action);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(GlobalParams.LOT_OF_VERIFY_STATUE_KEY, jpushLotOfVerifyStatusBean);
-        intent.putExtras(bundle);
-        mContext.sendBroadcast(intent);
-    }
-
-    private void sendAddBorrowTermBroadCast(String action, JpushAddBorrowTermBean jpushAddBorrowTermBean){
-        Intent intent=new Intent();
-        intent.setAction(action);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(GlobalParams.ADD_BORROW_TERM_KEY, jpushAddBorrowTermBean);
-        intent.putExtras(bundle);
-        mContext.sendBroadcast(intent);
     }
 }
