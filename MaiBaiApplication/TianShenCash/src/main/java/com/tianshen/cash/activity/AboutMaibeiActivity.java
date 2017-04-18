@@ -18,16 +18,18 @@ import com.tianshen.cash.net.api.CheckUpgrade;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyTextView;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 
-public class AboutMaibeiActivity extends BaseActivity implements View.OnClickListener ,UpdateManager.Control{
+public class AboutMaibeiActivity extends BaseActivity implements View.OnClickListener, UpdateManager.Control {
 
     private int width = 0, height = 0;
     private TextView tv_code;
-    private MyTextView mtv_check_code, mtv_service, mtv_resolve,mtv_test_version;
+    private MyTextView mtv_check_code, mtv_service, mtv_resolve, mtv_test_version, mtv_weixin_num;
     private UpdateManager mUpdateManager;
 
     @Override
@@ -37,8 +39,8 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         width = metric.widthPixels;  // 宽度（PX）
         height = metric.heightPixels;  // 高度（PX）
-        if(!NetConstantValue.checkIsReleaseService()){
-            ToastUtil.showToast(mContext,UserUtil.getId(mContext)+"");
+        if (!NetConstantValue.checkIsReleaseService()) {
+            ToastUtil.showToast(mContext, UserUtil.getId(mContext) + "");
         }
         initData();
     }
@@ -55,6 +57,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         mtv_service = (MyTextView) findViewById(R.id.mtv_service);
         mtv_resolve = (MyTextView) findViewById(R.id.mtv_resolve);
         mtv_test_version = (MyTextView) findViewById(R.id.mtv_test_version);
+        mtv_weixin_num = (MyTextView) findViewById(R.id.mtv_weixin_num);
     }
 
     @Override
@@ -88,10 +91,9 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void initData() {
-        if(NetConstantValue.checkIsReleaseService()) {
+        if (NetConstantValue.checkIsReleaseService()) {
             mtv_service.setTv_right("正式");
-        }
-        else{
+        } else {
             mtv_service.setTv_right("测试");
         }
         mtv_resolve.setTv_right(width + "*" + height);
@@ -100,10 +102,14 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         if (BuildConfig.DEBUG) {
             mtv_test_version.setVisibility(View.VISIBLE);
             mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
-        }else {
+        } else {
             mtv_test_version.setVisibility(View.GONE);
         }
+
+        String weiXin = TianShenUserUtil.getWeiXin(mContext);
+        mtv_weixin_num.setTv_right(weiXin);
     }
+
     /**
      * 检测更新
      */
@@ -114,7 +120,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         try {
             mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
-            mjson.put("device_id",UserUtil.getDeviceId(mContext));
+            mjson.put("device_id", UserUtil.getDeviceId(mContext));
             mjson.put("channel_id", GlobalParams.CHANNEL_ID);
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
