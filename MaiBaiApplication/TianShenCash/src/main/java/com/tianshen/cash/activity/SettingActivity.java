@@ -86,11 +86,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private void logout() {
         try {
             boolean login = TianShenUserUtil.isLogin(mContext);
-            String customerId = TianShenUserUtil.getUserId(mContext);
             if (!login) {
                 ToastUtil.showToast(mContext, "您未登录，无需退出", Toast.LENGTH_SHORT);
                 return;
             }
+            String customerId = TianShenUserUtil.getUserId(mContext);
             Logout logout = new Logout(mContext);
             JSONObject json = new JSONObject();
             json.put("customer_id", customerId);
