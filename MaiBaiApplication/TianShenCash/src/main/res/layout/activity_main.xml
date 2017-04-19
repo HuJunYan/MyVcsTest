@@ -9,17 +9,16 @@
     <RadioGroup
         android:id="@+id/rg_control_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_withdrawals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/get_red_package_select"
             android:button="@null"
@@ -30,6 +29,7 @@
             android:id="@+id/rb_my"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/radio_tab_my"
             android:button="@null"
