@@ -47,6 +47,7 @@ import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.event.QuotaEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
@@ -71,6 +72,7 @@ import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.UploadToServerUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.view.MinMaxSeekBar;
 import com.tianshen.user.idcardlibrary.util.Util;
@@ -194,8 +196,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private Dialog mVerifyCodeDialog;
 
     private String mCurrentOrderMoney;
-
     private String mVerifyCodeType;
+
+    private boolean mQuotaFlag; //只有页面正在显示的时候收到此消息才强制跳转到下单页面
+
+    private UploadToServerUtil mUploadToServerUtil;
 
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
@@ -288,6 +293,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mQuotaFlag = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mQuotaFlag = false;
+    }
+
+
     /**
      * 点击了立即申请按钮
      */
@@ -310,7 +328,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUser(mContext, user);
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
-            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+            uploadContacts();
         } else {//没有认证完毕跳转到认证中心页面
             Bundle applyBundle = new Bundle();
             applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
@@ -318,6 +336,52 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 
     }
+
+    /**
+     * 上传联系人&通信录
+     */
+    private void uploadContacts() {
+        mUploadToServerUtil = new UploadToServerUtil(mContext);
+        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
+        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLRECORD);
+    }
+
+    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
+
+        @Override
+        public void uploadSuccessCallBack(int type) {
+            //上传通讯录、通话记录、短信等的回调
+            switch (type) {
+                case GlobalParams.UPLOADCALLCONTACTS:
+                    //上传联系人成功
+                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    break;
+                case GlobalParams.UPLOADCALLRECORD:
+                    //上传通话记录成功
+                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
+                    break;
+                case GlobalParams.UPLOADMESSAGE:
+                    //上传短信成功
+                    break;
+            }
+        }
+
+        @Override
+        public void uploadFailCallBack(int type) {
+            switch (type) {
+                case GlobalParams.UPLOADCALLCONTACTS:
+                    //上传联系人失败
+                    break;
+                case GlobalParams.UPLOADCALLRECORD:
+                    //上传通话记录失败
+                    break;
+                case GlobalParams.UPLOADMESSAGE:
+                    //上传短信失败
+                    break;
+            }
+        }
+    }
+
 
     private void initSelWithdrawalsData() {
 
@@ -1060,5 +1124,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         LogUtil.d("abc", "收到了极光推送的消息--刷新UI");
         initUserConfig();
     }
+
+    /**
+     * 收到了强行跳转到下单页面
+     */
+    @Subscribe
+    public void onQuotaEvent(QuotaEvent event) {
+        LogUtil.d("abc", "收到了强行跳转到下单页面");
+        if (mQuotaFlag) {
+            tvHomeApply.performClick();
+        }
+    }
+
+
 
 }

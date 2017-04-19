@@ -19,6 +19,8 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
+import com.tianshen.cash.event.QuotaEvent;
+import com.tianshen.cash.fragment.HomeFragment;
 import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
@@ -26,8 +28,10 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.UploadToServerUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,10 +59,14 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
     private AuthCenterAdapter mAdapter;
 
+    private UploadToServerUtil mUploadToServerUtil;
+
     private UserAuthCenterBean mUserAuthCenterBean;
     private ArrayList<AuthCenterItemBean> mAuthCenterItemBeans;
 
     public static final int MSG_CLICK_ITEM = 1;
+
+    private boolean mQuotaFlag; //只有页面正在显示的时候收到此消息才强制跳转到下单页面
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
@@ -78,10 +86,18 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         mIsFromCard = getIntent().getExtras().getBoolean(GlobalParams.IS_FROM_CARD_KEY);
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mQuotaFlag = false;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         initAuthCenterData();
+        mQuotaFlag = true;
     }
 
     @Override
@@ -164,7 +180,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             backActivity();
         } else {
             if (mIsAllAuthOK) {
-                gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                uploadContacts();
             } else {
                 ToastUtil.showToast(mContext, "请先认证!");
             }
@@ -239,6 +255,51 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     /**
+     * 上传联系人&通信录
+     */
+    private void uploadContacts() {
+        mUploadToServerUtil = new UploadToServerUtil(mContext);
+        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
+        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLRECORD);
+    }
+
+    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
+
+        @Override
+        public void uploadSuccessCallBack(int type) {
+            //上传通讯录、通话记录、短信等的回调
+            switch (type) {
+                case GlobalParams.UPLOADCALLCONTACTS:
+                    //上传联系人成功
+                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    break;
+                case GlobalParams.UPLOADCALLRECORD:
+                    //上传通话记录成功
+                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
+                    break;
+                case GlobalParams.UPLOADMESSAGE:
+                    //上传短信成功
+                    break;
+            }
+        }
+
+        @Override
+        public void uploadFailCallBack(int type) {
+            switch (type) {
+                case GlobalParams.UPLOADCALLCONTACTS:
+                    //上传联系人失败
+                    break;
+                case GlobalParams.UPLOADCALLRECORD:
+                    //上传通话记录失败
+                    break;
+                case GlobalParams.UPLOADMESSAGE:
+                    //上传短信失败
+                    break;
+            }
+        }
+    }
+
+    /**
      * 得到初始化数据(从本地得到)
      */
     private ArrayList<AuthCenterItemBean> initXRecyclerviewData() {
@@ -296,4 +357,17 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         return authCenterItemBeans;
     }
+
+
+    /**
+     * 收到了强行跳转到下单页面
+     */
+    @Subscribe
+    public void onQuotaEvent(QuotaEvent event) {
+        LogUtil.d("abc", "收到了强行跳转到下单页面");
+        if (mQuotaFlag){
+            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+        }
+    }
+
 }

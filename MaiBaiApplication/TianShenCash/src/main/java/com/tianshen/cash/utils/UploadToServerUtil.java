@@ -59,7 +59,8 @@ public class UploadToServerUtil {
         GetLastSaveCallRecordTime getLastSaveCallRecordTime = new GetLastSaveCallRecordTime(mContext);
         final JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
             getLastSaveCallRecordTime.getLastSaveCallRecordTime(jsonObject, new BaseNetCallBack<LastSaveCallRecordTimeBean>() {
                 @Override
                 public void onSuccess(LastSaveCallRecordTimeBean lastSaveCallRecordTimeBean) {

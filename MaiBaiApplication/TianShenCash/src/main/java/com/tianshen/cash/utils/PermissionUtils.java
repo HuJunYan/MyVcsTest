@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.PermissionDialogAdapter;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.PayDataOKEvent;
+import com.tianshen.cash.event.QuotaEvent;
 import com.tianshen.cash.model.PermissionHintBean;
 import com.tianshen.cash.model.PermissionHintItemBean;
 import com.tianshen.cash.model.ResponseBean;
@@ -24,6 +26,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -100,8 +103,10 @@ public class PermissionUtils {
         Intent intent = new Intent();
         if (type == 0) {
             intent.setAction(GlobalParams.PASS_CALL_RECORD_ACTION);
+            EventBus.getDefault().post(new QuotaEvent());
         } else if (type == 1){
             intent.setAction(GlobalParams.PASS_CONTACT_ACTION);
+            EventBus.getDefault().post(new QuotaEvent());
         }
         mContext.sendBroadcast(intent);
     }
