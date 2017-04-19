@@ -252,6 +252,11 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 得到验证码
      */
     private void initSeverityCode() {
+        if (mBankListBean == null) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+
         BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
         String bank_name = itemBean.getBank_name(); //银行卡名字
         String bankId = itemBean.getBank_id();
