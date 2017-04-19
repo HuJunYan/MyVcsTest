@@ -136,9 +136,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
 
 
+
     private boolean isCanPressBack = true;
     private boolean mSaveIDCardFront; //是否上传身份证正面
-    private boolean mSaveIDCardBack;//是否上传了身份证背面
+
+    private boolean mCanScanFace;
 
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
@@ -213,6 +215,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        ViewUtil.cancelLoadingDialog();
+    }
+
+    @Override
     protected void setListensers() {
         etIdentityAuthName.setEnabled(false);
         etIdentityAuthNum.setEnabled(false);
@@ -230,7 +238,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_identity_post:
-                ToastUtil.showToast(mContext,"保存成功!");
+                ToastUtil.showToast(mContext, "保存成功!");
                 backActivity();
                 break;
             case R.id.iv_identity_auth_pic:
@@ -301,7 +309,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void onClickFace() {
         mIsClickPosition = 2;
         //判断没有上传身份证背面
-        if (!mSaveIDCardBack) {
+        if (!mCanScanFace) {
             ToastUtil.showToast(mContext, "先上传身份证");
             return;
         }
@@ -330,6 +338,15 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         ImageLoader.load(getApplicationContext(), front_idCard_url, ivIdentityAuthPic);
         ImageLoader.load(getApplicationContext(), back_idCard_url, ivIdentityAuthPic2);
         ImageLoader.load(getApplicationContext(), face_url, ivIdentityAuthFace);
+
+        if (!TextUtils.isEmpty(front_idCard_url) && !TextUtils.isEmpty(back_idCard_url)) {
+            mCanScanFace = true;
+        }
+        User user = TianShenUserUtil.getUser(mContext);
+        user.setName(real_name);
+        user.setId_num(id_num);
+        TianShenUserUtil.saveUser(mContext, user);
+
     }
 
     /**
@@ -369,6 +386,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 活体联网授权
      */
     private void livenessNetWorkWarranty() {
+        LogUtil.d("abc","livenessNetWorkWarranty");
         ViewUtil.createLoadingDialog(this, "正在联网授权", false);
         new Thread(new Runnable() {
             @Override
@@ -584,18 +602,29 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
     private void compareImage(String delta, MyMap map) {
         ImageVerifyRequestBean bean = new ImageVerifyRequestBean();
-
-
         User user = TianShenUserUtil.getUser(mContext);
         String name = user.getName();
         String id_num = user.getId_num();
-
+        byte[] headImage = getHeadImage();
         bean.name = name;
         bean.idcard = id_num;
-        bean.imageref = Utils.saveJPGFile(this, mHeadImg, "image_ref1");
+        bean.imageref = Utils.saveJPGFile(this, headImage, "image_ref1");
         bean.delta = delta;
         bean.images = map.getImages();
         imageVerify_2_noScanIDCard(bean);
+
+    }
+
+    /**
+     * 得到头像的byte[]
+     */
+    private byte[] getHeadImage() {
+        ivIdentityAuthPic.setDrawingCacheEnabled(true);//获取bm前执行，否则无法获取
+        Bitmap bitmap = ivIdentityAuthPic.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        ivIdentityAuthPic.setDrawingCacheEnabled(false);
+        return baos.toByteArray();
     }
 
 
@@ -739,14 +768,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void initSaveIDCardFront() {
 
 
-        //TODO 后续这段代码要放到下面成功的回调之中
-        User user = TianShenUserUtil.getUser(mContext);
-        user.setName(mIDCardBean.name);
-        user.setId_num(mIDCardBean.id_card_number);
-        TianShenUserUtil.saveUser(mContext, user);
 
-
-        String real_name = mIDCardBean.name; //身份证姓名
+        final String real_name = mIDCardBean.name; //身份证姓名
         String gender = mIDCardBean.gender; // 身份证性别
         String nation = mIDCardBean.race; // 民族
         IDCardBean.Birthday birthdayBean = mIDCardBean.birthday;
@@ -755,7 +778,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String day = birthdayBean.day;
         String birthday = year + month + day; //出生日期
         String birthplace = mIDCardBean.address; //住址
-        String id_num = mIDCardBean.id_card_number; // 身份证号
+        final String id_num = mIDCardBean.id_card_number; // 身份证号
 
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
@@ -778,6 +801,13 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 int code = paramT.getCode();
                 if (0 == code) {
                     mSaveIDCardFront = true;
+
+                    User user = TianShenUserUtil.getUser(mContext);
+                    user.setName(real_name);
+                    user.setId_num(id_num);
+                    TianShenUserUtil.saveUser(mContext, user);
+
+
                     ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
                 }
             }
@@ -814,7 +844,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (0 == code) {
-                    mSaveIDCardBack = true;
+                    mCanScanFace = true;
                     ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
                 }
             }
