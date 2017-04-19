@@ -19,16 +19,16 @@
     <TextView
         android:id="@+id/tv_home_confirm_money"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="80dp"
-        android:visibility="gone"
-        android:background="@drawable/confirm_money_style"
+        android:background="@drawable/shape_home_button2_border"
         android:gravity="center"
         android:text="我知道了"
         android:textColor="@color/global_txt_orange"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
 </LinearLayout>
 
