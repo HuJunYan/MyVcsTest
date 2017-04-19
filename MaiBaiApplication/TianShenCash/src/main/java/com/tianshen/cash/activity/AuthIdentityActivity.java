@@ -568,9 +568,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             for (int i = 0; i < count; i++) {
                 imageFullPatyArray[i] = mImageFullPath[i + 2];
             }
-
-            //扫脸的照片存到SD卡路径
-            final String facePath = imageFullPatyArray[0];
+            final String facePath = imageFullPatyArray[1];
 
             String userID = TianShenUserUtil.getUserId(mContext);
 
