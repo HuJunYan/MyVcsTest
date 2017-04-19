@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.JpushBaseBean;
@@ -64,10 +65,9 @@ public class JPushReceiver extends BroadcastReceiver {
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         break;
                     case "30"://确认借款数据准备完毕的推送
+                        EventBus.getDefault().post(new PayDataOKEvent());
                         break;
                 }
-
-
             } catch (Exception e) {
                 MobclickAgent.reportError(mContext, LogUtil.getException(e));
                 LogUtil.e("error", LogUtil.getException(e));
