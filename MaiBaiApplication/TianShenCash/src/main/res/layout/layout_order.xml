@@ -14,7 +14,7 @@
         android:id="@+id/xrecyclerview_order_status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/tv_home_confirm_money"
@@ -23,7 +23,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="80dp"
-        android:layout_marginTop="10dp"
         android:visibility="gone"
         android:background="@drawable/confirm_money_style"
         android:gravity="center"
