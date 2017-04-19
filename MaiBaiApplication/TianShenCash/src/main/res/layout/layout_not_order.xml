@@ -105,7 +105,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/tv_procedures_value"
-            android:text="手续费用"
+            android:text="综合费用"
             android:textColor="@color/global_txt_black2"
             android:textSize="11sp" />
 
