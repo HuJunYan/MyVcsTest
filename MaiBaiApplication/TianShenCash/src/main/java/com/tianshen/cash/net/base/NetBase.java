@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -13,11 +12,9 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.tianshen.cash.activity.LoginActivity;
-import com.tianshen.cash.base.MyApplication;
+import com.orhanobut.logger.Logger;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
@@ -26,11 +23,9 @@ import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.VersionUtil;
 import com.tianshen.cash.utils.ViewUtil;
-import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.entity.StringEntity;
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,24 +128,6 @@ public class NetBase {
                     LogUtil.d("ret", "url = " + url + ";  after handle result = " + result);
                     Logger.i("下行onSuccess--url->" + url);
                     Logger.json(result);
-
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        final String msg = jsonObject.optString("msg", "");
-                        final int code = jsonObject.optInt("code", 0);
-                        if (code != 0 && code != 118 && code != -2) { //检查更新接口如果是最新版本服务器返回来code 118 呵呵哒的接口定义
-                            ToastUtil.showToast(mContext, msg);
-                        }
-                        switch (code) {
-                            case -2: //token错误
-                                finishActivityAndGotoLoginActivity();
-                                break;
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
                     } else {
@@ -288,16 +265,6 @@ public class NetBase {
 
         }
         return false;
-    }
-
-    /**
-     * 通知所有的activity关闭,并且打开登录页面
-     */
-    private void finishActivityAndGotoLoginActivity() {
-        EventBus.getDefault().post(new FinishCurrentActivityEvent());
-        Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        MyApplication.getApp().startActivity(intent);
     }
 
 }
