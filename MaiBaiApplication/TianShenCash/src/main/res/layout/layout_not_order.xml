@@ -54,7 +54,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp">
 
@@ -121,7 +121,7 @@
     <RelativeLayout
         android:id="@+id/rl_loan_day"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp">
 
