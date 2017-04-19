@@ -774,8 +774,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
                     int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
                     int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+                    String proceduresStr = String.valueOf(procedures);
+                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
                     //设置手续金额
-                    tvProceduresValue.setText(procedures + " 元");
+                    tvProceduresValue.setText(proceduresStrF + " 元");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

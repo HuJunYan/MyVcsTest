@@ -140,4 +140,27 @@ public class MoneyUtils {
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.subtract(b2).doubleValue();
     }
+
+
+    /**
+     * 提供精确的除法运算方法div
+     *
+     * @param value1 被除数
+     * @param value2 除数
+     * @param scale  精确范围
+     * @return 两个参数的商
+     * @throws IllegalAccessException
+     */
+    public static String div(String value1, String value2, int scale) throws IllegalAccessException {
+        if (scale < 0) {
+            throw new IllegalAccessException("精确度不能小于0");
+        }
+        BigDecimal b1 = new BigDecimal(value1);
+        BigDecimal b2 = new BigDecimal(value2);
+
+        int result = b1.divide(b2, scale).intValue();
+        return Integer.toString(result);
+    }
+
+
 }
