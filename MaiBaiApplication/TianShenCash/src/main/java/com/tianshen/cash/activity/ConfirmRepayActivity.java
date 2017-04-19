@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 /**
- * 确认换款页面
+ * 确认还款页面
  */
 
 public class ConfirmRepayActivity extends BaseActivity implements View.OnClickListener {
@@ -136,7 +136,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 刷新天神卡
+     * 刷新UI
      */
     private void refreshUI() {
 
