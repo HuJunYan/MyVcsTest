@@ -60,6 +60,7 @@ import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetUserConfig;
+import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
@@ -191,6 +192,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private String mCurrentOrderMoney;
 
+    private String mVerifyCodeType;
+
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
@@ -268,7 +271,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         initStaticsRoll();
 
         String jPushId = TianShenUserUtil.getUserJPushId(mContext);
-        LogUtil.d("abc","jPushId--->"+jPushId);
+        LogUtil.d("abc", "jPushId--->" + jPushId);
     }
 
     @Override
@@ -412,6 +415,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUser(mContext, user);
 
         String status = mUserConfig.getData().getStatus();
+
+
+        //只是模拟掌众
+        is_payway = "1";
+        status = "2";
+
         switch (status) {
             case "0"://0:新用户，没有提交过订单；
                 ArrayList<UserConfig.Data.Consume> consume_status_list = mUserConfig.getData().getConsume_status_list();
@@ -429,6 +438,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
                 tv_home_confirm_money.setVisibility(View.GONE);
+                if ("1".equals(is_payway)) { //如果是掌众需要弹出dialog
+                    showVerifyCodeDialog();
+                }
                 break;
             case "3"://3:放款成功（钱已经到银行卡）；
                 if (clickedHomeGetMoneyButton) {//判断用户没有点过按钮，没有点过按钮吧按钮显示出来
@@ -827,6 +839,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     initUserConfig();
                 }
             }
+
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
 
@@ -862,13 +875,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 显示第三方产品(掌众)输入验证码Dialog
      */
     private void showVerifyCodeDialog() {
+
+        mVerifyCodeType = "0";
+
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_verify_code, null, false);
         final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
         mDialog.setContentView(view);
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.setCancelable(false);
+        TextView tv_dialog_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_get_verify_code);
         TextView tv_dialog_get_money = (TextView) view.findViewById(R.id.tv_dialog_get_money);
+
+        tv_dialog_get_verify_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initVerifySmsForConfirmLoanUrl(mVerifyCodeType);
+                mVerifyCodeType = "1";
+            }
+        });
+
         tv_dialog_get_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -876,6 +902,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         mDialog.show();
+    }
+
+
+    /**
+     * 得到第三方验证码
+     */
+    private void initVerifySmsForConfirmLoanUrl(String type) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("type", type);
+            GetVerifySmsForConfirmLoan getVerifySmsForConfirmLoan = new GetVerifySmsForConfirmLoan(mContext);
+            getVerifySmsForConfirmLoan.getVerifySmsForConfirmLoan(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -563,4 +563,12 @@ public class NetConstantValue {
         return COMMONURI + "Customer/companyInformation";
     }
 
+    /**
+     * 得到第三方验证码(掌众)
+     */
+    public static String getVerifySmsForConfirmLoanUrl() {
+        return COMMONURI + "ThirdParty/getVerifySmsForConfirmLoan";
+    }
+
+
 }
