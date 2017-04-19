@@ -76,13 +76,13 @@ funBuild(){
 }
 
 #funBuild   ceshi                1
-#funBuild   server               2000
+funBuild   server               2000
 #funBuild   wandoujia            2001
 #funBuild   qqTencent            2002
-funBuild   zs91zhushou          2003
+#funBuild   zs91zhushou          2003
 #funBuild   huawei               2004
-funBuild   xiaomi               2005
-funBuild   baidu                2006
+#funBuild   xiaomi               2005
+#funBuild   baidu                2006
 #funBuild   anzhi                2007
 #funBuild   oppo                 2008
 #funBuild   appchina             2009
