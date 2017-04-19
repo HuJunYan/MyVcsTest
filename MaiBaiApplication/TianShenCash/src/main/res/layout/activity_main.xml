@@ -45,7 +45,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_below="@id/vp_main"
-        android:background="#60777777" />
+        android:background="#e0e0e0" />
 </RelativeLayout>
