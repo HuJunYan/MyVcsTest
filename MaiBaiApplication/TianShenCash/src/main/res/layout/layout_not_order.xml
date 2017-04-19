@@ -173,7 +173,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
-        android:background="@color/global_bg_green"
+        android:background="@drawable/shape_home_button_border"
         android:gravity="center"
         android:text="立即申请"
         android:textColor="@color/global_txt_white"
