@@ -85,7 +85,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             refreshUI();
-            initCompanyInfo();
         }
     }
 
@@ -147,7 +146,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                showMyKefu();
+                initCompanyInfo();
                 break;
             case R.id.rl_me_about:
                 gotoActivity(mContext, AboutMaibeiActivity.class, null);
@@ -185,6 +184,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 user.setService_telephone(service_telephone);
                 user.setWechat_id(wechatId);
                 TianShenUserUtil.saveUser(mContext, user);
+                showMyKefu();
             }
 
             @Override

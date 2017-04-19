@@ -138,11 +138,11 @@ public class NetBase {
                         JSONObject jsonObject = new JSONObject(result);
                         final String msg = jsonObject.optString("msg", "");
                         final int code = jsonObject.optInt("code", 0);
-                        if (code != 0 && code != 118) { //检查更新接口如果是最新版本服务器返回来code 118 呵呵哒的接口定义
+                        if (code != 0 && code != 118 && code != -2) { //检查更新接口如果是最新版本服务器返回来code 118 呵呵哒的接口定义
                             ToastUtil.showToast(mContext, msg);
                         }
                         switch (code) {
-                            case -2:
+                            case -2: //token错误
                                 finishActivityAndGotoLoginActivity();
                                 break;
                         }
