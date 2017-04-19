@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.UserConfigChangedEvent;
-import com.tianshen.cash.net.api.JpushHandle;
-import com.tianshen.cash.net.base.JpushCallBack;
+import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.net.base.JpushBaseBean;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -23,6 +22,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class JPushReceiver extends BroadcastReceiver {
     private Context mContext;
+
     @Override
     public void onReceive(final Context context, Intent intent) {
         mContext = context;
@@ -43,22 +43,30 @@ public class JPushReceiver extends BroadcastReceiver {
             }
             try {
                 Bundle bundle = intent.getExtras();
-                JpushHandle mJpushHandle = new JpushHandle(mContext);
                 String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                LogUtil.d("abc", "jpushResult-->" + result);
-                mJpushHandle.jpushHandle(result, new JpushCallBack() {
-                    @Override
-                    public void onResult(int type, Object object) {
-                        switch (type) {
-                            case GlobalParams.VERIFY_FINISHED:
-                                // 1
-                                EventBus.getDefault().post(new UserConfigChangedEvent());
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
+                JpushBaseBean jpushBaseBean = GsonUtil.json2bean(result, JpushBaseBean.class);
+                String msg_type = jpushBaseBean.msg_type;
+
+                if (TextUtils.isEmpty(msg_type)) {
+                    return;
+                }
+                switch (msg_type) {
+                    case "1"://审核通过
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
+                    case "2"://审核失败
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
+                    case "3"://放款成功
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
+                    case "4"://还款成功
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
+                    case "30"://确认借款数据准备完毕的推送
+                        break;
+                }
+
 
             } catch (Exception e) {
                 MobclickAgent.reportError(mContext, LogUtil.getException(e));
