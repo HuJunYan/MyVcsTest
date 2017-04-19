@@ -64,6 +64,7 @@ import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
+import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MoneyUtils;
@@ -189,6 +190,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private List<String> mStatisticsRollDatas; //滚动条真实显示的数据
 
     private int mCurrentIndex;//当前滚动条的位置
+
+    private Dialog mVerifyCodeDialog;
 
     private String mCurrentOrderMoney;
 
@@ -418,8 +421,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 
         //只是模拟掌众
-        is_payway = "1";
-        status = "2";
+//        is_payway = "1";
+//        status = "2";
 
         switch (status) {
             case "0"://0:新用户，没有提交过订单；
@@ -880,11 +883,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_verify_code, null, false);
-        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
-        mDialog.setContentView(view);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.setCancelable(false);
+        mVerifyCodeDialog = new Dialog(mContext, R.style.MyDialog);
+        mVerifyCodeDialog.setContentView(view);
+        mVerifyCodeDialog.setCanceledOnTouchOutside(false);
+        mVerifyCodeDialog.setCancelable(false);
         TextView tv_dialog_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_get_verify_code);
+        final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_verify_code);
         TextView tv_dialog_get_money = (TextView) view.findViewById(R.id.tv_dialog_get_money);
 
         tv_dialog_get_verify_code.setOnClickListener(new View.OnClickListener() {
@@ -898,10 +902,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_dialog_get_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog.dismiss();
+                String verufy_code = et_dialog_verify_code.getText().toString().trim();
+                if (TextUtils.isEmpty(verufy_code)) {
+                    ToastUtil.showToast(mContext, "输入验证码");
+                    return;
+                }
+                initThirdPartySubmitVerifyCode(verufy_code);
             }
         });
-        mDialog.show();
+        mVerifyCodeDialog.show();
     }
 
 
@@ -918,11 +927,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             getVerifySmsForConfirmLoan.getVerifySmsForConfirmLoan(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
-
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发送第三方验证码
+     */
+    private void initThirdPartySubmitVerifyCode(String verufy_code) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("verufy_code", verufy_code);
+            jsonObject.put("type", "1");
+            SubmitVerifyCode submitVerifyCode = new SubmitVerifyCode(mContext);
+            submitVerifyCode.verifyCode(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    mVerifyCodeDialog.dismiss();
+                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    mVerifyCodeDialog.dismiss();
                 }
             });
         } catch (JSONException e) {

@@ -570,5 +570,13 @@ public class NetConstantValue {
         return COMMONURI + "ThirdParty/getVerifySmsForConfirmLoan";
     }
 
+    /**
+     * 提交确认放款验证码(掌众)
+     */
+    public static String getSubmitVerifyCodeUrl() {
+        return COMMONURI + "ThirdParty/submitVerifyCode";
+    }
+
+
 
 }
