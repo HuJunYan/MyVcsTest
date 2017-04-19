@@ -343,7 +343,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void uploadContacts() {
         mUploadToServerUtil = new UploadToServerUtil(mContext);
         mUploadToServerUtil.setCallBack(new MyUploadCallBack());
-        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLRECORD);
+        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
     }
 
     private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
@@ -358,7 +358,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     break;
                 case GlobalParams.UPLOADCALLRECORD:
                     //上传通话记录成功
-                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
+//                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
                     break;
                 case GlobalParams.UPLOADMESSAGE:
                     //上传短信成功
@@ -1132,7 +1132,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onQuotaEvent(QuotaEvent event) {
         LogUtil.d("abc", "收到了强行跳转到下单页面");
         if (mQuotaFlag) {
-            tvHomeApply.performClick();
+            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
         }
     }
 
