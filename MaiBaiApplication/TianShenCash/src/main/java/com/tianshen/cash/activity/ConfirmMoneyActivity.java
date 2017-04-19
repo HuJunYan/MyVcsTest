@@ -23,6 +23,7 @@ import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.SafeUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -204,6 +205,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             String address = user.getAddress();
             String province = user.getProvince();
             String jpush_id = user.getJpush_id();
+
+
+            if (TextUtils.isEmpty(location)) {
+                ToastUtil.showToast(mContext, "请先开打GPS,然后再下单。");
+                return;
+            }
+
             boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
             String type;
             if (payWayBySelf) {
