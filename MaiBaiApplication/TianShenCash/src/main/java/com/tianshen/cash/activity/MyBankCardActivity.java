@@ -122,11 +122,11 @@ public class MyBankCardActivity extends BaseActivity implements View.OnClickList
         if (isHadCard) {
             lv_bank_list.setVisibility(View.VISIBLE);
 //            bt_remove_binding.setVisibility(View.VISIBLE);
-            rl_add_bank_card.setVisibility(View.GONE);
+//            rl_add_bank_card.setVisibility(View.GONE);
         } else {
             lv_bank_list.setVisibility(View.GONE);
 //            bt_remove_binding.setVisibility(View.GONE);
-            rl_add_bank_card.setVisibility(View.VISIBLE);
+//            rl_add_bank_card.setVisibility(View.VISIBLE);
         }
     }
 
