@@ -228,6 +228,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlLoanDay.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
         tv_goto_repay.setOnClickListener(this);
+        ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
@@ -258,6 +259,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.tv_home_confirm_money: //点击了确认按钮
                 onClickIKnow();
+                break;
+            case R.id.iv_procedures_home: //点击了借款提示
+                ToastUtil.showToast(mContext, "该手续费率及期限仅供参考，最终借款费率会根据借款金额、周期及提交资料审核后的综合信用评估结果来收取。");
                 break;
         }
     }

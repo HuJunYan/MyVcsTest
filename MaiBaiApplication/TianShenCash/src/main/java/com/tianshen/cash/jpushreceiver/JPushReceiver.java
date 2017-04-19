@@ -51,6 +51,9 @@ public class JPushReceiver extends BroadcastReceiver {
                 if (TextUtils.isEmpty(msg_type)) {
                     return;
                 }
+
+                LogUtil.d("abc", "JPushReceiver-msg_type--->" + msg_type);
+
                 switch (msg_type) {
                     case "1"://审核通过
                         EventBus.getDefault().post(new UserConfigChangedEvent());
