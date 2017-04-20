@@ -9,8 +9,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 104
+        versionName "1.0.4"
         multiDexEnabled true
         resConfigs "zh","en"
     }
@@ -59,7 +59,7 @@ android {
             def oldFile = output.outputFile
             def newName = '';
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_1-0-2_04051619.apk'
+                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_1-0-4_04201033.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
