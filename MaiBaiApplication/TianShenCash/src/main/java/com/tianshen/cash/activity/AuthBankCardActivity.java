@@ -352,7 +352,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         tvSeverityCode.setText(mStartTime + "");
         mStartTime--;
         if (mStartTime == 0) {
-            tvSeverityCode.setText("获取验证码");
+            tvSeverityCode.setText("重获取验证码");
             mStartTime = 59;
             tvSeverityCode.setEnabled(true);
             mHandler.removeMessages(MSG_SEVERITY_TIME);
