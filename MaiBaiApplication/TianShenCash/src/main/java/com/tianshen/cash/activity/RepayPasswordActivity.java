@@ -23,6 +23,7 @@ import com.tianshen.cash.utils.CashBillListUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.utils.SharedPreferencesUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.PasswordInputView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -97,7 +98,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
         try {
             int type = 0;
             JSONObject mJson = new JSONObject();
-            mJson.put("customer_id", UserUtil.getId(mContext));
+            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
             mJson.put("paytype", "1");
             mJson.put("pay_pass", piv_password.getText().toString());
             switch (from) {

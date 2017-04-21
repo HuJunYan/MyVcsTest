@@ -26,6 +26,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -207,7 +208,7 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
         //统一下单
         try {
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("amount", down_payment+"");
             jsonObject.put("overdue_amount","0");
             jsonObject.put("consume_id",consume_id);

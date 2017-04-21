@@ -17,6 +17,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ChangeInterface;
 import com.tianshen.cash.view.MyEditText;
@@ -156,7 +157,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     private boolean isUserSignIn() {
-        String customerId = UserUtil.getId(mContext);
+        String customerId = TianShenUserUtil.getUserId(mContext);
         if (customerId != null && !"".equals(customerId) && !"0".equals(customerId)) {
             return true;
         } else {

@@ -19,6 +19,7 @@ import com.tianshen.cash.net.api.GetWithdrawalsBill;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.XListView;
 import com.umeng.analytics.MobclickAgent;
@@ -91,7 +92,7 @@ public class WithdrawalsBillActivity extends BaseActivity implements XListView.I
     private void initData(final boolean isInit) {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("offset", isInit ? 0 : widthdrawalsBillItemList.size());
             jsonObject.put("length", LENTH + "");
             GetWithdrawalsBill getWithdrawalsBill = new GetWithdrawalsBill(mContext);

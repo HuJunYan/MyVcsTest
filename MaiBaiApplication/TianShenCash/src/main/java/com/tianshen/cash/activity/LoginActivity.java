@@ -229,7 +229,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                        tags.add(bdLocation.getCityCode());
 //                        tags.add(bdLocation.getCountryCode());
 //                        tags.add(bdLocation.getProvince());
-//                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
+//                        JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags);
 //                    }
 //                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
 //                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
@@ -242,7 +242,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         tags.add(bdLocation.getCityCode());
                         tags.add(bdLocation.getCountryCode());
                         tags.add(bdLocation.getProvince());
-                        JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), tags);
+                        JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags);
                     }
 
                     //保存用户信息

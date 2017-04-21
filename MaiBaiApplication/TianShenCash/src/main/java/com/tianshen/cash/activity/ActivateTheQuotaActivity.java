@@ -10,6 +10,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.SaveIdCardBean;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.user.idcardlibrary.util.Util;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.SaveIdCardInformation;
@@ -163,7 +164,7 @@ public class ActivateTheQuotaActivity extends BaseActivity implements View.OnCli
             json.put("real_name", mName);
             json.put("id_num", mIdNum);
             json.put("type", "2");
-            json.put("customer_id", UserUtil.getId(mContext));
+            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
         } catch (JSONException e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             e.printStackTrace();

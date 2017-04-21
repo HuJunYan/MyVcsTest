@@ -23,6 +23,7 @@ import com.tianshen.cash.net.base.AuthenticationStatus;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ImageTextView;
 import com.tianshen.cash.view.TitleBar;
@@ -112,7 +113,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         GetAuthListStatus getAuthListStatus = new GetAuthListStatus(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
         } catch (JSONException e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
@@ -135,7 +136,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         GetCustomerAuth mGetCustomerAuth = new GetCustomerAuth(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             mGetCustomerAuth.getCustomerAuth(jsonObject, null, false, new BaseNetCallBack<CustomerAuthBean>() {
                 @Override
                 public void onSuccess(CustomerAuthBean paramT) {
@@ -321,7 +322,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {

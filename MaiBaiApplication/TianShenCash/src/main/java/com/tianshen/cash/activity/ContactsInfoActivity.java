@@ -15,6 +15,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.PermissionUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -93,7 +94,7 @@ public class ContactsInfoActivity extends BaseActivity implements View.OnClickLi
         String friendNum=et_friend_num.getEditTextString().trim();
         String colleagueName=et_colleague_name.getEditTextString().trim();
         String colleagueNum=et_colleague_num.getEditTextString().trim();
-        String customId=UserUtil.getId(mContext);
+        String customId= TianShenUserUtil.getUserId(mContext);
         if("".equals(wechatNum)||"".equals(selfAddress)||"".equals(companyName)||"".equals(companyPhone)||"".equals(parentName)||"".equals(parentPhone)||"".equals(parentAddress)||
                 "".equals(brothersName)||"".equals(brothersPhone)||"".equals(qqNum)||"".equals(companyAddress)||"".equals(friendName)||"".equals(friendNum)||"".equals(colleagueName)||
                 "".equals(colleagueNum)){

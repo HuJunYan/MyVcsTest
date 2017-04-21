@@ -13,6 +13,7 @@ import com.tianshen.cash.net.api.ChangeContactsInfo;
 import com.tianshen.cash.net.api.GetContactsInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ImageTextView;
 import com.tianshen.cash.view.TitleBar;
@@ -97,7 +98,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             GetContactsInfo getContactsInfo = new GetContactsInfo(mContext);
             getContactsInfo.getContactsInfo(jsonObject, null, true, new BaseNetCallBack<ContactsInfoBean>() {
                 @Override
@@ -486,7 +487,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     private void changeContactsInfo() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("wechat", contactsInfoBean.getData().getWechat());
             jsonObject.put("qq_num",contactsInfoBean.getData().getQq_num());
             jsonObject.put("company_address",contactsInfoBean.getData().getCompany_address());

@@ -12,7 +12,7 @@ import com.umeng.analytics.MobclickAgent;
 public class MainUtil {
 //    public static boolean isNewUser(Context mContext) {
 //
-//        if (!"".equals(UserUtil.getRealName(mContext)) && !"".equals(UserUtil.getMobile(mContext)) && !"".equals(UserUtil.getIdNum(mContext))
+//        if (!"".equals(UserUtil.getRealName(mContext)) && !"".equals(UserUtil.getMobile(mContext)) && !"".equals(TianShenUserUtil.getUserIdNum(mContext))
 //                && "1".equals(UserUtil.getIsSetPayPass(mContext))) {
 //            return false;
 //        }
@@ -42,7 +42,7 @@ public class MainUtil {
     }
 
     public static boolean isLogin(Context mContext) {
-        String id=UserUtil.getId(mContext);
+        String id=TianShenUserUtil.getUserId(mContext);
         if("".equals(id)||null==id){
             return false;
         }

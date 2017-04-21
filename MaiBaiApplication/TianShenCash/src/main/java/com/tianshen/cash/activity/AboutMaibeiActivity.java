@@ -40,7 +40,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         width = metric.widthPixels;  // 宽度（PX）
         height = metric.heightPixels;  // 高度（PX）
         if (!NetConstantValue.checkIsReleaseService()) {
-            ToastUtil.showToast(mContext, UserUtil.getId(mContext) + "");
+            ToastUtil.showToast(mContext, TianShenUserUtil.getUserId(mContext) + "");
         }
         initData();
     }

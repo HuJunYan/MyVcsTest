@@ -173,7 +173,7 @@ public class GetTelephoneUtils {
                 json.put("call_time", recordList.get(i).getCall_time());
                 jsonArray.put(i, json);
             }
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("record_list", jsonArray);
         } catch (Exception e) {
 
@@ -284,7 +284,7 @@ public class GetTelephoneUtils {
                 json.put("",smsMessageBeans.get(i).getType());
                 jsonArray.put(i,json);
             }
-            jsonObject.put("customer_id",UserUtil.getId(mContext));
+            jsonObject.put("customer_id",TianShenUserUtil.getUserId(mContext));
             jsonObject.put("",jsonArray);
 
         }catch (Exception e){

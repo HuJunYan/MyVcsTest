@@ -25,6 +25,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.SaveIdCardBean;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.user.idcardlibrary.activity.IDCardScanActivity;
 import com.tianshen.user.idcardlibrary.util.Util;
 import com.tianshen.user.livenesslibrary.activity.LivenessActivity;
@@ -175,7 +176,7 @@ public class ResultActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        COMMON_TAG = "ResultActivity: id = " + UserUtil.getId(mContext) + " ; mobile = " + UserUtil.getMobile(mContext);
+        COMMON_TAG = "ResultActivity: id = " + TianShenUserUtil.getUserId(mContext) + " ; mobile = " + UserUtil.getMobile(mContext);
         LogUtil.d("ret", "ResultActivity onCreate");
         String faceScore = UserUtil.getFacePassScore(mContext);
         if (!(faceScore != null || "".equals(faceScore) || "0".equals(faceScore))) {
@@ -279,7 +280,7 @@ public class ResultActivity extends BaseActivity {
         try {
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImage(newJson, mImageFullPath[type - 20], true, new BaseNetCallBack<UploadImageBean>() {
@@ -323,7 +324,7 @@ public class ResultActivity extends BaseActivity {
             }
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImageArray(newJson, imageFullPatyArray, true, new BaseNetCallBack<UploadImageBean>() {
@@ -500,7 +501,7 @@ public class ResultActivity extends BaseActivity {
         JSONObject json = new JSONObject();
         try {
             MobclickAgent.reportError(mContext, COMMON_TAG + "saveIdCardInformation ===0");
-            json.put("customer_id", UserUtil.getId(mContext));
+            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
             json.put("real_name", mIDCardBean.name);
             json.put("gender", mIDCardBean.gender);
             json.put("nation", mIDCardBean.race);
@@ -510,7 +511,6 @@ public class ResultActivity extends BaseActivity {
             json.put("sign_organ", mIDCardBean.issued_by);
             json.put("valid_period", mIDCardBean.valid_date);
             json.put("type", "1");
-            json.put("customer_id", UserUtil.getId(mContext));
             SaveIdCardInformation mSaveIdCardInformationAction = new SaveIdCardInformation(mContext);
             mSaveIdCardInformationAction.saveIdCardInformation(json, new BaseNetCallBack<SaveIdCardBean>() {
                 @Override
@@ -816,7 +816,7 @@ public class ResultActivity extends BaseActivity {
         MobclickAgent.reportError(mContext, COMMON_TAG + "conformCreditFace ===0");
         CreditFace creditFace = new CreditFace(mContext);
         JSONObject json = new JSONObject();
-        json.put("customer_id", UserUtil.getId(mContext));
+        json.put("customer_id", TianShenUserUtil.getUserId(mContext));
         json.put("face_pass", "1");
         isCanPressBack=false;
         creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {

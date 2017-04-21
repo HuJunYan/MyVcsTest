@@ -27,6 +27,7 @@ import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.CashBillListUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -130,7 +131,7 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {
@@ -236,7 +237,7 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
         try {
             int type = 0;
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("paytype", "2");
             switch (from) {
                 case GlobalParams.REPAY_FROM_BORROW:

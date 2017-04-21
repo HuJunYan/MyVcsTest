@@ -17,6 +17,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SendBroadCastUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -82,7 +83,7 @@ public class InputVerificationActivity extends BaseActivity implements View.OnCl
             BankListItemBean bankListItemBean=(BankListItemBean)mBundle.getSerializable("bankListItemBean");
             mJson.put("bank_name",bankListItemBean.getBank_name());
             mJson.put("bank_id",bankListItemBean.getBank_id());
-            mJson.put("customer_id", UserUtil.getId(mContext));
+            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
             mJson.put("card_user_name", mBundle.getString("card_user_name"));
             mJson.put("card_num", mBundle.getString("card_num"));
             mJson.put("reserved_mobile", mBundle.getString("reserved_mobile"));
@@ -112,7 +113,7 @@ public class InputVerificationActivity extends BaseActivity implements View.OnCl
             BankListItemBean bankListItemBean=(BankListItemBean)mBundle.getSerializable("bankListItemBean");
             mJson.put("bank_name",bankListItemBean.getBank_name());
             mJson.put("bank_id",bankListItemBean.getBank_id());
-            mJson.put("customer_id", UserUtil.getId(mContext));
+            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
             mJson.put("card_user_name", mBundle.getString("card_user_name"));
             mJson.put("card_num", mBundle.getString("card_num"));
             mJson.put("reserved_mobile", mBundle.getString("reserved_mobile"));

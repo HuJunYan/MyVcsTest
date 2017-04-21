@@ -25,6 +25,7 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SharedPreferencesUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MyEditText;
@@ -109,7 +110,7 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
                     JSONObject json = new JSONObject();
                     try {
                         json.put("black_box",mBundle.getString("blackBox"));
-                        json.put("customer_id", UserUtil.getId(mContext));
+                        json.put("customer_id", TianShenUserUtil.getUserId(mContext));
                         json.put("pay_pass", password);
                         final String push_id = JPushInterface.getRegistrationID(mContext);
                         if (push_id != null && !"".equals(push_id)) {
@@ -160,7 +161,7 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
         WithdrawalsApply withdrawalsApply = new WithdrawalsApply(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("province",share.getString("province"));
             jsonObject.put("city",share.getString("city"));
             jsonObject.put("country", share.getString("country"));

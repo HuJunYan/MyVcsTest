@@ -43,7 +43,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         super.onCreate(savedInstanceState);
 
         init();
-      /*  JPushInterface.setAliasAndTags(mContext, UserUtil.getId(mContext), null, new TagAliasCallback() {
+      /*  JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), null, new TagAliasCallback() {
             @Override
             public void gotResult(int i, String s, Set<String> set) {
 

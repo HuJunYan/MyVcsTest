@@ -34,6 +34,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -123,7 +124,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
     private void getWithdrawalsDetail(String consume_id) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("consume_id", consume_id); // TODO, test
             GetWithdrawalsBillInfo getWithdrawalsBillInfo = new GetWithdrawalsBillInfo(mContext);
             getWithdrawalsBillInfo.getWithdrawalsBill(jsonObject, null, true, new BaseNetCallBack<WithdrawalsBillInfoBean>() {

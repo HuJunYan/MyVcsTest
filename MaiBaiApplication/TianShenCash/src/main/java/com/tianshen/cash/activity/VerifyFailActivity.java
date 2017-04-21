@@ -16,6 +16,7 @@ import com.tianshen.cash.net.api.RecordPopup;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
@@ -129,7 +130,7 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
         try {
             JSONObject jsonObject=new JSONObject();
             jsonObject.put("type","1");
-            jsonObject.put("customer_id",UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             RecordPopup recordPopup=new RecordPopup(mContext);
             recordPopup.recordPopup(jsonObject, null, false, new BaseNetCallBack<RecordPopBean>() {
                 @Override

@@ -54,6 +54,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MainUtil;
 import com.tianshen.cash.utils.PermissionUtils;
 import com.tianshen.cash.utils.SharedPreferencesUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
 import com.tianshen.cash.utils.Utils;
@@ -315,7 +316,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
             if (!(MainUtil.isLogin(mContext))) {
                 jsonObject.put("customer_id", "0");
             } else {
-                jsonObject.put("customer_id", UserUtil.getId(mContext));
+                jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             }
             jsonObject.put("init", mIsInitState ? ISINIT : NOT_INIT);
             final SelWithdrawals selWithdrawals = new SelWithdrawals(mContext);
@@ -539,7 +540,7 @@ public class WithdrawalsFragment extends BaseFragment implements View.OnClickLis
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {

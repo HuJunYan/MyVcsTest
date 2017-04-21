@@ -30,6 +30,7 @@ import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.utils.SharedPreferencesUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.utils.WithdrawalsApplyResultUtil;
@@ -136,7 +137,7 @@ public class InputPayPwdActivity extends BaseActivity implements View.OnClickLis
         try {
             SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(this);
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("customer_id",UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("amount",mCashSubItemBean.getWithdrawal_amount());
             jsonObject.put("pay_pass",mBundle.getString("password"));
             jsonObject.put("location", share.getString("location"));
@@ -179,7 +180,7 @@ public class InputPayPwdActivity extends BaseActivity implements View.OnClickLis
         WithdrawalsApply withdrawalsApply = new WithdrawalsApply(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("province",share.getString("province"));
             jsonObject.put("city",share.getString("city"));
             jsonObject.put("country", share.getString("country"));
@@ -254,7 +255,7 @@ public class InputPayPwdActivity extends BaseActivity implements View.OnClickLis
         UnbindBankCard unbindBankCard = new UnbindBankCard(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("bank_card", mBundle.getString("bank_card"));
             jsonObject.put("pay_pass", mBundle.getString("password"));
             unbindBankCard.unbindBankCard(jsonObject, null, true, new BaseNetCallBack<ResponseBean>() {

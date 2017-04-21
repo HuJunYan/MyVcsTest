@@ -10,6 +10,7 @@ import com.tianshen.cash.model.UploadLogBean;
 import com.tianshen.cash.net.api.UploadLog;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +39,7 @@ public class UploadLogService extends IntentService {
         Log.d("uploadService","启动上传线程");
         try {
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("customer_id",UserUtil.getId(this));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(this));
             jsonObject.put("type","22");
             jsonObject.put("person_type","1");
             UploadLog uploadLog=new UploadLog(this);

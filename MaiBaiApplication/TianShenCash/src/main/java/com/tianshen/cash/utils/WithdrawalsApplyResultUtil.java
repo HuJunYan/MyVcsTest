@@ -75,7 +75,7 @@ public class WithdrawalsApplyResultUtil {
         JSONObject jsonObject = new JSONObject();
         CashVerifyConfirm cashVerifyConfirm = new CashVerifyConfirm(context);
         try {
-            jsonObject.put("customer_id", UserUtil.getId(context));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(context));
             cashVerifyConfirm.cashVerifyConfirm(jsonObject, view, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {

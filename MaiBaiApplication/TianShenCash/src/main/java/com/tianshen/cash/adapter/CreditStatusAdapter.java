@@ -16,6 +16,7 @@ import com.tianshen.cash.model.VerifyStepBean;
 import com.tianshen.cash.net.api.AgainVerify;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -160,7 +161,7 @@ public class CreditStatusAdapter extends BaseAdapter {
         try {
             AgainVerify againVerify=new AgainVerify(context);
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(context));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(context));
             String consumeId=data.getData().getConsume_id();
             if(null==consumeId){
                 consumeId="";

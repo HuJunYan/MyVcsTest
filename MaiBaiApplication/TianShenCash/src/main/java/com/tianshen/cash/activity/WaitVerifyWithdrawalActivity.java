@@ -20,6 +20,7 @@ import com.tianshen.cash.net.api.WithdrawalsRefresh;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.WithdrawalsApplyResultUtil;
 import com.tianshen.cash.view.TitleBar;
 import com.umeng.analytics.MobclickAgent;
@@ -83,7 +84,7 @@ public class WaitVerifyWithdrawalActivity extends BaseActivity implements View.O
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             jsonObject.put("consume_id", mBundle.getString(GlobalParams.WITHDRAWALS_VERIFY_ID_KEY));
             WithdrawalsRefresh withdrawalsRefresh = new WithdrawalsRefresh(mContext);
             withdrawalsRefresh.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<WithdrawalsRefreshBean>() {

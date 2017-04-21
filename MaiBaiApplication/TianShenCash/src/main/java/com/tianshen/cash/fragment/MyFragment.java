@@ -209,7 +209,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         final Mine mine = new Mine(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", UserUtil.getId(mContext));
+            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
             mine.mine(jsonObject, null, false, new BaseNetCallBack<MineBean>() {
                 @Override
                 public void onSuccess(MineBean mineBean) {
