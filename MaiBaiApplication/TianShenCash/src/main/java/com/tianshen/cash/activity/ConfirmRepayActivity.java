@@ -1,6 +1,8 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -74,10 +76,33 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
     private boolean mIsPaywaySelf; //如果是自己的产品true,如果是掌中是false
 
+
+    private int mStartTime = 59;
+
+
+    private static final int MSG_SEVERITY_TIME = 1;
+    private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case MSG_SEVERITY_TIME:
+                    refreshSeverityTextUI();
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initRepayData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -157,6 +182,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             mIsPaywaySelf = false;
         }
 
+        mIsPaywaySelf = false;
+
         try {
             String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
             String overdueAmountY = MoneyUtils.changeF2Y(overdueAmount);
@@ -176,6 +203,28 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * 刷新验证码UI
+     */
+    private void refreshSeverityTextUI() {
+
+        if (isFinishing()){
+            return;
+        }
+
+        tv_repay_severity_code.setText(mStartTime + "");
+        mStartTime--;
+        if (mStartTime == 0) {
+            tv_repay_severity_code.setText("重获取验证码");
+            mStartTime = 59;
+            tv_repay_severity_code.setEnabled(true);
+            mHandler.removeMessages(MSG_SEVERITY_TIME);
+        } else {
+            tv_repay_severity_code.setEnabled(false);
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
+    }
 
     /**
      * 点击了确认

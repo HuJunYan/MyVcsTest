@@ -357,6 +357,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             tvSeverityCode.setEnabled(true);
             mHandler.removeMessages(MSG_SEVERITY_TIME);
         } else {
+            tvSeverityCode.setEnabled(false);
             mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
         }
 
