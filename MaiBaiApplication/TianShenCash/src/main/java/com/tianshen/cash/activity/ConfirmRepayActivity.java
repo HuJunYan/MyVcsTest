@@ -72,6 +72,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
     private RepayInfoBean mRepayInfoBean;
 
+    private boolean mIsPaywaySelf; //如果是自己的产品true,如果是掌中是false
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +151,12 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
         String is_payway = mRepayInfoBean.getData().getIs_payway();
 
+        if ("0".equals(is_payway)) {//0为自己的产品，1为掌众的产品"
+            mIsPaywaySelf = true;
+        } else {
+            mIsPaywaySelf = false;
+        }
+
         try {
             String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
             String overdueAmountY = MoneyUtils.changeF2Y(overdueAmount);
@@ -157,9 +165,9 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             tvConfirmRepayBank.setText(bank_name);
             tvConfirmRepayNumBank.setText(bank_card_num);
 
-            if ("0".equals(is_payway)) {//0为自己的产品，1为掌众的产品" 为1的时候需要展示获取验证码的UI
+            if (mIsPaywaySelf) {//自己的产品不需要验证码UI
                 rl_repay_severity_code.setVisibility(View.GONE);
-            } else {
+            } else {//掌众的产品展示获取验证码的UI
                 rl_repay_severity_code.setVisibility(View.VISIBLE);
             }
 
@@ -177,8 +185,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "数据错误!");
             return;
         }
-        String is_payway = mRepayInfoBean.getData().getIs_payway();
-        if ("0".equals(is_payway)) {
+        if (mIsPaywaySelf) {
             repayBySelf();
         } else {
             repayByZhangZhong();
