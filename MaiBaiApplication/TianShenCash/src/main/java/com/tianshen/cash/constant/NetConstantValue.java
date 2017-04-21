@@ -14,6 +14,15 @@ public class NetConstantValue {
     public static String COMMONURI = HOST + "Home/";
 
     /**
+     * 判断当前是否是正式服务器
+     *
+     * @return true 代表正式服务器，false代表测试服务器
+     */
+    public static boolean checkIsReleaseService() {
+        return "http://tsdapi.9maibei.com/Home/".equals(COMMONURI);
+    }
+
+    /**
      * 得到天神贷用户服务协议URL
      */
     public static String getUserServiceProtocolURL() {
@@ -45,15 +54,6 @@ public class NetConstantValue {
 
     public static String getServerURL() {
         return COMMONURI + "Protocol/order";
-    }
-
-    /**
-     * 判断当前是否是正式服务器
-     *
-     * @return true 代表正式服务器，false代表测试服务器
-     */
-    public static boolean checkIsReleaseService() {
-        return "http://qtqapi.9maibei.com/Home/".equals(COMMONURI);
     }
 
     public static String getRedPackageUrl() {

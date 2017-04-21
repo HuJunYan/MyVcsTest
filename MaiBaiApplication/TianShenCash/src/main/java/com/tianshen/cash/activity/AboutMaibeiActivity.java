@@ -39,9 +39,6 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         width = metric.widthPixels;  // 宽度（PX）
         height = metric.heightPixels;  // 高度（PX）
-        if (!NetConstantValue.checkIsReleaseService()) {
-            ToastUtil.showToast(mContext, TianShenUserUtil.getUserId(mContext) + "");
-        }
         initData();
     }
 
@@ -94,22 +91,17 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     public void initData() {
         if (NetConstantValue.checkIsReleaseService()) {
             mtv_service.setTv_right("正式");
+            mtv_test_version.setVisibility(View.GONE);
+            mtv_test_uid.setVisibility(View.GONE);
         } else {
             mtv_service.setTv_right("测试");
+            mtv_test_version.setVisibility(View.VISIBLE);
+            mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
+            mtv_test_uid.setVisibility(View.VISIBLE);
+            mtv_test_uid.setTv_right("用户ID:" + TianShenUserUtil.getUserId(mContext));
         }
         mtv_resolve.setTv_right(width + "*" + height);
         tv_code.setText("当前版本 " + getVersion());
-
-        if (BuildConfig.DEBUG) {
-            mtv_test_version.setVisibility(View.VISIBLE);
-            mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
-
-            mtv_test_uid.setVisibility(View.VISIBLE);
-            mtv_test_uid.setTv_right("用户ID:" + TianShenUserUtil.getUserId(mContext));
-        } else {
-            mtv_test_version.setVisibility(View.GONE);
-            mtv_test_uid.setVisibility(View.GONE);
-        }
 
         String weiXin = TianShenUserUtil.getWeiXin(mContext);
         mtv_weixin_num.setTv_right(weiXin);
