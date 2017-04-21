@@ -537,6 +537,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "9": //9决策失败
+                showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
         }
 
