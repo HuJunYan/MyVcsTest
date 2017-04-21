@@ -96,7 +96,9 @@ public class UploadToServerUtil {
         SaveContacts mSaveContactsAction = new SaveContacts(mContext);
         JSONObject json = new JSONObject();
         try {
-            json.put("customer_id", UserUtil.getId(mContext));
+            String userId = TianShenUserUtil.getUserId(mContext);
+            json.put("customer_id", userId);
+//            json.put("customer_id", UserUtil.getId(mContext));
             json.put("contact_list", new JSONArray(GsonUtil.bean2json(list)));
             mSaveContactsAction.saveContacts(json, null, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
