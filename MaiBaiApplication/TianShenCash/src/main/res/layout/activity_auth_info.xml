@@ -112,6 +112,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_info_address_empty"
             android:background="@null"
+            android:maxLength="120"
             android:hint="请输入街道路及门牌号"
             android:textSize="14dp" />
 
@@ -142,6 +143,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_info_work_name"
             android:background="@null"
+            android:maxLength="100"
             android:hint="请输入您的单位名称"
             android:textSize="14dp" />
 
@@ -229,6 +231,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_info_work_address_empty"
             android:background="@null"
+            android:maxLength="120"
             android:hint="请输入街道路及门牌号"
             android:textSize="14dp" />
 
