@@ -55,6 +55,7 @@
             android:layout_toRightOf="@id/tv_auth_info_qq"
             android:background="@null"
             android:hint="请输入您的QQ号码"
+            android:maxLength="12"
             android:inputType="number"
             android:textSize="14dp" />
 
