@@ -29,7 +29,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
 
     private int width = 0, height = 0;
     private TextView tv_code;
-    private MyTextView mtv_check_code, mtv_service, mtv_resolve, mtv_test_version, mtv_weixin_num;
+    private MyTextView mtv_check_code, mtv_service, mtv_resolve, mtv_test_version, mtv_weixin_num, mtv_test_uid;
     private UpdateManager mUpdateManager;
 
     @Override
@@ -58,6 +58,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         mtv_resolve = (MyTextView) findViewById(R.id.mtv_resolve);
         mtv_test_version = (MyTextView) findViewById(R.id.mtv_test_version);
         mtv_weixin_num = (MyTextView) findViewById(R.id.mtv_weixin_num);
+        mtv_test_uid = (MyTextView) findViewById(R.id.mtv_test_uid);
     }
 
     @Override
@@ -102,8 +103,12 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         if (BuildConfig.DEBUG) {
             mtv_test_version.setVisibility(View.VISIBLE);
             mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
+
+            mtv_test_uid.setVisibility(View.VISIBLE);
+            mtv_test_uid.setTv_right("用户ID:" + TianShenUserUtil.getUserId(mContext));
         } else {
             mtv_test_version.setVisibility(View.GONE);
+            mtv_test_uid.setVisibility(View.GONE);
         }
 
         String weiXin = TianShenUserUtil.getWeiXin(mContext);

@@ -66,4 +66,12 @@
         android:visibility="gone"
         app:setting_tv_content="测试版本"
         app:setting_tv_right="测试版本"></com.tianshen.cash.view.MyTextView>
+
+    <com.tianshen.cash.view.MyTextView
+        android:id="@+id/mtv_test_uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:setting_tv_content="用户ID"
+        app:setting_tv_right="用户ID"></com.tianshen.cash.view.MyTextView>
 </LinearLayout>
