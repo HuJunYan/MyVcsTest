@@ -98,6 +98,7 @@
             android:layout_toRightOf="@id/tv_auth_nexus_name1_key"
             android:background="@null"
             android:hint="请输入姓名"
+            android:maxLength="50"
             android:textSize="14dp" />
 
 
@@ -212,6 +213,7 @@
             android:layout_toRightOf="@id/tv_auth_nexus_name2_key"
             android:background="@null"
             android:hint="请输入姓名"
+            android:maxLength="50"
             android:textSize="14dp" />
 
         <ImageView
