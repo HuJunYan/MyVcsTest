@@ -382,10 +382,16 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
         String verify_code = etSeverityCode.getText().toString().trim();
 
+        String bank_name = tv_bank_card.getText().toString(); //银行卡名字
 
-        BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
-        String bank_name = bankCardInfoBeanData.getBank_name(); //银行卡名字
-        String bank_id = bankCardInfoBeanData.getBank_id();
+        String bank_id = mBankCardInfoBean.getData().getBank_id();
+
+        if (TextUtils.isEmpty(bank_id)) {
+            if (mBankListBean != null) {
+                BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+                bank_id = itemBean.getBank_id();
+            }
+        }
 
         if (TextUtils.isEmpty(card_user_name)) {
             ToastUtil.showToast(mContext, "请先完善资料!");
