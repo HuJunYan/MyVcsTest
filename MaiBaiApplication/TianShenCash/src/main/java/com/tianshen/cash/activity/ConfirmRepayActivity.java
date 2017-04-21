@@ -182,8 +182,6 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             mIsPaywaySelf = false;
         }
 
-        mIsPaywaySelf = false;
-
         try {
             String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
             String overdueAmountY = MoneyUtils.changeF2Y(overdueAmount);
