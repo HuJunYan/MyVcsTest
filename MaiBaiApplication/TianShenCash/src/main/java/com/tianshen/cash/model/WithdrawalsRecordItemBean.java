@@ -12,6 +12,15 @@ public class WithdrawalsRecordItemBean implements Serializable {
     private String amount; // 取现总金额，单位分
     private String consume_time; // 取时款间 2016-07-10 08:08:08
     private String repay_times; // 取款期次
+    private String status; // 订单状态
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 
     public String getConsume_id() {

@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +63,7 @@ public class BorrowBillAdapter extends BaseAdapter {
             viewHolder.tv_total_money=(TextView)convertView.findViewById(R.id.tv_total_money);
             viewHolder.tv_merchant_name=(TextView)convertView.findViewById(R.id.tv_merchant_name);
             viewHolder.rl_bt_holder=(RelativeLayout)convertView.findViewById(R.id.rl_bt_holder);
+            viewHolder.tv_consume_status=(TextView)convertView.findViewById(R.id.tv_consume_status);
             int width=new GetTelephoneUtils(mContext).getWindowWidth()/ GlobalParams.CONSUMPTION_IMG_PROPORTION;
             int height=width* GlobalParams.IMG_HEIGHT/GlobalParams.IMG_WIDTH;
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(width,height);
@@ -86,6 +89,41 @@ public class BorrowBillAdapter extends BaseAdapter {
         viewHolder.tv_repay_type.setText("共"+time+"期");
         viewHolder.tv_merchant_name.setText("天神贷现金贷平台");
         viewHolder.rl_bt_holder.setVisibility(View.GONE);
+
+
+        String status = data.get(position).getStatus();
+        switch (status) {
+            case "0"://0:新用户，没有提交过订单；
+                break;
+            case "1"://1:订单待审核；
+                viewHolder.tv_consume_status.setText("订单待审核");
+                break;
+            case "2"://2:审核通过；
+                viewHolder.tv_consume_status.setText("审核通过");
+                break;
+            case "3"://3:放款成功（钱已经到银行卡）；
+                viewHolder.tv_consume_status.setText("放款成功");
+                break;
+            case "4"://4:审核失败
+                viewHolder.tv_consume_status.setText("审核失败");
+                break;
+            case "5"://5:放款失败
+                viewHolder.tv_consume_status.setText("放款失败");
+                break;
+            case "6"://6:放款中
+                viewHolder.tv_consume_status.setText("放款中");
+                break;
+            case "7"://7:已还款
+                viewHolder.tv_consume_status.setText("已还款");
+                break;
+            case "8": //8:已经提交还款（还款金额还没到账
+                viewHolder.tv_consume_status.setText("已经提交还款");
+                break;
+            case "9": //9:决策失败
+
+                break;
+        }
+
         return convertView;
     }
     private class ViewHolder{
@@ -94,6 +132,7 @@ public class BorrowBillAdapter extends BaseAdapter {
         private ImageView iv_merchan_logo;
         private TextView tv_merchant_name;
         private TextView tv_total_money;
+        private TextView tv_consume_status;
         private RelativeLayout rl_bt_holder;
 
     }
