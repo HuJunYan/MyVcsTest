@@ -157,9 +157,9 @@ public class NetBase {
                     view.setEnabled(true);
                 }
                 LogUtil.d("ret", "failed: url = " + url + " ; m = " + m + "--ExceptionCode-->" + e.getExceptionCode());
-                Logger.d("下行failed--url->"+url);
-                Logger.d(e);
-                Logger.d(m);
+                Logger.d("下行failed--url-->" + url);
+                Logger.d("下行failed--msg-->" + m);
+                Logger.d("下行failed--code-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
                 DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
                 ViewUtil.cancelLoadingDialog();
