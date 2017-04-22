@@ -17,10 +17,13 @@ import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.ConsumeDataBean;
 import com.tianshen.cash.model.InstallmentHistoryBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.RepayInfoBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
+import com.tianshen.cash.net.api.GetVerifySmsForRepayment;
 import com.tianshen.cash.net.api.Repayment;
+import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.LogUtil;
@@ -79,6 +82,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
     private int mStartTime = 59;
 
+    private String mVerifySmsForRepaymentType = "0";
 
     private static final int MSG_SEVERITY_TIME = 1;
     private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
@@ -120,6 +124,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmRepayApply.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
+        tv_repay_severity_code.setOnClickListener(this);
     }
 
     @Override
@@ -133,6 +138,10 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.tv_confirm_protocol:
                 gotoWebActivity();
+                break;
+            case R.id.tv_repay_severity_code:
+                mHandler.sendEmptyMessage(MSG_SEVERITY_TIME);
+                initVerifySmsForRepayment();
                 break;
         }
     }
@@ -202,11 +211,38 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 获取掌中还款的验证码
+     */
+    private void initVerifySmsForRepayment() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("type", mVerifySmsForRepaymentType);
+            GetVerifySmsForRepayment getVerifySmsForRepayment = new GetVerifySmsForRepayment(mContext);
+            getVerifySmsForRepayment.getVerify(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    if (paramT.getCode() == 0) {
+                        ToastUtil.showToast(mContext, "发送验证码成功!");
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 刷新验证码UI
      */
     private void refreshSeverityTextUI() {
 
-        if (isFinishing()){
+        if (isFinishing()) {
             return;
         }
 
@@ -216,6 +252,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             tv_repay_severity_code.setText("重获取验证码");
             mStartTime = 59;
             tv_repay_severity_code.setEnabled(true);
+            mVerifySmsForRepaymentType = "1";
             mHandler.removeMessages(MSG_SEVERITY_TIME);
         } else {
             tv_repay_severity_code.setEnabled(false);
@@ -256,26 +293,26 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
             String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
 
-            JSONObject consumeDataJSON= new JSONObject();
-            consumeDataJSON.put("consume_id",consumeId);
-            consumeDataJSON.put("type","5");
-            consumeDataJSON.put("repay_date","");
-            consumeDataJSON.put("amount","");
-            consumeDataJSON.put("overdue_amount","");
+            JSONObject consumeDataJSON = new JSONObject();
+            consumeDataJSON.put("consume_id", consumeId);
+            consumeDataJSON.put("type", "5");
+            consumeDataJSON.put("repay_date", "");
+            consumeDataJSON.put("amount", "");
+            consumeDataJSON.put("overdue_amount", "");
 
-            JSONObject installmentHistoryJSON= new JSONObject();
-            installmentHistoryJSON.put("id",id);
-            installmentHistoryJSON.put("repay_date",repayDate);
-            installmentHistoryJSON.put("amount",consumeAmount);
-            installmentHistoryJSON.put("overdue_amount",overdueAmount);
+            JSONObject installmentHistoryJSON = new JSONObject();
+            installmentHistoryJSON.put("id", id);
+            installmentHistoryJSON.put("repay_date", repayDate);
+            installmentHistoryJSON.put("amount", consumeAmount);
+            installmentHistoryJSON.put("overdue_amount", overdueAmount);
 
             JSONArray historyArray = new JSONArray();
             historyArray.put(installmentHistoryJSON);
 
-            consumeDataJSON.put("installment_history",historyArray);
+            consumeDataJSON.put("installment_history", historyArray);
             JSONArray consume_data_array = new JSONArray();
             consume_data_array.put(consumeDataJSON);
-            jsonObject.put("consume_data",consume_data_array);
+            jsonObject.put("consume_data", consume_data_array);
 
             Repayment getRepayInfo = new Repayment(mContext);
             getRepayInfo.repayment(jsonObject, tvConfirmRepayApply, true, 5, new BaseNetCallBack<ResponseBean>() {
