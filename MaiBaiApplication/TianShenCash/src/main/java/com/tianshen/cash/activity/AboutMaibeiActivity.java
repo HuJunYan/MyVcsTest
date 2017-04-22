@@ -14,7 +14,10 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
+import com.tianshen.cash.model.CompanyInfoBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.CheckUpgrade;
+import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
@@ -23,6 +26,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyTextView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AboutMaibeiActivity extends BaseActivity implements View.OnClickListener, UpdateManager.Control {
@@ -40,6 +44,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         width = metric.widthPixels;  // 宽度（PX）
         height = metric.heightPixels;  // 高度（PX）
         initData();
+        initCompanyInfo();
     }
 
     @Override
@@ -86,6 +91,38 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             return "Fail";
         }
+    }
+
+    /**
+     * 得到公司信息
+     */
+    private void initCompanyInfo() {
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final GetCompayInfo getCompayInfo = new GetCompayInfo(mContext);
+        getCompayInfo.compayInfo(jsonObject, null, true, new BaseNetCallBack<CompanyInfoBean>() {
+
+            @Override
+            public void onSuccess(CompanyInfoBean paramT) {
+                String wechatId = paramT.getData().getWechat_id();
+                String service_telephone = paramT.getData().getService_telephone();
+                User user = TianShenUserUtil.getUser(mContext);
+                user.setService_telephone(service_telephone);
+                user.setWechat_id(wechatId);
+                TianShenUserUtil.saveUser(mContext, user);
+                mtv_weixin_num.setTv_right(wechatId);
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
     }
 
     public void initData() {
