@@ -278,7 +278,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("consume_data",consume_data_array);
 
             Repayment getRepayInfo = new Repayment(mContext);
-            getRepayInfo.repayment(jsonObject, null, true, 5, new BaseNetCallBack<ResponseBean>() {
+            getRepayInfo.repayment(jsonObject, tvConfirmRepayApply, true, 5, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
                     EventBus.getDefault().post(new RepayEvent());
