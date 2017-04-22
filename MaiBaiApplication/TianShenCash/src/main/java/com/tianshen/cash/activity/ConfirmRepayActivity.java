@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -12,21 +13,15 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.RepayEvent;
-import com.tianshen.cash.event.TimeOutEvent;
-import com.tianshen.cash.model.ConsumeDataBean;
-import com.tianshen.cash.model.InstallmentHistoryBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.RepayInfoBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
 import com.tianshen.cash.net.api.GetVerifySmsForRepayment;
+import com.tianshen.cash.net.api.PayConfirmZhangzhong;
 import com.tianshen.cash.net.api.Repayment;
-import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.GsonUtil;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -35,8 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -335,8 +328,35 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 掌众还款
      */
     private void repayByZhangZhong() {
-        ToastUtil.showToast(mContext, "掌众产品还款");
-        backActivity();
+
+        String verifyCode = et_repay_severity_code.getText().toString().trim();
+        if (TextUtils.isEmpty(verifyCode)) {
+            ToastUtil.showToast(mContext, "请输入验证码!");
+            return;
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("verifyCode", verifyCode);
+            PayConfirmZhangzhong payConfirmZhangzhong = new PayConfirmZhangzhong(mContext);
+            payConfirmZhangzhong.payConfirm(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    if (paramT.getCode() == 0) {
+                        EventBus.getDefault().post(new RepayEvent());
+                        backActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
