@@ -265,7 +265,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_goto_repay: //点击了立即还款
                 gotoActivity(mContext, ConfirmRepayActivity.class, null);
                 break;
-            case R.id.tv_home_confirm_money: //点击了确认按钮
+            case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
                 break;
             case R.id.iv_procedures_home: //点击了借款提示
@@ -502,12 +502,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     tv_home_tianshen_card_can_pay.setVisibility(View.VISIBLE);
                 } else {
                     showConsumeStatusUI();//显示用户订单轨迹的UI (已经还款需要点"我知道了,点击我知道了需要调用一个接口")
+                    tv_home_confirm_money.setText("我知道了");
                     tv_home_confirm_money.setVisibility(View.VISIBLE);
                 }
                 break;
             case "1"://1:订单待审核；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
-                tv_home_confirm_money.setVisibility(View.GONE);
+                showRefreshButtonUI();//显示刷新按钮
                 break;
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
@@ -521,6 +522,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     showRepayUI();
                 } else {
                     showConsumeStatusUI();
+                    tv_home_confirm_money.setText("我知道了");
                     tv_home_confirm_money.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -548,6 +550,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
         }
 
+    }
+
+
+
+    /**
+     * 显示数据错误UI
+     */
+    private void showRefreshButtonUI() {
+        tv_home_confirm_money.setText("刷新");
+        tv_home_confirm_money.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -885,6 +897,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void onClickIKnow() {
         String status = mUserConfig.getData().getStatus();
         switch (status) {
+            case "1": //等待审核
+                initUserConfig();
+                break;
             case "3": //借款成功
                 showFriendlyTipsDialog();
                 break;
