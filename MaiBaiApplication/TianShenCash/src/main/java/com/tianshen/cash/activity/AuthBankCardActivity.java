@@ -252,66 +252,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 得到验证码
-     */
-    private void initSeverityCode() {
-        if (mBankCardInfoBean == null) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            return;
-        }
-        BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
-        String bank_name = bankCardInfoBeanData.getBank_name(); //银行卡名字
-        String bankId = bankCardInfoBeanData.getBank_id();
-        String card_user_name = etAuthBankCardPerson.getText().toString().trim();
-        String card_num = et_auth_card_num.getText().toString().trim();
-        String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
-
-        if (TextUtils.isEmpty(tv_bank_card.getText())) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            return;
-        }
-        if (TextUtils.isEmpty(card_user_name)) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            return;
-        }
-        if (TextUtils.isEmpty(card_num)) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            return;
-        }
-        if (TextUtils.isEmpty(reserved_mobile)) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            return;
-        }
-        String userId = TianShenUserUtil.getUserId(mContext);
-
-        try {
-            JSONObject mJson = new JSONObject();
-            mJson.put("bank_name", bank_name);
-            mJson.put("bank_id", bankId);
-            mJson.put("customer_id", userId);
-            mJson.put("card_user_name", card_user_name);
-            mJson.put("card_num", card_num);
-            mJson.put("reserved_mobile", reserved_mobile);
-            GetBindVerifySms mGetBindVerifyCode = new GetBindVerifySms(mContext);
-            mGetBindVerifyCode.getBindVerifySms(mJson, tvSeverityCode, true, new BaseNetCallBack<BindVerifySmsBean>() {
-                @Override
-                public void onSuccess(BindVerifySmsBean paramT) {
-                    ToastUtil.showToast(mContext, "验证码发送成功");
-                    bind_no = paramT.getData().getBind_no();
-                    refreshSeverityTextUI();
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-        }
-
-    }
 
     /**
      * 显示银行卡列表Dialog
@@ -367,6 +307,77 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 得到验证码
+     */
+    private void initSeverityCode() {
+        if (mBankCardInfoBean == null) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
+        String bank_name = bankCardInfoBeanData.getBank_name(); //银行卡名字
+        String bankId = bankCardInfoBeanData.getBank_id();
+        String card_user_name = etAuthBankCardPerson.getText().toString().trim();
+        String card_num = et_auth_card_num.getText().toString().trim();
+        String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
+
+
+        LogUtil.d("abc","bank_id--1->"+bankId);
+        if (mBankListBean != null) {
+            BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+            bankId = itemBean.getBank_id();
+            LogUtil.d("abc","bank_id--2->"+bankId);
+        }
+
+
+
+        if (TextUtils.isEmpty(tv_bank_card.getText())) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(card_user_name)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(card_num)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        if (TextUtils.isEmpty(reserved_mobile)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            return;
+        }
+        String userId = TianShenUserUtil.getUserId(mContext);
+
+        try {
+            JSONObject mJson = new JSONObject();
+            mJson.put("bank_name", bank_name);
+            mJson.put("bank_id", bankId);
+            mJson.put("customer_id", userId);
+            mJson.put("card_user_name", card_user_name);
+            mJson.put("card_num", card_num);
+            mJson.put("reserved_mobile", reserved_mobile);
+            GetBindVerifySms mGetBindVerifyCode = new GetBindVerifySms(mContext);
+            mGetBindVerifyCode.getBindVerifySms(mJson, tvSeverityCode, true, new BaseNetCallBack<BindVerifySmsBean>() {
+                @Override
+                public void onSuccess(BindVerifySmsBean paramT) {
+                    ToastUtil.showToast(mContext, "验证码发送成功");
+                    bind_no = paramT.getData().getBind_no();
+                    refreshSeverityTextUI();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+
+    }
+
+    /**
      * 绑定银行卡
      */
     private void bindBankCard() {
@@ -385,12 +396,9 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String bank_name = tv_bank_card.getText().toString(); //银行卡名字
 
         String bank_id = mBankCardInfoBean.getData().getBank_id();
-
-        if (TextUtils.isEmpty(bank_id)) {
-            if (mBankListBean != null) {
-                BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
-                bank_id = itemBean.getBank_id();
-            }
+        if (mBankListBean != null) {
+            BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+            bank_id = itemBean.getBank_id();
         }
 
         if (TextUtils.isEmpty(card_user_name)) {
