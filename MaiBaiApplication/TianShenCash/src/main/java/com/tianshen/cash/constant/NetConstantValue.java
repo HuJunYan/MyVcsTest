@@ -574,14 +574,14 @@ public class NetConstantValue {
      * 得到第三方验证码(掌众)
      */
     public static String getVerifySmsForConfirmLoanUrl() {
-        return COMMONURI + "ThirdParty/getVerifySmsForConfirmLoan";
+        return COMMONURI + "Order/ZhangZhongLoanCommit";
     }
 
     /**
      * 提交确认放款验证码(掌众)
      */
     public static String getSubmitVerifyCodeUrl() {
-        return COMMONURI + "ThirdParty/submitVerifyCode";
+        return COMMONURI + "Order/ZhangZhongSubmitLoan";
     }
 
     /**

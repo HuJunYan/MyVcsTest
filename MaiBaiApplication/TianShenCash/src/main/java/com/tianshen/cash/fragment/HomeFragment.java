@@ -1012,7 +1012,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
+            String consume_id = mUserConfig.getData().getConsume_id();
             jsonObject.put("customer_id", userId);
+            jsonObject.put("consume_id", consume_id);
             jsonObject.put("type", type);
             GetVerifySmsForConfirmLoan getVerifySmsForConfirmLoan = new GetVerifySmsForConfirmLoan(mContext);
             getVerifySmsForConfirmLoan.getVerifySmsForConfirmLoan(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
@@ -1036,7 +1038,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
+            String consume_id = mUserConfig.getData().getConsume_id();
             jsonObject.put("customer_id", userId);
+            jsonObject.put("consume_id", consume_id);
             jsonObject.put("verufy_code", verufy_code);
             jsonObject.put("type", "1");
             SubmitVerifyCode submitVerifyCode = new SubmitVerifyCode(mContext);
