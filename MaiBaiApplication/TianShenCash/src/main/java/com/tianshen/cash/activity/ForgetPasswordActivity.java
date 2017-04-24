@@ -145,8 +145,10 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.et_card:
                 Log.d("ret", "onRightClick:11 ");
-                if (isUserSignIn()) {
-                    if (!et_mobile.getEditTextString().trim().equals(UserUtil.getMobile(mContext))) {
+                boolean login = TianShenUserUtil.isLogin(mContext);
+                if (login) {
+                    String userPhoneNum = TianShenUserUtil.getUserPhoneNum(mContext);
+                    if (!et_mobile.getEditTextString().trim().equals(userPhoneNum)) {
                         ToastUtil.showToast(mContext, "请输入本人手机号");
                         return false;
                     }
@@ -154,15 +156,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 return getVerityCode();
         }
         return false;
-    }
-
-    private boolean isUserSignIn() {
-        String customerId = TianShenUserUtil.getUserId(mContext);
-        if (customerId != null && !"".equals(customerId) && !"0".equals(customerId)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
