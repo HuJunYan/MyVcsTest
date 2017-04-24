@@ -152,10 +152,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             return;
         }
 
-        User user = TianShenUserUtil.getUser(mContext);
-        String repayId = mOrderConfirmBean.getData().getRepay_id();
-        user.setRepay_id(repayId);
-        TianShenUserUtil.saveUser(mContext, user);
+        String type = mOrderConfirmBean.getData().getType();
+        if ("1".equals(type)) {
+            User user = TianShenUserUtil.getUser(mContext);
+            String repayId = mOrderConfirmBean.getData().getRepay_id();
+            user.setRepay_id(repayId);
+            TianShenUserUtil.saveUser(mContext, user);
+        }
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
