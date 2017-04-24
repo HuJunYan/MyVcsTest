@@ -179,6 +179,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_repay_danger_money_key)
     TextView tv_repay_danger_money_key;
 
+    @BindView(R.id.tv_home_tianshen_card_can_pay)
+    TextView tv_home_tianshen_card_can_pay;
+
     private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
@@ -489,11 +492,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //        is_payway = "1";
 //        status = "2";
 
+        tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
+
         switch (status) {
             case "0"://0:新用户，没有提交过订单；
                 ArrayList<UserConfig.Data.Consume> consume_status_list = mUserConfig.getData().getConsume_status_list();
                 if (consume_status_list == null || consume_status_list.size() == 0) {
                     initSelWithdrawalsData();//显示用户没有下单的UI
+                    tv_home_tianshen_card_can_pay.setVisibility(View.VISIBLE);
                 } else {
                     showConsumeStatusUI();//显示用户订单轨迹的UI (已经还款需要点"我知道了,点击我知道了需要调用一个接口")
                     tv_home_confirm_money.setVisibility(View.VISIBLE);
@@ -728,6 +734,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tvHomeTianshenCardNum.setText(cardNum);
         tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 5);
         tvHomeUserLimitValue.setText("0");
+        tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
     }
 
     /**
@@ -1067,7 +1074,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 收到了在注册页面登录成功的消息
+     * 收到了退出成功的消息
      */
     @Subscribe
     public void onLoginoutSuccess(LogoutSuccessEvent event) {

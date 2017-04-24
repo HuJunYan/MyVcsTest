@@ -60,6 +60,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tv_home_tianshen_card_can_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -68,6 +69,7 @@
                         android:paddingLeft="1dp"
                         android:paddingRight="1dp"
                         android:text="可借款"
+                        android:visibility="gone"
                         android:textColor="@color/global_txt_green"
                         android:textSize="11sp" />
 
