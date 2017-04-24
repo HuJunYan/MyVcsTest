@@ -41,6 +41,15 @@ public class OrderConfirmBean {
         private String id_num;
         private String detail;
         private String repayment_amout;
+        private String repay_id;
+
+        public String getRepay_id() {
+            return repay_id;
+        }
+
+        public void setRepay_id(String repay_id) {
+            this.repay_id = repay_id;
+        }
 
         public String getRepayment_amout() {
             return repayment_amout;

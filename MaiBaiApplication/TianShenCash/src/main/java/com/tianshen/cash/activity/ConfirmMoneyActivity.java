@@ -151,6 +151,12 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         if (mOrderConfirmBean == null) {
             return;
         }
+
+        User user = TianShenUserUtil.getUser(mContext);
+        String repayId = mOrderConfirmBean.getData().getRepay_id();
+        user.setRepay_id(repayId);
+        TianShenUserUtil.saveUser(mContext, user);
+
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
         String poundage = mOrderConfirmBean.getData().getPoundage();//手续费
