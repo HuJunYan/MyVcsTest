@@ -96,6 +96,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
     private boolean isGetContactsing;//当前是否正在获取联系人
 
+    private MaterialDialog materialDialog;
+
     private List<HashMap<String, String>> mContacts;
 
     ArrayList<String> mContactsDialogDada;
@@ -184,8 +186,12 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
      */
     private void getContacts() {
 
-        //当前只执行一个人任务
+        //判断当前是否执行任务
         if (isGetContactsing) {
+            return;
+        }
+        //判断当前是否显示dialog
+        if (materialDialog != null && materialDialog.isShowing()) {
             return;
         }
         getObservable()
@@ -244,7 +250,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     }
 
 
-
     /**
      * 显示选择联系人的dialog
      */
@@ -255,7 +260,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             return;
         }
 
-        new MaterialDialog.Builder(mContext)
+        materialDialog = new MaterialDialog.Builder(mContext)
                 .title("选择联系人")
                 .items(mContactsDialogDada)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -264,8 +269,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                         mContactsPoistion = position;
                         refreshContactUI();
                     }
-                })
-                .show();
+                }).show();
+
     }
 
 
