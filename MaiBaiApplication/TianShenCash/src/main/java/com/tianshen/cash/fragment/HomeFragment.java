@@ -1050,9 +1050,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_dialog_get_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                refreshSeverityTextUI();
                 initVerifySmsForConfirmLoanUrl(mVerifyCodeType);
                 mVerifyCodeType = "1";
-                refreshSeverityTextUI();
+
             }
         });
 
