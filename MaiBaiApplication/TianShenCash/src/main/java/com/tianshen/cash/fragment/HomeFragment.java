@@ -999,6 +999,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 显示友情提示Dialog
      */
     private void showFriendlyTipsDialog() {
+
+        if (getActivity().isFinishing()){
+            return;
+        }
+
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_friendly_tips, null, false);
         final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
@@ -1024,6 +1029,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void showVerifyCodeDialog() {
 
+        if (getActivity().isFinishing()){
+            return;
+        }
+
+        //第一次打开dialog调用验证码type为0，之后为1
         mVerifyCodeType = "0";
 
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
