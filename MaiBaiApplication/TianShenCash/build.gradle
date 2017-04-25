@@ -85,7 +85,7 @@ dependencies {
     //人脸识别证扫描依赖库
     compile project(path: ':LivenessLibrary')
     //support
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
     //google services
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
     //butterknife

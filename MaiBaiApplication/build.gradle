@@ -29,8 +29,8 @@ ext {
     compileSdkVersion = 25
     buildToolsVersion = '25.0.2'
 
-
     // Libraries
+    supportLibVersion = '25.1.0'
 
 }
 
