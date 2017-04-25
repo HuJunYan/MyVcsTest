@@ -12,8 +12,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdk
         versionCode 104
         versionName "1.0.4"
-        multiDexEnabled true
         resConfigs "zh","en"
+
+        // dex突破65535的限制
+        multiDexEnabled true
     }
     signingConfigs {
         releaseConfig {

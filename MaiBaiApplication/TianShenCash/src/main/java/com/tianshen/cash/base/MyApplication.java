@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.tianshen.cash.constant.NetConstantValue;
@@ -31,6 +32,11 @@ public class MyApplication extends Application {
 
     public void setResumeContext(Context mResumeContext) {
         this.mResumeContext = mResumeContext;
+    }
+
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override
