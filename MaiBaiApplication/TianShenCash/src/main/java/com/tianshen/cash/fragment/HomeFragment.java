@@ -205,6 +205,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private UploadToServerUtil mUploadToServerUtil;
 
+    private  TextView tv_dialog_get_verify_code;
+    private int mStartTime = 59;
+
+    private static final int MSG_SEVERITY_TIME = 2;
+    private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
+
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
@@ -214,6 +220,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             switch (message.what) {
                 case MSG_SHOW_TEXT:
                     refreshStaticsRollUI();
+                    break;
+                case MSG_SEVERITY_TIME:
+                    refreshSeverityTextUI();
                     break;
             }
         }
@@ -808,6 +817,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mHandler.sendEmptyMessageDelayed(MSG_SHOW_TEXT, SHOW_TEXT_TIME);
     }
 
+
+    /**
+     * 刷新验证码UI
+     */
+    private void refreshSeverityTextUI() {
+
+        if (getActivity().isFinishing()) {
+            return;
+        }
+
+        tv_dialog_get_verify_code.setText(mStartTime + "");
+        mStartTime--;
+        if (mStartTime == 0) {
+            tv_dialog_get_verify_code.setText("重获取验证码");
+            mStartTime = 59;
+            tv_dialog_get_verify_code.setEnabled(true);
+            mHandler.removeMessages(MSG_SEVERITY_TIME);
+        } else {
+            tv_dialog_get_verify_code.setEnabled(false);
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
+    }
+
     /**
      * 刷新seekBar
      */
@@ -999,7 +1032,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mVerifyCodeDialog.setContentView(view);
         mVerifyCodeDialog.setCanceledOnTouchOutside(false);
         mVerifyCodeDialog.setCancelable(true);
-        TextView tv_dialog_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_get_verify_code);
+
+        tv_dialog_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_get_verify_code);
         final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_verify_code);
         TextView tv_dialog_get_money = (TextView) view.findViewById(R.id.tv_dialog_get_money);
 
@@ -1008,6 +1042,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 initVerifySmsForConfirmLoanUrl(mVerifyCodeType);
                 mVerifyCodeType = "1";
+                refreshSeverityTextUI();
             }
         });
 
