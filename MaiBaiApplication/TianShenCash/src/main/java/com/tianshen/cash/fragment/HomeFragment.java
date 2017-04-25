@@ -537,9 +537,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
+                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
+                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "6"://6放款中
                 showConsumeStatusUI();
@@ -555,13 +559,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "9": //9决策失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
+                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
         }
 
     }
 
-
+    /**
+     * 点击了我知道按钮
+     */
+    private void onClickIKnow() {
+        String status = mUserConfig.getData().getStatus();
+        switch (status) {
+            case "0": //还款成功
+                repayIknow();
+                break;
+            case "1": //等待审核
+                initUserConfig();
+                break;
+            case "3": //借款成功
+                showFriendlyTipsDialog();
+                break;
+            case "4": //审核失败
+                initUserConfig();
+                break;
+            case "5": //放款失败
+                initUserConfig();
+                break;
+            case "9": //决策失败
+                initUserConfig();
+                break;
+        }
+    }
 
     /**
      * 显示数据错误UI
@@ -898,24 +928,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         refreshLoanNumUI(currentProgress);
                     }
                 }).show();
-    }
-
-    /**
-     * 点击了我知道按钮
-     */
-    private void onClickIKnow() {
-        String status = mUserConfig.getData().getStatus();
-        switch (status) {
-            case "1": //等待审核
-                initUserConfig();
-                break;
-            case "3": //借款成功
-                showFriendlyTipsDialog();
-                break;
-            case "0": //还款成功
-                repayIknow();
-                break;
-        }
     }
 
     /**
