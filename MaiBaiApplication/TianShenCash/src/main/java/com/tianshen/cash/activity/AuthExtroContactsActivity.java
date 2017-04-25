@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 紧急联系人
@@ -93,23 +102,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
     private ArrayList<String> mNexus = new ArrayList<>();
 
-    private static final int MSG_SHOW_CONTACTS_DIALOG = 1;
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message message) {
-            switch (message.what) {
-                case MSG_SHOW_CONTACTS_DIALOG:
-                    mContacts = (List<HashMap<String, String>>) message.obj;
-                    parserContactsData(mContacts);
-                    ViewUtil.cancelLoadingDialog();
-                    showContactsDialog();
-                    isGetContactsing = false;
-                    break;
-            }
-        }
-    };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +122,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -188,31 +179,71 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                 .show();
     }
 
-
     /**
      * 得到联系人信息
      */
-    private synchronized void getContacts() {
+    private void getContacts() {
 
+        //当前只执行一个人任务
         if (isGetContactsing) {
             return;
         }
-
-        String loadText = this.mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
-        ViewUtil.createLoadingDialog((Activity) this.mContext, loadText, false);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                isGetContactsing = true;
-                List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
-                Message msg = Message.obtain();
-                msg.what = MSG_SHOW_CONTACTS_DIALOG;
-                msg.obj = contacts;
-                mHandler.sendMessage(msg);
-            }
-        }).start();
+        getObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver());
     }
+
+    private Observable<List<HashMap<String, String>>> getObservable() {
+        return Observable.create(new ObservableOnSubscribe<List<HashMap<String, String>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<HashMap<String, String>>> e) throws Exception {
+                if (!e.isDisposed()) {
+                    List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
+                    e.onNext(contacts);
+                    e.onComplete();
+                }
+            }
+        });
+    }
+
+    private Observer<List<HashMap<String, String>>> getObserver() {
+        return new Observer<List<HashMap<String, String>>>() {
+            //任务执行之前
+            @Override
+            public void onSubscribe(Disposable d) {
+                isGetContactsing = true;
+                String loadText = mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
+                ViewUtil.createLoadingDialog((Activity) mContext, loadText, false);
+            }
+
+            //任务执行之后
+            @Override
+            public void onNext(List<HashMap<String, String>> value) {
+                mContacts = value;
+                parserContactsData(mContacts);
+                isGetContactsing = false;
+            }
+
+            //任务执行完毕
+            @Override
+            public void onComplete() {
+                ViewUtil.cancelLoadingDialog();
+                showContactsDialog();
+                isGetContactsing = false;
+            }
+
+            //任务异常
+            @Override
+            public void onError(Throwable e) {
+                ViewUtil.cancelLoadingDialog();
+                isGetContactsing = false;
+            }
+
+        };
+    }
+
+
 
     /**
      * 显示选择联系人的dialog
