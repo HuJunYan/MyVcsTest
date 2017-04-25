@@ -1115,12 +1115,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
                     mVerifyCodeDialog.dismiss();
-                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    initUserConfig();
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     mVerifyCodeDialog.dismiss();
+                    initUserConfig();
                 }
             });
         } catch (JSONException e) {
