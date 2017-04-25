@@ -998,7 +998,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mVerifyCodeDialog = new Dialog(mContext, R.style.MyDialog);
         mVerifyCodeDialog.setContentView(view);
         mVerifyCodeDialog.setCanceledOnTouchOutside(false);
-        mVerifyCodeDialog.setCancelable(false);
+        mVerifyCodeDialog.setCancelable(true);
         TextView tv_dialog_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_get_verify_code);
         final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_verify_code);
         TextView tv_dialog_get_money = (TextView) view.findViewById(R.id.tv_dialog_get_money);
