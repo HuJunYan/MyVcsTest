@@ -41,6 +41,13 @@ public class NetConstantValue {
     }
 
     /**
+     * 得到天神贷移动客服URL
+     */
+    public static String getServiceOnlineURL() {
+        return "https://www.sobot.com/chat/h5/index.html?sysNum=eed6a16224794580a33bf2e3a4e4a16a";
+    }
+
+    /**
      * 用户登录
      * api: com.maibei.merchants.net.api.SignIn.signIn()
      *

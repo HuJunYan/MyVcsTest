@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,10 @@ import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.SettingActivity;
+import com.tianshen.cash.activity.WebActivity;
 import com.tianshen.cash.base.BaseFragment;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.CompanyInfoBean;
 import com.tianshen.cash.model.PostDataBean;
@@ -75,6 +79,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlMeAbout;
     @BindView(R.id.rl_me_setting)
     RelativeLayout rlMeSetting;
+    @BindView(R.id.rl_me_tianshen_service_online)
+    RelativeLayout rl_me_tianshen_service_online;
 
     @Override
     protected void initVariable() {
@@ -106,6 +112,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rlMeTianshenService.setOnClickListener(this);
         rlMeAbout.setOnClickListener(this);
         rlMeSetting.setOnClickListener(this);
+        rl_me_tianshen_service_online.setOnClickListener(this);
     }
 
     private void refreshUI() {
@@ -119,7 +126,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         String isShowServiceTelephone = user.getIs_show_service_telephone();
-        LogUtil.d("abc", "isShowServiceTelephone-->" + isShowServiceTelephone);
         if ("1".equals(isShowServiceTelephone)) {
             rlMeTianshenService.setVisibility(View.VISIBLE);
         } else {
@@ -169,9 +175,25 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 gotoActivity(mContext, SettingActivity.class, null);
                 break;
+            case R.id.rl_me_tianshen_service_online:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                gotoWebActivity();
+                break;
         }
     }
 
+    /**
+     * 跳转到WebActivity
+     */
+    private void gotoWebActivity() {
+        String serviceOnlineURL = NetConstantValue.getServiceOnlineURL();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, serviceOnlineURL);
+        gotoActivity(mContext, WebActivity.class, bundle);
+    }
 
     /**
      * 得到公司信息

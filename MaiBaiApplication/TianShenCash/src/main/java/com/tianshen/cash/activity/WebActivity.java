@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.utils.LogUtil;
 
 import butterknife.BindView;
 
@@ -63,6 +64,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setWebView() {
+
+        LogUtil.d("abc", "mUrl--->" + mUrl);
+
         wv_web.loadUrl(mUrl);
         wv_web.setWebViewClient(new WebViewClient() {
             @Override

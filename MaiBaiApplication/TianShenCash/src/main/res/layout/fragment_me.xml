@@ -148,21 +148,25 @@
                     android:layout_marginRight="15dp"
                     android:src="@drawable/ic_arraw_right2" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/global_line_bg" />
             </RelativeLayout>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
+                android:layout_marginTop="12dp"
                 android:background="@color/global_line_bg" />
 
             <RelativeLayout
-                android:id="@+id/rl_me_tianshen_service"
+                android:id="@+id/rl_me_tianshen_service_online"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
 
                 <View
@@ -171,12 +175,51 @@
                     android:background="@color/global_line_bg" />
 
                 <ImageView
-                    android:id="@+id/iv_me_tianshen_service"
+                    android:id="@+id/iv_me_tianshen_service_online"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/ic_me_tianshen_service" />
+
+                <TextView
+                    android:id="@+id/tv_me_tianshen_service_online"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_me_tianshen_service_online"
+                    android:text="在线客服"
+                    android:textColor="@color/global_txt_black4" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/global_line_bg" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_me_tianshen_service"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@color/global_bg_white">
+
+                <ImageView
+                    android:id="@+id/iv_me_tianshen_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_servie_iphone" />
 
                 <TextView
                     android:id="@+id/tv_me_tianshen_service"
@@ -196,12 +239,13 @@
                     android:layout_marginRight="15dp"
                     android:src="@drawable/ic_arraw_right2" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/global_line_bg" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/global_line_bg" />
 
             <RelativeLayout
                 android:id="@+id/rl_me_about"
