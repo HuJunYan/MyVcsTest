@@ -537,29 +537,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setText("刷新");
                 tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setText("刷新");
                 tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "6"://6放款中
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
+                tv_home_confirm_money.setText("刷新");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
-            case "7"://7 已还款
+            case "7"://7 已还款 (废弃)
 //                showConsumeStatusUI();
 //                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "8": //8已经提交还款（还款金额还没到账
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
+                tv_home_confirm_money.setText("刷新");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "9": //9决策失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("我知道了");
+                tv_home_confirm_money.setText("刷新");
                 tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
         }
@@ -587,6 +589,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "5": //放款失败
                 initUserConfig();
                 break;
+            case "6": //放款中
+                initUserConfig();
+                break;
+            case "8": //已经提交还款（还款金额还没到账
+                initUserConfig();
             case "9": //决策失败
                 initUserConfig();
                 break;
