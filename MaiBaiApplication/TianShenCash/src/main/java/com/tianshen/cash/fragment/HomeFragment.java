@@ -482,7 +482,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String is_payway = mUserConfig.getData().getIs_payway();
         User user = TianShenUserUtil.getUser(mContext);
         String is_show_service_telephone = mUserConfig.getData().getIs_show_service_telephone();
-        if (TextUtils.isEmpty(is_show_service_telephone)){
+        if (TextUtils.isEmpty(is_show_service_telephone)) {
             is_show_service_telephone = "0";
         }
         user.setIs_show_service_telephone(is_show_service_telephone);
