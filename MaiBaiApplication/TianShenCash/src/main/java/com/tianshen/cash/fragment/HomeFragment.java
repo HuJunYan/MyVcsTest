@@ -537,8 +537,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
@@ -561,8 +560,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "9": //9决策失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
+                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
         }
 
@@ -583,9 +581,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "3": //借款成功
                 showFriendlyTipsDialog();
                 break;
-            case "4": //审核失败
-                initUserConfig();
-                break;
             case "5": //放款失败
                 initUserConfig();
                 break;
@@ -593,8 +588,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 initUserConfig();
                 break;
             case "8": //已经提交还款（还款金额还没到账
-                initUserConfig();
-            case "9": //决策失败
                 initUserConfig();
                 break;
         }
