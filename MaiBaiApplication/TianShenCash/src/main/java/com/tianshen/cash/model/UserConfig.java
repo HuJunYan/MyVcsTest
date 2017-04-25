@@ -51,7 +51,16 @@ public class UserConfig {
         private String repayment_time_day;
         private String remaining_days;
         private String max_cash;
+        private String is_show_service_telephone;
         private ArrayList<Consume> consume_status_list;
+
+        public String getIs_show_service_telephone() {
+            return is_show_service_telephone;
+        }
+
+        public void setIs_show_service_telephone(String is_show_service_telephone) {
+            this.is_show_service_telephone = is_show_service_telephone;
+        }
 
         public String getMax_cash() {
             return max_cash;

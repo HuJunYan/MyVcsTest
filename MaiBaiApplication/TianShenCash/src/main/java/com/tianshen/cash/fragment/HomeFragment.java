@@ -474,16 +474,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
 
+        //刷新天神卡
         refreshCardUI();
-        //存储当前产品类型
+
+
+        //存储用户相关
         String is_payway = mUserConfig.getData().getIs_payway();
         User user = TianShenUserUtil.getUser(mContext);
+        String is_show_service_telephone = mUserConfig.getData().getIs_show_service_telephone();
+        if (TextUtils.isEmpty(is_show_service_telephone)){
+            is_show_service_telephone = "0";
+        }
+        user.setIs_show_service_telephone(is_show_service_telephone);
+        user.setIs_payway(is_payway);
+        TianShenUserUtil.saveUser(mContext, user);
+
+
 
         boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
         boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
-
-        user.setIs_payway(is_payway);
-        TianShenUserUtil.saveUser(mContext, user);
 
         String status = mUserConfig.getData().getStatus();
 

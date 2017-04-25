@@ -32,9 +32,18 @@ public class User {
     private String address;//详细地址
     private String service_telephone; //服务电话
     private String wechat_id; //微信号
+    private String is_show_service_telephone; //是否显示客服电话
 
     private boolean isClickedHomeGetMoneyButton;//用户是否点过放款确认按钮
     private boolean isClickedHomeRePayMoneyButton;//用户是否点过还款确认按钮
+
+    public String getIs_show_service_telephone() {
+        return is_show_service_telephone;
+    }
+
+    public void setIs_show_service_telephone(String is_show_service_telephone) {
+        this.is_show_service_telephone = is_show_service_telephone;
+    }
 
     public String getService_telephone() {
         return service_telephone;
