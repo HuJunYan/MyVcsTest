@@ -595,7 +595,7 @@ public class NetConstantValue {
      * 得到第三方验证码还款的时候(掌众)
      */
     public static String getVerifySmsForRepaymentUrl() {
-        return COMMONURI + "ThirdParty/getVerifySmsForRepayment";
+        return COMMONURI + "Order/ZhangZhongCommitRepayMentApply";
     }
 
     /**
