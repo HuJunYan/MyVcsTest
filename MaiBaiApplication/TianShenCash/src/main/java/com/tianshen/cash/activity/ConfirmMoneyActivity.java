@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
@@ -67,6 +68,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmApply;
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
+
+    @BindView(R.id.ll_wait_pay)
+    LinearLayout ll_wait_pay;
+
 
     private OrderConfirmBean mOrderConfirmBean;
 
