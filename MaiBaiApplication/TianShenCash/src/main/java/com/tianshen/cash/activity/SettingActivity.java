@@ -111,6 +111,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
+                    liteOrm.delete(User.class);
+                    EventBus.getDefault().post(new LogoutSuccessEvent());
+                    backActivity();
                 }
             });
 
