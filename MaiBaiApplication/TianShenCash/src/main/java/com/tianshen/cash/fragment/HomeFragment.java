@@ -202,6 +202,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private String mVerifyCodeType;
 
     private boolean mQuotaFlag; //只有页面正在显示的时候收到此消息才强制跳转到下单页面
+    private int mQuotaCount;//工具类会发送2次事件...fuck bug
 
     private UploadToServerUtil mUploadToServerUtil;
 
@@ -312,6 +313,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onPause() {
         super.onPause();
         mQuotaFlag = false;
+        mQuotaCount = 0;
     }
 
 
@@ -1226,11 +1228,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 收到了强行跳转到下单页面
      */
     @Subscribe
-    public void onQuotaEvent(QuotaEvent event) {
+    public synchronized void onQuotaEvent(QuotaEvent event) {
         LogUtil.d("abc", "收到了强行跳转到下单页面");
-        if (mQuotaFlag) {
+        if (mQuotaFlag && mQuotaCount == 0) {
             gotoActivity(mContext, ConfirmMoneyActivity.class, null);
         }
+        mQuotaCount++;
     }
 
 
