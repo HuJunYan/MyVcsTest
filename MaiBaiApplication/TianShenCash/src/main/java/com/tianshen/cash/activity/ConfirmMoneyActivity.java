@@ -2,6 +2,7 @@ package com.tianshen.cash.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.TimeOutEvent;
+import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.User;
@@ -72,15 +74,45 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.ll_wait_pay)
     LinearLayout ll_wait_pay;
 
+    private int requests_number = 0;
+
 
     private OrderConfirmBean mOrderConfirmBean;
 
     private boolean mIsTimeOut;
 
+
+    private static final int MSG_ORDER_DATA = 1;
+    private static final int SHOW_ORDER_TIME = 5 * 1000;
+
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message message) {
+            switch (message.what) {
+                case MSG_ORDER_DATA:
+                    requests_number++;
+                    if (requests_number == 4) {
+                        mHandler.removeMessages(MSG_ORDER_DATA);
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        gotoActivity(mContext, MainActivity.class, null);
+                    } else {
+                        initOrderConfirmData();
+                    }
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initOrderConfirmData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -114,6 +146,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("customer_id", userId);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
+            jsonObject.put("requests_number", requests_number);
 
             final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
             getOrderConfirm.getOrderConfirm(jsonObject, new BaseNetCallBack<OrderConfirmBean>() {
@@ -158,12 +191,42 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         }
 
         String type = mOrderConfirmBean.getData().getType();
-        if ("1".equals(type)) {
-            User user = TianShenUserUtil.getUser(mContext);
-            String repayId = mOrderConfirmBean.getData().getRepay_id();
-            user.setRepay_id(repayId);
-            TianShenUserUtil.saveUser(mContext, user);
+        String reportauth = mOrderConfirmBean.getData().getReportauth();
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount();
+
+        if ("1".equals(type)) { //掌众
+            if ("1".equals(reportauth)) { //是否授信，1为授信，0没有授信
+                if (!TextUtils.isEmpty(consume_amount)) {
+                    showNormalUI();
+
+                    //存储ID
+                    User user = TianShenUserUtil.getUser(mContext);
+                    String repayId = mOrderConfirmBean.getData().getRepay_id();
+                    user.setRepay_id(repayId);
+                    TianShenUserUtil.saveUser(mContext, user);
+                    return;
+                }
+            }
+            showPayWaitUI();
+        } else {
+            showNormalUI();
         }
+
+    }
+
+    /**
+     * 显示等待确认Ui
+     */
+    private void showPayWaitUI() {
+        ll_wait_pay.setVisibility(View.VISIBLE);
+        mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
+    }
+
+    /**
+     * 显示正常的UI
+     */
+    private void showNormalUI() {
+        ll_wait_pay.setVisibility(View.GONE);
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
@@ -257,15 +320,15 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     EventBus.getDefault().post(new ApplyEvent());
                     gotoActivity(mContext, MainActivity.class, null);
                 }
-                mIsTimeOut= false;
+                mIsTimeOut = false;
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                mIsTimeOut= true;
+                mIsTimeOut = true;
                 tvConfirmApply.setEnabled(false);
                 tvConfirmMoneyBack.setEnabled(false);
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
                         EventBus.getDefault().post(new TimeOutEvent());
                         gotoActivity(mContext, MainActivity.class, null);

@@ -42,6 +42,15 @@ public class OrderConfirmBean {
         private String detail;
         private String repayment_amout;
         private String repay_id;
+        private String reportauth;
+
+        public String getReportauth() {
+            return reportauth;
+        }
+
+        public void setReportauth(String reportauth) {
+            this.reportauth = reportauth;
+        }
 
         public String getRepay_id() {
             return repay_id;

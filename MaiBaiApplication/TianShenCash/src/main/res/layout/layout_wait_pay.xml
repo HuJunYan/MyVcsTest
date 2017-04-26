@@ -32,7 +32,8 @@
         android:gravity="center"
         android:text="点击刷新"
         android:textColor="#5fbb14"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
 </LinearLayout>
 
