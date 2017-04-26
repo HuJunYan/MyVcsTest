@@ -602,7 +602,7 @@ public class NetConstantValue {
      * 还款(掌众)
      */
     public static String getPayConfirmZhangzhongUrl() {
-        return COMMONURI + "ThirdParty/payConfirmZhangzhong";
+        return COMMONURI + "Order/ZhangZhongConfirmReturnMoney";
     }
 
 
