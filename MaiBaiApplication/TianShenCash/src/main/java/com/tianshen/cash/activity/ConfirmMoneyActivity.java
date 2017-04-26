@@ -77,6 +77,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     private int requests_number = 0;
 
 
+    private boolean mIsShowWaitUI;
+
     private OrderConfirmBean mOrderConfirmBean;
 
     private boolean mIsTimeOut;
@@ -171,7 +173,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm_money_back:
-                backActivity();
+                if (!mIsShowWaitUI) {
+                    backActivity();
+                }
                 break;
             case R.id.tv_confirm_apply:
                 onClickApply();
@@ -218,6 +222,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 显示等待确认Ui
      */
     private void showPayWaitUI() {
+        mIsShowWaitUI = true;
         ll_wait_pay.setVisibility(View.VISIBLE);
         mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
     }
@@ -226,6 +231,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 显示正常的UI
      */
     private void showNormalUI() {
+        mIsShowWaitUI = false;
         ll_wait_pay.setVisibility(View.GONE);
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
@@ -353,7 +359,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mIsTimeOut) {
+            if (mIsTimeOut || mIsShowWaitUI) {
                 return true;
             }
         }
