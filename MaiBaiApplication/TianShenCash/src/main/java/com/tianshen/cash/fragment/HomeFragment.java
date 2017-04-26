@@ -339,6 +339,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUser(mContext, user);
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
+            mQuotaCount = 0;
             uploadContacts();
         } else {//没有认证完毕跳转到认证中心页面
             Bundle applyBundle = new Bundle();
