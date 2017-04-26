@@ -83,7 +83,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
 
     private static final int MSG_ORDER_DATA = 1;
-    private static final int SHOW_ORDER_TIME = 5 * 1000;
+    private static final int SHOW_ORDER_TIME = 10 * 1000;
 
 
     private Handler mHandler = new Handler() {
