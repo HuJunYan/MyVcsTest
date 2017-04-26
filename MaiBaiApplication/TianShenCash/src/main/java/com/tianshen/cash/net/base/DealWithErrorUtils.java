@@ -41,6 +41,7 @@ public class DealWithErrorUtils {
             case 101: // 下单失败
             case 204: // 坐标信息不正确
             case 211:
+                break;
             case 501: // 服务器开小车了，请稍后重试
                 ToastUtil.showToast(context, "网络不给力：" + err_code);
                 break;
