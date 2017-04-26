@@ -260,7 +260,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     private void uploadContacts() {
         mUploadToServerUtil = new UploadToServerUtil(mContext);
         mUploadToServerUtil.setCallBack(new MyUploadCallBack());
-        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLRECORD);
+        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
     }
 
     private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
@@ -275,7 +275,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     break;
                 case GlobalParams.UPLOADCALLRECORD:
                     //上传通话记录成功
-                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
                     break;
                 case GlobalParams.UPLOADMESSAGE:
                     //上传短信成功

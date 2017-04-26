@@ -530,7 +530,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
-                tv_home_confirm_money.setVisibility(View.GONE);
+                tv_home_confirm_money.setText("刷新");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 if ("1".equals(is_payway)) { //如果是掌众需要弹出dialog
                     showVerifyCodeDialog();
                 }
@@ -585,6 +586,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 repayIknow();
                 break;
             case "1": //等待审核
+                initUserConfig();
+                break;
+            case "2": //审核通过(放款中)
                 initUserConfig();
                 break;
             case "3": //借款成功
