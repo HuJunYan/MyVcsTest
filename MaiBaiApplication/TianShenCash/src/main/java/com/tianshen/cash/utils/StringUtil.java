@@ -17,4 +17,23 @@ public class StringUtil {
         }
         return sb.toString();
     }
+
+
+    /**
+     * 给手机号显示
+     */
+    public static String encryptPhoneNum(String phoneNum) {
+        char[] array = phoneNum.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i == 3 || i == 4 || i == 5 || i == 6) {
+                sb.append("*");
+            } else {
+                sb.append(array[i]);
+            }
+        }
+        return sb.toString();
+    }
+
+
 }

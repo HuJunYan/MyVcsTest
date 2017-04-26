@@ -32,6 +32,7 @@ import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -122,7 +123,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         if (TextUtils.isEmpty(phone)) {
             tvMeUserName.setText("未登录");
         } else {
-            tvMeUserName.setText(phone);
+            String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
+            tvMeUserName.setText(encryptPhoneNum);
         }
 
         String isShowServiceTelephone = user.getIs_show_service_telephone();
