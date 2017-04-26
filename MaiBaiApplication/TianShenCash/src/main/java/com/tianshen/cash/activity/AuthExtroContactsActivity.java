@@ -2,10 +2,7 @@ package com.tianshen.cash.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,11 +14,9 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.ExtroContactsBean;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -100,7 +95,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
     private List<HashMap<String, String>> mContacts;
 
-    ArrayList<String> mContactsDialogDada;
+    private ArrayList<String> mContactsDialogDada;
 
     private ArrayList<String> mNexus = new ArrayList<>();
 
@@ -162,25 +157,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    private void showExtroDialog(final int clickPosition) {
-
-        ArrayList<String> mNexus1 = new ArrayList<>();
-        if (clickPosition == 0) {
-            mNexus1.add(mNexus.get(0));
-            mNexus1.add(mNexus.get(1));
-        }
-        new MaterialDialog.Builder(mContext)
-                .title("与我关系")
-                .items(clickPosition == 0 ? mNexus1 : mNexus)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        refreshNexusUI(clickPosition, position);
-                    }
-                })
-                .show();
-    }
-
     /**
      * 得到联系人信息
      */
@@ -197,6 +173,20 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         getObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<List<HashMap<String, String>>, ArrayList<String>>() {
+                    @Override
+                    public ArrayList<String> apply(List<HashMap<String, String>> contacts) throws Exception {
+                        mContacts = contacts;
+                        ArrayList<String> contactsDialogDada = new ArrayList<>();
+                        for (int i = 0; i < contacts.size(); i++) {
+                            HashMap<String, String> contactMap = contacts.get(i);
+                            String name = contactMap.get("name");
+                            String phone = contactMap.get("phone");
+                            contactsDialogDada.add(name + "-" + phone);
+                        }
+                        return contactsDialogDada;
+                    }
+                })
                 .subscribe(getObserver());
     }
 
@@ -213,8 +203,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         });
     }
 
-    private Observer<List<HashMap<String, String>>> getObserver() {
-        return new Observer<List<HashMap<String, String>>>() {
+    private Observer<ArrayList<String>> getObserver() {
+        return new Observer<ArrayList<String>>() {
             //任务执行之前
             @Override
             public void onSubscribe(Disposable d) {
@@ -225,9 +215,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
             //任务执行之后
             @Override
-            public void onNext(List<HashMap<String, String>> value) {
-                mContacts = value;
-                parserContactsData(mContacts);
+            public void onNext(ArrayList<String> value) {
+                mContactsDialogDada = value;
                 isGetContactsing = false;
             }
 
@@ -273,21 +262,27 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
 
     }
 
-
     /**
-     * 解析出联系人信息
+     * 显示关系的dialog
      */
-    private void parserContactsData(List<HashMap<String, String>> contacts) {
-        mContactsDialogDada = new ArrayList<>();
-        for (int i = 0; i < contacts.size(); i++) {
-            HashMap<String, String> contactMap = contacts.get(i);
-            String name = contactMap.get("name");
-            String phone = contactMap.get("phone");
+    private void showExtroDialog(final int clickPosition) {
 
-            mContactsDialogDada.add(name + "-" + phone);
+        ArrayList<String> mNexus1 = new ArrayList<>();
+        if (clickPosition == 0) {
+            mNexus1.add(mNexus.get(0));
+            mNexus1.add(mNexus.get(1));
         }
+        new MaterialDialog.Builder(mContext)
+                .title("与我关系")
+                .items(clickPosition == 0 ? mNexus1 : mNexus)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        refreshNexusUI(clickPosition, position);
+                    }
+                })
+                .show();
     }
-
 
     private void refreshNexusUI(int clickPosition, int selectPosition) {
         if (clickPosition == 0) {
@@ -296,7 +291,6 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             tvAuthNexus2.setText(mNexus.get(selectPosition));
         }
     }
-
 
     private void refreshContactUI() {
         HashMap<String, String> hashMap = mContacts.get(mContactsPoistion);
