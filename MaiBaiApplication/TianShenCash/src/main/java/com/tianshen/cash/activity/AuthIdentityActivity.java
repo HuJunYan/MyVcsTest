@@ -135,8 +135,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
     private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
 
-
-
     private boolean isCanPressBack = true;
     private boolean mSaveIDCardFront; //是否上传身份证正面
 
@@ -238,7 +236,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.tv_identity_post:
-                ToastUtil.showToast(mContext, "保存成功!");
                 backActivity();
                 break;
             case R.id.iv_identity_auth_pic:
@@ -424,6 +421,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 ToastUtil.showToast(mContext, "请拍摄身份证反面");
                 break;
             case 2://人脸检测
+                isCanPressBack = false;
                 startActivityForResult(new Intent(mContext, LivenessActivity.class), GlobalParams.PAGE_INTO_LIVENESS);
                 break;
 
@@ -581,10 +579,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
                     LogUtil.d("abc", "upLoadLivenessImage---onSuccess");
-                    ToastUtil.showToast(mContext, "人脸识别成功!");
                     ImageLoader.load(getApplicationContext(), facePath, ivIdentityAuthFace);
                     compareImage(delta, map);
-                    conformCreditFace();
                 }
 
                 @Override
@@ -671,6 +667,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                                 if (mask_confidence > (float) facePassScore / 100 || screen_replay_confidence > (float) facePassScore / 100 || synthetic_face_confidence > (float) facePassScore / 100 || confidence < facePassScore) {
                                     ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
                                     selectLivenessControl(bean.name, bean.idcard);
+                                } else {
+                                    conformCreditFace();
                                 }
                             }
                         } catch (Exception e1) {
@@ -706,7 +704,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        isCanPressBack = false;
         creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {
             @Override
             public void onSuccess(ResponseBean paramT) {
@@ -718,10 +715,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 //                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
 //                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
                 isCanPressBack = true;
+                ToastUtil.showToast(mContext, "人脸比对成功!");
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
+
             }
         });
     }
@@ -764,7 +763,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 保存身份证正面信息到云端
      */
     private void initSaveIDCardFront() {
-
 
 
         final String real_name = mIDCardBean.name; //身份证姓名
