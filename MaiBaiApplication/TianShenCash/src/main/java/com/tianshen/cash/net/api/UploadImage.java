@@ -16,7 +16,9 @@ import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.DealWithErrorUtils;
 import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.net.base.NetBase;
 import com.tianshen.cash.net.base.NetCheck;
 import com.tianshen.cash.net.base.XUtilsManager;
 import com.tianshen.cash.utils.MemoryAddressUtils;
@@ -132,6 +134,7 @@ public class UploadImage {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
+                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result);
                         }
                     }
                 } catch (Exception e) {
@@ -234,7 +237,7 @@ public class UploadImage {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
-                            ToastUtil.showToast(mContext, R.string.Sendfaile);
+                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result);
                         } else {
                             ToastUtil.showToast(mContext, R.string.SendSuccess);
                         }

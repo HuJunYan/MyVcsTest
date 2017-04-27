@@ -10,10 +10,10 @@ public class NetConstantValue {
 //    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //测试
-//    public static String HOST = "http://118.190.83.21/";
+    public static String HOST = "http://118.190.83.21/";
 
     //测试掌众
-    public static String HOST = "http://118.190.83.21:8083/";
+//    public static String HOST = "http://118.190.83.21:8083/";
 
 
     public static String COMMONURI = HOST + "Home/";
