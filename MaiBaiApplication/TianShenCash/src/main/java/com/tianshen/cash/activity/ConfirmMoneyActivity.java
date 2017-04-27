@@ -74,7 +74,14 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.ll_wait_pay)
     LinearLayout ll_wait_pay;
 
-    private int requests_number = 0;
+    @BindView(R.id.tv_refresh_time)
+    TextView tv_refresh_time;
+
+    @BindView(R.id.tv_refresh_button)
+    TextView tv_refresh_button;
+
+    private int mRequestsCountMax = 3;//轮询多少次
+    private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
 
 
     private boolean mIsShowWaitUI;
@@ -85,21 +92,34 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
 
     private static final int MSG_ORDER_DATA = 1;
-    private static final int SHOW_ORDER_TIME = 10 * 1000;
+    private static final int SHOW_ORDER_TIME = 10 * 1000;//轮询时间间隔
 
+    private int mCurrentRefreshTime =60;
+    private static final int MSG_REFRESH_TIME = 2;
+    private static final int SHOW_REFRESH_TIME = 1 * 1000;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
             switch (message.what) {
                 case MSG_ORDER_DATA:
-                    requests_number++;
-                    if (requests_number == 4) {
+                    mCurrentRequestsCount++;
+                    if (mCurrentRequestsCount == mRequestsCountMax) {
                         mHandler.removeMessages(MSG_ORDER_DATA);
-                        EventBus.getDefault().post(new UserConfigChangedEvent());
-                        gotoActivity(mContext, MainActivity.class, null);
-                        finish();
+                        showRefreshButton();
                     } else {
                         initOrderConfirmData();
+                    }
+                    break;
+                case MSG_REFRESH_TIME:
+                    mCurrentRefreshTime--;
+                    if (mCurrentRefreshTime == 0) {
+                        mCurrentRefreshTime = 60;
+                        tv_refresh_time.setVisibility(View.GONE);
+                        tv_refresh_button.setEnabled(true);
+                    } else {
+                        tv_refresh_time.setVisibility(View.VISIBLE);
+                        tv_refresh_button.setEnabled(false);
+                        refreshTimeButton();
                     }
                     break;
             }
@@ -133,6 +153,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
+        tv_refresh_button.setOnClickListener(this);
     }
 
     /**
@@ -149,8 +170,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("customer_id", userId);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
-            jsonObject.put("requests_number", requests_number);
-
             final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
             getOrderConfirm.getOrderConfirm(jsonObject, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
@@ -184,6 +203,11 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_confirm_protocol:
                 gotoWebActivity();
                 break;
+            case R.id.tv_refresh_button:
+                tv_refresh_button.setEnabled(false);
+                mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
+                initOrderConfirmData();
+                break;
         }
     }
 
@@ -196,17 +220,22 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         }
 
         String type = mOrderConfirmBean.getData().getType();
-        String reportauth = mOrderConfirmBean.getData().getReportauth();
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount();
+        String isJump = mOrderConfirmBean.getData().getIs_jump();
 
         if ("1".equals(type)) { //掌众
-            if ("1".equals(reportauth)) { //是否授信，1为授信，0没有授信
-                if (!TextUtils.isEmpty(consume_amount)) {
-                    showNormalUI();
-                    return;
-                }
+            if ("1".equals(isJump)) { //"是否授信，0停留在本页，1跳转到首页。（掌众需要字段）"
+                gotoMainActivity();
+                return;
             }
-            showPayWaitUI();
+
+            if (TextUtils.isEmpty(consume_amount)) {
+                showPayWaitUI();
+            } else {
+                showNormalUI();
+            }
+
+
         } else {
             showNormalUI();
         }
@@ -218,8 +247,31 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      */
     private void showPayWaitUI() {
         mIsShowWaitUI = true;
+        tvConfirmMoneyBack.setVisibility(View.GONE);
         ll_wait_pay.setVisibility(View.VISIBLE);
-        mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
+
+        if (tv_refresh_button.getVisibility() == View.GONE) {
+            mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
+        }
+
+    }
+
+
+    /**
+     * 显示刷新按钮
+     */
+    private void showRefreshButton() {
+        tv_refresh_time.setVisibility(View.VISIBLE);
+        tv_refresh_button.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * 刷新倒计时
+     */
+    private void refreshTimeButton() {
+        tv_refresh_time.setText("(" + mCurrentRefreshTime + "S)");
+        mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
     }
 
     /**
@@ -227,6 +279,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      */
     private void showNormalUI() {
         mIsShowWaitUI = false;
+        tvConfirmMoneyBack.setVisibility(View.VISIBLE);
         ll_wait_pay.setVisibility(View.GONE);
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
@@ -354,6 +407,15 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURL);
         gotoActivity(mContext, WebActivity.class, bundle);
+    }
+
+    /**
+     * 回到首页
+     */
+    private void gotoMainActivity() {
+        EventBus.getDefault().post(new UserConfigChangedEvent());
+        gotoActivity(mContext, MainActivity.class, null);
+        finish();
     }
 
 

@@ -42,14 +42,14 @@ public class OrderConfirmBean {
         private String detail;
         private String repayment_amout;
         private String repay_id;
-        private String reportauth;
+        private String is_jump;
 
-        public String getReportauth() {
-            return reportauth;
+        public String getIs_jump() {
+            return is_jump;
         }
 
-        public void setReportauth(String reportauth) {
-            this.reportauth = reportauth;
+        public void setIs_jump(String is_jump) {
+            this.is_jump = is_jump;
         }
 
         public String getRepay_id() {
