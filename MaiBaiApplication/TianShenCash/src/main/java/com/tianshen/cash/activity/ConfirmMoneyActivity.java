@@ -80,9 +80,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_refresh_button)
     TextView tv_refresh_button;
 
-    private int mRequestsCountMax = 3;//轮询多少次
-    private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
-
 
     private boolean mIsShowWaitUI;
 
@@ -90,6 +87,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     private boolean mIsTimeOut;
 
+    private int mRequestsCountMax = 3;//轮询多少次
+    private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
 
     private static final int MSG_ORDER_DATA = 1;
     private static final int SHOW_ORDER_TIME = 10 * 1000;//轮询时间间隔
@@ -101,25 +100,20 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
             switch (message.what) {
-                case MSG_ORDER_DATA:
+                case MSG_ORDER_DATA://轮询服务器
                     mCurrentRequestsCount++;
-                    if (mCurrentRequestsCount == mRequestsCountMax) {
-                        mHandler.removeMessages(MSG_ORDER_DATA);
-                        showRefreshButton();
-                    } else {
+                    if (mCurrentRequestsCount < mRequestsCountMax) {
                         initOrderConfirmData();
                     }
                     break;
-                case MSG_REFRESH_TIME:
-                    mCurrentRefreshTime--;
-                    if (mCurrentRefreshTime == 0) {
-                        mCurrentRefreshTime = 60;
+                case MSG_REFRESH_TIME: //刷新倒计时
+                    if (mCurrentRefreshTime == 0) { //到计时结束显示刷新按钮
+                        mHandler.removeMessages(MSG_REFRESH_TIME);
                         tv_refresh_time.setVisibility(View.GONE);
-                        tv_refresh_button.setEnabled(true);
+                        showRefreshButton();
                     } else {
-                        tv_refresh_time.setVisibility(View.VISIBLE);
-                        tv_refresh_button.setEnabled(false);
-                        refreshTimeButton();
+                        mCurrentRefreshTime--;
+                        refreshTime();
                     }
                     break;
             }
@@ -204,8 +198,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 gotoWebActivity();
                 break;
             case R.id.tv_refresh_button:
-                tv_refresh_button.setEnabled(false);
-                mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
                 initOrderConfirmData();
                 break;
         }
@@ -252,6 +244,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
         if (tv_refresh_button.getVisibility() == View.GONE) {
             mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
+            mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
+        } else {
+            mHandler.removeMessages(MSG_REFRESH_TIME);
+            mHandler.removeMessages(MSG_ORDER_DATA);
         }
 
     }
@@ -267,7 +263,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     /**
      * 刷新倒计时
      */
-    private void refreshTimeButton() {
+    private void refreshTime() {
         tv_refresh_time.setText("(" + mCurrentRefreshTime + "S)");
         mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
     }

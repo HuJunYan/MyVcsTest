@@ -35,7 +35,7 @@ public class GetOrderConfirm extends NetBase {
             if (mJSONObject == null) {
                 return;
             }
-            getDataFromServerByPost(mUrl, mJSONObject, null, true, new CallBack() {
+            getDataFromServerByPost(mUrl, mJSONObject, null, false, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {
                     successHandle(result, url, callBack);
