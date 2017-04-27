@@ -3,11 +3,14 @@ package com.tianshen.cash.net.base;
 import android.content.Context;
 import android.content.Intent;
 
+import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,6 +39,8 @@ public class DealWithErrorUtils {
             case 118: // 无升级
                 break;
             case -2: //token错误
+                LiteOrm liteOrm = DBManager.getInstance(context).getLiteOrm();
+                liteOrm.delete(User.class);
                 finishActivityAndGotoLoginActivity();
                 break;
             case 101: // 下单失败
