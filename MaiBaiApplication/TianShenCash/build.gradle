@@ -101,6 +101,8 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    //multidex
+    compile 'com.android.support:multidex:1.0.1'
 
     //rx
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
