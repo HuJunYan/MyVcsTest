@@ -97,6 +97,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                         mHandler.removeMessages(MSG_ORDER_DATA);
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         gotoActivity(mContext, MainActivity.class, null);
+                        finish();
                     } else {
                         initOrderConfirmData();
                     }
