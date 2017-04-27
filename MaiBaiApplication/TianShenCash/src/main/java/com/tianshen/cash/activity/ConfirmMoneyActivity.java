@@ -203,12 +203,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             if ("1".equals(reportauth)) { //是否授信，1为授信，0没有授信
                 if (!TextUtils.isEmpty(consume_amount)) {
                     showNormalUI();
-
-                    //存储ID
-                    User user = TianShenUserUtil.getUser(mContext);
-                    String repayId = mOrderConfirmBean.getData().getRepay_id();
-                    user.setRepay_id(repayId);
-                    TianShenUserUtil.saveUser(mContext, user);
                     return;
                 }
             }
@@ -257,6 +251,12 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //存储ID
+        User user = TianShenUserUtil.getUser(mContext);
+        String repayId = mOrderConfirmBean.getData().getRepay_id();
+        user.setRepay_id(repayId);
+        TianShenUserUtil.saveUser(mContext, user);
     }
 
     /**
