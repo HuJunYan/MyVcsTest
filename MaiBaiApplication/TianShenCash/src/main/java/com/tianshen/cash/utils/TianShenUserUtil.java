@@ -142,7 +142,7 @@ public class TianShenUserUtil {
 
 
     /**
-     * 得到当前用户借款选择产品的ID(如果是自己的产品就返回selWithdrawals里面的id,如果第三方产品返回0)
+     * 得到当前用户借款选择产品的ID返回selWithdrawals里面的id
      */
     public static String getUserRepayId(Context context) {
         String repayId = "0";
@@ -152,12 +152,7 @@ public class TianShenUserUtil {
         if (!mIsLogin) {
             return repayId;
         }
-        boolean isPayWayBySelf = isPayWayBySelf(context);
-        if (isPayWayBySelf) {
-            repayId = user.get(0).getRepay_id();
-        } else {
-            repayId = "0";
-        }
+        repayId = user.get(0).getRepay_id();
         return repayId;
     }
 
