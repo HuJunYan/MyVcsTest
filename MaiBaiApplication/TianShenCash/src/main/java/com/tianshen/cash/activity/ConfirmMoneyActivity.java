@@ -74,6 +74,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.ll_wait_pay)
     LinearLayout ll_wait_pay;
 
+    @BindView(R.id.ll_normal_pay)
+    LinearLayout ll_normal_pay;
+
+
     @BindView(R.id.tv_refresh_time)
     TextView tv_refresh_time;
 
@@ -241,6 +245,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         mIsShowWaitUI = true;
         tvConfirmMoneyBack.setVisibility(View.GONE);
         ll_wait_pay.setVisibility(View.VISIBLE);
+        ll_normal_pay.setVisibility(View.GONE);
 
         if (tv_refresh_button.getVisibility() == View.GONE) {
             mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
@@ -273,8 +278,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      */
     private void showNormalUI() {
         mIsShowWaitUI = false;
-        tvConfirmMoneyBack.setVisibility(View.VISIBLE);
         ll_wait_pay.setVisibility(View.GONE);
+        ll_normal_pay.setVisibility(View.VISIBLE);
+        tvConfirmMoneyBack.setVisibility(View.VISIBLE);
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
