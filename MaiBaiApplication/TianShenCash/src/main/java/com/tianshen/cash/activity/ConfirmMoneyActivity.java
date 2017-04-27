@@ -256,12 +256,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-
     /**
      * 显示刷新按钮
      */
     private void showRefreshButton() {
-        tv_refresh_time.setVisibility(View.VISIBLE);
         tv_refresh_button.setVisibility(View.VISIBLE);
     }
 
