@@ -110,7 +110,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 case MSG_ORDER_DATA://轮询服务器
                     mCurrentRequestsCount++;
                     if (mCurrentRequestsCount < mRequestsCountMax) {
-                        initOrderConfirmData();
+                        initOrderConfirmData(false);
                     }
                     break;
                 case MSG_REFRESH_TIME: //刷新倒计时
@@ -131,7 +131,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initOrderConfirmData();
+        initOrderConfirmData(true);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     /**
      * 得到确认借款数据
      */
-    private void initOrderConfirmData() {
+    private void initOrderConfirmData(boolean isShowDialog) {
 
         try {
             JSONObject jsonObject = new JSONObject();
@@ -173,7 +173,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
             final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
-            getOrderConfirm.getOrderConfirm(jsonObject, new BaseNetCallBack<OrderConfirmBean>() {
+            getOrderConfirm.getOrderConfirm(jsonObject, tv_refresh_button, isShowDialog, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
                 public void onSuccess(OrderConfirmBean bean) {
                     mOrderConfirmBean = bean;
@@ -206,7 +206,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 gotoWebActivity();
                 break;
             case R.id.tv_refresh_button:
-                initOrderConfirmData();
+                initOrderConfirmData(true);
                 break;
         }
     }

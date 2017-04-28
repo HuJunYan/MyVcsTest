@@ -1,6 +1,7 @@
 package com.tianshen.cash.net.api;
 
 import android.content.Context;
+import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.OrderConfirmBean;
@@ -29,13 +30,13 @@ public class GetOrderConfirm extends NetBase {
         mUrl = NetConstantValue.getOrderConfirmUrl();
     }
 
-    public void getOrderConfirm(JSONObject jsonObject, final BaseNetCallBack<OrderConfirmBean> callBack) {
+    public void getOrderConfirm(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<OrderConfirmBean> callBack) {
         try {
             mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
             if (mJSONObject == null) {
                 return;
             }
-            getDataFromServerByPost(mUrl, mJSONObject, null, false, new CallBack() {
+            getDataFromServerByPost(mUrl, mJSONObject, view, isShowDialog, new CallBack() {
                 @Override
                 public void onSuccess(String result, String url) {
                     successHandle(result, url, callBack);
