@@ -315,8 +315,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             return;
         }
         BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
-        String bank_name = bankCardInfoBeanData.getBank_name(); //银行卡名字
         String bankId = bankCardInfoBeanData.getBank_id();
+        String bank_name = tv_bank_card.getText().toString().trim(); //银行卡名字
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
         String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
