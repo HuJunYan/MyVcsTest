@@ -87,9 +87,12 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     private boolean mIsShowWaitUI;
 
+    private boolean mIsTimeOut;
+
+    private boolean mIsTimeDown; //是否正在倒计时
+
     private OrderConfirmBean mOrderConfirmBean;
 
-    private boolean mIsTimeOut;
 
     private int mRequestsCountMax = 3;//轮询多少次
     private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
@@ -97,7 +100,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     private static final int MSG_ORDER_DATA = 1;
     private static final int SHOW_ORDER_TIME = 10 * 1000;//轮询时间间隔
 
-    private int mCurrentRefreshTime =60;
+    private int mCurrentRefreshTime = 60;
     private static final int MSG_REFRESH_TIME = 2;
     private static final int SHOW_REFRESH_TIME = 1 * 1000;
 
@@ -111,13 +114,14 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     }
                     break;
                 case MSG_REFRESH_TIME: //刷新倒计时
-                    if (mCurrentRefreshTime == 0) { //到计时结束显示刷新按钮
+                    if (mCurrentRefreshTime == 1) { //到计时结束显示刷新按钮
                         mHandler.removeMessages(MSG_REFRESH_TIME);
                         tv_refresh_time.setVisibility(View.GONE);
                         showRefreshButton();
                     } else {
                         mCurrentRefreshTime--;
                         refreshTime();
+                        mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
                     }
                     break;
             }
@@ -247,9 +251,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         ll_wait_pay.setVisibility(View.VISIBLE);
         ll_normal_pay.setVisibility(View.GONE);
 
-        if (tv_refresh_button.getVisibility() == View.GONE) {
+        if (tv_refresh_button.getVisibility() == View.GONE) {//刷新按钮没有显示
+            //开始轮询服务器
             mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
-            mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
+            if (!mIsTimeDown) { //如果当前没有倒计时就开始倒计时刷新
+                mIsTimeDown = true;
+                mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
+            }
         } else {
             mHandler.removeMessages(MSG_REFRESH_TIME);
             mHandler.removeMessages(MSG_ORDER_DATA);
@@ -270,7 +278,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      */
     private void refreshTime() {
         tv_refresh_time.setText("(" + mCurrentRefreshTime + "S)");
-        mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
     }
 
     /**
