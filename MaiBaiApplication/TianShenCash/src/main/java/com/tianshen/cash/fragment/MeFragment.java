@@ -137,6 +137,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         String isShowServiceTelephone = user.getIs_show_service_telephone();
+
         if ("1".equals(isShowServiceTelephone)) {
             rlMeTianshenService.setVisibility(View.VISIBLE);
         } else {
@@ -250,30 +251,22 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         RxPermissions rxPermissions = new RxPermissions(getActivity());
 
+        RxView.clicks(tv_call)
+                .compose(rxPermissions.ensureEach(Manifest.permission.CALL_PHONE))
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            new GetTelephoneUtils(mContext).changeLight();
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + serviceTelephone));
+                            startActivity(intent);
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                        } else {
+                        }
+                        dialog.dismiss();
+                    }
+                });
 
-//        RxView.clicks(tv_call)
-//                .compose(rxPermissions.ensureEach(Manifest.permission.READ_CONTACTS))
-//                .subscribe(new Consumer<Permission>() {
-//                    @Override
-//                    public void accept(Permission permission) throws Exception {
-//                        if (permission.granted) {
-//                        } else if (permission.shouldShowRequestPermissionRationale) {
-//                        } else {
-//                        }
-//                    }
-//                });
-
-        tv_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-                new GetTelephoneUtils(mContext).changeLight();
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + serviceTelephone));
-                startActivity(intent);
-
-            }
-        });
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
