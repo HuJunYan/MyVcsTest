@@ -1,18 +1,23 @@
 package com.tianshen.cash.fragment;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
@@ -39,7 +44,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
 
@@ -239,13 +248,30 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         final String serviceTelephone = TianShenUserUtil.getServiceTelephone(mContext);
         tv_dialog_service_phone.setText(serviceTelephone);
 
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+
+
+//        RxView.clicks(tv_call)
+//                .compose(rxPermissions.ensureEach(Manifest.permission.READ_CONTACTS))
+//                .subscribe(new Consumer<Permission>() {
+//                    @Override
+//                    public void accept(Permission permission) throws Exception {
+//                        if (permission.granted) {
+//                        } else if (permission.shouldShowRequestPermissionRationale) {
+//                        } else {
+//                        }
+//                    }
+//                });
+
         tv_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
                 new GetTelephoneUtils(mContext).changeLight();
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + serviceTelephone));
                 startActivity(intent);
+
             }
         });
         tv_cancel.setOnClickListener(new View.OnClickListener() {
