@@ -224,6 +224,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String isJump = mOrderConfirmBean.getData().getIs_jump();
 
         if ("1".equals(type)) { //掌众
+
             if ("1".equals(isJump)) { //"是否授信，0停留在本页，1跳转到首页。（掌众需要字段）"
                 gotoMainActivity();
                 return;
