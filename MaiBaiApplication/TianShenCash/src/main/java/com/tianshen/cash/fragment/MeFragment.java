@@ -127,21 +127,23 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     private void refreshUI() {
 
-        User user = TianShenUserUtil.getUser(mContext);
-        String phone = user.getPhone();
-        if (TextUtils.isEmpty(phone)) {
-            tvMeUserName.setText("未登录");
-        } else {
+        boolean login = TianShenUserUtil.isLogin(mContext);
+        if (login) {
+            User user = TianShenUserUtil.getUser(mContext);
+
+            String phone = user.getPhone();
             String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
             tvMeUserName.setText(encryptPhoneNum);
-        }
 
-        String isShowServiceTelephone = user.getIs_show_service_telephone();
+            String isShowServiceTelephone = user.getIs_show_service_telephone();
+            if ("1".equals(isShowServiceTelephone)) {
+                rlMeTianshenService.setVisibility(View.VISIBLE);
+            } else {
+                rlMeTianshenService.setVisibility(View.GONE);
+            }
 
-        if ("1".equals(isShowServiceTelephone)) {
-            rlMeTianshenService.setVisibility(View.VISIBLE);
         } else {
-            rlMeTianshenService.setVisibility(View.GONE);
+            tvMeUserName.setText("未登录");
         }
 
     }
