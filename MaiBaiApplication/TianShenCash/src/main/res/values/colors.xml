@@ -64,7 +64,7 @@
 
     <!--全局背景颜色-->
     <color name="global_bg_white">#ffffff</color>
-    <color name="global_bg_gray">#f3f7ee</color>
+    <color name="global_bg_gray">#f4f4f4</color>
     <color name="global_bg_green">#5fbb14</color>
 
     <!--全局文字背景颜色-->
