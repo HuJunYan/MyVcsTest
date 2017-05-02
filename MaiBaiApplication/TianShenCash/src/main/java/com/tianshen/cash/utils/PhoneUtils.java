@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import com.tianshen.cash.model.ContactsBean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,6 +80,8 @@ public class PhoneUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        MyComparator myComparator = new MyComparator();
+        Collections.sort(list, myComparator);
         return list;
     }
 
@@ -105,6 +108,8 @@ public class PhoneUtils {
             map.put("phone", phoneNumber);
             list.add(map);
         }
+        MyComparator myComparator = new MyComparator();
+        Collections.sort(list, myComparator);
         return list;
     }
 
