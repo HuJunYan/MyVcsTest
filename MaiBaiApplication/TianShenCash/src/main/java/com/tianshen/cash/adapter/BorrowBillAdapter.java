@@ -120,7 +120,7 @@ public class BorrowBillAdapter extends BaseAdapter {
                 viewHolder.tv_consume_status.setText("已经提交还款");
                 break;
             case "9": //9:决策失败
-
+                viewHolder.tv_consume_status.setText("审核失败");
                 break;
         }
 
