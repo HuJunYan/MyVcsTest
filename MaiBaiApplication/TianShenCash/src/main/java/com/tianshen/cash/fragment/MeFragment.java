@@ -4,6 +4,9 @@ package com.tianshen.cash.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +34,7 @@ import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.CompanyInfoBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.TianShenUser;
 import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.api.IKnow;
@@ -39,6 +43,7 @@ import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
@@ -92,6 +97,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.rl_me_tianshen_service_online)
     RelativeLayout rl_me_tianshen_service_online;
 
+    @BindView(R.id.tv_me_weixin)
+    TextView tv_me_weixin;
+
     @Override
     protected void initVariable() {
     }
@@ -123,6 +131,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rlMeAbout.setOnClickListener(this);
         rlMeSetting.setOnClickListener(this);
         rl_me_tianshen_service_online.setOnClickListener(this);
+        tv_me_weixin.setOnClickListener(this);
     }
 
     private void refreshUI() {
@@ -196,9 +205,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 }
                 gotoWebActivity();
                 break;
+            case R.id.tv_me_weixin:
+                copyWeiXin();
+                break;
+
         }
     }
-
     /**
      * 跳转到WebActivity
      */
@@ -281,6 +293,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         dialog.setContentView(view);
         new GetTelephoneUtils(mContext).changeDark();
     }
+
+
+    /**
+     * 拷贝微信公众号到剪切版
+     */
+    private void copyWeiXin() {
+        ClipboardManager cmb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        cmb.setText("tianshendai");
+        ToastUtil.showToast(mContext, "已复制微信公众号");
+    }
+
 
     /**
      * 收到了在注册页面登录成功的消息
