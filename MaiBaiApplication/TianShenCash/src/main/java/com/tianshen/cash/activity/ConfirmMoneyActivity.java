@@ -342,7 +342,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             User user = TianShenUserUtil.getUser(mContext);
 
             String customer_id = user.getCustomer_id();
-            String repay_id = user.getRepay_id();
             String location = user.getLocation();
             String city = user.getCity();
             String country = user.getCountry();
@@ -351,6 +350,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             String jpush_id = user.getJpush_id();
 
             String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
+            String repay_id = mOrderConfirmBean.getData().getRepay_id();
 
             if (TextUtils.isEmpty(location)) {
                 ToastUtil.showToast(mContext, "请先开打GPS,然后再下单。");
