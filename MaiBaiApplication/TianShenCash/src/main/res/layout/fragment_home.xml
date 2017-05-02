@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/global_txt_white"
-                        android:textSize="42sp" />
+                        android:textSize="48sp" />
 
                 </LinearLayout>
 
