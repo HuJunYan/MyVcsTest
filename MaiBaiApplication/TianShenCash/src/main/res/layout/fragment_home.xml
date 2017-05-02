@@ -107,6 +107,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignRight="@+id/ll_home_tianshen_card_limit"
                     android:layout_below="@+id/ll_home_tianshen_card_limit"
+                    android:layout_marginTop="-3dp"
                     android:text="信用额度"
                     android:textColor="@color/global_txt_white"
                     android:textSize="12sp" />
