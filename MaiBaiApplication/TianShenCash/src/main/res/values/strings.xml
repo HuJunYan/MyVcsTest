@@ -28,6 +28,6 @@
     <string name="initialization_please_wait">正在初始化，请等待</string>
 
 
-    <string name="confirm_protocol">&lt;&lt;天神贷借款协议&gt;&gt;</string>
-    <string name="pay_protocol">&lt;&lt;快捷支付协议&gt;&gt;</string>
+    <string name="confirm_protocol">《天神贷借款协议》</string>
+    <string name="pay_protocol">《快捷支付协议》</string>
 </resources>
