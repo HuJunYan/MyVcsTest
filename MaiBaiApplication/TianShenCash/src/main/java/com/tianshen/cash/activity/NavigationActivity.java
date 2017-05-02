@@ -1,14 +1,19 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.jakewharton.rxbinding2.view.RxView;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
@@ -20,6 +25,7 @@ import com.tianshen.cash.net.api.CheckUpgrade;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
+import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TimeCount;
@@ -29,6 +35,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.Observer;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by 14658 on 2016/7/4.
@@ -89,11 +99,18 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
 
     private void init() {
 
-        TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        UserUtil.setDeviceId(mContext,TelephonyMgr.getDeviceId());
+        RxPermissions rxPermissions = new RxPermissions(NavigationActivity.this);
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                UserUtil.setDeviceId(mContext,TelephonyMgr.getDeviceId());
+            }
+        });
 
         LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
         mLocationUtil.startLocation();
+
     }
 
     @Override
