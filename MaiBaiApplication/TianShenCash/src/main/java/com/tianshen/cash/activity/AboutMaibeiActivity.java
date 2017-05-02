@@ -156,10 +156,9 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mjson.put("app_type", "1");
             mjson.put("device_id", UserUtil.getDeviceId(mContext));
             mjson.put("channel_id", GlobalParams.CHANNEL_ID);
-            checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
+            checkUpgrade.checkUpgrade(mjson, mtv_check_code, true, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {
-
                     if (paramT.getCode() == 0) {//0为应用有升级
                         String apkUrl = paramT.getData().getDownload_url();//更新下载路径
                         String explain = paramT.getData().getIntroduction();//更新说明

@@ -131,14 +131,14 @@ public class NetBase {
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
                     } else {
-                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result);
+                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result ,view);
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {
                     String g = (String) responseInfo.result;
                     Logger.i("下行Exception-->" + url + "result--->" + g);
                     callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
-                    DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
+                    DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view);
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
                 }
@@ -161,7 +161,7 @@ public class NetBase {
                 Logger.d("下行failed--msg-->" + m);
                 Logger.d("下行failed--code-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
-                DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "");
+                DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view);
                 ViewUtil.cancelLoadingDialog();
             }
         });
@@ -222,7 +222,7 @@ public class NetBase {
                         callBack.onSuccess(result, url);
                     } else {
                         ResponseBean mResponseBean = GsonUtil.json2bean(result, ResponseBean.class);
-                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result);
+                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view);
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {

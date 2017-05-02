@@ -2,6 +2,7 @@ package com.tianshen.cash.net.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 
 public class DealWithErrorUtils {
 
-    public static void dealWithErrorCode(Context context, String result) {
+    public static void dealWithErrorCode(Context context, String result, View view) {
         ResponseBean mResponseBean = null;
         String errorMsg = "";
         try {
@@ -29,14 +30,17 @@ public class DealWithErrorUtils {
             errorMsg = context.getResources().getString(R.string.ServiceFaile);
         }
         if (mResponseBean != null) {
-            showErrorToast(context, mResponseBean.getCode(), errorMsg);
+            showErrorToast(context, mResponseBean.getCode(), errorMsg , view);
         }
     }
 
-    private static void showErrorToast(Context context, int err_code, String err_msg) {
+    private static void showErrorToast(Context context, int err_code, String err_msg, View view) {
         switch (err_code) {
             case 10000:
             case 118: // 无升级
+                if (view != null) {
+                    ToastUtil.showToast(context, err_msg);
+                }
                 break;
             case -2: //token错误
                 LiteOrm liteOrm = DBManager.getInstance(context).getLiteOrm();

@@ -134,7 +134,7 @@ public class UploadImage {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
-                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result);
+                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result, null);
                         }
                     }
                 } catch (Exception e) {
@@ -237,7 +237,7 @@ public class UploadImage {
                         if (isRelease) {
                             ResponseBean mResponseBean = GsonUtil.json2bean(responseInfo.result, ResponseBean.class);
                             mUploadImageCallBack.onFailure(responseInfo.result, -1, mResponseBean.getCode());
-                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result);
+                            DealWithErrorUtils.dealWithErrorCode(mContext, responseInfo.result, null);
                         } else {
                             ToastUtil.showToast(mContext, R.string.SendSuccess);
                         }
