@@ -9,11 +9,11 @@ public class NetConstantValue {
     //正式
 //    public static String HOST = "http://tsdapi.9maibei.com/";
 
-    //测试
-    public static String HOST = "http://118.190.83.21/";
-
     //测试掌众
-//    public static String HOST = "http://118.190.83.21:8083/";
+//    public static String HOST = "http://118.190.83.21/";
+
+    //测试自营
+    public static String HOST = "http://118.190.83.21:8083/";
 
 
     public static String COMMONURI = HOST + "Home/";
