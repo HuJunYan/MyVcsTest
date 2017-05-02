@@ -13,6 +13,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://tsdapi.tinybun.top/";
 
     //测试掌众
+    // http://118.190.83.21 之前的
     public static String HOST = "http://115.182.49.78/";
 
 
