@@ -29,6 +29,8 @@
 
     </RelativeLayout>
 
+    <View style="@style/split_line_style" />
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrecyclerview_auth_center"
         android:layout_width="match_parent"
