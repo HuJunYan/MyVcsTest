@@ -529,7 +529,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "1"://1:订单待审核；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
-                showRefreshButtonUI();//显示刷新按钮
+                tv_home_confirm_money.setText("刷新");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
@@ -607,14 +608,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 initUserConfig();
                 break;
         }
-    }
-
-    /**
-     * 显示数据错误UI
-     */
-    private void showRefreshButtonUI() {
-        tv_home_confirm_money.setText("刷新");
-        tv_home_confirm_money.setVisibility(View.VISIBLE);
     }
 
     /**
