@@ -1,44 +1,30 @@
 package com.tianshen.cash.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
-import com.tianshen.cash.adapter.BankListAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.BankCardInfoBean;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.UserAuthCenterBean;
-import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetAllBankList;
 import com.tianshen.cash.net.api.GetBankCardInfo;
 import com.tianshen.cash.net.api.GetBindVerifySms;
-import com.tianshen.cash.net.api.GetUserAuthCenter;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
-import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -48,8 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-
-import static com.tianshen.cash.R.id.et_verification_code;
 
 /**
  * 银行卡信息
@@ -157,8 +141,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 initBankListData();
                 break;
             case R.id.tv_severity_code:
-                initSeverityCode();
                 tvSeverityCode.setEnabled(false);
+                initSeverityCode();
                 break;
         }
     }
@@ -270,8 +254,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                         LogUtil.d("abc", "showBankListDialog---onSelection");
                     }
                 }).show();
-
-        LogUtil.d("abc", "showBankListDialog---over");
     }
 
     /**
@@ -312,8 +294,10 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void initSeverityCode() {
         if (mBankCardInfoBean == null) {
             ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
             return;
         }
+
         BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
         String bankId = bankCardInfoBeanData.getBank_id();
         String bank_name = tv_bank_card.getText().toString().trim(); //银行卡名字
@@ -321,30 +305,35 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
 
-
-        LogUtil.d("abc","bank_id--1->"+bankId);
         if (mBankListBean != null) {
             BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
             bankId = itemBean.getBank_id();
-            LogUtil.d("abc","bank_id--2->"+bankId);
         }
 
 
-
+        if (TextUtils.isEmpty(bankId)) {
+            ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
+            return;
+        }
         if (TextUtils.isEmpty(tv_bank_card.getText())) {
             ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
             return;
         }
         if (TextUtils.isEmpty(card_user_name)) {
             ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
             return;
         }
         if (TextUtils.isEmpty(card_num)) {
             ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
             return;
         }
         if (TextUtils.isEmpty(reserved_mobile)) {
             ToastUtil.showToast(mContext, "请完善资料");
+            tvSeverityCode.setEnabled(true);
             return;
         }
         String userId = TianShenUserUtil.getUserId(mContext);
@@ -374,7 +363,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
-
     }
 
     /**
