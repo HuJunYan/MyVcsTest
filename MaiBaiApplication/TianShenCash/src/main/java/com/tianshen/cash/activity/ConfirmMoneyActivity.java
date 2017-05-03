@@ -421,8 +421,18 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String bank_account = mOrderConfirmBean.getData().getBank_name(); //开户行
         String bank_card = mOrderConfirmBean.getData().getCard_num(); //银联卡账号
         String service_charge = mOrderConfirmBean.getData().getPoundage(); //综合费用
+        try {
+            service_charge = MoneyUtils.changeF2Y(service_charge);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String date_time = mOrderConfirmBean.getData().getDate_time(); // 日期
         String principal = mOrderConfirmBean.getData().getConsume_amount(); //借款本金
+        try {
+            principal = MoneyUtils.changeF2Y(principal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String expire = mOrderConfirmBean.getData().getExpire(); //到期
         String days = mOrderConfirmBean.getData().getDays(); //共计天数
         String total = mOrderConfirmBean.getData().getTotal(); //年利率
