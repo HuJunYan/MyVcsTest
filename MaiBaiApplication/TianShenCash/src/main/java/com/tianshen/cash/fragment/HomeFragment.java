@@ -1128,7 +1128,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 得到第三方验证码
      */
-    private void initVerifySmsForConfirmLoanUrl(String type) {
+    private void initVerifySmsForConfirmLoanUrl(final String type) {
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
@@ -1140,10 +1140,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             getVerifySmsForConfirmLoan.getVerifySmsForConfirmLoan(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
+
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                    if ("0".equals(type)) {
+                        if (errorCode == 10002) {
+                            initVerifySmsForConfirmLoanUrl("1");
+                        }
+                    }
                 }
             });
         } catch (JSONException e) {
