@@ -295,7 +295,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String poundage = mOrderConfirmBean.getData().getPoundage();//手续费
         String amount = mOrderConfirmBean.getData().getAmount();//到账金额
         String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
-        String id_num = mOrderConfirmBean.getData().getId_num();//绑定银行卡卡号
+        String card_num = mOrderConfirmBean.getData().getCard_num();//绑定银行卡卡号
         String repayment_amout = mOrderConfirmBean.getData().getRepayment_amout();//到期还款金额
         try {
             String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
@@ -307,7 +307,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             tvConfirmTransfer.setText(amountY + "元");
             tvConfirmRepay.setText(repaymentAmoutY + "元");
             tvConfirmTime.setText(timer + "天");
-            String cardNum = SafeUtil.encodeBankCardNum(id_num);
+            String cardNum = SafeUtil.encodeBankCardNum(card_num);
             tvConfirmBanckCard.setText(bank_name + cardNum);
         } catch (Exception e) {
             e.printStackTrace();
@@ -419,7 +419,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String common_address = mOrderConfirmBean.getData().getCommon_address(); //常用地址
         String phone = mOrderConfirmBean.getData().getPhone(); //乙方手机号
         String bank_account = mOrderConfirmBean.getData().getBank_name(); //开户行
-        String bank_card = mOrderConfirmBean.getData().getId_num(); //银联卡账号
+        String bank_card = mOrderConfirmBean.getData().getCard_num(); //银联卡账号
         String service_charge = mOrderConfirmBean.getData().getPoundage(); //综合费用
         String date_time = mOrderConfirmBean.getData().getDate_time(); // 日期
         String principal = mOrderConfirmBean.getData().getConsume_amount(); //借款本金

@@ -39,6 +39,7 @@ public class OrderConfirmBean {
         private String amount;
         private String bank_name;
         private String id_num;
+        private String card_num;
         private String detail;
         private String repayment_amout;
         private String repay_id;
@@ -53,6 +54,14 @@ public class OrderConfirmBean {
         private String protocol_num;
         private String overdue;
         private String total;
+
+        public String getCard_num() {
+            return card_num;
+        }
+
+        public void setCard_num(String card_num) {
+            this.card_num = card_num;
+        }
 
         public String getTotal() {
             return total;
