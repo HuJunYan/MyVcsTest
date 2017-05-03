@@ -421,7 +421,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String bank_account = mOrderConfirmBean.getData().getBank_name(); //开户行
         String bank_card = mOrderConfirmBean.getData().getId_num(); //银联卡账号
         String service_charge = mOrderConfirmBean.getData().getPoundage(); //综合费用
-        String dtime = mOrderConfirmBean.getData().getDate_time(); // 日期
+        String date_time = mOrderConfirmBean.getData().getDate_time(); // 日期
         String principal = mOrderConfirmBean.getData().getConsume_amount(); //借款本金
         String expire = mOrderConfirmBean.getData().getExpire(); //到期
         String days = mOrderConfirmBean.getData().getDays(); //共计天数
@@ -439,7 +439,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         sb.append("&bank_account=" + bank_account);
         sb.append("&bank_card=" + bank_card);
         sb.append("&service_charge=" + service_charge);
-        sb.append("&dtime=" + dtime);
+        sb.append("&date_time=" + date_time);
         sb.append("&principal=" + principal);
         sb.append("&expire=" + expire);
         sb.append("&days=" + days);
