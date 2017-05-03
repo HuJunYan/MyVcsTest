@@ -412,8 +412,45 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      */
     private void gotoWebActivity() {
         String userPayProtocolURL = NetConstantValue.getUserPayProtocolURL();
+
+        String second_party = mOrderConfirmBean.getData().getSecond_party(); //乙方
+        String id_num = mOrderConfirmBean.getData().getId_num(); //身份证号
+        String unit_address = mOrderConfirmBean.getData().getUnit_address();//单位地址
+        String common_address = mOrderConfirmBean.getData().getCommon_address(); //常用地址
+        String phone = mOrderConfirmBean.getData().getPhone(); //乙方手机号
+        String bank_account = mOrderConfirmBean.getData().getBank_name(); //开户行
+        String bank_card = mOrderConfirmBean.getData().getId_num(); //银联卡账号
+        String service_charge = mOrderConfirmBean.getData().getPoundage(); //综合费用
+        String dtime = mOrderConfirmBean.getData().getDate_time(); // 日期
+        String principal = mOrderConfirmBean.getData().getConsume_amount(); //借款本金
+        String expire = mOrderConfirmBean.getData().getExpire(); //到期
+        String days = mOrderConfirmBean.getData().getDays(); //共计天数
+        String total = mOrderConfirmBean.getData().getTotal(); //年利率
+        String protocol_num = mOrderConfirmBean.getData().getProtocol_num();//合同编号
+        String overdue = mOrderConfirmBean.getData().getOverdue();// 逾期
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(userPayProtocolURL);
+        sb.append("?second_party=" + second_party);
+        sb.append("&id_num=" + id_num);
+        sb.append("&unit_address=" + unit_address);
+        sb.append("&common_address=" + common_address);
+        sb.append("&phone=" + phone);
+        sb.append("&bank_account=" + bank_account);
+        sb.append("&bank_card=" + bank_card);
+        sb.append("&service_charge=" + service_charge);
+        sb.append("&dtime=" + dtime);
+        sb.append("&principal=" + principal);
+        sb.append("&expire=" + expire);
+        sb.append("&days=" + days);
+        sb.append("&total=" + total);
+        sb.append("&protocol_num=" + protocol_num);
+        sb.append("&overdue=" + overdue);
+
+        String userPayProtocolURLF = sb.toString();
+
         Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURL);
+        bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURLF);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 

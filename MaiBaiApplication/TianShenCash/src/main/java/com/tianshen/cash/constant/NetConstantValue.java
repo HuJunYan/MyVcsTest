@@ -36,9 +36,16 @@ public class NetConstantValue {
     }
 
     /**
-     * 得到天神贷分期付款服务协议URL
+     * 得到天神贷借款协议
      */
     public static String getUserPayProtocolURL() {
+        return HOST + "h5/protocol/agreement.html";
+    }
+
+    /**
+     * 得到天神贷还款协议
+     */
+    public static String getUserRePayProtocolURL() {
         return HOST + "h5/protocol/order.html";
     }
 
