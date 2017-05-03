@@ -585,6 +585,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 showConsumeStatusUI();
                 tv_home_confirm_money.setVisibility(View.GONE);
                 break;
+            case "12": //12还款失败
+                showConsumeStatusUI();
+                tv_home_confirm_money.setText("重新还款");
+                tv_home_confirm_money.setVisibility(View.VISIBLE);
+                break;
         }
 
     }
@@ -615,6 +620,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "8": //已经提交还款（还款金额还没到账
                 initUserConfig();
+                break;
+            case "12": //还款失败
+                repayIknow();
                 break;
         }
     }
@@ -993,7 +1001,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
-                    TianShenUserUtil.clearMoneyStatus(mContext);
+                    String status = mUserConfig.getData().getStatus();
+                    if ("0".equals(status)) {
+                        TianShenUserUtil.clearMoneyStatus(mContext);
+                    }
                     initUserConfig();
                 }
             }
