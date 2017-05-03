@@ -193,9 +193,9 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private void onClickItem(int position) {
 
-        String status = null;
+        String identityStatus = null;
         if (mAuthCenterItemBeans != null) {
-            status = mAuthCenterItemBeans.get(0).getStatus();
+            identityStatus = mAuthCenterItemBeans.get(0).getStatus();
         }
 
         switch (position) {
@@ -209,20 +209,27 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
             case 3://跳转到收款银行卡
-                if ("0".equals(status)) {
+                if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
                 }
                 gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
             case 4://跳转到运营商认证
-                if ("0".equals(status)) {
+                if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                String chinaStatus = null;
+                if (mAuthCenterItemBeans != null) {
+                    chinaStatus = mAuthCenterItemBeans.get(4).getStatus();
+                }
+                if ("1".equals(chinaStatus)) {
+                    ToastUtil.showToast(mContext, "之前已经认证!");
                     return;
                 }
                 gotoChinaMobileActivity();
                 break;
-
         }
     }
 
