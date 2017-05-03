@@ -1002,8 +1002,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
                     String status = mUserConfig.getData().getStatus();
-                    if ("0".equals(status)) {
-                        TianShenUserUtil.clearMoneyStatus(mContext);
+                    switch (status) {
+                        case "0":
+                            TianShenUserUtil.clearMoneyStatus(mContext);
+                            break;
+                        case "12":
+                            User user = TianShenUserUtil.getUser(mContext);
+                            user.setClickedHomeGetMoneyButton(true);
+                            TianShenUserUtil.saveUser(mContext, user);
+                            break;
                     }
                     initUserConfig();
                 }
