@@ -182,6 +182,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_tianshen_card_can_pay)
     TextView tv_home_tianshen_card_can_pay;
 
+    @BindView(R.id.iv_danger_money)
+    ImageView iv_danger_money;
+
+
     private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
@@ -248,6 +252,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_goto_repay.setOnClickListener(this);
         ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
+        iv_danger_money.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
     }
@@ -281,6 +286,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.iv_procedures_home: //点击了借款提示
                 ToastUtil.showToast(mContext, "该手续费率及期限仅供参考，最终借款费率会根据借款金额、周期及提交资料审核后的综合信用评估结果来收取。");
                 break;
+            case R.id.iv_danger_money: //点击了逾期提示
+                showDangerTipsDialog();
+                break;
         }
     }
 
@@ -294,6 +302,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             initSelWithdrawalsData();
         }
         initStaticsRoll();
+
     }
 
     @Override
@@ -815,6 +824,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mCurrentIndex++;
         mHandler.removeMessages(MSG_SHOW_TEXT);
         mHandler.sendEmptyMessageDelayed(MSG_SHOW_TEXT, SHOW_TEXT_TIME);
+
     }
 
 
@@ -1018,6 +1028,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 user.setClickedHomeGetMoneyButton(true);
                 TianShenUserUtil.saveUser(mContext, user);
                 showRepayUI();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
+
+    /**
+     * 显示逾期Dialog
+     */
+    private void showDangerTipsDialog() {
+
+        if (getActivity().isFinishing()){
+            return;
+        }
+
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_danger_tips, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        TextView tv_dialog_danger_tips = (TextView) view.findViewById(R.id.tv_dialog_danger_tips);
+        tv_dialog_danger_tips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mDialog.dismiss();
             }
         });
