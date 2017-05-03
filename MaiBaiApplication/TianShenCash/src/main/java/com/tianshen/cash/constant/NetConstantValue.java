@@ -7,14 +7,14 @@ public class NetConstantValue {
 
 
     //正式
-//    public static String HOST = "http://tsdapi.9maibei.com/";
+    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //测试自营
 //    public static String HOST = "http://tsdapi.tinybun.top/";
 
     //测试掌众
     // http://118.190.83.21 之前的
-    public static String HOST = "http://115.182.49.78/";
+//    public static String HOST = "http://115.182.49.78/";
 
 
     public static String COMMONURI = HOST + "Home/";

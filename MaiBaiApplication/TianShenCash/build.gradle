@@ -10,8 +10,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 200
+        versionName "2.0.0"
         resConfigs "zh","en"
 
         // dex突破65535的限制
