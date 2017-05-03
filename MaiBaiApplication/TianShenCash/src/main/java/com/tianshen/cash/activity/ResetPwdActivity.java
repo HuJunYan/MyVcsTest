@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.ResetPassword;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -196,6 +199,11 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
 //                    setResult(SETTING_PASSWORD_SUCCESS);
 //                    backActivity();
                     ToastUtil.showToast(mContext, "密码设置成功", Toast.LENGTH_SHORT);
+
+
+                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
+                    liteOrm.delete(User.class);
+
                     EventBus.getDefault().post(new FinishCurrentActivityEvent());
                     Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
