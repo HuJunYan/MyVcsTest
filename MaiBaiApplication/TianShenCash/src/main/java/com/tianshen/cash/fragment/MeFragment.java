@@ -26,6 +26,7 @@ import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
+import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.activity.WebActivity;
 import com.tianshen.cash.base.BaseFragment;
@@ -215,10 +216,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      * 跳转到WebActivity
      */
     private void gotoWebActivity() {
-        String serviceOnlineURL = NetConstantValue.getServiceOnlineURL();
-        Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.WEB_URL_KEY, serviceOnlineURL);
-        gotoActivity(mContext, WebActivity.class, bundle);
+        gotoActivity(mContext, ServiceOnlineActivity.class, null);
     }
 
     /**

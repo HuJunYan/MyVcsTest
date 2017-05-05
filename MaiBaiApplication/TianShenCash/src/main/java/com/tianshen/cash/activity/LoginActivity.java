@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -41,6 +43,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.functions.Consumer;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private final int LOGINSUCCESS = 5;
@@ -95,8 +98,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void initData() {
-        TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        mUniqueId = TelephonyMgr.getDeviceId();
+
+        RxPermissions rxPermissions = new RxPermissions(LoginActivity.this);
+        rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                mUniqueId = TelephonyMgr.getDeviceId();
+            }
+        });
+
         mSignIn = new SignIn(mContext);
     }
 
