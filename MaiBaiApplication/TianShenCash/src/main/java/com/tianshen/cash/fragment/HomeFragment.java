@@ -1,5 +1,7 @@
 package com.tianshen.cash.fragment;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -24,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -185,6 +188,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.iv_danger_money)
     ImageView iv_danger_money;
 
+    @BindView(R.id.rl_home_max_sb_thumb)
+    RelativeLayout rl_home_max_sb_thumb;
+
+    @BindView(R.id.tv_home_max_sb_thumb)
+    TextView tv_home_max_sb_thumb;
+
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -210,7 +219,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private UploadToServerUtil mUploadToServerUtil;
 
-    private  TextView tv_dialog_get_verify_code;
+    private TextView tv_dialog_get_verify_code;
     private int mStartTime = 59;
 
     private static final int MSG_SEVERITY_TIME = 2;
@@ -511,7 +520,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUser(mContext, user);
 
 
-
         boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
         boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
 
@@ -782,6 +790,43 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 显示进度条上方的金额
+     */
+    private void showSeekBarThumbMoney(){
+        rl_home_max_sb_thumb.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 隐藏进度条上方的金额
+     */
+    private void hideSeekBarThumbMoney() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                rl_home_max_sb_thumb.setVisibility(View.INVISIBLE);
+            }
+        }, 350);
+    }
+
+    /**
+     * 金额移动动画
+     */
+    private void moveSeekBarThumbMoney(int progress) {
+        String s = String.format(Locale.CHINA, "%d", progress);
+        tv_home_max_sb_thumb.setText(s);
+
+        float val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
+        float offset = minMaxSb.getThumbOffset();
+        float newX = val + offset;
+
+        ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
+        ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(x, y);
+        animatorSet.setDuration(0);
+        animatorSet.start();
+    }
+
+    /**
      * 刷新天神卡
      */
     private void refreshCardUI() {
@@ -931,6 +976,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String s = String.format(Locale.CHINA, "%d", progress);
         tvLoanNumValue.setText(s + " 元");
 
+
+
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
         List<CashSubItemBean> cash_data = withdrawalsItemBean.getCash_data();
@@ -1028,7 +1075,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void showFriendlyTipsDialog() {
 
-        if (getActivity().isFinishing()){
+        if (getActivity().isFinishing()) {
             return;
         }
 
@@ -1057,7 +1104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void showDangerTipsDialog() {
 
-        if (getActivity().isFinishing()){
+        if (getActivity().isFinishing()) {
             return;
         }
 
@@ -1082,7 +1129,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void showVerifyCodeDialog() {
 
-        if (getActivity().isFinishing()){
+        if (getActivity().isFinishing()) {
             return;
         }
 
@@ -1196,16 +1243,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onProgressChanged(float progress) {
             refreshLoanNumUI((int) progress);
+            moveSeekBarThumbMoney((int) progress);
         }
 
         @Override
         public void onStartTrackingTouch(float progress) {
-
+            showSeekBarThumbMoney();
         }
 
         @Override
         public void onStopTrackingTouch(float progress) {
             refreshLoanNumUI((int) progress);
+            hideSeekBarThumbMoney();
         }
     }
 
@@ -1288,7 +1337,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         mQuotaCount++;
     }
-
 
 
 }
