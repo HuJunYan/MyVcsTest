@@ -413,8 +413,11 @@ public class LivenessActivity extends Activity implements PreviewCallback,
         }
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        MyMap map = new MyMap();
-        map.setImages(idDataStruct.images);
+        MyMap map = null;
+        if (idDataStruct != null) {
+            map = new MyMap();
+            map.setImages(idDataStruct.images);
+        }
         bundle.putSerializable("images", map);
         bundle.putString("result", jsonObject.toString());
         bundle.putString("logmsg", mLogMsg);

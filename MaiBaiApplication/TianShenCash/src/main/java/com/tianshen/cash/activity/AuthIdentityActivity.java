@@ -424,11 +424,19 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 isCanPressBack = false;
                 startActivityForResult(new Intent(mContext, LivenessActivity.class), GlobalParams.PAGE_INTO_LIVENESS);
                 break;
-
         }
     }
 
     private void livenessResult(Bundle bundle) {
+
+        MyMap myMap = (MyMap) bundle.getSerializable("images");
+        if (myMap == null) {
+            ToastUtil.showToast(mContext, "检测失败，重新再试!");
+            mIsClickPosition = 2;
+            gotoFaceAddAddActivity();
+            return;
+        }
+
         String resultOBJ = bundle.getString("result");
         try {
             JSONObject result = new JSONObject(resultOBJ);
