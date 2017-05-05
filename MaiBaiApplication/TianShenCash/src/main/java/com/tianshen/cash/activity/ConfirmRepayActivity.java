@@ -341,7 +341,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             jsonObject.put("customer_id", userId);
             jsonObject.put("verifyCode", verifyCode);
             PayConfirmZhangzhong payConfirmZhangzhong = new PayConfirmZhangzhong(mContext);
-            payConfirmZhangzhong.payConfirm(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+            payConfirmZhangzhong.payConfirm(jsonObject, tvConfirmRepayApply, true, new BaseNetCallBack<PostDataBean>() {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
                     if (paramT.getCode() == 0) {
