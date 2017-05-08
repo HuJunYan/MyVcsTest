@@ -74,6 +74,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.et_auth_info_work_address_details)
     EditText etAuthInfoWorkAddressDetails;
 
+    @BindView(R.id.tv_auth_info_marry)
+    TextView tv_auth_info_marry;
+
+    @BindView(R.id.tv_auth_info_educational)
+    TextView tv_auth_info_educational;
 
     private AddressBean mProvinceBean;
     private AddressBean mCityBean;
@@ -95,7 +100,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private String company_address_county;//用户公司地址地区
 
 
+    private String[] marryData = {"未婚", "已婚", "离异", "再婚"};
+    private String[] educationalData = {"小学", "初中", "高中", "本科", "硕士"};
+
     private boolean mIsClickHome;
+
+
 
     @Override
     protected int setContentView() {
@@ -113,6 +123,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         tvAuthInfoPost.setOnClickListener(this);
         tvAuthInfoHomeAddress.setOnClickListener(this);
         tvAuthInfoWorkAddress.setOnClickListener(this);
+        tv_auth_info_marry.setOnClickListener(this);
+        tv_auth_info_educational.setOnClickListener(this);
     }
 
     @Override
@@ -137,6 +149,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_auth_info_work_address:
                 mIsClickHome = false;
                 initProvinceData();
+                break;
+            case R.id.tv_auth_info_marry:
+                showMarryDialog();
+                break;
+            case R.id.tv_auth_info_educational:
+                showEducationalDialog();
                 break;
         }
     }
@@ -301,6 +319,35 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mCityPosition = position;
                         initCountyData();
+                    }
+                }).show();
+    }
+
+
+    /**
+     * 显示选择婚姻状态的dialog
+     */
+    private void showMarryDialog() {
+        new MaterialDialog.Builder(mContext)
+                .title("婚姻状态")
+                .items(marryData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                    }
+                }).show();
+    }
+
+    /**
+     * 显示选择学历的dialog
+     */
+    private void showEducationalDialog() {
+        new MaterialDialog.Builder(mContext)
+                .title("最高学历")
+                .items(educationalData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                     }
                 }).show();
     }
@@ -500,4 +547,5 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         });
 
     }
+
 }
