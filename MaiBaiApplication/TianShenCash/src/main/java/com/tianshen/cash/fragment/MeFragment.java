@@ -190,6 +190,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 initCompanyInfo();
                 break;
             case R.id.rl_me_about:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
                 gotoActivity(mContext, AboutMaibeiActivity.class, null);
                 break;
             case R.id.rl_me_setting:
