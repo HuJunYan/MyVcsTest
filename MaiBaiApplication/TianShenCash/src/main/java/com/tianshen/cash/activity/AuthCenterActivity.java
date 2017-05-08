@@ -229,6 +229,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 gotoChinaMobileActivity();
+            case 5://跳转到运营商认证
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                ToastUtil.showToast(mContext, "点击了芝麻信用!");
                 break;
         }
     }
@@ -360,8 +366,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean4.setStatus(china_mobile);
 
         AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
-        authCenterItemBean5.setName("更多信息可选填");
-        authCenterItemBean5.setDrawable_id(R.drawable.ic_auth_center_more_item);
+        authCenterItemBean5.setName("芝麻信用");
+        authCenterItemBean5.setDrawable_id(R.drawable.ic_auth_center_zhi_ma_item);
+        authCenterItemBean5.setStatus("0");
+
+        AuthCenterItemBean authCenterItemBean6 = new AuthCenterItemBean();
+        authCenterItemBean6.setName("更多信息可选填");
+        authCenterItemBean6.setDrawable_id(R.drawable.ic_auth_center_more_item);
 
         authCenterItemBeans.add(authCenterItemBean0);
         authCenterItemBeans.add(authCenterItemBean1);
@@ -369,6 +380,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBeans.add(authCenterItemBean3);
         authCenterItemBeans.add(authCenterItemBean4);
         authCenterItemBeans.add(authCenterItemBean5);
+        authCenterItemBeans.add(authCenterItemBean6);
 
         return authCenterItemBeans;
     }
