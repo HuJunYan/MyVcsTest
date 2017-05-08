@@ -235,7 +235,89 @@
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
-                <View style="@style/split_line_style" />
+                <TextView
+                    android:id="@+id/tv_auth_info_position"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="职&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位" />
+
+                <EditText
+                    android:id="@+id/ev_auth_info_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_position"
+                    android:background="@null"
+                    android:hint="请输入您的职位信息"
+                    android:maxLength="100"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_auth_info_occupation"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="职业身份" />
+
+                <EditText
+                    android:id="@+id/ev_auth_info_occupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_occupation"
+                    android:background="@null"
+                    android:hint="请输入您的职业身份"
+                    android:maxLength="100"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_auth_info_income"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="月均收入" />
+
+                <EditText
+                    android:id="@+id/ev_auth_info_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_income"
+                    android:background="@null"
+                    android:hint="请输入您的月均收入"
+                    android:maxLength="100"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
 
                 <TextView
                     android:id="@+id/tv_auth_info_work_num"
