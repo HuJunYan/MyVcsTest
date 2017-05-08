@@ -79,6 +79,74 @@
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
+                <TextView
+                    android:id="@+id/tv_auth_info_marry_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="婚姻状态" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_marry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_marry_key"
+                    android:hint="请选择您的婚姻状态"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_auth_info_educational_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="最高学历" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_educational"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_educational_key"
+                    android:hint="请选择您的最高学历"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
                 <View style="@style/split_line_style" />
 
                 <TextView
