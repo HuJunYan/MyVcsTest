@@ -1,19 +1,24 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
+import com.tianshen.cash.event.AuthCenterBackEvent;
+import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
@@ -22,17 +27,22 @@ import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
+import com.tianshen.cash.utils.LocationUtil;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.SafeUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 /**
  * 确认借款页面
@@ -138,6 +148,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+        mLocationUtil.setIsCallBack(false);
     }
 
     @Override
@@ -318,6 +330,31 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String repayId = mOrderConfirmBean.getData().getRepay_id();
         user.setRepay_id(repayId);
         TianShenUserUtil.saveUser(mContext, user);
+
+
+        test();
+    }
+
+
+    private void test(){
+        User user = TianShenUserUtil.getUser(mContext);
+
+        String customer_id = user.getCustomer_id();
+        String location = user.getLocation();
+        String city = user.getCity();
+        String country = user.getCountry();
+        String address = user.getAddress();
+        String province = user.getProvince();
+        String jpush_id = user.getJpush_id();
+
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
+        String repay_id = mOrderConfirmBean.getData().getRepay_id();
+
+        if (TextUtils.isEmpty(location)) {
+            LogUtil.d("abc","location 空 ");
+        }else {
+            LogUtil.d("abc","location---->"+location);
+        }
     }
 
     /**
@@ -350,10 +387,22 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             String jpush_id = user.getJpush_id();
 
             String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
-            String repay_id = mOrderConfirmBean.getData().getRepay_id();
+            final String repay_id = mOrderConfirmBean.getData().getRepay_id();
 
             if (TextUtils.isEmpty(location)) {
-                ToastUtil.showToast(mContext, "请先开打GPS,然后再下单。");
+                RxPermissions rxPermissions = new RxPermissions(ConfirmMoneyActivity.this);
+                rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                            mLocationUtil.startLocation();
+                            mLocationUtil.setIsCallBack(true);
+                        }
+                        return;
+                    }
+                });
+                ToastUtil.showToast(mContext, "请打开定位权限!");
                 return;
             }
 
@@ -471,6 +520,15 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         EventBus.getDefault().post(new UserConfigChangedEvent());
         gotoActivity(mContext, MainActivity.class, null);
         finish();
+    }
+
+    /**
+     * 从认证中心返回主页
+     */
+    @Subscribe
+    public void onAuthCenterBack(LocationEvent event) {
+        LogUtil.d("abc", "收到了定位成功的消息");
+        onClickApply();
     }
 
 

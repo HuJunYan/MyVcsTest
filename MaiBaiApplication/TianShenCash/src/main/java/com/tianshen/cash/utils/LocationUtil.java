@@ -10,7 +10,11 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.tianshen.cash.event.LocationEvent;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.User;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -30,6 +34,8 @@ public class LocationUtil implements BDLocationListener {
     private boolean isRequest = false;
     private Context mContext;
 
+    private boolean isCallBack;
+
     private LocationUtil(Context context) {
         mContext = context;
         mLocationClient = new LocationClient(context.getApplicationContext());
@@ -37,7 +43,7 @@ public class LocationUtil implements BDLocationListener {
         mLocationClient.registerLocationListener(this);
     }
 
-    public static LocationUtil getInstance(Context context) {
+    public static synchronized LocationUtil getInstance(Context context) {
         if (mLocationUtil == null) {
             mLocationUtil = new LocationUtil(context);
         }
@@ -119,6 +125,10 @@ public class LocationUtil implements BDLocationListener {
             user.setAddress(address.address);
             TianShenUserUtil.saveUser(mContext, user);
 
+            if (isCallBack){
+                EventBus.getDefault().post(new LocationEvent());
+            }
+
         }
         if (isRequest) {
             if (mReqListener != null) {
@@ -143,6 +153,10 @@ public class LocationUtil implements BDLocationListener {
         option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
         mLocationClient.setLocOption(option);
+    }
+
+    public void setIsCallBack(boolean isCallBack) {
+        this.isCallBack = isCallBack;
     }
 
     public interface MainLocationListener {
