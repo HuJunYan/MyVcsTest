@@ -166,6 +166,15 @@
                     android:hint="省--市--区"
                     android:textSize="14dp" />
 
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
             </RelativeLayout>
 
             <View style="@style/split_line_style" />
@@ -307,6 +316,7 @@
                     android:layout_toRightOf="@id/tv_auth_info_income"
                     android:background="@null"
                     android:hint="请输入您的月均收入"
+                    android:inputType="number"
                     android:maxLength="100"
                     android:textSize="14dp" />
 
@@ -366,6 +376,15 @@
                     android:layout_toRightOf="@id/tv_auth_info_work_address_key"
                     android:hint="省--市--区"
                     android:textSize="14dp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
 
             </RelativeLayout>
 
