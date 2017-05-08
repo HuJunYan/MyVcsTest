@@ -1,7 +1,9 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -10,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.ExtroContactsBean;
@@ -17,6 +20,7 @@ import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -38,6 +42,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -170,24 +175,33 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         if (materialDialog != null && materialDialog.isShowing()) {
             return;
         }
-        getObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<List<HashMap<String, String>>, ArrayList<String>>() {
-                    @Override
-                    public ArrayList<String> apply(List<HashMap<String, String>> contacts) throws Exception {
-                        mContacts = contacts;
-                        ArrayList<String> contactsDialogDada = new ArrayList<>();
-                        for (int i = 0; i < contacts.size(); i++) {
-                            HashMap<String, String> contactMap = contacts.get(i);
-                            String name = contactMap.get("name");
-                            String phone = contactMap.get("phone");
-                            contactsDialogDada.add(name + "-" + phone);
-                        }
-                        return contactsDialogDada;
-                    }
-                })
-                .subscribe(getObserver());
+
+
+        RxPermissions rxPermissions = new RxPermissions(AuthExtroContactsActivity.this);
+        rxPermissions.request(Manifest.permission.READ_CONTACTS).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+
+                getObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map(new Function<List<HashMap<String, String>>, ArrayList<String>>() {
+                            @Override
+                            public ArrayList<String> apply(List<HashMap<String, String>> contacts) throws Exception {
+                                mContacts = contacts;
+                                ArrayList<String> contactsDialogDada = new ArrayList<>();
+                                for (int i = 0; i < contacts.size(); i++) {
+                                    HashMap<String, String> contactMap = contacts.get(i);
+                                    String name = contactMap.get("name");
+                                    String phone = contactMap.get("phone");
+                                    contactsDialogDada.add(name + "-" + phone);
+                                }
+                                return contactsDialogDada;
+                            }
+                        })
+                        .subscribe(getObserver());
+            }
+        });
     }
 
     private Observable<List<HashMap<String, String>>> getObservable() {
