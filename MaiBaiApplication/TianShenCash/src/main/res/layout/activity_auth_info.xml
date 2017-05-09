@@ -72,12 +72,13 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
 
                 <TextView
                     android:id="@+id/tv_auth_info_marry_key"
@@ -106,12 +107,13 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
 
                 <TextView
                     android:id="@+id/tv_auth_info_educational_key"
@@ -242,7 +244,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_auth_info_position"
@@ -265,12 +268,14 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
 
                 <TextView
                     android:id="@+id/tv_auth_info_occupation"
@@ -293,12 +298,13 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
 
                 <TextView
                     android:id="@+id/tv_auth_info_income"

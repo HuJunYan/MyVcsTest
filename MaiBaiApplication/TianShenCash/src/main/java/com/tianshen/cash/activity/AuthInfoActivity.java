@@ -391,12 +391,18 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_phone = constantBean.getData().getCompany_phone();
         String company_address_detail = constantBean.getData().getCompany_address_detail();
         String user_address_detail = constantBean.getData().getUser_address_detail();
-        String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
-        String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
+
+        if (!TextUtils.isEmpty(user_address_provice)){
+            String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
+            tvAuthInfoHomeAddress.setText(homeAddress);
+        }
+
+        if (!TextUtils.isEmpty(company_address_provice)){
+            String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
+            tvAuthInfoWorkAddress.setText(workAddress);
+        }
 
         etAuthInfoQq.setText(qq_num);
-        tvAuthInfoHomeAddress.setText(homeAddress);
-        tvAuthInfoWorkAddress.setText(workAddress);
         etAuthInfoAddressDetails.setText(user_address_detail);
         etAuthInfoWorkName.setText(company_name);
         etAuthInfoWorkNum.setText(company_phone);
