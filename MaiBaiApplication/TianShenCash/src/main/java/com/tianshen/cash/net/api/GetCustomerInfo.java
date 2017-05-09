@@ -17,7 +17,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 
 /**
- * 得到省
+ * 得到用户个人信息
  */
 
 public class GetCustomerInfo extends NetBase {
