@@ -54,7 +54,7 @@ public class DealWithErrorUtils {
             case 501: // 服务器开小车了，请稍后重试
                 ToastUtil.showToast(context, "网络不给力：" + err_code);
                 break;
-            case 10002: // 获取掌中验证码1分钟重复点击了
+            case 131: // 获取掌中验证码1分钟重复点击了
                 break;
             default:
                 ToastUtil.showToast(context, err_msg);
