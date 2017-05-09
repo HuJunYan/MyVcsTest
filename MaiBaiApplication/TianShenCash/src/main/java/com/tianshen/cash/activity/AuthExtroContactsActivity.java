@@ -3,7 +3,6 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
 import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -416,8 +414,9 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             return;
         }
 
-        String nexusTxt1 = (String) tvAuthNexus1.getText();
-        String nexusTxt2 = (String) tvAuthNexus2.getText();
+        String nexusTxt1 = tvAuthNexus1.getText().toString();
+        String nexusTxt2 =  tvAuthNexus2.getText().toString();
+
         int type1 = mNexus.indexOf(nexusTxt1) + 1;
         int type2 = mNexus.indexOf(nexusTxt2) + 1;
 
