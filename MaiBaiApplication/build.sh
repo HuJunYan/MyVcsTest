@@ -1,9 +1,9 @@
 #!/bin/sh
 currentApplicationName='TianShenCash'
 
-currentApkTrailName="'_$currentApplicationName\_2-0-0_05040140.apk'"
-currentVersionCode="200"
-currentVersionName='"2.0.0"'
+currentApkTrailName="'_$currentApplicationName\_2-0-0_05092000.apk'"
+currentVersionCode="201"
+currentVersionName='"2.0.1"'
 
 
 funChangeVersionCode() {
@@ -75,23 +75,23 @@ funBuild(){
     funFindAndChangeChannel   CHANNEL_ID 1
 }
 
-#funBuild   ceshi                1
-funBuild   server               2000
-funBuild   wandoujia            2001
-funBuild   qqTencent            2002
-funBuild   zs91zhushou          2003
-funBuild   huawei               2004
-funBuild   xiaomi               2005
-funBuild   baidu                2006
-funBuild   anzhi                2007
-funBuild   oppo                 2008
-funBuild   appchina             2009
-funBuild   lenovo               2010
-funBuild   meizu                2011
-funBuild   baidusem             2012
-funBuild   UCWeb                2013
-funBuild   dev360cn             2014
-funBuild   vivo                 2015
+funBuild   ceshi                1
+#funBuild   server               2000
+#funBuild   wandoujia            2001
+#funBuild   qqTencent            2002
+#funBuild   zs91zhushou          2003
+#funBuild   huawei               2004
+#funBuild   xiaomi               2005
+#funBuild   baidu                2006
+#funBuild   anzhi                2007
+#funBuild   oppo                 2008
+#funBuild   appchina             2009
+#funBuild   lenovo               2010
+#funBuild   meizu                2011
+#funBuild   baidusem             2012
+#funBuild   UCWeb                2013
+#funBuild   dev360cn             2014
+#funBuild   vivo                 2015
 
 
 
