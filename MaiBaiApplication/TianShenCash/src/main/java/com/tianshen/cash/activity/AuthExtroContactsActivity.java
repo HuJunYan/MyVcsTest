@@ -326,6 +326,10 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         }
         ArrayList<ExtroContactsBean.Data> datas = extroContactsBean.getData();
 
+        if (datas == null || datas.size() == 0) {
+            return;
+        }
+
         String contact_phone1 = datas.get(0).getContact_phone();
         String contact_phone2 = datas.get(1).getContact_phone();
 
