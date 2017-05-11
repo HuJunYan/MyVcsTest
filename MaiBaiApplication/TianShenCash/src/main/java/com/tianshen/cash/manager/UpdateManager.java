@@ -1,5 +1,7 @@
 package com.tianshen.cash.manager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -27,6 +30,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by 14658 on 2016/7/4.
@@ -148,7 +153,15 @@ public class UpdateManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    showDownloadDialog();
+                    RxPermissions rxPermissions = new RxPermissions((Activity) mContext);
+                    rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            if (aBoolean) {
+                                showDownloadDialog();
+                            }
+                        }
+                    });
                 }
             });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
