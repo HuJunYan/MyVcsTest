@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.support.v4.content.FileProvider;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.ProgressBar;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.ToastUtil;
 
 import java.io.File;
@@ -46,11 +49,11 @@ public class UpdateManager {
 
     private Dialog noticeDialog;//通知升级窗口
     private Dialog downloadDialog;//升级窗口
-//    private Dialog errorDialog;//下载进度过慢窗口
+    //    private Dialog errorDialog;//下载进度过慢窗口
     /* 下载包安装路径 */
-    private static final String savePath = "/sdcard/maibei/";
+    private static final String savePath = Config.SD_PATH + "/tianshencash/";
 
-    private static final String saveFileName = savePath + "MaiBaiMerchants.apk";
+    private static final String saveFileName = savePath + "tianshencash.apk";
 
     /* 进度条与通知ui刷新的handler和msg常量 */
     private ProgressBar mProgress;
@@ -62,16 +65,17 @@ public class UpdateManager {
     private Thread downLoadThread;
     private boolean interceptFlag = false;
 
-    private final int CHECK_PROGRESS_TIME=8000;
+    private final int CHECK_PROGRESS_TIME = 8000;
     private Timer errorTimer;
     private int lastCount = 0;
     private Control control;
+
     public UpdateManager(Context context, String apkUrl, String explain, String upgradeType) {
         this.mContext = context;
         this.apkUrl = apkUrl;
         this.explain = explain;
         this.upgradeType = upgradeType;
-        this.control=(Control)context;
+        this.control = (Control) context;
     }
 
     private Handler mHandler = new Handler() {
@@ -84,11 +88,11 @@ public class UpdateManager {
                     installApk();
                     break;
                 case UPDATE_ERROR:
-                //十秒进度无变化的操作
+                    //十秒进度无变化的操作
                        /* if (!errorDialog.isShowing()) {
                             errorDialog.show();
                         }*/
-                    ToastUtil.showToast(mContext,"下载速度过慢，请耐心等待");
+                    ToastUtil.showToast(mContext, "下载速度过慢，请耐心等待");
 
                     break;
                 default:
@@ -229,6 +233,7 @@ public class UpdateManager {
 
     private Runnable mdownApkRunnable = new Runnable() {
         int count = 0;
+
         @Override
         public void run() {
             try {
@@ -242,7 +247,7 @@ public class UpdateManager {
                         }
                     }
                 };
-                errorTimer=new Timer(true);
+                errorTimer = new Timer(true);
                 errorTimer.schedule(timerTask, CHECK_PROGRESS_TIME, CHECK_PROGRESS_TIME);
                 URL url = new URL(apkUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -300,15 +305,25 @@ public class UpdateManager {
         if (!apkfile.exists()) {
             return;
         }
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
-        mContext.startActivity(i);
-        Process.killProcess(Process.myPid());
 
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        // 由于没有在Activity环境下启动Activity,设置下面的标签
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 24) { //判读版本是否在7.0以上
+            //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
+            Uri apkUri =
+                    FileProvider.getUriForFile(mContext, "com.tianshen.cash.fileprovider", apkfile);
+            //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(apkfile), "application/vnd.android.package-archive");
+        }
+        mContext.startActivity(intent);
+        Process.killProcess(Process.myPid());
     }
 
-public interface Control{
-    public void cancelUpdate();
-}
+    public interface Control {
+        public void cancelUpdate();
+    }
 }

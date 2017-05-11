@@ -61,6 +61,8 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         });*/
 
         uploadLog(mContext);
+        startTime = System.currentTimeMillis();
+        checkUpdate();
     }
     private void uploadLog(Context context){
         if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
@@ -81,8 +83,6 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     protected void onResume() {
         super.onResume();
-        startTime = System.currentTimeMillis();
-        checkUpdate();
         JPushInterface.onResume(mContext);
     }
 
