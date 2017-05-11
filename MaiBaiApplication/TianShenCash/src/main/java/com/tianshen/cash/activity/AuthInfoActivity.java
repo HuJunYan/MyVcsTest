@@ -74,6 +74,9 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.et_auth_info_work_address_details)
     EditText etAuthInfoWorkAddressDetails;
 
+    @BindView(R.id.ev_auth_info_position)
+    EditText ev_auth_info_position;
+
     @BindView(R.id.tv_auth_info_marry)
     TextView tv_auth_info_marry;
 
@@ -93,9 +96,16 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<String> mCityData;
     private ArrayList<String> mCountyData;
 
+
     private int mProvincePosition;//选择省的位置
     private int mCityPosition;//选择城市的位置
     private int mCountyPosition;//选择区域的位置
+
+    private int mMaritalPosition;//选择婚姻的位置
+    private int mEducationalPosition;//选择学历的位置
+    private int mIncomePosition;//选择收入的位置
+    private int mOccupationalPosition;//选择职业身份的位置
+
 
     private String user_address_provice;//用户常驻地址省份,
     private String user_address_city;//用户常驻地址县市
@@ -106,10 +116,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private String company_address_county;//用户公司地址地区
 
 
-    private String[] marryData = {"未婚", "已婚未育", "已婚已育", "离异", "其他"};
-    private String[] educationalData = {"高中以下", "高中", "中专", "大专", "本科", "硕士", "博士"};
-    private String[] incomeData = {"2000以内", "2000-3000", "3000-5000", "5000-8000", "8000-12000", "12000以上"};
-    private String[] occupationalData = {"自由职业", "政府机关", "学校", "医院", "企业公司", "私营商铺", "个体工商户", "企业法人", "网店卖家", "学生"};
+    private ArrayList<String> marital_status_conf;
+    private ArrayList<String> educational_background_conf;
+    private ArrayList<String> income_per_month_conf;
+    private ArrayList<String> occupational_identity_conf;
+
 
     private boolean mIsClickHome;
 
@@ -338,17 +349,19 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 }).show();
     }
 
-
     /**
      * 显示选择婚姻状态的dialog
      */
     private void showMarryDialog() {
         new MaterialDialog.Builder(mContext)
                 .title("选择婚姻状态")
-                .items(marryData)
+                .items(marital_status_conf)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mMaritalPosition = position;
+                        String marry = marital_status_conf.get(mMaritalPosition);
+                        tv_auth_info_marry.setText(marry);
                     }
                 }).show();
     }
@@ -359,10 +372,13 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showEducationalDialog() {
         new MaterialDialog.Builder(mContext)
                 .title("选择最高学历")
-                .items(educationalData)
+                .items(educational_background_conf)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mEducationalPosition = position;
+                        String educationalStr = educational_background_conf.get(mEducationalPosition);
+                        tv_auth_info_educational.setText(educationalStr);
                     }
                 }).show();
     }
@@ -373,10 +389,13 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showIncomeDialog() {
         new MaterialDialog.Builder(mContext)
                 .title("选择最高收入")
-                .items(incomeData)
+                .items(income_per_month_conf)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mIncomePosition = position;
+                        String income = income_per_month_conf.get(mIncomePosition);
+                        tv_auth_info_income.setText(income);
                     }
                 }).show();
     }
@@ -388,10 +407,13 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showOccupationDialog() {
         new MaterialDialog.Builder(mContext)
                 .title("选择职业身份")
-                .items(occupationalData)
+                .items(occupational_identity_conf)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mOccupationalPosition = position;
+                        String occupational = occupational_identity_conf.get(mOccupationalPosition);
+                        tv_auth_info_occupation.setText(occupational);
                     }
                 }).show();
     }
@@ -422,7 +444,6 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-
         user_address_provice = constantBean.getData().getUser_address_provice();
         user_address_city = constantBean.getData().getUser_address_city();
         user_address_county = constantBean.getData().getUser_address_county();
@@ -436,6 +457,37 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_phone = constantBean.getData().getCompany_phone();
         String company_address_detail = constantBean.getData().getCompany_address_detail();
         String user_address_detail = constantBean.getData().getUser_address_detail();
+        String position = constantBean.getData().getPosition();
+
+        marital_status_conf = constantBean.getData().getMarital_status_conf();
+        educational_background_conf = constantBean.getData().getEducational_background_conf();
+        income_per_month_conf = constantBean.getData().getIncome_per_month_conf();
+        occupational_identity_conf = constantBean.getData().getOccupational_identity_conf();
+
+        String marital_status = constantBean.getData().getMarital_status();
+        String educational = constantBean.getData().getEducational();
+        String income_per_month = constantBean.getData().getIncome_per_month();
+        String occupational_identity = constantBean.getData().getOccupational_identity();
+
+        if (!TextUtils.isEmpty(marital_status)) {
+            String marry = marital_status_conf.get(Integer.parseInt(marital_status));
+            tv_auth_info_marry.setText(marry);
+        }
+
+        if (!TextUtils.isEmpty(educational)) {
+            String educationalStr = educational_background_conf.get(Integer.parseInt(educational));
+            tv_auth_info_educational.setText(educationalStr);
+        }
+
+        if (!TextUtils.isEmpty(income_per_month)) {
+            String income = income_per_month_conf.get(Integer.parseInt(income_per_month));
+            tv_auth_info_income.setText(income);
+        }
+
+        if (!TextUtils.isEmpty(occupational_identity)) {
+            String occupational = occupational_identity_conf.get(Integer.parseInt(occupational_identity));
+            tv_auth_info_occupation.setText(occupational);
+        }
 
         if (!TextUtils.isEmpty(user_address_provice)) {
             String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
@@ -452,6 +504,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         etAuthInfoWorkName.setText(company_name);
         etAuthInfoWorkNum.setText(company_phone);
         etAuthInfoWorkAddressDetails.setText(company_address_detail);
+        ev_auth_info_position.setText(position);
     }
 
     /**
@@ -513,6 +566,32 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_name = etAuthInfoWorkName.getText().toString().trim();
         String company_phone = etAuthInfoWorkNum.getText().toString().trim();
         String company_address_detail = etAuthInfoWorkAddressDetails.getText().toString().trim();
+        String marital_status = String.valueOf(mMaritalPosition);
+        String educational = String.valueOf(mEducationalPosition);
+        String income_per_month = String.valueOf(mIncomePosition);
+        String occupational_identity = String.valueOf(mOccupationalPosition);
+        String position = ev_auth_info_position.getText().toString().trim();
+
+        if (TextUtils.isEmpty(marital_status)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(educational)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(income_per_month)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(occupational_identity)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
+        if (TextUtils.isEmpty(position)) {
+            ToastUtil.showToast(mContext, "请完善资料!");
+            return;
+        }
 
         if (TextUtils.isEmpty(user_address_provice)) {
             ToastUtil.showToast(mContext, "请完善资料!");
@@ -575,6 +654,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             jsonObject.put("company_address_city", company_address_city);
             jsonObject.put("company_address_county", company_address_county);
             jsonObject.put("company_address_detail", company_address_detail);
+            jsonObject.put("marital_status", marital_status);
+            jsonObject.put("educational", educational);
+            jsonObject.put("income_per_month", income_per_month);
+            jsonObject.put("occupational_identity", occupational_identity);
+            jsonObject.put("position", position);
 
         } catch (JSONException e) {
             e.printStackTrace();

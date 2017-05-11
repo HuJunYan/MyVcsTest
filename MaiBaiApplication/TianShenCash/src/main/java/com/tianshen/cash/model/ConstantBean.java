@@ -1,5 +1,7 @@
 package com.tianshen.cash.model;
 
+`import java.util.ArrayList;
+
 public class ConstantBean {
 
     private int code;
@@ -43,6 +45,17 @@ public class ConstantBean {
         private String company_address_city;
         private String company_address_county;
         private String company_address_detail;
+
+        private ArrayList<String> marital_status_conf;
+        private ArrayList<String> educational_background_conf;
+        private ArrayList<String> income_per_month_conf;
+        private ArrayList<String> occupational_identity_conf;
+        private String position;
+
+        private String marital_status;
+        private String educational;
+        private String income_per_month;
+        private String occupational_identity;
 
         public String getQq_num() {
             return qq_num;
@@ -132,6 +145,77 @@ public class ConstantBean {
             this.company_address_detail = company_address_detail;
         }
 
-    }
+        public ArrayList<String> getMarital_status_conf() {
+            return marital_status_conf;
+        }
 
+        public void setMarital_status_conf(ArrayList<String> marital_status_conf) {
+            this.marital_status_conf = marital_status_conf;
+        }
+
+        public ArrayList<String> getEducational_background_conf() {
+            return educational_background_conf;
+        }
+
+        public void setEducational_background_conf(ArrayList<String> educational_background_conf) {
+            this.educational_background_conf = educational_background_conf;
+        }
+
+        public ArrayList<String> getIncome_per_month_conf() {
+            return income_per_month_conf;
+        }
+
+        public void setIncome_per_month_conf(ArrayList<String> income_per_month_conf) {
+            this.income_per_month_conf = income_per_month_conf;
+        }
+
+        public ArrayList<String> getOccupational_identity_conf() {
+            return occupational_identity_conf;
+        }
+
+        public void setOccupational_identity_conf(ArrayList<String> occupational_identity_conf) {
+            this.occupational_identity_conf = occupational_identity_conf;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public void setPosition(String position) {
+            this.position = position;
+        }
+
+        public String getMarital_status() {
+            return marital_status;
+        }
+
+        public void setMarital_status(String marital_status) {
+            this.marital_status = marital_status;
+        }
+
+        public String getEducational() {
+            return educational;
+        }
+
+        public void setEducational(String educational) {
+            this.educational = educational;
+        }
+
+        public String getIncome_per_month() {
+            return income_per_month;
+        }
+
+        public void setIncome_per_month(String income_per_month) {
+            this.income_per_month = income_per_month;
+        }
+
+        public String getOccupational_identity() {
+            return occupational_identity;
+        }
+
+        public void setOccupational_identity(String occupational_identity) {
+            this.occupational_identity = occupational_identity;
+        }
+
+    }
 }
