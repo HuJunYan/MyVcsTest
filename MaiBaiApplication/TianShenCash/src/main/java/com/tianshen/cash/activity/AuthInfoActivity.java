@@ -80,6 +80,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.tv_auth_info_educational)
     TextView tv_auth_info_educational;
 
+    @BindView(R.id.tv_auth_info_income)
+    TextView tv_auth_info_income;
+
+    @BindView(R.id.tv_auth_info_occupation)
+    TextView tv_auth_info_occupation;
+
     private AddressBean mProvinceBean;
     private AddressBean mCityBean;
     private AddressBean mCountyBean;
@@ -100,11 +106,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private String company_address_county;//用户公司地址地区
 
 
-    private String[] marryData = {"未婚", "已婚", "离异", "再婚"};
-    private String[] educationalData = {"小学", "初中", "高中", "本科", "硕士"};
+    private String[] marryData = {"未婚", "已婚未育", "已婚已育", "离异", "其他"};
+    private String[] educationalData = {"高中以下", "高中", "中专", "大专", "本科", "硕士", "博士"};
+    private String[] incomeData = {"2000以内", "2000-3000", "3000-5000", "5000-8000", "8000-12000", "12000以上"};
+    private String[] occupationalData = {"自由职业", "政府机关", "学校", "医院", "企业公司", "私营商铺", "个体工商户", "企业法人", "网店卖家", "学生"};
 
     private boolean mIsClickHome;
-
 
 
     @Override
@@ -125,6 +132,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         tvAuthInfoWorkAddress.setOnClickListener(this);
         tv_auth_info_marry.setOnClickListener(this);
         tv_auth_info_educational.setOnClickListener(this);
+        tv_auth_info_income.setOnClickListener(this);
+        tv_auth_info_occupation.setOnClickListener(this);
     }
 
     @Override
@@ -155,6 +164,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tv_auth_info_educational:
                 showEducationalDialog();
+                break;
+            case R.id.tv_auth_info_income:
+                showIncomeDialog();
+                break;
+            case R.id.tv_auth_info_occupation:
+                showOccupationDialog();
                 break;
         }
     }
@@ -329,7 +344,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showMarryDialog() {
         new MaterialDialog.Builder(mContext)
-                .title("婚姻状态")
+                .title("选择婚姻状态")
                 .items(marryData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
@@ -343,7 +358,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showEducationalDialog() {
         new MaterialDialog.Builder(mContext)
-                .title("最高学历")
+                .title("选择最高学历")
                 .items(educationalData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
@@ -351,6 +366,36 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                     }
                 }).show();
     }
+
+    /**
+     * 显示选择收入的dialog
+     */
+    private void showIncomeDialog() {
+        new MaterialDialog.Builder(mContext)
+                .title("选择最高收入")
+                .items(incomeData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                    }
+                }).show();
+    }
+
+
+    /**
+     * 显示选择职业身份的dialog
+     */
+    private void showOccupationDialog() {
+        new MaterialDialog.Builder(mContext)
+                .title("选择职业身份")
+                .items(occupationalData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                    }
+                }).show();
+    }
+
 
     /**
      * 显示区域的Dialog
@@ -392,12 +437,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_address_detail = constantBean.getData().getCompany_address_detail();
         String user_address_detail = constantBean.getData().getUser_address_detail();
 
-        if (!TextUtils.isEmpty(user_address_provice)){
+        if (!TextUtils.isEmpty(user_address_provice)) {
             String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
             tvAuthInfoHomeAddress.setText(homeAddress);
         }
 
-        if (!TextUtils.isEmpty(company_address_provice)){
+        if (!TextUtils.isEmpty(company_address_provice)) {
             String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
             tvAuthInfoWorkAddress.setText(workAddress);
         }

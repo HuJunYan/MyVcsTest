@@ -75,8 +75,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
 
@@ -110,8 +109,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
 
@@ -244,8 +242,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <TextView
                     android:id="@+id/tv_auth_info_position"
@@ -272,59 +269,68 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
 
                 <TextView
-                    android:id="@+id/tv_auth_info_occupation"
+                    android:id="@+id/tv_auth_info_occupation_key"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:text="职业身份" />
 
-                <EditText
-                    android:id="@+id/ev_auth_info_occupation"
+                <TextView
+                    android:id="@+id/tv_auth_info_occupation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@id/tv_auth_info_occupation"
-                    android:background="@null"
-                    android:hint="请输入您的职业身份"
-                    android:maxLength="100"
+                    android:layout_toRightOf="@id/tv_auth_info_occupation_key"
+                    android:hint="请选择您的职业身份"
                     android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
 
                 <TextView
-                    android:id="@+id/tv_auth_info_income"
+                    android:id="@+id/tv_auth_info_income_key"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:text="月均收入" />
 
-                <EditText
-                    android:id="@+id/ev_auth_info_income"
+                <TextView
+                    android:id="@+id/tv_auth_info_income"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@id/tv_auth_info_income"
-                    android:background="@null"
-                    android:hint="请输入您的月均收入"
-                    android:inputType="number"
-                    android:maxLength="100"
+                    android:layout_toRightOf="@id/tv_auth_info_income_key"
+                    android:hint="请选择您的月均收入"
                     android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
 
             </RelativeLayout>
 
