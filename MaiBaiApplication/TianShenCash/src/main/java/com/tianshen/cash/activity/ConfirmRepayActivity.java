@@ -317,7 +317,6 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-                    ToastUtil.showToast(mContext, "还款失败,请稍后再试!");
                 }
             });
         } catch (JSONException e) {
@@ -353,7 +352,6 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-                    ToastUtil.showToast(mContext, "还款失败,请稍后再试!");
                 }
             });
         } catch (JSONException e) {
