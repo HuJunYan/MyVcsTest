@@ -579,6 +579,13 @@ public class NetConstantValue {
     }
 
     /**
+     * 手机贷借款返回
+     */
+    public static String getSJDLoanBackUrl() {
+        return COMMONURI + "Order/sjdLoanBack";
+    }
+
+    /**
      * 得到公司信息
      */
     public static String getCompanyInformationUrl() {
