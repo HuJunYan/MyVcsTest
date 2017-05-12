@@ -2,8 +2,8 @@
 currentApplicationName='TianShenCash'
 
 currentApkTrailName="'_$currentApplicationName\_2-0-1_05092000.apk'"
-currentVersionCode="201"
-currentVersionName='"2.0.1"'
+currentVersionCode="202"
+currentVersionName='"2.0.2"'
 
 
 funChangeVersionCode() {
