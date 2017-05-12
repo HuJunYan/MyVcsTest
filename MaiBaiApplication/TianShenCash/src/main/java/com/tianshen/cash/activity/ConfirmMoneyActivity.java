@@ -235,22 +235,25 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount();
         String isJump = mOrderConfirmBean.getData().getIs_jump();
 
-        if ("1".equals(type)) { //掌众
-
-            if ("1".equals(isJump)) { //"是否授信，0停留在本页，1跳转到首页。（掌众需要字段）"
-                gotoMainActivity();
-                return;
-            }
-
-            if (TextUtils.isEmpty(consume_amount)) {
-                showPayWaitUI();
-            } else {
+        switch (type) {
+            case "0": //自营
                 showNormalUI();
-            }
-
-
-        } else {
-            showNormalUI();
+                break;
+            case "1": //掌众
+                if ("1".equals(isJump)) { //"是否授信，0停留在本页，1跳转到首页。（掌众需要字段）"
+                    gotoMainActivity();
+                    return;
+                }
+                if (TextUtils.isEmpty(consume_amount)) {
+                    showPayWaitUI();
+                } else {
+                    showNormalUI();
+                }
+                break;
+            case "2": //手机贷
+                String sjdUrl = mOrderConfirmBean.getData().getSjd_url();
+                gotoSJDActivity(sjdUrl);
+                break;
         }
 
     }
@@ -336,7 +339,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-    private void test(){
+    private void test() {
         User user = TianShenUserUtil.getUser(mContext);
 
         String customer_id = user.getCustomer_id();
@@ -351,9 +354,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String repay_id = mOrderConfirmBean.getData().getRepay_id();
 
         if (TextUtils.isEmpty(location)) {
-            LogUtil.d("abc","location 空 ");
-        }else {
-            LogUtil.d("abc","location---->"+location);
+            LogUtil.d("abc", "location 空 ");
+        } else {
+            LogUtil.d("abc", "location---->" + location);
         }
     }
 
@@ -511,6 +514,15 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURLF);
         gotoActivity(mContext, WebActivity.class, bundle);
+    }
+
+    /**
+     * 回到到手机贷H5页面
+     */
+    private void gotoSJDActivity(String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        gotoActivity(mContext, SJDActivity.class, bundle);
     }
 
     /**

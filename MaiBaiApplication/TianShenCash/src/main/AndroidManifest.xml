@@ -398,6 +398,10 @@
             android:name=".activity.ServiceOnlineActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SJDActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />

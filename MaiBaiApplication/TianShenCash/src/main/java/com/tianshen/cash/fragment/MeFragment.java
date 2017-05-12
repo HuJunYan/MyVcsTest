@@ -217,7 +217,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
     /**
-     * 跳转到WebActivity
+     * 跳转到在线客服页面
      */
     private void gotoWebActivity() {
         gotoActivity(mContext, ServiceOnlineActivity.class, null);

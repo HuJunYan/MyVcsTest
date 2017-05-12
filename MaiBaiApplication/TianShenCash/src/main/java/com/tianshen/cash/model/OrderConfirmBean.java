@@ -54,6 +54,15 @@ public class OrderConfirmBean {
         private String protocol_num;
         private String overdue;
         private String total;
+        private String sjd_url;
+
+        public String getSjd_url() {
+            return sjd_url;
+        }
+
+        public void setSjd_url(String sjd_url) {
+            this.sjd_url = sjd_url;
+        }
 
         public String getCard_num() {
             return card_num;
