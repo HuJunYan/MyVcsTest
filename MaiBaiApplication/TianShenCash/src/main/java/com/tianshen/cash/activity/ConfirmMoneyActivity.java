@@ -334,30 +334,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         user.setRepay_id(repayId);
         TianShenUserUtil.saveUser(mContext, user);
 
-
-        test();
-    }
-
-
-    private void test() {
-        User user = TianShenUserUtil.getUser(mContext);
-
-        String customer_id = user.getCustomer_id();
-        String location = user.getLocation();
-        String city = user.getCity();
-        String country = user.getCountry();
-        String address = user.getAddress();
-        String province = user.getProvince();
-        String jpush_id = user.getJpush_id();
-
-        String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
-        String repay_id = mOrderConfirmBean.getData().getRepay_id();
-
-        if (TextUtils.isEmpty(location)) {
-            LogUtil.d("abc", "location 空 ");
-        } else {
-            LogUtil.d("abc", "location---->" + location);
-        }
     }
 
     /**
@@ -517,7 +493,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 回到到手机贷H5页面
+     * 跳转到手机贷H5页面
      */
     private void gotoSJDActivity(String url) {
         Bundle bundle = new Bundle();
