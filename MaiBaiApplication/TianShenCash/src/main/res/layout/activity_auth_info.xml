@@ -75,6 +75,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
@@ -109,6 +110,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
@@ -212,6 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="12dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
@@ -237,13 +240,12 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
-
+                <View style="@style/split_line_style" />
                 <TextView
                     android:id="@+id/tv_auth_info_position"
                     style="@style/auth_center_txt_style"
@@ -269,6 +271,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
@@ -303,6 +306,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
