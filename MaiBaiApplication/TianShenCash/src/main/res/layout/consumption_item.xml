@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="查看还款状态"
+            android:text="查看订单状态"
             android:textColor="#FF8A00"
             android:visibility="gone" />
 
