@@ -62,6 +62,8 @@
     <color name="had_again_certify">#FFfd5c48</color>
     <color name="verify_error_color">#FFf55e4e</color>
 
+    <color name="ll_root_borrowbill_item">#FFEBCC</color>
+
     <!--全局背景颜色-->
     <color name="global_bg_white">#ffffff</color>
     <color name="global_bg_gray">#f4f4f4</color>

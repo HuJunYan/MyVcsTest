@@ -6,8 +6,6 @@ public class GlobalParams {
 
 	// 整型常量
 	public static final int CHANNEL_ID = 1;
-	public static final int IMG_WIDTH=216;
-	public static final int IMG_HEIGHT=172;
 
 	public static final int SHOP_TYPE_PROPORTION=6;//商家类型图标占总屏幕宽度为1/6；
 	public static final int SHOP_ITEM_IMG_PROPORTION=5;//商家列表中logo占比

@@ -13,6 +13,24 @@ public class WithdrawalsRecordItemBean implements Serializable {
     private String consume_time; // 取时款间 2016-07-10 08:08:08
     private String repay_times; // 取款期次
     private String status; // 订单状态
+    private String is_payway; // "0自营，1掌中，2手机贷"
+    private String sjd_url; // "手机贷URL"
+
+    public String getIs_payway() {
+        return is_payway;
+    }
+
+    public void setIs_payway(String is_payway) {
+        this.is_payway = is_payway;
+    }
+
+    public String getSjd_url() {
+        return sjd_url;
+    }
+
+    public void setSjd_url(String sjd_url) {
+        this.sjd_url = sjd_url;
+    }
 
     public String getStatus() {
         return status;

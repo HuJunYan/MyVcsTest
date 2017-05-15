@@ -30,10 +30,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 /*
-* 消费记录
+* 借款记录
 * */
-public class ConsumptionRecordActivity extends BaseActivity implements View.OnClickListener,XListView.IXListViewListener {
+public class ConsumptionRecordActivity extends BaseActivity implements View.OnClickListener, XListView.IXListViewListener {
 
     private final int STOP_REFRESH = 3;
     private XListView lv_consumption_record;
