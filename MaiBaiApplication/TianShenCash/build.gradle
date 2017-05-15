@@ -10,8 +10,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 202
-        versionName "2.0.2"
+        versionCode 203
+        versionName "2.0.3"
         resConfigs "zh","en"
 
         // dex突破65535的限制
@@ -62,7 +62,7 @@ android {
             def oldFile = output.outputFile
             def newName = '';
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_2-0-2_05122000.apk'
+                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_2-0-3_05151000.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
