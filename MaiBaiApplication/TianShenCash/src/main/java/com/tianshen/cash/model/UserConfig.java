@@ -53,6 +53,15 @@ public class UserConfig {
         private String max_cash;
         private String is_show_service_telephone;
         private ArrayList<Consume> consume_status_list;
+        private String sjd_url;
+
+        public String getSjd_url() {
+            return sjd_url;
+        }
+
+        public void setSjd_url(String sjd_url) {
+            this.sjd_url = sjd_url;
+        }
 
         public String getIs_show_service_telephone() {
             return is_show_service_telephone;

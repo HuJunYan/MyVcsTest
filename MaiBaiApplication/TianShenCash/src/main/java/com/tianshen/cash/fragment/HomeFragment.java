@@ -42,6 +42,7 @@ import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.adapter.OrderStatusAdapter;
 import com.tianshen.cash.base.BaseFragment;
@@ -287,7 +288,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 onClickApply();
                 break;
             case R.id.tv_goto_repay: //点击了立即还款
-                gotoActivity(mContext, ConfirmRepayActivity.class, null);
+                checkRepay();
                 break;
             case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
@@ -603,6 +604,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 判断是手机贷还款还是其他还款
+     */
+    private void checkRepay() {
+        String isPayway = mUserConfig.getData().getIs_payway();
+        if ("2".equals(isPayway)) {
+            String sjdUrl = mUserConfig.getData().getSjd_url();
+            gotoSJDActivity(sjdUrl);
+        } else {
+            gotoActivity(mContext, ConfirmRepayActivity.class, null);
+        }
+    }
+
+    /**
      * 点击了我知道按钮
      */
     private void onClickIKnow() {
@@ -792,7 +806,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 显示进度条上方的金额
      */
-    private void showSeekBarThumbMoney(){
+    private void showSeekBarThumbMoney() {
         rl_home_max_sb_thumb.setVisibility(View.VISIBLE);
     }
 
@@ -975,7 +989,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         //设置借款金额
         String s = String.format(Locale.CHINA, "%d", progress);
         tvLoanNumValue.setText(s + " 元");
-
 
 
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
@@ -1235,6 +1248,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+
+    /**
+     * 跳转到手机贷H5页面
+     */
+    private void gotoSJDActivity(String url) {
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        gotoActivity(mContext, SJDActivity.class, bundle);
+    }
+
+
     /**
      * seekbar滑动监听
      */
@@ -1337,6 +1361,5 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         mQuotaCount++;
     }
-
 
 }
