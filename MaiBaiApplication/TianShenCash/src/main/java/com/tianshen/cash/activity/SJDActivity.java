@@ -108,7 +108,12 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_web_back:
-                delaySJDLoanBack();
+                boolean canGoBack = wv_web.canGoBack();
+                if (canGoBack) {
+                    wv_web.goBack();
+                } else {
+                    delaySJDLoanBack();
+                }
                 break;
         }
     }
@@ -116,7 +121,12 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            delaySJDLoanBack();
+            boolean canGoBack = wv_web.canGoBack();
+            if (canGoBack) {
+                wv_web.goBack();
+            } else {
+                delaySJDLoanBack();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
