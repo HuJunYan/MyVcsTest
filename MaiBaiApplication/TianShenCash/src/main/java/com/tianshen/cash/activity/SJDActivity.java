@@ -2,9 +2,9 @@ package com.tianshen.cash.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,8 +15,6 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.User;
-import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SJDLoanBack;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
@@ -79,29 +77,23 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
 
     private void setWebViewSettings() {
         WebSettings webSettings = wv_web.getSettings();
-        // 打开页面时， 自适应屏幕
-//        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-        // 便页面支持缩放
-        webSettings.setJavaScriptEnabled(true); //支持js
-        webSettings.setSupportZoom(true); //支持缩放
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setJavaScriptEnabled(true); //支持js
+        webSettings.setDomStorageEnabled(true);//支持拓展的api
     }
 
     private void setWebView() {
-
         LogUtil.d("abc", "mUrl--->" + mUrl);
-
-        wv_web.loadUrl(mUrl);
         wv_web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url != null) {
-                    view.loadUrl(url);
-                }
+                view.loadUrl(url);
                 return true;
             }
+
         });
+        wv_web.setWebChromeClient(new WebChromeClient());
+        wv_web.loadUrl(mUrl);
     }
 
     @Override
