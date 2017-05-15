@@ -13,9 +13,13 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.GotoSJDActivityEvent;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.utils.GetTelephoneUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +133,17 @@ public class BorrowBillAdapter extends BaseAdapter {
             viewHolder.rl_borrowbill_item.setVisibility(View.VISIBLE);
             viewHolder.tv_repay_type.setVisibility(View.GONE);
             viewHolder.ll_root_borrowbill_item.setBackgroundColor(ContextCompat.getColor(mContext, R.color.ll_root_borrowbill_item));
+
+            viewHolder.tv_see_repay_status.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GotoSJDActivityEvent event = new GotoSJDActivityEvent();
+                    String url = data.get(position).getSjd_url();
+                    event.setSjd_url(url);
+                    EventBus.getDefault().post(event);
+                }
+            });
+
         } else {
             viewHolder.tv_repay_type.setVisibility(View.VISIBLE);
             viewHolder.tv_repay_type.setText("共" + time + "期");

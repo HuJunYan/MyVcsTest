@@ -12,6 +12,8 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.BorrowBillAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.GotoSJDActivityEvent;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.ConsumeItemBean;
 import com.tianshen.cash.model.ConsumeListBean;
 import com.tianshen.cash.model.WithdrawalsRecordBean;
@@ -22,6 +24,7 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.XListView;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +43,11 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
     private XListView lv_consumption_record;
     private List<ConsumeItemBean> consumeItemBeanList = new ArrayList<ConsumeItemBean>();
     private BorrowBillAdapter borrowBillAdapter;
-    private List<WithdrawalsRecordItemBean> withdrawalsRecordItemBeanList=new ArrayList<WithdrawalsRecordItemBean>();
-    private TextView tv_pay_bill,tv_pay_line,tv_borrow_bill,tv_borrow_line;
-    private RelativeLayout rl_pay,rl_borrow;
-    private boolean borrow_bill_init=true;
-    private int type=1;
+    private List<WithdrawalsRecordItemBean> withdrawalsRecordItemBeanList = new ArrayList<WithdrawalsRecordItemBean>();
+    private TextView tv_pay_bill, tv_pay_line, tv_borrow_bill, tv_borrow_line;
+    private RelativeLayout rl_pay, rl_borrow;
+    private boolean borrow_bill_init = true;
+    private int type = 1;
     private Handler handler = new Handler() {
         public void handleMessage(Message message) {
             switch (message.what) {
@@ -65,22 +68,23 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
         updateTitle();
     }
 
-    private void updateTitle(){
-        switch (type){
+    private void updateTitle() {
+        switch (type) {
             case 1:
-                tv_pay_bill.setTextColor(ContextCompat.getColor(mContext,R.color.gray_7272));
+                tv_pay_bill.setTextColor(ContextCompat.getColor(mContext, R.color.gray_7272));
                 tv_pay_line.setVisibility(View.INVISIBLE);
-                tv_borrow_bill.setTextColor(ContextCompat.getColor(mContext,R.color.green_text));
+                tv_borrow_bill.setTextColor(ContextCompat.getColor(mContext, R.color.green_text));
                 tv_borrow_line.setVisibility(View.VISIBLE);
-                tv_borrow_line.setBackgroundColor(ContextCompat.getColor(mContext,R.color.green_text));
-                borrowBillAdapter=new BorrowBillAdapter(mContext,withdrawalsRecordItemBeanList);
+                tv_borrow_line.setBackgroundColor(ContextCompat.getColor(mContext, R.color.green_text));
+                borrowBillAdapter = new BorrowBillAdapter(mContext, withdrawalsRecordItemBeanList);
                 lv_consumption_record.setAdapter(borrowBillAdapter);
-                if(borrow_bill_init){
+                if (borrow_bill_init) {
                     getBorrowBill(true);
                 }
                 break;
         }
     }
+
     @Override
     protected int setContentView() {
         return R.layout.activity_consumption_record;
@@ -89,12 +93,12 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
     @Override
     protected void findViews() {
         lv_consumption_record = (XListView) findViewById(R.id.lv_consumption_record);
-        tv_pay_bill=(TextView)findViewById(R.id.tv_pay_bill);
-        tv_pay_line=(TextView)findViewById(R.id.tv_pay_line);
-        tv_borrow_bill=(TextView)findViewById(R.id.tv_borrow_bill);
-        tv_borrow_line=(TextView)findViewById(R.id.tv_borrow_line);
-        rl_pay=(RelativeLayout)findViewById(R.id.rl_pay);
-        rl_borrow=(RelativeLayout)findViewById(R.id.rl_borrow);
+        tv_pay_bill = (TextView) findViewById(R.id.tv_pay_bill);
+        tv_pay_line = (TextView) findViewById(R.id.tv_pay_line);
+        tv_borrow_bill = (TextView) findViewById(R.id.tv_borrow_bill);
+        tv_borrow_line = (TextView) findViewById(R.id.tv_borrow_line);
+        rl_pay = (RelativeLayout) findViewById(R.id.rl_pay);
+        rl_borrow = (RelativeLayout) findViewById(R.id.rl_borrow);
     }
 
     @Override
@@ -105,7 +109,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
     }
 
 
-    private void getBorrowBill(final boolean isClear){
+    private void getBorrowBill(final boolean isClear) {
 
         try {
             JSONObject jsonObject = new JSONObject();
@@ -113,7 +117,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
             jsonObject.put("customer_id", userId);
             jsonObject.put("offset", isClear ? "0" : withdrawalsRecordItemBeanList.size() + "");
             jsonObject.put("length", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH);
-            GetWithdrawalsRecord getWithdrawalsRecord=new GetWithdrawalsRecord(mContext);
+            GetWithdrawalsRecord getWithdrawalsRecord = new GetWithdrawalsRecord(mContext);
             getWithdrawalsRecord.getWithdrawalsBill(jsonObject, null, true, new BaseNetCallBack<WithdrawalsRecordBean>() {
                 @Override
                 public void onSuccess(WithdrawalsRecordBean paramT) {
@@ -122,7 +126,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
                     }
                     withdrawalsRecordItemBeanList.addAll(paramT.getData().getList());
                     borrowBillAdapter.notifyDataSetChanged();
-                    borrow_bill_init=false;
+                    borrow_bill_init = false;
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -156,16 +160,28 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_pay:
-                type=0;
+                type = 0;
                 updateTitle();
                 break;
             case R.id.rl_borrow:
-                type=1;
+                type = 1;
                 updateTitle();
                 break;
         }
+    }
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    public void onGotoSJDActivityEvent(GotoSJDActivityEvent event) {
+        String sjd_url = event.getSjd_url();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, sjd_url);
+        gotoActivity(mContext, SJDActivity.class, bundle);
+        finish();
     }
 
 }
