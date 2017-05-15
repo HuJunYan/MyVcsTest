@@ -128,6 +128,9 @@ public class BorrowBillAdapter extends BaseAdapter {
 
         String is_payway = data.get(position).getIs_payway();
 
+//        is_payway = "2";
+
+
         if ("2".equals(is_payway)) { //手机贷
             viewHolder.tv_see_repay_status.setVisibility(View.VISIBLE);
             viewHolder.rl_borrowbill_item.setVisibility(View.VISIBLE);
@@ -139,6 +142,9 @@ public class BorrowBillAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     GotoSJDActivityEvent event = new GotoSJDActivityEvent();
                     String url = data.get(position).getSjd_url();
+
+//                    url = "https://www.baidu.com";
+
                     event.setSjd_url(url);
                     EventBus.getDefault().post(event);
                 }

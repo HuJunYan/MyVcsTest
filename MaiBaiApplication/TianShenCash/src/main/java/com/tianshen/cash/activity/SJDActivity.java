@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,7 +20,9 @@ import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SJDLoanBack;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -146,6 +149,8 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onSubscribe(Disposable d) {
                 mIsSJDLoanBack = true;
+                String loadText = mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
+                ViewUtil.createLoadingDialog((Activity) mContext, loadText, false);
             }
 
             @Override
@@ -154,6 +159,7 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onError(Throwable e) {
+                ViewUtil.cancelLoadingDialog();
             }
 
             @Override
@@ -179,11 +185,13 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
         loanBack.sjdLoanBack(jsonObject, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
+                ViewUtil.cancelLoadingDialog();
                 gotoMainActivity();
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
+                ViewUtil.cancelLoadingDialog();
                 gotoMainActivity();
             }
         });
