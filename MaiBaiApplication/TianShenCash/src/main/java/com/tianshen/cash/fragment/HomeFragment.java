@@ -67,6 +67,7 @@ import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
+import com.tianshen.cash.net.api.SJDLoanBack;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
@@ -78,6 +79,7 @@ import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
 import com.tianshen.cash.utils.Utils;
+import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
 import com.tianshen.user.idcardlibrary.util.Util;
 
@@ -685,6 +687,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_order.setVisibility(View.GONE);
         ll_repay.setVisibility(View.VISIBLE);
 
+        String is_payway = mUserConfig.getData().getIs_payway();
+        String repayment_day = mUserConfig.getData().getRepayment_time_day();
+        //如果当前是手机贷 并且当前没有日期
+        if ("2".equals(is_payway) && TextUtils.isEmpty(repayment_day)) {
+            sjdLoanBack();
+            return;
+        }
+
         String overdueDays = mUserConfig.getData().getOverdue_days();
         if (TextUtils.isEmpty(overdueDays)) {
             overdueDays = "0";
@@ -1084,6 +1094,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 通知服务器手机贷返回
+     */
+    private void sjdLoanBack() {
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final SJDLoanBack loanBack = new SJDLoanBack(mContext);
+        loanBack.sjdLoanBack(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                initUserConfig();
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+            }
+        });
+    }
+
+    /**
      * 显示友情提示Dialog
      */
     private void showFriendlyTipsDialog() {
@@ -1200,7 +1234,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             getVerifySmsForConfirmLoan.getVerifySmsForConfirmLoan(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
                 @Override
                 public void onSuccess(PostDataBean paramT) {
-
                 }
 
                 @Override
