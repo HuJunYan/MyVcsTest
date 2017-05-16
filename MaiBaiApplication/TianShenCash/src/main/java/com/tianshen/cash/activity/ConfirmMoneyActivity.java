@@ -19,6 +19,7 @@ import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
 import com.tianshen.cash.event.LocationEvent;
+import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
@@ -561,6 +562,11 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe
+    public void onPayDataOK(PayDataOKEvent event) {
+        onClickApply();
     }
 
 }
