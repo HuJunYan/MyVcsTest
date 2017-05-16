@@ -45,6 +45,10 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
     TextView tv_web_back;
     @BindView(R.id.wv_web)
     WebView wv_web;
+
+    @BindView(R.id.tv_web_exit)
+    TextView tv_web_exit;
+
     private String mUrl;
 
     private boolean mIsSJDLoanBack;
@@ -68,6 +72,7 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void setListensers() {
         tv_web_back.setOnClickListener(this);
+        tv_web_exit.setOnClickListener(this);
     }
 
     private void initWebView() {
@@ -107,6 +112,10 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
                     delaySJDLoanBack();
                 }
                 break;
+            case R.id.tv_web_exit:
+                delaySJDLoanBack();
+                break;
+
         }
     }
 
