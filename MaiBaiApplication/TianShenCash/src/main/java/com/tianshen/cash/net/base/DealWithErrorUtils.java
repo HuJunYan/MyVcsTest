@@ -9,6 +9,8 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.event.ServiceErrorEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.User;
@@ -55,6 +57,11 @@ public class DealWithErrorUtils {
                 ToastUtil.showToast(context, "网络不给力：" + err_code);
                 break;
             case 131: // 获取掌中验证码1分钟重复点击了
+                break;
+            case 999: // 系统维护
+                ServiceErrorEvent errorEvent = new ServiceErrorEvent();
+                errorEvent.setMsg(err_msg);
+                EventBus.getDefault().post(errorEvent);
                 break;
             default:
                 ToastUtil.showToast(context, err_msg);

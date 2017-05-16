@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -10,6 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.tbruyelle.rxpermissions2.Permission;
@@ -19,8 +24,11 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.event.RepayEvent;
+import com.tianshen.cash.event.ServiceErrorEvent;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
+import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.CheckUpgrade;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -28,10 +36,12 @@ import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -63,7 +73,10 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         uploadLog(mContext);
         startTime = System.currentTimeMillis();
         checkUpdate();
+
     }
+
+
     private void uploadLog(Context context){
         if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
             Intent intent = new Intent(context, UploadLogService.class);
@@ -223,4 +236,39 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     public void cancelUpdate() {
         gotoMainAcitivity();
     }
+
+    /**
+     * 显示系统维护的dialog
+     */
+    private void showServiceErrorDialog(String msg) {
+        if (isFinishing()) {
+            return;
+        }
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_service_error, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        TextView tv_dialog_error_tips = (TextView) view.findViewById(R.id.tv_dialog_error_tips);
+        tv_dialog_error_tips.setText(msg);
+        ImageView iv_dialog_error_close = (ImageView) view.findViewById(R.id.iv_dialog_error_close);
+        iv_dialog_error_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                finish();
+            }
+        });
+        mDialog.show();
+    }
+
+    /**
+     * 收到了服务器维护的消息
+     */
+    @Subscribe
+    public void onServiceErrorEvent(ServiceErrorEvent event) {
+        showServiceErrorDialog(event.getMsg());
+    }
+
 }
