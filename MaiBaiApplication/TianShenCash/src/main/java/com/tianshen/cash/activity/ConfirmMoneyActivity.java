@@ -177,13 +177,46 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
         try {
             JSONObject jsonObject = new JSONObject();
-            String userId = TianShenUserUtil.getUserId(mContext);
 
             String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
             String repay_id = TianShenUserUtil.getUserRepayId(mContext);
-            jsonObject.put("customer_id", userId);
+
+            User user = TianShenUserUtil.getUser(mContext);
+            String customer_id = user.getCustomer_id();
+            String location = user.getLocation();
+            String city = user.getCity();
+            String country = user.getCountry();
+            String address = user.getAddress();
+            String province = user.getProvince();
+
+            if (TextUtils.isEmpty(location)) {
+                RxPermissions rxPermissions = new RxPermissions(ConfirmMoneyActivity.this);
+                rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                            mLocationUtil.startLocation();
+                            mLocationUtil.setIsCallBack(true);
+                        }
+                        return;
+                    }
+                });
+                ToastUtil.showToast(mContext, "请打开定位权限!");
+                return;
+            }
+
+            jsonObject.put("customer_id", customer_id);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
+
+            jsonObject.put("location", location);
+            jsonObject.put("province", province);
+            jsonObject.put("city", city);
+            jsonObject.put("country", country);
+            jsonObject.put("address", address);
+
+
             final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
             getOrderConfirm.getOrderConfirm(jsonObject, tv_refresh_button, isShowDialog, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
