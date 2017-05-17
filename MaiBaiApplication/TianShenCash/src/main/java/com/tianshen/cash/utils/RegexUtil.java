@@ -253,4 +253,14 @@ public final class RegexUtil {
         return matcher.matches();
     }
 
+    /**
+     * 从字符串中提取数字
+     */
+    public static String getNum(String str) {
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
+
 }

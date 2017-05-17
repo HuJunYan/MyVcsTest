@@ -65,14 +65,17 @@ public class PhoneUtils {
                 while (phoneCursor.moveToNext()) {
                     // 得到手机号码
                     String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
+                    // 过滤字符串，只要数字
+                    String phoneNumberF = RegexUtil.getNum(phoneNumber);
+
                     // 当手机号码为空的或者为空字段 跳过当前循环
-                    if (TextUtils.isEmpty(phoneNumber))
+                    if (TextUtils.isEmpty(phoneNumberF))
                         continue;
                     // 得到联系人名称
                     String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                     HashMap<String, String> map = new HashMap<>();
                     map.put("name", contactName);
-                    map.put("phone", phoneNumber);
+                    map.put("phone", phoneNumberF);
                     list.add(map);
                 }
                 phoneCursor.close();
@@ -103,9 +106,12 @@ public class PhoneUtils {
             String id = cursor.getString(cursor.getColumnIndex(Contacts.People._ID));
             String name = cursor.getString(cursor.getColumnIndex(Contacts.People.NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(Contacts.People.NUMBER));
+            // 过滤字符串，只要数字
+            String phoneNumberF = RegexUtil.getNum(phoneNumber);
+
             HashMap<String, String> map = new HashMap<>();
             map.put("name", name);
-            map.put("phone", phoneNumber);
+            map.put("phone", phoneNumberF);
             list.add(map);
         }
         MyComparator myComparator = new MyComparator();

@@ -74,14 +74,17 @@ public class GetTelephoneUtils {
                 while (phoneCursor.moveToNext()) {
                     // 得到手机号码
                     String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
+                    // 过滤字符串，只要数字
+                    String phoneNumberF = RegexUtil.getNum(phoneNumber);
+
                     // 当手机号码为空的或者为空字段 跳过当前循环
-                    if (TextUtils.isEmpty(phoneNumber))
+                    if (TextUtils.isEmpty(phoneNumberF))
                         continue;
                     // 得到联系人名称
                     String contactName = phoneCursor.getString(PHONES_DISPLAY_NAME_INDEX);
                     ContactsBean mContactsBean = new ContactsBean();
                     mContactsBean.setContact_name(contactName);
-                    mContactsBean.setContact_phone(phoneNumber);
+                    mContactsBean.setContact_phone(phoneNumberF);
                     mContactsBeanList.add(mContactsBean);
                 }
                 phoneCursor.close();
