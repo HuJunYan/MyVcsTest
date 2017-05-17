@@ -1,7 +1,9 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -571,6 +573,14 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String income_per_month = String.valueOf(mIncomePosition);
         String occupational_identity = String.valueOf(mOccupationalPosition);
         String position = ev_auth_info_position.getText().toString().trim();
+
+
+        int length = company_phone.length();
+        if (length == 8 || length == 11 || length == 12) {
+        } else {
+            ToastUtil.showToast(mContext, "请填写正确的单位电话");
+            return;
+        }
 
         if (TextUtils.isEmpty(marital_status)) {
             ToastUtil.showToast(mContext, "请完善资料!");
