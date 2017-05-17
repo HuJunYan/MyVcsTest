@@ -358,7 +358,7 @@
                     android:background="@null"
                     android:hint="请输入您的单位电话"
                     android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="12"
                     android:textSize="14dp" />
 
             </RelativeLayout>
