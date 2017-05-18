@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.ContactsInfoBean;
+import com.tianshen.cash.model.IknowBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
@@ -30,7 +31,7 @@ public class IKnow extends NetBase {
         mUrl = NetConstantValue.getIKnowUrl();
     }
 
-    public void know(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
+    public void know(JSONObject jsonObject, final BaseNetCallBack<IknowBean> callBack) {
         try {
             mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
             if (mJSONObject == null) {
@@ -53,9 +54,9 @@ public class IKnow extends NetBase {
         }
     }
 
-    private void successHandle(String result, String url, BaseNetCallBack<PostDataBean> callBack) {
+    private void successHandle(String result, String url, BaseNetCallBack<IknowBean> callBack) {
         try {
-            PostDataBean postDataBean = GsonUtil.json2bean(result, PostDataBean.class);
+            IknowBean postDataBean = GsonUtil.json2bean(result, IknowBean.class);
             callBack.onSuccess(postDataBean);
         } catch (Exception e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
@@ -63,7 +64,7 @@ public class IKnow extends NetBase {
         }
     }
 
-    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> mCustomerAuthCallBack) {
+    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<IknowBean> mCustomerAuthCallBack) {
         try {
             if (isRelease) {
                 mCustomerAuthCallBack.onFailure(result, errorType, errorCode);

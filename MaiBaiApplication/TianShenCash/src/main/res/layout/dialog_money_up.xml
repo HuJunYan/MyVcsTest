@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_money_up" />
+
+    <TextView
+        android:id="@+id/tv_dialog_money_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingBottom="24dp"
+        android:paddingLeft="21dp"
+        android:paddingRight="21dp"
+        android:paddingTop="6dp"
+        android:textColor="@color/global_txt_black4"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_dialog_money_up_iknow"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shape_dialog_button2_border"
+        android:gravity="center"
+        android:text="我知道了"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+</LinearLayout>

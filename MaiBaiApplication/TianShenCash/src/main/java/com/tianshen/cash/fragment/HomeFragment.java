@@ -57,6 +57,7 @@ import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.CashSubItemBean;
+import com.tianshen.cash.model.IknowBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
@@ -314,7 +315,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             initSelWithdrawalsData();
         }
         initStaticsRoll();
-
     }
 
     @Override
@@ -527,11 +527,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
 
         String status = mUserConfig.getData().getStatus();
-
-
-        //只是模拟掌众
-//        is_payway = "1";
-//        status = "2";
 
         tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
 
@@ -1067,10 +1062,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             e.printStackTrace();
         }
         final IKnow iKnow = new IKnow(mContext);
-        iKnow.know(jsonObject, new BaseNetCallBack<PostDataBean>() {
+        iKnow.know(jsonObject, new BaseNetCallBack<IknowBean>() {
             @Override
-            public void onSuccess(PostDataBean paramT) {
+            public void onSuccess(IknowBean paramT) {
                 if (paramT.getCode() == 0) {
+
+                    String content = paramT.getData().getContent();
+                    String is_pop = paramT.getData().getIs_pop();
+                    if ("1".equals(is_pop)){
+                        showMoneyUpDialog(content);
+                    }
+
                     String status = mUserConfig.getData().getStatus();
                     switch (status) {
                         case "0":
@@ -1140,6 +1142,29 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 user.setClickedHomeGetMoneyButton(true);
                 TianShenUserUtil.saveUser(mContext, user);
                 showRepayUI();
+                mDialog.dismiss();
+            }
+        });
+        mDialog.show();
+    }
+
+
+    /**
+     * 显示额度提升Dialog
+     */
+    private void showMoneyUpDialog(String content) {
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_money_up, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+        TextView tv_dialog_money_up = (TextView) view.findViewById(R.id.tv_dialog_money_up);
+        TextView tv_dialog_money_up_iknow = (TextView) view.findViewById(R.id.tv_dialog_money_up_iknow);
+        tv_dialog_money_up.setText(content);
+        tv_dialog_money_up_iknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mDialog.dismiss();
             }
         });
