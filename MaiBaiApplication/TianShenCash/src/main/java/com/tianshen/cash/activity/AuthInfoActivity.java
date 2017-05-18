@@ -323,6 +323,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示省的Dialog
      */
     private void showProvinceListDialog() {
+        if (mProvinceData == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择省份")
                 .items(mProvinceData)
@@ -339,6 +344,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示城市的Dialog
      */
     private void showCityListDialog() {
+        if (mCityData == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择城市")
                 .items(mCityData)
@@ -355,6 +365,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示选择婚姻状态的dialog
      */
     private void showMarryDialog() {
+
+        if (marital_status_conf == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择婚姻状态")
                 .items(marital_status_conf)
@@ -372,6 +388,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示选择学历的dialog
      */
     private void showEducationalDialog() {
+
+        if (educational_background_conf == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择最高学历")
                 .items(educational_background_conf)
@@ -389,6 +411,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示选择收入的dialog
      */
     private void showIncomeDialog() {
+
+        if (income_per_month_conf == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择最高收入")
                 .items(income_per_month_conf)
@@ -407,6 +435,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示选择职业身份的dialog
      */
     private void showOccupationDialog() {
+
+        if (occupational_identity_conf == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择职业身份")
                 .items(occupational_identity_conf)
@@ -425,6 +459,12 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示区域的Dialog
      */
     private void showCountyListDialog() {
+
+        if (mCountyData == null){
+            ToastUtil.showToast(mContext,"数据错误");
+            return;
+        }
+
         new MaterialDialog.Builder(mContext)
                 .title("选择区域")
                 .items(mCountyData)
