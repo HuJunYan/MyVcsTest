@@ -69,7 +69,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
-import u.aly.ap;
 
 public class WithdrawalsFragment extends BaseFragment implements View.OnClickListener {
 

@@ -110,5 +110,7 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     //rxbinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    //umeng
+    compile 'com.umeng.analytics:analytics:latest.integration'
 
 }
