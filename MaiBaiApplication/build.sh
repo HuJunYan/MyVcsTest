@@ -1,9 +1,9 @@
 #!/bin/sh
 currentApplicationName='TianShenCash'
 
-currentApkTrailName="'_$currentApplicationName\_2-0-1_05092000.apk'"
-currentVersionCode="202"
-currentVersionName='"2.0.2"'
+currentApkTrailName="'_$currentApplicationName\_2-0-4_05182302.apk'"
+currentVersionCode="204"
+currentVersionName='"2.0.4"'
 
 
 funChangeVersionCode() {
