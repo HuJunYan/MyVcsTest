@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -42,8 +43,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 确认借款页面
@@ -104,6 +112,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     private OrderConfirmBean mOrderConfirmBean;
 
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     private int mRequestsCountMax = 3;//轮询多少次
     private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
@@ -122,6 +131,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     mCurrentRequestsCount++;
                     if (mCurrentRequestsCount < mRequestsCountMax) {
                         initOrderConfirmData(false);
+                    } else {
+                        mHandler.removeMessages(MSG_ORDER_DATA);
+                        interval();
                     }
                     break;
                 case MSG_REFRESH_TIME: //刷新倒计时
@@ -149,6 +161,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        disposables.clear(); // clearing it : do not emit after destroy
         LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
         mLocationUtil.setIsCallBack(false);
     }
@@ -525,6 +538,39 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURLF);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
+
+
+    private void interval() {
+        disposables.add(getObservable()
+                // Run on a background thread
+                .subscribeOn(Schedulers.io())
+                // Be notified on the main thread
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getObserver()));
+    }
+
+    private Observable<? extends Long> getObservable() {
+        return Observable.interval(0, 5, TimeUnit.MINUTES);
+    }
+
+    private DisposableObserver<Long> getObserver() {
+        return new DisposableObserver<Long>() {
+
+            @Override
+            public void onNext(Long value) {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+                initOrderConfirmData(false);
+            }
+        };
+    }
+
 
     /**
      * 跳转到手机贷H5页面
