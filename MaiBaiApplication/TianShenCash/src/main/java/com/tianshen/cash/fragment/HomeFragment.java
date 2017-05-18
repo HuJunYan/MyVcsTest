@@ -198,6 +198,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_max_sb_thumb)
     TextView tv_home_max_sb_thumb;
 
+    @BindView(R.id.cb_home)
+    CheckBox cb_home;
+
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -346,6 +349,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (mUserConfig == null) {
             return;
         }
+
+        boolean checked = cb_home.isChecked();
+        if (!checked) {
+            ToastUtil.showToast(mContext, "如需借款，需同意勾选此说明。");
+            return;
+        }
+
         String cur_credit_step = mUserConfig.getData().getCur_credit_step();
         String total_credit_step = mUserConfig.getData().getTotal_credit_step();
 
