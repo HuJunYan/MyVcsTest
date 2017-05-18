@@ -180,6 +180,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
         String sjd_url = event.getSjd_url();
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, sjd_url);
+        bundle.putBoolean(GlobalParams.SJD_BACK_DELAY_KEY, false);
         gotoActivity(mContext, SJDActivity.class, bundle);
         finish();
     }

@@ -532,6 +532,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     private void gotoSJDActivity(String url) {
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        bundle.putBoolean(GlobalParams.SJD_BACK_DELAY_KEY, true);
         gotoActivity(mContext, SJDActivity.class, bundle);
     }
 

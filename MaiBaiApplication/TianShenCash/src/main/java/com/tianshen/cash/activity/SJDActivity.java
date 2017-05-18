@@ -51,12 +51,15 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
 
     private String mUrl;
 
+    private boolean sjd_back_delay;
+
     private boolean mIsSJDLoanBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
+        sjd_back_delay = getIntent().getExtras().getBoolean(GlobalParams.SJD_BACK_DELAY_KEY);
         initWebView();
     }
 
@@ -109,7 +112,11 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
                 if (canGoBack) {
                     wv_web.goBack();
                 } else {
-                    delaySJDLoanBack();
+                    if (sjd_back_delay) {
+                        delaySJDLoanBack();
+                    } else {
+                        sjdLoanBack();
+                    }
                 }
                 break;
             case R.id.tv_web_exit:
@@ -126,7 +133,11 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
             if (canGoBack) {
                 wv_web.goBack();
             } else {
-                delaySJDLoanBack();
+                if (sjd_back_delay) {
+                    delaySJDLoanBack();
+                } else {
+                    sjdLoanBack();
+                }
             }
             return true;
         }

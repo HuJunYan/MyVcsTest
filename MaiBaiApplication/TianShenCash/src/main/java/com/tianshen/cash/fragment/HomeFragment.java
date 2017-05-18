@@ -1288,6 +1288,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void gotoSJDActivity(String url) {
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        bundle.putBoolean(GlobalParams.SJD_BACK_DELAY_KEY, false);
         gotoActivity(mContext, SJDActivity.class, bundle);
     }
 
