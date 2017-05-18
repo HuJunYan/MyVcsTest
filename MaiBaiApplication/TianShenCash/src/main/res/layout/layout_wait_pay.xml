@@ -17,8 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="40dp"
-        android:text="天神贷正在为您提交订单,请耐心等待..."
+        android:text="您的订单已提交，正在为您审核，请耐心等待，预计等待时间约（1-60分钟）。"
         android:textColor="@color/global_txt_black4"
         android:textSize="16sp" />
 
