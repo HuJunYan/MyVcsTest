@@ -324,7 +324,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showProvinceListDialog() {
         if (mProvinceData == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -345,7 +345,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showCityListDialog() {
         if (mCityData == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -367,7 +367,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showMarryDialog() {
 
         if (marital_status_conf == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -390,7 +390,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showEducationalDialog() {
 
         if (educational_background_conf == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -413,7 +413,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showIncomeDialog() {
 
         if (income_per_month_conf == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -437,7 +437,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showOccupationDialog() {
 
         if (occupational_identity_conf == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"请稍后再试");
             return;
         }
 
@@ -461,7 +461,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
     private void showCountyListDialog() {
 
         if (mCountyData == null){
-            ToastUtil.showToast(mContext,"数据错误");
+            ToastUtil.showToast(mContext,"");
             return;
         }
 
