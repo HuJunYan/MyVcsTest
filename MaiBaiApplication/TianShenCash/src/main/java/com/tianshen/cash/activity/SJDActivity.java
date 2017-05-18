@@ -120,7 +120,11 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.tv_web_exit:
-                delaySJDLoanBack();
+                if (sjd_back_delay) {
+                    delaySJDLoanBack();
+                } else {
+                    sjdLoanBack();
+                }
                 break;
 
         }
