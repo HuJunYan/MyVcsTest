@@ -121,6 +121,9 @@ public class BorrowBillAdapter extends BaseAdapter {
             case "9": //9:决策失败
                 viewHolder.tv_consume_status.setText("审核失败");
                 break;
+            case "10": //10:订单已取消
+                viewHolder.tv_consume_status.setText("订单取消");
+                break;
             case "12": //12:还款失败
                 viewHolder.tv_consume_status.setText("还款失败");
                 break;
