@@ -117,13 +117,13 @@
             android:name=".activity.AddBankCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.tianshen.user.idcardlibrary.activity.IDCardScanActivity"
+            android:name="com.tianshen.cash.idcard.activity.IDCardScanActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.tianshen.user.livenesslibrary.activity.LivenessActivity"
+            android:name="com.tianshen.cash.liveness.activity.LivenessActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ActivateSuccessActivity" />
         <activity android:name=".activity.WaitVerifyWithdrawalActivity" />

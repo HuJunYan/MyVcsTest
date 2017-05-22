@@ -11,7 +11,6 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.SaveIdCardBean;
 import com.tianshen.cash.utils.TianShenUserUtil;
-import com.tianshen.user.idcardlibrary.util.Util;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.SaveIdCardInformation;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -116,8 +115,8 @@ public class ActivateTheQuotaActivity extends BaseActivity implements View.OnCli
             ToastUtil.showToast(mContext, "请输入身份证号");
             return false;
         }
-        if(18!=et_id_card_num.getEditTextString().trim().length()){
-            ToastUtil.showToast(mContext,"身份证号格式不正确");
+        if (18 != et_id_card_num.getEditTextString().trim().length()) {
+            ToastUtil.showToast(mContext, "身份证号格式不正确");
             return false;
         }
         return true;
@@ -173,32 +172,32 @@ public class ActivateTheQuotaActivity extends BaseActivity implements View.OnCli
         mSaveIdCardInformationAction.saveIdCardInformation(json, new BaseNetCallBack<SaveIdCardBean>() {
             @Override
             public void onSuccess(SaveIdCardBean paramT) {
-                if(null==paramT){
-                    ToastUtil.showToast(mContext,"数据失败");
+                if (null == paramT) {
+                    ToastUtil.showToast(mContext, "数据失败");
                     return;
                 }
-                if(null==paramT.getData()){
-                    ToastUtil.showToast(mContext,"数据失败");
+                if (null == paramT.getData()) {
+                    ToastUtil.showToast(mContext, "数据失败");
                     return;
                 }
-                if(GlobalParams.NOT_QUALIFIED.equals(paramT.getData().getQualified())){
+                if (GlobalParams.NOT_QUALIFIED.equals(paramT.getData().getQualified())) {
                     //用户在黑名单时直接跳转至拒绝
-                    String reason=paramT.getData().getReason();
-                    if(null==reason){
-                        reason="";
+                    String reason = paramT.getData().getReason();
+                    if (null == reason) {
+                        reason = "";
                     }
-                    UserUtil.setCashCreditReason(mContext,reason);
-                    UserUtil.setCashCreditStatus(mContext,GlobalParams.CASH_APPLY_REFUSE_BY_MACHINE);
-                    gotoActivity(mContext,VerifyFailActivity.class,null);
+                    UserUtil.setCashCreditReason(mContext, reason);
+                    UserUtil.setCashCreditStatus(mContext, GlobalParams.CASH_APPLY_REFUSE_BY_MACHINE);
+                    gotoActivity(mContext, VerifyFailActivity.class, null);
                     backActivity();
                     return;
                 }
                 UserUtil.setRealName(ActivateTheQuotaActivity.this, mName);
                 UserUtil.setIdNum(ActivateTheQuotaActivity.this, mIdNum);
-                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_UPLOAD_IDCARD_INFO+"");
+                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_UPLOAD_IDCARD_INFO + "");
 
                 //跳到运营商认证
-                gotoActivity(mContext,ImproveQuotaActivity.class,mBundle);
+                gotoActivity(mContext, ImproveQuotaActivity.class, mBundle);
                 backActivity();
 
             }
