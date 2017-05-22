@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.meituan.android.walle.WalleChannelReader;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
@@ -59,6 +61,12 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     private long startTime;
     private long finishTime;
     private final String TAG = "NavigationActivity";
+
+    /*程序SD卡存储根目录*/
+    public static final String SD_PATH = Environment
+            .getExternalStorageDirectory() + "/";
+    /*补丁包位置*/
+    public static final String TINKER = SD_PATH + "tinker/tianshen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,9 +184,6 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             String channel = WalleChannelReader.getChannel(this);
             String channel_id = Utils.channelName2channelID(channel);
 
-            LogUtil.d("abc","channel-->"+channel);
-            LogUtil.d("abc","channel_id-->"+channel_id);
-
             mjson.put("channel_id", channel_id);
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
@@ -231,6 +236,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     if (errorCode == 118) {
+                        checkTinker();
                         gotoMainAcitivity();
                     }
                 }
@@ -244,6 +250,22 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     public void cancelUpdate() {
         gotoMainAcitivity();
+    }
+
+    /**
+     * 检查补丁包
+     */
+    private void checkTinker(){
+        RxPermissions rxPermissions = new RxPermissions(NavigationActivity.this);
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    LogUtil.d("abc","加载补丁~");
+                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                }
+            }
+        });
     }
 
     /**
