@@ -23,6 +23,7 @@ import com.loopj.android.http.RequestParams;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
 import com.tianshen.cash.idcard.util.Util;
@@ -807,7 +808,7 @@ public class ResultActivity extends BaseActivity {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
             }
         });
         builder.create().show();

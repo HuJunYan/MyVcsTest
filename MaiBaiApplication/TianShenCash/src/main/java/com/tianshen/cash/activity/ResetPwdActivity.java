@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.manager.DBManager;
@@ -205,9 +207,13 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                     liteOrm.delete(User.class);
 
                     EventBus.getDefault().post(new FinishCurrentActivityEvent());
-                    Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
+
+                    MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
+                    Application application = myApplicationLike.getApplication();
+
+                    Intent intent = new Intent(application, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    MyApplication.getApp().startActivity(intent);
+                    application.startActivity(intent);
 
                 }
 

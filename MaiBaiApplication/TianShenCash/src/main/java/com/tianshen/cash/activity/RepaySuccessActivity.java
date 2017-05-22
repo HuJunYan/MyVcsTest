@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.net.base.BaseUiListener;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ShareUtils;
@@ -55,7 +56,7 @@ public class RepaySuccessActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_confirm:
-                ((MyApplication) getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 break;
             case R.id.iv_share_qzone:
                 new ShareUtils(this).shareQZone(mTencent, listener);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.MainActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.CashVerifyConfirm;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -82,7 +83,7 @@ public class WithdrawalsApplyResultUtil {
                     new GetTelephoneUtils(context).changeLight();
                     dialog.dismiss();
                     UserUtil.setCashNeedPop(context, "0");
-                    (((MyApplication)(context.getApplicationContext())).getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                    MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 }
 
                 @Override
@@ -110,7 +111,7 @@ public class WithdrawalsApplyResultUtil {
                 if(isMachine){
                     return;
                 }else{
-                    (((MyApplication)(context.getApplicationContext())).getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                    MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 }
             }
         });

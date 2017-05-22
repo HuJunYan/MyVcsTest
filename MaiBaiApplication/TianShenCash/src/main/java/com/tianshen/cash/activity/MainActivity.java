@@ -15,6 +15,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.MyViewPagerAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.fragment.HomeFragment;
@@ -211,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            (((MyApplication)(mContext.getApplicationContext())).getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                            MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                             Bundle bundle=intent.getExtras();
                             JpushAddBorrowTermBean object=(JpushAddBorrowTermBean) bundle.getSerializable(GlobalParams.ADD_BORROW_TERM_KEY);
                             new WithdrawalsApplyResultUtil(mContext).showBorrowTerm(object.getMsg_content().getBorrow_time());

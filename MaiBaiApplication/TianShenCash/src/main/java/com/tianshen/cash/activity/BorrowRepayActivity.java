@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class BorrowRepayActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_confirm:
-                ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 backActivity();
                 break;
         }

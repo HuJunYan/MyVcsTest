@@ -1,5 +1,6 @@
 package com.tianshen.cash.net.base;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -8,6 +9,7 @@ import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
@@ -74,8 +76,12 @@ public class DealWithErrorUtils {
      */
     private static void finishActivityAndGotoLoginActivity() {
         EventBus.getDefault().post(new FinishCurrentActivityEvent());
-        Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
+
+        MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
+        Application application = myApplicationLike.getApplication();
+
+        Intent intent = new Intent(application, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        MyApplication.getApp().startActivity(intent);
+        application.startActivity(intent);
     }
 }

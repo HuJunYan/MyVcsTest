@@ -12,6 +12,7 @@ import com.baidu.location.BDLocation;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LoginSuccessEvent;
@@ -207,7 +208,7 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
     private void login(String mobile,final String password){
         final String push_id = JPushInterface.getRegistrationID(mContext);
         if (null == push_id || "".equals(push_id)) {
-            ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+            MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
         }
         JSONObject jsonObject=new JSONObject();
         try {

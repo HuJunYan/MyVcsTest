@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -56,7 +57,7 @@ public class ActivateSuccessActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_confirm:
-                ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 break;
         }
     }

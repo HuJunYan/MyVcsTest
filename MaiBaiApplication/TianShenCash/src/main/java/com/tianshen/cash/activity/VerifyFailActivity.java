@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.OrderRefreshBean;
 import com.tianshen.cash.model.RecordPopBean;
@@ -80,13 +81,13 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         try {
             if (null==mBundle){
-                ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 return;
             }
             switch (v.getId()){
                 case R.id.bt_confirm:
                     if(GlobalParams.REFUSE_BY_PERSON_TYPE==mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)){
-                        ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                        MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                     }else if(GlobalParams.REFUSE_BY_MACHINE_TYPE==mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)) {
                         System.exit(0);
                     }
@@ -105,7 +106,7 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
         // 所有需要统一处理的onKeyDown写在这个if里面
         if (isOnKeyDown()) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
+                MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
 
             }
         }

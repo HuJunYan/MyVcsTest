@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.MainActivity;
 import com.tianshen.cash.base.MyApplication;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.view.TitleBar;
@@ -124,7 +125,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
             case GlobalParams.WX_PAY_SUCCESS:
                 if (GlobalParams.REPAY_FROM_CONSUMPTION.equals(payFrom)) {
                     try {
-                        ((MyApplication) (getApplicationContext())).clearTempActivityInBackStack(MainActivity.class);
+                        MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                     }catch (Exception e){
                         Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
@@ -133,10 +134,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler, 
                     new SendBroadCastUtil(WXPayEntryActivity.this).sendBroad(GlobalParams.WX_REPAY_CONSUMPTION_SUCCESS_ACTION, null);
                 } else if (GlobalParams.REPAY_FROM_BORROW.equals(payFrom)) {
                     new SendBroadCastUtil(WXPayEntryActivity.this).sendBroad(GlobalParams.WX_REPAY_BORROW_SUCCESS_ACTION, null);
-                    ((MyApplication)(getApplicationContext())).clearTempActivityInBackStack(MainActivity.class);
+                    MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 } else if (GlobalParams.REPAY_FROM_BORROW_DETAIL.equals(payFrom)) {
                     new SendBroadCastUtil(WXPayEntryActivity.this).sendBroad(GlobalParams.WX_REPAY_BORROW_DETAIL_SUCCESS_ACTION, null);
-                    ((MyApplication)(getApplicationContext())).clearTempActivityInBackStack(MainActivity.class);
+                    MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 }
             case GlobalParams.WX_PAY_FAIL:
             case GlobalParams.WX_PAY_CANCEL:
