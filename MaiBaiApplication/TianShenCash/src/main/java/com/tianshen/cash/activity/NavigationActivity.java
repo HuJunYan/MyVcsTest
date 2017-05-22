@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.meituan.android.walle.WalleChannelReader;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -38,6 +39,7 @@ import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
+import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -170,7 +172,14 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
             mjson.put("device_id",UserUtil.getDeviceId(mContext));
-            mjson.put("channel_id", GlobalParams.CHANNEL_ID);
+
+            String channel = WalleChannelReader.getChannel(this);
+            String channel_id = Utils.channelName2channelID(channel);
+
+            LogUtil.d("abc","channel-->"+channel);
+            LogUtil.d("abc","channel_id-->"+channel_id);
+
+            mjson.put("channel_id", channel_id);
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {

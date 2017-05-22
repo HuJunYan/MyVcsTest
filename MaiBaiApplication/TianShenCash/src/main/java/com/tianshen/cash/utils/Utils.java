@@ -378,7 +378,6 @@ public class Utils {
     }
 
 
-
     /**
      * 根据byte数组，生成图片
      */
@@ -452,6 +451,7 @@ public class Utils {
 
     /**
      * 原消费额度+现消费额度-优惠额度 <= 500
+     *
      * @param currentConsume
      * @param discount
      * @return
@@ -562,5 +562,67 @@ public class Utils {
         orderBean.getData().setDiscount(paramT.getData().getDiscount());
         orderBean.getData().setDown_payment(paramT.getData().getDown_payment());
         return orderBean;
+    }
+
+    /**
+     * 渠道名称转成渠道ID
+     */
+    public static String channelName2channelID(String channelName) {
+        String channelID = "2000";
+        if (TextUtils.isEmpty(channelName)) {
+            channelID = "2000";
+            return channelID;
+        }
+        switch (channelName) {
+            case "server":
+                channelID = "2000";
+                break;
+            case "wandoujia":
+                channelID = "2001";
+                break;
+            case "qqTencent":
+                channelID = "2002";
+                break;
+            case "zs91zhushou":
+                channelID = "2003";
+                break;
+            case "huawei":
+                channelID = "2004";
+                break;
+            case "xiaomi":
+                channelID = "2005";
+                break;
+            case "baidu":
+                channelID = "2006";
+                break;
+            case "anzhi":
+                channelID = "2007";
+                break;
+            case "oppo":
+                channelID = "2008";
+                break;
+            case "appchina":
+                channelID = "2009";
+                break;
+            case "lenovo":
+                channelID = "2010";
+                break;
+            case "meizu":
+                channelID = "2011";
+                break;
+            case "baidusem":
+                channelID = "2012";
+                break;
+            case "UCWeb":
+                channelID = "2013";
+                break;
+            case "dev360cn":
+                channelID = "2014";
+                break;
+            case "vivo":
+                channelID = "2015";
+                break;
+        }
+        return channelID;
     }
 }

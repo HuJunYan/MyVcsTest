@@ -10,10 +10,13 @@ import android.graphics.Typeface;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.meituan.android.walle.WalleChannelReader;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tianshen.cash.adapter.AndroidLogAdapter;
+import com.umeng.analytics.MobclickAgent;
+
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
 
@@ -48,12 +51,17 @@ public class MyApplication extends Application {
 //		if (Utils.isApplicationRepeat(this)) {
 //			return;
 //		}
-		JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
-		JPushInterface.init(this); // 初始化 JPush
+        JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this); // 初始化 JPush
 //		LogUtil.autoSetDebugOrReleaseMode(MyApplication.this);
 //		GsonUtil.init(MyApplication.this);
 
         initLogger();
+
+        String appKey = "58d8d84f04e2055475001ba2";
+        String channel = WalleChannelReader.getChannel(this);
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(this, appKey, channel);
+        MobclickAgent.startWithConfigure(config);
     }
 
     public static MyApplication getApp() {

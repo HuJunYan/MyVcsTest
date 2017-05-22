@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
+import com.meituan.android.walle.WalleChannelReader;
 import com.tianshen.cash.BuildConfig;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -23,6 +24,7 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.view.MyTextView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -155,7 +157,11 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
             mjson.put("device_id", UserUtil.getDeviceId(mContext));
-            mjson.put("channel_id", GlobalParams.CHANNEL_ID);
+
+            String channel = WalleChannelReader.getChannel(this);
+            String channel_id = Utils.channelName2channelID(channel);
+
+            mjson.put("channel_id", channel_id);
             checkUpgrade.checkUpgrade(mjson, mtv_check_code, true, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {

@@ -4,8 +4,6 @@ public class GlobalParams {
 
 	public static final String APP_ID_WX_PAY="wx16a8376c4c40638d";
 
-	// 整型常量
-	public static final int CHANNEL_ID = 1;
 
 	public static final int SHOP_TYPE_PROPORTION=6;//商家类型图标占总屏幕宽度为1/6；
 	public static final int SHOP_ITEM_IMG_PROPORTION=5;//商家列表中logo占比

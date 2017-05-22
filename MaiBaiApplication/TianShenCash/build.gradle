@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'walle'
+
 
 android {
 
@@ -10,70 +12,57 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 204
-        versionName "2.0.4"
+        versionCode 205
+        versionName "2.0.5"
         resConfigs "zh","en"
-
         // dex突破65535的限制
         multiDexEnabled true
     }
+
+    //recommend
+    dexOptions {
+        jumboMode = true
+    }
+
     signingConfigs {
-        releaseConfig {
-            keyAlias 'tianshencash'
-            keyPassword 'tianshen2017'
-//            storeFile file('/Users/crslljj/workspace/maibeiWorkspace/MaiBai/doc/jks/maibei_cash/maibeicash.jks')
-            storeFile file('../../doc/jks/tianshen_cash/tianshencash.jks')
-            storePassword 'tianshen2017'
+        sankuai {
+            storeFile file("../../doc/jks/tianshen_cash/tianshencash.jks")
+            keyAlias "tianshencash"
+            storePassword "tianshen2017"
+            keyPassword "tianshen2017"
         }
     }
+
     buildTypes {
 
         def gitHash = "git rev-parse --short HEAD".execute().text.trim()
         def buildTime = new Date().format("yyyy-MM-dd HH:mm")
 
-        debug {
-            resValue "string", "githash", gitHash
-            resValue "string", "build_time", buildTime
-        }
-
-
         release {
             resValue "string", "githash", gitHash
             resValue "string", "build_time", buildTime
-
-            signingConfig signingConfigs.releaseConfig
+            //不混淆
             minifyEnabled false
-//            zipAlignEnabled true
-//            shrinkResources true
+            //Zipalign优化
+            zipAlignEnabled false
+            // 移除无用的resource文件
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.sankuai
+        }
+        debug {
+            resValue "string", "githash", gitHash
+            resValue "string", "build_time", buildTime
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.sankuai
         }
     }
 
-    productFlavors {
-        ceshi {}
-    }
-    productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-    }
+}
 
-    //修改生成的apk名字
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            def newName = '';
-            if (variant.buildType.name.equals('release')) {
-                def releaseApkName = variant.productFlavors[0].name +'_TianShenCash_2-0-4_05182302.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-            if (variant.buildType.name.equals('beta')) {
-
-            }
-            if (variant.buildType.name.equals('debug')) {
-
-            }
-        }
-    }
-
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
@@ -107,4 +96,15 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     //umeng
     compile 'com.umeng.analytics:analytics:latest.integration'
+    //美团批量打包
+    compile 'com.meituan.android.walle:library:1.1.3'
+}
+
+walle {
+    // 指定渠道包的输出路径
+    apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+    // 定制渠道包的APK的文件名称
+    apkFileNameFormat = '${appName}-${channel}-${buildType}-v${versionName}-${buildTime}-${flavorName}.apk'
+    // 渠道配置文件
+    channelFile = new File("${project.getProjectDir()}/channel")
 }
