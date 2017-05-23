@@ -38,6 +38,7 @@ import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -192,7 +193,20 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
                     if (errorCode == 118) {
-                        gotoMainAcitivity();
+                        try {
+                            JSONObject object = new JSONObject(result);
+                            JSONObject objectData = object.optJSONObject("data");
+                            String tinker_url = objectData.optString("tinker_url");
+                            if (TextUtils.isEmpty(tinker_url)) {
+                                gotoMainAcitivity();
+                            } else {
+                                downloadTinker(tinker_url);
+                            }
+                        } catch (JSONException e) {
+                            gotoMainAcitivity();
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             });
@@ -245,60 +259,61 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
      * 下载补丁包
      */
     private void downloadTinker(final String tinker_url) {
-        new RxPermissions(this)
-                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .doOnNext(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            FileDownloader.getImpl().create(tinker_url)
-                                    .setPath(TINKER)
-                                    .setListener(new FileDownloadListener() {
-                                        @Override
-                                        protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                                        }
+        LogUtil.d("abc", "downloadTinker---tinker_url-->" + tinker_url);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    FileDownloader.getImpl().create(tinker_url)
+                            .setPath(TINKER)
+                            .setListener(new FileDownloadListener() {
+                                @Override
+                                protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                }
 
-                                        @Override
-                                        protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-                                            LogUtil.d("abc", "FileDownloadListener---connected");
-                                        }
+                                @Override
+                                protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                                }
 
-                                        @Override
-                                        protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                                        }
+                                @Override
+                                protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                }
 
-                                        @Override
-                                        protected void blockComplete(BaseDownloadTask task) {
-                                        }
+                                @Override
+                                protected void blockComplete(BaseDownloadTask task) {
+                                }
 
-                                        @Override
-                                        protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
-                                        }
+                                @Override
+                                protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                                }
 
-                                        @Override
-                                        protected void completed(BaseDownloadTask task) {
-                                            LogUtil.d("abc", "FileDownloadListener---completed");
-                                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
-                                        }
+                                @Override
+                                protected void completed(BaseDownloadTask task) {
+                                    LogUtil.d("abc", "FileDownloadListener---completed");
+                                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                                    gotoMainAcitivity();
+                                }
 
-                                        @Override
-                                        protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                                        }
+                                @Override
+                                protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                }
 
-                                        @Override
-                                        protected void error(BaseDownloadTask task, Throwable e) {
-                                            LogUtil.d("abc", "FileDownloadListener---error");
-                                        }
+                                @Override
+                                protected void error(BaseDownloadTask task, Throwable e) {
+                                    LogUtil.d("abc", "FileDownloadListener---error");
+                                    gotoMainAcitivity();
+                                }
 
-                                        @Override
-                                        protected void warn(BaseDownloadTask task) {
-                                        }
-                                    }).start();
+                                @Override
+                                protected void warn(BaseDownloadTask task) {
+                                }
+                            }).start();
+                }
+            }
+        });
 
 
-                        }
-                    }
-                });
     }
 
 }
