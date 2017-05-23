@@ -385,7 +385,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     break;
                 case GlobalParams.UPLOADCALLRECORD:
                     //上传通话记录成功
-//                    mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
                     break;
                 case GlobalParams.UPLOADMESSAGE:
                     //上传短信成功
