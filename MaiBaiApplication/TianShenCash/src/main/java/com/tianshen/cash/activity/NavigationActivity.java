@@ -6,10 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,56 +14,45 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.view.RxView;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.event.FinishCurrentActivityEvent;
-import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.CheckUpgrade;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
-import com.tianshen.cash.utils.GetTelephoneUtils;
+import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
-import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
 import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
-import io.reactivex.Observable;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.Observer;
 import io.reactivex.functions.Consumer;
 
 /**
  * Created by 14658 on 2016/7/4.
  */
-public class NavigationActivity extends BaseActivity implements UpdateManager.Control{
+public class NavigationActivity extends BaseActivity implements UpdateManager.Control {
     private long startTime;
     private long finishTime;
     private final String TAG = "NavigationActivity";
 
-    /*程序SD卡存储根目录*/
-    public static final String SD_PATH = Environment
-            .getExternalStorageDirectory() + "/";
-    /*补丁包位置*/
-    public static final String TINKER = SD_PATH + "tinker/tianshen";
+    //补丁包
+    public static final String TINKER = Config.TINKER_CACHE_DIR + "tianshen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +73,13 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     }
 
 
-    private void uploadLog(Context context){
-        if(GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context))||GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
+    private void uploadLog(Context context) {
+        if (GlobalParams.LOG_STATUS_NEED_UPLOAD.equals(UserUtil.getLogStatus(context)) || GlobalParams.LOG_STATUS_IS_UPLOAD_fail.equals(UserUtil.getLogStatus(context))) {
             Intent intent = new Intent(context, UploadLogService.class);
             context.startService(intent);
         }
     }
+
     @Override
     protected int setContentView() {
         return R.layout.activity_navigation;
@@ -127,7 +114,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                UserUtil.setDeviceId(mContext,TelephonyMgr.getDeviceId());
+                UserUtil.setDeviceId(mContext, TelephonyMgr.getDeviceId());
             }
         });
 
@@ -152,8 +139,10 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             }
         }.start();
     }
+
     /**
      * 获取当前应用的版本号
+     *
      * @return
      */
     public String getVersion() {
@@ -179,7 +168,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         try {
             mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
-            mjson.put("device_id",UserUtil.getDeviceId(mContext));
+            mjson.put("device_id", UserUtil.getDeviceId(mContext));
 
             String channel = WalleChannelReader.getChannel(this);
             String channel_id = Utils.channelName2channelID(channel);
@@ -188,55 +177,21 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {
-
-
-                    if (paramT.getCode() == 0) {//0为应用有升级
-
-                        //设置当前APP显示什么视图标记位
-//                        MyApplication myApplication = (MyApplication) mContext.getApplicationContext();
-//                        myApplication.setOn_verify(paramT.getData().getOn_verify());
-
-                        String apkUrl = paramT.getData().getDownload_url();//更新下载路径
-                        String explain = paramT.getData().getIntroduction();//更新说明
-                        String upgradeType = paramT.getData().getForce_upgrade();//更新类型
-                        String is_ignore = paramT.getData().getIs_ignore();//是否忽略升级
-                        if ("1".equals(is_ignore)) {
-                            gotoMainAcitivity();
-                        }else {
-                            UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
-                            mUpdateManager.checkUpdateInfo();
-                        }
+                    String apkUrl = paramT.getData().getDownload_url();//更新下载路径
+                    String explain = paramT.getData().getIntroduction();//更新说明
+                    String upgradeType = paramT.getData().getForce_upgrade();//更新类型
+                    String is_ignore = paramT.getData().getIs_ignore();//是否忽略升级
+                    if ("1".equals(is_ignore)) {
+                        gotoMainAcitivity();
+                    } else {
+                        UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
+                        mUpdateManager.checkUpdateInfo();
                     }
-
-//                    if (paramT == null) {
-//                        return;
-//                    }
-//                    String force_upgrade = paramT.getData().getForce_upgrade();
-//                    String is_ignore = paramT.getData().getIs_ignore();
-//                    if (!TextUtils.isEmpty(force_upgrade) && !TextUtils.isEmpty(is_ignore)) {
-//                        if ("1".equals(force_upgrade) && "0".equals(is_ignore)) {
-//                            UserUtil.removeUser(mContext);
-//                            EventBus.getDefault().post(new FinishCurrentActivityEvent());
-//                            Intent intent = new Intent(MyApplication.getApp(), LoginActivity.class);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            MyApplication.getApp().startActivity(intent);
-//                            return;
-//                        }
-//                    }
-//
-//                    if (paramT.getCode() == 0) {//0为应用有升级
-//                        String apkUrl = paramT.getData().getDownload_url();//更新下载路径
-//                        String explain = paramT.getData().getIntroduction();//更新说明
-//                        String upgradeType = paramT.getData().getForce_upgrade();//更新类型
-//                        UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
-//                        mUpdateManager.checkUpdateInfo();
-//                    }
                 }
 
                 @Override
-                public void onFailure(String url, int errorType, int errorCode) {
+                public void onFailure(String result, int errorType, int errorCode) {
                     if (errorCode == 118) {
-                        checkTinker();
                         gotoMainAcitivity();
                     }
                 }
@@ -250,22 +205,6 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     public void cancelUpdate() {
         gotoMainAcitivity();
-    }
-
-    /**
-     * 检查补丁包
-     */
-    private void checkTinker(){
-        RxPermissions rxPermissions = new RxPermissions(NavigationActivity.this);
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean aBoolean) throws Exception {
-                if (aBoolean) {
-                    LogUtil.d("abc","加载补丁~");
-                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
-                }
-            }
-        });
     }
 
     /**
@@ -300,6 +239,66 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Subscribe
     public void onServiceErrorEvent(ServiceErrorEvent event) {
         showServiceErrorDialog(event.getMsg());
+    }
+
+    /**
+     * 下载补丁包
+     */
+    private void downloadTinker(final String tinker_url) {
+        new RxPermissions(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .doOnNext(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            FileDownloader.getImpl().create(tinker_url)
+                                    .setPath(TINKER)
+                                    .setListener(new FileDownloadListener() {
+                                        @Override
+                                        protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                        }
+
+                                        @Override
+                                        protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                                            LogUtil.d("abc", "FileDownloadListener---connected");
+                                        }
+
+                                        @Override
+                                        protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                        }
+
+                                        @Override
+                                        protected void blockComplete(BaseDownloadTask task) {
+                                        }
+
+                                        @Override
+                                        protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                                        }
+
+                                        @Override
+                                        protected void completed(BaseDownloadTask task) {
+                                            LogUtil.d("abc", "FileDownloadListener---completed");
+                                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                                        }
+
+                                        @Override
+                                        protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                                        }
+
+                                        @Override
+                                        protected void error(BaseDownloadTask task, Throwable e) {
+                                            LogUtil.d("abc", "FileDownloadListener---error");
+                                        }
+
+                                        @Override
+                                        protected void warn(BaseDownloadTask task) {
+                                        }
+                                    }).start();
+
+
+                        }
+                    }
+                });
     }
 
 }

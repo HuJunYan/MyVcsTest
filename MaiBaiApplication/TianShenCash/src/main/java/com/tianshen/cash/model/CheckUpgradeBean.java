@@ -48,6 +48,15 @@ public class CheckUpgradeBean implements Serializable {
         private String introduction;  // 升级介绍
         private String force_upgrade;  // 0：非强制升级，1:强制升级
         private String is_ignore; //是否忽略更新
+        private String tinker_url; //补丁包
+
+        public String getTinker_url() {
+            return tinker_url;
+        }
+
+        public void setTinker_url(String tinker_url) {
+            this.tinker_url = tinker_url;
+        }
 
         public String getIs_ignore() {
             return is_ignore;

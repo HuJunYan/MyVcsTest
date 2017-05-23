@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -69,6 +70,7 @@ public class MyApplicationLike extends DefaultApplicationLike {
         JPushInterface.init(mApplication); // 初始化 JPush
         initLogger();
         initUMeng();
+        FileDownloader.init(mApplication);
     }
 
     private void initLogger() {
