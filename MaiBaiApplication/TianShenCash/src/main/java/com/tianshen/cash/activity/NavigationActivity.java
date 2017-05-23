@@ -41,6 +41,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 import cn.jpush.android.api.JPushInterface;
 import io.reactivex.functions.Consumer;
 
@@ -200,13 +202,18 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                             if (TextUtils.isEmpty(tinker_url)) {
                                 gotoMainAcitivity();
                             } else {
-                                downloadTinker(tinker_url);
+                                File file = new File(TINKER);
+                                if (file.isFile() && file.exists()) {
+                                    LogUtil.d("abc", "直接加载补丁");
+                                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                                } else {
+                                    downloadTinker(tinker_url);
+                                }
                             }
                         } catch (JSONException e) {
                             gotoMainAcitivity();
                             e.printStackTrace();
                         }
-
                     }
                 }
             });
@@ -259,7 +266,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
      * 下载补丁包
      */
     private void downloadTinker(final String tinker_url) {
-        LogUtil.d("abc", "downloadTinker---tinker_url-->" + tinker_url);
+        LogUtil.d("abc", "下载补丁---tinker_url-->" + tinker_url);
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
