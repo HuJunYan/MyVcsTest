@@ -456,7 +456,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             //任务执行之后
             @Override
             public void onNext(List<ContactsBean> value) {
-                uploadContacts(value);
+                if (value.size() == 0) {
+                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                } else {
+                    uploadContacts(value);
+                }
             }
 
             //任务执行完毕
