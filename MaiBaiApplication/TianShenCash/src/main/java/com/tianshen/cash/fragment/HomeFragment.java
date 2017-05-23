@@ -457,7 +457,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onNext(List<ContactsBean> value) {
                 if (value.size() == 0) {
-                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
+                    if ("0".equals(is_need_contacts)) {//不强制上传联系人
+                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    } else if ("1".equals(is_need_contacts)) {
+                        ToastUtil.showToast(mContext, "请您设置打开通信录读取");
+                    }
                 } else {
                     uploadContacts(value);
                 }
