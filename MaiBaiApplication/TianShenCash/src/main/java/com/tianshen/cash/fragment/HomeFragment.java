@@ -423,7 +423,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
                         gotoActivity(mContext, ConfirmMoneyActivity.class, null);
                     } else if ("1".equals(is_need_contacts)) {
-                        ToastUtil.showToast(mContext, "必须上传联系人!");
+                        ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
                 }
             }
@@ -495,7 +495,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
                         gotoActivity(mContext, ConfirmMoneyActivity.class, null);
                     } else if ("1".equals(is_need_contacts)) {
-                        ToastUtil.showToast(mContext, "必须上传联系人!");
+                        ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
                 }
             });
