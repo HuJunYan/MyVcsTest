@@ -206,6 +206,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                                 if (file.isFile() && file.exists()) {
                                     LogUtil.d("abc", "直接加载补丁");
                                     TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                                    gotoMainAcitivity();
                                 } else {
                                     downloadTinker(tinker_url);
                                 }
