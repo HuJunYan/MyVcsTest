@@ -1550,7 +1550,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public synchronized void onQuotaEvent(QuotaEvent event) {
         LogUtil.d("abc", "收到了强行跳转到下单页面");
         if (mQuotaFlag && mQuotaCount == 0) {
-            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+//            gotoActivity(mContext, ConfirmMoneyActivity.class, null);
         }
         mQuotaCount++;
     }
