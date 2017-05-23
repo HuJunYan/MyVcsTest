@@ -52,8 +52,17 @@ public class UserConfig {
         private String remaining_days;
         private String max_cash;
         private String is_show_service_telephone;
+        private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
+
+        public String getIs_need_contacts() {
+            return is_need_contacts;
+        }
+
+        public void setIs_need_contacts(String is_need_contacts) {
+            this.is_need_contacts = is_need_contacts;
+        }
 
         public String getSjd_url() {
             return sjd_url;

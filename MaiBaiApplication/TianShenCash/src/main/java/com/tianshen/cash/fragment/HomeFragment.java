@@ -1,7 +1,9 @@
 package com.tianshen.cash.fragment;
 
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -26,8 +28,10 @@ import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.activity.AuthExtroContactsActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
@@ -44,8 +48,10 @@ import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.CashSubItemBean;
+import com.tianshen.cash.model.ContactsBean;
 import com.tianshen.cash.model.IknowBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
@@ -56,27 +62,44 @@ import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.api.SJDLoanBack;
+import com.tianshen.cash.net.api.SaveContacts;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
+import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
+import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -355,7 +378,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
             mQuotaCount = 0;
-            uploadContacts();
+            getContacts();
+//            uploadContacts();
         } else {//没有认证完毕跳转到认证中心页面
             Bundle applyBundle = new Bundle();
             applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
@@ -365,48 +389,165 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 得到联系人信息
+     */
+    private void getContacts() {
+
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.request(Manifest.permission.READ_CONTACTS).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean){ //获得联系人权限
+                    getObservable()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map(new Function<List<HashMap<String, String>>, List<ContactsBean>>() {
+                                @Override
+                                public List<ContactsBean> apply(List<HashMap<String, String>> contacts) throws Exception {
+                                    List<ContactsBean> mContactsBeanList = new ArrayList<>();
+                                    for (int i = 0; i < contacts.size(); i++) {
+                                        HashMap<String, String> contactMap = contacts.get(i);
+                                        String name = contactMap.get("name");
+                                        String phone = contactMap.get("phone");
+                                        ContactsBean mContactsBean = new ContactsBean();
+                                        mContactsBean.setContact_name(name);
+                                        mContactsBean.setContact_phone(phone);
+                                        mContactsBeanList.add(mContactsBean);
+                                    }
+                                    return mContactsBeanList;
+                                }
+                            })
+                            .subscribe(getObserver());
+                } else { //没有获得权限
+                    String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
+                    if ("0".equals(is_need_contacts)) {//不强制上传联系人
+                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    } else if ("1".equals(is_need_contacts)) {
+                        ToastUtil.showToast(mContext, "必须上传联系人!");
+                    }
+                }
+            }
+        });
+    }
+
+
+    private Observable<List<HashMap<String, String>>> getObservable() {
+        return Observable.create(new ObservableOnSubscribe<List<HashMap<String, String>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<HashMap<String, String>>> e) throws Exception {
+                if (!e.isDisposed()) {
+                    List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
+                    e.onNext(contacts);
+                    e.onComplete();
+                }
+            }
+        });
+    }
+
+    private Observer<List<ContactsBean>> getObserver() {
+        return new Observer<List<ContactsBean>>() {
+            //任务执行之前
+            @Override
+            public void onSubscribe(Disposable d) {
+                String loadText = mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
+                ViewUtil.createLoadingDialog((Activity) mContext, loadText, false);
+            }
+
+            //任务执行之后
+            @Override
+            public void onNext(List<ContactsBean> value) {
+                uploadContacts(value);
+            }
+
+            //任务执行完毕
+            @Override
+            public void onComplete() {
+                ViewUtil.cancelLoadingDialog();
+            }
+
+            //任务异常
+            @Override
+            public void onError(Throwable e) {
+                ViewUtil.cancelLoadingDialog();
+            }
+
+        };
+    }
+
+    /**
+     * 上传联系人
+     */
+    private void uploadContacts(List<ContactsBean> list) {
+        SaveContacts mSaveContactsAction = new SaveContacts(mContext);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            json.put("contact_list", new JSONArray(GsonUtil.bean2json(list)));
+            mSaveContactsAction.saveContacts(json, null, true, new BaseNetCallBack<ResponseBean>() {
+                @Override
+                public void onSuccess(ResponseBean paramT) {
+                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
+                    if ("0".equals(is_need_contacts)) {//不强制上传联系人
+                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    } else if ("1".equals(is_need_contacts)) {
+                        ToastUtil.showToast(mContext, "必须上传联系人!");
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
+    }
+
+    /**
      * 上传联系人&通信录
      */
-    private void uploadContacts() {
-        mUploadToServerUtil = new UploadToServerUtil(mContext);
-        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
-        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
-    }
+//    private void uploadContacts() {
+//        mUploadToServerUtil = new UploadToServerUtil(mContext);
+//        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
+//        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
+//    }
 
-    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
-
-        @Override
-        public void uploadSuccessCallBack(int type) {
-            //上传通讯录、通话记录、短信等的回调
-            switch (type) {
-                case GlobalParams.UPLOADCALLCONTACTS:
-                    //上传联系人成功
-                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
-                    break;
-                case GlobalParams.UPLOADCALLRECORD:
-                    //上传通话记录成功
-                    break;
-                case GlobalParams.UPLOADMESSAGE:
-                    //上传短信成功
-                    break;
-            }
-        }
-
-        @Override
-        public void uploadFailCallBack(int type) {
-            switch (type) {
-                case GlobalParams.UPLOADCALLCONTACTS:
-                    //上传联系人失败
-                    break;
-                case GlobalParams.UPLOADCALLRECORD:
-                    //上传通话记录失败
-                    break;
-                case GlobalParams.UPLOADMESSAGE:
-                    //上传短信失败
-                    break;
-            }
-        }
-    }
+//    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
+//
+//        @Override
+//        public void uploadSuccessCallBack(int type) {
+//            //上传通讯录、通话记录、短信等的回调
+//            switch (type) {
+//                case GlobalParams.UPLOADCALLCONTACTS:
+//                    //上传联系人成功
+//                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+//                    break;
+//                case GlobalParams.UPLOADCALLRECORD:
+//                    //上传通话记录成功
+//                    break;
+//                case GlobalParams.UPLOADMESSAGE:
+//                    //上传短信成功
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public void uploadFailCallBack(int type) {
+//            switch (type) {
+//                case GlobalParams.UPLOADCALLCONTACTS:
+//                    //上传联系人失败
+//                    break;
+//                case GlobalParams.UPLOADCALLRECORD:
+//                    //上传通话记录失败
+//                    break;
+//                case GlobalParams.UPLOADMESSAGE:
+//                    //上传短信失败
+//                    break;
+//            }
+//        }
+//    }
 
 
     private void initSelWithdrawalsData() {
