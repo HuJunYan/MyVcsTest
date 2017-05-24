@@ -14,11 +14,16 @@ import com.meituan.android.walle.WalleChannelReader;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.tinker.anno.DefaultLifeCycle;
+import com.tencent.tinker.lib.listener.DefaultPatchListener;
+import com.tencent.tinker.lib.patch.UpgradePatch;
+import com.tencent.tinker.lib.reporter.DefaultLoadReporter;
+import com.tencent.tinker.lib.reporter.DefaultPatchReporter;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.loader.app.DefaultApplicationLike;
 import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.service.TinkerResultService;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -45,7 +50,8 @@ public class MyApplicationLike extends DefaultApplicationLike {
     public void onBaseContextAttached(Context base) {
         super.onBaseContextAttached(base);
         MultiDex.install(base);
-        TinkerInstaller.install(this);
+        TinkerInstaller.install(this, new DefaultLoadReporter(getApplication())
+                , new DefaultPatchReporter(getApplication()), new DefaultPatchListener(getApplication()), TinkerResultService.class, new UpgradePatch());
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
