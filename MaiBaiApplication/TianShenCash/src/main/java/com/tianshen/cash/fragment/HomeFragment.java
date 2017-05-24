@@ -37,6 +37,7 @@ import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
+import com.tianshen.cash.activity.WebActivity;
 import com.tianshen.cash.adapter.OrderStatusAdapter;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
@@ -209,6 +210,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.cb_home)
     CheckBox cb_home;
 
+    @BindView(R.id.iv_home_market)
+    ImageView iv_home_market;
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -277,6 +280,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
+        iv_home_market.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
     }
@@ -313,9 +317,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.iv_danger_money: //点击了逾期提示
                 showDangerTipsDialog();
                 break;
+            case R.id.iv_home_market: //点击了浏览超市
+                onClickMarket();
+                break;
+
         }
     }
-
 
     @Override
     protected void initVariable() {
@@ -1450,6 +1457,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 点击了流量超市
+     */
+    private void onClickMarket() {
+        String url = "https://www.baidu.com";
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        gotoActivity(mContext, WebActivity.class, bundle);
+    }
 
     /**
      * 跳转到手机贷H5页面
