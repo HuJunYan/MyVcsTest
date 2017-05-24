@@ -25,7 +25,6 @@
 
     <View style="@style/split_line_style" />
 
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +33,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/global_bg_white"
         android:paddingLeft="15dp">
+
+        <View style="@style/split_line_style" />
 
         <ImageView
             android:id="@+id/iv_super_marker_trumpet"
@@ -55,11 +58,12 @@
 
     </RelativeLayout>
 
+    <View style="@style/split_line_style" />
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrecyclerview_super_marker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="12dp" />
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
