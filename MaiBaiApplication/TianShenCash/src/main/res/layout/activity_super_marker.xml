@@ -25,6 +25,12 @@
 
     <View style="@style/split_line_style" />
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_super_marker_top" />
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrecyclerview_super_marker"
         android:layout_width="match_parent"

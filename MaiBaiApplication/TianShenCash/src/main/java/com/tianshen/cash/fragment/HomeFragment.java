@@ -37,6 +37,7 @@ import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
+import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
 import com.tianshen.cash.adapter.OrderStatusAdapter;
 import com.tianshen.cash.base.BaseFragment;
@@ -1461,11 +1462,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了流量超市
      */
     private void onClickMarket() {
-        String superMarkerURL = mUserConfig.getData().getFlow_supermarker_url();
-        Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
-        gotoActivity(mContext, WebActivity.class, bundle);
+//        String superMarkerURL = mUserConfig.getData().getFlow_supermarker_url();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
+//        gotoActivity(mContext, WebActivity.class, bundle);
+
+        gotoActivity(mContext, SuperMarkerActivity.class, null);
     }
+
 
     /**
      * 跳转到手机贷H5页面
