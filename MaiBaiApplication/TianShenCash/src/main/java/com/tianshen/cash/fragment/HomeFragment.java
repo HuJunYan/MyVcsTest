@@ -1461,9 +1461,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了流量超市
      */
     private void onClickMarket() {
-        String url = "https://www.baidu.com";
+        String superMarkerURL = mUserConfig.getData().getFlow_supermarker_url();
         Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+        bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 

@@ -55,6 +55,15 @@ public class UserConfig {
         private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
+        private String flow_supermarker_url;
+
+        public String getFlow_supermarker_url() {
+            return flow_supermarker_url;
+        }
+
+        public void setFlow_supermarker_url(String flow_supermarker_url) {
+            this.flow_supermarker_url = flow_supermarker_url;
+        }
 
         public String getIs_need_contacts() {
             return is_need_contacts;
