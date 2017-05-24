@@ -302,14 +302,23 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                                     if (tinker_old.isFile() && tinker_old.exists()) { //如果有旧补丁包先判断新的补丁包是否和旧补丁包是不是同一个
                                         boolean isSameFile = FileUtils.isSameFile(TINKER_NEW, TINKER_OLD);
                                         if (isSameFile) { //如果是同一个无需加载补丁，进入主页面
+                                            LogUtil.d("abc", "之前有补丁包-补丁包相同");
+                                            LogUtil.d("abc", "什么都不做");
                                         } else { //不一样，复制一份加载补丁包
+                                            LogUtil.d("abc", "之前有补丁包-补丁包不同");
+                                            LogUtil.d("abc", "copy补丁包");
+                                            LogUtil.d("abc", "打补丁");
                                             FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
                                             TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
                                         }
                                     } else {
+                                        LogUtil.d("abc", "之前没有补丁包");
+                                        LogUtil.d("abc", "copy补丁包");
+                                        LogUtil.d("abc", "打补丁");
                                         FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
                                         TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
                                     }
+                                    LogUtil.d("abc", "进入主页面");
                                     gotoMainAcitivity();
                                 }
 
