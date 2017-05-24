@@ -15,8 +15,12 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.event.SuperMarkerClickEvent;
+import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.SuperMarkerBean;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -39,9 +43,18 @@ public class SuperMarkerAdapter extends RecyclerView.Adapter<SuperMarkerAdapter.
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        SuperMarkerBean.Data.SuperMarketData superMarketData = mSuperMarketList.get(position);
+        final SuperMarkerBean.Data.SuperMarketData superMarketData = mSuperMarketList.get(position);
         String name = superMarketData.getName();
         viewHolder.tv_super_marker_name_item.setText(name);
+        viewHolder.rl_super_marker_root_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SuperMarkerClickEvent superMarkerClickEvent = new SuperMarkerClickEvent();
+                String superMarketDataUrl = superMarketData.getUrl();
+                superMarkerClickEvent.setSuper_marker_url(superMarketDataUrl);
+                EventBus.getDefault().post(superMarkerClickEvent);
+            }
+        });
     }
 
     public void setData(ArrayList<SuperMarkerBean.Data.SuperMarketData> superMarketList) {
@@ -60,10 +73,12 @@ public class SuperMarkerAdapter extends RecyclerView.Adapter<SuperMarkerAdapter.
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public RelativeLayout rl_super_marker_root_item;
         public TextView tv_super_marker_name_item;
 
         public ViewHolder(View view) {
             super(view);
+            rl_super_marker_root_item = (RelativeLayout) view.findViewById(R.id.rl_super_marker_root_item);
             tv_super_marker_name_item = (TextView) view.findViewById(R.id.tv_super_marker_name_item);
 
         }
