@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_auth_center_item"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/global_bg_white">
+
+
+    <TextView
+        android:id="@+id/tv_super_marker_name_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:text="导流列表"
+        android:textColor="@color/global_txt_black4"
+        android:textSize="14dp" />
+
+
+</RelativeLayout>
