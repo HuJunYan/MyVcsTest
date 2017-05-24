@@ -1462,12 +1462,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了流量超市
      */
     private void onClickMarket() {
-//        String superMarkerURL = mUserConfig.getData().getFlow_supermarker_url();
-//        Bundle bundle = new Bundle();
-//        bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
-//        gotoActivity(mContext, WebActivity.class, bundle);
-
-        gotoActivity(mContext, SuperMarkerActivity.class, null);
+        String superMarkerNUM = mUserConfig.getData().getFlow_supermarket_num();
+        int superMarkerNum = Integer.parseInt(superMarkerNUM);
+        if (superMarkerNum == 1) {
+            String superMarkerURL = mUserConfig.getData().getFlow_supermarket_url();
+            Bundle bundle = new Bundle();
+            bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
+            gotoActivity(mContext, WebActivity.class, bundle);
+        } else if (superMarkerNum > 1) {
+            gotoActivity(mContext, SuperMarkerActivity.class, null);
+        } else {
+            ToastUtil.showToast(mContext, "没有流量超市");
+        }
     }
 
 

@@ -55,14 +55,23 @@ public class UserConfig {
         private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
-        private String flow_supermarker_url;
+        private String flow_supermarket_url;
+        private String flow_supermarket_num;
 
-        public String getFlow_supermarker_url() {
-            return flow_supermarker_url;
+        public String getFlow_supermarket_url() {
+            return flow_supermarket_url;
         }
 
-        public void setFlow_supermarker_url(String flow_supermarker_url) {
-            this.flow_supermarker_url = flow_supermarker_url;
+        public void setFlow_supermarket_url(String flow_supermarket_url) {
+            this.flow_supermarket_url = flow_supermarket_url;
+        }
+
+        public String getFlow_supermarket_num() {
+            return flow_supermarket_num;
+        }
+
+        public void setFlow_supermarket_num(String flow_supermarket_num) {
+            this.flow_supermarket_num = flow_supermarket_num;
         }
 
         public String getIs_need_contacts() {
