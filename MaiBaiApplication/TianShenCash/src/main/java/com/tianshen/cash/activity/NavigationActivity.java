@@ -31,6 +31,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.Config;
+import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TimeCount;
@@ -54,8 +55,10 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     private long finishTime;
     private final String TAG = "NavigationActivity";
 
-    //补丁包
-    public static final String TINKER = Config.TINKER_CACHE_DIR + "tianshen";
+    //刚下载的补丁包
+    public static final String TINKER_NEW = Config.TINKER_CACHE_DIR + "tianshen";
+    //上一次下载的补丁包
+    public static final String TINKER_OLD = Config.TINKER_CACHE_DIR + "tianshenold";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,14 +205,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                             if (TextUtils.isEmpty(tinker_url)) {
                                 gotoMainAcitivity();
                             } else {
-                                File file = new File(TINKER);
-                                if (file.isFile() && file.exists()) {
-                                    LogUtil.d("abc", "直接加载补丁");
-                                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
-                                    gotoMainAcitivity();
-                                } else {
-                                    downloadTinker(tinker_url);
-                                }
+                                downloadTinker(tinker_url);
                             }
                         } catch (JSONException e) {
                             gotoMainAcitivity();
@@ -274,7 +270,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
                     FileDownloader.getImpl().create(tinker_url)
-                            .setPath(TINKER)
+                            .setPath(TINKER_NEW)
                             .setListener(new FileDownloadListener() {
                                 @Override
                                 protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
@@ -299,7 +295,18 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                                 @Override
                                 protected void completed(BaseDownloadTask task) {
                                     LogUtil.d("abc", "FileDownloadListener---completed");
-                                    TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER);
+                                    File tinker_old = new File(TINKER_OLD);
+                                    if (tinker_old.isFile() && tinker_old.exists()) { //如果有旧补丁包先判断新的补丁包是否和旧补丁包是不是同一个
+                                        boolean isSameFile = FileUtils.isSameFile(TINKER_NEW, TINKER_OLD);
+                                        if (isSameFile) { //如果是同一个无需加载补丁，进入主页面
+                                        } else { //不一样，复制一份加载补丁包
+                                            FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
+                                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
+                                        }
+                                    } else {
+                                        FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
+                                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
+                                    }
                                     gotoMainAcitivity();
                                 }
 
