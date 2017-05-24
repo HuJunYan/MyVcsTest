@@ -377,6 +377,10 @@
             android:name=".activity.SJDActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.SuperMarkerActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
