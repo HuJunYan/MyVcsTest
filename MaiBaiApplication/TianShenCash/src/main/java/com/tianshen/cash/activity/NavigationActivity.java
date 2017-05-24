@@ -35,6 +35,7 @@ import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TimeCount;
+import com.tianshen.cash.utils.TinkerUtils;
 import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -100,12 +101,14 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     protected void onResume() {
         super.onResume();
         JPushInterface.onResume(mContext);
+        TinkerUtils.setBackground(false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         JPushInterface.onPause(mContext);
+        TinkerUtils.setBackground(true);
     }
 
     @Override
