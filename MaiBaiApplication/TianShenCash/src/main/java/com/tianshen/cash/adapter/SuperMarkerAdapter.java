@@ -19,6 +19,7 @@ import com.tianshen.cash.event.SuperMarkerClickEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.AuthCenterItemBean;
 import com.tianshen.cash.model.SuperMarkerBean;
+import com.tianshen.cash.utils.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,7 +46,15 @@ public class SuperMarkerAdapter extends RecyclerView.Adapter<SuperMarkerAdapter.
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final SuperMarkerBean.Data.SuperMarketData superMarketData = mSuperMarketList.get(position);
         String name = superMarketData.getName();
+        String description = superMarketData.getDescription();
+        String peopleCount = superMarketData.getPeople_count();
+        String icon_url = superMarketData.getIcon_url();
+
         viewHolder.tv_super_marker_name_item.setText(name);
+        viewHolder.tv_super_marker_description_item.setText(description);
+        viewHolder.tv_super_marker_people_count_item.setText(peopleCount + "人");
+        ImageLoader.load(mContext, icon_url, viewHolder.iv_super_marker_item);
+
         viewHolder.rl_super_marker_root_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,11 +84,17 @@ public class SuperMarkerAdapter extends RecyclerView.Adapter<SuperMarkerAdapter.
 
         public RelativeLayout rl_super_marker_root_item;
         public TextView tv_super_marker_name_item;
+        public TextView tv_super_marker_description_item;
+        public TextView tv_super_marker_people_count_item;
+        public ImageView iv_super_marker_item;
 
         public ViewHolder(View view) {
             super(view);
             rl_super_marker_root_item = (RelativeLayout) view.findViewById(R.id.rl_super_marker_root_item);
             tv_super_marker_name_item = (TextView) view.findViewById(R.id.tv_super_marker_name_item);
+            tv_super_marker_description_item = (TextView) view.findViewById(R.id.tv_super_marker_description_item);
+            tv_super_marker_people_count_item = (TextView) view.findViewById(R.id.tv_super_marker_people_count_item);
+            iv_super_marker_item = (ImageView) view.findViewById(R.id.iv_super_marker_item);
 
         }
     }

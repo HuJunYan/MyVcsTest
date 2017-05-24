@@ -11,8 +11,7 @@
         android:id="@+id/iv_super_marker_item"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_me_tianshen_service" />
+        android:layout_centerVertical="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
             android:id="@+id/tv_super_marker_name_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="借点钱"
             android:textColor="@color/global_txt_black1"
             android:textSize="14dp" />
 
@@ -35,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="描述描述描述描述描述描述描述"
             android:textColor="@color/global_txt_black5"
             android:textSize="12dp" />
 
@@ -49,7 +46,6 @@
                 android:id="@+id/tv_super_marker_people_count_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="88888人"
                 android:textColor="#FF7A46"
                 android:textSize="11dp" />
 
