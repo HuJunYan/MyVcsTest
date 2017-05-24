@@ -31,6 +31,30 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_super_marker_top" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="15dp">
+
+        <ImageView
+            android:id="@+id/iv_super_marker_trumpet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/the_trumpet" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_super_marker_trumpet"
+            android:text="热门贷款"
+            android:textColor="@color/global_txt_black5"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xrecyclerview_super_marker"
         android:layout_width="match_parent"
