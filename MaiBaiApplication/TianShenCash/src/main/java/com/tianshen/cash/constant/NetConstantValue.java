@@ -561,6 +561,13 @@ public class NetConstantValue {
     }
 
     /**
+     * 得到流量超市
+     */
+    public static String getFlowSupermarketListURL() {
+        return COMMONURI + "UserCenter/getFlowSupermarketList";
+    }
+
+    /**
      * 得到订单确认信息
      */
     public static String getOrderConfirmUrl() {

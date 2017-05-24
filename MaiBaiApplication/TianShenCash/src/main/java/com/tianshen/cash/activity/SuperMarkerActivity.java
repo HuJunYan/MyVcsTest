@@ -12,7 +12,15 @@ import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.adapter.SuperMarkerAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.SuperMarkerBean;
+import com.tianshen.cash.net.api.GetSuperMarkerList;
+import com.tianshen.cash.net.api.SubmitVerifyCode;
+import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.TianShenUserUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -50,17 +58,32 @@ public class SuperMarkerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
-        initXRecyclerview();
+        initSuperMarketListData();
     }
 
-    private void initData() {
-        mSuperMarketList = new ArrayList<>();
+    private void initSuperMarketListData() {
 
-        for (int i = 0; i < 5; i++) {
-            SuperMarkerBean.Data.SuperMarketData superMarketData = new SuperMarkerBean().new Data().new SuperMarketData();
-            superMarketData.setName("name-->" + i);
-            mSuperMarketList.add(superMarketData);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            GetSuperMarkerList getSuperMarkerList = new GetSuperMarkerList(mContext);
+            getSuperMarkerList.getSuperMarkerList(jsonObject, null, true, new BaseNetCallBack<SuperMarkerBean>() {
+                @Override
+                public void onSuccess(SuperMarkerBean paramT) {
+                    if (paramT == null) {
+                        return;
+                    }
+                    mSuperMarketList = paramT.getData().getSupermarket_list();
+                    initXRecyclerview();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
