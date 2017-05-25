@@ -19,7 +19,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import butterknife.BindView;
 
 /**
- * 运营商认证页面
+ * 运营商认证页面（已经废弃掉了）
  */
 
 public class ChinaMobileActivity extends BaseActivity implements View.OnClickListener {
