@@ -4,7 +4,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
@@ -34,8 +36,10 @@ import butterknife.BindView;
  * Created by cuiyue on 2017/5/24.
  */
 
-public class SuperMarkerActivity extends BaseActivity {
+public class SuperMarkerActivity extends BaseActivity implements View.OnClickListener {
 
+    @BindView(R.id.tv_super_marker_back)
+    TextView tv_super_marker_back;
 
     @BindView(R.id.xrecyclerview_super_marker)
     XRecyclerView xrecyclerview_super_marker;
@@ -56,7 +60,7 @@ public class SuperMarkerActivity extends BaseActivity {
 
     @Override
     protected void setListensers() {
-
+        tv_super_marker_back.setOnClickListener(this);
     }
 
     @Override
@@ -118,5 +122,14 @@ public class SuperMarkerActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, super_marker_url);
         gotoActivity(mContext, WebActivity.class, bundle);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_super_marker_back:
+                backActivity();
+                break;
+        }
     }
 }
