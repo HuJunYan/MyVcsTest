@@ -60,7 +60,9 @@ public class SuperMarkerAdapter extends RecyclerView.Adapter<SuperMarkerAdapter.
             public void onClick(View v) {
                 SuperMarkerClickEvent superMarkerClickEvent = new SuperMarkerClickEvent();
                 String superMarketDataUrl = superMarketData.getUrl();
+                String superMarketDataId = superMarketData.getId();
                 superMarkerClickEvent.setSuper_marker_url(superMarketDataUrl);
+                superMarkerClickEvent.setSuper_marker_id(superMarketDataId);
                 EventBus.getDefault().post(superMarkerClickEvent);
             }
         });

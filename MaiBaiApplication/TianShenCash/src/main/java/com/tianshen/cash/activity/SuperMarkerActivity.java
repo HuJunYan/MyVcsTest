@@ -18,6 +18,7 @@ import com.tianshen.cash.event.SuperMarkerClickEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.SuperMarkerBean;
+import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetSuperMarkerList;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -119,6 +120,40 @@ public class SuperMarkerActivity extends BaseActivity implements View.OnClickLis
     @Subscribe
     public void onSuperMarkerClick(SuperMarkerClickEvent event) {
         String super_marker_url = event.getSuper_marker_url();
+        String superMarkerId = event.getSuper_marker_id();
+        addSuperMarketCount(super_marker_url, superMarkerId);
+    }
+
+    /**
+     * 统计用户点击流量超市的点击量
+     */
+    private void addSuperMarketCount(final String super_marker_url, String flowSupermarketId) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("supermarket_id", flowSupermarketId);
+            AddSuperMarketCount addSuperMarketCount = new AddSuperMarketCount(mContext);
+            addSuperMarketCount.addSuperMarketCount(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    gotoSuperMarkerh5(super_marker_url);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    gotoSuperMarkerh5(super_marker_url);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转到流量超市H5页面
+     */
+    private void gotoSuperMarkerh5(String super_marker_url) {
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, super_marker_url);
         gotoActivity(mContext, WebActivity.class, bundle);

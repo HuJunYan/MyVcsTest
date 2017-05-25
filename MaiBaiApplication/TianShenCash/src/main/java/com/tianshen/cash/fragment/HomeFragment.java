@@ -61,6 +61,7 @@ import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
+import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
@@ -406,7 +407,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rxPermissions.request(Manifest.permission.READ_CONTACTS).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                if (aBoolean){ //获得联系人权限
+                if (aBoolean) { //获得联系人权限
                     getObservable()
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -566,8 +567,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //            }
 //        }
 //    }
-
-
     private void initSelWithdrawalsData() {
 
         try {
@@ -1221,7 +1220,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                     String content = paramT.getData().getContent();
                     String is_pop = paramT.getData().getIs_pop();
-                    if ("1".equals(is_pop)){
+                    if ("1".equals(is_pop)) {
                         showMoneyUpDialog(content);
                     }
 
@@ -1465,15 +1464,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String superMarkerNUM = mUserConfig.getData().getFlow_supermarket_num();
         int superMarkerNum = Integer.parseInt(superMarkerNUM);
         if (superMarkerNum == 1) {
-            String superMarkerURL = mUserConfig.getData().getFlow_supermarket_url();
-            Bundle bundle = new Bundle();
-            bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
-            gotoActivity(mContext, WebActivity.class, bundle);
+            String flowSupermarketId = mUserConfig.getData().getFlow_supermarket_id();
+            addSuperMarketCount(flowSupermarketId);
         } else if (superMarkerNum > 1) {
             gotoActivity(mContext, SuperMarkerActivity.class, null);
         } else {
             ToastUtil.showToast(mContext, "没有流量超市");
         }
+    }
+
+    /**
+     * 统计用户点击流量超市的点击量
+     */
+    private void addSuperMarketCount(String flowSupermarketId) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            jsonObject.put("supermarket_id", flowSupermarketId);
+            AddSuperMarketCount addSuperMarketCount = new AddSuperMarketCount(mContext);
+            addSuperMarketCount.addSuperMarketCount(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean paramT) {
+                    gotoSuperMarkerh5();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    gotoSuperMarkerh5();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 跳转到流量超市H5页面
+     */
+    private void gotoSuperMarkerh5() {
+        String superMarkerURL = mUserConfig.getData().getFlow_supermarket_url();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, superMarkerURL);
+        gotoActivity(mContext, WebActivity.class, bundle);
     }
 
 

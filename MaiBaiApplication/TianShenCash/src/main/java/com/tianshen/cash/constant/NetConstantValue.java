@@ -568,6 +568,13 @@ public class NetConstantValue {
     }
 
     /**
+     * 增加点击流量超市的点击量
+     */
+    public static String addFlowSupermarketClickCountURL() {
+        return COMMONURI + "UserCenter/addFlowSupermarketClickCount";
+    }
+
+    /**
      * 得到订单确认信息
      */
     public static String getOrderConfirmUrl() {
