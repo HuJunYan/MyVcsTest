@@ -51,12 +51,20 @@ public class SuperMarkerBean {
 
 
         public class SuperMarketData {
-
+            private String id;
             private String url;
             private String icon_url;
             private String name;
             private String description;
             private String people_count;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
 
             public String getUrl() {
                 return url;

@@ -55,8 +55,17 @@ public class UserConfig {
         private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
+        private String flow_supermarket_id;
         private String flow_supermarket_url;
         private String flow_supermarket_num;
+
+        public String getFlow_supermarket_id() {
+            return flow_supermarket_id;
+        }
+
+        public void setFlow_supermarket_id(String flow_supermarket_id) {
+            this.flow_supermarket_id = flow_supermarket_id;
+        }
 
         public String getFlow_supermarket_url() {
             return flow_supermarket_url;
