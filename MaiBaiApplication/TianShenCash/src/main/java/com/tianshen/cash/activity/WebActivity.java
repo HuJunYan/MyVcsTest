@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,8 +23,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.tv_web_back)
     TextView tv_web_back;
+
+    @BindView(R.id.tv_web_exit)
+    TextView tv_web_exit;
+
     @BindView(R.id.wv_web)
     WebView wv_web;
+
     private String mUrl;
 
     @Override
@@ -45,6 +51,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void setListensers() {
         tv_web_back.setOnClickListener(this);
+        tv_web_exit.setOnClickListener(this);
     }
 
     private void initWebView() {
@@ -83,8 +90,30 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_web_back:
+                boolean canGoBack = wv_web.canGoBack();
+                if (canGoBack) {
+                    wv_web.goBack();
+                } else {
+                    backActivity();
+                }
+                break;
+            case R.id.tv_web_exit:
                 backActivity();
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            boolean canGoBack = wv_web.canGoBack();
+            if (canGoBack) {
+                wv_web.goBack();
+            } else {
+                backActivity();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
