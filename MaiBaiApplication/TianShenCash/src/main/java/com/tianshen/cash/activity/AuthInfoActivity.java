@@ -623,68 +623,67 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         }
 
         if (TextUtils.isEmpty(marital_status)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写婚姻信息");
             return;
         }
         if (TextUtils.isEmpty(educational)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写学历信息");
             return;
         }
         if (TextUtils.isEmpty(income_per_month)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写收入信息");
             return;
         }
         if (TextUtils.isEmpty(occupational_identity)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写职业信息");
             return;
         }
         if (TextUtils.isEmpty(position)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写职位信息");
             return;
         }
-
         if (TextUtils.isEmpty(user_address_provice)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写常驻地址省份");
             return;
         }
         if (TextUtils.isEmpty(user_address_city)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写常驻地址城市");
             return;
         }
         if (TextUtils.isEmpty(user_address_county)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写常驻地址地区");
             return;
         }
         if (TextUtils.isEmpty(company_address_provice)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写公司地址省份");
             return;
         }
         if (TextUtils.isEmpty(company_address_city)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写公司地址城市");
             return;
         }
         if (TextUtils.isEmpty(company_address_county)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写公司地址地区");
             return;
         }
         if (TextUtils.isEmpty(qq)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写QQ号");
             return;
         }
         if (TextUtils.isEmpty(user_address_detail)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写常驻街道路及门牌号");
             return;
         }
         if (TextUtils.isEmpty(company_name)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写单位名称");
             return;
         }
         if (TextUtils.isEmpty(company_phone)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写单位电话");
             return;
         }
         if (TextUtils.isEmpty(company_address_detail)) {
-            ToastUtil.showToast(mContext, "请完善资料!");
+            ToastUtil.showToast(mContext, "请填写单位街道路及门牌号");
             return;
         }
 
