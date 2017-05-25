@@ -823,6 +823,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_repay.setVisibility(View.GONE);
         ll_order.setVisibility(View.VISIBLE);
         initXRecyclerview();
+        isShowMarker();
+    }
+
+    /**
+     * 是否显示流量超市
+     */
+    private void isShowMarker() {
+        String flow_supermarket_num = mUserConfig.getData().getFlow_supermarket_num();
+        if (TextUtils.isEmpty(flow_supermarket_num)) {
+            iv_home_market.setVisibility(View.GONE);
+        } else {
+            int num = Integer.parseInt(flow_supermarket_num);
+            if (num == 0) {
+                iv_home_market.setVisibility(View.GONE);
+            } else {
+                iv_home_market.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     /**
@@ -1468,8 +1486,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             addSuperMarketCount(flowSupermarketId);
         } else if (superMarkerNum > 1) {
             gotoActivity(mContext, SuperMarkerActivity.class, null);
-        } else {
-            ToastUtil.showToast(mContext, "没有流量超市");
         }
     }
 
