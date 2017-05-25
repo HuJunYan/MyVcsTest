@@ -195,7 +195,9 @@ public class UpdateManager {
             builder.setNegativeButton("退出", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    errorTimer.cancel();
+                    if (errorTimer != null) {
+                        errorTimer.cancel();
+                    }
                     dialog.dismiss();
                     interceptFlag = true;
                     Process.killProcess(Process.myPid());//获取PID
@@ -228,7 +230,17 @@ public class UpdateManager {
             downloadDialog = builder.create();
             downloadDialog.show();
         }
-        downloadApk();
+
+        RxPermissions rxPermissions = new RxPermissions((Activity) mContext);
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    downloadApk();
+                }
+            }
+        });
+
     }
 
     private Runnable mdownApkRunnable = new Runnable() {
