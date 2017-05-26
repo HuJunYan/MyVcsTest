@@ -4,14 +4,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.meituan.android.walle.WalleChannelReader;
-import com.tianshen.cash.BuildConfig;
+import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.manager.UpdateManager;
 import com.tianshen.cash.model.CheckUpgradeBean;
@@ -21,6 +21,7 @@ import com.tianshen.cash.net.api.CheckUpgrade;
 import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
+import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -189,5 +190,14 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void cancelUpdate() {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == 666) {
+            String tinker_new = Config.TINKER_CACHE_DIR + "tianshen";
+            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
