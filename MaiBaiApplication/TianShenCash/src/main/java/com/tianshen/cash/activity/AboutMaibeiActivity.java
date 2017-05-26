@@ -32,6 +32,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+
 public class AboutMaibeiActivity extends BaseActivity implements View.OnClickListener, UpdateManager.Control {
 
     private int width = 0, height = 0;
@@ -196,7 +198,14 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == 666) {
             String tinker_new = Config.TINKER_CACHE_DIR + "tianshen";
-            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+            File file = new File(tinker_new);
+            if (file.exists()) {
+                ToastUtil.showToast(mContext, "加载补丁");
+                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+            } else {
+                ToastUtil.showToast(mContext, "补丁包不存在");
+            }
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
