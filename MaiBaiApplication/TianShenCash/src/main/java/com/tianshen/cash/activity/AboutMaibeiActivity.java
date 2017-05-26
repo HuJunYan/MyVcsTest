@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,7 +9,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -22,6 +27,7 @@ import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.Config;
+import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -33,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
+import io.reactivex.functions.Consumer;
 
 public class AboutMaibeiActivity extends BaseActivity implements View.OnClickListener, UpdateManager.Control {
 
@@ -197,11 +205,19 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == 666) {
-            String tinker_new = Config.TINKER_CACHE_DIR + "tianshen";
+            final String tinker_new = Config.TINKER_CACHE_DIR + "tianshen";
             File file = new File(tinker_new);
             if (file.exists()) {
-                ToastUtil.showToast(mContext, "加载补丁");
-                TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+                RxPermissions rxPermissions = new RxPermissions(this);
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            ToastUtil.showToast(mContext, "加载补丁");
+                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+                        }
+                    }
+                });
             } else {
                 ToastUtil.showToast(mContext, "补丁包不存在");
             }
