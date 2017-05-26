@@ -246,10 +246,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     private void gotoChinaMobileActivity() {
         String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
         Bundle bundle = new Bundle();
-//        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, china_mobile_url);
-//        gotoActivity(mContext, ChinaMobileActivity.class, bundle);
-        bundle.putString(GlobalParams.WEB_URL_KEY, china_mobile_url);
-        gotoActivity(mContext, WebActivity.class, bundle);
+        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, china_mobile_url);
+        gotoActivity(mContext, ChinaMobileActivity.class, bundle);
     }
 
     /**
