@@ -323,8 +323,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示省的Dialog
      */
     private void showProvinceListDialog() {
-        if (mProvinceData == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (mProvinceData == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -344,8 +344,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      * 显示城市的Dialog
      */
     private void showCityListDialog() {
-        if (mCityData == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (mCityData == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -366,8 +366,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showMarryDialog() {
 
-        if (marital_status_conf == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (marital_status_conf == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -389,8 +389,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showEducationalDialog() {
 
-        if (educational_background_conf == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (educational_background_conf == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -412,8 +412,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showIncomeDialog() {
 
-        if (income_per_month_conf == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (income_per_month_conf == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -436,8 +436,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showOccupationDialog() {
 
-        if (occupational_identity_conf == null){
-            ToastUtil.showToast(mContext,"请稍后再试");
+        if (occupational_identity_conf == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
             return;
         }
 
@@ -460,8 +460,8 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
      */
     private void showCountyListDialog() {
 
-        if (mCountyData == null){
-            ToastUtil.showToast(mContext,"");
+        if (mCountyData == null) {
+            ToastUtil.showToast(mContext, "");
             return;
         }
 
@@ -499,37 +499,38 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_phone = constantBean.getData().getCompany_phone();
         String company_address_detail = constantBean.getData().getCompany_address_detail();
         String user_address_detail = constantBean.getData().getUser_address_detail();
-        String position = constantBean.getData().getPosition();
-
-        marital_status_conf = constantBean.getData().getMarital_status_conf();
-        educational_background_conf = constantBean.getData().getEducational_background_conf();
-        income_per_month_conf = constantBean.getData().getIncome_per_month_conf();
-        occupational_identity_conf = constantBean.getData().getOccupational_identity_conf();
-
-        String marital_status = constantBean.getData().getMarital_status();
-        String educational = constantBean.getData().getEducational();
-        String income_per_month = constantBean.getData().getIncome_per_month();
-        String occupational_identity = constantBean.getData().getOccupational_identity();
-
-        if (!TextUtils.isEmpty(marital_status)) {
-            String marry = marital_status_conf.get(Integer.parseInt(marital_status));
-            tv_auth_info_marry.setText(marry);
-        }
-
-        if (!TextUtils.isEmpty(educational)) {
-            String educationalStr = educational_background_conf.get(Integer.parseInt(educational));
-            tv_auth_info_educational.setText(educationalStr);
-        }
-
-        if (!TextUtils.isEmpty(income_per_month)) {
-            String income = income_per_month_conf.get(Integer.parseInt(income_per_month));
-            tv_auth_info_income.setText(income);
-        }
-
-        if (!TextUtils.isEmpty(occupational_identity)) {
-            String occupational = occupational_identity_conf.get(Integer.parseInt(occupational_identity));
-            tv_auth_info_occupation.setText(occupational);
-        }
+//        String position = constantBean.getData().getPosition();
+//
+//        marital_status_conf = constantBean.getData().getMarital_status_conf();
+//        educational_background_conf = constantBean.getData().getEducational_background_conf();
+//        income_per_month_conf = constantBean.getData().getIncome_per_month_conf();
+//        occupational_identity_conf = constantBean.getData().getOccupational_identity_conf();
+//
+//        String marital_status = constantBean.getData().getMarital_status();
+//        String educational = constantBean.getData().getEducational();
+//        String income_per_month = constantBean.getData().getIncome_per_month();
+//        String occupational_identity = constantBean.getData().getOccupational_identity();
+//
+//        if (!TextUtils.isEmpty(marital_status)) {
+//            String marry = marital_status_conf.get(Integer.parseInt(marital_status));
+//            tv_auth_info_marry.setText(marry);
+//        }
+//
+//        if (!TextUtils.isEmpty(educational)) {
+//            String educationalStr = educational_background_conf.get(Integer.parseInt(educational));
+//            tv_auth_info_educational.setText(educationalStr);
+//        }
+//
+//        if (!TextUtils.isEmpty(income_per_month)) {
+//            String income = income_per_month_conf.get(Integer.parseInt(income_per_month));
+//            tv_auth_info_income.setText(income);
+//        }
+//
+//        if (!TextUtils.isEmpty(occupational_identity)) {
+//            String occupational = occupational_identity_conf.get(Integer.parseInt(occupational_identity));
+//            tv_auth_info_occupation.setText(occupational);
+//        }
+//        ev_auth_info_position.setText(position);
 
         if (!TextUtils.isEmpty(user_address_provice)) {
             String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
@@ -545,8 +546,9 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         etAuthInfoAddressDetails.setText(user_address_detail);
         etAuthInfoWorkName.setText(company_name);
         etAuthInfoWorkNum.setText(company_phone);
+
         etAuthInfoWorkAddressDetails.setText(company_address_detail);
-        ev_auth_info_position.setText(position);
+
     }
 
     /**
@@ -608,11 +610,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         String company_name = etAuthInfoWorkName.getText().toString().trim();
         String company_phone = etAuthInfoWorkNum.getText().toString().trim();
         String company_address_detail = etAuthInfoWorkAddressDetails.getText().toString().trim();
-        String marital_status = String.valueOf(mMaritalPosition);
-        String educational = String.valueOf(mEducationalPosition);
-        String income_per_month = String.valueOf(mIncomePosition);
-        String occupational_identity = String.valueOf(mOccupationalPosition);
-        String position = ev_auth_info_position.getText().toString().trim();
+//        String marital_status = String.valueOf(mMaritalPosition);
+//        String educational = String.valueOf(mEducationalPosition);
+//        String income_per_month = String.valueOf(mIncomePosition);
+//        String occupational_identity = String.valueOf(mOccupationalPosition);
+//        String position = ev_auth_info_position.getText().toString().trim();
 
 
         int length = company_phone.length();
@@ -622,26 +624,6 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        if (TextUtils.isEmpty(marital_status)) {
-            ToastUtil.showToast(mContext, "请填写婚姻信息");
-            return;
-        }
-        if (TextUtils.isEmpty(educational)) {
-            ToastUtil.showToast(mContext, "请填写学历信息");
-            return;
-        }
-        if (TextUtils.isEmpty(income_per_month)) {
-            ToastUtil.showToast(mContext, "请填写收入信息");
-            return;
-        }
-        if (TextUtils.isEmpty(occupational_identity)) {
-            ToastUtil.showToast(mContext, "请填写职业信息");
-            return;
-        }
-        if (TextUtils.isEmpty(position)) {
-            ToastUtil.showToast(mContext, "请填写职位信息");
-            return;
-        }
         if (TextUtils.isEmpty(user_address_provice)) {
             ToastUtil.showToast(mContext, "请填写常驻地址省份");
             return;
@@ -688,6 +670,28 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         }
 
 
+//        if (TextUtils.isEmpty(marital_status)) {
+//            ToastUtil.showToast(mContext, "请填写婚姻信息");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(educational)) {
+//            ToastUtil.showToast(mContext, "请填写学历信息");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(income_per_month)) {
+//            ToastUtil.showToast(mContext, "请填写收入信息");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(occupational_identity)) {
+//            ToastUtil.showToast(mContext, "请填写职业信息");
+//            return;
+//        }
+//        if (TextUtils.isEmpty(position)) {
+//            ToastUtil.showToast(mContext, "请填写职位信息");
+//            return;
+//        }
+
+
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -703,11 +707,11 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             jsonObject.put("company_address_city", company_address_city);
             jsonObject.put("company_address_county", company_address_county);
             jsonObject.put("company_address_detail", company_address_detail);
-            jsonObject.put("marital_status", marital_status);
-            jsonObject.put("educational", educational);
-            jsonObject.put("income_per_month", income_per_month);
-            jsonObject.put("occupational_identity", occupational_identity);
-            jsonObject.put("position", position);
+//            jsonObject.put("marital_status", marital_status);
+//            jsonObject.put("educational", educational);
+//            jsonObject.put("income_per_month", income_per_month);
+//            jsonObject.put("occupational_identity", occupational_identity);
+//            jsonObject.put("position", position);
 
         } catch (JSONException e) {
             e.printStackTrace();
