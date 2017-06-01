@@ -1,6 +1,8 @@
 package com.tianshen.cash.activity;
 
 import android.Manifest;
+import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,10 +17,12 @@ import android.widget.TextView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.TimeOutEvent;
@@ -185,17 +189,36 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 通知所有的activity关闭,并且打开登录页面
+     */
+    private  void finishActivityAndGotoLoginActivity() {
+        EventBus.getDefault().post(new FinishCurrentActivityEvent());
+
+        MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
+        Application application = myApplicationLike.getApplication();
+
+        Intent intent = new Intent(application, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        application.startActivity(intent);
+    }
+
+    /**
      * 得到确认借款数据
      */
     private void initOrderConfirmData(boolean isShowDialog) {
 
         try {
             JSONObject jsonObject = new JSONObject();
+            User user = TianShenUserUtil.getUser(mContext);
+
+            if (user == null) {
+                ToastUtil.showToast(mContext, "登录过期,请重新登录!");
+                finishActivityAndGotoLoginActivity();
+                return;
+            }
 
             String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
             String repay_id = TianShenUserUtil.getUserRepayId(mContext);
-
-            User user = TianShenUserUtil.getUser(mContext);
             String customer_id = user.getCustomer_id();
             String location = user.getLocation();
             String city = user.getCity();
