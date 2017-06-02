@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -25,9 +23,11 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.megvii.idcardquality.IDCardQualityLicenseManager;
+import com.megvii.licensemanager.Manager;
+import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
@@ -35,40 +35,28 @@ import com.tianshen.cash.idcard.util.Util;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
 import com.tianshen.cash.liveness.bean.MyMap;
 import com.tianshen.cash.liveness.util.ConUtil;
-import com.tianshen.cash.model.AddressBean;
 import com.tianshen.cash.model.IDCardBean;
 import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.SaveIdCardBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.model.User;
-import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.CreditFace;
-import com.tianshen.cash.net.api.GetCounty;
 import com.tianshen.cash.net.api.GetIdNumInfo;
-import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.api.IDCardAction;
 import com.tianshen.cash.net.api.SaveIDCardBack;
 import com.tianshen.cash.net.api.SaveIDCardFront;
-import com.tianshen.cash.net.api.SaveIdCardInformation;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
-import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
-import com.megvii.idcardquality.IDCardQualityLicenseManager;
-import com.megvii.idcardquality.bean.IDCardAttr;
-import com.megvii.licensemanager.Manager;
-import com.megvii.livenessdetection.LivenessLicenseManager;
-import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
@@ -79,15 +67,11 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.NumberFormat;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 身份认证页面
@@ -340,10 +324,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         if (!TextUtils.isEmpty(front_idCard_url) && !TextUtils.isEmpty(back_idCard_url)) {
             mCanScanFace = true;
         }
-        User user = TianShenUserUtil.getUser(mContext);
-        user.setName(real_name);
-        user.setId_num(id_num);
-        TianShenUserUtil.saveUser(mContext, user);
+
+        TianShenUserUtil.saveUserName(mContext, real_name);
+        TianShenUserUtil.saveUserIDNum(mContext, id_num);
 
     }
 
@@ -384,7 +367,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 活体联网授权
      */
     private void livenessNetWorkWarranty() {
-        LogUtil.d("abc","livenessNetWorkWarranty");
+        LogUtil.d("abc", "livenessNetWorkWarranty");
         ViewUtil.createLoadingDialog(this, "正在联网授权", false);
         new Thread(new Runnable() {
             @Override
@@ -605,9 +588,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
     private void compareImage(String delta, MyMap map) {
         ImageVerifyRequestBean bean = new ImageVerifyRequestBean();
-        User user = TianShenUserUtil.getUser(mContext);
-        String name = user.getName();
-        String id_num = user.getId_num();
+        String name = TianShenUserUtil.getUserName(mContext);
+        String id_num = TianShenUserUtil.getUserIDNum(mContext);
         byte[] headImage = getHeadImage();
         bean.name = name;
         bean.idcard = id_num;
@@ -806,13 +788,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 int code = paramT.getCode();
                 if (0 == code) {
                     mSaveIDCardFront = true;
-
-                    User user = TianShenUserUtil.getUser(mContext);
-                    user.setName(real_name);
-                    user.setId_num(id_num);
-                    TianShenUserUtil.saveUser(mContext, user);
-
-
+                    TianShenUserUtil.saveUserName(mContext, real_name);
+                    TianShenUserUtil.saveUserIDNum(mContext, id_num);
                     ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
                 }
             }

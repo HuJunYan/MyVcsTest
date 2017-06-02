@@ -7,13 +7,12 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class BorrowRepayActivity extends BaseActivity implements View.OnClickListener{
+public class BorrowRepayActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tv_total_amount, tv_merchant_name, tv_repay_type, tv_time, tv_order_num;
     private Button bt_confirm;
@@ -38,11 +37,12 @@ public class BorrowRepayActivity extends BaseActivity implements View.OnClickLis
         tv_time.setText(getTime());
     }
 
-    private String getTime(){
-        SimpleDateFormat    formatter    =   new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss");
-        Date    curDate    =   new Date(System.currentTimeMillis());//获取当前时间
+    private String getTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return formatter.format(curDate);
     }
+
     @Override
     protected void findViews() {
         tv_total_amount = (TextView) findViewById(R.id.tv_total_amount);
@@ -61,7 +61,7 @@ public class BorrowRepayActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_confirm:
                 MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 backActivity();

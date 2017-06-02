@@ -16,27 +16,29 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.TitleBar;
 
-public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickListener,TitleBar.TitleBarListener{
+public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener {
 
     private TitleBar tb_title;
     private EditText et_info;
     private ImageView iv_clean;
-    private String content="";
+    private String content = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
     }
-    private void initView(){
-        Bundle mBundle=getIntent().getExtras();
-        if(null==mBundle){
+
+    private void initView() {
+        Bundle mBundle = getIntent().getExtras();
+        if (null == mBundle) {
             return;
         }
-        int type=mBundle.getInt(GlobalParams.CHANGE_INFO_TYPE_KEY,0);
-        if(type==0){
+        int type = mBundle.getInt(GlobalParams.CHANGE_INFO_TYPE_KEY, 0);
+        if (type == 0) {
             return;
         }
-        switch (type){
+        switch (type) {
             case GlobalParams.CHANGE_TYPE_WECHAT:
                 tb_title.setTitle("修改微信号");
                 break;
@@ -97,14 +99,14 @@ public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickLi
             /*   itv_colleague_name,
                 itv_colleague_mobile,itv_qq*/
         }
-        content=mBundle.getString(GlobalParams.CHANGE_INTO_INFO_KEY);
-        if(null==content){
-            content="";
+        content = mBundle.getString(GlobalParams.CHANGE_INTO_INFO_KEY);
+        if (null == content) {
+            content = "";
         }
         et_info.setText(content);
-        if("".equals(et_info.getText().toString())){
+        if ("".equals(et_info.getText().toString())) {
             iv_clean.setVisibility(View.GONE);
-        }else{
+        } else {
             iv_clean.setVisibility(View.VISIBLE);
         }
     }
@@ -116,9 +118,9 @@ public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void findViews() {
-        tb_title=(TitleBar)findViewById(R.id.tb_title);
-        et_info=(EditText)findViewById(R.id.et_info);
-        iv_clean=(ImageView)findViewById(R.id.iv_clean);
+        tb_title = (TitleBar) findViewById(R.id.tb_title);
+        et_info = (EditText) findViewById(R.id.et_info);
+        iv_clean = (ImageView) findViewById(R.id.iv_clean);
     }
 
     @Override
@@ -133,10 +135,10 @@ public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if("".equals(s)){
+                if ("".equals(s)) {
                     iv_clean.setVisibility(View.GONE);
                     tb_title.setIvRightVisible(View.GONE);
-                }else{
+                } else {
                     iv_clean.setVisibility(View.VISIBLE);
                     tb_title.setIvRightVisible(View.VISIBLE);
                 }
@@ -167,18 +169,18 @@ public class ChangeMyInfoActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onRightClick(View view) {
-        if("".equals(et_info.getText().toString().trim())){
-            ToastUtil.showToast(mContext,"内容不可为空");
+        if ("".equals(et_info.getText().toString().trim())) {
+            ToastUtil.showToast(mContext, "内容不可为空");
         }
-        if(et_info.getText().toString().trim().equals(content)){
-            ToastUtil.showToast(mContext,"修改后的内容不可相同");
+        if (et_info.getText().toString().trim().equals(content)) {
+            ToastUtil.showToast(mContext, "修改后的内容不可相同");
             return;
         }
-        Intent intent=new Intent();
-        Bundle bundle=new Bundle();
-        bundle.putString(GlobalParams.CHANGE_INFO_KEY,et_info.getText().toString().trim());
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.CHANGE_INFO_KEY, et_info.getText().toString().trim());
         intent.putExtras(bundle);
-        setResult(GlobalParams.CHANGE_RESULT_OK,intent);
+        setResult(GlobalParams.CHANGE_RESULT_OK, intent);
         backActivity();
     }
 }

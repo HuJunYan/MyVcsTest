@@ -7,7 +7,6 @@ public final class RegexUtil {
     /**
      * 验证邮箱
      *
-     * @param 待验证的字符串
      * @return 如果是符合的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isEmail(String str) {
@@ -18,7 +17,6 @@ public final class RegexUtil {
     /**
      * 验证IP地址
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isIP(String str) {
@@ -30,7 +28,6 @@ public final class RegexUtil {
     /**
      * 验证网址Url
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isUrl(String str) {
@@ -41,7 +38,6 @@ public final class RegexUtil {
     /**
      * 验证电话号码
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsTelephone(String str) {
@@ -52,7 +48,6 @@ public final class RegexUtil {
     /**
      * 验证输入密码条件(字符与数据同时出现)
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsPassword(String str) {
@@ -63,7 +58,6 @@ public final class RegexUtil {
     /**
      * 验证输入密码长度 (6-18位)
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsPasswLength(String str) {
@@ -74,7 +68,6 @@ public final class RegexUtil {
     /**
      * 验证输入邮政编号
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsPostalcode(String str) {
@@ -86,7 +79,6 @@ public final class RegexUtil {
     /**
      * 验证输入身份证号
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsIDcard(String str) {
@@ -97,7 +89,6 @@ public final class RegexUtil {
     /**
      * 验证输入两位小数
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsDecimal(String str) {
@@ -108,7 +99,6 @@ public final class RegexUtil {
     /**
      * 验证输入一年的12个月
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsMonth(String str) {
@@ -119,7 +109,6 @@ public final class RegexUtil {
     /**
      * 验证输入一个月的31天
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsDay(String str) {
@@ -130,7 +119,6 @@ public final class RegexUtil {
     /**
      * 验证日期时间
      *
-     * @param 待验证的字符串
      * @return 如果是符合网址格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean isDate(String str) {
@@ -149,7 +137,6 @@ public final class RegexUtil {
     /**
      * 验证数字输入
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsNumber(String str) {
@@ -160,7 +147,6 @@ public final class RegexUtil {
     /**
      * 验证非零的正整数
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsIntNumber(String str) {
@@ -171,7 +157,6 @@ public final class RegexUtil {
     /**
      * 验证大写字母
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsUpChar(String str) {
@@ -182,7 +167,6 @@ public final class RegexUtil {
     /**
      * 验证小写字母
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsLowChar(String str) {
@@ -193,7 +177,6 @@ public final class RegexUtil {
     /**
      * 验证验证输入字母
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsLetter(String str) {
@@ -204,7 +187,6 @@ public final class RegexUtil {
     /**
      * 验证验证输入汉字
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsChinese(String str) {
@@ -215,7 +197,6 @@ public final class RegexUtil {
     /**
      * 验证验证输入字符串
      *
-     * @param 待验证的字符串
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsLength(String str) {
@@ -227,12 +208,11 @@ public final class RegexUtil {
     /**
      * 验证银行卡位数
      *
-     * @param 待验证的银行卡
      * @return
      */
     public static boolean IsBankCard(String str) {
         String srcStr = str.trim();
-        if (srcStr ==null || "".equals(srcStr)) {
+        if (srcStr == null || "".equals(srcStr)) {
             return false;
         }
         if (srcStr.length() != 16 && srcStr.length() != 19) {

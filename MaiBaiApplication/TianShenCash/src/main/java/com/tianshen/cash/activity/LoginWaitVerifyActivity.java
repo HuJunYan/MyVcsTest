@@ -1,8 +1,5 @@
 package com.tianshen.cash.activity;
 
-import android.content.Intent;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +9,6 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.SignInBean;
-import com.tianshen.cash.net.api.SignIn;
 import com.tianshen.cash.view.TitleBar;
 
 public class LoginWaitVerifyActivity extends BaseActivity implements View.OnClickListener{

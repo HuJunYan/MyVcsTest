@@ -11,30 +11,23 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.CashSubItemBean;
-
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.WithdrawalsApplyBean;
 import com.tianshen.cash.model.WithdrawalsOrderBean;
-
 import com.tianshen.cash.net.api.UnbindBankCard;
 import com.tianshen.cash.net.api.WithdrawalsApply;
 import com.tianshen.cash.net.api.WithdrawalsOrder;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
-import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.utils.SharedPreferencesUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tianshen.cash.utils.ViewUtil;
-import com.tianshen.cash.utils.WithdrawalsApplyResultUtil;
 import com.tianshen.cash.view.PasswordInputView;
 import com.umeng.analytics.MobclickAgent;
 

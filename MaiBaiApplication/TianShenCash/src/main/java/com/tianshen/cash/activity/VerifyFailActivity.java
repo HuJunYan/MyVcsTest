@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.model.OrderRefreshBean;
 import com.tianshen.cash.model.RecordPopBean;
 import com.tianshen.cash.net.api.RecordPopup;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -27,24 +25,25 @@ import org.json.JSONObject;
 /**
  * Created by chenrongshang on 16/9/16.
  */
-public class VerifyFailActivity extends BaseActivity implements View.OnClickListener{
+public class VerifyFailActivity extends BaseActivity implements View.OnClickListener {
     private Button bt_confirm;
     private TextView tv_reason;
     private Bundle mBundle;
     private TitleBar tb_title_bar;
     private String reason;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBundle=getIntent().getExtras();
-       reason = UserUtil.getCashCreditReason(mContext);
-        if(null==reason){
-            reason="";
+        mBundle = getIntent().getExtras();
+        reason = UserUtil.getCashCreditReason(mContext);
+        if (null == reason) {
+            reason = "";
         }
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         tv_reason.setText(reason);
         recordPopup();
         /*switch (mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)){
@@ -59,6 +58,7 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
                 break;
         }*/
     }
+
     @Override
     protected int setContentView() {
         return R.layout.activity_verify_fail;
@@ -66,9 +66,9 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void findViews() {
-        bt_confirm = (Button)findViewById(R.id.bt_confirm);
-        tv_reason=(TextView)findViewById(R.id.tv_reason);
-        tb_title_bar=(TitleBar)findViewById(R.id.tb_title_bar);
+        bt_confirm = (Button) findViewById(R.id.bt_confirm);
+        tv_reason = (TextView) findViewById(R.id.tv_reason);
+        tb_title_bar = (TitleBar) findViewById(R.id.tb_title_bar);
 
     }
 
@@ -80,15 +80,15 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         try {
-            if (null==mBundle){
+            if (null == mBundle) {
                 MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
                 return;
             }
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.bt_confirm:
-                    if(GlobalParams.REFUSE_BY_PERSON_TYPE==mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)){
+                    if (GlobalParams.REFUSE_BY_PERSON_TYPE == mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)) {
                         MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
-                    }else if(GlobalParams.REFUSE_BY_MACHINE_TYPE==mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)) {
+                    } else if (GlobalParams.REFUSE_BY_MACHINE_TYPE == mBundle.getInt(GlobalParams.REFUSE_TYPE_KEY)) {
                         System.exit(0);
                     }
                     break;
@@ -127,12 +127,12 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
         return false;*/
     }
 
-    private void recordPopup(){
+    private void recordPopup() {
         try {
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("type","1");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "1");
             jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
-            RecordPopup recordPopup=new RecordPopup(mContext);
+            RecordPopup recordPopup = new RecordPopup(mContext);
             recordPopup.recordPopup(jsonObject, null, false, new BaseNetCallBack<RecordPopBean>() {
                 @Override
                 public void onSuccess(RecordPopBean paramT) {

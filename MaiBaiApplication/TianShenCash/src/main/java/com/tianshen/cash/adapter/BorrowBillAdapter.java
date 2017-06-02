@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,14 +13,11 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.GotoSJDActivityEvent;
-import com.tianshen.cash.event.LoginSuccessEvent;
-import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

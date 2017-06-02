@@ -124,11 +124,9 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             public void onSuccess(CompanyInfoBean paramT) {
                 String wechatId = paramT.getData().getWechat_id();
                 String service_telephone = paramT.getData().getService_telephone();
-                User user = TianShenUserUtil.getUser(mContext);
-                user.setService_telephone(service_telephone);
-                user.setWechat_id(wechatId);
-                TianShenUserUtil.saveUser(mContext, user);
                 mtv_weixin_num.setTv_right(wechatId);
+                TianShenUserUtil.saveServiceTelephone(mContext, service_telephone);
+                TianShenUserUtil.saveWeiXin(mContext, wechatId);
             }
 
             @Override

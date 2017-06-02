@@ -17,7 +17,6 @@ import com.tianshen.cash.model.WithdrawalsBillItemBean;
 import com.tianshen.cash.model.WithdrawalsBillListBean;
 import com.tianshen.cash.net.api.GetWithdrawalsBill;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -65,11 +64,11 @@ public class WithdrawalsBillActivity extends BaseActivity implements XListView.I
     }
 
     private void initRepayTotalAmount() {
-        int position=-1;
+        int position = -1;
         totoalAmount = 0.0;
         for (int i = 0; i < widthdrawalsBillItemList.size(); i++) {
             if (widthdrawalsBillItemList.get(i).isChecked()) {
-                position=i;
+                position = i;
                 String repayAmount = widthdrawalsBillItemList.get(i).getRepay_amount();
                 if ("".equals(repayAmount) || null == repayAmount) {
                     repayAmount = "0";
@@ -78,11 +77,11 @@ public class WithdrawalsBillActivity extends BaseActivity implements XListView.I
             }
         }
         tv_selected_amount.setText(Double.valueOf(totoalAmount) / 100 + "");
-        if(position==widthdrawalsBillItemList.size()-1){
+        if (position == widthdrawalsBillItemList.size() - 1) {
             cb_select_all.setOnCheckedChangeListener(null);
             cb_select_all.setChecked(true);
             cb_select_all.setOnCheckedChangeListener(this);
-        }else{
+        } else {
             cb_select_all.setOnCheckedChangeListener(null);
             cb_select_all.setChecked(false);
             cb_select_all.setOnCheckedChangeListener(this);
@@ -167,7 +166,7 @@ public class WithdrawalsBillActivity extends BaseActivity implements XListView.I
     public void gotoDetail(int position) {
         Bundle bundle = new Bundle();
         bundle.putString("consume_id", widthdrawalsBillItemList.get(position).getConsume_id());
-        bundle.putInt(GlobalParams.BILL_DETAIL_FROM_KEY,GlobalParams.BILL_DETAIL_FROM_WITHDRAWLS);
+        bundle.putInt(GlobalParams.BILL_DETAIL_FROM_KEY, GlobalParams.BILL_DETAIL_FROM_WITHDRAWLS);
         gotoActivity(mContext, WithdrawalsOrBillDetailActivity.class, bundle);
     }
 

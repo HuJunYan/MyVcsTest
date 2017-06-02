@@ -36,7 +36,7 @@ public class WithdrawalsBillAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return null==datas?0:datas.size();
+        return null == datas ? 0 : datas.size();
     }
 
     @Override
@@ -63,27 +63,27 @@ public class WithdrawalsBillAdapter extends BaseAdapter {
             viewHolder.tv_total_time = (TextView) convertView.findViewById(R.id.tv_total_time);
             viewHolder.tv_surplus_days = (TextView) convertView.findViewById(R.id.tv_surplus_days);
             viewHolder.rl_right_content = (RelativeLayout) convertView.findViewById(R.id.rl_right_content);
-            viewHolder.tv_overdue=(TextView)convertView.findViewById(R.id.tv_overdue);
+            viewHolder.tv_overdue = (TextView) convertView.findViewById(R.id.tv_overdue);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String isOverdue=datas.get(position).getIs_overdue();
-        if(null==isOverdue){
-            isOverdue="";
+        String isOverdue = datas.get(position).getIs_overdue();
+        if (null == isOverdue) {
+            isOverdue = "";
         }
 
-        if("1".equals(isOverdue)){
+        if ("1".equals(isOverdue)) {
             viewHolder.tv_overdue.setVisibility(View.VISIBLE);
-            String overdue=datas.get(position).getLate_fee();
-            if("".equals(overdue)||null==overdue){
-                overdue="0";
+            String overdue = datas.get(position).getLate_fee();
+            if ("".equals(overdue) || null == overdue) {
+                overdue = "0";
             }
-            viewHolder.tv_overdue.setText("(含逾期费"+Double.valueOf(overdue)/100+"元)");
-            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context,R.color.dark_green));
-        }else{
+            viewHolder.tv_overdue.setText("(含逾期费" + Double.valueOf(overdue) / 100 + "元)");
+            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context, R.color.dark_green));
+        } else {
             viewHolder.tv_overdue.setVisibility(View.GONE);
-            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context,R.color.default_text_color));
+            viewHolder.tv_surplus_days.setTextColor(ContextCompat.getColor(context, R.color.default_text_color));
         }
         viewHolder.cb_select_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -109,9 +109,9 @@ public class WithdrawalsBillAdapter extends BaseAdapter {
             totalAmount = "0";
         }
         viewHolder.tv_total_amount.setText(Double.valueOf(totalAmount) / 100 + "");
-        if("2".equals(datas.get(position).getRepay_unit())){
+        if ("2".equals(datas.get(position).getRepay_unit())) {
             viewHolder.tv_total_time.setText(datas.get(position).getTimer() + "天");
-        }else{
+        } else {
             viewHolder.tv_total_time.setText(datas.get(position).getTimer() + "个月");
         }
 

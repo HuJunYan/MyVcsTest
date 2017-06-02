@@ -20,15 +20,16 @@ public class PrompAdapter extends BaseAdapter {
     Context context;
     List<StatisticsRollDataBean> data;
     LayoutInflater inflater;
+
     public PrompAdapter(Context context, List<StatisticsRollDataBean> data) {
         this.context = context;
         this.data = data;
-        this.inflater=LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return null==data?0:data.size();
+        return null == data ? 0 : data.size();
     }
 
     @Override
@@ -44,24 +45,25 @@ public class PrompAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
-        if(null==view){
-            view=inflater.inflate(R.layout.promp_item,null);
-            viewHolder=new ViewHolder();
-            viewHolder.tv_name=(TextView)view.findViewById(R.id.tv_name);
-            viewHolder.tv_money=(TextView)view.findViewById(R.id.tv_money);
+        if (null == view) {
+            view = inflater.inflate(R.layout.promp_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_name);
+            viewHolder.tv_money = (TextView) view.findViewById(R.id.tv_money);
             view.setTag(viewHolder);
-        }else{
-            viewHolder=(ViewHolder)view.getTag();
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.tv_name.setText(data.get(i).getMobile());
-        String money=data.get(i).getMoney();
-        if(null==money||"".equals(money)){
-            money="0";
+        String money = data.get(i).getMoney();
+        if (null == money || "".equals(money)) {
+            money = "0";
         }
-        viewHolder.tv_money.setText(Integer.valueOf(money)/100+"");
+        viewHolder.tv_money.setText(Integer.valueOf(money) / 100 + "");
         return view;
     }
-    public class ViewHolder{
-        TextView tv_name,tv_money;
+
+    public class ViewHolder {
+        TextView tv_name, tv_money;
     }
 }

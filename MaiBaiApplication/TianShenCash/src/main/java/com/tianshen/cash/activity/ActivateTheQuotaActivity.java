@@ -2,7 +2,6 @@ package com.tianshen.cash.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,13 +9,12 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.SaveIdCardBean;
-import com.tianshen.cash.utils.TianShenUserUtil;
-import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.SaveIdCardInformation;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.PermissionUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.view.MyEditText;
@@ -24,8 +22,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.NumberFormat;
 
 public class ActivateTheQuotaActivity extends BaseActivity implements View.OnClickListener, MyEditText.MyEditTextListener {
     private boolean isNeedScanFace = true;

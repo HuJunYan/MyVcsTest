@@ -381,10 +381,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         List<WithdrawalsItemBean> withdrawalsItemBeens = mSelWithdrawalsBean.getData();
         WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeens.get(mCurrentLoanDaysIndex);
         String id = withdrawalsItemBean.getId();//选择产品的ID
-        User user = TianShenUserUtil.getUser(mContext);
-        user.setRepay_id(id);
-        user.setConsume_amount(mCurrentOrderMoney);
-        TianShenUserUtil.saveUser(mContext, user);
+        TianShenUserUtil.saveUserRepayId(mContext, id);
+        TianShenUserUtil.saveUserConsumeAmount(mContext, mCurrentOrderMoney);
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
             mQuotaCount = 0;
@@ -664,18 +662,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //存储用户相关
         String is_payway = mUserConfig.getData().getIs_payway();
-        User user = TianShenUserUtil.getUser(mContext);
         String is_show_service_telephone = mUserConfig.getData().getIs_show_service_telephone();
         if (TextUtils.isEmpty(is_show_service_telephone)) {
             is_show_service_telephone = "0";
         }
-        user.setIs_show_service_telephone(is_show_service_telephone);
-        user.setIs_payway(is_payway);
-        TianShenUserUtil.saveUser(mContext, user);
 
+        TianShenUserUtil.saveIsPayWayBySelf(mContext, is_payway);
+        TianShenUserUtil.saveIsShowServiceTelephone(mContext, is_show_service_telephone);
 
-        boolean clickedHomeGetMoneyButton = user.isClickedHomeGetMoneyButton();
-        boolean clickedHomeRePayMoneyButton = user.isClickedHomeRePayMoneyButton();
+        boolean clickedHomeGetMoneyButton = TianShenUserUtil.isClickedHomeGetMoneyButton(mContext);
+        boolean clickedHomeRePayMoneyButton = TianShenUserUtil.isClickedHomeRePayMoneyButton(mContext);
 
         String status = mUserConfig.getData().getStatus();
 
@@ -1248,9 +1244,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                             TianShenUserUtil.clearMoneyStatus(mContext);
                             break;
                         case "12":
-                            User user = TianShenUserUtil.getUser(mContext);
-                            user.setClickedHomeGetMoneyButton(true);
-                            TianShenUserUtil.saveUser(mContext, user);
+                            TianShenUserUtil.saveIsClickedHomeGetMoneyButton(mContext, true);
                             break;
                     }
                     initUserConfig();
@@ -1307,9 +1301,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_dialog_friendly_tips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = TianShenUserUtil.getUser(mContext);
-                user.setClickedHomeGetMoneyButton(true);
-                TianShenUserUtil.saveUser(mContext, user);
+                TianShenUserUtil.saveIsClickedHomeGetMoneyButton(mContext, true);
                 showRepayUI();
                 mDialog.dismiss();
             }

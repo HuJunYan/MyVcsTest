@@ -32,7 +32,7 @@ public class WithdrawalsTypeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return null==datas?0:datas.size();
+        return null == datas ? 0 : datas.size();
     }
 
     @Override
@@ -66,16 +66,16 @@ public class WithdrawalsTypeAdapter extends BaseAdapter {
             viewHolder.tv_stage_type.setBackgroundResource(R.drawable.stages_type_item_normal);
             viewHolder.tv_stage_type.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
-        String repayTimes=datas.get(position).getRepay_times();
-        if(null==repayTimes){
-            repayTimes="0";
+        String repayTimes = datas.get(position).getRepay_times();
+        if (null == repayTimes) {
+            repayTimes = "0";
         }
-        if("2".equals(datas.get(position).getRepay_unit())){
+        if ("2".equals(datas.get(position).getRepay_unit())) {
             viewHolder.tv_stage_type.setText(repayTimes + "天");
-        }else {
+        } else {
             viewHolder.tv_stage_type.setText(repayTimes + "个月");
         }
-        int width = new GetTelephoneUtils(context).getWindowWidth() /3;
+        int width = new GetTelephoneUtils(context).getWindowWidth() / 3;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width * 10 / 30);
         viewHolder.tv_stage_type.setLayoutParams(params);
         return convertView;

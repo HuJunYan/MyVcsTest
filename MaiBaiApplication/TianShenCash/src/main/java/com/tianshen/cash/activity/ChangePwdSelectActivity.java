@@ -1,7 +1,5 @@
 package com.tianshen.cash.activity;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,7 +7,6 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.net.base.UserUtil;
-import com.tianshen.cash.utils.MainUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyTextView;
 

@@ -41,11 +41,13 @@ public class ShareTypeAdapter extends CommonAdapter<ShareTypeBean> {
     class ViewHolder {
         ImageView share_listitem_icon;
         TextView share_listitem_title;
+
         protected void findViews(View convertView) {
-            share_listitem_icon = (ImageView)convertView.findViewById(R.id.share_listitem_icon);
-            share_listitem_title = (TextView)convertView.findViewById(R.id.share_listitem_title);
+            share_listitem_icon = (ImageView) convertView.findViewById(R.id.share_listitem_icon);
+            share_listitem_title = (TextView) convertView.findViewById(R.id.share_listitem_title);
         }
-        protected void setDatas(ShareTypeBean bean){
+
+        protected void setDatas(ShareTypeBean bean) {
             share_listitem_icon.setImageResource(bean.drawable);
             share_listitem_title.setText(bean.name);
         }

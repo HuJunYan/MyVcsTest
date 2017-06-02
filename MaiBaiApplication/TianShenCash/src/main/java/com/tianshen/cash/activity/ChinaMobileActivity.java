@@ -130,5 +130,4 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-
 }

@@ -23,15 +23,15 @@ public class BankCardInfoAdapter extends BaseAdapter {
     public BankCardInfoAdapter(Context context, GetBankListBean bankListBean) {
         this.context = context;
         this.bankListBean = bankListBean;
-        this.inflater=LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        if(null==bankListBean){
+        if (null == bankListBean) {
             return 0;
-        }else{
-            if(null==bankListBean.getData()){
+        } else {
+            if (null == bankListBean.getData()) {
                 return 0;
             }
         }
@@ -50,30 +50,31 @@ public class BankCardInfoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-       ViewHolder viewHolder;
-        if(convertView==null){
-            viewHolder=new ViewHolder();
-            convertView=inflater.inflate(R.layout.bank_card_list_item,null);
-            viewHolder.bank_name=(TextView)convertView.findViewById(R.id.bank_name);
-            viewHolder.bank_card_num=(TextView)convertView.findViewById(R.id.bank_card_num);
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.bank_card_list_item, null);
+            viewHolder.bank_name = (TextView) convertView.findViewById(R.id.bank_name);
+            viewHolder.bank_card_num = (TextView) convertView.findViewById(R.id.bank_card_num);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String bankName=bankListBean.getData().get(position).getBank_name();
-        if(!("".equals(bankName)||null==bankName))
-        viewHolder.bank_name.setText(bankName);
-        String bankCardNum=bankListBean.getData().get(position).getCard_num();
-        if(!("".equals(bankCardNum)||null==bankCardNum)) {
-            if(bankCardNum.length()<4){
+        String bankName = bankListBean.getData().get(position).getBank_name();
+        if (!("".equals(bankName) || null == bankName))
+            viewHolder.bank_name.setText(bankName);
+        String bankCardNum = bankListBean.getData().get(position).getCard_num();
+        if (!("".equals(bankCardNum) || null == bankCardNum)) {
+            if (bankCardNum.length() < 4) {
                 viewHolder.bank_card_num.setText(bankCardNum);
-            }else {
+            } else {
                 viewHolder.bank_card_num.setText(bankCardNum.substring(bankCardNum.length() - 4, bankCardNum.length()));
             }
         }
         return convertView;
     }
-    public class ViewHolder{
+
+    public class ViewHolder {
         TextView bank_name;
         TextView bank_card_num;
 

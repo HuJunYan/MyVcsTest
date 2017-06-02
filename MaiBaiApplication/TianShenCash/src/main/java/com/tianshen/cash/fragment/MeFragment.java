@@ -139,14 +139,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         boolean login = TianShenUserUtil.isLogin(mContext);
         if (login) {
-            User user = TianShenUserUtil.getUser(mContext);
 
-            String phone = user.getPhone();
+            String phone = TianShenUserUtil.getUserPhoneNum(mContext);
             String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
             tvMeUserName.setText(encryptPhoneNum);
 
-            String isShowServiceTelephone = user.getIs_show_service_telephone();
-            if ("1".equals(isShowServiceTelephone)) {
+            boolean isShow = TianShenUserUtil.isShowServiceTelephone(mContext);
+            if (isShow) {
                 rlMeTianshenService.setVisibility(View.VISIBLE);
             } else {
                 rlMeTianshenService.setVisibility(View.GONE);
@@ -216,6 +215,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
         }
     }
+
     /**
      * 跳转到在线客服页面
      */
@@ -241,10 +241,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             public void onSuccess(CompanyInfoBean paramT) {
                 String wechatId = paramT.getData().getWechat_id();
                 String service_telephone = paramT.getData().getService_telephone();
-                User user = TianShenUserUtil.getUser(mContext);
-                user.setService_telephone(service_telephone);
-                user.setWechat_id(wechatId);
-                TianShenUserUtil.saveUser(mContext, user);
+                TianShenUserUtil.saveServiceTelephone(mContext, service_telephone);
+                TianShenUserUtil.saveWeiXin(mContext, wechatId);
                 showMyKefu();
             }
 

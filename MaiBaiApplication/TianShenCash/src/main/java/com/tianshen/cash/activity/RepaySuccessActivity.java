@@ -6,14 +6,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.net.base.BaseUiListener;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ShareUtils;
-import com.tencent.tauth.Tencent;
 
 public class RepaySuccessActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_tip;

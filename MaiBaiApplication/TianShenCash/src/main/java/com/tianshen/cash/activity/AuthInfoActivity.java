@@ -1,11 +1,8 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,18 +10,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.model.AddressBean;
-import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.ConstantBean;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetCounty;
 import com.tianshen.cash.net.api.GetCustomerInfo;
 import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.api.SaveUserInfo;
-import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -32,10 +25,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 个人信息

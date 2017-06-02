@@ -22,7 +22,6 @@ import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.net.api.GetAllBankList;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;

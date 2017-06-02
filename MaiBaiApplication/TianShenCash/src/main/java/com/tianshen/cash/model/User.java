@@ -1,17 +1,12 @@
 package com.tianshen.cash.model;
 
-import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.annotation.Table;
-import com.litesuits.orm.db.enums.AssignType;
 
 /**
  * 存储当前登录的用户
  */
 
-@Table("user")
 public class User {
 
-    @PrimaryKey(AssignType.AUTO_INCREMENT)
     private long id; //本地表里面的ID
 
     private String customer_id; //天神用户ID

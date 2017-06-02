@@ -44,8 +44,9 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
     private WithdrawalsBillInfoBean mWithdrawalsBillInfoBean;
     private List<WithdrawalsBillItemBean> withdrawalsBillItemBeanList;
     String from = "";
-    private  List<SmallOrderItemBean>consumeSmallBillBeanList;
-    private  ConsumeSmallBillBean consumeSmallBillBean;
+    private List<SmallOrderItemBean> consumeSmallBillBeanList;
+    private ConsumeSmallBillBean consumeSmallBillBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +64,11 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                 withdrawalsBillItemBeanList = (List<WithdrawalsBillItemBean>) mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
                 break;
             case GlobalParams.REPAY_FROM_SHOUFU:
-                consumeSmallBillBeanList=(List<SmallOrderItemBean>)mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
-                consumeSmallBillBean=(ConsumeSmallBillBean)mBundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
+                consumeSmallBillBeanList = (List<SmallOrderItemBean>) mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
+                consumeSmallBillBean = (ConsumeSmallBillBean) mBundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
             case GlobalParams.REPAY_FROM_CONSUMPTION:
-                consumeSmallBillBeanList=(List<SmallOrderItemBean>)mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
-                consumeSmallBillBean=(ConsumeSmallBillBean)mBundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
+                consumeSmallBillBeanList = (List<SmallOrderItemBean>) mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
+                consumeSmallBillBean = (ConsumeSmallBillBean) mBundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
                 break;
             case GlobalParams.REPAY_FROM_BORROW_DETAIL:
                 mDetailList = (List<WithdrawalsBillInfoItenBean>) mBundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
@@ -113,9 +114,9 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                     List<ConsumeDataBean> consumeDataBeenList5 = new ArrayList<ConsumeDataBean>();
                     List<InstallmentHistoryBean> installmentHistoryBeanList5 = new ArrayList<InstallmentHistoryBean>();
                     ConsumeDataBean consumeDataBean5 = new ConsumeDataBean();
-                    boolean isNextMonth="1".equals(consumeSmallBillBean.getRepay_type())?true:false;
-                    if(!isNextMonth) {
-                        type=2;
+                    boolean isNextMonth = "1".equals(consumeSmallBillBean.getRepay_type()) ? true : false;
+                    if (!isNextMonth) {
+                        type = 2;
                         for (int i = 0; i < consumeSmallBillBeanList.size(); i++) {
                             if (consumeSmallBillBeanList.get(i).isChecked()) {
                                 InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
@@ -139,13 +140,12 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                             }
                         }
                         consumeDataBean5.setInstallment_history(installmentHistoryBeanList5);
+                    } else {
+                        type = 1;
                     }
-                    else{
-                        type=1;
-                    }
-                    consumeDataBean5.setRepay_date(isNextMonth?consumeSmallBillBeanList.get(0).getRepay_date():"");
-                    consumeDataBean5.setAmount(isNextMonth?consumeSmallBillBeanList.get(0).getPrincipal():"");
-                    consumeDataBean5.setOverdue_amount(isNextMonth?consumeSmallBillBeanList.get(0).getLate_fee():"");
+                    consumeDataBean5.setRepay_date(isNextMonth ? consumeSmallBillBeanList.get(0).getRepay_date() : "");
+                    consumeDataBean5.setAmount(isNextMonth ? consumeSmallBillBeanList.get(0).getPrincipal() : "");
+                    consumeDataBean5.setOverdue_amount(isNextMonth ? consumeSmallBillBeanList.get(0).getLate_fee() : "");
                     consumeDataBean5.setConsume_id(consumeSmallBillBean.getConsume_id());
                     consumeDataBean5.setType(consumeSmallBillBean.getRepay_type());
                     consumeDataBeenList5.add(consumeDataBean5);
@@ -167,7 +167,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                             InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
                             installmentHistoryBean.setId(withdrawalsBillItemBeanList.get(i).getBill_id());
                             String overdueAmount = withdrawalsBillItemBeanList.get(i).getLate_fee();
-                            installmentHistoryBean.setOverdue_amount("".equals(overdueAmount)?"0":overdueAmount);
+                            installmentHistoryBean.setOverdue_amount("".equals(overdueAmount) ? "0" : overdueAmount);
                             installmentHistoryBean.setAmount(withdrawalsBillItemBeanList.get(i).getRepay_money());
                             installmentHistoryBean.setRepay_date(withdrawalsBillItemBeanList.get(i).getRepay_date());
                             installmentHistoryBeanList3.add(installmentHistoryBean);
@@ -181,16 +181,16 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                             consumeData3.setInstallment_history(installmentHistoryBeanList3);
                             consumeDataList3.add(consumeData3);
                             consumeId = withdrawalsBillItemBeanList.get(i).getConsume_id();
-                            installmentHistoryBeanList3=new ArrayList<InstallmentHistoryBean>();
+                            installmentHistoryBeanList3 = new ArrayList<InstallmentHistoryBean>();
                             InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
                             installmentHistoryBean.setId(withdrawalsBillItemBeanList.get(i).getBill_id());
                             String overdueAmount = withdrawalsBillItemBeanList.get(i).getLate_fee();
-                            installmentHistoryBean.setOverdue_amount("".equals(overdueAmount)?"0":overdueAmount);
+                            installmentHistoryBean.setOverdue_amount("".equals(overdueAmount) ? "0" : overdueAmount);
                             installmentHistoryBean.setAmount(withdrawalsBillItemBeanList.get(i).getRepay_money());
                             installmentHistoryBean.setRepay_date(withdrawalsBillItemBeanList.get(i).getRepay_date());
                             installmentHistoryBeanList3.add(installmentHistoryBean);
                         }
-                        if(i==withdrawalsBillItemBeanList.size()-1){
+                        if (i == withdrawalsBillItemBeanList.size() - 1) {
                             ConsumeDataBean consumeData3 = new ConsumeDataBean();
                             consumeData3.setConsume_id(withdrawalsBillItemBeanList.get(i).getConsume_id());
                             consumeData3.setType("5");
@@ -223,13 +223,13 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                             if ("".equals(lateFee) || null == lateFee) {
                                 lateFee = "0";
                             }
-                            String repayData=mDetailList.get(i).getRepay_date();
-                            if(null==repayData){
-                                repayData="";
+                            String repayData = mDetailList.get(i).getRepay_date();
+                            if (null == repayData) {
+                                repayData = "";
                             }
                             installmentHistoryBean4.setAmount(principal);
                             installmentHistoryBean4.setRepay_date(repayData);
-                            installmentHistoryBean4.setOverdue_amount("".equals(lateFee)?"0":lateFee);
+                            installmentHistoryBean4.setOverdue_amount("".equals(lateFee) ? "0" : lateFee);
                             installmentHistoryBeanList4.add(installmentHistoryBean4);
                         }
                     }
@@ -246,7 +246,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                     break;
             }
             Repayment mRepayment = new Repayment(mContext);
-            mRepayment.repayment(mJson, v, true,type,  new BaseNetCallBack<ResponseBean>() {
+            mRepayment.repayment(mJson, v, true, type, new BaseNetCallBack<ResponseBean>() {
                         @Override
                         public void onSuccess(ResponseBean mResponseBean) {
                             switch (from) {
@@ -258,7 +258,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                                     backActivity();
                                     break;
                                 case GlobalParams.REPAY_FROM_BORROW:
-                                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION,null);
+                                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION, null);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("amount", mBundle.getString("totalAmount"));
                                     bundle.putString("merchant", "天神贷");
@@ -269,7 +269,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
                                     backActivity();
                                     break;
                                 case GlobalParams.REPAY_FROM_BORROW_DETAIL:
-                                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION,null);
+                                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REPAY_WITHDRAWAL_SUCCESS_ACTION, null);
                                     Bundle bundle2 = new Bundle();
                                     bundle2.putString("amount", mBundle.getString("totalAmount"));
                                     bundle2.putString("merchant", "天神贷");

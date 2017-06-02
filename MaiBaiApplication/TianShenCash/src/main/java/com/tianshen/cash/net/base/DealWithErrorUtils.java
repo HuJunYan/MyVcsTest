@@ -5,22 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.LoginActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
-import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
-import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.User;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class DealWithErrorUtils {
 
@@ -34,7 +28,7 @@ public class DealWithErrorUtils {
             errorMsg = context.getResources().getString(R.string.ServiceFaile);
         }
         if (mResponseBean != null) {
-            showErrorToast(context, mResponseBean.getCode(), errorMsg , view);
+            showErrorToast(context, mResponseBean.getCode(), errorMsg, view);
         }
     }
 
@@ -47,8 +41,7 @@ public class DealWithErrorUtils {
                 }
                 break;
             case -2: //token错误
-                LiteOrm liteOrm = DBManager.getInstance(context).getLiteOrm();
-                liteOrm.delete(User.class);
+                TianShenUserUtil.clearUser(context);
                 finishActivityAndGotoLoginActivity();
                 break;
             case 101: // 下单失败

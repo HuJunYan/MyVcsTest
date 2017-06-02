@@ -32,7 +32,7 @@ public class StagesTypeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return null==installmentInfoItemBeanList?0:installmentInfoItemBeanList.size();
+        return null == installmentInfoItemBeanList ? 0 : installmentInfoItemBeanList.size();
     }
 
     @Override
@@ -53,11 +53,11 @@ public class StagesTypeAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.stages_type_item, null);
             viewHolder.tv_stage_type = (TextView) convertView.findViewById(R.id.tv_stage_type);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tv_stage_type.setText(installmentInfoItemBeanList.get(position).getRepay_times() + "个月");
-        int width = new GetTelephoneUtils(mContext).getWindowWidth() /4;
+        int width = new GetTelephoneUtils(mContext).getWindowWidth() / 4;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, width * 10 / 27);
         viewHolder.tv_stage_type.setLayoutParams(params);
 

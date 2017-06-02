@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.baidu.location.BDLocation;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
@@ -24,7 +23,6 @@ import com.tianshen.cash.net.api.GetVerifyCode;
 import com.tianshen.cash.net.api.SignIn;
 import com.tianshen.cash.net.api.SignUp;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
@@ -43,13 +41,14 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class RegisteActivity extends BaseActivity implements View.OnClickListener,MyEditText.MyEditTextListener {
+public class RegisteActivity extends BaseActivity implements View.OnClickListener, MyEditText.MyEditTextListener {
 
-    private static final int REGISTESUCCESS =7 ;
+    private static final int REGISTESUCCESS = 7;
     private MyEditText et_mobile, et_get_verification, et_password, et_confirm_password;
     private Button bt_regite;
     private TextView tv_protocol;
     private CheckBox check_agree;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +66,8 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
         et_password = (MyEditText) findViewById(R.id.et_password);
         et_confirm_password = (MyEditText) findViewById(R.id.et_confirm_password);
         bt_regite = (Button) findViewById(R.id.bt_regite);
-        check_agree=(CheckBox)findViewById(R.id.check_agree);
-        tv_protocol=(TextView)findViewById(R.id.tv_protocol);
+        check_agree = (CheckBox) findViewById(R.id.check_agree);
+        tv_protocol = (TextView) findViewById(R.id.tv_protocol);
     }
 
     @Override
@@ -104,15 +103,15 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
     }
 
     private boolean getVerityCode() {
-        if ("".equals(et_mobile.getEditTextString().trim()) || null == et_mobile.getEditTextString().trim()||!RegexUtil.IsTelephone(et_mobile.getEditTextString().trim())) {
+        if ("".equals(et_mobile.getEditTextString().trim()) || null == et_mobile.getEditTextString().trim() || !RegexUtil.IsTelephone(et_mobile.getEditTextString().trim())) {
             ToastUtil.showToast(mContext, "请输入正确的手机号");
             return false;
         }
         try {
-           JSONObject json = new JSONObject();
+            JSONObject json = new JSONObject();
             json.put("mobile", et_mobile.getEditTextString().trim());
             json.put("type", 4 + "");
-            GetVerifyCode mGetVerifyCodeAction=new GetVerifyCode(mContext);
+            GetVerifyCode mGetVerifyCodeAction = new GetVerifyCode(mContext);
             mGetVerifyCodeAction.getVerifyCode(json, new BaseNetCallBack<VerifyCodeBean>() {
                 @Override
                 public void onSuccess(VerifyCodeBean verifyCodeBean) {
@@ -134,43 +133,43 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_regite:
-                if("".equals(et_mobile.getEditTextString().trim())||null==et_mobile.getEditTextString().trim()|| !RegexUtil.IsTelephone(et_mobile.getEditTextString().trim())){
-                   ToastUtil.showToast(mContext,"请输入正确的手机号");
+                if ("".equals(et_mobile.getEditTextString().trim()) || null == et_mobile.getEditTextString().trim() || !RegexUtil.IsTelephone(et_mobile.getEditTextString().trim())) {
+                    ToastUtil.showToast(mContext, "请输入正确的手机号");
                     return;
                 }
-                if("".equals(et_get_verification.getEditTextString().trim())||null==et_get_verification.getEditTextString().trim()){
-                ToastUtil.showToast(mContext,"请输入验证码");
+                if ("".equals(et_get_verification.getEditTextString().trim()) || null == et_get_verification.getEditTextString().trim()) {
+                    ToastUtil.showToast(mContext, "请输入验证码");
                     return;
                 }
-                if("".equals(et_password.getEditTextString().trim())||null==et_password.getEditTextString().trim()){
-                    ToastUtil.showToast(mContext,"请输入密码");
+                if ("".equals(et_password.getEditTextString().trim()) || null == et_password.getEditTextString().trim()) {
+                    ToastUtil.showToast(mContext, "请输入密码");
                     return;
                 }
-                if(et_password.getEditTextString().trim().length()<6||et_confirm_password.getEditTextString().trim().length()<6||et_password.getEditTextString().trim().length()>18||et_confirm_password.getEditTextString().trim().length()>18){
-                    ToastUtil.showToast(mContext,"请输入6~18位有效密码");
+                if (et_password.getEditTextString().trim().length() < 6 || et_confirm_password.getEditTextString().trim().length() < 6 || et_password.getEditTextString().trim().length() > 18 || et_confirm_password.getEditTextString().trim().length() > 18) {
+                    ToastUtil.showToast(mContext, "请输入6~18位有效密码");
                     return;
                 }
-                if("".equals(et_confirm_password.getEditTextString().trim())||null==et_confirm_password.getEditTextString().trim()){
-                    ToastUtil.showToast(mContext,"请重复输入密码");
+                if ("".equals(et_confirm_password.getEditTextString().trim()) || null == et_confirm_password.getEditTextString().trim()) {
+                    ToastUtil.showToast(mContext, "请重复输入密码");
                     return;
                 }
 
-                if(!et_password.getEditTextString().trim().equals(et_confirm_password.getEditTextString().trim())){
-                    ToastUtil.showToast(mContext,"密码输入不一致");
+                if (!et_password.getEditTextString().trim().equals(et_confirm_password.getEditTextString().trim())) {
+                    ToastUtil.showToast(mContext, "密码输入不一致");
                     et_password.setText("");
                     et_confirm_password.setText("");
                     return;
                 }
-                SignUp signUp=new SignUp(mContext);
+                SignUp signUp = new SignUp(mContext);
                 try {
                     JSONObject jsonObject = new JSONObject();
                     TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                    jsonObject.put("device_id",TelephonyMgr.getDeviceId());
-                    jsonObject.put("mobile",et_mobile.getEditTextString().trim());
-                    jsonObject.put("password",et_password.getEditTextString().trim());
-                    jsonObject.put("verify_code",et_get_verification.getEditTextString().trim());
+                    jsonObject.put("device_id", TelephonyMgr.getDeviceId());
+                    jsonObject.put("mobile", et_mobile.getEditTextString().trim());
+                    jsonObject.put("password", et_password.getEditTextString().trim());
+                    jsonObject.put("verify_code", et_get_verification.getEditTextString().trim());
                     signUp.signUp(jsonObject, null, true, new BaseNetCallBack<SignUpBean>() {
                         @Override
                         public void onSuccess(SignUpBean paramT) {
@@ -185,9 +184,9 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
 
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            }
+                }
                 break;
             case R.id.img_back:
                 backActivity();
@@ -198,76 +197,11 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void gotoWebActivity(){
+    private void gotoWebActivity() {
         String userServiceProtocolURL = NetConstantValue.getUserServiceProtocolURL();
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, userServiceProtocolURL);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 
-    private void login(String mobile,final String password){
-        final String push_id = JPushInterface.getRegistrationID(mContext);
-        if (null == push_id || "".equals(push_id)) {
-            MyApplicationLike.getMyApplicationLike().clearTempActivityInBackStack(MainActivity.class);
-        }
-        JSONObject jsonObject=new JSONObject();
-        try {
-            jsonObject.put("mobile",mobile);
-            jsonObject.put("password",password);
-            jsonObject.put("push_id", push_id);
-            SignIn signIn=new SignIn(mContext);
-            signIn.signIn(jsonObject, null, true, new BaseNetCallBack<TianShenLoginBean>() {
-                @Override
-                public void onSuccess(TianShenLoginBean paramT) {
-                    SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, push_id);
-//                    UserUtil.setLoginPassword(mContext, password);
-//                    Set<String> tags=new HashSet<String>();
-//                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
-//                    if (bdLocation != null) {
-//                        tags.add(bdLocation.getCityCode());
-//                        tags.add(bdLocation.getCountryCode());
-//                        tags.add(bdLocation.getProvince());
-//                        JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags);
-//                    }
-//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.REFRESH_HOME_PAGE_ACTION,null);
-//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGIN_SUCCESS_ACTION,null);
-//                    ((MyApplication)getApplication()).clearTempActivityInBackStack(MainActivity.class);
-//                    setResult(REGISTESUCCESS);
-//                    backActivity();
-
-                    SharedPreferencesUtil.getInstance(mContext).putString(GlobalParams.JPUSH_ID_KEY, push_id);
-                    Set<String> tags = new HashSet<>();
-                    BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
-                    if (bdLocation != null) {
-                        tags.add(bdLocation.getCityCode());
-                        tags.add(bdLocation.getCountryCode());
-                        tags.add(bdLocation.getProvince());
-                        JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags);
-                    }
-
-                    //保存用户信息
-                    User user = TianShenUserUtil.getUser(mContext);
-                    if (user == null) {
-                        user = new User();
-                    }
-                    user.setToken(paramT.getData().getToken());
-                    user.setCustomer_id(paramT.getData().getCustomer_id());
-                    user.setJpush_id(push_id);
-                    TianShenUserUtil.saveUser(mContext, user);
-
-                    EventBus.getDefault().post(new LoginSuccessEvent());
-                    backActivity();
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-                    backActivity();
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            backActivity();
-        }
-    }
 }

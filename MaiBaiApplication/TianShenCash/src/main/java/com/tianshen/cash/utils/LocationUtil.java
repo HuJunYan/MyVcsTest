@@ -114,16 +114,11 @@ public class LocationUtil implements BDLocationListener {
             share.putString("address", address.address);
 //            Log.d("ret", "province = " + address.province + " ; city = " + address.city + " ; country = " + address.district);
 
-            User user = TianShenUserUtil.getUser(mContext);
-            if (user == null) {
-                user = new User();
-            }
-            user.setLocation(bdLocation.getLatitude() + "," + bdLocation.getLongitude());
-            user.setProvince(address.province);
-            user.setCity(address.city);
-            user.setCountry(address.district);
-            user.setAddress(address.address);
-            TianShenUserUtil.saveUser(mContext, user);
+            TianShenUserUtil.saveLocation(mContext, bdLocation.getLatitude() + "," + bdLocation.getLongitude());
+            TianShenUserUtil.saveProvince(mContext, address.province);
+            TianShenUserUtil.saveCity(mContext, address.city);
+            TianShenUserUtil.saveCountry(mContext, address.district);
+            TianShenUserUtil.saveAddress(mContext, address.address);
 
             if (isCallBack){
                 EventBus.getDefault().post(new LocationEvent());

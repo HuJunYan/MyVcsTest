@@ -7,16 +7,13 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetBindVerifySms;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
-import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyEditText;

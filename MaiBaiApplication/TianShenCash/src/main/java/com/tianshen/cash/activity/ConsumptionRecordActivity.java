@@ -13,14 +13,11 @@ import com.tianshen.cash.adapter.BorrowBillAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.GotoSJDActivityEvent;
-import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.ConsumeItemBean;
-import com.tianshen.cash.model.ConsumeListBean;
 import com.tianshen.cash.model.WithdrawalsRecordBean;
 import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.net.api.GetWithdrawalsRecord;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.XListView;
 

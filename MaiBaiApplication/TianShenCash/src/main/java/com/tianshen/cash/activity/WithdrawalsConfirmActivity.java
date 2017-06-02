@@ -38,35 +38,35 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         mBundle = getIntent().getExtras();
         if (mBundle != null) {
-            mCashSubItemBean = (CashSubItemBean)(mBundle.getSerializable(GlobalParams.WITHDRAWALS_BEAN_KEY));
+            mCashSubItemBean = (CashSubItemBean) (mBundle.getSerializable(GlobalParams.WITHDRAWALS_BEAN_KEY));
             mCardNum = mBundle.getString(GlobalParams.WITHDRAWALS_CARD_NUM_KEY);
             mBankName = mBundle.getString(GlobalParams.WITHDRAWALS_BANK_NAME_KEY);
             mRepayTimes = mBundle.getString(GlobalParams.WITHDRAWALS_REPAY_TIMES_KEY);
         }
-        if(null!=mCashSubItemBean){
+        if (null != mCashSubItemBean) {
             initView();
         }
     }
 
     private void initView() {
         if (mCashSubItemBean != null) {
-            int withdrawalsAmountInt = (int)(Double.parseDouble(mCashSubItemBean.getWithdrawal_amount())/100);
-            tv_withdrawals_amount.setText(withdrawalsAmountInt +"元");
-            if("2".equals(mBundle.getString(GlobalParams.WITHDRAWALS_REPAY_UNIT))){
+            int withdrawalsAmountInt = (int) (Double.parseDouble(mCashSubItemBean.getWithdrawal_amount()) / 100);
+            tv_withdrawals_amount.setText(withdrawalsAmountInt + "元");
+            if ("2".equals(mBundle.getString(GlobalParams.WITHDRAWALS_REPAY_UNIT))) {
                 tv_repay_time.setText(mRepayTimes + "日");
                 tv_repay_type.setText("到期应还");
-            }else{
+            } else {
                 tv_repay_time.setText(mRepayTimes + "个月");
                 tv_repay_type.setText("每月还款");
             }
 
-            tv_repay_month.setText(((int)(Double.parseDouble(mCashSubItemBean.getRepay_total())/100))+"元");
-            int transferAmount = (int)(Double.parseDouble(mCashSubItemBean.getTransfer_amount())/100);
-            tv_arrival_amount.setText(transferAmount+"元");
+            tv_repay_month.setText(((int) (Double.parseDouble(mCashSubItemBean.getRepay_total()) / 100)) + "元");
+            int transferAmount = (int) (Double.parseDouble(mCashSubItemBean.getTransfer_amount()) / 100);
+            tv_arrival_amount.setText(transferAmount + "元");
             int proceduresAmount = withdrawalsAmountInt - transferAmount;
             if (proceduresAmount > 0) {
                 ll_procedures.setVisibility(View.VISIBLE);
-                tv_procedures_amount.setText((proceduresAmount)+"元");
+                tv_procedures_amount.setText((proceduresAmount) + "元");
             } else {
                 ll_procedures.setVisibility(View.GONE);
             }
@@ -74,6 +74,7 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
             tv_bank_card_num.setText(mCardNum);
         }
     }
+
     @Override
     protected int setContentView() {
         return R.layout.activity_withdrawals_confirm;
@@ -81,18 +82,18 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void findViews() {
-        tv_withdrawals_amount=(TextView)findViewById(R.id.tv_withdrawals_amount);
-        tv_repay_time=(TextView)findViewById(R.id.tv_repay_time);
-        tv_repay_month=(TextView)findViewById(R.id.tv_repay_month);
-        tv_arrival_amount=(TextView)findViewById(R.id.tv_arrival_amount);
-        tv_procedures_amount=(TextView)findViewById(R.id.tv_procedures_amount);
-        tv_bank_name=(TextView)findViewById(R.id.tv_bank_name);
-        tv_bank_card_num=(TextView)findViewById(R.id.tv_bank_card_num);
-        ll_procedures = (LinearLayout)findViewById(R.id.ll_procedures);
-        bt_confirm=(Button) findViewById(R.id.bt_confirm);
-        tv_repay_type=(TextView)findViewById(R.id.tv_repay_type);
-        cb_agree=(CheckBox) findViewById(R.id.cb_agree);
-        tv_protocol=(TextView)findViewById(R.id.cb_agree);
+        tv_withdrawals_amount = (TextView) findViewById(R.id.tv_withdrawals_amount);
+        tv_repay_time = (TextView) findViewById(R.id.tv_repay_time);
+        tv_repay_month = (TextView) findViewById(R.id.tv_repay_month);
+        tv_arrival_amount = (TextView) findViewById(R.id.tv_arrival_amount);
+        tv_procedures_amount = (TextView) findViewById(R.id.tv_procedures_amount);
+        tv_bank_name = (TextView) findViewById(R.id.tv_bank_name);
+        tv_bank_card_num = (TextView) findViewById(R.id.tv_bank_card_num);
+        ll_procedures = (LinearLayout) findViewById(R.id.ll_procedures);
+        bt_confirm = (Button) findViewById(R.id.bt_confirm);
+        tv_repay_type = (TextView) findViewById(R.id.tv_repay_type);
+        cb_agree = (CheckBox) findViewById(R.id.cb_agree);
+        tv_protocol = (TextView) findViewById(R.id.cb_agree);
     }
 
     @Override
@@ -101,11 +102,11 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
         cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if (b) {
                     bt_confirm.setBackgroundResource(R.drawable.button_red);
                     bt_confirm.setClickable(true);
                     bt_confirm.setEnabled(true);
-                }else{
+                } else {
                     bt_confirm.setBackgroundResource(R.drawable.button_gray);
                     bt_confirm.setClickable(false);
                     bt_confirm.setEnabled(false);
@@ -117,9 +118,9 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_confirm:
-                if(null!=mBundle) {
+                if (null != mBundle) {
                     if ("1".equals(UserUtil.getIsSetPayPass(mContext))) {
                         gotoActivity(mContext, InputPayPwdActivity.class, mBundle);
                     } else {
@@ -130,7 +131,7 @@ public class WithdrawalsConfirmActivity extends BaseActivity implements View.OnC
                 break;
             case R.id.tv_protocol:
                 Bundle bundle = new Bundle();
-                bundle.putInt("pro_type", GlobalParams. PRO_SERVER); // 用户服务器协议
+                bundle.putInt("pro_type", GlobalParams.PRO_SERVER); // 用户服务器协议
                 gotoActivity(mContext, ProtocolActivity.class, bundle);
                 break;
         }

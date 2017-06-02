@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -23,9 +26,6 @@ import com.tianshen.cash.net.api.GetWeChatOrder;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -48,7 +48,7 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
     private Button bt_confirm;
     private TextView tv_early_stage_money;
     private TextView tv_early_stage_money2;
-    private TextView tv_bank_name,tv_bank_card_title;
+    private TextView tv_bank_name, tv_bank_card_title;
     private LinearLayout ll_repay_bank_card;
     private LinearLayout ll_repay_wechat;
     private ImageView iv_repay_by_bank_card;
@@ -93,13 +93,13 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
                     bank_name = mOrderRefreshBean.getData().getBank_name();
                     break;
                 case GlobalParams.ENTER_DOWN_PAYMENT_PAGE_FROM_CONSUM:
-                    ConsumeListBean mConsumeListBean=(ConsumeListBean)mBundle.getSerializable(GlobalParams.CONSUMELISTBEAN_KEY);
-                    mConsumeItemBean=(ConsumeItemBean)mBundle.getSerializable(GlobalParams.CONSUMEITEMBEAN_KEY);
-                    consume_id=mConsumeItemBean.getConsume_id();
-                    down_payment=mConsumeItemBean.getDown_payment();
-                    bind_card=mConsumeListBean.getBind_card();
-                    card_num=mConsumeListBean.getCard_num();
-                    bank_name=mConsumeListBean.getBank_name();
+                    ConsumeListBean mConsumeListBean = (ConsumeListBean) mBundle.getSerializable(GlobalParams.CONSUMELISTBEAN_KEY);
+                    mConsumeItemBean = (ConsumeItemBean) mBundle.getSerializable(GlobalParams.CONSUMEITEMBEAN_KEY);
+                    consume_id = mConsumeItemBean.getConsume_id();
+                    down_payment = mConsumeItemBean.getDown_payment();
+                    bind_card = mConsumeListBean.getBind_card();
+                    card_num = mConsumeListBean.getCard_num();
+                    bank_name = mConsumeListBean.getBank_name();
                     break;
             }
         }
@@ -109,9 +109,9 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         if ("1".equals(bind_card)) {
-            tv_bank_name.setText(bank_name +"("+card_num.substring(card_num.length()-4,card_num.length())+")");
+            tv_bank_name.setText(bank_name + "(" + card_num.substring(card_num.length() - 4, card_num.length()) + ")");
             tv_bank_card_title.setText("已绑定银行卡");
         } else {
             tv_bank_name.setText("银行卡支付");
@@ -120,14 +120,15 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
         if (down_payment == null || "".equals(down_payment)) {
             down_payment = "0";
         }
-        tv_early_stage_money.setText(Double.parseDouble(down_payment)/100 + "");
-        tv_early_stage_money2.setText("￥" + Double.parseDouble(down_payment)/100 + "");
+        tv_early_stage_money.setText(Double.parseDouble(down_payment) / 100 + "");
+        tv_early_stage_money2.setText("￥" + Double.parseDouble(down_payment) / 100 + "");
     }
 
     @Override
     protected int setContentView() {
         return R.layout.activity_verify_success;
     }
+
     private void initCheck(int type) {
         switch (type) {
             case GlobalParams.REPAY_BY_BANK_CARD:
@@ -140,17 +141,18 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
+
     @Override
     protected void findViews() {
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
-        tv_early_stage_money=(TextView)findViewById(R.id.tv_early_stage_money);
-        tv_early_stage_money2=(TextView)findViewById(R.id.tv_early_stage_money2);
-        ll_repay_bank_card=(LinearLayout)findViewById(R.id.ll_repay_bank_card);
-        ll_repay_wechat=(LinearLayout)findViewById(R.id.ll_repay_wechat);
-        iv_repay_by_bank_card=(ImageView)findViewById(R.id.iv_repay_by_bank_card);
-        iv_repay_by_wechat=(ImageView)findViewById(R.id.iv_repay_by_wechat);
-        tv_bank_name=(TextView)findViewById(R.id.tv_bank_name);
-        tv_bank_card_title=(TextView)findViewById(R.id.tv_bank_card_title);
+        tv_early_stage_money = (TextView) findViewById(R.id.tv_early_stage_money);
+        tv_early_stage_money2 = (TextView) findViewById(R.id.tv_early_stage_money2);
+        ll_repay_bank_card = (LinearLayout) findViewById(R.id.ll_repay_bank_card);
+        ll_repay_wechat = (LinearLayout) findViewById(R.id.ll_repay_wechat);
+        iv_repay_by_bank_card = (ImageView) findViewById(R.id.iv_repay_by_bank_card);
+        iv_repay_by_wechat = (ImageView) findViewById(R.id.iv_repay_by_wechat);
+        tv_bank_name = (TextView) findViewById(R.id.tv_bank_name);
+        tv_bank_card_title = (TextView) findViewById(R.id.tv_bank_card_title);
     }
 
     @Override
@@ -162,20 +164,20 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_confirm:
-                mBundle.putString(GlobalParams.REPAY_FROM_KEY,GlobalParams.REPAY_FROM_SHOUFU);
+                mBundle.putString(GlobalParams.REPAY_FROM_KEY, GlobalParams.REPAY_FROM_SHOUFU);
                 mBundle.putInt(GlobalParams.APPLY_TYPE_KEY, mBundle.getInt(GlobalParams.APPLY_TYPE_KEY));
-                mBundle.putString("consume_id",consume_id);
-                mBundle.putString("down_payment",down_payment);
+                mBundle.putString("consume_id", consume_id);
+                mBundle.putString("down_payment", down_payment);
                 if (type == GlobalParams.REPAY_BY_BANK_CARD) {
-                    mBundle.putString("paytype",GlobalParams.BANK_PEY_TYPE);
+                    mBundle.putString("paytype", GlobalParams.BANK_PEY_TYPE);
                     if ("1".equals(bind_card)) {
                         gotoActivity(mContext, RepayPasswordActivity.class, mBundle);
                     } else {
                         gotoActivity(mContext, AddBankCardActivity.class, mBundle);
                     }
-                }else if (type == GlobalParams.REPAY_BY_WECHAT) {
+                } else if (type == GlobalParams.REPAY_BY_WECHAT) {
                     if (isWXAppInstalledAndSupported()) {
                         getWeChatOrder();
                     }
@@ -204,16 +206,16 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
         return sIsWXAppInstalledAndSupported;
     }
 
-    private void getWeChatOrder(){
+    private void getWeChatOrder() {
         //统一下单
         try {
-            JSONObject jsonObject=new JSONObject();
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
-            jsonObject.put("amount", down_payment+"");
-            jsonObject.put("overdue_amount","0");
-            jsonObject.put("consume_id",consume_id);
-            jsonObject.put("type","2");
-            jsonObject.put("paytype",GlobalParams.WECHAT_PAY_TYPE);
+            jsonObject.put("amount", down_payment + "");
+            jsonObject.put("overdue_amount", "0");
+            jsonObject.put("consume_id", consume_id);
+            jsonObject.put("type", "2");
+            jsonObject.put("paytype", GlobalParams.WECHAT_PAY_TYPE);
             new GetWeChatOrder(mContext).getWeChatOrder(jsonObject, null, true, 0, new BaseNetCallBack<WeChatOrder>() {
                 @Override
                 public void onSuccess(WeChatOrder paramT) {
@@ -230,37 +232,39 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
     }
-    private void payByWeChat(WeChatOrder mWeChatOrder){
+
+    private void payByWeChat(WeChatOrder mWeChatOrder) {
         //调起微信支付
         PayReq request = new PayReq();
         request.appId = GlobalParams.APP_ID_WX_PAY;
         request.partnerId = mWeChatOrder.getData().getPartnerid();
-        request.prepayId= mWeChatOrder.getData().getPrepayid();
+        request.prepayId = mWeChatOrder.getData().getPrepayid();
         request.packageValue = mWeChatOrder.getData().getPackagevalue();
-        request.nonceStr= mWeChatOrder.getData().getNoncestr();
-        request.timeStamp= mWeChatOrder.getData().getTimestamp();
-        request.sign= mWeChatOrder.getData().getSign();
-        request.extData=GlobalParams.REPAY_FROM_SHOUFU;
+        request.nonceStr = mWeChatOrder.getData().getNoncestr();
+        request.timeStamp = mWeChatOrder.getData().getTimestamp();
+        request.sign = mWeChatOrder.getData().getSign();
+        request.extData = GlobalParams.REPAY_FROM_SHOUFU;
         api.sendReq(request);
     }
 
-    public void registeBroadCase(){
-        wxPayBroadCast=new WXPayBroadCase();
-        IntentFilter intentFilter=new IntentFilter();
+    public void registeBroadCase() {
+        wxPayBroadCast = new WXPayBroadCase();
+        IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(GlobalParams.WX_SHOUFU_SUCCESS);
         intentFilter.addAction(GlobalParams.BIND_CARD_SUCCESS_ACTION);
-        registerReceiver(wxPayBroadCast,intentFilter);
+        registerReceiver(wxPayBroadCast, intentFilter);
     }
+
     public class WXPayBroadCase extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            switch (action){
+            String action = intent.getAction();
+            switch (action) {
 
                 case GlobalParams.BIND_CARD_SUCCESS_ACTION:
-                    bind_card="1";
-                    card_num=intent.getExtras().getString(GlobalParams.CARD_NUM_KEY);
-                    bank_name=intent.getExtras().getString(GlobalParams.CARD_USER_NAME);
+                    bind_card = "1";
+                    card_num = intent.getExtras().getString(GlobalParams.CARD_NUM_KEY);
+                    bank_name = intent.getExtras().getString(GlobalParams.CARD_USER_NAME);
                     initView();
                     break;
             }

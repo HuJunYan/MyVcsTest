@@ -21,16 +21,16 @@ public class BankListAdapter extends BaseAdapter {
     public BankListAdapter(Context context, BankListBean bankListBean) {
         this.context = context;
         this.bankListBean = bankListBean;
-        inflater= LayoutInflater.from(context);
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        if(null==bankListBean){
+        if (null == bankListBean) {
             return 0;
-        }else{
-            if(null==bankListBean.getData()){
-                return  0;
+        } else {
+            if (null == bankListBean.getData()) {
+                return 0;
             }
         }
         return bankListBean.getData().size();
@@ -49,22 +49,23 @@ public class BankListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if (convertView==null){
-            convertView=inflater.inflate(R.layout.bank_list_item,null);
-            viewHolder=new ViewHolder();
-            viewHolder.tv_bank_name=(TextView)convertView.findViewById(R.id.tv_bank_name);
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.bank_list_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.tv_bank_name = (TextView) convertView.findViewById(R.id.tv_bank_name);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String bankName=bankListBean.getData().get(position).getBank_name();
-        if(null==bankName){
-            bankName="";
+        String bankName = bankListBean.getData().get(position).getBank_name();
+        if (null == bankName) {
+            bankName = "";
         }
         viewHolder.tv_bank_name.setText(bankName);
         return convertView;
     }
-    private class ViewHolder{
+
+    private class ViewHolder {
         TextView tv_bank_name;
     }
 }

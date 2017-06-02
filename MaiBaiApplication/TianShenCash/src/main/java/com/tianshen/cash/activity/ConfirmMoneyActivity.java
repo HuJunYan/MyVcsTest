@@ -1,14 +1,10 @@
 package com.tianshen.cash.activity;
 
 import android.Manifest;
-import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -17,12 +13,9 @@ import android.widget.TextView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
-import com.tianshen.cash.event.AuthCenterBackEvent;
-import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.TimeOutEvent;
@@ -33,7 +26,6 @@ import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
@@ -189,42 +181,21 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 通知所有的activity关闭,并且打开登录页面
-     */
-    private  void finishActivityAndGotoLoginActivity() {
-        EventBus.getDefault().post(new FinishCurrentActivityEvent());
-
-        MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
-        Application application = myApplicationLike.getApplication();
-
-        Intent intent = new Intent(application, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        application.startActivity(intent);
-    }
-
-    /**
      * 得到确认借款数据
      */
     private void initOrderConfirmData(boolean isShowDialog) {
 
         try {
             JSONObject jsonObject = new JSONObject();
-            User user = TianShenUserUtil.getUser(mContext);
-
-            if (user == null) {
-                ToastUtil.showToast(mContext, "登录过期,请重新登录!");
-                finishActivityAndGotoLoginActivity();
-                return;
-            }
 
             String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
             String repay_id = TianShenUserUtil.getUserRepayId(mContext);
-            String customer_id = user.getCustomer_id();
-            String location = user.getLocation();
-            String city = user.getCity();
-            String country = user.getCountry();
-            String address = user.getAddress();
-            String province = user.getProvince();
+            String customer_id = TianShenUserUtil.getUserId(mContext);
+            String location = TianShenUserUtil.getLocation(mContext);
+            String city = TianShenUserUtil.getCity(mContext);
+            String country = TianShenUserUtil.getCountry(mContext);
+            String address = TianShenUserUtil.getAddress(mContext);
+            String province = TianShenUserUtil.getProvince(mContext);
 
             if (TextUtils.isEmpty(location)) {
                 RxPermissions rxPermissions = new RxPermissions(ConfirmMoneyActivity.this);
@@ -399,10 +370,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         }
 
         //存储ID
-        User user = TianShenUserUtil.getUser(mContext);
         String repayId = mOrderConfirmBean.getData().getRepay_id();
-        user.setRepay_id(repayId);
-        TianShenUserUtil.saveUser(mContext, user);
+        TianShenUserUtil.saveUserRepayId(mContext, repayId);
+
 
     }
 
@@ -425,15 +395,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         try {
 
-            User user = TianShenUserUtil.getUser(mContext);
-
-            String customer_id = user.getCustomer_id();
-            String location = user.getLocation();
-            String city = user.getCity();
-            String country = user.getCountry();
-            String address = user.getAddress();
-            String province = user.getProvince();
-            String jpush_id = user.getJpush_id();
+            String customer_id = TianShenUserUtil.getUserId(mContext);
+            String jpush_id = TianShenUserUtil.getUserJPushId(mContext);
+            String location = TianShenUserUtil.getLocation(mContext);
+            String city = TianShenUserUtil.getCity(mContext);
+            String country = TianShenUserUtil.getCountry(mContext);
+            String address = TianShenUserUtil.getAddress(mContext);
+            String province = TianShenUserUtil.getProvince(mContext);
 
             String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
             final String repay_id = mOrderConfirmBean.getData().getRepay_id();

@@ -23,11 +23,9 @@ import com.tianshen.cash.model.TianShenLoginBean;
 import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.SignIn;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
-import com.tianshen.cash.utils.SharedPreferencesUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ChangeInterface;
@@ -257,19 +255,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
 
                     //保存用户信息
-                    User user = TianShenUserUtil.getUser(mContext);
-                    if (user == null) {
-                        user = new User();
-                    }
-                    user.setToken(paramT.getData().getToken());
-                    user.setCustomer_id(paramT.getData().getCustomer_id());
-                    user.setPhone(mobile);
-                    user.setJpush_id(finalJpushId);
-                    TianShenUserUtil.saveUser(mContext, user);
+                    TianShenUserUtil.saveUserToken(mContext, paramT.getData().getToken());
+                    TianShenUserUtil.saveUserId(mContext, paramT.getData().getCustomer_id());
+                    TianShenUserUtil.saveUserPhoneNum(mContext, mobile);
+                    TianShenUserUtil.saveUserJPushId(mContext, finalJpushId);
 
                     gotoActivity(mContext, MainActivity.class, null);
                     EventBus.getDefault().post(new LoginSuccessEvent());
-
 
                 }
                 @Override

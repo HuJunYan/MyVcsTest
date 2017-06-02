@@ -14,7 +14,6 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.VerifyCodeBean;
 import com.tianshen.cash.net.api.GetVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;

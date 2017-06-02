@@ -5,24 +5,19 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tianshen.cash.R;
-import com.tianshen.cash.adapter.AuthCenterAdapter;
 import com.tianshen.cash.adapter.SuperMarkerAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.SuperMarkerClickEvent;
-import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.SuperMarkerBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetSuperMarkerList;
-import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 
 import org.greenrobot.eventbus.Subscribe;

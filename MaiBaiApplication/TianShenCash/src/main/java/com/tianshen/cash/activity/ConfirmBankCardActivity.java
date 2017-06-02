@@ -2,19 +2,11 @@ package com.tianshen.cash.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.event.ApplyEvent;
-import com.tianshen.cash.fragment.WithdrawalsFragment;
-import com.tianshen.cash.utils.MainUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
-
-import org.greenrobot.eventbus.EventBus;
-
-import butterknife.BindView;
 
 /**
  * 确认银行卡页面

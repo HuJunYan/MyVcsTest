@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.OrderTipAdapter;
 import com.tianshen.cash.adapter.PayBillDetailAdapter;
@@ -24,21 +25,18 @@ import com.tianshen.cash.adapter.WithDrawalsBillDetailAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.ConsumeSmallBillBean;
-import com.tianshen.cash.model.ConsumeSmallBillListBean;
 import com.tianshen.cash.model.SmallOrderItemBean;
 import com.tianshen.cash.model.SmallOrderItemTipDataItemBean;
 import com.tianshen.cash.model.WithdrawalsBillInfoBean;
 import com.tianshen.cash.model.WithdrawalsBillInfoItenBean;
 import com.tianshen.cash.net.api.GetWithdrawalsBillInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -80,6 +78,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
     private String consumeBigId = "";
     private CheckListener checkListener;
     private TextView tv_pay_title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,10 +151,10 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
                     if (null == repayTime) {
                         repayTime = "";
                     }
-                    if("2".equals(paramT.getData().getRepay_unit())){
+                    if ("2".equals(paramT.getData().getRepay_unit())) {
                         tv_second_value.setText(paramT.getData().getTimer() + "天");
                         tv_bill_amount_and_times.setText(Double.valueOf(withdrawalsAmount) / 100 + "元" + "-" + paramT.getData().getTimer() + "天");
-                    }else{
+                    } else {
                         tv_second_value.setText(paramT.getData().getTimer() + "个月");
                         tv_bill_amount_and_times.setText(Double.valueOf(withdrawalsAmount) / 100 + "元" + "-" + paramT.getData().getTimer() + "个月");
                     }
@@ -167,11 +166,11 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
                     tv_bill_finish_time.setText(finishTime);
                     mDetailList.clear();
                     mDetailList.addAll(paramT.getData().getList());
-                    boolean isChecked=false;
-                    for(int i=0;i<mDetailList.size();i++){
-                        if(!"0".equals(mDetailList.get(i).getState())&&!isChecked){
+                    boolean isChecked = false;
+                    for (int i = 0; i < mDetailList.size(); i++) {
+                        if (!"0".equals(mDetailList.get(i).getState()) && !isChecked) {
                             mDetailList.get(i).setChecked(true);
-                            isChecked=true;
+                            isChecked = true;
                         }
                     }
                     updateView();
@@ -219,7 +218,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
         ll_withdrawals_container = (LinearLayout) findViewById(R.id.ll_withdrawals_container);
         tv_merchant_name = (TextView) findViewById(R.id.tv_merchant_name);
         tv_third_value = (TextView) findViewById(R.id.tv_third_value);
-        tv_pay_title=(TextView)findViewById(R.id.tv_pay_title);
+        tv_pay_title = (TextView) findViewById(R.id.tv_pay_title);
     }
 
     @Override
@@ -263,7 +262,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
                 for (int i = 0; i < mDetailList.size(); i++) {
                     boolean isCheck = mDetailList.get(i).isChecked();
                     if (isCheck) {
-                        position=i;
+                        position = i;
                         String repayAmount = mDetailList.get(i).getRepay_amount();
                         if ("".equals(repayAmount) || null == repayAmount) {
                             repayAmount = "0";
@@ -342,7 +341,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
                         cb_select_all.setChecked(false);
                         cb_select_all.setOnCheckedChangeListener(checkListener);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     MobclickAgent.reportError(mContext, LogUtil.getException(e));
                 }
                 break;
@@ -472,6 +471,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
         new GetTelephoneUtils(mContext).changeDark();
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

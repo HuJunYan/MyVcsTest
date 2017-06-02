@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -24,14 +27,10 @@ import com.tianshen.cash.net.api.GetBindBankList;
 import com.tianshen.cash.net.api.GetWeChatOrder;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.CashBillListUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
@@ -60,7 +59,7 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
     private List<WithdrawalsBillInfoItenBean> mDetailList = new ArrayList<WithdrawalsBillInfoItenBean>();
     private WithdrawalsBillInfoBean mWithdrawalsBillInfoBean;
     private List<SmallOrderItemBean> consumeSmallBillBeanList;
-    private  ConsumeSmallBillBean consumeSmallBillBean;
+    private ConsumeSmallBillBean consumeSmallBillBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +79,8 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
             }
             switch (from) {
                 case GlobalParams.REPAY_FROM_CONSUMPTION:
-                    consumeSmallBillBeanList=(List<SmallOrderItemBean>)bundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
-                    consumeSmallBillBean=(ConsumeSmallBillBean)bundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
+                    consumeSmallBillBeanList = (List<SmallOrderItemBean>) bundle.getSerializable(GlobalParams.REPAY_BEAN_KEY);
+                    consumeSmallBillBean = (ConsumeSmallBillBean) bundle.getSerializable(GlobalParams.REPAY_BEAN_TOTAL_DATA_KEY);
                     totalMoney = bundle.getString("totalAmount");
                     merchantName = consumeSmallBillBean.getMerchant_name();
                     break;
@@ -249,53 +248,53 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
                     String consumeId = "";
                     boolean isConsumeIdInit = false;
                     for (int i = 0; i < widthdrawalsBillItemList.size(); i++) {
-                            if (!isConsumeIdInit) {
-                                isConsumeIdInit = true;
-                                consumeId = widthdrawalsBillItemList.get(i).getConsume_id();
+                        if (!isConsumeIdInit) {
+                            isConsumeIdInit = true;
+                            consumeId = widthdrawalsBillItemList.get(i).getConsume_id();
+                        }
+                        if (consumeId.equals(widthdrawalsBillItemList.get(i).getConsume_id())) {
+                            InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
+                            installmentHistoryBean.setId(widthdrawalsBillItemList.get(i).getBill_id());
+                            String lateFee = widthdrawalsBillItemList.get(i).getLate_fee();
+                            if ("".equals(lateFee) || null == lateFee) {
+                                lateFee = "0";
                             }
-                            if (consumeId.equals(widthdrawalsBillItemList.get(i).getConsume_id())) {
-                                InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
-                                installmentHistoryBean.setId(widthdrawalsBillItemList.get(i).getBill_id());
-                                String lateFee=widthdrawalsBillItemList.get(i).getLate_fee();
-                                if("".equals(lateFee)||null==lateFee){
-                                    lateFee="0";
-                                }
-                                installmentHistoryBean.setOverdue_amount(lateFee);
-                                installmentHistoryBean.setAmount(widthdrawalsBillItemList.get(i).getRepay_money());
-                                installmentHistoryBean.setRepay_date(widthdrawalsBillItemList.get(i).getRepay_date());
-                                installmentHistoryBeanList.add(installmentHistoryBean);
-                            } else {
-                                ConsumeDataBean consumeData = new ConsumeDataBean();
-                                consumeData.setConsume_id(consumeId);
-                                consumeData.setType("5");
-                                consumeData.setRepay_date("");
-                                consumeData.setAmount("");
-                                consumeData.setOverdue_amount("");
-                                consumeData.setInstallment_history(installmentHistoryBeanList);
-                                consumeDataList.add(consumeData);
-                                consumeId = widthdrawalsBillItemList.get(i).getConsume_id();
-                                installmentHistoryBeanList=new ArrayList<InstallmentHistoryBean>();
-                                InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
-                                installmentHistoryBean.setId(widthdrawalsBillItemList.get(i).getBill_id());
-                                String lateFee=widthdrawalsBillItemList.get(i).getLate_fee();
-                                if("".equals(lateFee)||null==lateFee){
-                                    lateFee="0";
-                                }
-                                installmentHistoryBean.setOverdue_amount(lateFee);
-                                installmentHistoryBean.setAmount(widthdrawalsBillItemList.get(i).getRepay_money());
-                                installmentHistoryBean.setRepay_date(widthdrawalsBillItemList.get(i).getRepay_date());
-                                installmentHistoryBeanList.add(installmentHistoryBean);
+                            installmentHistoryBean.setOverdue_amount(lateFee);
+                            installmentHistoryBean.setAmount(widthdrawalsBillItemList.get(i).getRepay_money());
+                            installmentHistoryBean.setRepay_date(widthdrawalsBillItemList.get(i).getRepay_date());
+                            installmentHistoryBeanList.add(installmentHistoryBean);
+                        } else {
+                            ConsumeDataBean consumeData = new ConsumeDataBean();
+                            consumeData.setConsume_id(consumeId);
+                            consumeData.setType("5");
+                            consumeData.setRepay_date("");
+                            consumeData.setAmount("");
+                            consumeData.setOverdue_amount("");
+                            consumeData.setInstallment_history(installmentHistoryBeanList);
+                            consumeDataList.add(consumeData);
+                            consumeId = widthdrawalsBillItemList.get(i).getConsume_id();
+                            installmentHistoryBeanList = new ArrayList<InstallmentHistoryBean>();
+                            InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
+                            installmentHistoryBean.setId(widthdrawalsBillItemList.get(i).getBill_id());
+                            String lateFee = widthdrawalsBillItemList.get(i).getLate_fee();
+                            if ("".equals(lateFee) || null == lateFee) {
+                                lateFee = "0";
                             }
-                           if(i==widthdrawalsBillItemList.size()-1){
-                                ConsumeDataBean consumeData = new ConsumeDataBean();
-                                consumeData.setConsume_id(widthdrawalsBillItemList.get(i).getConsume_id());
-                                consumeData.setType("5");
-                                consumeData.setRepay_date("");
-                                consumeData.setAmount("");
-                                consumeData.setOverdue_amount("");
-                                consumeData.setInstallment_history(installmentHistoryBeanList);
-                                consumeDataList.add(consumeData);
-                            }
+                            installmentHistoryBean.setOverdue_amount(lateFee);
+                            installmentHistoryBean.setAmount(widthdrawalsBillItemList.get(i).getRepay_money());
+                            installmentHistoryBean.setRepay_date(widthdrawalsBillItemList.get(i).getRepay_date());
+                            installmentHistoryBeanList.add(installmentHistoryBean);
+                        }
+                        if (i == widthdrawalsBillItemList.size() - 1) {
+                            ConsumeDataBean consumeData = new ConsumeDataBean();
+                            consumeData.setConsume_id(widthdrawalsBillItemList.get(i).getConsume_id());
+                            consumeData.setType("5");
+                            consumeData.setRepay_date("");
+                            consumeData.setAmount("");
+                            consumeData.setOverdue_amount("");
+                            consumeData.setInstallment_history(installmentHistoryBeanList);
+                            consumeDataList.add(consumeData);
+                        }
                     }
                     jsonObject.put("consume_data", new JSONArray(GsonUtil.bean2json(consumeDataList)));
                     break;
@@ -316,9 +315,9 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
                             if ("".equals(lateFee) || null == lateFee) {
                                 lateFee = "0";
                             }
-                            String repayData=mDetailList.get(i).getRepay_date();
-                            if(null==repayData){
-                                repayData="";
+                            String repayData = mDetailList.get(i).getRepay_date();
+                            if (null == repayData) {
+                                repayData = "";
                             }
                             installmentHistoryBean.setAmount(principal);
                             installmentHistoryBean.setRepay_date(repayData);
@@ -341,9 +340,9 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
                     List<ConsumeDataBean> consumeDataBeenList5 = new ArrayList<ConsumeDataBean>();
                     List<InstallmentHistoryBean> installmentHistoryBeanList5 = new ArrayList<InstallmentHistoryBean>();
                     ConsumeDataBean consumeDataBean5 = new ConsumeDataBean();
-                    boolean isNextMonth="1".equals(consumeSmallBillBean.getRepay_type())?true:false;
-                    if(!isNextMonth) {
-                        type=2;
+                    boolean isNextMonth = "1".equals(consumeSmallBillBean.getRepay_type()) ? true : false;
+                    if (!isNextMonth) {
+                        type = 2;
                         for (int i = 0; i < consumeSmallBillBeanList.size(); i++) {
                             if (consumeSmallBillBeanList.get(i).isChecked()) {
                                 InstallmentHistoryBean installmentHistoryBean = new InstallmentHistoryBean();
@@ -367,14 +366,13 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
                             }
                         }
                         consumeDataBean5.setInstallment_history(installmentHistoryBeanList5);
-                    }
-                    else{
-                        type=1;
+                    } else {
+                        type = 1;
                     }
 
-                    consumeDataBean5.setRepay_date(isNextMonth?consumeSmallBillBeanList.get(0).getRepay_date():"");
-                    consumeDataBean5.setAmount(isNextMonth?consumeSmallBillBeanList.get(0).getPrincipal():"");
-                    consumeDataBean5.setOverdue_amount(isNextMonth?consumeSmallBillBeanList.get(0).getLate_fee():"");
+                    consumeDataBean5.setRepay_date(isNextMonth ? consumeSmallBillBeanList.get(0).getRepay_date() : "");
+                    consumeDataBean5.setAmount(isNextMonth ? consumeSmallBillBeanList.get(0).getPrincipal() : "");
+                    consumeDataBean5.setOverdue_amount(isNextMonth ? consumeSmallBillBeanList.get(0).getLate_fee() : "");
                     consumeDataBean5.setConsume_id(consumeSmallBillBean.getConsume_id());
                     consumeDataBean5.setType(consumeSmallBillBean.getRepay_type());
                     consumeDataBeenList5.add(consumeDataBean5);

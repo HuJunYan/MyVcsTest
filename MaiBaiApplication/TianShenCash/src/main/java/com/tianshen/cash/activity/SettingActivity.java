@@ -6,20 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
-import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.Logout;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
-import com.tianshen.cash.utils.SendBroadCastUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyTextView;
@@ -29,8 +22,6 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener2 {
     private boolean isResume = true;
@@ -98,21 +89,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                    UserUtil.removeUser(mContext);
-//                    new SendBroadCastUtil(mContext).sendBroad(GlobalParams.LOGOUT_ACTION, null);
-//                    isResume = true;
-//                    GlobalParams.isNotice = true;
-//                    setResult(UNREGISTERE);
-                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
-                    liteOrm.delete(User.class);
+                    TianShenUserUtil.clearUser(mContext);
                     EventBus.getDefault().post(new LogoutSuccessEvent());
                     backActivity();
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
-                    liteOrm.delete(User.class);
+                    TianShenUserUtil.clearUser(mContext);
                     EventBus.getDefault().post(new LogoutSuccessEvent());
                     backActivity();
                 }
@@ -126,7 +110,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onLeftClick(View view) {
-//        setResult(isResume ? UNREGISTERE : 0);
         backActivity();
     }
 

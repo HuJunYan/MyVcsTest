@@ -20,9 +20,12 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.megvii.idcardquality.IDCardQualityLicenseManager;
+import com.megvii.idcardquality.bean.IDCardAttr;
+import com.megvii.licensemanager.Manager;
+import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
@@ -30,11 +33,10 @@ import com.tianshen.cash.idcard.util.Util;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
 import com.tianshen.cash.liveness.bean.MyMap;
 import com.tianshen.cash.liveness.util.ConUtil;
-import com.tianshen.cash.model.SaveIdCardBean;
-import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.model.IDCardBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.SaveIdCardBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
 import com.tianshen.cash.net.api.IDCardAction;
@@ -44,14 +46,11 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
-import com.megvii.idcardquality.IDCardQualityLicenseManager;
-import com.megvii.idcardquality.bean.IDCardAttr;
-import com.megvii.licensemanager.Manager;
-import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
@@ -76,7 +75,7 @@ public class ResultActivity extends BaseActivity {
     private final int IMAGE_TYPE_SCAN_FACE = 25;
     IDCardAttr.IDCardSide mIDCardSide;
     private String COMMON_TAG = "";
-    private boolean isCanPressBack=true;
+    private boolean isCanPressBack = true;
     Handler mStartIdCardHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -133,7 +132,7 @@ public class ResultActivity extends BaseActivity {
         if (data == null)
             return null;
         File mediaStorageDir = mContext.getExternalFilesDir("idCardAndLiveness");
-        if(null==mediaStorageDir){
+        if (null == mediaStorageDir) {
             return null;
         }
         if (!mediaStorageDir.exists()) {
@@ -517,24 +516,24 @@ public class ResultActivity extends BaseActivity {
                 @Override
                 public void onSuccess(SaveIdCardBean paramT) {
                     MobclickAgent.reportError(mContext, COMMON_TAG + "saveIdCardInformation ===1");
-                    if(null==paramT){
-                        ToastUtil.showToast(mContext,"数据失败");
+                    if (null == paramT) {
+                        ToastUtil.showToast(mContext, "数据失败");
                         return;
                     }
-                    if(null==paramT.getData()){
-                        ToastUtil.showToast(mContext,"数据失败");
+                    if (null == paramT.getData()) {
+                        ToastUtil.showToast(mContext, "数据失败");
                         return;
                     }
-                    if(GlobalParams.NOT_QUALIFIED.equals(paramT.getData().getQualified())){
+                    if (GlobalParams.NOT_QUALIFIED.equals(paramT.getData().getQualified())) {
                         //用户在黑名单时直接跳转至拒绝
                         //用户在黑名单时直接跳转至拒绝
-                        String reason=paramT.getData().getReason();
-                        if(null==reason){
-                            reason="";
+                        String reason = paramT.getData().getReason();
+                        if (null == reason) {
+                            reason = "";
                         }
-                        UserUtil.setCashCreditStatus(mContext,GlobalParams.CASH_APPLY_REFUSE_BY_MACHINE);
-                        UserUtil.setCashCreditReason(mContext,reason);
-                        gotoActivity(mContext,VerifyFailActivity.class,null);
+                        UserUtil.setCashCreditStatus(mContext, GlobalParams.CASH_APPLY_REFUSE_BY_MACHINE);
+                        UserUtil.setCashCreditReason(mContext, reason);
+                        gotoActivity(mContext, VerifyFailActivity.class, null);
                         backActivity();
                         return;
                     }
@@ -780,24 +779,26 @@ public class ResultActivity extends BaseActivity {
                     }
                 });
     }
-    private void selectLivenessControl(String name,String idCardNum){
-        int scanTime=UserUtil.getScanTimes(mContext);
-        UserUtil.setScanTimes(mContext,++scanTime);
 
-        if(2<=scanTime&&scanTime<5){
+    private void selectLivenessControl(String name, String idCardNum) {
+        int scanTime = UserUtil.getScanTimes(mContext);
+        UserUtil.setScanTimes(mContext, ++scanTime);
+
+        if (2 <= scanTime && scanTime < 5) {
             showScanErrorDialog(name, idCardNum);
-        }else if(5<=scanTime){
-            UserUtil.setCashCreditReason(mContext,"您不符合我们的征信条件");
-            gotoActivity(mContext,VerifyFailActivity.class,null);
+        } else if (5 <= scanTime) {
+            UserUtil.setCashCreditReason(mContext, "您不符合我们的征信条件");
+            gotoActivity(mContext, VerifyFailActivity.class, null);
             backActivity();
-        }else{
+        } else {
             gotoLiveness();
         }
     }
-    private void showScanErrorDialog(String name,String idCardNum){
-        AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+
+    private void showScanErrorDialog(String name, String idCardNum) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("信息校验");
-        builder.setMessage("请确认您的信息，若信息有误，请联系天神贷\n姓名："+name+"\n"+"身份证号："+idCardNum);
+        builder.setMessage("请确认您的信息，若信息有误，请联系天神贷\n姓名：" + name + "\n" + "身份证号：" + idCardNum);
         builder.setCancelable(false);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
@@ -813,13 +814,14 @@ public class ResultActivity extends BaseActivity {
         });
         builder.create().show();
     }
+
     private void conformCreditFace() throws JSONException {
         MobclickAgent.reportError(mContext, COMMON_TAG + "conformCreditFace ===0");
         CreditFace creditFace = new CreditFace(mContext);
         JSONObject json = new JSONObject();
         json.put("customer_id", TianShenUserUtil.getUserId(mContext));
         json.put("face_pass", "1");
-        isCanPressBack=false;
+        isCanPressBack = false;
         creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {
             @Override
             public void onSuccess(ResponseBean paramT) {
@@ -843,7 +845,7 @@ public class ResultActivity extends BaseActivity {
                 ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
                 setResult(RESULT_OK, intent);
                 backActivity();
-                isCanPressBack=true;
+                isCanPressBack = true;
             }
 
             @Override

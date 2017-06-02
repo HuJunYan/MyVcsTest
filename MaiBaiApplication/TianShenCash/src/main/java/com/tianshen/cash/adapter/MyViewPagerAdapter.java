@@ -1,37 +1,37 @@
 package com.tianshen.cash.adapter;
 
-import java.util.ArrayList;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+
 public class MyViewPagerAdapter extends FragmentPagerAdapter {
-	private ArrayList<Fragment> fragments;// 需要添加到上面的Fragment
+    private ArrayList<Fragment> fragments;// 需要添加到上面的Fragment
 
-	public MyViewPagerAdapter(FragmentManager fm) {
-		super(fm);
-	}
+    public MyViewPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
 
-	/**
-	 * 自定义的构造函数
-	 * @param fm
-	 * @param fragments
-	 *            ArrayList<Fragment>
-	 */
-	public MyViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
-		super(fm);
-		this.fragments = fragments;
-	}
+    /**
+     * 自定义的构造函数
+     *
+     * @param fm
+     * @param fragments ArrayList<Fragment>
+     */
+    public MyViewPagerAdapter(FragmentManager fm, ArrayList<Fragment> fragments) {
+        super(fm);
+        this.fragments = fragments;
+    }
 
-	@Override
-	public Fragment getItem(int arg0) {
-		return fragments.get(arg0);// 返回Fragment对象
-	}
+    @Override
+    public Fragment getItem(int arg0) {
+        return fragments.get(arg0);// 返回Fragment对象
+    }
 
-	@Override
-	public int getCount() {
-		return fragments.size();// 返回Fragment的个数
-	}
-	
+    @Override
+    public int getCount() {
+        return fragments.size();// 返回Fragment的个数
+    }
+
 }

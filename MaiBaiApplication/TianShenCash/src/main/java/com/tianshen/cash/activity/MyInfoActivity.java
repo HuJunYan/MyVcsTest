@@ -12,7 +12,6 @@ import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.ChangeContactsInfo;
 import com.tianshen.cash.net.api.GetContactsInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ImageTextView;

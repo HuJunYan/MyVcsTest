@@ -9,20 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.litesuits.orm.LiteOrm;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
-import com.tianshen.cash.manager.DBManager;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.ResetPassword;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.ChangeInterface;
 import com.tianshen.cash.view.MyEditText;
@@ -195,16 +192,14 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
             resetPassword.resetPassword(json, bt_next, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                     if(GlobalParams.CHANGE_LOGIN_PASSWORD.equals(mBundle.getString("type"))) {
-                         UserUtil.setLoginPassword(mContext, password);
-                     }
+                    if (GlobalParams.CHANGE_LOGIN_PASSWORD.equals(mBundle.getString("type"))) {
+                        UserUtil.setLoginPassword(mContext, password);
+                    }
 //                    setResult(SETTING_PASSWORD_SUCCESS);
 //                    backActivity();
                     ToastUtil.showToast(mContext, "密码设置成功", Toast.LENGTH_SHORT);
 
-
-                    LiteOrm liteOrm = DBManager.getInstance(mContext).getLiteOrm();
-                    liteOrm.delete(User.class);
+                    TianShenUserUtil.clearUser(mContext);
 
                     EventBus.getDefault().post(new FinishCurrentActivityEvent());
 
