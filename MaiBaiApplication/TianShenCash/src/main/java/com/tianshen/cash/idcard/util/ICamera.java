@@ -130,8 +130,8 @@ public class ICamera {
 
 	public void closeCamera() {
 		if (mCamera != null) {
-			mCamera.stopPreview();
 			mCamera.setPreviewCallback(null);
+			mCamera.stopPreview();
 			mCamera.release();
 			mCamera = null;
 		}
