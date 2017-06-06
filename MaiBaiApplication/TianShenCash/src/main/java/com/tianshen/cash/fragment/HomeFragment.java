@@ -904,12 +904,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             xrecyclerview_order_status.setLayoutManager(layoutManager);
             xrecyclerview_order_status.setLoadingMoreEnabled(false);
-            xrecyclerview_order_status.setPullRefreshEnabled(false);
+            xrecyclerview_order_status.setPullRefreshEnabled(true);
             mOrderStatusAdapter = new OrderStatusAdapter(mContext, mUserConfig);
             xrecyclerview_order_status.setAdapter(mOrderStatusAdapter);
+            xrecyclerview_order_status.setLoadingListener(new MyLoadingListener());
         } else {
             mOrderStatusAdapter.setData(mUserConfig);
             mOrderStatusAdapter.notifyDataSetChanged();
+            xrecyclerview_order_status.refreshComplete();
         }
     }
 
@@ -1552,6 +1554,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 状态列表刷新
+     */
+    private class MyLoadingListener implements XRecyclerView.LoadingListener {
+
+        @Override
+        public void onRefresh() {
+            String status = mUserConfig.getData().getStatus();
+            if ("1".equals(status)) {
+                initUserConfig();
+            } else {
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                        xrecyclerview_order_status.refreshComplete();
+                    }
+                }, 500);
+            }
+        }
+
+        @Override
+        public void onLoadMore() {
+
+        }
+    }
 
     /**
      * 收到了在注册页面登录成功的消息
