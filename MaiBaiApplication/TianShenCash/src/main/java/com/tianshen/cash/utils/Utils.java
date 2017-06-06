@@ -566,6 +566,19 @@ public class Utils {
 
     /**
      * 渠道名称转成渠道ID
+     *
+     * server              # 2000
+     wandoujia           # 2001
+     qqTencent           # 2002
+     huawei              # 2004
+     xiaomi              # 2005
+     baidu               # 2006
+     anzhi               # 2007
+     oppo                # 2008
+     lenovo              # 2010
+     dev360cn            # 2014
+     vivo                # 2015
+     qqTencenta          # 2016
      */
     public static String channelName2channelID(String channelName) {
         String channelID = "2000";
@@ -583,9 +596,6 @@ public class Utils {
             case "qqTencent":
                 channelID = "2002";
                 break;
-            case "zs91zhushou":
-                channelID = "2003";
-                break;
             case "huawei":
                 channelID = "2004";
                 break;
@@ -601,26 +611,17 @@ public class Utils {
             case "oppo":
                 channelID = "2008";
                 break;
-            case "appchina":
-                channelID = "2009";
-                break;
             case "lenovo":
                 channelID = "2010";
-                break;
-            case "meizu":
-                channelID = "2011";
-                break;
-            case "baidusem":
-                channelID = "2012";
-                break;
-            case "UCWeb":
-                channelID = "2013";
                 break;
             case "dev360cn":
                 channelID = "2014";
                 break;
             case "vivo":
                 channelID = "2015";
+                break;
+            case "qqTencenta":
+                channelID = "2016";
                 break;
         }
         return channelID;
