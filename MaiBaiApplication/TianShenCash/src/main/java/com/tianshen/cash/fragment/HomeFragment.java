@@ -904,7 +904,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             xrecyclerview_order_status.setLayoutManager(layoutManager);
             xrecyclerview_order_status.setLoadingMoreEnabled(false);
-            xrecyclerview_order_status.setPullRefreshEnabled(true);
+            xrecyclerview_order_status.setPullRefreshEnabled(false);
             mOrderStatusAdapter = new OrderStatusAdapter(mContext, mUserConfig);
             xrecyclerview_order_status.setAdapter(mOrderStatusAdapter);
             xrecyclerview_order_status.setLoadingListener(new MyLoadingListener());
