@@ -99,22 +99,15 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 设置借款协议样式
      */
     private void initProtocolTextView() {
-
-        String str = "<html><head></head><body>哈哈哈 超链接是<a href=\"http://www.baidu.com\" " +
-                "class=\"referer\">@天天</a>我赞你了哦</body></html>";
+        String str = "我清楚以上期限、费用仅供参考，并同意接受最终信用评估后的期限、费用等结果,确认表示同意<font color='#fe9300'>《天神贷借款协议》</font>。";
         tv_confirm_base_protocol.setText(Html.fromHtml(str));
-
-        //创建Spannablestring
-        SpannableString spannableString = new SpannableString(str);
-        //对文本的中间部分设置点击事件
-        spannableString.setSpan(new ClickableSpan() {
+        tv_confirm_base_protocol.setTextSize(11);
+        tv_confirm_base_protocol.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View widget) {
-                Toast.makeText(getApplicationContext(), "点击时候，成功!", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
                 gotoWebActivity();
             }
-        }, 2, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+        });
     }
 
     @Override

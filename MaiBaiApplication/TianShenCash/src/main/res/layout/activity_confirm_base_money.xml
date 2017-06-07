@@ -211,9 +211,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="我清楚以上期限、费用仅供参考，并同意接受最终信用评估后的期限、费用等结果,确认表示同意《天神贷借款协议》。"
-            android:textColor="@color/global_txt_black4"
-            android:textSize="10sp" />
+            android:textColor="@color/global_txt_black4" />
 
     </LinearLayout>
 
