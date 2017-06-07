@@ -33,6 +33,7 @@ import com.tencent.tinker.lib.tinker.Tinker;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.AuthExtroContactsActivity;
+import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
@@ -429,7 +430,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 } else { //没有获得权限
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
@@ -467,7 +468,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if (value.size() == 0) {
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }

@@ -378,6 +378,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.ConfirmBaseMoneyActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.SuperMarkerActivity"
             android:screenOrientation="portrait" />
 
