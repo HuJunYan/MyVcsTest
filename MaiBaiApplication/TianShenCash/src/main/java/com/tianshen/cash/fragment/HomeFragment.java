@@ -663,6 +663,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String status = mUserConfig.getData().getStatus();
 
         tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
+        tv_home_confirm_money.setVisibility(View.GONE);
 
         switch (status) {
             case "0"://0:新用户，没有提交过订单；
@@ -678,13 +679,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "1"://1:订单待审核；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 if ("1".equals(is_payway)) { //如果是掌众需要弹出dialog
                     showVerifyCodeDialog();
                 }
@@ -700,17 +697,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "6"://6放款中
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "7"://7 已还款 (废弃)
 //                showConsumeStatusUI();
@@ -718,12 +710,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "8": //8已经提交还款（还款金额还没到账
                 showConsumeStatusUI();
-                tv_home_confirm_money.setText("刷新");
-                tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
             case "9": //9决策失败
                 showConsumeStatusUI();
-                tv_home_confirm_money.setVisibility(View.GONE);
                 break;
             case "12": //12还款失败
                 showConsumeStatusUI();
