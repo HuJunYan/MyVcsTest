@@ -643,5 +643,12 @@ public class NetConstantValue {
         return COMMONURI + "Order/ZhangZhongConfirmReturnMoney";
     }
 
+    /**
+     * 预下单订单信息
+     */
+    public static String getBaseLoanInfoUrl() {
+        return COMMONURI + "Order/getBaseLoanInfo";
+    }
+
 
 }

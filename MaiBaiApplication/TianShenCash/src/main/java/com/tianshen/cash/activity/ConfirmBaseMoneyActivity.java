@@ -24,6 +24,7 @@ import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.net.api.GetBaseLoanInfo;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -92,7 +93,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initProtocolTextView();
-//        initBaseLoanInfoData();
+        initBaseLoanInfoData();
     }
 
     /**
@@ -178,8 +179,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             jsonObject.put("address", address);
 
 
-            final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
-            getOrderConfirm.getOrderConfirm(jsonObject, null, true, new BaseNetCallBack<OrderConfirmBean>() {
+            final GetBaseLoanInfo getBaseLoanInfo = new GetBaseLoanInfo(mContext);
+            getBaseLoanInfo.baseLoanInfo(jsonObject, null, true, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
                 public void onSuccess(OrderConfirmBean bean) {
                     mOrderConfirmBean = bean;

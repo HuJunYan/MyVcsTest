@@ -26,7 +26,7 @@ public class GetBaseLoanInfo extends NetBase {
     public GetBaseLoanInfo(Context context) {
         super(context);
         mContext = context;
-        mUrl = NetConstantValue.getOrderConfirmUrl();
+        mUrl = NetConstantValue.getBaseLoanInfoUrl();
     }
 
     public void baseLoanInfo(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<OrderConfirmBean> callBack) {
