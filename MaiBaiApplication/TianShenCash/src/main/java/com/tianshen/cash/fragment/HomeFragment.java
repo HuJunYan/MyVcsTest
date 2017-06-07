@@ -31,6 +31,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
+import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
@@ -416,7 +417,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 } else { //没有获得权限
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+                        gotoConfirmBaseMoneyActivity();
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
@@ -454,7 +455,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 if (value.size() == 0) {
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+                        gotoConfirmBaseMoneyActivity();
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
@@ -490,14 +491,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mSaveContactsAction.saveContacts(json, tvHomeApply, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                    gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+                    gotoConfirmBaseMoneyActivity();
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+                        gotoConfirmBaseMoneyActivity();
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
@@ -683,7 +684,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "2"://2:审核通过；
                 showConsumeStatusUI();//显示用户订单轨迹的UI
                 if ("1".equals(is_payway)) { //如果是掌众需要弹出dialog
-                    showVerifyCodeDialog();
+                    String zzOrderMark = mUserConfig.getData().getZzOrderMark();
+                    if ("0".equals(zzOrderMark)) {
+                        tv_home_confirm_money.setText("提现");
+                        tv_home_confirm_money.setVisibility(View.VISIBLE);
+                    } else if ("1".equals(zzOrderMark)) {
+                        showVerifyCodeDialog();
+                    }
                 }
                 break;
             case "3"://3:放款成功（钱已经到银行卡）；
@@ -745,23 +752,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case "0": //还款成功
                 repayIknow();
                 break;
-            case "1": //等待审核
-                initUserConfig();
-                break;
             case "2": //审核通过(放款中)
-                initUserConfig();
+                String zzOrderMark = mUserConfig.getData().getZzOrderMark();
+                String is_payway = mUserConfig.getData().getIs_payway();
+                if ("1".equals(is_payway) && "0".equals(zzOrderMark)) {
+                    gotoConfirmMoneyActivity();
+                }
                 break;
             case "3": //借款成功
                 showFriendlyTipsDialog();
-                break;
-            case "5": //放款失败
-                initUserConfig();
-                break;
-            case "6": //放款中
-                initUserConfig();
-                break;
-            case "8": //已经提交还款（还款金额还没到账
-                initUserConfig();
                 break;
             case "12": //还款失败
                 repayIknow();
@@ -1495,7 +1494,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 
-
     /**
      * 跳转到手机贷H5页面
      */
@@ -1506,6 +1504,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         gotoActivity(mContext, SJDActivity.class, bundle);
     }
 
+    /**
+     * 跳转到预下单页面
+     */
+    private void gotoConfirmBaseMoneyActivity() {
+        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+    }
+
+    /**
+     * 跳转到掌众下单确认页面
+     */
+    private void gotoConfirmMoneyActivity() {
+        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+    }
 
     /**
      * seekbar滑动监听
@@ -1541,7 +1552,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             if ("1".equals(status)) {
                 initUserConfig();
             } else {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
                         xrecyclerview_order_status.refreshComplete();
                     }

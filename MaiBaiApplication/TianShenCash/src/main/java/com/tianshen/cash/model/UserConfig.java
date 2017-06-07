@@ -58,6 +58,15 @@ public class UserConfig {
         private String flow_supermarket_id;
         private String flow_supermarket_url;
         private String flow_supermarket_num;
+        private String zzOrderMark;
+
+        public String getZzOrderMark() {
+            return zzOrderMark;
+        }
+
+        public void setZzOrderMark(String zzOrderMark) {
+            this.zzOrderMark = zzOrderMark;
+        }
 
         public String getFlow_supermarket_id() {
             return flow_supermarket_id;
