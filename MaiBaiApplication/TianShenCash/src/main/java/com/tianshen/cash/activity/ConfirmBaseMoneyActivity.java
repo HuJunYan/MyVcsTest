@@ -334,8 +334,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             @Override
             public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
-                    EventBus.getDefault().post(new ApplyEvent());
-                    gotoActivity(mContext, MainActivity.class, null);
+                    gotoMainActivity();
                 }
             }
 
