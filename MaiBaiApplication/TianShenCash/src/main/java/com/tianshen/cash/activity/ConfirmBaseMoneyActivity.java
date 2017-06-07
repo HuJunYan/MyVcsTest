@@ -24,6 +24,7 @@ import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
@@ -311,31 +312,25 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 return;
             }
 
-            boolean payWayBySelf = TianShenUserUtil.isPayWayBySelf(mContext);
-            String type;
-            if (payWayBySelf) {
-                type = "0";
-            } else {
-                type = "1";
-            }
             String black_box = new GetTelephoneUtils(mContext).getBlackBox();
-
             jsonObject.put("customer_id", customer_id);
-            jsonObject.put("type", type);
+            jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
+            jsonObject.put("push_id", jpush_id);
+            jsonObject.put("black_box", black_box);
+
             jsonObject.put("location", location);
             jsonObject.put("province", province);
             jsonObject.put("city", city);
             jsonObject.put("country", country);
             jsonObject.put("address", address);
-            jsonObject.put("black_box", black_box);
-            jsonObject.put("push_id", jpush_id);
-            jsonObject.put("repay_id", repay_id);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        final Order order = new Order(mContext);
-        order.order(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
+        final BaseLoanInfoApply baseLoanInfoApply = new BaseLoanInfoApply(mContext);
+        baseLoanInfoApply.baseLoanInfoApply(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
@@ -346,14 +341,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                tvConfirmApply.setEnabled(false);
-                tvConfirmMoneyBack.setEnabled(false);
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        EventBus.getDefault().post(new TimeOutEvent());
-                        gotoActivity(mContext, MainActivity.class, null);
-                    }
-                }, 2500);
             }
         });
 

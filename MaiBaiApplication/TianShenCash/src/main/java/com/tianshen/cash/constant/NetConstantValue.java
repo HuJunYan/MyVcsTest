@@ -503,6 +503,7 @@ public class NetConstantValue {
     public static String getSaveFrontIdCardInfoUrl() {
         return COMMONURI + "Customer/saveFrontIdCardInfo";
     }
+
     /**
      * 保存用户身份证反面信息
      */
@@ -650,5 +651,11 @@ public class NetConstantValue {
         return COMMONURI + "Order/getBaseLoanInfo";
     }
 
+    /**
+     * 预下单入库
+     */
+    public static String getBaseLoanInfoApply() {
+        return COMMONURI + "Order/BaseLoanInfoApply";
+    }
 
 }
