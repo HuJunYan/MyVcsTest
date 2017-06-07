@@ -3,10 +3,15 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -73,8 +78,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     TextView tvConfirmRepay;
     @BindView(R.id.tv_confirm_apply)
     TextView tvConfirmApply;
-    @BindView(R.id.tv_confirm_protocol)
-    TextView tvConfirmProtocol;
+
+    @BindView(R.id.tv_confirm_base_protocol)
+    TextView tv_confirm_base_protocol;
 
     @BindView(R.id.cb_confirm_base_money)
     CheckBox cb_confirm_base_money;
@@ -85,7 +91,30 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initBaseLoanInfoData();
+        initProtocolTextView();
+//        initBaseLoanInfoData();
+    }
+
+    /**
+     * 设置借款协议样式
+     */
+    private void initProtocolTextView() {
+
+        String str = "<html><head></head><body>哈哈哈 超链接是<a href=\"http://www.baidu.com\" " +
+                "class=\"referer\">@天天</a>我赞你了哦</body></html>";
+        tv_confirm_base_protocol.setText(Html.fromHtml(str));
+
+        //创建Spannablestring
+        SpannableString spannableString = new SpannableString(str);
+        //对文本的中间部分设置点击事件
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Toast.makeText(getApplicationContext(), "点击时候，成功!", Toast.LENGTH_LONG).show();
+                gotoWebActivity();
+            }
+        }, 2, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
     }
 
     @Override
@@ -109,7 +138,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
-        tvConfirmProtocol.setOnClickListener(this);
     }
 
     /**
@@ -184,9 +212,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.tv_confirm_apply:
                 onClickApply();
-                break;
-            case R.id.tv_confirm_protocol:
-                gotoWebActivity();
                 break;
         }
     }
