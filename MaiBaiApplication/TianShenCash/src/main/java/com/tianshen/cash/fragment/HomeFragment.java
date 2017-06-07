@@ -210,9 +210,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_max_sb_thumb)
     TextView tv_home_max_sb_thumb;
 
-    @BindView(R.id.cb_home)
-    CheckBox cb_home;
-
     @BindView(R.id.iv_home_market)
     ImageView iv_home_market;
 
@@ -365,12 +362,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void onClickApply() {
 
         if (mUserConfig == null) {
-            return;
-        }
-
-        boolean checked = cb_home.isChecked();
-        if (!checked) {
-            ToastUtil.showToast(mContext, "如需借款，需同意勾选此说明。");
             return;
         }
 

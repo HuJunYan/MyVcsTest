@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -74,6 +75,10 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     TextView tvConfirmApply;
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
+
+    @BindView(R.id.cb_confirm_base_money)
+    CheckBox cb_confirm_base_money;
+
     private OrderConfirmBean mOrderConfirmBean;
 
 
@@ -248,6 +253,14 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 //                "black_box": "指纹黑盒数据，同盾指纹，android和ios必传，h5不传",
 //                "push_id": "推送消息id，android必传，ios和h5不传",
 //                "repay_id":"选择的产品id,如果是掌众写0,注意：该字段是selWithdrawals接口的data.id值"
+
+
+        boolean checked = cb_confirm_base_money.isChecked();
+        if (!checked) {
+            ToastUtil.showToast(mContext, "如需借款，需同意勾选此说明。");
+            return;
+        }
+
         JSONObject jsonObject = new JSONObject();
         try {
 
