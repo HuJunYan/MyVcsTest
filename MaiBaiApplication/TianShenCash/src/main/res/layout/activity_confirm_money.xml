@@ -26,15 +26,203 @@
 
     <View style="@style/split_line_style" />
 
-    <include
-        android:id="@+id/ll_wait_pay"
-        layout="@layout/layout_wait_pay"
-        android:visibility="gone" />
 
-    <include
-        android:id="@+id/ll_normal_pay"
-        layout="@layout/layout_normal_pay"
-        android:visibility="gone" />
+    <View
+        style="@style/split_line_style"
+        android:layout_marginTop="12dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_withdrawal_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="借款金额" />
+
+        <TextView
+            android:id="@+id/tv_confirm_withdrawal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_withdrawal_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_time_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="借款天数" />
+
+        <TextView
+            android:id="@+id/tv_confirm_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_time_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_procedures_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="手续费用" />
+
+        <TextView
+            android:id="@+id/tv_confirm_procedures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_procedures_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <View
+        style="@style/split_line_style"
+        android:layout_marginTop="12dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_transfer_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="到账金额" />
+
+        <TextView
+            android:id="@+id/tv_confirm_transfer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_transfer_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_banck_card_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="到账银行卡" />
+
+        <TextView
+            android:id="@+id/tv_confirm_banck_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_banck_card_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_repay_key"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="到期还款" />
+
+        <TextView
+            android:id="@+id/tv_confirm_repay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_repay_key"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_confirm_apply"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/global_bg_green"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/global_txt_white"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确认表示同意"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_confirm_protocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/confirm_protocol"
+            android:textColor="@color/global_txt_orange"
+            android:textSize="14dp" />
+    </LinearLayout>
 
 </LinearLayout>

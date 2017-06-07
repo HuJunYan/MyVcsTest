@@ -3,11 +3,8 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -17,12 +14,10 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.LocationEvent;
-import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetOrderConfirm;
 import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -39,21 +34,15 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 确认借款页面
  */
 
 public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickListener {
+
 
     @BindView(R.id.tv_confirm_money_back)
     TextView tvConfirmMoneyBack;
@@ -85,79 +74,18 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmApply;
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
-
-    @BindView(R.id.ll_wait_pay)
-    LinearLayout ll_wait_pay;
-
-    @BindView(R.id.ll_normal_pay)
-    LinearLayout ll_normal_pay;
-
-
-    @BindView(R.id.tv_refresh_time)
-    TextView tv_refresh_time;
-
-    @BindView(R.id.tv_refresh_button)
-    TextView tv_refresh_button;
-
-
-    private boolean mIsShowWaitUI;
-
-    private boolean mIsTimeOut;
-
-    private boolean mIsTimeDown; //是否正在倒计时
-
     private OrderConfirmBean mOrderConfirmBean;
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
-
-    private int mRequestsCountMax = 3;//轮询多少次
-    private int mCurrentRequestsCount = 0;//当前循环轮询服务器的次数
-
-    private static final int MSG_ORDER_DATA = 1;
-    private static final int SHOW_ORDER_TIME = 10 * 1000;//轮询时间间隔
-
-    private int mCurrentRefreshTime = 60;
-    private static final int MSG_REFRESH_TIME = 2;
-    private static final int SHOW_REFRESH_TIME = 1 * 1000;
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message message) {
-            switch (message.what) {
-                case MSG_ORDER_DATA://轮询服务器
-                    mCurrentRequestsCount++;
-                    if (mCurrentRequestsCount < mRequestsCountMax) {
-                        initOrderConfirmData(false);
-                    } else {
-                        mHandler.removeMessages(MSG_ORDER_DATA);
-                        interval();
-                    }
-                    break;
-                case MSG_REFRESH_TIME: //刷新倒计时
-                    if (mCurrentRefreshTime == 1) { //到计时结束显示刷新按钮
-                        mHandler.removeMessages(MSG_REFRESH_TIME);
-                        tv_refresh_time.setVisibility(View.GONE);
-                        showRefreshButton();
-                    } else {
-                        mCurrentRefreshTime--;
-                        refreshTime();
-                        mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
-                    }
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initOrderConfirmData(true);
+        initOrderConfirmData();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-        disposables.clear(); // clearing it : do not emit after destroy
         LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
         mLocationUtil.setIsCallBack(false);
     }
@@ -177,13 +105,12 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
-        tv_refresh_button.setOnClickListener(this);
     }
 
     /**
      * 得到确认借款数据
      */
-    private void initOrderConfirmData(boolean isShowDialog) {
+    private void initOrderConfirmData() {
 
         try {
             JSONObject jsonObject = new JSONObject();
@@ -226,7 +153,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
 
             final GetOrderConfirm getOrderConfirm = new GetOrderConfirm(mContext);
-            getOrderConfirm.getOrderConfirm(jsonObject, tv_refresh_button, isShowDialog, new BaseNetCallBack<OrderConfirmBean>() {
+            getOrderConfirm.getOrderConfirm(jsonObject, null, true, new BaseNetCallBack<OrderConfirmBean>() {
                 @Override
                 public void onSuccess(OrderConfirmBean bean) {
                     mOrderConfirmBean = bean;
@@ -248,18 +175,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm_money_back:
-                if (!mIsShowWaitUI) {
-                    backActivity();
-                }
+                backActivity();
                 break;
             case R.id.tv_confirm_apply:
                 onClickApply();
                 break;
             case R.id.tv_confirm_protocol:
                 gotoWebActivity();
-                break;
-            case R.id.tv_refresh_button:
-                initOrderConfirmData(true);
                 break;
         }
     }
@@ -271,79 +193,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         if (mOrderConfirmBean == null) {
             return;
         }
-
-        String type = mOrderConfirmBean.getData().getType();
-        String consume_amount = mOrderConfirmBean.getData().getConsume_amount();
-        String isJump = mOrderConfirmBean.getData().getIs_jump();
-
-        switch (type) {
-            case "0": //自营
-                showNormalUI();
-                break;
-            case "1": //掌众
-                if ("1".equals(isJump)) { //"是否授信，0停留在本页，1跳转到首页。（掌众需要字段）"
-                    gotoMainActivity();
-                    return;
-                }
-                if (TextUtils.isEmpty(consume_amount)) {
-                    showPayWaitUI();
-                } else {
-                    showNormalUI();
-                }
-                break;
-            case "2": //手机贷
-                String sjdUrl = mOrderConfirmBean.getData().getSjd_url();
-                gotoSJDActivity(sjdUrl);
-                break;
-        }
-
-    }
-
-    /**
-     * 显示等待确认Ui
-     */
-    private void showPayWaitUI() {
-        mIsShowWaitUI = true;
-        tvConfirmMoneyBack.setVisibility(View.GONE);
-        ll_wait_pay.setVisibility(View.VISIBLE);
-        ll_normal_pay.setVisibility(View.GONE);
-
-        if (tv_refresh_button.getVisibility() == View.GONE) {//刷新按钮没有显示
-            //开始轮询服务器
-            mHandler.sendEmptyMessageDelayed(MSG_ORDER_DATA, SHOW_ORDER_TIME);
-            if (!mIsTimeDown) { //如果当前没有倒计时就开始倒计时刷新
-                mIsTimeDown = true;
-                mHandler.sendEmptyMessageDelayed(MSG_REFRESH_TIME, SHOW_REFRESH_TIME);
-            }
-        } else {
-            mHandler.removeMessages(MSG_REFRESH_TIME);
-            mHandler.removeMessages(MSG_ORDER_DATA);
-        }
-
-    }
-
-    /**
-     * 显示刷新按钮
-     */
-    private void showRefreshButton() {
-        tv_refresh_button.setVisibility(View.VISIBLE);
-    }
-
-
-    /**
-     * 刷新倒计时
-     */
-    private void refreshTime() {
-        tv_refresh_time.setText("(" + mCurrentRefreshTime + "S)");
+        showNormalUI();
     }
 
     /**
      * 显示正常的UI
      */
     private void showNormalUI() {
-        mIsShowWaitUI = false;
-        ll_wait_pay.setVisibility(View.GONE);
-        ll_normal_pay.setVisibility(View.VISIBLE);
         tvConfirmMoneyBack.setVisibility(View.VISIBLE);
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
@@ -454,12 +310,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     EventBus.getDefault().post(new ApplyEvent());
                     gotoActivity(mContext, MainActivity.class, null);
                 }
-                mIsTimeOut = false;
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                mIsTimeOut = true;
                 tvConfirmApply.setEnabled(false);
                 tvConfirmMoneyBack.setEnabled(false);
                 new Handler().postDelayed(new Runnable() {
@@ -530,49 +384,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 
-
-    private void interval() {
-        disposables.add(getObservable()
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(getObserver()));
-    }
-
-    private Observable<? extends Long> getObservable() {
-        return Observable.interval(0, 5, TimeUnit.MINUTES);
-    }
-
-    private DisposableObserver<Long> getObserver() {
-        return new DisposableObserver<Long>() {
-
-            @Override
-            public void onNext(Long value) {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onComplete() {
-                initOrderConfirmData(false);
-            }
-        };
-    }
-
-
-    /**
-     * 跳转到手机贷H5页面
-     */
-    private void gotoSJDActivity(String url) {
-        Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.WEB_URL_KEY, url);
-        bundle.putBoolean(GlobalParams.SJD_BACK_DELAY_KEY, true);
-        gotoActivity(mContext, SJDActivity.class, bundle);
-    }
-
     /**
      * 回到首页
      */
@@ -588,22 +399,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Subscribe
     public void onAuthCenterBack(LocationEvent event) {
         LogUtil.d("abc", "收到了定位成功的消息");
-        onClickApply();
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mIsTimeOut || mIsShowWaitUI) {
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Subscribe
-    public void onPayDataOK(PayDataOKEvent event) {
         onClickApply();
     }
 
