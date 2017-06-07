@@ -204,14 +204,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             case 2://跳转到紧急联系人
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
-            case 3://跳转到收款银行卡
-                if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
-                    return;
-                }
-                gotoActivity(mContext, AuthBankCardActivity.class, null);
-                break;
-            case 4://跳转到运营商认证
+            case 3:// 跳转到运营商认证
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
@@ -226,13 +219,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 }
                 gotoChinaMobileActivity();
                 break;
-//            case 5:
-//                if ("0".equals(identityStatus)) {
-//                    ToastUtil.showToast(mContext, "请先身份认证!");
-//                    return;
-//                }
-//                ToastUtil.showToast(mContext, "点击了芝麻信用!");
-//                break;
+            case 4://跳转到收款银行卡
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                gotoActivity(mContext, AuthBankCardActivity.class, null);
+                break;
         }
     }
 
@@ -357,14 +350,17 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean2.setStatus(contacts_pass);
 
         AuthCenterItemBean authCenterItemBean3 = new AuthCenterItemBean();
-        authCenterItemBean3.setName("收款银行卡");
-        authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
-        authCenterItemBean3.setStatus(bankcard_pass);
+        authCenterItemBean3.setName("手机运营商");
+        authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_phone_item);
+        authCenterItemBean3.setStatus(china_mobile);
+
 
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
-        authCenterItemBean4.setName("手机运营商");
-        authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_phone_item);
-        authCenterItemBean4.setStatus(china_mobile);
+        authCenterItemBean4.setName("收款银行卡");
+        authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
+        authCenterItemBean4.setStatus(bankcard_pass);
+
+
 
 //        AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
 //        authCenterItemBean5.setName("芝麻信用");
