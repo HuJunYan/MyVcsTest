@@ -85,7 +85,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initOrderConfirmData();
+        initBaseLoanInfoData();
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     /**
      * 得到确认借款数据
      */
-    private void initOrderConfirmData() {
+    private void initBaseLoanInfoData() {
 
         try {
             JSONObject jsonObject = new JSONObject();
