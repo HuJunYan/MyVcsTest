@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,12 +28,9 @@ import android.widget.ViewSwitcher;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tencent.tinker.lib.tinker.Tinker;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
-import com.tianshen.cash.activity.AuthExtroContactsActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
-import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
@@ -59,7 +55,6 @@ import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
@@ -495,14 +490,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mSaveContactsAction.saveContacts(json, tvHomeApply, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                    gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
-                        gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+                        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
                     } else if ("1".equals(is_need_contacts)) {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
