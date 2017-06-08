@@ -245,6 +245,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                    //Todo
 //                    backActivity();
 
+                    //保存用户信息
+                    TianShenUserUtil.saveUserToken(mContext, paramT.getData().getToken());
+                    TianShenUserUtil.saveUserId(mContext, paramT.getData().getCustomer_id());
+                    TianShenUserUtil.saveUserPhoneNum(mContext, mobile);
+                    TianShenUserUtil.saveUserJPushId(mContext, finalJpushId);
+
+
                     Set<String> tags = new HashSet<>();
                     BDLocation bdLocation = LocationUtil.getInstance(mContext).getLocation();
                     if (bdLocation != null) {
@@ -253,12 +260,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         tags.add(bdLocation.getProvince());
                         JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags);
                     }
-
-                    //保存用户信息
-                    TianShenUserUtil.saveUserToken(mContext, paramT.getData().getToken());
-                    TianShenUserUtil.saveUserId(mContext, paramT.getData().getCustomer_id());
-                    TianShenUserUtil.saveUserPhoneNum(mContext, mobile);
-                    TianShenUserUtil.saveUserJPushId(mContext, finalJpushId);
 
                     gotoActivity(mContext, MainActivity.class, null);
                     EventBus.getDefault().post(new LoginSuccessEvent());
