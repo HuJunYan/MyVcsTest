@@ -28,6 +28,9 @@ public class JPushReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         mContext = context;
 
+        LogUtil.d("abc", "JPushReceiver-onReceive--->");
+
+
         if (intent == null) {
             return;
         }
