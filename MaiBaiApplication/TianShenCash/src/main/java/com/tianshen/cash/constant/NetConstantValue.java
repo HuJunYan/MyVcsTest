@@ -13,7 +13,10 @@ public class NetConstantValue {
 //    public static String HOST = "http://tsdapi.tinybun.top/";
 
     //测试
-    public static String HOST = "http://115.182.49.78/";
+//    public static String HOST = "http://115.182.49.78/";
+
+    //预发布
+    public static String HOST = "http://tst.tianshenjr.com/";
 
     //测试
 //    public static String HOST = "http://dev.tianshenjr.com/";
@@ -657,5 +660,13 @@ public class NetConstantValue {
     public static String getBaseLoanInfoApply() {
         return COMMONURI + "Order/baseLoanInfoApply";
     }
+
+    /**
+     * 手动刷新接口
+     */
+    public static String getManualRefreshURL() {
+        return COMMONURI + "UserCenter/manualRefresh";
+    }
+
 
 }

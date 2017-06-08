@@ -52,6 +52,7 @@ import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.ContactsBean;
 import com.tianshen.cash.model.IknowBean;
+import com.tianshen.cash.model.ManualRefreshBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.SelWithdrawalsBean;
@@ -63,6 +64,7 @@ import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
+import com.tianshen.cash.net.api.ManualRefresh;
 import com.tianshen.cash.net.api.SJDLoanBack;
 import com.tianshen.cash.net.api.SaveContacts;
 import com.tianshen.cash.net.api.SelWithdrawals;
@@ -1450,6 +1452,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 下拉刷新（极端情况下调用）
+     */
+    private void initManualRefresh() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put("customer_id", userId);
+            ManualRefresh manualRefresh = new ManualRefresh(mContext);
+            manualRefresh.manualRefresh(jsonObject, null, new BaseNetCallBack<ManualRefreshBean>() {
+                @Override
+                public void onSuccess(ManualRefreshBean paramT) {
+                    if (paramT == null) {
+                        return;
+                    }
+
+                    String status = paramT.getData().getStatus();
+                    if (!"1".equals(status)) {
+                        initUserConfig();
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 点击了流量超市
      */
     private void onClickMarket() {
@@ -1554,14 +1587,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onRefresh() {
             String status = mUserConfig.getData().getStatus();
-            if ("1".equals(status)) {
-                initUserConfig();
+            String isPayway = mUserConfig.getData().getIs_payway();
+            if ("1".equals(status) && "0".equals(isPayway)) {
+                initManualRefresh();
             } else {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        xrecyclerview_order_status.refreshComplete();
-                    }
-                }, 500);
+                initUserConfig();
             }
         }
 
