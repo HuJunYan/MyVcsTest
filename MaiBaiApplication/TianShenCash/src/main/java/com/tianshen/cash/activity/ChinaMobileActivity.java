@@ -19,7 +19,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import butterknife.BindView;
 
 /**
- * 运营商认证页面（已经废弃掉了）
+ * 运营商认证页面
  */
 
 public class ChinaMobileActivity extends BaseActivity implements View.OnClickListener {
@@ -28,6 +28,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     TextView tvChinaMobileBack;
     @BindView(R.id.wv_china_mobile)
     WebView wvChinaMobile;
+
+    @BindView(R.id.tv_china_mobile_exit)
+    TextView tv_china_mobile_exit;
 
     private String mUrl;
 
@@ -50,6 +53,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void setListensers() {
         tvChinaMobileBack.setOnClickListener(this);
+        tv_china_mobile_exit.setOnClickListener(this);
     }
 
     private void initWebView() {
@@ -110,6 +114,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     backActivity();
                 }
+                break;
+            case R.id.tv_china_mobile_exit:
+                backActivity();
                 break;
         }
     }

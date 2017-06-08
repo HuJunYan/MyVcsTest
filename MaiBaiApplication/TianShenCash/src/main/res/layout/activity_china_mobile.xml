@@ -21,6 +21,17 @@
             android:layout_height="wrap_content"
             android:text="手机认证" />
 
+        <TextView
+            android:id="@+id/tv_china_mobile_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_china_mobile_back"
+            android:gravity="center"
+            android:text="关闭"
+            android:textColor="@color/global_txt_black4"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
