@@ -57,7 +57,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/tv_identity_auth_name"
                 android:background="@null"
-                android:hint="请输入您身份证上的姓名"
+                android:hint="上传身份证自动识别姓名"
                 android:textSize="14dp" />
 
         </RelativeLayout>
@@ -83,7 +83,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/tv_identity_auth_num"
                 android:background="@null"
-                android:hint="请输入您的身份证号"
+                android:hint="上传身份证自动识别身份证号"
                 android:textSize="14dp" />
 
         </RelativeLayout>
