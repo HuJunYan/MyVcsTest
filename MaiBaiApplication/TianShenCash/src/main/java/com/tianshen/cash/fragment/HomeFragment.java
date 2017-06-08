@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -874,14 +875,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private void initXRecyclerview() {
         if (mOrderStatusAdapter == null) {
+            mOrderStatusAdapter = new OrderStatusAdapter(mContext, mUserConfig);
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             xrecyclerview_order_status.setLayoutManager(layoutManager);
             xrecyclerview_order_status.setLoadingMoreEnabled(false);
             xrecyclerview_order_status.setPullRefreshEnabled(true);
-            mOrderStatusAdapter = new OrderStatusAdapter(mContext, mUserConfig);
-            xrecyclerview_order_status.setAdapter(mOrderStatusAdapter);
             xrecyclerview_order_status.setLoadingListener(new MyLoadingListener());
+            ArrowRefreshHeader arrowRefreshHeader = new ArrowRefreshHeader(mContext);
+            arrowRefreshHeader.mMeasuredHeight = 50;
+            arrowRefreshHeader.setVisibleHeight(50);
+            xrecyclerview_order_status.setRefreshHeader(arrowRefreshHeader);
+            xrecyclerview_order_status.setAdapter(mOrderStatusAdapter);
         } else {
             mOrderStatusAdapter.setData(mUserConfig);
             mOrderStatusAdapter.notifyDataSetChanged();
