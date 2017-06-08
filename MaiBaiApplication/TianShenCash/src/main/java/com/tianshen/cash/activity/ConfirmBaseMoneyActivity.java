@@ -84,32 +84,12 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     @BindView(R.id.tv_confirm_base_protocol)
     TextView tv_confirm_base_protocol;
 
-    @BindView(R.id.cb_confirm_base_money)
-    CheckBox cb_confirm_base_money;
-
     private OrderConfirmBean mOrderConfirmBean;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initProtocolTextView();
         initBaseLoanInfoData();
-    }
-
-    /**
-     * 设置借款协议样式
-     */
-    private void initProtocolTextView() {
-        String str = "我清楚以上期限、费用仅供参考，并同意接受最终信用评估后的期限、费用等结果,确认表示同意<font color='#fe9300'>《天神贷借款协议》</font>。";
-        tv_confirm_base_protocol.setText(Html.fromHtml(str));
-        tv_confirm_base_protocol.setTextSize(11);
-        tv_confirm_base_protocol.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gotoWebActivity();
-            }
-        });
     }
 
     @Override
@@ -133,6 +113,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
+        tv_confirm_base_protocol.setOnClickListener(this);
     }
 
     /**
@@ -208,6 +189,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             case R.id.tv_confirm_apply:
                 onClickApply();
                 break;
+            case R.id.tv_confirm_base_protocol:
+                gotoWebActivity();
+                break;
         }
     }
 
@@ -261,23 +245,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 点击了确认
      */
     private void onClickApply() {
-//                 "customer_id": "（int）用户ID",
-//                "type":"0为自己的产品，1为掌众的产品"
-//                "consume_amount": "(int)提现金额,单位分",
-//
-//                "location": "用户坐标，格式：(string)当前用户所在的坐标值 如：123.4212128,45.098324 经度在前纬度在后英文逗号隔开",
-//                "province": "用户消费地所在的省",
-//                "city": "用户消费地所在的市没有传空字符",
-//                "country": "用户消费地所在的区/县",
-//                "address": "用户消费地所在的详细地址",
-//                "black_box": "指纹黑盒数据，同盾指纹，android和ios必传，h5不传",
-//                "push_id": "推送消息id，android必传，ios和h5不传",
-//                "repay_id":"选择的产品id,如果是掌众写0,注意：该字段是selWithdrawals接口的data.id值"
 
-
-        boolean checked = cb_confirm_base_money.isChecked();
-        if (!checked) {
-            ToastUtil.showToast(mContext, "如需借款，需同意勾选此说明。");
+        if (mOrderConfirmBean == null){
             return;
         }
 
@@ -349,6 +318,11 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 跳转到WebActivity
      */
     private void gotoWebActivity() {
+
+        if (mOrderConfirmBean == null){
+            return;
+        }
+
         String userPayProtocolURL = NetConstantValue.getUserPayProtocolURL();
 
         String second_party = mOrderConfirmBean.getData().getSecond_party(); //乙方

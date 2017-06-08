@@ -647,7 +647,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         //刷新天神卡
         refreshCardUI();
 
-
         //存储用户相关
         String is_payway = mUserConfig.getData().getIs_payway();
         String is_show_service_telephone = mUserConfig.getData().getIs_show_service_telephone();
