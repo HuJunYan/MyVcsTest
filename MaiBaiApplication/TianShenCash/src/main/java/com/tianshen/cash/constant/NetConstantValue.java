@@ -655,7 +655,7 @@ public class NetConstantValue {
      * 预下单入库
      */
     public static String getBaseLoanInfoApply() {
-        return COMMONURI + "Order/BaseLoanInfoApply";
+        return COMMONURI + "Order/baseLoanInfoApply";
     }
 
 }
