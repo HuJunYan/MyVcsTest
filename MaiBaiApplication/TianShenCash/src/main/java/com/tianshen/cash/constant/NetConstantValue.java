@@ -10,10 +10,10 @@ public class NetConstantValue {
 //    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //预发布
-    public static String HOST = "http://tst.tianshenjr.com/";
+//    public static String HOST = "http://tst.tianshenjr.com/";
 
     //测试
-//    public static String HOST = "http://115.182.49.78/";
+    public static String HOST = "http://115.182.49.78/";
 
     //测试
 //    public static String HOST = "http://tsdapi.tinybun.top/";
