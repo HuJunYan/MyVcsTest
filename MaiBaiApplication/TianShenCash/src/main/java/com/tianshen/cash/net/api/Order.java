@@ -53,6 +53,7 @@ public class Order extends NetBase {
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
         callBack.onFailure(mUrl, errorType, errorCode);
+        MobclickAgent.reportError(mContext, result);
     }
 
 }

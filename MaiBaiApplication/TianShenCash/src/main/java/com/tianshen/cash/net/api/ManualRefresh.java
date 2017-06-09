@@ -12,6 +12,7 @@ import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.NetBase;
 import com.tianshen.cash.utils.SignUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class ManualRefresh extends NetBase {
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<ManualRefreshBean> callBack) {
         callBack.onFailure(mUrl, errorType, errorCode);
+        MobclickAgent.reportError(mContext, result);
     }
 
 }

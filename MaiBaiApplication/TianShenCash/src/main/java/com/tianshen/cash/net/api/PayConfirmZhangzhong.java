@@ -10,6 +10,7 @@ import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.NetBase;
 import com.tianshen.cash.utils.SignUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ public class PayConfirmZhangzhong extends NetBase {
 
     private String mUrl;
     private JSONObject mJSONObject;
+    private Context context;
 
     public PayConfirmZhangzhong(Context context) {
         super(context);
@@ -48,6 +50,7 @@ public class PayConfirmZhangzhong extends NetBase {
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
         callBack.onFailure(result, errorType, errorCode);
+        MobclickAgent.reportError(context, result);
     }
 
 

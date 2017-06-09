@@ -53,6 +53,7 @@ public class GetVerifySmsForConfirmLoan extends NetBase {
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
         callBack.onFailure(result, errorType, errorCode);
+        MobclickAgent.reportError(mContext, result);
     }
 
 
