@@ -1478,8 +1478,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 String status = paramT.getData().getStatus();
                 if (!"1".equals(status)) {
                     initUserConfig();
+                } else {
+                    if (xrecyclerview_order_status != null) {
+                        xrecyclerview_order_status.refreshComplete();
+                    }
                 }
             }
+
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 if (xrecyclerview_order_status != null) {
