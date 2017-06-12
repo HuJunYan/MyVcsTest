@@ -211,7 +211,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 }
                 String chinaStatus = null;
                 if (mAuthCenterItemBeans != null) {
-                    chinaStatus = mAuthCenterItemBeans.get(4).getStatus();
+                    chinaStatus = mAuthCenterItemBeans.get(3).getStatus();
                 }
                 if ("1".equals(chinaStatus)) {
                     ToastUtil.showToast(mContext, "之前已经认证!");
