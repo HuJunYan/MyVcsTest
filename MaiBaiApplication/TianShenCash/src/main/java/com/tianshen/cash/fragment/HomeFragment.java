@@ -1588,7 +1588,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         public void onRefresh() {
             String status = mUserConfig.getData().getStatus();
             String isPayway = mUserConfig.getData().getIs_payway();
-            if ("1".equals(status) && "0".equals(isPayway)) {
+            if ("1".equals(status) && "99".equals(isPayway)) {
                 initManualRefresh();
             } else {
                 initUserConfig();
