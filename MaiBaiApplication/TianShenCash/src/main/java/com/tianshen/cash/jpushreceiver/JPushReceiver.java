@@ -73,6 +73,9 @@ public class JPushReceiver extends BroadcastReceiver {
                     case "30"://确认借款数据准备完毕的推送
                         EventBus.getDefault().post(new PayDataOKEvent());
                         break;
+                    case "99"://预下单有变化
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
                 }
             } catch (Exception e) {
                 MobclickAgent.reportError(mContext, LogUtil.getException(e));
