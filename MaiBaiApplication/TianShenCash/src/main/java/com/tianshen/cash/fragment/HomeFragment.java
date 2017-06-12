@@ -631,6 +631,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                    if (xrecyclerview_order_status != null) {
+                        xrecyclerview_order_status.refreshComplete();
+                    }
                 }
             });
         } catch (JSONException e) {
@@ -1455,31 +1458,35 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 下拉刷新（极端情况下调用）
      */
     private void initManualRefresh() {
+        JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put("customer_id", userId);
-            ManualRefresh manualRefresh = new ManualRefresh(mContext);
-            manualRefresh.manualRefresh(jsonObject, null, new BaseNetCallBack<ManualRefreshBean>() {
-                @Override
-                public void onSuccess(ManualRefreshBean paramT) {
-                    if (paramT == null) {
-                        return;
-                    }
-
-                    String status = paramT.getData().getStatus();
-                    if (!"1".equals(status)) {
-                        initUserConfig();
-                    }
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-                }
-            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        ManualRefresh manualRefresh = new ManualRefresh(mContext);
+        manualRefresh.manualRefresh(jsonObject, null, new BaseNetCallBack<ManualRefreshBean>() {
+            @Override
+            public void onSuccess(ManualRefreshBean paramT) {
+                if (paramT == null) {
+                    if (xrecyclerview_order_status != null) {
+                        xrecyclerview_order_status.refreshComplete();
+                    }
+                    return;
+                }
+                String status = paramT.getData().getStatus();
+                if (!"1".equals(status)) {
+                    initUserConfig();
+                }
+            }
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                if (xrecyclerview_order_status != null) {
+                    xrecyclerview_order_status.refreshComplete();
+                }
+            }
+        });
     }
 
     /**
