@@ -8,6 +8,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -68,6 +69,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         // 便页面支持缩放
         webSettings.setJavaScriptEnabled(true); //支持js
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setSupportZoom(true); //支持缩放
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
@@ -95,16 +97,16 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         @JavascriptInterface
         public void authCallBack(boolean result) {
             if (result) {
-                ToastUtil.showToast(mContext, "认证成功!");
+                ToastUtil.showToast(mContext, "认证成功!", Toast.LENGTH_LONG);
             } else {
-                ToastUtil.showToast(mContext, "认证失败!");
+                ToastUtil.showToast(mContext, "认证失败!", Toast.LENGTH_LONG);
             }
             backActivity();
         }
 
         @JavascriptInterface
-        public void authCallBack(String result) {
-            ToastUtil.showToast(mContext, result);
+        public void authCallBackStr(String result) {
+            ToastUtil.showToast(mContext, result, Toast.LENGTH_LONG);
             backActivity();
         }
 
