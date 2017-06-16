@@ -102,6 +102,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
             backActivity();
         }
 
+        @JavascriptInterface
+        public void authCallBack(String result) {
+            ToastUtil.showToast(mContext, result);
+            backActivity();
+        }
+
     }
 
     @Override
