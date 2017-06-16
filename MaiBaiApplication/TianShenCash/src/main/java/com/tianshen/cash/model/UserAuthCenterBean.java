@@ -56,6 +56,24 @@ public class UserAuthCenterBean {
         private String userdetail_pass;
         private String china_mobile_url;
         private String zhima_pass;
+        private String wecash_pass;
+        private String wecash_pass_url;
+
+        public String getWecash_pass() {
+            return wecash_pass;
+        }
+
+        public void setWecash_pass(String wecash_pass) {
+            this.wecash_pass = wecash_pass;
+        }
+
+        public String getWecash_pass_url() {
+            return wecash_pass_url;
+        }
+
+        public void setWecash_pass_url(String wecash_pass_url) {
+            this.wecash_pass_url = wecash_pass_url;
+        }
 
         public String getZhima_pass() {
             return zhima_pass;

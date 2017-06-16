@@ -41,7 +41,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         AuthCenterItemBean authCenterItemBean = mAuthCenterItemBeans.get(position);
-        String name = authCenterItemBean.getName();
+        final String name = authCenterItemBean.getName();
         int drawable_id = authCenterItemBean.getDrawable_id();
         String status = authCenterItemBean.getStatus();//0没有认证，1已经认证
 
@@ -76,7 +76,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
             public void onClick(View v) {
                 Message msg = Message.obtain();
                 msg.what = AuthCenterActivity.MSG_CLICK_ITEM;
-                msg.obj = position;
+                msg.obj = name;
                 mHandler.sendMessage(msg);
             }
         });

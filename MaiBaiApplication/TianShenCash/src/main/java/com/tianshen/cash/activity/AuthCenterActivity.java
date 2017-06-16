@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -68,8 +69,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         public void handleMessage(Message message) {
             switch (message.what) {
                 case MSG_CLICK_ITEM:
-                    int position = (int) message.obj;
-                    onClickItem(position);
+                    String itemName = (String) message.obj;
+                    onClickItem(itemName);
                     break;
             }
         }
@@ -186,15 +187,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     /**
      * 跳转到运营商认证
      */
-    private void gotoChinaMobileActivity() {
-        String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
+    private void gotoChinaMobileActivity(String url) {
         Bundle bundle = new Bundle();
-//        bundle.putString(GlobalParams.WEB_URL_KEY, china_mobile_url);
-//        gotoActivity(mContext, WebActivity.class, bundle);
-
-        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, china_mobile_url);
+        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, url);
         gotoActivity(mContext, ChinaMobileActivity.class, bundle);
-
     }
 
     /**
@@ -281,6 +277,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String china_mobile = data.getChina_mobile();
         String userdetail_pass = data.getUserdetail_pass();
         String zhima_pass = data.getZhima_pass();
+        String wecash_pass = data.getWecash_pass();
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
@@ -312,7 +309,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
         authCenterItemBean4.setName("个人信息及联系人认证");
         authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_shan_yin_item);
-        authCenterItemBean4.setStatus(contacts_pass);
+        authCenterItemBean4.setStatus(wecash_pass);
 
         AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
         authCenterItemBean5.setName("收款银行卡");
@@ -332,29 +329,31 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBeans.add(authCenterItemBean1);
         authCenterItemBeans.add(authCenterItemBean2);
         authCenterItemBeans.add(authCenterItemBean3);
-        authCenterItemBeans.add(authCenterItemBean4);
+        String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
+        if (!TextUtils.isEmpty(wecash_pass_url)) {
+            authCenterItemBeans.add(authCenterItemBean4);
+        }
         authCenterItemBeans.add(authCenterItemBean5);
         authCenterItemBeans.add(authCenterItemBean6);
         authCenterItemBeans.add(authCenterItemBean7);
-
         return authCenterItemBeans;
     }
 
     /**
      * 点击了列表
      */
-    private void onClickItem(int position) {
+    private void onClickItem(String itemName) {
 
         String identityStatus = null;
         if (mAuthCenterItemBeans != null) {
             identityStatus = mAuthCenterItemBeans.get(0).getStatus();
         }
 
-        switch (position) {
-            case 0://跳转到身份认证
+        switch (itemName) {
+            case "身份认证":
                 gotoActivity(mContext, AuthIdentityActivity.class, null);
                 break;
-            case 1://跳转手机运营商
+            case "手机运营商":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
@@ -367,36 +366,40 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showToast(mContext, "之前已经认证!");
                     return;
                 }
-                gotoChinaMobileActivity();
+                String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
+                gotoChinaMobileActivity(china_mobile_url);
                 break;
-            case 2://跳转到个人信息
+            case "个人信息":
                 gotoActivity(mContext, AuthInfoActivity.class, null);
                 break;
-            case 3://跳转到紧急联系人
+            case "紧急联系人":
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
-            case 4://跳转到闪银认证
+            case "个人信息及联系人认证":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
                 }
-                gotoChinaMobileActivity();
+                String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
+                gotoChinaMobileActivity(wecash_pass_url);
                 break;
-            case 5://跳转到收款银行卡
+            case "收款银行卡":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
                 }
                 gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
-            case 6://跳转到芝麻信用
+            case "芝麻信用":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先身份认证!");
                     return;
                 }
-                gotoChinaMobileActivity();
+                String tempUrl = mUserAuthCenterBean.getData().getChina_mobile_url();
+                gotoChinaMobileActivity(tempUrl);
                 break;
         }
+
     }
 
     /**
