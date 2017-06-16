@@ -183,52 +183,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-
-    /**
-     * 点击了列表
-     */
-    private void onClickItem(int position) {
-
-        String identityStatus = null;
-        if (mAuthCenterItemBeans != null) {
-            identityStatus = mAuthCenterItemBeans.get(0).getStatus();
-        }
-
-        switch (position) {
-            case 0://跳转到身份认证
-                gotoActivity(mContext, AuthIdentityActivity.class, null);
-                break;
-            case 1://跳转到个人信息
-                gotoActivity(mContext, AuthInfoActivity.class, null);
-                break;
-            case 2://跳转到紧急联系人
-                gotoActivity(mContext, AuthExtroContactsActivity.class, null);
-                break;
-            case 3:// 跳转到运营商认证
-                if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
-                    return;
-                }
-                String chinaStatus = null;
-                if (mAuthCenterItemBeans != null) {
-                    chinaStatus = mAuthCenterItemBeans.get(3).getStatus();
-                }
-                if ("1".equals(chinaStatus)) {
-                    ToastUtil.showToast(mContext, "之前已经认证!");
-                    return;
-                }
-                gotoChinaMobileActivity();
-                break;
-            case 4://跳转到收款银行卡
-                if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
-                    return;
-                }
-                gotoActivity(mContext, AuthBankCardActivity.class, null);
-                break;
-        }
-    }
-
     /**
      * 跳转到运营商认证
      */
@@ -326,6 +280,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String bankcard_pass = data.getBankcard_pass();
         String china_mobile = data.getChina_mobile();
         String userdetail_pass = data.getUserdetail_pass();
+        String zhima_pass = data.getZhima_pass();
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
@@ -340,48 +295,109 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean0.setStatus(id_num);
 
         AuthCenterItemBean authCenterItemBean1 = new AuthCenterItemBean();
-        authCenterItemBean1.setName("个人信息");
-        authCenterItemBean1.setDrawable_id(R.drawable.ic_auth_center_info_item);
-        authCenterItemBean1.setStatus(userdetail_pass);
+        authCenterItemBean1.setName("手机运营商");
+        authCenterItemBean1.setDrawable_id(R.drawable.ic_auth_center_phone_item);
+        authCenterItemBean1.setStatus(china_mobile);
 
         AuthCenterItemBean authCenterItemBean2 = new AuthCenterItemBean();
-        authCenterItemBean2.setName("紧急联系人");
-        authCenterItemBean2.setDrawable_id(R.drawable.ic_auth_center_urgent_item);
-        authCenterItemBean2.setStatus(contacts_pass);
+        authCenterItemBean2.setName("个人信息");
+        authCenterItemBean2.setDrawable_id(R.drawable.ic_auth_center_info_item);
+        authCenterItemBean2.setStatus(userdetail_pass);
 
         AuthCenterItemBean authCenterItemBean3 = new AuthCenterItemBean();
-        authCenterItemBean3.setName("手机运营商");
-        authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_phone_item);
-        authCenterItemBean3.setStatus(china_mobile);
-
+        authCenterItemBean3.setName("紧急联系人");
+        authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_urgent_item);
+        authCenterItemBean3.setStatus(contacts_pass);
 
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
-        authCenterItemBean4.setName("收款银行卡");
-        authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
-        authCenterItemBean4.setStatus(bankcard_pass);
+        authCenterItemBean4.setName("个人信息及联系人认证");
+        authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_shan_yin_item);
+        authCenterItemBean4.setStatus(contacts_pass);
 
-
-
-//        AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
-//        authCenterItemBean5.setName("芝麻信用");
-//        authCenterItemBean5.setDrawable_id(R.drawable.ic_auth_center_zhi_ma_item);
-//        authCenterItemBean5.setStatus("0");
+        AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
+        authCenterItemBean5.setName("收款银行卡");
+        authCenterItemBean5.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
+        authCenterItemBean5.setStatus(bankcard_pass);
 
         AuthCenterItemBean authCenterItemBean6 = new AuthCenterItemBean();
-        authCenterItemBean6.setName("更多信息可选填");
-        authCenterItemBean6.setDrawable_id(R.drawable.ic_auth_center_more_item);
+        authCenterItemBean6.setName("芝麻信用");
+        authCenterItemBean6.setDrawable_id(R.drawable.ic_auth_center_zhi_ma_item);
+        authCenterItemBean6.setStatus(zhima_pass);
+
+        AuthCenterItemBean authCenterItemBean7 = new AuthCenterItemBean();
+        authCenterItemBean7.setName("更多信息可选填");
+        authCenterItemBean7.setDrawable_id(R.drawable.ic_auth_center_more_item);
 
         authCenterItemBeans.add(authCenterItemBean0);
         authCenterItemBeans.add(authCenterItemBean1);
         authCenterItemBeans.add(authCenterItemBean2);
         authCenterItemBeans.add(authCenterItemBean3);
         authCenterItemBeans.add(authCenterItemBean4);
-//        authCenterItemBeans.add(authCenterItemBean5);
+        authCenterItemBeans.add(authCenterItemBean5);
         authCenterItemBeans.add(authCenterItemBean6);
+        authCenterItemBeans.add(authCenterItemBean7);
 
         return authCenterItemBeans;
     }
 
+    /**
+     * 点击了列表
+     */
+    private void onClickItem(int position) {
+
+        String identityStatus = null;
+        if (mAuthCenterItemBeans != null) {
+            identityStatus = mAuthCenterItemBeans.get(0).getStatus();
+        }
+
+        switch (position) {
+            case 0://跳转到身份认证
+                gotoActivity(mContext, AuthIdentityActivity.class, null);
+                break;
+            case 1://跳转手机运营商
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                String chinaStatus = null;
+                if (mAuthCenterItemBeans != null) {
+                    chinaStatus = mAuthCenterItemBeans.get(3).getStatus();
+                }
+                if ("1".equals(chinaStatus)) {
+                    ToastUtil.showToast(mContext, "之前已经认证!");
+                    return;
+                }
+                gotoChinaMobileActivity();
+                break;
+            case 2://跳转到个人信息
+                gotoActivity(mContext, AuthInfoActivity.class, null);
+                break;
+            case 3://跳转到紧急联系人
+                gotoActivity(mContext, AuthExtroContactsActivity.class, null);
+                break;
+            case 4://跳转到闪银认证
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                gotoChinaMobileActivity();
+                break;
+            case 5://跳转到收款银行卡
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                gotoActivity(mContext, AuthBankCardActivity.class, null);
+                break;
+            case 6://跳转到芝麻信用
+                if ("0".equals(identityStatus)) {
+                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    return;
+                }
+                gotoChinaMobileActivity();
+                break;
+        }
+    }
 
     /**
      * 收到了强行跳转到下单页面
@@ -389,7 +405,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     @Subscribe
     public void onQuotaEvent(QuotaEvent event) {
         LogUtil.d("abc", "收到了强行跳转到下单页面");
-        if (mQuotaFlag){
+        if (mQuotaFlag) {
             gotoActivity(mContext, ConfirmMoneyActivity.class, null);
         }
     }

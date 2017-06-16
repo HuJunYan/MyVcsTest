@@ -55,6 +55,15 @@ public class UserAuthCenterBean {
         private String china_mobile;
         private String userdetail_pass;
         private String china_mobile_url;
+        private String zhima_pass;
+
+        public String getZhima_pass() {
+            return zhima_pass;
+        }
+
+        public void setZhima_pass(String zhima_pass) {
+            this.zhima_pass = zhima_pass;
+        }
 
         public String getFace_pass() {
             return face_pass;
