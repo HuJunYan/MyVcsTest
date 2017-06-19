@@ -31,7 +31,8 @@
             android:gravity="center"
             android:text="关闭"
             android:textColor="@color/global_txt_black4"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
