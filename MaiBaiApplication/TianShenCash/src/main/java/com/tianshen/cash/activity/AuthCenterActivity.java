@@ -187,9 +187,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     /**
      * 跳转到运营商认证
      */
-    private void gotoChinaMobileActivity(String url) {
+    private void gotoChinaMobileActivity(String url, String title) {
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, url);
+        bundle.putString(GlobalParams.CHINA_MOBILE_TITLE_KEY, title);
         gotoActivity(mContext, ChinaMobileActivity.class, bundle);
     }
 
@@ -367,7 +368,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
-                gotoChinaMobileActivity(china_mobile_url);
+                gotoChinaMobileActivity(china_mobile_url, "手机认证");
                 break;
             case "个人信息":
                 gotoActivity(mContext, AuthInfoActivity.class, null);
@@ -381,7 +382,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
-                gotoChinaMobileActivity(wecash_pass_url);
+                gotoChinaMobileActivity(wecash_pass_url, "联系人信息认证");
                 break;
             case "收款银行卡":
                 if ("0".equals(identityStatus)) {
@@ -396,7 +397,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 String tempUrl = mUserAuthCenterBean.getData().getChina_mobile_url();
-                gotoChinaMobileActivity(tempUrl);
+                gotoChinaMobileActivity(tempUrl, "芝麻信用");
                 break;
         }
 

@@ -33,12 +33,18 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.tv_china_mobile_exit)
     TextView tv_china_mobile_exit;
 
+    @BindView(R.id.tv_china_mobile_title)
+    TextView tv_china_mobile_title;
+
     private String mUrl;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mTitle = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_TITLE_KEY);
         mUrl = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_URL_KEY);
+        tv_china_mobile_title.setText(mTitle);
         initWebView();
     }
 
