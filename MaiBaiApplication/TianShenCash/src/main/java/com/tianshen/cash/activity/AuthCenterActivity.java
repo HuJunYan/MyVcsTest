@@ -381,12 +381,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
             case "个人信息及联系人认证":
-                if ("0".equals(infoStatus)) {
-                    ToastUtil.showToast(mContext, "请先完善个人信息或联系人信息");
-                    return;
-                }
                 if ("0".equals(extroContactsStatus)) {
-                    ToastUtil.showToast(mContext, "请先完善个人信息或联系人信息");
+                    ToastUtil.showToast(mContext, "请先认证紧急联系人");
                     return;
                 }
                 String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
