@@ -345,9 +345,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private void onClickItem(String itemName) {
 
-        String identityStatus = null;
+        String identityStatus = null; //身份认证状态
+        String infoStatus = null; //个人信息认证状态
+        String extroContactsStatus = null; //紧急联系人认证状态
         if (mAuthCenterItemBeans != null) {
             identityStatus = mAuthCenterItemBeans.get(0).getStatus();
+            infoStatus = mAuthCenterItemBeans.get(2).getStatus();
+            extroContactsStatus = mAuthCenterItemBeans.get(3).getStatus();
         }
 
         switch (itemName) {
@@ -356,7 +360,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case "手机运营商":
                 if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    ToastUtil.showToast(mContext, "请先进行身份认证");
                     return;
                 }
                 String chinaStatus = null;
@@ -364,7 +368,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     chinaStatus = mAuthCenterItemBeans.get(1).getStatus();
                 }
                 if ("1".equals(chinaStatus)) {
-                    ToastUtil.showToast(mContext, "之前已经认证!");
+                    ToastUtil.showToast(mContext, "之前已经认证");
                     return;
                 }
                 String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
@@ -377,8 +381,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
             case "个人信息及联系人认证":
-                if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
+                if ("0".equals(infoStatus)) {
+                    ToastUtil.showToast(mContext, "请先完善个人信息或联系人信息");
+                    return;
+                }
+                if ("0".equals(extroContactsStatus)) {
+                    ToastUtil.showToast(mContext, "请先完善个人信息或联系人信息");
                     return;
                 }
                 String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
@@ -386,14 +394,14 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case "收款银行卡":
                 if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    ToastUtil.showToast(mContext, "请先进行身份认证");
                     return;
                 }
                 gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
             case "芝麻信用":
                 if ("0".equals(identityStatus)) {
-                    ToastUtil.showToast(mContext, "请先身份认证!");
+                    ToastUtil.showToast(mContext, "请先进行身份认证");
                     return;
                 }
                 String tempUrl = mUserAuthCenterBean.getData().getChina_mobile_url();
