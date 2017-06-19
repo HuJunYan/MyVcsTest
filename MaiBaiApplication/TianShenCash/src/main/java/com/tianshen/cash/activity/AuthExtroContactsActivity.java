@@ -417,9 +417,21 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             ToastUtil.showToast(mContext, "请完善资料!");
             return;
         }
-
+        String userPhoneNum = TianShenUserUtil.getUserPhoneNum(mContext);
+        if (phone1.equals(phone2)) {
+            ToastUtil.showToast(mContext, "两个联系人的电话号码不能相同");
+            return;
+        }
+        if (phone1.equals(userPhoneNum)) {
+            ToastUtil.showToast(mContext, "联系人电话不能和注册手机号一致");
+            return;
+        }
+        if (phone2.equals(userPhoneNum)) {
+            ToastUtil.showToast(mContext, "联系人电话不能和注册手机号一致");
+            return;
+        }
         String nexusTxt1 = tvAuthNexus1.getText().toString();
-        String nexusTxt2 =  tvAuthNexus2.getText().toString();
+        String nexusTxt2 = tvAuthNexus2.getText().toString();
 
         int type1 = mNexus.indexOf(nexusTxt1) + 1;
         int type2 = mNexus.indexOf(nexusTxt2) + 1;
