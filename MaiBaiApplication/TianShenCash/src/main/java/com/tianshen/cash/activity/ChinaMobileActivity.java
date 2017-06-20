@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -84,7 +85,14 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         wvChinaMobile.addJavascriptInterface(new JSCallback(), "tianshen");
         String userId = TianShenUserUtil.getUserId(mContext);
         String userToken = TianShenUserUtil.getUserToken(mContext);
-        mUrl = mUrl + "&src=android&uid=" + userId + "&token=" + userToken;
+
+        String and = "";
+        if ("芝麻信用".equals(mTitle)) {
+            and = "?";
+        } else {
+            and = "&";
+        }
+        mUrl = mUrl + and + "src=android&uid=" + userId + "&token=" + userToken;
         LogUtil.d("abc", "URL--->" + mUrl);
         wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
