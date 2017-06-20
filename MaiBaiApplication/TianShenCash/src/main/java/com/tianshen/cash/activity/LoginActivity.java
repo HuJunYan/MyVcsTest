@@ -207,7 +207,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.tv_registe:
                 Intent intent=new Intent(mContext,RegisteActivity.class);
-                startActivityForResult(intent,REGISTEREQUEST);
+//                startActivityForResult(intent,REGISTEREQUEST);
+                startActivity(intent);
                 overridePendingTransition(R.anim.push_right_in,R.anim.not_exit_push_left_out);
                 break;
         }
@@ -276,17 +277,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    @Override
-    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        super.onActivityResult(arg0, arg1, arg2);
-        switch (arg0){
-            case REGISTEREQUEST:
-                if(arg1==REGISTESUCCESS){
-                    backActivity();
-                }
-                break;
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+//        super.onActivityResult(arg0, arg1, arg2);
+//        switch (arg0){
+//            case REGISTEREQUEST:
+//                if(arg1==REGISTESUCCESS){
+//                    backActivity();
+//                }
+//                break;
+//        }
+//    }
 
 
     /**

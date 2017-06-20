@@ -174,8 +174,9 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void onSuccess(SignUpBean paramT) {
                             ToastUtil.showToast(mContext, "注册成功");
-                            gotoActivity(mContext, LoginActivity.class, null);
-                            finish();
+                            backActivity();
+//                            gotoActivity(mContext, LoginActivity.class, null);
+//                            finish();
 //                           login(et_mobile.getEditTextString().trim(),et_password.getEditTextString().trim());
                         }
 
