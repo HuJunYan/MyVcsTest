@@ -58,6 +58,15 @@ public class UserAuthCenterBean {
         private String zhima_pass;
         private String wecash_pass;
         private String wecash_pass_url;
+        private String zhima_url;
+
+        public String getZhima_url() {
+            return zhima_url;
+        }
+
+        public void setZhima_url(String zhima_url) {
+            this.zhima_url = zhima_url;
+        }
 
         public String getWecash_pass() {
             return wecash_pass;

@@ -400,8 +400,8 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showToast(mContext, "请先进行身份认证");
                     return;
                 }
-                String tempUrl = mUserAuthCenterBean.getData().getChina_mobile_url();
-                gotoChinaMobileActivity(tempUrl, "芝麻信用");
+                String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
+                gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 break;
         }
 
