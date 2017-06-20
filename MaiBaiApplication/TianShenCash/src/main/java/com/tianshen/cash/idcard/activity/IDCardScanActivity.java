@@ -53,6 +53,7 @@ public class IDCardScanActivity extends Activity implements
     private TextView fps;
     private TextView errorType;
     View view;
+    private boolean hasPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,10 @@ public class IDCardScanActivity extends Activity implements
         super.onResume();
         Camera mCamera = mICamera.openCamera(this);
         if (mCamera != null) {
+            if (hasPaused) {
+                doPreview();
+                mICamera.actionDetect(this);
+            }
             RelativeLayout.LayoutParams layout_params = mICamera
                     .getLayoutParam(this);
             textureView.setLayoutParams(layout_params);
@@ -132,6 +137,7 @@ public class IDCardScanActivity extends Activity implements
     protected void onPause() {
         super.onPause();
         mICamera.closeCamera();
+        hasPaused = true;
     }
 
     @Override
