@@ -308,7 +308,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean3.setStatus(contacts_pass);
 
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
-        authCenterItemBean4.setName("个人信息及联系人认证");
+        authCenterItemBean4.setName("联系人信息认证");
         authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_shan_yin_item);
         authCenterItemBean4.setStatus(wecash_pass);
 
@@ -380,7 +380,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             case "紧急联系人":
                 gotoActivity(mContext, AuthExtroContactsActivity.class, null);
                 break;
-            case "个人信息及联系人认证":
+            case "联系人信息认证":
                 if ("0".equals(extroContactsStatus)) {
                     ToastUtil.showToast(mContext, "请先认证紧急联系人");
                     return;
