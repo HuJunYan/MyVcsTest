@@ -85,7 +85,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         String userId = TianShenUserUtil.getUserId(mContext);
         String userToken = TianShenUserUtil.getUserToken(mContext);
         mUrl = mUrl + "&src=android&uid=" + userId + "&token=" + userToken;
-        LogUtil.d("abc", "运营商URL--->" + mUrl);
+        LogUtil.d("abc", "URL--->" + mUrl);
         wvChinaMobile.loadUrl(mUrl);
         wvChinaMobile.setWebViewClient(new WebViewClient() {
             @Override
