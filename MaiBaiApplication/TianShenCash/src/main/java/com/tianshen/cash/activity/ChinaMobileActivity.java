@@ -77,6 +77,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         // 便页面支持缩放
         webSettings.setJavaScriptEnabled(true); //支持js
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setDomStorageEnabled(true);//解决HTML显示不全的问题
         webSettings.setSupportZoom(true); //支持缩放
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
