@@ -99,6 +99,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url != null) {
+                    LogUtil.d("abc", "URL--->" + url);
                     view.loadUrl(url);
                 }
                 return true;
