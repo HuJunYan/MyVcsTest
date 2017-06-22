@@ -173,14 +173,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     private void onClickPost() {
-        if (mIsFromCard) {
+        if (mIsAllAuthOK) {
             backActivity();
         } else {
-            if (mIsAllAuthOK) {
-                uploadContacts();
-            } else {
-                ToastUtil.showToast(mContext, "请先认证!");
-            }
+            ToastUtil.showToast(mContext, "请先认证!");
         }
     }
 
