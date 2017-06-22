@@ -1,7 +1,6 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -17,6 +16,8 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -39,6 +40,8 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private String mUrl;
     private String mTitle;
+
+    private ArrayList<String> loadHistoryUrls = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 if (url != null) {
                     LogUtil.d("abc", "URL--->" + url);
                     view.loadUrl(url);
+                    loadHistoryUrls.add(url);
                 }
                 return true;
             }
@@ -134,7 +138,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_china_mobile_back:
                 boolean canGoBack = wvChinaMobile.canGoBack();
                 if (canGoBack) {
-                    wvChinaMobile.goBack();
+                    goBack();
                 } else {
                     backActivity();
                 }
@@ -151,7 +155,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             boolean canGoBack = wvChinaMobile.canGoBack();
             if (canGoBack) {
-                wvChinaMobile.goBack();
+                goBack();
             } else {
                 backActivity();
             }
@@ -160,5 +164,23 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         return super.onKeyDown(keyCode, event);
     }
 
+    //检查上一个页面是否为重定向页面并返回上一页页面
+    public void goBack() {
+        if (loadHistoryUrls.size() > 1 && loadHistoryUrls.get(loadHistoryUrls.size() - 2).contains("index.html")) {
+            if (loadHistoryUrls.size() == 2) {//如果第一个页面就是重定向 直接back
+                backActivity();
+            } else {
+                //back 2 次
+                wvChinaMobile.goBack();
+                wvChinaMobile.goBack();
+            }
+            //因为是重定向 去掉后两个url
+            loadHistoryUrls.remove(loadHistoryUrls.size() - 1);
+            loadHistoryUrls.remove(loadHistoryUrls.size() - 1);
+        } else {
+            wvChinaMobile.goBack();
+        }
+        LogUtil.d("abcd","size = " + loadHistoryUrls.size());
+    }
 
 }
