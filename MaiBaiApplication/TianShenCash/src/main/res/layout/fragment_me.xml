@@ -168,12 +168,6 @@
                 android:layout_height="54dp"
                 android:background="@color/global_bg_white">
 
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/global_line_bg" />
-
                 <ImageView
                     android:id="@+id/iv_me_tianshen_service_online"
                     android:layout_width="wrap_content"
