@@ -341,14 +341,21 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private void onClickItem(String itemName) {
 
-        String identityStatus = null; //身份认证状态
-        String infoStatus = null; //个人信息认证状态
-        String extroContactsStatus = null; //紧急联系人认证状态
-        if (mAuthCenterItemBeans != null) {
-            identityStatus = mAuthCenterItemBeans.get(0).getStatus();
-            infoStatus = mAuthCenterItemBeans.get(2).getStatus();
-            extroContactsStatus = mAuthCenterItemBeans.get(3).getStatus();
+        UserAuthCenterBean.DataBean data = mUserAuthCenterBean.getData();
+        String id_num = data.getId_num();
+        String face_pass = data.getFace_pass();
+        String identityStatus = "";//身份认证认证状态
+        String extroContactsStatus = data.getContacts_pass();//紧急联系人认证状态
+        String wecash_pass = data.getWecash_pass();//联系人信息认证状态
+        String zhimaStatus = data.getZhima_pass();//芝麻认证状态
+
+
+        if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
+            identityStatus = "0";
+        } else {
+            identityStatus = "1";
         }
+
 
         switch (itemName) {
             case "身份认证":
@@ -381,6 +388,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showToast(mContext, "请先认证紧急联系人");
                     return;
                 }
+                if ("1".equals(wecash_pass)) {
+                    ToastUtil.showToast(mContext, "之前已经认证");
+                    return;
+                }
                 String wecash_pass_url = mUserAuthCenterBean.getData().getWecash_pass_url();
                 gotoChinaMobileActivity(wecash_pass_url, "联系人信息认证");
                 break;
@@ -394,6 +405,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             case "芝麻信用":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先进行身份认证");
+                    return;
+                }
+                if ("1".equals(zhimaStatus)) {
+                    ToastUtil.showToast(mContext, "之前已经认证");
                     return;
                 }
                 String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
