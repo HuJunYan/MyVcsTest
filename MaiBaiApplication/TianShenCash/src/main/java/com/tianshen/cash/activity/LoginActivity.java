@@ -23,6 +23,7 @@ import com.tianshen.cash.model.TianShenLoginBean;
 import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.SignIn;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
@@ -45,12 +46,13 @@ import io.reactivex.functions.Consumer;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private final int LOGINSUCCESS = 5;
-    private final int REGISTEREQUEST=6;
-    private final int REGISTESUCCESS=7;
+    private final int REGISTEREQUEST = 6;
+    private final int REGISTESUCCESS = 7;
     private int mRegIdQueryTimes;
 
     private String mobile = "", password = "";
     private String mUniqueId;
+    private boolean hasTelephonePermission;//是否有read_phone_state权限
 
     private ImageView img_back;
     private Button bt_login;
@@ -101,8 +103,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                mUniqueId = TelephonyMgr.getDeviceId();
+                if (aBoolean) {
+                    TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                    mUniqueId = TelephonyMgr.getDeviceId();
+                    UserUtil.setDeviceId(mContext,TelephonyMgr.getDeviceId());
+                } else {
+                    ToastUtil.showToast(mContext, "请开启权限");
+                }
+                hasTelephonePermission = aBoolean;
             }
         });
 
@@ -121,7 +129,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_forget = (TextView) findViewById(R.id.tv_forget);
         et_mobile = (MyLoginEditText) findViewById(R.id.et_mobile);
         et_password = (MyLoginEditText) findViewById(R.id.et_password);
-        tv_registe=(TextView) findViewById(R.id.tv_registe);
+        tv_registe = (TextView) findViewById(R.id.tv_registe);
     }
 
     @Override
@@ -146,13 +154,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void chageAfter(Editable s) {
                 mobile = s.toString();
                 if (mobile.length() == 11) {
-                    if(RegexUtil.IsTelephone(mobile)){
-                        if(!password.equals("")){
+                    if (RegexUtil.IsTelephone(mobile)) {
+                        if (!password.equals("")) {
                             bt_login.setClickable(true);
                             bt_login.setBackgroundResource(R.drawable.select_bt);
                         }
-                    }else{
-                        ToastUtil.showToast(mContext,"不是合法的手机号码");
+                    } else {
+                        ToastUtil.showToast(mContext, "不是合法的手机号码");
                     }
                 } else {
                     bt_login.setClickable(false);
@@ -175,7 +183,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void chageAfter(Editable s) {
                 password = s.toString();
                 if (!password.equals("") && mobile.length() == 11) {
-                    if( RegexUtil.IsTelephone(mobile)) {
+                    if (RegexUtil.IsTelephone(mobile)) {
                         bt_login.setClickable(true);
                         bt_login.setBackgroundResource(R.drawable.select_bt);
                     }
@@ -186,6 +194,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -193,9 +202,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 backActivity();
                 break;
             case R.id.tv_forget:
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("type", GlobalParams.CHANGE_LOGIN_PASSWORD);
-                gotoActivity(mContext,ForgetPasswordActivity.class,bundle);
+                gotoActivity(mContext, ForgetPasswordActivity.class, bundle);
                 break;
             case R.id.bt_login:
                 mobile = et_mobile.getText().toString().trim();
@@ -206,15 +215,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 mHandler.sendMessage(msg);
                 break;
             case R.id.tv_registe:
-                Intent intent=new Intent(mContext,RegisteActivity.class);
+                Intent intent = new Intent(mContext, RegisteActivity.class);
 //                startActivityForResult(intent,REGISTEREQUEST);
                 startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in,R.anim.not_exit_push_left_out);
+                overridePendingTransition(R.anim.push_right_in, R.anim.not_exit_push_left_out);
                 break;
         }
     }
 
     public void login(final String mobile, final String password) {
+        if (!hasTelephonePermission) {
+            ToastUtil.showToast(mContext, "请开启权限");
+            return;
+        }
+        if (hasTelephonePermission && mUniqueId == null) {
+            mUniqueId = System.currentTimeMillis() + "";
+        }
         try {
             JSONObject json = new JSONObject();
             json.put("device_id", mUniqueId);
@@ -266,6 +282,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     EventBus.getDefault().post(new LoginSuccessEvent());
 
                 }
+
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     bt_login.setClickable(true);

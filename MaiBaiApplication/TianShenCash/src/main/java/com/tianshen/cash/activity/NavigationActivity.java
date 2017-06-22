@@ -122,8 +122,10 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                UserUtil.setDeviceId(mContext, TelephonyMgr.getDeviceId());
+                if (aBoolean){
+                    TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                    UserUtil.setDeviceId(mContext, TelephonyMgr.getDeviceId());
+                }
             }
         });
 
