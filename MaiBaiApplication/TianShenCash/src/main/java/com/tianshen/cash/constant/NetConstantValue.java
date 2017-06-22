@@ -12,6 +12,9 @@ public class NetConstantValue {
     //预发布
 //    public static String HOST = "http://tst.tianshenjr.com/";
 
+    //预发布2
+//    public static String HOST = "http://pro.tianshenjr.com/";
+
     //测试
     public static String HOST = "http://115.182.49.78/";
 
