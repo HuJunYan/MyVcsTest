@@ -2,6 +2,7 @@ package com.tianshen.cash.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.lib.listener.DefaultPatchListener;
 import com.tencent.tinker.lib.patch.UpgradePatch;
@@ -24,10 +26,12 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.service.TinkerResultService;
+import com.tianshen.cash.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
@@ -75,8 +79,11 @@ public class MyApplicationLike extends DefaultApplicationLike {
         JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
         JPushInterface.init(mApplication); // 初始化 JPush
         initLogger();
+        LogUtil.d("abc","启动了。。。。");
         initUMeng();
         FileDownloader.init(mApplication);
+        //初始化bugly
+        CrashReport.initCrashReport(mApplication, "64c5b81f2f", false);
     }
 
     private void initLogger() {

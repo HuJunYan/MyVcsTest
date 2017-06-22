@@ -29,6 +29,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
@@ -327,8 +328,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void initVariable() {
         boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
         if (mIsLogin) {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
             initUserConfig();
         } else {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
             initSelWithdrawalsData();
         }
         initStaticsRoll();
@@ -1619,6 +1622,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
         LogUtil.d("abc", "收到了登录成功消息--刷新UI");
+        CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
         initUserConfig();
     }
 
@@ -1628,6 +1632,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
         LogUtil.d("abc", "收到了退出登录成功消息--刷新UI");
+        CrashReport.setUserId("unknown");
         initSelWithdrawalsData();
         initStaticsRoll();
         resetCardUI();
