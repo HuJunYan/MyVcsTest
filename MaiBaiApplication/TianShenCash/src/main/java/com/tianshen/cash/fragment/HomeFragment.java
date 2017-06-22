@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -991,7 +992,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         float val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
         float offset = minMaxSb.getThumbOffset();
         float newX = val + offset;
-
+        LogUtil.d("abcd","val = " + val);
+        LogUtil.d("abcd","offset = " + offset);
         ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
         ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
         AnimatorSet animatorSet = new AnimatorSet();
@@ -1097,7 +1099,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             //默认值
             String def_cash = mSelWithdrawalsBean.getDef_cash();
             String def_cashY = MoneyUtils.changeF2Y(def_cash);
-            int def_cashInt = Integer.valueOf(def_cashY);
+            final int def_cashInt = Integer.valueOf(def_cashY);
 
             //刻度值
             String unit = mSelWithdrawalsBean.getUnit();
@@ -1112,6 +1114,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             tvHomeMaxSb.setText(max_cashInt + "元");
             minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
             minMaxSb.setCurrentProgress(def_cashInt);
+            //重置金额偏移量
+            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    moveSeekBarThumbMoney(def_cashInt);
+                }
+            });
+
+
         } catch (Exception e) {
             showErrorUI();
             ToastUtil.showToast(mContext, "数据错误!");
@@ -1584,13 +1596,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onStartTrackingTouch(float progress) {
-            showSeekBarThumbMoney();
+//            showSeekBarThumbMoney();
         }
 
         @Override
         public void onStopTrackingTouch(float progress) {
             refreshLoanNumUI((int) progress);
-            hideSeekBarThumbMoney();
+//            hideSeekBarThumbMoney();
         }
     }
 
