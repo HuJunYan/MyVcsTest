@@ -136,6 +136,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_china_mobile_back:
+                if (checkIsAuthSuccess()) {
+                    return;
+                }
                 boolean canGoBack = wvChinaMobile.canGoBack();
                 if (canGoBack) {
                     goBack();
@@ -153,6 +156,9 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            if (checkIsAuthSuccess()) {
+                return true;
+            }
             boolean canGoBack = wvChinaMobile.canGoBack();
             if (canGoBack) {
                 goBack();
@@ -162,6 +168,15 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+    //检查 当前页面是否是认证成功页面
+    private boolean checkIsAuthSuccess() {
+        if (loadHistoryUrls.size() > 0 && "http://tst.tianshenjr.com/h5/sesame/se_order.html".equals(loadHistoryUrls.get(loadHistoryUrls.size() - 1))) {
+            backActivity();
+            return true;
+        }
+        return false;
+
     }
 
     //检查上一个页面是否为重定向页面并返回上一页页面
@@ -180,7 +195,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         } else {
             wvChinaMobile.goBack();
         }
-        LogUtil.d("abcd","size = " + loadHistoryUrls.size());
+        LogUtil.d("abcd", "size = " + loadHistoryUrls.size());
     }
 
 }
