@@ -37,7 +37,7 @@ public class NetConstantValue {
      * @return true 代表正式服务器，false代表测试服务器
      */
     public static boolean checkIsReleaseService() {
-        return "http://pro.tianshenjr.com/Home/".equals(COMMONURI);
+        return "http://tsdapi.9maibei.com/Home/".equals(COMMONURI);
     }
 
     /**
