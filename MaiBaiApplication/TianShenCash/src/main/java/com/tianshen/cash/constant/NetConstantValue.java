@@ -5,9 +5,11 @@ package com.tianshen.cash.constant;
  */
 public class NetConstantValue {
 
+    //正式
+    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //正式
-    public static String HOST = "http://pro.tianshenjr.com/";
+//    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
 //    public static String HOST = "http://tst.tianshenjr.com/";
