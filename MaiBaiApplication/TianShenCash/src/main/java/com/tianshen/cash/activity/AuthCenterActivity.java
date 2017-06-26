@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,7 +66,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
     private boolean mQuotaFlag; //只有页面正在显示的时候收到此消息才强制跳转到下单页面
 
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message message) {
             switch (message.what) {
                 case MSG_CLICK_ITEM:

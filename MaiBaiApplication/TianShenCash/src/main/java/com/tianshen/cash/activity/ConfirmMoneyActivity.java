@@ -236,6 +236,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
+        if (null == mOrderConfirmBean){
+            return;
+        }
 //                 "customer_id": "（int）用户ID",
 //                "type":"0为自己的产品，1为掌众的产品"
 //                "consume_amount": "(int)提现金额,单位分",
