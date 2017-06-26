@@ -1,6 +1,7 @@
 package com.tianshen.cash.utils;
 
 import android.content.Context;
+import android.os.Looper;
 import android.widget.Toast;
 
 public class ToastUtil {
@@ -13,6 +14,7 @@ public class ToastUtil {
 		if (msg == null || "".equals(msg)) {
 			return;
 		}
+		LogUtil.d("thread","main thread name = " + Looper.getMainLooper().getThread().getName());
 		LogUtil.d("thread","thread name = "+Thread.currentThread().getName());
 		if (toast == null) {
 			toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
@@ -26,6 +28,8 @@ public class ToastUtil {
 		if (msg == null || "".equals(msg)) {
 			return;
 		}
+        LogUtil.d("thread","main thread name = " + Looper.getMainLooper().getThread().getName());
+        LogUtil.d("thread","thread name = "+Thread.currentThread().getName());
 		if (toast == null) {
 			toast = Toast.makeText(context, msg, time);
 		} else {
@@ -34,6 +38,8 @@ public class ToastUtil {
 		toast.show();
 	}
 	public static void showToast(Context context, int resid) {
+        LogUtil.d("thread","main thread name = " + Looper.getMainLooper().getThread().getName());
+        LogUtil.d("thread","thread name = "+Thread.currentThread().getName());
 		if (toast == null) {
 			toast = Toast.makeText(context, resid, Toast.LENGTH_LONG);
 		} else {
