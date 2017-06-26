@@ -124,17 +124,12 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
                     withdrawalsRecordItemBeanList.addAll(paramT.getData().getList());
                     borrowBillAdapter.notifyDataSetChanged();
                     borrow_bill_init = false;
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            handler.sendEmptyMessage(STOP_REFRESH);
-                        }
-                    }, 1500);
+                    handler.sendEmptyMessage(STOP_REFRESH);
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-
+                    handler.sendEmptyMessage(STOP_REFRESH);
                 }
             });
         } catch (JSONException e) {
