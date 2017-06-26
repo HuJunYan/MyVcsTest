@@ -6,7 +6,7 @@ package com.tianshen.cash.constant;
 public class NetConstantValue {
 
     //正式
-    public static String HOST = "http://tsdapi.9maibei.com/";
+//    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //正式
 //    public static String HOST = "http://pro.tianshenjr.com/";
@@ -15,7 +15,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://tst.tianshenjr.com/";
 
     //测试
-//    public static String HOST = "http://115.182.49.78/";
+    public static String HOST = "http://115.182.49.78/";
 
     //测试
 //    public static String HOST = "http://tsdapi.tinybun.top/";
