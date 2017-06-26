@@ -145,6 +145,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     break;
                 case MSG_IDCARD_NETWORK_FACE_ERROR:
                     ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
+                    ViewUtil.cancelLoadingDialog();
                     break;
             }
         }

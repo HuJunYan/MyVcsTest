@@ -142,8 +142,7 @@ public class NetBase {
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
                 }
-
-                ViewUtil.cancelLoadingDialog();
+                cancelDialog();
             }
 
             public void onFailure(HttpException e, String m) {
@@ -162,7 +161,7 @@ public class NetBase {
                 Logger.d("下行failed--code-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
                 DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view);
-                ViewUtil.cancelLoadingDialog();
+                cancelDialog();
             }
         });
     }
@@ -231,7 +230,7 @@ public class NetBase {
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
                 }
-                ViewUtil.cancelLoadingDialog();
+                cancelDialog();
             }
 
             @Override
@@ -242,7 +241,7 @@ public class NetBase {
                 }
                 LogUtil.d("ret", "failed: url = " + url + ",response = " + s + "--ExceptionCode-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
-                ViewUtil.cancelLoadingDialog();
+                cancelDialog();
             }
         });
     }
@@ -266,5 +265,15 @@ public class NetBase {
         }
         return false;
     }
+    //安全关闭dialog 防止崩溃
+    public void cancelDialog(){
+        try {
+            if (mContext != null && !((Activity)mContext).isFinishing()){
+                ViewUtil.cancelLoadingDialog();
+            }
+        }catch (ClassCastException e){
+            MobclickAgent.reportError(mContext,LogUtil.getException(e));
+        }
 
+    }
 }
