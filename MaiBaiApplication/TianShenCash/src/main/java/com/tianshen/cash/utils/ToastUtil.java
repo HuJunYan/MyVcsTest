@@ -20,6 +20,7 @@ public class ToastUtil {
 			toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
 		} else {
 			toast.setText(msg);
+			toast.setDuration(Toast.LENGTH_LONG);
 		}
 		toast.show();
 	}
@@ -34,6 +35,7 @@ public class ToastUtil {
 			toast = Toast.makeText(context, msg, time);
 		} else {
 			toast.setText(msg);
+			toast.setDuration(time);
 		}
 		toast.show();
 	}
@@ -44,6 +46,7 @@ public class ToastUtil {
 			toast = Toast.makeText(context, resid, Toast.LENGTH_LONG);
 		} else {
 			toast.setText(context.getResources().getText(resid));
+			toast.setDuration(Toast.LENGTH_LONG);
 		}
 		toast.show();
 	}
