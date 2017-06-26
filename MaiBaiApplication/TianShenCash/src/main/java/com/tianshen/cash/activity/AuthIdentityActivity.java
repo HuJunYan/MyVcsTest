@@ -26,6 +26,8 @@ import com.loopj.android.http.RequestParams;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.licensemanager.Manager;
 import com.megvii.livenessdetection.LivenessLicenseManager;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tianshen.cash.Manifest;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
@@ -72,6 +74,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 /**
  * 身份认证页面
@@ -225,15 +228,43 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 backActivity();
                 break;
             case R.id.iv_identity_auth_pic:
-                onClickIdentity();
+                requestPermissionsToNextActivity(R.id.iv_identity_auth_pic);
                 break;
             case R.id.iv_identity_auth_pic2:
-                onClickIdentityBack();
+                requestPermissionsToNextActivity(R.id.iv_identity_auth_pic2);
                 break;
             case R.id.iv_identity_auth_face:
-                onClickFace();
+                requestPermissionsToNextActivity(R.id.iv_identity_auth_face);
                 break;
-        }
+        };
+    }
+
+
+    //请求相机权限 并根据结果 决定是否进行跳转
+
+    private void requestPermissionsToNextActivity(final int id) {
+        RxPermissions rxPermissions = new RxPermissions(AuthIdentityActivity.this);
+        rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean){
+                    switch (id) {
+                        case R.id.iv_identity_auth_pic:
+                            onClickIdentity();
+                            break;
+                        case R.id.iv_identity_auth_pic2:
+                            onClickIdentityBack();
+                            break;
+                        case R.id.iv_identity_auth_face:
+                            onClickFace();
+                            break;
+                    }
+                }else {
+                    ToastUtil.showToast(AuthIdentityActivity.this,"请去设置开启照相机权限");
+                }
+            }
+        });
+
     }
 
     /**
