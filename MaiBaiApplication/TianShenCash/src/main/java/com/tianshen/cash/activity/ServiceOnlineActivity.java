@@ -167,7 +167,7 @@ public class ServiceOnlineActivity extends BaseActivity {
                 break;
             case REQ_CHOOSE:
 
-                if (null != data) {
+                if (null != data && null != data.getData()) {
                     if (mUploadMessage != null) {
                         mUploadMessage.onReceiveValue(afterChosePic(data));
                     }
