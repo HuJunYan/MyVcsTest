@@ -122,6 +122,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ViewUtil.cancelLoadingDialog();
     }
 
     @Override
@@ -260,18 +261,18 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             ToastUtil.showToast(mContext, "没有查找到联系人");
             return;
         }
-
-        materialDialog = new MaterialDialog.Builder(mContext)
-                .title("选择联系人")
-                .items(mContactsDialogDada)
-                .itemsCallback(new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        mContactsPoistion = position;
-                        refreshContactUI();
-                    }
-                }).show();
-
+        if (!isFinishing()) {
+            materialDialog = new MaterialDialog.Builder(mContext)
+                    .title("选择联系人")
+                    .items(mContactsDialogDada)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            mContactsPoistion = position;
+                            refreshContactUI();
+                        }
+                    }).show();
+        }
     }
 
     /**
