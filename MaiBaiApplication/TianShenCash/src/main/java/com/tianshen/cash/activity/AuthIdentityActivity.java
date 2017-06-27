@@ -27,7 +27,6 @@ import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.licensemanager.Manager;
 import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tianshen.cash.Manifest;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
@@ -43,7 +42,6 @@ import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.UploadImageBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.CreditFace;
 import com.tianshen.cash.net.api.GetIdNumInfo;
 import com.tianshen.cash.net.api.IDCardAction;
@@ -236,7 +234,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             case R.id.iv_identity_auth_face:
                 requestPermissionsToNextActivity(R.id.iv_identity_auth_face);
                 break;
-        };
+        }
+        ;
     }
 
 
@@ -247,7 +246,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                if (aBoolean){
+                if (aBoolean) {
                     switch (id) {
                         case R.id.iv_identity_auth_pic:
                             onClickIdentity();
@@ -259,8 +258,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                             onClickFace();
                             break;
                     }
-                }else {
-                    ToastUtil.showToast(AuthIdentityActivity.this,"请去设置开启照相机权限");
+                } else {
+                    ToastUtil.showToast(AuthIdentityActivity.this, "请去设置开启照相机权限");
                 }
             }
         });
@@ -381,7 +380,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Manager manager = new Manager(mContext);
+                Manager manager = new Manager(MyApplicationLike.getmApplication());
                 IDCardQualityLicenseManager idCardLicenseManager = new IDCardQualityLicenseManager(mContext);
                 manager.registerLicenseManager(idCardLicenseManager);
                 manager.takeLicenseFromNetwork(Util.getUUIDString(mContext));

@@ -19,16 +19,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.megvii.idcardquality.IDCardQualityAssessment;
 import com.megvii.idcardquality.IDCardQualityResult;
 import com.megvii.idcardquality.bean.IDCardAttr;
 import com.tianshen.cash.R;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.idcard.util.DialogUtil;
 import com.tianshen.cash.idcard.util.ICamera;
 import com.tianshen.cash.idcard.util.IDCardIndicator;
 import com.tianshen.cash.idcard.util.RotaterUtil;
 import com.tianshen.cash.idcard.util.Util;
+import com.tianshen.cash.utils.ToastUtil;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -267,10 +270,10 @@ public class IDCardScanActivity extends Activity implements
                                         IDCardQualityResult.IDCardFailedType errType = result.fails
                                                 .get(0);
                                         if (errType != mLstErrType) {
-                                            Util.showToast(IDCardScanActivity.this,
+                                            ToastUtil.showToast(MyApplicationLike.getmApplication(),
                                                     Util.errorType2HumanStr(
                                                             result.fails.get(0),
-                                                            mSide));
+                                                            mSide), Toast.LENGTH_SHORT);
                                             mLstErrType = errType;
                                         }
                                         long currentTime = System.currentTimeMillis();
@@ -308,7 +311,7 @@ public class IDCardScanActivity extends Activity implements
                         Util.bmp2byteArr(result.croppedImageOfPortrait()));
             }
             setResult(RESULT_OK, intent);
-            Util.cancleToast(IDCardScanActivity.this);
+            ToastUtil.cancleToast(IDCardScanActivity.this);
             finish();
         }
     }

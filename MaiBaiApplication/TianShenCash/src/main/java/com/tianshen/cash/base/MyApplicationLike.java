@@ -26,7 +26,6 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.service.TinkerResultService;
-import com.tianshen.cash.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -84,7 +83,6 @@ public class MyApplicationLike extends DefaultApplicationLike {
         JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
         JPushInterface.init(mApplication); // 初始化 JPush
         initLogger();
-        LogUtil.d("abc","启动了。。。。");
         initUMeng();
         FileDownloader.init(mApplication);
         //初始化bugly
@@ -112,8 +110,12 @@ public class MyApplicationLike extends DefaultApplicationLike {
         mTempActivity.add(activity);
     }
 
-    public synchronized  void removeTempActivityInBackStack(Activity activity){
+    public synchronized void removeTempActivityInBackStack(Activity activity) {
         mTempActivity.remove(activity);
+    }
+
+    public static Application getmApplication() {
+        return mApplication;
     }
 
     public synchronized void clearTempActivityInBackStack() {
