@@ -2,7 +2,6 @@ package com.tianshen.cash.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +13,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.tinker.anno.DefaultLifeCycle;
 import com.tencent.tinker.lib.listener.DefaultPatchListener;
@@ -31,7 +31,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
@@ -72,6 +71,12 @@ public class MyApplicationLike extends DefaultApplicationLike {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(getApplication())) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(getApplication());
         mMyApplicationLike = this;
         mApplication = getApplication();
         SDKInitializer.initialize(mApplication);
@@ -105,6 +110,10 @@ public class MyApplicationLike extends DefaultApplicationLike {
 
     public synchronized void addTempActivityInBackStack(Activity activity) {
         mTempActivity.add(activity);
+    }
+
+    public synchronized  void removeTempActivityInBackStack(Activity activity){
+        mTempActivity.remove(activity);
     }
 
     public synchronized void clearTempActivityInBackStack() {

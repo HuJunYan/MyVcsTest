@@ -44,7 +44,7 @@ import io.reactivex.functions.Consumer;
 
 public class ServiceOnlineActivity extends BaseActivity {
 
-    private static WebView webview;
+    private WebView webview;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mFilePathCallback;
     String mCameraPhotoPath;
