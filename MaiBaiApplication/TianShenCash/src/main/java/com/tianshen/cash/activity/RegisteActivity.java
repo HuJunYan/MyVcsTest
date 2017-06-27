@@ -170,7 +170,7 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                     jsonObject.put("mobile", et_mobile.getEditTextString().trim());
                     jsonObject.put("password", et_password.getEditTextString().trim());
                     jsonObject.put("verify_code", et_get_verification.getEditTextString().trim());
-                    signUp.signUp(jsonObject, null, true, new BaseNetCallBack<SignUpBean>() {
+                    signUp.signUp(jsonObject, bt_regite, true, new BaseNetCallBack<SignUpBean>() {
                         @Override
                         public void onSuccess(SignUpBean paramT) {
                             ToastUtil.showToast(mContext, "注册成功");
