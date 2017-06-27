@@ -6,7 +6,7 @@
 
     <ImageView
         android:layout_width="300dp"
-        android:layout_height="251dp"
+        android:layout_height="252dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_service_error_top" />
 
@@ -15,13 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-1dp"
+        android:lineSpacingExtra="3dp"
         android:background="@drawable/shape_dialog_error_border"
-        android:gravity="center"
+        android:gravity="left"
         android:paddingBottom="21dp"
         android:paddingLeft="18dp"
         android:paddingRight="18dp"
         android:paddingTop="21dp"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/iv_dialog_error_close"
