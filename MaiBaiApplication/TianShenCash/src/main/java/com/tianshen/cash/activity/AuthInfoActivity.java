@@ -319,7 +319,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        new MaterialDialog.Builder(mContext)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
                 .title("选择省份")
                 .items(mProvinceData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -328,7 +328,10 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                         mProvincePosition = position;
                         initCityData();
                     }
-                }).show();
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
+        }
     }
 
     /**
@@ -340,7 +343,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        new MaterialDialog.Builder(mContext)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
                 .title("选择城市")
                 .items(mCityData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -349,7 +352,10 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                         mCityPosition = position;
                         initCountyData();
                     }
-                }).show();
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
+        }
     }
 
     /**
@@ -456,7 +462,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        new MaterialDialog.Builder(mContext)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
                 .title("选择区域")
                 .items(mCountyData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -465,7 +471,10 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
                         mCountyPosition = position;
                         refreshAddressUI();
                     }
-                }).show();
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
+        }
     }
 
 
