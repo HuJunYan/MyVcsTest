@@ -67,13 +67,14 @@ public class DealWithErrorUtils {
     /**
      * 通知所有的activity关闭,并且打开登录页面
      */
-    private static void finishActivityAndGotoLoginActivity() {
+    public static void finishActivityAndGotoLoginActivity() {
         EventBus.getDefault().post(new FinishCurrentActivityEvent());
 
         MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
         Application application = myApplicationLike.getApplication();
 
         Intent intent = new Intent(application, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         application.startActivity(intent);
     }
 }

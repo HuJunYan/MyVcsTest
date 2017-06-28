@@ -131,11 +131,12 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                             LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
                             mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
+                        }else {
+                            ToastUtil.showToast(mContext, "请打开定位权限!");
                         }
                         return;
                     }
                 });
-                ToastUtil.showToast(mContext, "请打开定位权限!");
                 return;
             }
 
