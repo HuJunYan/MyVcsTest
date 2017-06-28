@@ -2,32 +2,21 @@ package com.tianshen.cash.activity;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.LocationEvent;
-import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
-import com.tianshen.cash.net.api.GetOrderConfirm;
-import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
@@ -140,7 +129,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
-                            mLocationUtil.startLocation();
+                            mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
                         }
                         return;
@@ -271,7 +260,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
-                            mLocationUtil.startLocation();
+                            mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
                         }
                         return;

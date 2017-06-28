@@ -142,6 +142,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
                     break;
                 case MSG_IDCARD_NETWORK_FACE_OK:
+                    ViewUtil.cancelLoadingDialog();
                     gotoFaceAddAddActivity();
                     break;
                 case MSG_IDCARD_NETWORK_FACE_ERROR:
@@ -202,7 +203,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onRestart() {
         super.onRestart();
-        ViewUtil.cancelLoadingDialog();
+//        ViewUtil.cancelLoadingDialog();
     }
 
     @Override

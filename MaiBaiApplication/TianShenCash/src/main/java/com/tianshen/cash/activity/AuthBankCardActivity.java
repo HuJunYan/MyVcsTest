@@ -242,7 +242,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      */
     private void showBankListDialog() {
 
-        new MaterialDialog.Builder(mContext)
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
                 .title("选择银行卡")
                 .items(mDialogData)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -253,7 +253,10 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
                         LogUtil.d("abc", "showBankListDialog---onSelection");
                     }
-                }).show();
+                });
+        if (!this.isFinishing()){
+            builder.show();
+        }
     }
 
     /**

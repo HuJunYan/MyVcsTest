@@ -24,8 +24,9 @@ public class ViewUtil {
     public static void cancelLoadingDialog() {
         if (loadingDialog != null && loadingDialog.isShowing()) {
             loadingDialog.cancel();
+            loadingDialog = null;
         }
-        loadingDialog = null;
+
     }
 
     /**

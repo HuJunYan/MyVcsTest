@@ -1,23 +1,20 @@
 package com.tianshen.cash.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.baidu.location.Address;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.event.LocationEvent;
-import com.tianshen.cash.event.LoginSuccessEvent;
-import com.tianshen.cash.model.User;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-import java.util.StringTokenizer;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by zhangchi on 2016/6/30.
@@ -62,15 +59,24 @@ public class LocationUtil implements BDLocationListener {
         this.mReqListener = reqListener;
     }
 
-    public void startLocation() {
-        if (mLocationClient != null && !mLocationClient.isStarted()) {
-            if (!isLocationRunning) {
-                mLocationClient.start();
-                isLocationRunning = true;
+    public void startLocation(Activity activity) {
+        RxPermissions rxPermissions = new RxPermissions(activity);
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    if (mLocationClient != null && !mLocationClient.isStarted()) {
+                        if (!isLocationRunning) {
+                            mLocationClient.start();
+                            isLocationRunning = true;
+                        }
+                    } else if (mLocationClient == null) {
+                    } else {
+                    }
+                }
             }
-        } else if (mLocationClient == null) {
-        } else {
-        }
+        });
+
     }
 
     public void requestLocation() {
@@ -88,16 +94,19 @@ public class LocationUtil implements BDLocationListener {
             }
         }
     }
-    public String getProvinceName(){
-        SharedPreferencesUtil share=SharedPreferencesUtil.getInstance(mContext);
+
+    public String getProvinceName() {
+        SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(mContext);
         return share.getString("province");
     }
-    public String getCityName(){
-        SharedPreferencesUtil share=SharedPreferencesUtil.getInstance(mContext);
+
+    public String getCityName() {
+        SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(mContext);
         return share.getString("city");
     }
-    public String getCountryName(){
-        SharedPreferencesUtil share=SharedPreferencesUtil.getInstance(mContext);
+
+    public String getCountryName() {
+        SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(mContext);
         return share.getString("country");
     }
 
@@ -120,7 +129,7 @@ public class LocationUtil implements BDLocationListener {
             TianShenUserUtil.saveCountry(mContext, address.district);
             TianShenUserUtil.saveAddress(mContext, address.address);
 
-            if (isCallBack){
+            if (isCallBack) {
                 EventBus.getDefault().post(new LocationEvent());
             }
 

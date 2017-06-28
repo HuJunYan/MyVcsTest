@@ -2,6 +2,7 @@ package com.tianshen.cash.liveness.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -13,12 +14,12 @@ import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 
 import com.tianshen.cash.R;
 
@@ -109,15 +110,25 @@ public class ConUtil {
     }
 
     public static String getPhoneNumber(Context mContext) {
-        TelephonyManager phoneMgr = (TelephonyManager) mContext
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return phoneMgr.getLine1Number();
+        if (ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        } else {
+            TelephonyManager phoneMgr = (TelephonyManager) mContext
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            return phoneMgr.getLine1Number();
+        }
+
     }
 
     public static String getDeviceID(Context mContext) {
-        TelephonyManager tm = (TelephonyManager) mContext
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
+        if (ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return null;
+        } else {
+            TelephonyManager tm = (TelephonyManager) mContext
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            return tm.getDeviceId();
+        }
+
     }
 
     public static String getMacAddress(Context mContext) {

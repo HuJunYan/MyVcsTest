@@ -1,6 +1,8 @@
 package com.tianshen.cash.activity;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
@@ -8,38 +10,23 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.model.SignUpBean;
-import com.tianshen.cash.model.TianShenLoginBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.model.VerifyCodeBean;
 import com.tianshen.cash.net.api.GetVerifyCode;
-import com.tianshen.cash.net.api.SignIn;
 import com.tianshen.cash.net.api.SignUp;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
-import com.tianshen.cash.utils.SharedPreferencesUtil;
-import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import cn.jpush.android.api.JPushInterface;
 
 public class RegisteActivity extends BaseActivity implements View.OnClickListener, MyEditText.MyEditTextListener {
 
@@ -165,8 +152,10 @@ public class RegisteActivity extends BaseActivity implements View.OnClickListene
                 SignUp signUp = new SignUp(mContext);
                 try {
                     JSONObject jsonObject = new JSONObject();
-                    TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-                    jsonObject.put("device_id", TelephonyMgr.getDeviceId());
+                    if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                        TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                        jsonObject.put("device_id", TelephonyMgr.getDeviceId());
+                    }
                     jsonObject.put("mobile", et_mobile.getEditTextString().trim());
                     jsonObject.put("password", et_password.getEditTextString().trim());
                     jsonObject.put("verify_code", et_get_verification.getEditTextString().trim());

@@ -128,7 +128,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
-                            mLocationUtil.startLocation();
+                            mLocationUtil.startLocation(ConfirmMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
                         }
                         return;
