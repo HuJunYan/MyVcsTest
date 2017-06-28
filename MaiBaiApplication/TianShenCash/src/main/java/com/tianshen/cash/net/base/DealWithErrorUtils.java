@@ -74,7 +74,6 @@ public class DealWithErrorUtils {
         Application application = myApplicationLike.getApplication();
 
         Intent intent = new Intent(application, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         application.startActivity(intent);
     }
 }

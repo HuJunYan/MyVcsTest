@@ -45,6 +45,7 @@ import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.ApplyEvent;
 import com.tianshen.cash.event.AuthCenterBackEvent;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.QuotaEvent;
@@ -992,8 +993,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         float val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
         float offset = minMaxSb.getThumbOffset();
         float newX = val + offset;
-        LogUtil.d("abcd","val = " + val);
-        LogUtil.d("abcd","offset = " + offset);
+        LogUtil.d("abcd", "val = " + val);
+        LogUtil.d("abcd", "offset = " + offset);
         ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
         ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
         AnimatorSet animatorSet = new AnimatorSet();
@@ -1638,6 +1639,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         initUserConfig();
     }
 
+    @Subscribe
+    public void onTokenDeprecatedOrResetPassword(FinishCurrentActivityEvent event) {
+        CrashReport.setUserId("unknown");
+        initSelWithdrawalsData();
+        initStaticsRoll();
+        resetCardUI();
+    }
     /**
      * 收到了退出成功的消息
      */

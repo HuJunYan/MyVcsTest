@@ -1,7 +1,6 @@
 package com.tianshen.cash.activity;
 
 import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -206,9 +205,7 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                     MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
                     Application application = myApplicationLike.getApplication();
 
-                    Intent intent = new Intent(application, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    application.startActivity(intent);
+                   gotoActivity(mContext,LoginActivity.class,null);
 
                 }
 
