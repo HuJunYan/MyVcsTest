@@ -13,16 +13,21 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.model.UserConfig;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<UserConfig.Data.Consume> consume_status_list;
+    SimpleDateFormat simpleDateFormat;
 
 
     public OrderStatusAdapter(Context context, UserConfig userConfig) {
         this.mContext = context;
         this.consume_status_list = userConfig.getData().getConsume_status_list();
+        simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd mm:ss");
     }
 
     //创建新View，被LayoutManager所调用
@@ -57,7 +62,13 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         String consume_status_time = consume.getConsume_status_time();
         viewHolder.iv_time_line_title.setText(consume_status_title);
         viewHolder.iv_time_line_description.setText(consume_status_description);
-        viewHolder.iv_time_line_time.setText(consume_status_time);
+        try {
+            Date date = simpleDateFormat.parse(consume_status_time);
+            viewHolder.iv_time_line_time.setText(new SimpleDateFormat("MM.dd mm:ss").format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            viewHolder.iv_time_line_time.setText(consume_status_time);
+        }
 
     }
 
