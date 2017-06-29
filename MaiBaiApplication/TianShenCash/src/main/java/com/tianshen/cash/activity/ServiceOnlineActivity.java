@@ -278,17 +278,25 @@ public class ServiceOnlineActivity extends BaseActivity {
         rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                if (aBoolean){
+                if (aBoolean) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     String imagePaths = Config.SD_PATH + "temp/" + (System.currentTimeMillis() + ".jpg");
                     SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
                     sharedPreferences.edit().putString("sobot_imagePaths", imagePaths).commit();
                     File vFile = new File(imagePaths);
                     vFile.getParentFile().mkdirs();
-                    cameraUri = Uri.fromFile(vFile);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        ContentValues contentValues = new ContentValues(1);
+                        contentValues.put(MediaStore.Images.Media.DATA, vFile.getAbsolutePath());
+                        cameraUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                    } else {
+                        cameraUri = Uri.fromFile(vFile);
+                    }
+                    ;
+
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
                     startActivityForResult(intent, REQ_CAMERA);
-                }else {
+                } else {
                     ToastUtil.showToast(ServiceOnlineActivity.this, "请去设置开启照相机权限");
                 }
 
