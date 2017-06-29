@@ -32,6 +32,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.FileUtils;
+import com.tianshen.cash.utils.ToastUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -277,15 +278,20 @@ public class ServiceOnlineActivity extends BaseActivity {
         rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                String imagePaths = Config.SD_PATH + "temp/" + (System.currentTimeMillis() + ".jpg");
-                SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
-                sharedPreferences.edit().putString("sobot_imagePaths", imagePaths).commit();
-                File vFile = new File(imagePaths);
-                vFile.getParentFile().mkdirs();
-                cameraUri = Uri.fromFile(vFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-                startActivityForResult(intent, REQ_CAMERA);
+                if (aBoolean){
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    String imagePaths = Config.SD_PATH + "temp/" + (System.currentTimeMillis() + ".jpg");
+                    SharedPreferences sharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putString("sobot_imagePaths", imagePaths).commit();
+                    File vFile = new File(imagePaths);
+                    vFile.getParentFile().mkdirs();
+                    cameraUri = Uri.fromFile(vFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+                    startActivityForResult(intent, REQ_CAMERA);
+                }else {
+                    ToastUtil.showToast(ServiceOnlineActivity.this, "请去设置开启照相机权限");
+                }
+
             }
         });
     }
