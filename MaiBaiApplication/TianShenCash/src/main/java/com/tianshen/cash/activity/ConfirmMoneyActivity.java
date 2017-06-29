@@ -119,8 +119,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             String province = TianShenUserUtil.getProvince(mContext);
 
 
-
-
             if (TextUtils.isEmpty(location)) {
                 RxPermissions rxPermissions = new RxPermissions(ConfirmMoneyActivity.this);
                 rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
@@ -137,8 +135,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 ToastUtil.showToast(mContext, "请打开定位权限!");
                 return;
             }
-
-
 
 
             jsonObject.put("customer_id", customer_id);
@@ -236,7 +232,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
-        if (null == mOrderConfirmBean){
+        if (null == mOrderConfirmBean) {
             return;
         }
 //                 "customer_id": "（int）用户ID",
@@ -309,6 +305,9 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
      * 跳转到WebActivity
      */
     private void gotoWebActivity() {
+        if (mOrderConfirmBean == null) {
+            return;
+        }
         String userPayProtocolURL = NetConstantValue.getUserPayProtocolURL();
 
         String second_party = mOrderConfirmBean.getData().getSecond_party(); //乙方
