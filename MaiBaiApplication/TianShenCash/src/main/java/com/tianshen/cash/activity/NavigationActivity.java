@@ -339,7 +339,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                                 }
                             }).start();
                 }else {
-                    gotoMainAcitivity();
+//                    gotoMainAcitivity();
                 }
             }
         });
