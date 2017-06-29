@@ -4,14 +4,10 @@ package com.tianshen.cash.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,20 +24,13 @@ import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
-import com.tianshen.cash.activity.WebActivity;
 import com.tianshen.cash.base.BaseFragment;
-import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.CompanyInfoBean;
-import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.TianShenUser;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.api.GetCompayInfo;
-import com.tianshen.cash.net.api.IKnow;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -49,9 +38,6 @@ import com.tianshen.cash.utils.ToastUtil;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -311,5 +297,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Subscribe
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
         tvMeUserName.setText("未登录");
+    }
+
+    @Subscribe
+    public void onTokenError(FinishCurrentActivityEvent event) {
+        tvMeUserName.setText("未登录");
+
     }
 }
