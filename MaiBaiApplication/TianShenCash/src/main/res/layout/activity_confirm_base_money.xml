@@ -194,7 +194,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:text="温馨提示：以上期限、费用仅供参考，具体由审核时评定的信用等级决定。"
         android:textColor="#969696"
         android:textSize="12sp" />
@@ -202,12 +202,12 @@
     <TextView
         android:id="@+id/tv_confirm_apply"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/global_bg_green"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/shape_home_button_border"
         android:gravity="center"
         android:text="确认"
         android:textColor="@color/global_txt_white"
@@ -223,13 +223,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="确认表示同意"
+            android:textColor="#969696"
             android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tv_confirm_base_protocol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:text="@string/confirm_protocol"
             android:textColor="@color/global_txt_orange"
             android:textSize="14dp" />

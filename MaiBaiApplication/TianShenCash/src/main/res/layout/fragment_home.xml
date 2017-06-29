@@ -6,16 +6,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_height"
         android:background="@color/global_bg_white">
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_logo_name" />
+            android:layout_marginTop="16dp"
+            android:text="天神贷"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/global_txt_black4"/>
 
     </RelativeLayout>
 
@@ -37,13 +39,12 @@
                 android:id="@+id/rl_home_tianshen_card"
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:background="@drawable/ic_tianshen_card_bg"
-                android:paddingBottom="20dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                android:paddingTop="25dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_tianshen_card_bg2"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -66,14 +67,14 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:background="@drawable/shape_tianshen_card_border"
+                        android:paddingBottom="1dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
                         android:paddingTop="1dp"
-                        android:paddingBottom="1dp"
                         android:text="可借款"
-                        android:visibility="gone"
                         android:textColor="@color/global_txt_green"
-                        android:textSize="11sp" />
+                        android:textSize="11sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -82,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginTop="-8dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -116,8 +118,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="3dp">
+                    android:layout_marginBottom="16dp"
+                    android:layout_alignParentBottom="true">
 
                     <TextView
                         android:id="@+id/tv_home_tianshen_card_num"
@@ -153,6 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:inAnimation="@anim/push_up_in"
                 android:outAnimation="@anim/push_up_out" />

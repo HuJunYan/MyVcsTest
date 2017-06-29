@@ -11,6 +11,7 @@
 
         <TextView
             style="@style/title_txt_style"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的" />
@@ -205,6 +206,7 @@
                 android:id="@+id/rl_me_tianshen_service"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
+                android:visibility="gone"
                 android:background="@color/global_bg_white">
 
                 <ImageView
