@@ -14,6 +14,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.RepayEvent;
+import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.RepayInfoBean;
 import com.tianshen.cash.model.ResponseBean;
@@ -317,6 +318,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                    EventBus.getDefault().post(new RepayFailureEvent());
                 }
             });
         } catch (JSONException e) {
@@ -352,6 +354,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
+                    EventBus.getDefault().post(new RepayFailureEvent());
                 }
             });
         } catch (JSONException e) {

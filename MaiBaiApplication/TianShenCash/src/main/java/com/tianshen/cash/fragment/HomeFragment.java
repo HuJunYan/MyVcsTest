@@ -50,6 +50,7 @@ import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.QuotaEvent;
 import com.tianshen.cash.event.RepayEvent;
+import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.CashSubItemBean;
@@ -248,6 +249,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
+    private float density;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
@@ -285,6 +287,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         iv_home_market.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
         initTextSwitcher();
+        initData();
+    }
+
+    private void initData() {
+        density = getResources().getDisplayMetrics().density;
     }
 
 
@@ -750,6 +757,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             gotoSJDActivity(sjdUrl);
         } else {
             gotoActivity(mContext, ConfirmRepayActivity.class, null);
+            tv_goto_repay.setVisibility(View.GONE);
         }
     }
 
@@ -993,6 +1001,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         float val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
         float offset = minMaxSb.getThumbOffset();
         float newX = val + offset;
+        if (minMaxSb.getProgress() == minMaxSb.getMax()) {
+            newX -= density * 10;
+        }
         LogUtil.d("abcd", "val = " + val);
         LogUtil.d("abcd", "offset = " + offset);
         ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
@@ -1646,6 +1657,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         initStaticsRoll();
         resetCardUI();
     }
+
     /**
      * 收到了退出成功的消息
      */
@@ -1686,6 +1698,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         initUserConfig();
     }
 
+    /**
+     * 还款失败的event
+     * @param event
+     */
+    @Subscribe
+    public void onReplayFaile(RepayFailureEvent event){
+        tv_goto_repay.setVisibility(View.VISIBLE);
+    }
 
     /**
      * 收到了服务器下单超时的消息

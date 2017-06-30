@@ -171,7 +171,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     }
     //检查 当前页面是否是认证成功页面
     private boolean checkIsAuthSuccess() {
-        if (loadHistoryUrls.size() > 0 && "http://tst.tianshenjr.com/h5/sesame/se_order.html".equals(loadHistoryUrls.get(loadHistoryUrls.size() - 1))) {
+        if (loadHistoryUrls.size() > 0 && loadHistoryUrls.get(loadHistoryUrls.size() - 1) != null &&loadHistoryUrls.get(loadHistoryUrls.size() - 1) .endsWith("h5/sesame/se_order.html")) {
             backActivity();
             return true;
         }
