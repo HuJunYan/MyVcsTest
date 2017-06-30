@@ -79,7 +79,7 @@
 
     <color name="global_txt_gray">#c5c5c5</color>
 
-    <color name="global_txt_orange">#fe9900</color>
+    <color name="global_txt_orange">#ffba00</color>
 
     <!--全局分割线颜色-->
     <color name="global_line_bg">#e0e0e0</color>
