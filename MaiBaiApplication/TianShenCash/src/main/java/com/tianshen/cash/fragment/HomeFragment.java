@@ -757,7 +757,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             gotoSJDActivity(sjdUrl);
         } else {
             gotoActivity(mContext, ConfirmRepayActivity.class, null);
-            tv_goto_repay.setVisibility(View.GONE);
+            ll_repay.setVisibility(View.GONE);
         }
     }
 
@@ -1704,7 +1704,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onReplayFaile(RepayFailureEvent event){
-        tv_goto_repay.setVisibility(View.VISIBLE);
+        ll_repay.setVisibility(View.VISIBLE);
     }
 
     /**

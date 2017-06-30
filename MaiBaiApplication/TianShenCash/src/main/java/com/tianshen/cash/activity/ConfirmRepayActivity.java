@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -375,8 +376,10 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        EventBus.getDefault().post(new RepayFailureEvent());//用户取消还款
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            EventBus.getDefault().post(new RepayFailureEvent());
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
