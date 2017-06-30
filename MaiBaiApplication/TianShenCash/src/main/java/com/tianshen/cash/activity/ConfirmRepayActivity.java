@@ -125,6 +125,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm_money_back:
+                EventBus.getDefault().post(new RepayFailureEvent());//用户取消还款
                 backActivity();
                 break;
             case R.id.tv_confirm_repay_apply:
@@ -373,4 +374,9 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        EventBus.getDefault().post(new RepayFailureEvent());//用户取消还款
+    }
 }
