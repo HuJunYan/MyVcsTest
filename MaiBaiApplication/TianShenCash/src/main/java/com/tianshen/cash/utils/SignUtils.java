@@ -102,29 +102,35 @@ public class SignUtils {
         return "";
     }
 
-    public static JSONObject signJsonContainList(JSONObject jsonObject, String listType) {
-        JSONArray jsonArray;
+    public static JSONObject signJsonContainList(JSONObject jsonObject, String... listType) {
         try {
-            JSONObject newSubJson = new JSONObject();
-            jsonArray = jsonObject.getJSONArray(listType);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = (JSONObject) (jsonArray.get(i));
-                String md5Str = getJsonObjectSign(json);
-                newSubJson.put(i + "", md5Str);
+            String jsons = jsonObject.toString();
+            JSONObject newJson = new JSONObject(jsons);
+            JSONArray jsonArray;
+            for (int i = 0; i < listType.length; i++) {
+                jsonArray = jsonObject.getJSONArray(listType[i]);
+                JSONObject newSubJson = new JSONObject();
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    JSONObject json = (JSONObject) (jsonArray.get(j));
+                    String md5Str = getJsonObjectSign(json);
+                    newSubJson.put(j + "", md5Str);
+                }
+                String newJsonMd5String = getJsonObjectSignForList(newSubJson);  // 数字大小排
+                newJson.remove(listType[i]);
+                newJson.put(listType[i], newJsonMd5String);
+//                jsonObject.put(listType[i], jsonArray);
             }
-
-            String newJsonMd5String = getJsonObjectSignForList(newSubJson);  // 数字大小排
-            JSONObject newJson = jsonObject;
-            newJson.remove(listType);
-            newJson.put(listType, newJsonMd5String);
+//            JSONObject jsonObject2 = new JSONObject(s);
             String signString = getJsonObjectSign(newJson);
-            jsonObject.put(listType, jsonArray);
+//            LogUtil.d("aaa2", "sign = " + signString);
             jsonObject.put("sign", signString);
-        } catch (Exception e) {
+//            LogUtil.d("aaa2", "jsonObject = " + jsonObject);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
+
 
     private static String getJsonObjectSign(JSONObject jsonObject) {
         List<String> keyList = SignUtils.getSortedKeyList(jsonObject);
