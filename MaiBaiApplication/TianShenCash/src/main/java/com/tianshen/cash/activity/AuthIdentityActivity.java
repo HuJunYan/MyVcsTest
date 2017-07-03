@@ -795,7 +795,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String year = birthdayBean.year;
         String month = birthdayBean.month;
         String day = birthdayBean.day;
-        String birthday = year + month + day; //出生日期
+        String birthday = year + "年" + month + "月" + day + "日"; //出生日期
         String birthplace = mIDCardBean.address; //住址
         final String id_num = mIDCardBean.id_card_number; // 身份证号
 
