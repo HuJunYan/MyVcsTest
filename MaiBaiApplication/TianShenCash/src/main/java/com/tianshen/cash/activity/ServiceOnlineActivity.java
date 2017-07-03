@@ -292,8 +292,6 @@ public class ServiceOnlineActivity extends BaseActivity {
                     } else {
                         cameraUri = Uri.fromFile(vFile);
                     }
-                    ;
-
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
                     startActivityForResult(intent, REQ_CAMERA);
                 } else {
