@@ -117,7 +117,6 @@ public class SignUtils {
             JSONObject newJson = jsonObject;
             newJson.remove(listType);
             newJson.put(listType, newJsonMd5String);
-            newJson.put(listType, newJsonMd5String);
             String signString = getJsonObjectSign(newJson);
             jsonObject.put(listType, jsonArray);
             jsonObject.put("sign", signString);
