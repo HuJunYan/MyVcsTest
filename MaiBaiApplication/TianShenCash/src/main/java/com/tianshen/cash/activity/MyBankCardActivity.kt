@@ -15,11 +15,11 @@ import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
-import kotlinx.android.synthetic.main.activity_my_bank_card2.*
+import kotlinx.android.synthetic.main.activity_my_bank_card.*
 import org.json.JSONException
 import org.json.JSONObject
 
-class MyBankCardActivity2 : BaseActivity() {
+class MyBankCardActivity : BaseActivity() {
 
     private var mAdapter: MyBankCardAdapter? = null
     private var identityStatus = 0
@@ -29,7 +29,7 @@ class MyBankCardActivity2 : BaseActivity() {
         initMyBankCardData()
     }
 
-    override fun setContentView() = R.layout.activity_my_bank_card2
+    override fun setContentView() = R.layout.activity_my_bank_card
 
     override fun findViews() {
     }

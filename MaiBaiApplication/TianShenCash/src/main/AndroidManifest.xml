@@ -244,10 +244,6 @@
             android:value="18b3e0866fb0af8e4c546faf" />
 
         <activity
-            android:name=".activity.MyBankCardActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.InputVerificationActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -370,8 +366,9 @@
             android:name=".activity.SuperMarkerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MyBankCardActivity2"
+            android:name=".activity.MyBankCardActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />

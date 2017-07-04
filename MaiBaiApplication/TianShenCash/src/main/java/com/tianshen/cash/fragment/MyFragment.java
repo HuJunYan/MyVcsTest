@@ -43,7 +43,6 @@ import com.tianshen.cash.view.ImageTextView;
 import com.tianshen.cash.view.TitleBar;
 import com.umeng.analytics.MobclickAgent;
 
-import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

@@ -22,7 +22,6 @@ import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
-import com.tianshen.cash.activity.MyBankCardActivity2;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
@@ -166,7 +165,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                gotoActivity(mContext, MyBankCardActivity2.class, null);
+                gotoActivity(mContext, MyBankCardActivity.class, null);
                 break;
             case R.id.rl_me_tianshen_service:
                 if (!TianShenUserUtil.isLogin(mContext)) {
