@@ -34,7 +34,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="12dp"
-        android:background="@color/white"
+        android:background="@drawable/shape_my_bank_card_add"
         android:orientation="horizontal"
         android:visibility="gone">
 
