@@ -12,15 +12,18 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.BankCardInfoBean;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
+import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetAllBankList;
 import com.tianshen.cash.net.api.GetBankCardInfo;
 import com.tianshen.cash.net.api.GetBindVerifySms;
+import com.tianshen.cash.net.api.GetIdNumInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -71,6 +74,9 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_severity_code)
     TextView tvSeverityCode;
 
+    @BindView(R.id.tv_auth_bank_card_title)
+    TextView tv_auth_bank_card_title;
+
     private BankCardInfoBean mBankCardInfoBean;
     private BankListBean mBankListBean; //银行卡列表数据
     private ArrayList<String> mDialogData;// //银行卡列表dialog数据
@@ -100,7 +106,25 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initBankData();
+        checkFrom();
+    }
+
+    /**
+     * 判断是否哪个页面进来的
+     */
+    private void checkFrom() {
+        int bank_card_from = getIntent().getExtras().getInt(GlobalParams.BANK_CARD_FROM_KEY, 0);
+        if (bank_card_from == 0) {//从认证中心列表进入
+            tv_auth_bank_card_title.setText("银行卡信息");
+            initBankData();
+        } else if (bank_card_from == 1) {//从我的银行卡页面添加银行卡进入
+            tv_auth_bank_card_title.setText("银行卡信息");
+            initIdNumInfo();
+        } else if (bank_card_from == 2) { //从我的银行卡页面修改银行卡进入
+            tv_auth_bank_card_title.setText("换绑银行卡");
+            initIdNumInfo();
+        }
+
     }
 
     @Override
@@ -145,6 +169,37 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 initSeverityCode();
                 break;
         }
+    }
+
+    /**
+     * 得到用户认证的信息
+     */
+    private void initIdNumInfo() {
+
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put("customer_id", userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final GetIdNumInfo getIdNumInfo = new GetIdNumInfo(mContext);
+
+        getIdNumInfo.getIdNumInfo(jsonObject, false,
+                new BaseNetCallBack<IdNumInfoBean>() {
+                    @Override
+                    public void onSuccess(IdNumInfoBean paramT) {
+                        if (paramT == null || paramT.getData() == null) {
+                            return;
+                        }
+                        String name = paramT.getData().getReal_name();
+                        etAuthBankCardPerson.setText(name);
+                    }
+                    @Override
+                    public void onFailure(String url, int errorType, int errorCode) {
+
+                    }
+                });
     }
 
     /**
@@ -254,7 +309,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                         LogUtil.d("abc", "showBankListDialog---onSelection");
                     }
                 });
-        if (!this.isFinishing()){
+        if (!this.isFinishing()) {
             builder.show();
         }
     }
@@ -273,7 +328,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      */
     private void refreshSeverityTextUI() {
 
-        if (isFinishing()){
+        if (isFinishing()) {
             return;
         }
 

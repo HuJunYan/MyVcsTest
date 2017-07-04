@@ -288,6 +288,6 @@ public class GlobalParams {
 
 	public static final String SJD_BACK_DELAY_KEY = "sjd_back_delay_key";
 
-
+	public static final String BANK_CARD_FROM_KEY = "bank_card_from_key";
 
 }

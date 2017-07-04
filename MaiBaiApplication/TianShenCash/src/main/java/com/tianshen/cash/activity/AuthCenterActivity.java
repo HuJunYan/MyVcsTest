@@ -401,7 +401,9 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showToast(mContext, "请先进行身份认证");
                     return;
                 }
-                gotoActivity(mContext, AuthBankCardActivity.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putInt(GlobalParams.BANK_CARD_FROM_KEY, 0);
+                gotoActivity(mContext, AuthBankCardActivity.class, bundle);
                 break;
             case "芝麻信用":
                 if ("0".equals(identityStatus)) {

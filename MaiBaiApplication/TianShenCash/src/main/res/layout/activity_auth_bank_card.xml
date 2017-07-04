@@ -16,6 +16,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_auth_bank_card_title"
             style="@style/title_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_bank_card_person"
             android:background="@null"
-            android:hint="请输入持卡人名字"
+            android:editable="false"
             android:maxLength="15"
             android:textSize="14dp" />
 
@@ -124,9 +125,9 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_num_key"
             android:background="@null"
-            android:maxLength="19"
             android:hint="请输入您的银行卡号"
             android:inputType="number"
+            android:maxLength="19"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -155,9 +156,9 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_phone_num_key"
             android:background="@null"
-            android:maxLength="11"
             android:hint="请输入预留手机号"
             android:inputType="number"
+            android:maxLength="11"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -187,8 +188,8 @@
             android:layout_toRightOf="@id/tv_severity_code_key"
             android:background="@null"
             android:hint="请输入验证码"
-            android:maxLength="6"
             android:inputType="number"
+            android:maxLength="6"
             android:textSize="14dp" />
 
 
