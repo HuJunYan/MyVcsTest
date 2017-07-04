@@ -50,8 +50,6 @@ public class PhoneInfoUtil {
     private PhoneInfoUtil() {
     }
 
-    private static final String TAG = "PhoneInfoUtil";
-
     //获取手机已安装的应用列表 包名
     public static List<String> getPhoneInstalledAppList(Context context) {
         ArrayList<String> packageNameList = new ArrayList<>();
@@ -375,7 +373,6 @@ public class PhoneInfoUtil {
         rxPermissions.request(Manifest.permission.READ_CALL_LOG).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
-                JSONArray jsonArray = new JSONArray();
                 if (aBoolean) {
                     getCall_listObservable(activity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
                         @Override
@@ -387,11 +384,9 @@ public class PhoneInfoUtil {
 
                         @Override
                         public void onNext(JSONArray value) {
-                            LogUtil.d("onNext", "value = " + value);
                             if (callback != null) {
                                 callback.sendMessageToRegister(value, "call_list");
                             }
-
                         }
 
                         @Override
@@ -420,8 +415,11 @@ public class PhoneInfoUtil {
 //                        }
 //                        jsonArray.put(i, jsonObject);
 //                    }
+                } else {
+                    if (callback != null) {
+                        callback.sendMessageToRegister(new JSONArray(), "call_list");
+                    }
                 }
-//                callback.sendMessageToRegister(jsonArray, "call_list");
 
             }
         });
@@ -467,6 +465,10 @@ public class PhoneInfoUtil {
                                 public void onComplete() {
                                 }
                             });
+                } else {
+                    if (callback != null) {
+                        callback.sendMessageToRegister(new JSONArray(), "message_list");
+                    }
                 }
 //                JSONArray jsonArray = new JSONArray();
 //                List<SmsInfoBean> smsList = getSmsList(activity);
@@ -505,7 +507,6 @@ public class PhoneInfoUtil {
                         jsonObject.put("message_type", smsInfoBean.type);
                         jsonArray.put(i, jsonObject);
                     }
-                    Log.i(TAG, "subscribe: jsona = " + jsonArray.toString());
                     e.onNext(jsonArray);
                     e.onComplete();
                 }
@@ -571,4 +572,28 @@ public class PhoneInfoUtil {
     public interface PhoneInfoCallback {
         void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName);
     }
+//
+//    /**
+//     * 获取用户的app列表  通话记录 以及 短信列表
+//     */
+//    private void getUserInformation() {
+//        PhoneInfoUtil.getApp_list(getActivity(),myCallBack);
+//        PhoneInfoUtil.getCall_list(getActivity(),myCallBack);
+//    }
+//    private PhoneInfoUtil.PhoneInfoCallback myCallBack = new PhoneInfoUtil.PhoneInfoCallback() {
+//        @Override
+//        public void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName) {
+//            step++;
+//            if ("call_list".equals(jsonArrayName)){
+//                PhoneInfoUtil.getMessage_list(getActivity(),myCallBack);
+//            }
+//            LogUtil.d("userinfo",jsonArray.toString());
+//            if (step == 3){
+//                ToastUtil.showToast(getActivity(),"读取完毕");
+//                step = 0;
+//            }
+//
+//        }
+//    };
+
 }
