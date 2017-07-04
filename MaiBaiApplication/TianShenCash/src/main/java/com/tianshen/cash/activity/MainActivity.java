@@ -20,13 +20,10 @@ import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.fragment.HomeFragment;
 import com.tianshen.cash.fragment.MeFragment;
 import com.tianshen.cash.model.JpushAddBorrowTermBean;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LocationUtil;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RequestPermissionUtil;
 import com.tianshen.cash.utils.WithdrawalsApplyResultUtil;
 import com.tianshen.cash.view.MyViewPager;
-import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -34,9 +31,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private RadioButton  rb_my, rb_withdrawals;
-//    private MyFragment mMyFragment;
     private MeFragment mMeFragment;
-//    private WithdrawalsFragment mWithdrawalsFragment;
     private HomeFragment mHomeFragment;
     private MyViewPager vp_main;
     private ArrayList<Fragment> mFragmentList;
@@ -66,7 +61,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void findViews() {
-//        rb_zero_yuan_buy = (RadioButton) findViewById(R.id.rb_zero_yuan_buy);
         rb_withdrawals = (RadioButton) findViewById(R.id.rb_withdrawals);
         rb_my = (RadioButton) findViewById(R.id.rb_my);
         vp_main = (MyViewPager) findViewById(R.id.vp_main);
@@ -75,9 +69,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-           /* case R.id.rb_zero_yuan_buy:
-                vp_main.setCurrentItem(0);
-                break;*/
             case R.id.rb_withdrawals:
                 vp_main.setCurrentItem(0);
                 break;
@@ -88,19 +79,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
     }
-    public int getTopFragmentIndex(){
-        /*if(rb_zero_yuan_buy.isChecked()){
+
+    public int getTopFragmentIndex() {
+        if (rb_withdrawals.isChecked()) {
             return 0;
-        }else*/ if(rb_withdrawals.isChecked()){
-                return 0;
-        }else if(rb_my.isChecked()){
+        } else if (rb_my.isChecked()) {
             return 1;
         }
         return -1;
     }
     @Override
     protected void setListensers() {
-//        rb_zero_yuan_buy.setOnClickListener(this);
         rb_withdrawals.setOnClickListener(this);
         rb_my.setOnClickListener(this);
         vp_main.setOnPageChangeListener(this);
@@ -119,9 +108,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onPageSelected(int id) {
         switch (id) {
-            /*case 0:
-                rb_zero_yuan_buy.setChecked(true);
-                break;*/
             case 0:
                 rb_withdrawals.setChecked(true);
                 break;
@@ -136,14 +122,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void addFragment() {
 
-//        if (mWithdrawalsFragment == null) {
-//            mWithdrawalsFragment = new WithdrawalsFragment();
-//        }
-//        if (mMyFragment == null) {
-//            mMyFragment = new MyFragment();
-//        }
-
-
         if (mHomeFragment == null) {
             mHomeFragment = new HomeFragment();
         }
@@ -154,8 +132,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         if (mFragmentList == null) {
             mFragmentList = new ArrayList<Fragment>();// 初始化数据
-//            mFragmentList.add(mZeroYuanBuyFragment);
-//            mFragmentList.add(mWithdrawalsFragment);
             mFragmentList.add(mHomeFragment);
             mFragmentList.add(mMeFragment);
         }
@@ -220,58 +196,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     break;
             }
 
-        }
-    }
-
-    public void validateCashApplyStatus() {
-        try {
-            switch (UserUtil.getCashCreditStatus(mContext)) {
-                case GlobalParams.CASH_APPLY_HAVE_BEEN_VERIFY:
-                    if ("1".equals(UserUtil.getCashNeedPop(mContext))) {
-                        String amount = UserUtil.getCashAmount(mContext);
-                        new WithdrawalsApplyResultUtil(mContext).showSuccessDialog((int) (Double.valueOf(amount) / 100) + "");
-                    }
-                    break;
-                case GlobalParams.CASH_APPLY_WAIT_VERIFY: {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(GlobalParams.APPLY_TYPE_KEY, GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY);
-                    bundle.putString(GlobalParams.WITHDRAWALS_VERIFY_ID_KEY, UserUtil.getCashCreditConsumeId(mContext));
-                    gotoActivity(mContext, WaitVerifyWithdrawalActivity.class, bundle);//提现待审核
-                }
-                break;
-                case GlobalParams.CASH_APPLY_REFUSE_BY_PERSON: {
-
-
-//                    Bundle bundle = new Bundle();
-//                    bundle.putInt(GlobalParams.APPLY_TYPE_KEY, GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY);
-//                    bundle.putInt(GlobalParams.REFUSE_TYPE_KEY, GlobalParams.REFUSE_BY_PERSON_TYPE);
-//                    gotoActivity(mContext, VerifyFailActivity.class, bundle);
-                }
-                break;
-                case GlobalParams.CASH_APPLY_REFUSE_BY_MACHINE: {
-                    //用户在黑名单时直接跳转至拒绝
-                    String alreadyNums=UserUtil.getAlreadyNums(mContext);
-                    String hopeNums=UserUtil.getHopeNums(mContext);
-                    if(null==alreadyNums||"".equals(alreadyNums)) {
-                        alreadyNums = "0";
-                    }
-                    if(null==hopeNums||"".equals(hopeNums)) {
-                        hopeNums = "0";
-                    }
-                    if(Integer.valueOf(hopeNums)>Integer.valueOf(alreadyNums)) {
-                        gotoActivity(mContext,VerifyFailActivity.class,null);
-                        return;
-                    }
-//                    Bundle bundle = new Bundle();
-//                    bundle.putInt(GlobalParams.APPLY_TYPE_KEY, GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY);
-//                    bundle.putInt(GlobalParams.REFUSE_TYPE_KEY, GlobalParams.REFUSE_BY_MACHINE_TYPE);
-//                    gotoActivity(mContext, VerifyFailActivity.class, bundle);
-                }
-                break;
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
     }
 
