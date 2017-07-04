@@ -44,14 +44,12 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-
-
     <permission
         android:name="com.tianshen.cash.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <application
-        android:name="com.tianshen.cash.base.MyApplication"
+        android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -107,13 +105,13 @@
             android:name=".activity.AddBankCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.tianshen.cash.idcard.activity.IDCardScanActivity"
+            android:name=".idcard.activity.IDCardScanActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.tianshen.cash.liveness.activity.LivenessActivity"
+            android:name=".liveness.activity.LivenessActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ActivateSuccessActivity" />
         <activity android:name=".activity.WaitVerifyWithdrawalActivity" />
@@ -329,67 +327,54 @@
         <activity
             android:name=".activity.BorrowRepayActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AuthIdentityActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AuthCenterActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AuthInfoActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AuthExtroContactsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.AuthBankCardActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ChinaMobileActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ConfirmMoneyActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ConfirmBankCardActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ConfirmRepayActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.WebActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ServiceOnlineActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SJDActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.ConfirmBaseMoneyActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.SuperMarkerActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.MyBankCardActivity2"
+            android:screenOrientation="portrait" />
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
-
         <service
             android:name=".service.TinkerResultService"
             android:exported="false" />
