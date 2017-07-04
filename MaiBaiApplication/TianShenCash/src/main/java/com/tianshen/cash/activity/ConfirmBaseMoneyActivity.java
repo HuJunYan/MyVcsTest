@@ -17,17 +17,23 @@ import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
+import com.tianshen.cash.net.api.UploadUserInfoApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
+import com.tianshen.cash.utils.PhoneInfoUtil;
 import com.tianshen.cash.utils.SafeUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.ViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -131,12 +137,13 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                             LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
                             mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
-                        }else {
+                        } else {
                             ToastUtil.showToast(mContext, "请打开定位权限!");
                         }
                         return;
                     }
                 });
+                ToastUtil.showToast(mContext, "请打开定位权限!");
                 return;
             }
 
@@ -177,6 +184,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 backActivity();
                 break;
             case R.id.tv_confirm_apply:
+//                uploadUserInfo();
                 onClickApply();
                 break;
             case R.id.tv_confirm_base_protocol:
@@ -184,7 +192,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 break;
         }
     }
-
     /**
      * 刷新UI
      */
@@ -235,8 +242,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 点击了确认
      */
     private void onClickApply() {
-
-        if (mOrderConfirmBean == null){
+        if (mOrderConfirmBean == null) {
             return;
         }
 
@@ -309,7 +315,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      */
     private void gotoWebActivity() {
 
-        if (mOrderConfirmBean == null){
+        if (mOrderConfirmBean == null) {
             return;
         }
 
@@ -382,6 +388,90 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     public void onAuthCenterBack(LocationEvent event) {
         LogUtil.d("abc", "收到了定位成功的消息");
         onClickApply();
+//        uploadUserInfo();
     }
+
+
+    /**
+     * 获取用户的app列表  通话记录 以及 短信列表
+     */
+    private void uploadUserInfo() {
+        String loadText = getResources().getText(MemoryAddressUtils.loading()).toString();
+        String location = TianShenUserUtil.getLocation(mContext);
+        if (TextUtils.isEmpty(location)) {
+            RxPermissions rxPermissions = new RxPermissions(ConfirmBaseMoneyActivity.this);
+            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean aBoolean) throws Exception {
+                    if (aBoolean) {
+                        LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                        mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
+                        mLocationUtil.setIsCallBack(true);
+                    }
+                    return;
+                }
+            });
+            ToastUtil.showToast(mContext, "请打开定位权限!");
+            return;
+        }
+        ViewUtil.createLoadingDialog(this, loadText, false);
+        LogUtil.d("userinfo", "location =" + location);
+        mJSONObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(this);
+        try {
+            mJSONObject.put("customer_id", userId); //用户id
+            mJSONObject.put("location", location); //用户定位信息
+            mJSONObject.put("is_wifi", PhoneInfoUtil.getNetworkType(this) ? "1" : "0");
+            mJSONObject.put("device_id", UserUtil.getDeviceId(this));
+            PhoneInfoUtil.getApp_list(this, myCallBack);
+            PhoneInfoUtil.getCall_list(this, myCallBack);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            ViewUtil.cancelLoadingDialog();
+        }
+    }
+
+    private JSONObject mJSONObject;
+    private int step = 0;
+    private PhoneInfoUtil.PhoneInfoCallback myCallBack = new PhoneInfoUtil.PhoneInfoCallback() {
+        @Override
+        public void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName) {
+            try {
+                step++;
+                if ("call_list".equals(jsonArrayName)) {
+                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack);
+                }
+                mJSONObject.put(jsonArrayName, jsonArray);
+                if (step == 3) {
+                    step = 0;
+                    LogUtil.d("userinfo", mJSONObject.toString());
+                    startUploadUserInfo();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                step = 0;
+                ViewUtil.cancelLoadingDialog();
+            }
+        }
+    };
+
+
+    // 开始上传用户信息
+    private void startUploadUserInfo() {
+        UploadUserInfoApi uploadUserInfoApi = new UploadUserInfoApi(this);
+        uploadUserInfoApi.uploadUserInfo(mJSONObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                onClickApply();
+                LogUtil.d("userinfo", "code = " + paramT.getCode() + "msg = " + paramT.getMsg());
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+                LogUtil.d("userinfo", "failure" + url + ",errortype = " + errorType + ",errorcode = " + errorCode);
+            }
+        });
+    }
+
 
 }

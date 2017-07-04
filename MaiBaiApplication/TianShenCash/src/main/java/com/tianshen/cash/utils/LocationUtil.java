@@ -61,7 +61,7 @@ public class LocationUtil implements BDLocationListener {
 
     public void startLocation(Activity activity) {
         RxPermissions rxPermissions = new RxPermissions(activity);
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
@@ -116,14 +116,14 @@ public class LocationUtil implements BDLocationListener {
             mLocation = bdLocation;
             Address address = bdLocation.getAddress();
             SharedPreferencesUtil share = SharedPreferencesUtil.getInstance(mContext);
-            share.putString("location", bdLocation.getLatitude() + "," + bdLocation.getLongitude());
+            share.putString("location", bdLocation.getLongitude() + "," + bdLocation.getLatitude());
             share.putString("province", address.province);
             share.putString("city", address.city);
             share.putString("country", address.district);
             share.putString("address", address.address);
 //            Log.d("ret", "province = " + address.province + " ; city = " + address.city + " ; country = " + address.district);
 
-            TianShenUserUtil.saveLocation(mContext, bdLocation.getLatitude() + "," + bdLocation.getLongitude());
+            TianShenUserUtil.saveLocation(mContext, bdLocation.getLongitude() + "," + bdLocation.getLatitude());
             TianShenUserUtil.saveProvince(mContext, address.province);
             TianShenUserUtil.saveCity(mContext, address.city);
             TianShenUserUtil.saveCountry(mContext, address.district);

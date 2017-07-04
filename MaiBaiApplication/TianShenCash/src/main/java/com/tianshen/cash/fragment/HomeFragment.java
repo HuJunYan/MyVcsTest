@@ -372,7 +372,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void onClickApply() {
 
-        if (mUserConfig == null) {
+        if (mUserConfig == null || mUserConfig.getData() == null) {
+            ToastUtil.showToast(getActivity(), "数据错误");
             return;
         }
 
@@ -657,11 +658,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 检查用户当前的状态，显示不同的UI
      */
     private void checkUserConfig() {
-        if (mUserConfig == null) {
+        if (mUserConfig == null || mUserConfig.getData() == null) {
             //TODO 展示解析错误的UI
+            ToastUtil.showToast(getActivity(), "数据错误");
             return;
         }
-
         //刷新天神卡
         refreshCardUI();
 
@@ -1625,6 +1626,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onRefresh() {
+            if (mUserConfig == null || mUserConfig.getData() == null){
+                ToastUtil.showToast(getActivity(),"数据错误");
+                return;
+            }
             String status = mUserConfig.getData().getStatus();
             String isPayway = mUserConfig.getData().getIs_payway();
             if ("1".equals(status) && "99".equals(isPayway)) {
@@ -1700,10 +1705,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     /**
      * 还款失败的event
+     *
      * @param event
      */
     @Subscribe
-    public void onReplayFaile(RepayFailureEvent event){
+    public void onReplayFaile(RepayFailureEvent event) {
         ll_repay.setVisibility(View.VISIBLE);
     }
 

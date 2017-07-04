@@ -120,7 +120,7 @@ public class PhoneInfoUtil {
         try {
             Uri uri = Uri.parse(SMS_URI_ALL);
             String[] projection = new String[]{"_id", "address", "person", "body", "date", "type"};
-            Cursor cur = activity.getContentResolver().query(uri, projection, null, null, null);      // 获取手机内部短信
+            Cursor cur = activity.getContentResolver().query(uri, projection, null, null, "date desc LIMIT " + count);      // 获取手机内部短信
             if (cur.moveToFirst()) {
                 int index_Address = cur.getColumnIndex("address");
                 int index_Person = cur.getColumnIndex("person");
@@ -160,6 +160,7 @@ public class PhoneInfoUtil {
 
 
     final static String SMS_URI_ALL = "content://sms/";
+    private static final int count = 10;
 
     /**
      * 获取通话记录 权限在外部做处理
@@ -173,7 +174,7 @@ public class PhoneInfoUtil {
             return phoneRecordBeans;
         }
         Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI,
-                null, null, null, null);
+                null, null, null, CallLog.Calls.DATE + " desc LIMIT " + count);
         if (cursor.moveToFirst()) {
             PhoneRecordBean phoneRecordBean;
             do {
@@ -572,28 +573,5 @@ public class PhoneInfoUtil {
     public interface PhoneInfoCallback {
         void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName);
     }
-//
-//    /**
-//     * 获取用户的app列表  通话记录 以及 短信列表
-//     */
-//    private void getUserInformation() {
-//        PhoneInfoUtil.getApp_list(getActivity(),myCallBack);
-//        PhoneInfoUtil.getCall_list(getActivity(),myCallBack);
-//    }
-//    private PhoneInfoUtil.PhoneInfoCallback myCallBack = new PhoneInfoUtil.PhoneInfoCallback() {
-//        @Override
-//        public void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName) {
-//            step++;
-//            if ("call_list".equals(jsonArrayName)){
-//                PhoneInfoUtil.getMessage_list(getActivity(),myCallBack);
-//            }
-//            LogUtil.d("userinfo",jsonArray.toString());
-//            if (step == 3){
-//                ToastUtil.showToast(getActivity(),"读取完毕");
-//                step = 0;
-//            }
-//
-//        }
-//    };
 
 }

@@ -670,4 +670,7 @@ public class NetConstantValue {
     }
 
 
+    public static String getUploadUserInfoURL() {
+        return COMMONURI + "Customer/savePhoneInfo";
+    }
 }
