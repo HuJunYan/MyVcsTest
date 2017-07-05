@@ -424,7 +424,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             mJSONObject.put("is_wifi", PhoneInfoUtil.getNetworkType(this) ? "1" : "0");
             mJSONObject.put("device_id", UserUtil.getDeviceId(this));
             PhoneInfoUtil.getApp_list(this, myCallBack);
-            PhoneInfoUtil.getCall_list(this, myCallBack);
+            PhoneInfoUtil.getCall_list(this, myCallBack,null);
         } catch (JSONException e) {
             e.printStackTrace();
             ViewUtil.cancelLoadingDialog();
@@ -439,7 +439,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             try {
                 step++;
                 if ("call_list".equals(jsonArrayName)) {
-                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack);
+                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack,null);
                 }
                 mJSONObject.put(jsonArrayName, jsonArray);
                 if (step == 3) {
