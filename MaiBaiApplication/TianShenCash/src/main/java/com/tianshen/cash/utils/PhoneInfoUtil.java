@@ -27,6 +27,7 @@ import com.tianshen.cash.model.SmsInfoBean;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,21 +107,33 @@ public class PhoneInfoUtil {
      * @param activity 需要动态获取 Manifest.permission.READ_SMS 权限
      * @return
      */
-    private static List<SmsInfoBean> getSmsList(Activity activity) {
+    private static List<SmsInfoBean> getSmsList(Activity activity,String lastDate) {
 //        PhoneInfoUtil.activity = activity;
         //通过loader 读取短信  这种方式需要异步回调 未添加
 //        activity.getLoaderManager().initLoader(0, null, new SmsCallBack());
         //通过内容解析者获取短信
-        return getSmsListFromResolver(activity);
+        return getSmsListFromResolver(activity,lastDate);
     }
 
     //通过内容解析者 获取短信内容
-    private static List<SmsInfoBean> getSmsListFromResolver(Context activity) {
+    private static List<SmsInfoBean> getSmsListFromResolver(Context activity,String lastDate) {
         List<SmsInfoBean> smsList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//        String lastDate = "2017-05-31 10:22:14";
+        long timestamp = 0;
+        if (lastDate != null) {
+            try {
+                Date parse = dateFormat.parse(lastDate);
+                timestamp = parse.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             Uri uri = Uri.parse(SMS_URI_ALL);
             String[] projection = new String[]{"_id", "address", "person", "body", "date", "type"};
-            Cursor cur = activity.getContentResolver().query(uri, projection, null, null, "date desc LIMIT " + count);      // 获取手机内部短信
+            Cursor cur = activity.getContentResolver().query(uri, projection, "date>?", new String[]{"" + timestamp}, "date desc LIMIT " + count);      // 获取手机内部短信
+//            Cursor cur = activity.getContentResolver().query(uri, projection, "date>?", new String[]{"" + time}, "date desc LIMIT 10");      // 获取手机内部短信
             if (cur.moveToFirst()) {
                 int index_Address = cur.getColumnIndex("address");
                 int index_Person = cur.getColumnIndex("person");
@@ -134,11 +147,11 @@ public class PhoneInfoUtil {
                     String smsBody = cur.getString(index_Body);
                     long longDate = cur.getLong(index_Date);
                     int intType = cur.getInt(index_Type);
-
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     Date d = new Date(longDate);
                     String date = dateFormat.format(d);
-
+                    if (lastDate != null && lastDate.equals(date)) {
+                        continue;
+                    }
                     int type = 0;
                     if (intType == 1) {
                         type = 0;//发送
@@ -160,7 +173,7 @@ public class PhoneInfoUtil {
 
 
     final static String SMS_URI_ALL = "content://sms/";
-    private static final int count = 10;
+    private static final int count = 100;
 
     /**
      * 获取通话记录 权限在外部做处理
@@ -168,13 +181,25 @@ public class PhoneInfoUtil {
      *
      * @param context
      */
-    private static ArrayList<PhoneRecordBean> getPhoneRecod(Context context) {
+    private static ArrayList<PhoneRecordBean> getPhoneRecod(Context context,String lastDate) {
         ArrayList<PhoneRecordBean> phoneRecordBeans = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             return phoneRecordBeans;
         }
+        long timestamp = 0;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String lastDate = "2017-06-29 14:30:37";
+        if (lastDate != null) {
+            try {
+
+                Date parse = dateFormat.parse(lastDate);
+                timestamp = parse.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         Cursor cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI,
-                null, null, null, CallLog.Calls.DATE + " desc LIMIT " + count);
+                null, CallLog.Calls.DATE + ">?", new String[]{"" + timestamp}, CallLog.Calls.DATE + " desc LIMIT " + count);
         if (cursor.moveToFirst()) {
             PhoneRecordBean phoneRecordBean;
             do {
@@ -196,10 +221,16 @@ public class PhoneInfoUtil {
                         type = "挂断";//应该是挂断.根据我手机类型判断出的
                         break;
                 }
-                SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date(Long.parseLong(cursor.getString(cursor.getColumnIndexOrThrow(CallLog.Calls.DATE))));
                 //呼叫时间
-                String time = sfd.format(date);
+//                if (timeStamp != 0 && timeStamp == date.getTime()) {
+//                    LogUtil.d("userinfo","continue" +dateFormat.format(date));
+//                    continue;
+//                }
+                String time = dateFormat.format(date);
+                if (lastDate != null && lastDate.equals(time)) {
+                    continue;
+                }
                 //联系人
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(CallLog.Calls.CACHED_NAME));
                 //通话时间,单位:s
@@ -207,6 +238,10 @@ public class PhoneInfoUtil {
                 phoneRecordBean = new PhoneRecordBean(name, type, time, duration, number);
                 phoneRecordBeans.add(phoneRecordBean);
             } while (cursor.moveToNext());
+            if (!cursor.isClosed()) {
+                cursor.close();
+                cursor = null;
+            }
         }
         return phoneRecordBeans;
     }
@@ -368,14 +403,15 @@ public class PhoneInfoUtil {
      *
      * @param activity
      * @param callback
+     * @param lastDate 上一次获取的电话记录的date  格式 :yyyy-MM-dd hh:mm:ss
      */
-    public static void getCall_list(final Activity activity, final PhoneInfoCallback callback) {
+    public static void getCall_list(final Activity activity, final PhoneInfoCallback callback,final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.request(Manifest.permission.READ_CALL_LOG).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    getCall_listObservable(activity).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
+                    getCall_listObservable(activity,lastDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             String loadText = activity.getResources().getText(MemoryAddressUtils.loading()).toString();
@@ -431,14 +467,15 @@ public class PhoneInfoUtil {
      *
      * @param activity
      * @param callback
+     * @param lastDate 上一次获取的短信的date  格式 :yyyy-MM-dd hh:mm:ss
      */
-    public static void getMessage_list(final Activity activity, final PhoneInfoCallback callback) {
+    public static void getMessage_list(final Activity activity, final PhoneInfoCallback callback,final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.request(Manifest.permission.READ_SMS).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    getmessage_ListObservable(activity).subscribeOn(Schedulers.io())
+                    getmessage_ListObservable(activity,lastDate).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<JSONArray>() {
                                 @Override
@@ -490,13 +527,13 @@ public class PhoneInfoUtil {
     }
 
 
-    private static Observable<JSONArray> getmessage_ListObservable(final Activity activity) {
+    private static Observable<JSONArray> getmessage_ListObservable(final Activity activity,final String lastDate) {
         return Observable.create(new ObservableOnSubscribe<JSONArray>() {
             @Override
             public void subscribe(ObservableEmitter<JSONArray> e) throws Exception {
                 if (!e.isDisposed()) {
                     JSONArray jsonArray = new JSONArray();
-                    List<SmsInfoBean> smsList = getSmsList(activity);
+                    List<SmsInfoBean> smsList = getSmsList(activity,lastDate);
                     JSONObject jsonObject;
                     for (int i = 0; i < smsList.size(); i++) {
                         SmsInfoBean smsInfoBean = smsList.get(i);
@@ -517,13 +554,13 @@ public class PhoneInfoUtil {
         });
     }
 
-    private static Observable<JSONArray> getCall_listObservable(final Activity activity) {
+    private static Observable<JSONArray> getCall_listObservable(final Activity activity, final String lastDate) {
         return Observable.create(new ObservableOnSubscribe<JSONArray>() {
             @Override
             public void subscribe(ObservableEmitter<JSONArray> e) throws Exception {
                 if (!e.isDisposed()) {
                     JSONArray jsonArray = new JSONArray();
-                    ArrayList<PhoneRecordBean> phoneRecod = getPhoneRecod(activity.getApplicationContext());
+                    ArrayList<PhoneRecordBean> phoneRecod = getPhoneRecod(activity.getApplicationContext(),lastDate);
                     for (int i = 0; i < phoneRecod.size(); i++) {
                         JSONObject jsonObject = new JSONObject();
                         PhoneRecordBean phoneRecordBean = phoneRecod.get(i);
