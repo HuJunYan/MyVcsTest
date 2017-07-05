@@ -70,12 +70,12 @@ public class UpdateManager {
     private int lastCount = 0;
     private Control control;
 
-    public UpdateManager(Context context, String apkUrl, String explain, String upgradeType) {
+    public UpdateManager(Context context, String apkUrl, String explain, String upgradeType, Control control) {
         this.mContext = context;
         this.apkUrl = apkUrl;
         this.explain = explain;
         this.upgradeType = upgradeType;
-        this.control = (Control) context;
+        this.control = control;
     }
 
     private Handler mHandler = new Handler() {
@@ -172,7 +172,10 @@ public class UpdateManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    control.cancelUpdate();
+                    if (control != null){
+                        control.cancelUpdate();
+                    }
+
                 }
             });
             noticeDialog = builder.create();
@@ -224,7 +227,9 @@ public class UpdateManager {
                     errorTimer.cancel();
                     dialog.dismiss();
                     interceptFlag = true;
-                    control.cancelUpdate();
+                    if (control !=null){
+                        control.cancelUpdate();
+                    }
                 }
             });
             downloadDialog = builder.create();

@@ -178,7 +178,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
                         String apkUrl = paramT.getData().getDownload_url();//更新下载路径
                         String explain = paramT.getData().getIntroduction();//更新说明
                         String upgradeType = paramT.getData().getForce_upgrade();//更新类型
-                        mUpdateManager = new UpdateManager(mContext, apkUrl, explain, upgradeType);
+                        mUpdateManager = new UpdateManager(mContext, apkUrl, explain, upgradeType,AboutMaibeiActivity.this);
                         mUpdateManager.checkUpdateInfo();
                     } else {
                         ToastUtil.showToast(mContext, paramT.getMsg());

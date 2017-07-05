@@ -195,7 +195,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                     if ("1".equals(is_ignore)) {
                         gotoMainAcitivity();
                     } else {
-                        UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType);
+                        UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType, NavigationActivity.this);
                         mUpdateManager.checkUpdateInfo();
                     }
                 }
