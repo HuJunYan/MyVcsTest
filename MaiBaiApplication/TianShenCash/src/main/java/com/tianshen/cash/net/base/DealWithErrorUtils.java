@@ -10,6 +10,7 @@ import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
+import com.tianshen.cash.event.UpdateEvent;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -28,11 +29,14 @@ public class DealWithErrorUtils {
             errorMsg = context.getResources().getString(R.string.ServiceFaile);
         }
         if (mResponseBean != null) {
-            showErrorToast(context, mResponseBean.getCode(), errorMsg, view);
+            showErrorToast(context, mResponseBean, errorMsg, view);
         }
     }
 
-    private static void showErrorToast(Context context, int err_code, String err_msg, View view) {
+    private static void showErrorToast(Context context, ResponseBean responseBean, String err_msg, View view) {
+
+        int err_code = responseBean.getCode();
+
         switch (err_code) {
             case 10000:
             case 118: // 无升级
@@ -52,6 +56,15 @@ public class DealWithErrorUtils {
                 ToastUtil.showToast(context, "网络不给力：" + err_code);
                 break;
             case 131: // 获取掌中验证码1分钟重复点击了
+                break;
+            case 888: // 强制升级
+                ResponseBean.Data responseBeanData = responseBean.getData();
+                String download_url = responseBeanData.getDownload_url();
+                String introduction = responseBeanData.getIntroduction();
+                UpdateEvent updateEvent = new UpdateEvent();
+                updateEvent.setDownload_url(download_url);
+                updateEvent.setIntroduction(introduction);
+                EventBus.getDefault().post(updateEvent);
                 break;
             case 999: // 系统维护
                 ServiceErrorEvent errorEvent = new ServiceErrorEvent();

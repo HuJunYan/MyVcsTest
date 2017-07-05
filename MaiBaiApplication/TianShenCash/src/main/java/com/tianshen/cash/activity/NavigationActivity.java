@@ -231,40 +231,6 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     }
 
     /**
-     * 显示系统维护的dialog
-     */
-    private void showServiceErrorDialog(String msg) {
-        if (isFinishing()) {
-            return;
-        }
-        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = mLayoutInflater.inflate(R.layout.dialog_service_error, null, false);
-        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
-        mDialog.setContentView(view);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.setCancelable(false);
-        TextView tv_dialog_error_tips = (TextView) view.findViewById(R.id.tv_dialog_error_tips);
-        tv_dialog_error_tips.setText(msg);
-        ImageView iv_dialog_error_close = (ImageView) view.findViewById(R.id.iv_dialog_error_close);
-        iv_dialog_error_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-                finish();
-            }
-        });
-        mDialog.show();
-    }
-
-    /**
-     * 收到了服务器维护的消息
-     */
-    @Subscribe
-    public void onServiceErrorEvent(ServiceErrorEvent event) {
-        showServiceErrorDialog(event.getMsg());
-    }
-
-    /**
      * 下载补丁包
      */
     private void downloadTinker(final String tinker_url) {
