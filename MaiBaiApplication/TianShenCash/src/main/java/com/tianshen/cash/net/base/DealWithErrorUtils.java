@@ -3,6 +3,7 @@ package com.tianshen.cash.net.base;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.tianshen.cash.R;
@@ -12,36 +13,45 @@ import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
 import com.tianshen.cash.event.UpdateEvent;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DealWithErrorUtils {
 
     public static void dealWithErrorCode(Context context, String result, View view) {
-        ResponseBean mResponseBean = null;
-        String errorMsg = "";
+
+
         try {
-            mResponseBean = GsonUtil.json2bean(result, ResponseBean.class);
-            errorMsg = mResponseBean.getMsg();
-        } catch (Exception e) {
-            errorMsg = context.getResources().getString(R.string.ServiceFaile);
+            JSONObject object = new JSONObject(result);
+            String msg = object.optString("msg");
+            int code = object.optInt("code");
+            JSONObject data = object.optJSONObject("data");
+            String introduction = data.optString("introduction");
+            String download_url = data.optString("download_url");
+
+            if (TextUtils.isEmpty(msg)) {
+                msg = context.getResources().getString(R.string.ServiceFaile);
+            }
+            showErrorToast(context, code, msg, introduction, download_url, view);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        if (mResponseBean != null) {
-            showErrorToast(context, mResponseBean, errorMsg, view);
-        }
+
     }
 
-    private static void showErrorToast(Context context, ResponseBean responseBean, String err_msg, View view) {
+    private static void showErrorToast(Context context, int code, String msg, String introduction, String download_url, View view) {
 
-        int err_code = responseBean.getCode();
-
-        switch (err_code) {
+        switch (code) {
             case 10000:
             case 118: // 无升级
                 if (view != null) {
-                    ToastUtil.showToast(context, err_msg);
+                    ToastUtil.showToast(context, msg);
                 }
                 break;
             case -2: //token错误
@@ -53,26 +63,27 @@ public class DealWithErrorUtils {
             case 211:
                 break;
             case 501: // 服务器开小车了，请稍后重试
-                ToastUtil.showToast(context, "网络不给力：" + err_code);
+                ToastUtil.showToast(context, "网络不给力：" + code);
                 break;
             case 131: // 获取掌中验证码1分钟重复点击了
                 break;
             case 888: // 强制升级
-                ResponseBean.Data responseBeanData = responseBean.getData();
-                String download_url = responseBeanData.getDownload_url();
-                String introduction = responseBeanData.getIntroduction();
+
+                LogUtil.d("abc","introduction---->"+introduction);
+                LogUtil.d("abc","download_url---->"+download_url);
+
                 UpdateEvent updateEvent = new UpdateEvent();
-                updateEvent.setDownload_url(download_url);
                 updateEvent.setIntroduction(introduction);
+                updateEvent.setDownload_url(download_url);
                 EventBus.getDefault().post(updateEvent);
                 break;
             case 999: // 系统维护
                 ServiceErrorEvent errorEvent = new ServiceErrorEvent();
-                errorEvent.setMsg(err_msg);
+                errorEvent.setMsg(msg);
                 EventBus.getDefault().post(errorEvent);
                 break;
             default:
-                ToastUtil.showToast(context, err_msg);
+                ToastUtil.showToast(context, msg);
                 break;
         }
     }
