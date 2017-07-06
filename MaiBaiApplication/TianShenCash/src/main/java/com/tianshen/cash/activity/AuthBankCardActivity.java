@@ -350,24 +350,24 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 得到验证码
      */
     private void initSeverityCode() {
-        if (mBankCardInfoBean == null) {
-            ToastUtil.showToast(mContext, "请完善资料");
-            tvSeverityCode.setEnabled(true);
-            return;
-        }
 
-        BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
-        String bankId = bankCardInfoBeanData.getBank_id();
         String bank_name = tv_bank_card.getText().toString().trim(); //银行卡名字
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
         String card_num = et_auth_card_num.getText().toString().trim();
         String reserved_mobile = etBankCardPhoneNum.getText().toString().trim();
 
-        if (mBankListBean != null) {
-            BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
-            bankId = itemBean.getBank_id();
+        String bankId = "";
+        if (mBankCardInfoBean != null) {
+            BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
+            bankId = bankCardInfoBeanData.getBank_id();
         }
 
+        if (TextUtils.isEmpty(bankId)){
+            if (mBankListBean != null) {
+                BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+                bankId = itemBean.getBank_id();
+            }
+        }
 
         if (TextUtils.isEmpty(bankId)) {
             ToastUtil.showToast(mContext, "请完善资料");
@@ -428,11 +428,6 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      */
     private void bindBankCard() {
 
-        if (mBankCardInfoBean == null) {
-            ToastUtil.showToast(mContext, "请先完善资料!");
-            return;
-        }
-
         String customer_id = TianShenUserUtil.getUserId(mContext);
         String card_user_name = etAuthBankCardPerson.getText().toString().trim();
         String card_num = et_auth_card_num.getText().toString().trim();
@@ -441,10 +436,17 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
         String bank_name = tv_bank_card.getText().toString(); //银行卡名字
 
-        String bank_id = mBankCardInfoBean.getData().getBank_id();
-        if (mBankListBean != null) {
-            BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
-            bank_id = itemBean.getBank_id();
+        String bank_id = "";
+        if (mBankCardInfoBean != null) {
+            BankCardInfoBean.Data bankCardInfoBeanData = mBankCardInfoBean.getData();
+            bank_id = bankCardInfoBeanData.getBank_id();
+        }
+
+        if (TextUtils.isEmpty(bank_id)){
+            if (mBankListBean != null) {
+                BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
+                bank_id = itemBean.getBank_id();
+            }
         }
 
         if (TextUtils.isEmpty(card_user_name)) {
