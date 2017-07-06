@@ -143,7 +143,7 @@ public class UpdateManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent(true));
                     Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }
@@ -207,7 +207,7 @@ public class UpdateManager {
                     }
                     dialog.dismiss();
                     interceptFlag = true;
-                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent(true));
                     Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }

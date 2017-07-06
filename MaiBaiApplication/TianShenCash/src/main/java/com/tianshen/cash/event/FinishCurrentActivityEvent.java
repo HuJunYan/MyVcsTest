@@ -5,4 +5,9 @@ package com.tianshen.cash.event;
  */
 
 public class FinishCurrentActivityEvent {
+    public boolean isMainExit;
+    public FinishCurrentActivityEvent(){};
+    public FinishCurrentActivityEvent(boolean isMainExit){
+        this.isMainExit = isMainExit;
+    }
 }
