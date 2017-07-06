@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -33,7 +34,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 /**
  * 确认还款页面
@@ -117,9 +122,16 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
-        tvConfirmRepayApply.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
         tv_repay_severity_code.setOnClickListener(this);
+        RxView.clicks(tvConfirmRepayApply)//1秒钟之内禁用重复点击
+                .throttleFirst(60, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                onClickApply();
+            }
+        });
     }
 
     @Override
@@ -128,9 +140,6 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_confirm_money_back:
                 EventBus.getDefault().post(new RepayFailureEvent());//用户取消还款
                 backActivity();
-                break;
-            case R.id.tv_confirm_repay_apply:
-                onClickApply();
                 break;
             case R.id.tv_confirm_protocol:
                 gotoWebActivity();
@@ -261,6 +270,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 点击了确认
      */
     private void onClickApply() {
+
         if (mRepayInfoBean == null) {
             ToastUtil.showToast(mContext, "数据错误!");
             return;
@@ -377,7 +387,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             EventBus.getDefault().post(new RepayFailureEvent());
         }
         return super.onKeyDown(keyCode, event);
