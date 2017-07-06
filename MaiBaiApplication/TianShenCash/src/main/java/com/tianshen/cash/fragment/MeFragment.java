@@ -25,6 +25,7 @@ import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.CompanyInfoBean;
@@ -216,7 +217,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -502,7 +502,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         SaveContacts mSaveContactsAction = new SaveContacts(mContext);
         JSONObject json = new JSONObject();
         try {
-            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             json.put("contact_list", new JSONArray(GsonUtil.bean2json(list)));
             mSaveContactsAction.saveContacts(json, tvHomeApply, true, new BaseNetCallBack<ResponseBean>() {
                 @Override

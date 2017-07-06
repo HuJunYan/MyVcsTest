@@ -3,6 +3,7 @@ package com.tianshen.cash.net.api;
 import android.content.Context;
 import android.view.View;
 
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.LastSaveCallRecordTimeBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -110,7 +111,7 @@ public class GetLastSaveCallRecordTime extends NetBase {
         }
         String customer_id = "";
         try {
-            customer_id = mJSONObject.getString("customer_id");
+            customer_id = mJSONObject.getString(GlobalParams.USER_CUSTOMER_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

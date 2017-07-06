@@ -3,6 +3,7 @@ package com.tianshen.cash.net.api;
 import android.content.Context;
 import android.view.View;
 
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -11,7 +12,6 @@ import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.NetBase;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
-import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -105,7 +105,7 @@ public class Repayment extends NetBase {
         }
         String customer_id = "";
         try {
-            customer_id = mJSONObject.getString("customer_id");
+            customer_id = mJSONObject.getString(GlobalParams.USER_CUSTOMER_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

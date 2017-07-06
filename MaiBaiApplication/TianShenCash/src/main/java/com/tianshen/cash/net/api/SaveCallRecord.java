@@ -114,7 +114,7 @@ public class SaveCallRecord extends NetBase {
         }
         String customer_id = "";
         try {
-            customer_id = mJSONObject.getString("customer_id");
+            customer_id = mJSONObject.getString(GlobalParams.USER_CUSTOMER_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

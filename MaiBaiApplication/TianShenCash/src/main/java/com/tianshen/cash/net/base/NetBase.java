@@ -249,8 +249,8 @@ public class NetBase {
     private boolean isNeedGotoLoginPage(JSONObject jsonObject) {
         List<String> keyList = SignUtils.copyIterator(jsonObject.keys());
         try {
-            if (keyList.contains("customer_id")) {
-                String customer_id = jsonObject.getString("customer_id");
+            if (keyList.contains(GlobalParams.USER_CUSTOMER_ID)) {
+                String customer_id = jsonObject.getString(GlobalParams.USER_CUSTOMER_ID);
                 if (customer_id == null || "".equals(customer_id)) {
                     Intent intent = new Intent();
                     intent.setAction(GlobalParams.GOTO_LOGIN_ACTIVITY);
