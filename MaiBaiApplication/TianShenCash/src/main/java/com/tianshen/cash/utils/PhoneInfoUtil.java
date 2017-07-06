@@ -21,6 +21,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.PhoneRecordBean;
 import com.tianshen.cash.model.SmsInfoBean;
 
@@ -107,16 +108,16 @@ public class PhoneInfoUtil {
      * @param activity 需要动态获取 Manifest.permission.READ_SMS 权限
      * @return
      */
-    private static List<SmsInfoBean> getSmsList(Activity activity,String lastDate) {
+    private static List<SmsInfoBean> getSmsList(Activity activity, String lastDate) {
 //        PhoneInfoUtil.activity = activity;
         //通过loader 读取短信  这种方式需要异步回调 未添加
 //        activity.getLoaderManager().initLoader(0, null, new SmsCallBack());
         //通过内容解析者获取短信
-        return getSmsListFromResolver(activity,lastDate);
+        return getSmsListFromResolver(activity, lastDate);
     }
 
     //通过内容解析者 获取短信内容
-    private static List<SmsInfoBean> getSmsListFromResolver(Context activity,String lastDate) {
+    private static List<SmsInfoBean> getSmsListFromResolver(Context activity, String lastDate) {
         List<SmsInfoBean> smsList = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //        String lastDate = "2017-05-31 10:22:14";
@@ -181,7 +182,7 @@ public class PhoneInfoUtil {
      *
      * @param context
      */
-    private static ArrayList<PhoneRecordBean> getPhoneRecod(Context context,String lastDate) {
+    private static ArrayList<PhoneRecordBean> getPhoneRecod(Context context, String lastDate) {
         ArrayList<PhoneRecordBean> phoneRecordBeans = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             return phoneRecordBeans;
@@ -380,14 +381,14 @@ public class PhoneInfoUtil {
             @Override
             public void onNext(JSONArray value) {
                 if (callback != null) {
-                    callback.sendMessageToRegister(value, "app_list");
+                    callback.sendMessageToRegister(value, GlobalParams.USER_INFO_APP_LIST);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 if (callback != null) {
-                    callback.sendMessageToRegister(new JSONArray(), "app_list");
+                    callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_APP_LIST);
                 }
             }
 
@@ -405,13 +406,13 @@ public class PhoneInfoUtil {
      * @param callback
      * @param lastDate 上一次获取的电话记录的date  格式 :yyyy-MM-dd hh:mm:ss
      */
-    public static void getCall_list(final Activity activity, final PhoneInfoCallback callback,final String lastDate) {
+    public static void getCall_list(final Activity activity, final PhoneInfoCallback callback, final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.request(Manifest.permission.READ_CALL_LOG).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    getCall_listObservable(activity,lastDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
+                    getCall_listObservable(activity, lastDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             String loadText = activity.getResources().getText(MemoryAddressUtils.loading()).toString();
@@ -422,14 +423,14 @@ public class PhoneInfoUtil {
                         @Override
                         public void onNext(JSONArray value) {
                             if (callback != null) {
-                                callback.sendMessageToRegister(value, "call_list");
+                                callback.sendMessageToRegister(value, GlobalParams.USER_INFO_CALL_LIST);
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             if (callback != null) {
-                                callback.sendMessageToRegister(new JSONArray(), "call_list");
+                                callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_CALL_LIST);
                             }
                         }
 
@@ -454,7 +455,7 @@ public class PhoneInfoUtil {
 //                    }
                 } else {
                     if (callback != null) {
-                        callback.sendMessageToRegister(new JSONArray(), "call_list");
+                        callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_CALL_LIST);
                     }
                 }
 
@@ -469,13 +470,13 @@ public class PhoneInfoUtil {
      * @param callback
      * @param lastDate 上一次获取的短信的date  格式 :yyyy-MM-dd hh:mm:ss
      */
-    public static void getMessage_list(final Activity activity, final PhoneInfoCallback callback,final String lastDate) {
+    public static void getMessage_list(final Activity activity, final PhoneInfoCallback callback, final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
         rxPermissions.request(Manifest.permission.READ_SMS).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    getmessage_ListObservable(activity,lastDate).subscribeOn(Schedulers.io())
+                    getmessage_ListObservable(activity, lastDate).subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<JSONArray>() {
                                 @Override
@@ -488,14 +489,14 @@ public class PhoneInfoUtil {
                                 @Override
                                 public void onNext(JSONArray value) {
                                     if (callback != null) {
-                                        callback.sendMessageToRegister(value, "message_list");
+                                        callback.sendMessageToRegister(value, GlobalParams.USER_INFO_MESSAGE_LIST);
                                     }
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
                                     if (callback != null) {
-                                        callback.sendMessageToRegister(new JSONArray(), "message_list");
+                                        callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_MESSAGE_LIST);
                                     }
                                 }
 
@@ -505,35 +506,21 @@ public class PhoneInfoUtil {
                             });
                 } else {
                     if (callback != null) {
-                        callback.sendMessageToRegister(new JSONArray(), "message_list");
+                        callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_MESSAGE_LIST);
                     }
                 }
-//                JSONArray jsonArray = new JSONArray();
-//                List<SmsInfoBean> smsList = getSmsList(activity);
-//                JSONObject jsonObject;
-//                for (int i = 0; i < smsList.size(); i++) {
-//                    SmsInfoBean smsInfoBean = smsList.get(i);
-//                    jsonObject = new JSONObject();
-//                    jsonObject.put("message_form_num", smsInfoBean.number);
-//                    jsonObject.put("message_form_name", smsInfoBean.name);
-//                    jsonObject.put("message_form_content", smsInfoBean.smsBody);
-//                    jsonObject.put("message_form_time", smsInfoBean.date);
-//                    jsonObject.put("message_type", smsInfoBean.type);
-//                    jsonArray.put(i, jsonObject);
-//                }
-//                callback.sendMessageToRegister(jsonArray, "message_list");
             }
         });
     }
 
 
-    private static Observable<JSONArray> getmessage_ListObservable(final Activity activity,final String lastDate) {
+    private static Observable<JSONArray> getmessage_ListObservable(final Activity activity, final String lastDate) {
         return Observable.create(new ObservableOnSubscribe<JSONArray>() {
             @Override
             public void subscribe(ObservableEmitter<JSONArray> e) throws Exception {
                 if (!e.isDisposed()) {
                     JSONArray jsonArray = new JSONArray();
-                    List<SmsInfoBean> smsList = getSmsList(activity,lastDate);
+                    List<SmsInfoBean> smsList = getSmsList(activity, lastDate);
                     JSONObject jsonObject;
                     for (int i = 0; i < smsList.size(); i++) {
                         SmsInfoBean smsInfoBean = smsList.get(i);
@@ -560,7 +547,7 @@ public class PhoneInfoUtil {
             public void subscribe(ObservableEmitter<JSONArray> e) throws Exception {
                 if (!e.isDisposed()) {
                     JSONArray jsonArray = new JSONArray();
-                    ArrayList<PhoneRecordBean> phoneRecod = getPhoneRecod(activity.getApplicationContext(),lastDate);
+                    ArrayList<PhoneRecordBean> phoneRecod = getPhoneRecod(activity.getApplicationContext(), lastDate);
                     for (int i = 0; i < phoneRecod.size(); i++) {
                         JSONObject jsonObject = new JSONObject();
                         PhoneRecordBean phoneRecordBean = phoneRecod.get(i);

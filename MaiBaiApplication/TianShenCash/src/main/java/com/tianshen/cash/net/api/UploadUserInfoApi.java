@@ -2,6 +2,7 @@ package com.tianshen.cash.net.api;
 
 import android.content.Context;
 
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -28,7 +29,7 @@ public class UploadUserInfoApi extends NetBase {
     }
 
     public void uploadUserInfo(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
-        mJSONObject = SignUtils.signJsonContainList(jsonObject, "app_list", "call_list", "message_list");
+        mJSONObject = SignUtils.signJsonContainList(jsonObject, GlobalParams.USER_INFO_APP_LIST, GlobalParams.USER_INFO_CALL_LIST, GlobalParams.USER_INFO_MESSAGE_LIST);
         if (mJSONObject == null) {
             return;
         }
@@ -53,7 +54,7 @@ public class UploadUserInfoApi extends NetBase {
     }
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
-        callBack.onFailure(result,errorType,errorCode);
+        callBack.onFailure(result, errorType, errorCode);
     }
 
 }

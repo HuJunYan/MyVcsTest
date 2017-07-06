@@ -669,7 +669,10 @@ public class NetConstantValue {
         return COMMONURI + "UserCenter/manualRefresh";
     }
 
-
+    /**
+     * 上传用户信息url
+     * @return
+     */
     public static String getUploadUserInfoURL() {
         return COMMONURI + "Customer/savePhoneInfo";
     }

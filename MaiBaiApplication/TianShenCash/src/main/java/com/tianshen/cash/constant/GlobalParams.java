@@ -290,4 +290,8 @@ public class GlobalParams {
 
 	public static final String BANK_CARD_FROM_KEY = "bank_card_from_key";
 
+	// 用户信息上传的key
+	public static final String USER_INFO_CALL_LIST = "call_list";//通话记录列表 key
+	public static final String USER_INFO_APP_LIST = "app_list";//用户安装的app列表 key
+	public static final String USER_INFO_MESSAGE_LIST = "message_list";//用户短信记录列表 key
 }

@@ -419,13 +419,13 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         public void sendMessageToRegister(JSONArray jsonArray, String jsonArrayName) {
             try {
                 step++;
-                if ("call_list".equals(jsonArrayName)) {
+                if (GlobalParams.USER_INFO_CALL_LIST.equals(jsonArrayName)) {
                     PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, null);
                 }
                 mJSONObject.put(jsonArrayName, jsonArray);
                 if (step == 3) {
                     step = 0;
-                    LogUtil.d("userinfo", mJSONObject.toString());
+//                    LogUtil.d("userinfo", mJSONObject.toString());
                     startUploadUserInfo();
                 }
             } catch (JSONException e) {
