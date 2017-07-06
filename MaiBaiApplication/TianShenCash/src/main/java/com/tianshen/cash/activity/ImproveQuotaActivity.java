@@ -113,7 +113,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         GetAuthListStatus getAuthListStatus = new GetAuthListStatus(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
         } catch (JSONException e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));

@@ -39,7 +39,7 @@ public class UploadLogService extends IntentService {
         Log.d("uploadService","启动上传线程");
         try {
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(this));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
             jsonObject.put("type","22");
             jsonObject.put("person_type","1");
             UploadLog uploadLog=new UploadLog(this);

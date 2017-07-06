@@ -137,7 +137,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
             }
 
 
-            jsonObject.put("customer_id", customer_id);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
 
@@ -263,7 +263,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
             String black_box = new GetTelephoneUtils(mContext).getBlackBox();
             String type = "1"; //掌众下单
-            jsonObject.put("customer_id", customer_id);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             jsonObject.put("type", type);
             jsonObject.put("consume_amount", consume_amount);
             jsonObject.put("location", location);

@@ -275,7 +275,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -541,7 +541,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         try {
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", userID);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userID);
             jsonObject.put("type", type);
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
 
@@ -596,7 +596,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", userID);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userID);
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImageArray(newJson, imageFullPatyArray, true, new BaseNetCallBack<UploadImageBean>() {
@@ -722,7 +722,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
         JSONObject json = new JSONObject();
         try {
-            json.put("customer_id", userID);
+            json.put(GlobalParams.USER_CUSTOMER_ID, userID);
             json.put("face_pass", "1");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -802,7 +802,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("real_name", real_name);
             jsonObject.put("gender", gender);
             jsonObject.put("nation", nation);
@@ -845,7 +845,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("sign_organ", sign_organ);
             jsonObject.put("valid_period", valid_date);
 

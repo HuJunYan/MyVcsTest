@@ -149,7 +149,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetRepayInfo getRepayInfo = new GetRepayInfo(mContext);
             getRepayInfo.getRepayInfo(jsonObject, null, true, new BaseNetCallBack<RepayInfoBean>() {
                 @Override
@@ -213,7 +213,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("type", mVerifySmsForRepaymentType);
             GetVerifySmsForRepayment getVerifySmsForRepayment = new GetVerifySmsForRepayment(mContext);
             getVerifySmsForRepayment.getVerify(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {
@@ -279,7 +279,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("paytype", "1"); // (支付渠道，写死1 联动优势)
             jsonObject.put("type", "1"); // （支付类型 1还款 2付首付 不传默认为1）
 
@@ -342,7 +342,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("verifyCode", verifyCode);
             PayConfirmZhangzhong payConfirmZhangzhong = new PayConfirmZhangzhong(mContext);
             payConfirmZhangzhong.payConfirm(jsonObject, tvConfirmRepayApply, true, new BaseNetCallBack<PostDataBean>() {

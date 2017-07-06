@@ -97,7 +97,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             GetContactsInfo getContactsInfo = new GetContactsInfo(mContext);
             getContactsInfo.getContactsInfo(jsonObject, null, true, new BaseNetCallBack<ContactsInfoBean>() {
                 @Override
@@ -486,7 +486,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     private void changeContactsInfo() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("wechat", contactsInfoBean.getData().getWechat());
             jsonObject.put("qq_num",contactsInfoBean.getData().getQq_num());
             jsonObject.put("company_address",contactsInfoBean.getData().getCompany_address());

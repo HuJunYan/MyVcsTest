@@ -179,7 +179,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -230,7 +230,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetBankCardInfo getBankCardInfo = new GetBankCardInfo(mContext);
             getBankCardInfo.getBankCardInfo(jsonObject, new BaseNetCallBack<BankCardInfoBean>() {
                 @Override
@@ -255,7 +255,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         try {
             JSONObject jsonObject = new JSONObject();
             String userID = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userID);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userID);
             GetAllBankList getAllBankList = new GetAllBankList(mContext);
             getAllBankList.getAllBankList(jsonObject, null, true, new BaseNetCallBack<BankListBean>() {
                 @Override
@@ -400,7 +400,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             JSONObject mJson = new JSONObject();
             mJson.put("bank_name", bank_name);
             mJson.put("bank_id", bankId);
-            mJson.put("customer_id", userId);
+            mJson.put(GlobalParams.USER_CUSTOMER_ID, userId);
             mJson.put("card_user_name", card_user_name);
             mJson.put("card_num", card_num);
             mJson.put("reserved_mobile", reserved_mobile);
@@ -474,7 +474,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
         try {
             JSONObject mJson = new JSONObject();
-            mJson.put("customer_id", customer_id);
+            mJson.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             mJson.put("card_user_name", card_user_name);
             mJson.put("card_num", card_num);
             mJson.put("reserved_mobile", reserved_mobile);

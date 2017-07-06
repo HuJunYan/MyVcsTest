@@ -66,7 +66,7 @@ class MyBankCardActivity : BaseActivity() {
         var getBindBankList = GetBindBankList(mContext)
         var jsonobject = JSONObject()
         var userId = TianShenUserUtil.getUserId(mContext)
-        jsonobject.put("customer_id", userId)
+        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
         getBindBankList.getBindBankList(jsonobject, null, true, object : BaseNetCallBack<GetBankListBean> {
             override fun onSuccess(paramT: GetBankListBean?) {
                 var size = paramT?.data?.size

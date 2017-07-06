@@ -18,7 +18,6 @@ import com.tianshen.cash.model.WithdrawalsBillItemBean;
 import com.tianshen.cash.net.api.Repayment;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.CashBillListUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SendBroadCastUtil;
@@ -99,7 +98,7 @@ public class RepayPasswordActivity extends BaseActivity implements View.OnClickL
         try {
             int type = 0;
             JSONObject mJson = new JSONObject();
-            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            mJson.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             mJson.put("paytype", "1");
             mJson.put("pay_pass", piv_password.getText().toString());
             switch (from) {

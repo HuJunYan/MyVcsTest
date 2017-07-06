@@ -130,7 +130,7 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {
@@ -236,7 +236,7 @@ public class RePayActivity extends BaseActivity implements View.OnClickListener 
         try {
             int type = 0;
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("paytype", "2");
             switch (from) {
                 case GlobalParams.REPAY_FROM_BORROW:

@@ -149,7 +149,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 return;
             }
 
-            jsonObject.put("customer_id", customer_id);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
 
@@ -263,7 +263,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             final String repay_id = mOrderConfirmBean.getData().getRepay_id();
 
             String black_box = new GetTelephoneUtils(mContext).getBlackBox();
-            jsonObject.put("customer_id", customer_id);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             jsonObject.put("repay_id", repay_id);
             jsonObject.put("consume_amount", consume_amount);
             jsonObject.put("push_id", jpush_id);
@@ -402,7 +402,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         mJSONObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(this);
         try {
-            mJSONObject.put("customer_id", userId); //用户id
+            mJSONObject.put(GlobalParams.USER_CUSTOMER_ID, userId); //用户id
             mJSONObject.put("location", location); //用户定位信息
             mJSONObject.put("is_wifi", PhoneInfoUtil.getNetworkType(this) ? "1" : "0");
             mJSONObject.put("device_id", UserUtil.getDeviceId(this));
@@ -443,13 +443,13 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         uploadUserInfoApi.uploadUserInfo(mJSONObject, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
-                onClickApply();
+//                onClickApply();
                 LogUtil.d("userinfo", "code = " + paramT.getCode() + "msg = " + paramT.getMsg());
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                onClickApply();
+//                onClickApply();
                 LogUtil.d("userinfo", "failure" + url + ",errortype = " + errorType + ",errorcode = " + errorCode);
             }
         });

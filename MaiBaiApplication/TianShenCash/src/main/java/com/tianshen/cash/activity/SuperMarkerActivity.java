@@ -70,7 +70,7 @@ public class SuperMarkerActivity extends BaseActivity implements View.OnClickLis
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetSuperMarkerList getSuperMarkerList = new GetSuperMarkerList(mContext);
             getSuperMarkerList.getSuperMarkerList(jsonObject, null, true, new BaseNetCallBack<SuperMarkerBean>() {
                 @Override
@@ -126,7 +126,7 @@ public class SuperMarkerActivity extends BaseActivity implements View.OnClickLis
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("supermarket_id", flowSupermarketId);
             AddSuperMarketCount addSuperMarketCount = new AddSuperMarketCount(mContext);
             addSuperMarketCount.addSuperMarketCount(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {

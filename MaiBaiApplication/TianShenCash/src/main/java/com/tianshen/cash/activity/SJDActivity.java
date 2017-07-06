@@ -203,7 +203,7 @@ public class SJDActivity extends BaseActivity implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

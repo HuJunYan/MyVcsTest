@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.OrderRefreshBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.VerifyStepBean;
@@ -161,7 +162,7 @@ public class CreditStatusAdapter extends BaseAdapter {
         try {
             AgainVerify againVerify = new AgainVerify(context);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(context));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(context));
             String consumeId = data.getData().getConsume_id();
             if (null == consumeId) {
                 consumeId = "";

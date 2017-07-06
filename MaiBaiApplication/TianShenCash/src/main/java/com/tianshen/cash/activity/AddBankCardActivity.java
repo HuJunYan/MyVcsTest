@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.BankListAdapter;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.net.api.GetAllBankList;
@@ -128,7 +129,7 @@ public class AddBankCardActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 mBundle.putSerializable("bankListItemBean",bankListItemBean);
-                mBundle.putString("customer_id", TianShenUserUtil.getUserId(mContext));
+                mBundle.putString(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
                 mBundle.putString("card_user_name", et_cardholder_name.getEditTextString());
                 mBundle.putString("card_num", getTextWithoutSpace(et_bank_card_account.getEditTextString()));
                 mBundle.putString("reserved_mobile", et_reserved_phone.getEditTextString());
@@ -147,7 +148,7 @@ public class AddBankCardActivity extends BaseActivity implements View.OnClickLis
     private void showBankListDialog() {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             GetAllBankList getAllBankList = new GetAllBankList(mContext);
             getAllBankList.getAllBankList(jsonObject, null, true, new BaseNetCallBack<BankListBean>() {
                 @Override

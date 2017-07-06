@@ -198,7 +198,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetUserAuthCenter getUserAuthCenter = new GetUserAuthCenter(mContext);
             getUserAuthCenter.userAuthCenter(jsonObject, null, true, new BaseNetCallBack<UserAuthCenterBean>() {
                 @Override

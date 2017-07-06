@@ -105,7 +105,7 @@ public class ContactsInfoActivity extends BaseActivity implements View.OnClickLi
             UploadContactsInfo uploadContactsInfo=new UploadContactsInfo(mContext);
             JSONObject jsonObject=new JSONObject();
             if(!("".equals(customId)||null==customId)){
-                jsonObject.put("customer_id", customId);
+                jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customId);
             }
 
             if(!("".equals(wechatNum)||null==wechatNum)){

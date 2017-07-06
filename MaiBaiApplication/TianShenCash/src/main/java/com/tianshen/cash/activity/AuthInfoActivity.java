@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AddressBean;
 import com.tianshen.cash.model.ConstantBean;
 import com.tianshen.cash.model.PostDataBean;
@@ -186,7 +187,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -217,7 +218,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         AddressBean.Data data = mProvinceBean.getData().get(mProvincePosition);
         String province_id = data.getProvice_id();
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("province_id", province_id);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -249,7 +250,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         AddressBean.Data data = mCityBean.getData().get(mCityPosition);
         String city_id = data.getCity_id();
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("city_id", city_id);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -580,7 +581,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -695,7 +696,7 @@ public class AuthInfoActivity extends BaseActivity implements View.OnClickListen
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("qq_num", qq);
             jsonObject.put("user_address_provice", user_address_provice);
             jsonObject.put("user_address_city", user_address_city);

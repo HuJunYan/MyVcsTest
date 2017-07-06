@@ -91,7 +91,7 @@ public class WithdrawalsBillActivity extends BaseActivity implements XListView.I
     private void initData(final boolean isInit) {
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("offset", isInit ? 0 : widthdrawalsBillItemList.size());
             jsonObject.put("length", LENTH + "");
             GetWithdrawalsBill getWithdrawalsBill = new GetWithdrawalsBill(mContext);

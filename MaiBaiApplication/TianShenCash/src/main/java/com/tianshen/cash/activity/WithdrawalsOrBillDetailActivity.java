@@ -123,7 +123,7 @@ public class WithdrawalsOrBillDetailActivity extends BaseActivity implements Wit
     private void getWithdrawalsDetail(String consume_id) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("consume_id", consume_id); // TODO, test
             GetWithdrawalsBillInfo getWithdrawalsBillInfo = new GetWithdrawalsBillInfo(mContext);
             getWithdrawalsBillInfo.getWithdrawalsBill(jsonObject, null, true, new BaseNetCallBack<WithdrawalsBillInfoBean>() {

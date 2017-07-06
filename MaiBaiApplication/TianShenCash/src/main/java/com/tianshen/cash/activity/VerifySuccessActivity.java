@@ -210,7 +210,7 @@ public class VerifySuccessActivity extends BaseActivity implements View.OnClickL
         //统一下单
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("amount", down_payment + "");
             jsonObject.put("overdue_amount", "0");
             jsonObject.put("consume_id", consume_id);

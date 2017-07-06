@@ -280,7 +280,7 @@ public class ResultActivity extends BaseActivity {
         try {
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImage(newJson, mImageFullPath[type - 20], true, new BaseNetCallBack<UploadImageBean>() {
@@ -324,7 +324,7 @@ public class ResultActivity extends BaseActivity {
             }
             UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("type", type + "");
             JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
             uploadImage.uploadImageArray(newJson, imageFullPatyArray, true, new BaseNetCallBack<UploadImageBean>() {
@@ -501,7 +501,7 @@ public class ResultActivity extends BaseActivity {
         JSONObject json = new JSONObject();
         try {
             MobclickAgent.reportError(mContext, COMMON_TAG + "saveIdCardInformation ===0");
-            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             json.put("real_name", mIDCardBean.name);
             json.put("gender", mIDCardBean.gender);
             json.put("nation", mIDCardBean.race);
@@ -819,7 +819,7 @@ public class ResultActivity extends BaseActivity {
         MobclickAgent.reportError(mContext, COMMON_TAG + "conformCreditFace ===0");
         CreditFace creditFace = new CreditFace(mContext);
         JSONObject json = new JSONObject();
-        json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+        json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
         json.put("face_pass", "1");
         isCanPressBack = false;
         creditFace.creditFace(json, null, true, new BaseNetCallBack<ResponseBean>() {

@@ -131,7 +131,7 @@ public class VerifyFailActivity extends BaseActivity implements View.OnClickList
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "1");
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             RecordPopup recordPopup = new RecordPopup(mContext);
             recordPopup.recordPopup(jsonObject, null, false, new BaseNetCallBack<RecordPopBean>() {
                 @Override

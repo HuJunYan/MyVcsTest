@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
 import com.tianshen.cash.model.ResponseBean;
@@ -80,7 +81,7 @@ public class InputVerificationActivity extends BaseActivity implements View.OnCl
             BankListItemBean bankListItemBean=(BankListItemBean)mBundle.getSerializable("bankListItemBean");
             mJson.put("bank_name",bankListItemBean.getBank_name());
             mJson.put("bank_id",bankListItemBean.getBank_id());
-            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            mJson.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             mJson.put("card_user_name", mBundle.getString("card_user_name"));
             mJson.put("card_num", mBundle.getString("card_num"));
             mJson.put("reserved_mobile", mBundle.getString("reserved_mobile"));
@@ -110,7 +111,7 @@ public class InputVerificationActivity extends BaseActivity implements View.OnCl
             BankListItemBean bankListItemBean=(BankListItemBean)mBundle.getSerializable("bankListItemBean");
             mJson.put("bank_name",bankListItemBean.getBank_name());
             mJson.put("bank_id",bankListItemBean.getBank_id());
-            mJson.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            mJson.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             mJson.put("card_user_name", mBundle.getString("card_user_name"));
             mJson.put("card_num", mBundle.getString("card_num"));
             mJson.put("reserved_mobile", mBundle.getString("reserved_mobile"));

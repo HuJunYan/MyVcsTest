@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.ExtroContactsBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetExtroContacts;
@@ -370,7 +371,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
 
             GetExtroContacts getExtroContacts = new GetExtroContacts(mContext);
             getExtroContacts.getExtroContacts(jsonObject, new BaseNetCallBack<ExtroContactsBean>() {
@@ -440,7 +441,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
 
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("type", type1 + "");

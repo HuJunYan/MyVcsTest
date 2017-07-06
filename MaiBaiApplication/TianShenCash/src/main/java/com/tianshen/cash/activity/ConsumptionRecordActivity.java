@@ -28,8 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /*
 * 借款记录
@@ -111,7 +109,7 @@ public class ConsumptionRecordActivity extends BaseActivity implements View.OnCl
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("offset", isClear ? "0" : withdrawalsRecordItemBeanList.size() + "");
             jsonObject.put("length", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH);
             GetWithdrawalsRecord getWithdrawalsRecord = new GetWithdrawalsRecord(mContext);

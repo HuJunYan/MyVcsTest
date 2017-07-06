@@ -110,7 +110,7 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
                     JSONObject json = new JSONObject();
                     try {
                         json.put("black_box", mBundle.getString("blackBox"));
-                        json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+                        json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
                         json.put("pay_pass", password);
                         final String push_id = JPushInterface.getRegistrationID(mContext);
                         if (push_id != null && !"".equals(push_id)) {
@@ -161,7 +161,7 @@ public class SetPayPwdActivity extends BaseActivity implements View.OnClickListe
         WithdrawalsApply withdrawalsApply = new WithdrawalsApply(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("province", share.getString("province"));
             jsonObject.put("city", share.getString("city"));
             jsonObject.put("country", share.getString("country"));

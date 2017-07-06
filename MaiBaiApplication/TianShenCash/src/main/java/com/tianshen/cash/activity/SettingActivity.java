@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.Logout;
@@ -84,7 +85,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             String customerId = TianShenUserUtil.getUserId(mContext);
             Logout logout = new Logout(mContext);
             JSONObject json = new JSONObject();
-            json.put("customer_id", customerId);
+            json.put(GlobalParams.USER_CUSTOMER_ID, customerId);
             logout.logout(json, new BaseNetCallBack<ResponseBean>() {
 
                 @Override

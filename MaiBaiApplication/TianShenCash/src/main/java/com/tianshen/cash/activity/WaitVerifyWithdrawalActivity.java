@@ -80,7 +80,7 @@ public class WaitVerifyWithdrawalActivity extends BaseActivity implements View.O
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("consume_id", mBundle.getString(GlobalParams.WITHDRAWALS_VERIFY_ID_KEY));
             WithdrawalsRefresh withdrawalsRefresh = new WithdrawalsRefresh(mContext);
             withdrawalsRefresh.selWithdrawals(jsonObject, null, true, new BaseNetCallBack<WithdrawalsRefreshBean>() {

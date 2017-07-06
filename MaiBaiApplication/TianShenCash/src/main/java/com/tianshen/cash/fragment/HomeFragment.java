@@ -577,7 +577,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             if (mIsLogin) {
                 jsonObject.put("init", "0");
                 String userId = TianShenUserUtil.getUserId(mContext);
-                jsonObject.put("customer_id", userId);
+                jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
                 LogUtil.d("abc", "已经登录--->" + userId);
             } else {
                 LogUtil.d("abc", "未登录--->");
@@ -633,7 +633,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetUserConfig getUserConfig = new GetUserConfig(mContext);
             getUserConfig.userConfig(jsonObject, null, true, new BaseNetCallBack<UserConfig>() {
                 @Override
@@ -1236,7 +1236,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.getUserRepayId(mContext);
         String consume_id = mUserConfig.getData().getConsume_id();
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("consume_id", consume_id);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1280,7 +1280,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1428,7 +1428,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
             String consume_id = mUserConfig.getData().getConsume_id();
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("consume_id", consume_id);
             jsonObject.put("type", type);
             GetVerifySmsForConfirmLoan getVerifySmsForConfirmLoan = new GetVerifySmsForConfirmLoan(mContext);
@@ -1459,7 +1459,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
             String consume_id = mUserConfig.getData().getConsume_id();
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("consume_id", consume_id);
             jsonObject.put("verufy_code", verufy_code);
             jsonObject.put("type", "1");
@@ -1489,7 +1489,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         JSONObject jsonObject = new JSONObject();
         try {
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1543,7 +1543,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("supermarket_id", flowSupermarketId);
             AddSuperMarketCount addSuperMarketCount = new AddSuperMarketCount(mContext);
             addSuperMarketCount.addSuperMarketCount(jsonObject, null, true, new BaseNetCallBack<PostDataBean>() {

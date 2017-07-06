@@ -159,7 +159,7 @@ public class ActivateTheQuotaActivity extends BaseActivity implements View.OnCli
             json.put("real_name", mName);
             json.put("id_num", mIdNum);
             json.put("type", "2");
-            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
         } catch (JSONException e) {
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
             e.printStackTrace();
