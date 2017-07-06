@@ -25,27 +25,24 @@ public class DealWithErrorUtils {
 
     public static void dealWithErrorCode(Context context, String result, View view) {
 
-
+        JSONObject object = null;
+        String msg = "";
+        int code = -1;
         try {
-            JSONObject object = new JSONObject(result);
-            String msg = object.optString("msg");
-            int code = object.optInt("code");
-            JSONObject data = object.optJSONObject("data");
-            String introduction = data.optString("introduction");
-            String download_url = data.optString("download_url");
-
+            object = new JSONObject(result);
+            msg = object.optString("msg");
+            code = object.optInt("code");
             if (TextUtils.isEmpty(msg)) {
                 msg = context.getResources().getString(R.string.ServiceFaile);
             }
-            showErrorToast(context, code, msg, introduction, download_url, view);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }
-
-    private static void showErrorToast(Context context, int code, String msg, String introduction, String download_url, View view) {
+        if (object == null) {
+            ToastUtil.showToast(context, msg);
+            return;
+        }
 
         switch (code) {
             case 10000:
@@ -68,9 +65,11 @@ public class DealWithErrorUtils {
             case 131: // 获取掌中验证码1分钟重复点击了
                 break;
             case 888: // 强制升级
-
-                LogUtil.d("abc","introduction---->"+introduction);
-                LogUtil.d("abc","download_url---->"+download_url);
+                JSONObject data = object.optJSONObject("data");
+                String introduction = data.optString("introduction");
+                String download_url = data.optString("download_url");
+                LogUtil.d("abc", "introduction---->" + introduction);
+                LogUtil.d("abc", "download_url---->" + download_url);
 
                 UpdateEvent updateEvent = new UpdateEvent();
                 updateEvent.setIntroduction(introduction);
