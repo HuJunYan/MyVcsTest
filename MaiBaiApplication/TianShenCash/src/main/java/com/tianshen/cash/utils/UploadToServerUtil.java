@@ -14,7 +14,6 @@ import com.tianshen.cash.net.api.SaveCallRecord;
 import com.tianshen.cash.net.api.SaveContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
-import com.tianshen.cash.net.base.UserUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
@@ -60,7 +59,7 @@ public class UploadToServerUtil {
         final JSONObject jsonObject = new JSONObject();
         try {
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put("customer_id", userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             getLastSaveCallRecordTime.getLastSaveCallRecordTime(jsonObject, new BaseNetCallBack<LastSaveCallRecordTimeBean>() {
                 @Override
                 public void onSuccess(LastSaveCallRecordTimeBean lastSaveCallRecordTimeBean) {
@@ -96,7 +95,7 @@ public class UploadToServerUtil {
         SaveContacts mSaveContactsAction = new SaveContacts(mContext);
         JSONObject json = new JSONObject();
         try {
-            json.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             json.put("contact_list", new JSONArray(GsonUtil.bean2json(list)));
             mSaveContactsAction.saveContacts(json, null, true, new BaseNetCallBack<ResponseBean>() {
                 @Override

@@ -20,11 +20,11 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.tianshen.cash.model.ContactsBean;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AppInfoBean;
+import com.tianshen.cash.model.ContactsBean;
 import com.tianshen.cash.model.RecordEntityBean;
 import com.tianshen.cash.model.SMSMessageBean;
-import com.tianshen.cash.net.base.UserUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -176,7 +176,7 @@ public class GetTelephoneUtils {
                 json.put("call_time", recordList.get(i).getCall_time());
                 jsonArray.put(i, json);
             }
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("record_list", jsonArray);
         } catch (Exception e) {
 
@@ -287,7 +287,7 @@ public class GetTelephoneUtils {
                 json.put("",smsMessageBeans.get(i).getType());
                 jsonArray.put(i,json);
             }
-            jsonObject.put("customer_id",TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID,TianShenUserUtil.getUserId(mContext));
             jsonObject.put("",jsonArray);
 
         }catch (Exception e){

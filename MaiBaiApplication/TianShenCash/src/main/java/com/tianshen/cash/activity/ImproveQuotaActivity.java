@@ -32,10 +32,10 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ImproveQuotaActivity extends BaseActivity implements View.OnClickListener ,TitleBar.TitleBarListener{
+public class ImproveQuotaActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener {
     private boolean mIsAssignInWebView = false;
     private boolean mIsReturnFromWebView = false;
-    private final int MAX_REFRESH_TIME = 30+1;
+    private final int MAX_REFRESH_TIME = 30 + 1;
     private final int REFRESH_INTERVAL = 2000;
     private int mRefreshTime = 0;
     private int already_authentication_num = 0;
@@ -49,7 +49,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
     private String jd_pass = GlobalParams.NOT_AUTHENTICATION;
     private String zhifubao_pass = GlobalParams.NOT_AUTHENTICATION;
     private String zhima_pass = GlobalParams.NOT_AUTHENTICATION;
-    private LinearLayout ll_operator, ll_taobao, ll_jingdong, ll_zhifubao, ll_zhima,ll_juxinli;
+    private LinearLayout ll_operator, ll_taobao, ll_jingdong, ll_zhifubao, ll_zhima, ll_juxinli;
     private CustomerAuthBean customerAuthBean;
     private Bundle mBundle;
     private TitleBar tb_title;
@@ -59,7 +59,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    if(  mIsReturnFromWebView) {
+                    if (mIsReturnFromWebView) {
                         getCustomerAuth();
                     }
                     break;
@@ -75,7 +75,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void init() {
-        tv_current_quota.setText(Double.valueOf(UserUtil.getCustomerAmount(mContext))/100+"");
+        tv_current_quota.setText(Double.valueOf(UserUtil.getCustomerAmount(mContext)) / 100 + "");
         getListStatus();//获取列表信息
     }
 
@@ -132,11 +132,12 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
+
     private void getCustomerAuth() {
         GetCustomerAuth mGetCustomerAuth = new GetCustomerAuth(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             mGetCustomerAuth.getCustomerAuth(jsonObject, null, false, new BaseNetCallBack<CustomerAuthBean>() {
                 @Override
                 public void onSuccess(CustomerAuthBean paramT) {
@@ -225,8 +226,8 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         ll_zhifubao = (LinearLayout) findViewById(R.id.ll_zhifubao);
         ll_zhima = (LinearLayout) findViewById(R.id.ll_zhima);
         bt_submite = (Button) findViewById(R.id.bt_submite);
-        tv_current_quota=(TextView)findViewById(R.id.tv_current_quota);
-        tb_title=(TitleBar)findViewById(R.id.tb_title);
+        tv_current_quota = (TextView) findViewById(R.id.tv_current_quota);
+        tb_title = (TitleBar) findViewById(R.id.tb_title);
     }
 
     @Override
@@ -284,7 +285,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                     mustCount++;
                 }
                 if (creditMust > mustCount) {
-                    ToastUtil.showToast(mContext, "请先去认证, 您至少需要认证" + creditMust +"项");
+                    ToastUtil.showToast(mContext, "请先去认证, 您至少需要认证" + creditMust + "项");
                     return;
                 }
                 if (mBundle != null) {
@@ -299,12 +300,12 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
 //                            break;
                         case GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY:
 //                            getBankInfo();
-                            mIsReturnFromWebView=false;
+                            mIsReturnFromWebView = false;
                             if ("1".equals(UserUtil.getIsSetPayPass(mContext))) {
                                 gotoActivity(mContext, InputPayPwdActivity.class, mBundle);
                             } else {
 
-                                LogUtil.d("abc","ResultActivity--getInt-"+applyType);
+                                LogUtil.d("abc", "ResultActivity--getInt-" + applyType);
 
 
                                 gotoActivity(mContext, SetPayPwdActivity.class, mBundle);
@@ -322,7 +323,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
         GetBindBankList getBindBankList = new GetBindBankList(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(mContext));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             getBindBankList.getBindBankList(jsonObject, null, true, new BaseNetCallBack<GetBankListBean>() {
                 @Override
                 public void onSuccess(GetBankListBean paramT) {
@@ -359,15 +360,15 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
     private void authentication(String id) {
         for (AuthenticationBean authenticationBean : authenticationStatus.getData().getAuth_list()) {
             if (id.equals(authenticationBean.getId())) {
-                startForResult(authenticationBean.getUrl(),id);
+                startForResult(authenticationBean.getUrl(), id);
                 mIsAssignInWebView = true;
             }
         }
     }
 
-    public void startForResult(String url,String id) {
+    public void startForResult(String url, String id) {
         Bundle bundle = new Bundle();
-        bundle.putString("id",id);
+        bundle.putString("id", id);
         bundle.putString("url", url);
         Intent intent = new Intent(mContext, AuthenticationActivity.class);
         intent.putExtras(bundle);
@@ -390,7 +391,7 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void backActivity() {
-        mIsReturnFromWebView=false;
+        mIsReturnFromWebView = false;
         super.backActivity();
     }
 

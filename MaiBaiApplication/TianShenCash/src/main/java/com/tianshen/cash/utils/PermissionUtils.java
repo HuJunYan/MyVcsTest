@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.PermissionDialogAdapter;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.QuotaEvent;
 import com.tianshen.cash.model.PermissionHintBean;
 import com.tianshen.cash.model.PermissionHintItemBean;
@@ -47,7 +46,7 @@ public class PermissionUtils {
         try{
             JSONObject json=new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            json.put("customer_id", userId);
+            json.put(GlobalParams.USER_CUSTOMER_ID, userId);
             json.put("permission_type",type+"");
             json.put("device_id",UserUtil.getDeviceId(mContext));
             json.put("device_os","android");

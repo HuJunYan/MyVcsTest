@@ -10,6 +10,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.UploadLogBean;
@@ -229,7 +230,7 @@ public class UploadLog {
         }
         String customer_id = "";
         try {
-            customer_id = mJSONObject.getString("customer_id");
+            customer_id = mJSONObject.getString(GlobalParams.USER_CUSTOMER_ID);
         } catch (JSONException e) {
             e.printStackTrace();
         }

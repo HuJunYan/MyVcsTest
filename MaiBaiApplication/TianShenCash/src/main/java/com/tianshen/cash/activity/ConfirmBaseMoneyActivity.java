@@ -443,13 +443,13 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         uploadUserInfoApi.uploadUserInfo(mJSONObject, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
-//                onClickApply();
+                onClickApply();
                 LogUtil.d("userinfo", "code = " + paramT.getCode() + "msg = " + paramT.getMsg());
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-//                onClickApply();
+                onClickApply();
                 LogUtil.d("userinfo", "failure" + url + ",errortype = " + errorType + ",errorcode = " + errorCode);
             }
         });

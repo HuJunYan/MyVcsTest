@@ -93,7 +93,7 @@ class MyBankCardActivity : BaseActivity() {
         try {
             val jsonObject = JSONObject()
             val userId = TianShenUserUtil.getUserId(mContext)
-            jsonObject.put("customer_id", userId)
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
             val getUserAuthCenter = GetUserAuthCenter(mContext)
             getUserAuthCenter.userAuthCenter(jsonObject, null, true, object : BaseNetCallBack<UserAuthCenterBean> {
                 override fun onSuccess(paramT: UserAuthCenterBean) {

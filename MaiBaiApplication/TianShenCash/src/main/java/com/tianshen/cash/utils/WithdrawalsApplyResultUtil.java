@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.MainActivity;
 import com.tianshen.cash.base.MyApplicationLike;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.CashVerifyConfirm;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -75,7 +76,7 @@ public class WithdrawalsApplyResultUtil {
         JSONObject jsonObject = new JSONObject();
         CashVerifyConfirm cashVerifyConfirm = new CashVerifyConfirm(context);
         try {
-            jsonObject.put("customer_id", TianShenUserUtil.getUserId(context));
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(context));
             cashVerifyConfirm.cashVerifyConfirm(jsonObject, view, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {

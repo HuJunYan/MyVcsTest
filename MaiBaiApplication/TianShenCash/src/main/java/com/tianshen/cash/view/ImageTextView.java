@@ -49,13 +49,14 @@ public class ImageTextView extends LinearLayout implements View.OnClickListener 
         tv_right = (TextView) rootView.findViewById(R.id.tv_right);
         iv_left = (ImageView) rootView.findViewById(R.id.iv_left);
         iv_right = (ImageView) rootView.findViewById(R.id.iv_right);
-        tv_hint=(TextView)rootView.findViewById(R.id.tv_hint);
+        tv_hint = (TextView) rootView.findViewById(R.id.tv_hint);
         iv_right.setOnClickListener(this);
     }
 
-   public void setRtVisibility(int isShow){
-       iv_right.setVisibility(isShow);
-   }
+    public void setRtVisibility(int isShow) {
+        iv_right.setVisibility(isShow);
+    }
+
     private void init(AttributeSet attrs) {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         leftWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, leftWidth, dm);
@@ -65,9 +66,9 @@ public class ImageTextView extends LinearLayout implements View.OnClickListener 
         Drawable draw = array.getDrawable(R.styleable.ImageTextView_itvDrawable);
         Drawable rtDraw = array.getDrawable(R.styleable.ImageTextView_itvRtDrawable);
         int ltWidth = (int) array.getDimension(R.styleable.ImageTextView_itvLtWidth, leftWidth);
-        String hint=array.getString(R.styleable.ImageTextView_itv_hint);
-        int tv_left_color=array.getInt(R.styleable.ImageTextView_tv_left_color,0xFF000000);
-        int tv_right_color=array.getInt(R.styleable.ImageTextView_tv_right_color,0xFF000000);
+        String hint = array.getString(R.styleable.ImageTextView_itv_hint);
+        int tv_left_color = array.getInt(R.styleable.ImageTextView_tv_left_color, 0xFF000000);
+        int tv_right_color = array.getInt(R.styleable.ImageTextView_tv_right_color, 0xFF000000);
         if (ltWidth != leftWidth) {
             isLeftWidthChange = true;
             leftWidth = ltWidth;
@@ -85,21 +86,22 @@ public class ImageTextView extends LinearLayout implements View.OnClickListener 
         if (rtDraw != null) {
             iv_right.setImageDrawable(rtDraw);
         }
-        if(!(hint==null||"".equals(hint))){
+        if (!(hint == null || "".equals(hint))) {
             tv_hint.setText(hint);
         }
-        if(tv_left_color!=0xFF000000){
+        if (tv_left_color != 0xFF000000) {
             tv_content.setTextColor(tv_left_color);
         }
-        if(tv_right_color!=0xFF000000){
+        if (tv_right_color != 0xFF000000) {
             tv_right.setTextColor(tv_right_color);
         }
 
     }
 
-    public void setRightTextColor(int color){
+    public void setRightTextColor(int color) {
         tv_right.setTextColor(color);
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (isLeftWidthChange) {

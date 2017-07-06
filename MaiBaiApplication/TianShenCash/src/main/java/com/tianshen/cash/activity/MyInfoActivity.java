@@ -23,8 +23,8 @@ import org.json.JSONObject;
 public class MyInfoActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener {
     private ImageTextView itv_mobile, itv_user_name, itv_id_num, itv_wechat, itv_address, itv_company_name,
             itv_company_phone, itv_parent_name, itv_parent_mobile, itv_parent_address, itv_brother_name,
-            itv_brother_mobile,itv_company_address,itv_friend_name,itv_friend_mobile,itv_colleague_name,
-            itv_colleague_mobile,itv_qq;
+            itv_brother_mobile, itv_company_address, itv_friend_name, itv_friend_mobile, itv_colleague_name,
+            itv_colleague_mobile, itv_qq;
     private TitleBar tb_title;
     private ContactsInfoBean contactsInfoBean;
 
@@ -137,14 +137,15 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         itv_colleague_mobile.setRightText(formatText(contactsInfoBean.getData().getColleague_phone(), 4, 7, 4));
         itv_qq.setRightText(formatLongText(contactsInfoBean.getData().getQq_num(), 12));
 
-        String isShowRtImg=contactsInfoBean.getData().getIs_can_change();
-        if(!(GlobalParams.IS_CAN_CHANGE.equals(isShowRtImg))){
+        String isShowRtImg = contactsInfoBean.getData().getIs_can_change();
+        if (!(GlobalParams.IS_CAN_CHANGE.equals(isShowRtImg))) {
             setRtShow(View.GONE);
-        }else{
+        } else {
             setRtShow(View.VISIBLE);
         }
     }
-    private void setRtShow(int isShow){
+
+    private void setRtShow(int isShow) {
         itv_wechat.setRtVisibility(isShow);
         itv_address.setRtVisibility(isShow);
         itv_company_name.setRtVisibility(isShow);
@@ -163,14 +164,14 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void setViewClickable() {
-        if(GlobalParams.IS_CAN_CHANGE.equals(contactsInfoBean.getData().getIs_can_change())){
+        if (GlobalParams.IS_CAN_CHANGE.equals(contactsInfoBean.getData().getIs_can_change())) {
             setItemClickable(true);
-        }else{
+        } else {
             setItemClickable(false);
         }
     }
 
-    private void setItemClickable(boolean iscanClick){
+    private void setItemClickable(boolean iscanClick) {
         itv_wechat.setClickable(iscanClick);
         itv_address.setClickable(iscanClick);
         itv_company_name.setClickable(iscanClick);
@@ -187,6 +188,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
         itv_colleague_mobile.setClickable(iscanClick);
         itv_qq.setClickable(iscanClick);
     }
+
     private void updateData(int requestCode, Intent data) {
         Bundle bundle = data.getExtras();
         if (null == bundle) {
@@ -225,7 +227,7 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                 contactsInfoBean.getData().setParent_address(changedText);
                 itv_parent_address.setRightText(formatLongText(contactsInfoBean.getData().getParent_address(), 12));
                 break;
-           case GlobalParams.CHANGE_TYPE_BROTHER_NAME:
+            case GlobalParams.CHANGE_TYPE_BROTHER_NAME:
                 contactsInfoBean.getData().setBrothers_name(changedText);
                 itv_brother_name.setRightText(formatName(contactsInfoBean.getData().getBrothers_name()));
                 break;
@@ -251,11 +253,11 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
                 break;
             case GlobalParams.CHANGE_TYPE_COLLEAGUE_MOBILE:
                 contactsInfoBean.getData().setColleague_phone(changedText);
-                itv_colleague_mobile.setRightText(formatText(contactsInfoBean.getData().getColleague_phone(),4,7,4));
+                itv_colleague_mobile.setRightText(formatText(contactsInfoBean.getData().getColleague_phone(), 4, 7, 4));
                 break;
             case GlobalParams.CHANGE_TYPE_QQ:
                 contactsInfoBean.getData().setQq_num(changedText);
-                itv_qq.setRightText(formatLongText(contactsInfoBean.getData().getQq_num(),12));
+                itv_qq.setRightText(formatLongText(contactsInfoBean.getData().getQq_num(), 12));
                 break;
         }
     }
@@ -290,8 +292,8 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        String isCanChange=contactsInfoBean.getData().getIs_can_change();
-        if(null==contactsInfoBean||!(GlobalParams.IS_CAN_CHANGE.equals(isCanChange))){
+        String isCanChange = contactsInfoBean.getData().getIs_can_change();
+        if (null == contactsInfoBean || !(GlobalParams.IS_CAN_CHANGE.equals(isCanChange))) {
             return;
         }
 
@@ -488,12 +490,12 @@ public class MyInfoActivity extends BaseActivity implements View.OnClickListener
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
             jsonObject.put("wechat", contactsInfoBean.getData().getWechat());
-            jsonObject.put("qq_num",contactsInfoBean.getData().getQq_num());
-            jsonObject.put("company_address",contactsInfoBean.getData().getCompany_address());
-            jsonObject.put("friends_name",contactsInfoBean.getData().getFriends_name());
-            jsonObject.put("friends_phone",contactsInfoBean.getData().getFriends_phone());
-            jsonObject.put("colleague_name",contactsInfoBean.getData().getColleague_name());
-            jsonObject.put("colleague_phone",contactsInfoBean.getData().getColleague_phone());
+            jsonObject.put("qq_num", contactsInfoBean.getData().getQq_num());
+            jsonObject.put("company_address", contactsInfoBean.getData().getCompany_address());
+            jsonObject.put("friends_name", contactsInfoBean.getData().getFriends_name());
+            jsonObject.put("friends_phone", contactsInfoBean.getData().getFriends_phone());
+            jsonObject.put("colleague_name", contactsInfoBean.getData().getColleague_name());
+            jsonObject.put("colleague_phone", contactsInfoBean.getData().getColleague_phone());
             jsonObject.put("user_address", contactsInfoBean.getData().getUser_address());
             jsonObject.put("company_name", contactsInfoBean.getData().getCompany_name());
             jsonObject.put("company_phone", contactsInfoBean.getData().getCompany_phone());
