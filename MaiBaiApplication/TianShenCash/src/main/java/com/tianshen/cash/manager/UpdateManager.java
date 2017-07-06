@@ -20,9 +20,12 @@ import android.widget.ProgressBar;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -140,6 +143,7 @@ public class UpdateManager {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
                     Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }
@@ -203,6 +207,7 @@ public class UpdateManager {
                     }
                     dialog.dismiss();
                     interceptFlag = true;
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
                     Process.killProcess(Process.myPid());//获取PID
                     System.exit(0);//退出当前应用
                 }
