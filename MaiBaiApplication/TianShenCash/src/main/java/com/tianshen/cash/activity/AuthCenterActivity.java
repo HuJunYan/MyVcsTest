@@ -349,6 +349,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String extroContactsStatus = data.getContacts_pass();//紧急联系人认证状态
         String wecash_pass = data.getWecash_pass();//联系人信息认证状态
         String zhimaStatus = data.getZhima_pass();//芝麻认证状态
+        String bankcardPass = data.getBankcard_pass();//银行卡认证状态
 
 
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
@@ -399,6 +400,10 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
             case "收款银行卡":
                 if ("0".equals(identityStatus)) {
                     ToastUtil.showToast(mContext, "请先进行身份认证");
+                    return;
+                }
+                if ("1".equals(bankcardPass)) {
+                    ToastUtil.showToast(mContext, "之前已经认证");
                     return;
                 }
                 Bundle bundle = new Bundle();
