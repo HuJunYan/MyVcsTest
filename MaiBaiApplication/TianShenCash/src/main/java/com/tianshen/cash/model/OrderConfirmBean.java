@@ -41,6 +41,8 @@ public class OrderConfirmBean {
         private String card_num;
         private String detail;
         private String repay_id;
+        private String msg_last_time;
+        private String call_last_time;
 
         private String second_party;
         private String id_num;
@@ -214,6 +216,21 @@ public class OrderConfirmBean {
             this.overdue = overdue;
         }
 
+        public String getMsg_last_time() {
+            return msg_last_time;
+        }
+
+        public void setMsg_last_time(String msg_last_time) {
+            this.msg_last_time = msg_last_time;
+        }
+
+        public String getCall_last_time() {
+            return call_last_time;
+        }
+
+        public void setCall_last_time(String call_last_time) {
+            this.call_last_time = call_last_time;
+        }
     }
 
 

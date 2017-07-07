@@ -83,6 +83,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
     private JSONObject mJSONObject;  // 上传用户信息的json
     private int step = 0;   // 获取信息的步数  分别为 app列表 短信 通话记录
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -380,6 +381,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 获取用户的app列表  通话记录 以及 短信列表
      */
     private void uploadUserInfo() {
+        if (mOrderConfirmBean == null) {
+            return;
+        }
         String loadText = getResources().getText(MemoryAddressUtils.loading()).toString();
         String location = TianShenUserUtil.getLocation(mContext);
         if (TextUtils.isEmpty(location)) {
@@ -407,7 +411,12 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             mJSONObject.put("is_wifi", PhoneInfoUtil.getNetworkType(this) ? "1" : "0");
             mJSONObject.put("device_id", UserUtil.getDeviceId(this));
             PhoneInfoUtil.getApp_list(this, myCallBack);
-            PhoneInfoUtil.getCall_list(this, myCallBack, null);
+            String call_last_time = null;
+            OrderConfirmBean.Data data = mOrderConfirmBean.getData();
+            if (data != null) {
+                call_last_time = data.getCall_last_time();
+            }
+            PhoneInfoUtil.getCall_list(this, myCallBack, call_last_time);
         } catch (JSONException e) {
             e.printStackTrace();
             ViewUtil.cancelLoadingDialog();
@@ -420,7 +429,12 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             try {
                 step++;
                 if (GlobalParams.USER_INFO_CALL_LIST.equals(jsonArrayName)) {
-                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, null);
+                    String message_last_date = null;
+                    OrderConfirmBean.Data data = mOrderConfirmBean.getData();
+                    if (data != null) {
+                        message_last_date = data.getMsg_last_time();
+                    }
+                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, message_last_date);
                 }
                 mJSONObject.put(jsonArrayName, jsonArray);
                 if (step == 3) {
