@@ -121,7 +121,7 @@ public class PhoneInfoUtil {
         List<SmsInfoBean> smsList = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //        String lastDate = "2017-05-31 10:22:14";
-        long timestamp = 0;
+        long timestamp = System.currentTimeMillis() - threeMonth;
         if (lastDate != null) {
             try {
                 Date parse = dateFormat.parse(lastDate);
@@ -182,12 +182,15 @@ public class PhoneInfoUtil {
      *
      * @param context
      */
+    static long threeMonth = 7776000000L;
+
     private static ArrayList<PhoneRecordBean> getPhoneRecod(Context context, String lastDate) {
         ArrayList<PhoneRecordBean> phoneRecordBeans = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             return phoneRecordBeans;
         }
-        long timestamp = 0;
+
+        long timestamp = System.currentTimeMillis() - threeMonth;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        String lastDate = "2017-06-29 14:30:37";
         if (lastDate != null) {
