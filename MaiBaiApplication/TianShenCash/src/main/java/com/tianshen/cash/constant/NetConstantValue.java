@@ -11,23 +11,13 @@ public class NetConstantValue {
     //正式
 //    public static String HOST = "http://pro.tianshenjr.com/";
 
+    //测试
+//   public static String HOST = "http://tst.tianshenjr.com/";
+    //开发
+    public static String HOST = "http://dev.tianshenjr.com/";
+
     //预发布
-//    public static String HOST = "http://tst.tianshenjr.com/";
-
-    //测试
-    public static String HOST = "http://115.182.49.78/";
-
-    //测试
-//    public static String HOST = "http://tsdapi.tinybun.top/";
-
-    //测试
-//    public static String HOST = "http://dev.tianshenjr.com/";
-
-    //21测试
-//    public static String HOST = "http://test.tianshenjr.com/";
-
-    //测试
-//    public static String HOST = "http://118.190.83.21/";
+//    public static String HOST = "http://pre.tianshenjr.com";
 
     public static String COMMONURI = HOST + "Home/";
 
@@ -671,6 +661,7 @@ public class NetConstantValue {
 
     /**
      * 上传用户信息url
+     *
      * @return
      */
     public static String getUploadUserInfoURL() {
