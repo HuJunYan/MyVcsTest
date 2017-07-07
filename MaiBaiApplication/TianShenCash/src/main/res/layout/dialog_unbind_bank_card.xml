@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="确定删除尾号XXX的银行卡吗"
         android:textColor="@color/global_txt_black5"

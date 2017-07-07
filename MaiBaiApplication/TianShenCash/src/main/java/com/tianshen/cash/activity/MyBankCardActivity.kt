@@ -12,6 +12,7 @@ import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.GetBankListBean
+import com.tianshen.cash.model.GetBankListItemBean
 import com.tianshen.cash.model.UserAuthCenterBean
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetUserAuthCenter
@@ -20,6 +21,7 @@ import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_my_bank_card.*
+import kotlinx.android.synthetic.main.bank_card_list_item.view.*
 import kotlinx.android.synthetic.main.dialog_unbind_bank_card.view.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -134,7 +136,7 @@ class MyBankCardActivity : BaseActivity() {
             xrecyclerview_my_bank_card.setPullRefreshEnabled(false)
             xrecyclerview_my_bank_card.setLoadingMoreEnabled(false)
             mAdapter = MyBankCardAdapter(paramT?.data!!, {
-                showUnBindBankCardDialog()
+                showUnBindBankCardDialog(it)
             })
             xrecyclerview_my_bank_card.adapter = mAdapter
         } else {
@@ -146,7 +148,7 @@ class MyBankCardActivity : BaseActivity() {
     /**
      * 显示解绑dialog
      */
-    private fun showUnBindBankCardDialog() {
+    private fun showUnBindBankCardDialog(bean: GetBankListItemBean) {
 
         val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = mLayoutInflater.inflate(R.layout.dialog_unbind_bank_card, null, false)
@@ -157,7 +159,12 @@ class MyBankCardActivity : BaseActivity() {
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(true)
 
-        view.tv_dialog_unbind_bank_card_msg.text = "xxxxxxxxx"
+        var bankCardNum = bean.getCard_num()
+        if (bankCardNum.length > 4) {
+            bankCardNum = bankCardNum.substring(bankCardNum.length - 4, bankCardNum.length)
+        }
+
+        view.tv_dialog_unbind_bank_card_msg.text = "您确定解除绑定\n尾号为 $bankCardNum 的银行卡吗"
 
         view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
             dialog.dismiss()
