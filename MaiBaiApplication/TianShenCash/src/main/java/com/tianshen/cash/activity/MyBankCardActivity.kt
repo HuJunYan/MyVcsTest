@@ -1,8 +1,12 @@
 package com.tianshen.cash.activity
 
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.github.ui.adapter.MyBankCardAdapter
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
@@ -12,12 +16,14 @@ import com.tianshen.cash.model.UserAuthCenterBean
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetUserAuthCenter
 import com.tianshen.cash.net.base.BaseNetCallBack
-import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
+import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_my_bank_card.*
+import kotlinx.android.synthetic.main.dialog_unbind_bank_card.view.*
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class MyBankCardActivity : BaseActivity() {
 
@@ -128,15 +134,39 @@ class MyBankCardActivity : BaseActivity() {
             xrecyclerview_my_bank_card.setPullRefreshEnabled(false)
             xrecyclerview_my_bank_card.setLoadingMoreEnabled(false)
             mAdapter = MyBankCardAdapter(paramT?.data!!, {
-                LogUtil.d("abc", "点击了--->" + it.bank_name)
+                showUnBindBankCardDialog()
             })
             xrecyclerview_my_bank_card.adapter = mAdapter
         } else {
             mAdapter?.setData(paramT?.data!!)
             mAdapter?.notifyDataSetChanged()
         }
+    }
 
+    /**
+     * 显示解绑dialog
+     */
+    private fun showUnBindBankCardDialog() {
 
+        val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = mLayoutInflater.inflate(R.layout.dialog_unbind_bank_card, null, false)
+        val dialog = Dialog(mContext, R.style.MyDialog)
+        val screenWidth = Utils.getWidthPixels(mContext)
+        val screenHeight = Utils.getHeightPixels(mContext)
+        dialog.setContentView(view, ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 1 / 3))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(true)
+
+        view.tv_dialog_unbind_bank_card_msg.text = "xxxxxxxxx"
+
+        view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        view.tv_dialog_unbind_bank_card_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
 }

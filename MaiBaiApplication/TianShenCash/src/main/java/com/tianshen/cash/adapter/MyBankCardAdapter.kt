@@ -39,7 +39,7 @@ class MyBankCardAdapter(private val bankListItemBean: MutableList<GetBankListIte
                 } else {
                     itemView.bank_card_num.text = bankCardNum.substring(bankCardNum.length - 4, bankCardNum.length)
                 }
-                RxView.clicks(itemView)//1秒钟之内禁用重复点击
+                RxView.clicks(itemView.iv_unbind_bank_card)//1秒钟之内禁用重复点击
                         .throttleFirst(1, TimeUnit.SECONDS)
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .subscribe {
