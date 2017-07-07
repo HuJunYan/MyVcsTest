@@ -21,7 +21,6 @@ import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_my_bank_card.*
-import kotlinx.android.synthetic.main.bank_card_list_item.view.*
 import kotlinx.android.synthetic.main.dialog_unbind_bank_card.view.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -53,9 +52,7 @@ class MyBankCardActivity : BaseActivity() {
             if (0 == identityStatus) {
                 ToastUtil.showToast(mContext, "请先进行身份认证")
             } else {
-                val bundle = Bundle()
-                bundle.putInt(GlobalParams.BANK_CARD_FROM_KEY, 1)
-                gotoActivity(mContext, AuthBankCardActivity::class.java, bundle)
+                gotoActivity(mContext, AuthBankCardActivity::class.java, null)
             }
         }
 

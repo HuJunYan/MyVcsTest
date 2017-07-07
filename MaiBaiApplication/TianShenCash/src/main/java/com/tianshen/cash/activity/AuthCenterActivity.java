@@ -406,9 +406,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                     ToastUtil.showToast(mContext, "之前已经认证");
                     return;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putInt(GlobalParams.BANK_CARD_FROM_KEY, 0);
-                gotoActivity(mContext, AuthBankCardActivity.class, bundle);
+                gotoActivity(mContext, AuthBankCardActivity.class, null);
                 break;
             case "芝麻信用":
                 if ("0".equals(identityStatus)) {
