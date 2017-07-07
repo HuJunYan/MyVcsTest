@@ -51,12 +51,6 @@ class MyBankCardActivity : BaseActivity() {
             }
         }
 
-        //点击了修改绑定银行卡
-        ll_edit_bank_card.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putInt(GlobalParams.BANK_CARD_FROM_KEY, 2)
-            gotoActivity(mContext, AuthBankCardActivity::class.java, bundle)
-        }
     }
 
     /**
@@ -119,7 +113,6 @@ class MyBankCardActivity : BaseActivity() {
     private fun showAddBankCardUI() {
         ll_add_bank_card.visibility = View.VISIBLE
         xrecyclerview_my_bank_card.visibility = View.GONE
-        ll_edit_bank_card.visibility = View.GONE
     }
 
     /**
@@ -129,7 +122,6 @@ class MyBankCardActivity : BaseActivity() {
 
         ll_add_bank_card.visibility = View.GONE
         xrecyclerview_my_bank_card.visibility = View.VISIBLE
-        ll_edit_bank_card.visibility = View.VISIBLE
 
         if (mAdapter == null) {
             xrecyclerview_my_bank_card.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
