@@ -2,7 +2,6 @@ package com.tianshen.cash.activity
 
 import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -94,7 +93,6 @@ class MyBankCardActivity : BaseActivity() {
         var unBindMyBankCard = UnBindMyBankCard(mContext)
         var jsonobject = JSONObject()
 
-
         var userId = TianShenUserUtil.getUserId(mContext)
         jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
         jsonobject.put("card_num", cardNum)
@@ -182,11 +180,10 @@ class MyBankCardActivity : BaseActivity() {
         dialog.setCancelable(true)
 
         var bankCardNum = bean.getCard_num()
-        if (bankCardNum.length > 4) {
-            bankCardNum = bankCardNum.substring(bankCardNum.length - 4, bankCardNum.length)
-        }
 
-        view.tv_dialog_unbind_bank_card_msg.text = "您确定解除绑定\n尾号为 $bankCardNum 的银行卡吗"
+        var bankCardNumLast = bankCardNum.substring(bankCardNum.length - 4, bankCardNum.length)
+
+        view.tv_dialog_unbind_bank_card_msg.text = "您确定解除绑定\n尾号为 $bankCardNumLast 的银行卡吗"
 
         view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
             dialog.dismiss()
