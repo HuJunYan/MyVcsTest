@@ -13,9 +13,11 @@ import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.GetBankListBean
 import com.tianshen.cash.model.GetBankListItemBean
+import com.tianshen.cash.model.PostDataBean
 import com.tianshen.cash.model.UserAuthCenterBean
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetUserAuthCenter
+import com.tianshen.cash.net.api.UnBindMyBankCard
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
@@ -83,6 +85,29 @@ class MyBankCardActivity : BaseActivity() {
 
         })
 
+    }
+
+    /**
+     * 解绑银行卡
+     */
+    private fun unBind(cardNum: String) {
+        var unBindMyBankCard = UnBindMyBankCard(mContext)
+        var jsonobject = JSONObject()
+
+
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        jsonobject.put("card_num", cardNum)
+        unBindMyBankCard.unBind(jsonobject, object : BaseNetCallBack<PostDataBean> {
+            override fun onSuccess(paramT: PostDataBean?) {
+                initMyBankCardData()
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+
+            }
+
+        })
     }
 
     /**
@@ -165,6 +190,7 @@ class MyBankCardActivity : BaseActivity() {
 
         view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
             dialog.dismiss()
+            unBind(bankCardNum)
         }
 
         view.tv_dialog_unbind_bank_card_cancel.setOnClickListener {

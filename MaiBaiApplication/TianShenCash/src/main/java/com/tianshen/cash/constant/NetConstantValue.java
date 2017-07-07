@@ -278,6 +278,14 @@ public class NetConstantValue {
         return COMMONURI + "Pay/bindConfirm";
     }
 
+
+    /**
+     * 解绑银行卡
+     */
+    public static String getUnBindBankCardUrl() {
+        return COMMONURI + "Pay/unBindBankCard";
+    }
+
     /**
      * 获取可绑定卡的银行列表
      * api: com.maibei.merchants.net.api.GetAllBankList.getAllBankList()
