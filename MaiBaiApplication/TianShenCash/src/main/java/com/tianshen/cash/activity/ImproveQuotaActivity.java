@@ -304,10 +304,6 @@ public class ImproveQuotaActivity extends BaseActivity implements View.OnClickLi
                             if ("1".equals(UserUtil.getIsSetPayPass(mContext))) {
                                 gotoActivity(mContext, InputPayPwdActivity.class, mBundle);
                             } else {
-
-                                LogUtil.d("abc", "ResultActivity--getInt-" + applyType);
-
-
                                 gotoActivity(mContext, SetPayPwdActivity.class, mBundle);
                             }
                             break;

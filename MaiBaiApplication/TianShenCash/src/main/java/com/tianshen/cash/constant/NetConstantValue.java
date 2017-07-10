@@ -12,13 +12,13 @@ public class NetConstantValue {
 //    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
-//    public static String HOST = "http://pre.tianshenjr.com/";
+    public static String HOST = "http://pre.tianshenjr.com/";
 
     //测试
 //   public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
-    public static String HOST = "http://dev.tianshenjr.com/";
+//    public static String HOST = "http://dev.tianshenjr.com/";
 
 
     public static String COMMONURI = HOST + "Home/";
