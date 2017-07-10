@@ -11,7 +11,7 @@ public class NetCheck {
 	}
 
 	public static NetworkInfo t(Context context) {
-		ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService("connectivity");
+		ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return mConnectivityManager.getActiveNetworkInfo();
 	}
 

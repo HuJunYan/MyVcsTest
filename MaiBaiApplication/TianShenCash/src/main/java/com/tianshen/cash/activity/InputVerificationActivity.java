@@ -121,44 +121,6 @@ public class InputVerificationActivity extends BaseActivity implements View.OnCl
             mBindBankCard.bindBankCard(mJson, bt_confirm, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
-                    /*String cardNum=mBundle.getString("card_num");
-                    String cardUserName=mBundle.getString("card_user_name");
-                    String type = mBundle.getString(GlobalParams.REPAY_FROM_KEY);
-                    UserUtil.setBindCard(mContext,"1");
-                    UserUtil.setBankName(mContext,cardUserName);
-                    UserUtil.setCardNum(mContext,cardNum);
-                    int applyType = mBundle.getInt(GlobalParams.APPLY_TYPE_KEY);
-                    if (GlobalParams.APPLY_TYPE_WITHDRAWALS_APPLY == applyType
-                            || GlobalParams.APPLY_TYPE_INSTALLMENT == applyType
-                            || GlobalParams.APPLY_TYPE_GET_CASH == applyType) { //申请现金贷，消费分期，提取现金
-                        Bundle bundle = new Bundle();
-                        bundle.putAll(mBundle);
-                        bundle.putString(GlobalParams.CARD_NUM_KEY, cardNum);
-                        bundle.putString(GlobalParams.CARD_USER_NAME, cardUserName);
-                        String from = mBundle.getString(GlobalParams.REPAY_FROM_KEY);
-                        if (GlobalParams.REPAY_FROM_SHOUFU.equals(from)) {
-                            gotoActivity(mContext, RepayPasswordActivity.class, getIntent().getExtras());
-                        } else {
-                            if ("1".equals(UserUtil.getIsSetPayPass(mContext))) {
-                                gotoActivity(mContext, InputPayPwdActivity.class, getIntent().getExtras());
-                            } else {
-                                gotoActivity(mContext, SetPayPwdActivity.class, getIntent().getExtras());
-                            }
-                        }
-                        backActivity();
-                    } else {  // 还款绑卡获取验证码
-                        if ("bindBankCard".equals(type)) { // 从我的银行卡列表中进入绑卡获取验证码
-                            new SendBroadCastUtil(mContext).sendBroad(GlobalParams.BIND_CARD_SUCCESS_ACTION, null);
-                            backActivity();
-                        } else if (GlobalParams.REPAY_FROM_CONSUMPTION.equals(type)) {  // 消费还款
-                            Bundle bundle = new Bundle();
-                            bundle.putString(GlobalParams.CARD_NUM_KEY, cardNum);
-                            bundle.putString(GlobalParams.CARD_USER_NAME, cardUserName);
-                            new SendBroadCastUtil(mContext).sendBroad(GlobalParams.BIND_CARD_SUCCESS_ACTION, bundle);
-                            gotoActivity(mContext, RepayPasswordActivity.class, mBundle);
-                            backActivity();
-                        }
-                    }*/
                     backActivity();
                 }
 

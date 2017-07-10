@@ -81,24 +81,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SetPayPwdActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name=".activity.ImproveQuotaActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RepayPasswordActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name=".activity.RepaySuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.InputPayPwdActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
             android:name=".activity.AddBankCardActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -107,8 +89,6 @@
         <activity
             android:name=".liveness.activity.LivenessActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ActivateSuccessActivity" />
-        <activity android:name=".activity.WaitVerifyWithdrawalActivity" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
@@ -137,9 +117,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".activity.ProtocolActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutMaibeiActivity"
             android:screenOrientation="portrait" />
@@ -259,51 +236,18 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.RePayActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AuthenticationActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.ChangePwdSelectActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.LoginWaitVerifyActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConsumptionRecordActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.VerifyFailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.VerifySuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsOrBillDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MyInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ChangeMyInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsBillActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsConfirmActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.WithdrawalsSuccessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.BorrowRepayActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AuthIdentityActivity"
@@ -325,9 +269,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmMoneyActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ConfirmBankCardActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmRepayActivity"

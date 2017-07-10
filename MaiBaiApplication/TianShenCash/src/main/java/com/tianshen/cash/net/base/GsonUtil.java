@@ -1,13 +1,5 @@
 package com.tianshen.cash.net.base;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +9,11 @@ import com.google.gson.Gson;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.Utils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class GsonUtil {
 	private static Context mContext;
@@ -77,7 +74,7 @@ public class GsonUtil {
 	/**
 	 * 获取错误码
 	 * 
-	 * @param result服务器下发的json数据
+	 * @param result 服务器下发的json数据
 	 * @return
 	 */
 	public static int getErrorCode(String result) {
