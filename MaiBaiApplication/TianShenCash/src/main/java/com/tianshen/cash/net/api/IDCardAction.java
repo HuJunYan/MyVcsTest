@@ -3,6 +3,7 @@ package com.tianshen.cash.net.api;
 import android.content.Context;
 
 import com.lidroid.xutils.http.RequestParams;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.IDCardBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
@@ -23,12 +24,12 @@ public class IDCardAction extends NetBase {
     private String secret;
     private String url;
 
-    public IDCardAction(Context context) {
+    public IDCardAction(Context context,String key ,String secret) {
         super(context);
         mContext = context;
         url = "https://api.faceid.com/faceid/v1/ocridcard";
-        key = "cX9UMpO-z5GG1KJkuRslGCTiC9JQOUUJ";
-        secret = "f8NhOZausOpR1pKNpQA5dgHNr0w3pdn5";
+        this.key = key;
+        this.secret = secret;
     }
 
     public void getIDCardInfo(byte[] data, final BaseNetCallBack<IDCardBean> mCallBack) {

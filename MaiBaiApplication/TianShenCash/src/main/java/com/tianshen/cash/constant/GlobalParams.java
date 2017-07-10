@@ -2,8 +2,14 @@ package com.tianshen.cash.constant;
 
 public class GlobalParams {
 
-    public static final String APP_ID_WX_PAY = "wx16a8376c4c40638d";
+    //face++买呗公司的key
+    public static final String FACE_ADD_ADD_APPKEY_OLD = "cX9UMpO-z5GG1KJkuRslGCTiC9JQOUUJ";
+    public static final String FACE_ADD_ADD_APPSECRET_OLD = "f8NhOZausOpR1pKNpQA5dgHNr0w3pdn5";
+    //face++新公司的key
+    public static final String FACE_ADD_ADD_APPKEY_NEW = "79ZS4Ei9K0yihvS3aoJqTEFBGEkh5HnJ";
+    public static final String FACE_ADD_ADD_APPSECRET_NEW = "KB8Dj_byOU_O8TcOjtszkWRKK_z8O4SY";
 
+    public static final String APP_ID_WX_PAY = "wx16a8376c4c40638d";
 
     public static final int SHOP_TYPE_PROPORTION = 6;//商家类型图标占总屏幕宽度为1/6；
     public static final int SHOP_ITEM_IMG_PROPORTION = 5;//商家列表中logo占比
