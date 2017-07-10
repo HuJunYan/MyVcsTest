@@ -66,4 +66,12 @@
     <string name="liveness_detection_failed_action_blend">活体检测动作错误</string>
     <string name="liveness_detection_failed_not_video">活体检测连续性检测失败</string>
     <string name="novalidframe">没有合适的图像用于人脸识别</string>
+
+    <string name="invite_friend_title">邀请好友送20元现金红包</string>
+    <string name="invite_friend_button_text">立即邀友赚钱</string>
+    <string name="invite_share_to_friends">分享给好友</string>
+    <string name="invite_share_title_wechat">微信好友</string>
+    <string name="invite_share_title_weibo">微博</string>
+    <string name="invite_share_title_qq">QQ</string>
+    <string name="invite_share_title_friends">朋友圈</string>
 </resources>
