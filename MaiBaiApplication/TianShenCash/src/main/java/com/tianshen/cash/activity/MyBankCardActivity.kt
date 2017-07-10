@@ -10,6 +10,7 @@ import com.github.ui.adapter.MyBankCardAdapter
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.event.UserConfigChangedEvent
 import com.tianshen.cash.model.GetBankListBean
 import com.tianshen.cash.model.GetBankListItemBean
 import com.tianshen.cash.model.PostDataBean
@@ -23,6 +24,7 @@ import com.tianshen.cash.utils.ToastUtil
 import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_my_bank_card.*
 import kotlinx.android.synthetic.main.dialog_unbind_bank_card.view.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -32,9 +34,12 @@ class MyBankCardActivity : BaseActivity() {
     private var mAdapter: MyBankCardAdapter? = null
     private var identityStatus = 0
 
+    private var isUnBind: Boolean = false
+
     override fun onResume() {
         super.onResume()
         initMyBankCardData()
+        isUnBind = false
     }
 
     override fun setContentView() = R.layout.activity_my_bank_card
@@ -71,8 +76,12 @@ class MyBankCardActivity : BaseActivity() {
             override fun onSuccess(paramT: GetBankListBean?) {
                 var size = paramT?.data?.size
                 if (0 == size) {
+                    if (isUnBind) {
+                        EventBus.getDefault().post(UserConfigChangedEvent())
+                    }
                     showAddBankCardUI()
                     initAuthCenterData()
+
                 } else {
                     showMyBankCardUI(paramT)
                 }
@@ -187,10 +196,12 @@ class MyBankCardActivity : BaseActivity() {
 
         view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
             dialog.dismiss()
+            isUnBind = true
             unBind(bankCardNum)
         }
 
         view.tv_dialog_unbind_bank_card_cancel.setOnClickListener {
+            isUnBind = false
             dialog.dismiss()
         }
         dialog.show()

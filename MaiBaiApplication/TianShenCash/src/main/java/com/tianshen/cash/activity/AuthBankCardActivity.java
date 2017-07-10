@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.BankCardInfoBean;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
@@ -30,6 +31,7 @@ import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -413,6 +415,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                     int code = paramT.getCode();
                     if (code == 0) {
                         ToastUtil.showToast(mContext, "绑卡成功!");
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
                         backActivity();
                     }
                 }

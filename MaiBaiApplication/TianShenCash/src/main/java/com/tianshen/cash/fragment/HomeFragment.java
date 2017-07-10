@@ -1727,7 +1727,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onUserConfigChangedEvent(UserConfigChangedEvent event) {
-        LogUtil.d("abc", "收到了极光推送的消息--刷新UI");
         initUserConfig();
     }
 
