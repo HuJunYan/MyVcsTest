@@ -126,6 +126,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
     private boolean mCanScanFace;
 
+    private boolean mFaceKeyIsNew = false;
+
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
@@ -359,6 +361,13 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
         TianShenUserUtil.saveUserName(mContext, real_name);
         TianShenUserUtil.saveUserIDNum(mContext, id_num);
+
+        String face_change_key = mIdNumInfoBean.getData().getFace_change_key();
+        if ("0".equals(face_change_key)) {
+            mFaceKeyIsNew = false;
+        } else if ("1".equals(face_change_key)) {
+            mFaceKeyIsNew = true;
+        }
 
     }
 
@@ -658,10 +667,24 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
         requestParams.put("delta", bean.delta);
-        requestParams.put("api_key", "cX9UMpO-z5GG1KJkuRslGCTiC9JQOUUJ");
-        requestParams.put("api_secret", "f8NhOZausOpR1pKNpQA5dgHNr0w3pdn5");
         requestParams.put("comparison_type", "1");
         requestParams.put("face_image_type", "meglive");
+
+        String api_key;
+        String api_secret;
+        if (mFaceKeyIsNew) {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+        } else {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+        }
+
+        LogUtil.d("abc","mFaceKeyIsNew--->"+mFaceKeyIsNew);
+
+        requestParams.put("api_key", api_key);
+        requestParams.put("api_secret", api_secret);
+
         for (Map.Entry<String, byte[]> entry : bean.images.entrySet()) {
             requestParams.put(entry.getKey(), new ByteArrayInputStream(entry.getValue()));
         }
@@ -892,7 +915,20 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void getIdcardFrontInfo(byte[] data) {
         LogUtil.d("abc", "getIdcardFrontInfo");
         ViewUtil.createLoadingDialog(this, "", false);
-        new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
+
+
+        String api_key;
+        String api_secret;
+        if (mFaceKeyIsNew) {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+        } else {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+        }
+
+
+        new IDCardAction(this, api_key, api_secret).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
             @Override
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
@@ -919,7 +955,19 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      */
     private void getIdcardBackInfo(byte[] data) {
         ViewUtil.createLoadingDialog(this, "", false);
-        new IDCardAction(this).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
+
+
+        String api_key;
+        String api_secret;
+        if (mFaceKeyIsNew) {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+        } else {
+            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+        }
+
+        new IDCardAction(this, api_key, api_secret).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
             @Override
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
