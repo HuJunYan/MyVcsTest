@@ -2,10 +2,12 @@ package com.tianshen.cash.view;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.utils.LogUtil;
@@ -17,6 +19,7 @@ import com.tianshen.cash.utils.LogUtil;
 public class InviteBottomDialog implements View.OnClickListener {
 
     private Dialog bottomDialog;
+    private ImageView mIvQRCode;
 
     public InviteBottomDialog(Context context) {
         initDialog(context);
@@ -36,6 +39,7 @@ public class InviteBottomDialog implements View.OnClickListener {
         contentView.findViewById(R.id.iv_invite_share_qq).setOnClickListener(this);
         contentView.findViewById(R.id.iv_invite_share_wechat).setOnClickListener(this);
         contentView.findViewById(R.id.iv_invite_share_weibo).setOnClickListener(this);
+        mIvQRCode = (ImageView) contentView.findViewById(R.id.iv_qrcode);
     }
 
 
@@ -59,5 +63,10 @@ public class InviteBottomDialog implements View.OnClickListener {
                 LogUtil.d("aaa", "friends");
                 break;
         }
+    }
+
+    public InviteBottomDialog setQRCodeBitmap(Bitmap bitmap) {
+        mIvQRCode.setImageBitmap(bitmap);
+        return this;
     }
 }

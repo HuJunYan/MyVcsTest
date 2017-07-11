@@ -115,4 +115,25 @@
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/global_bg_gray"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_marginTop="24dp"
+            android:layout_width="120dp"
+            android:id="@+id/iv_qrcode"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="120dp" />
+        <TextView
+            android:layout_marginTop="18dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/global_txt_black4"
+            android:text="@string/invite_share_dialog_text"
+            android:layout_marginBottom="24dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

@@ -74,4 +74,5 @@
     <string name="invite_share_title_weibo">微博</string>
     <string name="invite_share_title_qq">QQ</string>
     <string name="invite_share_title_friends">朋友圈</string>
+    <string name="invite_share_dialog_text">面对面邀请</string>
 </resources>
