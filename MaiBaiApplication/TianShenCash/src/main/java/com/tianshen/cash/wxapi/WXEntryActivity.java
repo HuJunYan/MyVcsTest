@@ -23,7 +23,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
 
         IWXAPI wxapi = TianShenShareUtils.getWxapi();
-        wxapi.handleIntent(getIntent(),this);
+        if (wxapi != null)
+            wxapi.handleIntent(getIntent(), this);
     }
 
     @Override

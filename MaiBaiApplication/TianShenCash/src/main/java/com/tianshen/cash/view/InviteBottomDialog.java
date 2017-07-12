@@ -26,6 +26,7 @@ public class InviteBottomDialog implements View.OnClickListener {
     private ImageView mIvQRCode;
     private Activity mContext;
     private Tencent mTencent;
+    private boolean mIsCheck;
 
     public InviteBottomDialog(Activity context) {
         mContext = context;
@@ -56,6 +57,10 @@ public class InviteBottomDialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (mIsCheck) {
+            return;
+        }
+        mIsCheck = true;
         switch (v.getId()) {
             case R.id.iv_invite_share_wechat:
                 shareToWeChatSession();
@@ -67,17 +72,18 @@ public class InviteBottomDialog implements View.OnClickListener {
                 shareToQQ();
                 break;
             case R.id.iv_invite_share_friends:
-                shareToWeChatSession();
+                shareToWeChatTimeline();
                 break;
         }
+        mIsCheck = false;
     }
 
     private void shareToWeChatSession() {
-        TianShenShareUtils.shareToWx(mContext, GlobalParams.SHARE_TO_WECHAT_SESSION);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION);
     }
 
     private void shareToWeChatTimeline() {
-        TianShenShareUtils.shareToWx(mContext, GlobalParams.SHARE_TO_WECHAT_TIMELINE);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE);
     }
 
     private void shareToQQ() {
@@ -93,6 +99,10 @@ public class InviteBottomDialog implements View.OnClickListener {
     public InviteBottomDialog setQRCodeBitmap(Bitmap bitmap) {
         mIvQRCode.setImageBitmap(bitmap);
         return this;
+    }
+
+    public void cancel() {
+        bottomDialog.cancel();
     }
 
 }
