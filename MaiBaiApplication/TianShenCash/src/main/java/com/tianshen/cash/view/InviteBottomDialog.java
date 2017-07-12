@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenShareUtils;
 
@@ -57,7 +58,7 @@ public class InviteBottomDialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_invite_share_wechat:
-                LogUtil.d("aaa", "wechat");
+                shareToWeChatSession();
                 break;
             case R.id.iv_invite_share_weibo:
                 LogUtil.d("aaa", "weibo");
@@ -66,13 +67,21 @@ public class InviteBottomDialog implements View.OnClickListener {
                 shareToQQ();
                 break;
             case R.id.iv_invite_share_friends:
-                LogUtil.d("aaa", "friends");
+                shareToWeChatSession();
                 break;
         }
     }
 
+    private void shareToWeChatSession() {
+        TianShenShareUtils.shareToWx(mContext, GlobalParams.SHARE_TO_WECHAT_SESSION);
+    }
+
+    private void shareToWeChatTimeline() {
+        TianShenShareUtils.shareToWx(mContext, GlobalParams.SHARE_TO_WECHAT_TIMELINE);
+    }
+
     private void shareToQQ() {
-        TianShenShareUtils.shareToQQ(mContext,"");
+        TianShenShareUtils.shareToQQ(mContext, "");
     }
 
     /**
