@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -21,6 +22,8 @@ public class InviteFriendsActivity extends BaseActivity {
     private InviteBottomDialog inviteBottomDialog;
     @BindView(R.id.ll_invite_rank_data)
     LinearLayout ll_invite_rank_data;
+    IUiListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class InviteFriendsActivity extends BaseActivity {
 
     @Override
     protected void setListensers() {
-
+        listener = new BaseUiListener(this);
     }
 
     @OnClick({R.id.tv_back, R.id.tv_invite_friends_make_money})
@@ -62,14 +65,14 @@ public class InviteFriendsActivity extends BaseActivity {
     }
 
     private void showShareDialog() {
-        inviteBottomDialog = new InviteBottomDialog(this);
+        inviteBottomDialog = new InviteBottomDialog(this, listener);
         inviteBottomDialog.show();
     }
 
     //
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_QQ_SHARE) {
-            Tencent.handleResultData(data, new BaseUiListener(getApplicationContext()));
+            Tencent.handleResultData(data, listener);
         }
     }
 }

@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
@@ -38,7 +39,7 @@ public class TianShenShareUtils {
      * @param mContext
      * @param url      分享的url
      */
-    public static void shareToQQ(Activity mContext, String url) {
+    public static void shareToQQ(Activity mContext, String url, IUiListener listener) {
         Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, mContext);
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
@@ -49,7 +50,7 @@ public class TianShenShareUtils {
 
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "天神贷");
-        mTencent.shareToQQ(mContext, params, null);
+        mTencent.shareToQQ(mContext, params, listener);
     }
 
     /**

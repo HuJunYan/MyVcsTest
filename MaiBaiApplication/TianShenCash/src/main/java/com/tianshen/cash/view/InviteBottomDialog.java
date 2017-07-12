@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
@@ -27,9 +28,11 @@ public class InviteBottomDialog implements View.OnClickListener {
     private Activity mContext;
     private Tencent mTencent;
     private boolean mIsCheck;
+    private IUiListener listener;
 
-    public InviteBottomDialog(Activity context) {
+    public InviteBottomDialog(Activity context, IUiListener listener) {
         mContext = context;
+        this.listener = listener;
         initDialog(context);
 
     }
@@ -87,7 +90,7 @@ public class InviteBottomDialog implements View.OnClickListener {
     }
 
     private void shareToQQ() {
-        TianShenShareUtils.shareToQQ(mContext, "");
+        TianShenShareUtils.shareToQQ(mContext, "http://www.baidu.com", listener);
     }
 
     /**
