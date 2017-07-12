@@ -102,11 +102,6 @@
             android:windowSoftInputMode="stateVisible" />
         <activity android:name=".activity.SettingActivity" />
         <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
@@ -301,6 +296,19 @@
         <activity
             android:name=".activity.InviteFriendsActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105998971" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

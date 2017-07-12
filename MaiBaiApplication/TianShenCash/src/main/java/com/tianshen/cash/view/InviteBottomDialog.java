@@ -1,5 +1,6 @@
 package com.tianshen.cash.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.TianShenShareUtils;
 
 /**
  * Created by Administrator on 2017/7/10.
@@ -20,8 +23,11 @@ public class InviteBottomDialog implements View.OnClickListener {
 
     private Dialog bottomDialog;
     private ImageView mIvQRCode;
+    private Activity mContext;
+    private Tencent mTencent;
 
-    public InviteBottomDialog(Context context) {
+    public InviteBottomDialog(Activity context) {
+        mContext = context;
         initDialog(context);
 
     }
@@ -57,7 +63,7 @@ public class InviteBottomDialog implements View.OnClickListener {
                 LogUtil.d("aaa", "weibo");
                 break;
             case R.id.iv_invite_share_qq:
-                LogUtil.d("aaa", "qq");
+                shareToQQ();
                 break;
             case R.id.iv_invite_share_friends:
                 LogUtil.d("aaa", "friends");
@@ -65,8 +71,19 @@ public class InviteBottomDialog implements View.OnClickListener {
         }
     }
 
+    private void shareToQQ() {
+        TianShenShareUtils.shareToQQ(mContext,"");
+    }
+
+    /**
+     * 设置二维码图片
+     *
+     * @param bitmap
+     * @return
+     */
     public InviteBottomDialog setQRCodeBitmap(Bitmap bitmap) {
         mIvQRCode.setImageBitmap(bitmap);
         return this;
     }
+
 }

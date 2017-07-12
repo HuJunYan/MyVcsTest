@@ -306,4 +306,6 @@ public class GlobalParams {
      * 用户的id key
      */
     public static final String USER_CUSTOMER_ID = "customer_id";
+
+    public static final String APP_QQ_ID = "1105998971";
 }

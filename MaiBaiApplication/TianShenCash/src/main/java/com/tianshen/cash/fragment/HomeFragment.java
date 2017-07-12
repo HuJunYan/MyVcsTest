@@ -36,6 +36,7 @@ import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
+import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
@@ -304,6 +305,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.rl_home_tianshen_card: //点击了天神卡
+                gotoActivity(getActivity(), InviteFriendsActivity.class, null);
+                if (true) {
+                    return;
+                }
                 Bundle cardBundle = new Bundle();
                 cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
                 gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
@@ -1626,8 +1631,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onRefresh() {
-            if (mUserConfig == null || mUserConfig.getData() == null){
-                ToastUtil.showToast(getActivity(),"数据错误");
+            if (mUserConfig == null || mUserConfig.getData() == null) {
+                ToastUtil.showToast(getActivity(), "数据错误");
                 return;
             }
             String status = mUserConfig.getData().getStatus();

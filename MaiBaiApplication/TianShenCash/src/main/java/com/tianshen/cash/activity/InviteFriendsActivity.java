@@ -1,16 +1,21 @@
 package com.tianshen.cash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.net.base.BaseUiListener;
 import com.tianshen.cash.view.InviteBottomDialog;
 
 import butterknife.OnClick;
 
 public class InviteFriendsActivity extends BaseActivity {
+
+    private InviteBottomDialog inviteBottomDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +45,20 @@ public class InviteFriendsActivity extends BaseActivity {
                 backActivity();
                 break;
             case R.id.tv_invite_friends_make_money:
-                LogUtil.d("aaa", "xixi");
                 showShareDialog();
                 break;
         }
     }
 
     private void showShareDialog() {
-        new InviteBottomDialog(this).show();
-//        Dialog bottomDialog = new Dialog(this, R.style.invite_dialog_style);
-//        View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_invite_share, null);
-//        bottomDialog.setContentView(contentView);
-//        ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-//        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-//        contentView.setLayoutParams(layoutParams);
-//        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
-//        bottomDialog.getWindow().setWindowAnimations(R.style.invite_animation);
-//        bottomDialog.show();
+        inviteBottomDialog = new InviteBottomDialog(this);
+        inviteBottomDialog.show();
+    }
+
+    //
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_QQ_SHARE) {
+            Tencent.handleResultData(data, new BaseUiListener(getApplicationContext()));
+        }
     }
 }
