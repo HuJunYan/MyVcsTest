@@ -87,11 +87,12 @@
                 android:textColor="@color/global_txt_white"
                 android:textSize="18sp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_invoke_rank_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_invite_friends_make_money">
+                android:layout_below="@id/tv_invite_friends_make_money"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/iv_invite_rank"
@@ -99,20 +100,18 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/invite_friends_rank_bg" />
 
-                <ImageView
-                    android:id="@+id/iv_invite_rank_message_bg"
+                <LinearLayout
+                    android:id="@+id/ll_invite_rank_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_invite_rank"
-                    android:background="@drawable/invite_friends_rank_info_bg" />
+                    android:orientation="vertical" />
 
                 <ImageView
                     android:id="@+id/iv_invite_rank_below_bg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_invite_rank_message_bg"
                     android:background="@drawable/invite_friends_rank_below_bg" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"

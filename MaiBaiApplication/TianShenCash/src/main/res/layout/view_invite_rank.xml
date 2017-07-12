@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/invite_rank_bg"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/invite_rank_line" />
+
+    <ImageView
+        android:id="@+id/iv_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="38dp"
+        android:src="@drawable/invite_rank_1" />
+
+    <TextView
+        android:id="@+id/tv_rank_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="80dp"
+        android:src="@drawable/invite_rank_1"
+        android:text="130****3333"
+        android:textColor="@color/invite_friends_text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_rank_people_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="134dp"
+        android:src="@drawable/invite_rank_1"
+        android:text="2人"
+        android:textColor="@color/invite_friends_text_color"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_rank_money_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="40dp"
+        android:src="@drawable/invite_rank_1"
+        android:text="3600元"
+        android:textColor="@color/invite_friends_red_package_color"
+        android:textSize="12sp" />
+
+</RelativeLayout>
