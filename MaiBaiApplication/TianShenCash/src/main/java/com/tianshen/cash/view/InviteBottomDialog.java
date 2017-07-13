@@ -14,7 +14,6 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenShareUtils;
 
 /**
@@ -29,6 +28,7 @@ public class InviteBottomDialog implements View.OnClickListener {
     private Tencent mTencent;
     private boolean mIsCheck;
     private IUiListener listener;
+    private ShareWeiboListener shareWeiboListener;
 
     /**
      * @param context
@@ -73,7 +73,7 @@ public class InviteBottomDialog implements View.OnClickListener {
                 shareToWeChatSession();
                 break;
             case R.id.iv_invite_share_weibo:
-                LogUtil.d("aaa", "weibo");
+                sharetoWeibo();
                 break;
             case R.id.iv_invite_share_qq:
                 shareToQQ();
@@ -83,6 +83,17 @@ public class InviteBottomDialog implements View.OnClickListener {
                 break;
         }
         mIsCheck = false;
+    }
+
+    private void sharetoWeibo() {
+        if (shareWeiboListener != null) {
+            shareWeiboListener.shareToWeibo();
+        }
+    }
+
+    public InviteBottomDialog setWeiBoListener(ShareWeiboListener listener) {
+        shareWeiboListener = listener;
+        return this;
     }
 
     private void shareToWeChatSession() {
@@ -112,4 +123,8 @@ public class InviteBottomDialog implements View.OnClickListener {
         bottomDialog.cancel();
     }
 
+
+    public interface ShareWeiboListener {
+        void shareToWeibo();
+    }
 }

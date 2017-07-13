@@ -6,6 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import com.sina.weibo.sdk.api.ImageObject;
+import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.WebpageObject;
+import com.sina.weibo.sdk.utils.Utility;
 import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -76,5 +80,50 @@ public class TianShenShareUtils {
         req.message = msg;
         req.scene = flag == GlobalParams.SHARE_TO_WECHAT_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         wxapi.sendReq(req);
+    }
+
+
+    /**
+     * 微博分享
+     * 创建文本消息对象。
+     *
+     * @return 文本消息对象。
+     */
+    public static TextObject getTextObj(String text) {
+        TextObject textObject = new TextObject();
+        textObject.text = text;
+        return textObject;
+    }
+
+    /**
+     * 微博分享
+     * 创建图片消息对象。
+     *
+     * @return 图片消息对象。
+     */
+    public static ImageObject getImageObj(Context context) {
+        ImageObject imageObject = new ImageObject();
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        imageObject.setImageObject(bitmap);
+        return imageObject;
+    }
+
+    /**
+     * 微博分享
+     * 创建多媒体（网页）消息对象。
+     *
+     * @return 多媒体（网页）消息对象。
+     */
+    public static WebpageObject getWebpageObj(Context context, String url, String title, String description) {
+        WebpageObject mediaObject = new WebpageObject();
+        mediaObject.identify = Utility.generateGUID();
+        mediaObject.title = title;
+        mediaObject.description = description;
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        // 设置 Bitmap 类型的图片到视频对象里         设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
+        mediaObject.setThumbImage(bitmap);
+        mediaObject.actionUrl = url;
+        mediaObject.defaultText = "";
+        return mediaObject;
     }
 }

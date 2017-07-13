@@ -102,6 +102,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     //微信分享
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    //微博分享
+    compile 'com.sina.weibo.sdk:core:2.0.6:openDefaultRelease@aar'
 
 //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

@@ -309,7 +309,13 @@ public class GlobalParams {
 
     public static final String APP_QQ_ID = "1105998971";//qq id
     public static final String APP_WX_ID = "wx0eff7356b7c5cda5";//微信id
-
+    public static final String APP_WEIBO_KEY = "3428550251"; //微博 key
     public static final int SHARE_TO_WECHAT_SESSION = 0; //分享给朋友
     public static final int SHARE_TO_WECHAT_TIMELINE = 1; //分享到朋友圈
+    public static final String WEIBO_OAUTH_ADDRESS = "https://api.weibo.com/oauth2/default.html";//微博分享回调页面
+    public static final String WEIBO_SCOPE = "email,direct_messages_read,direct_messages_write,"//微博分享权限
+            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+            + "follow_app_official_microblog," + "invitation_write";
+
+
 }
