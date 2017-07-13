@@ -1438,9 +1438,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator_dialog_banner_indicator);
         ImageView iv_dialog_banner_close = (ImageView) view.findViewById(R.id.iv_dialog_banner_close);
 
-        int screenWidth = Utils.getWidthPixels(mContext);
-        int screenHeight = Utils.getHeightPixels(mContext);
-        mDialog.setContentView(view, new ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 2 / 3));
+//        int screenWidth = Utils.getWidthPixels(mContext);
+//        int screenHeight = Utils.getHeightPixels(mContext);
+//        mDialog.setContentView(view, new ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 2 / 3));
+
+        mDialog.setContentView(view);
 
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.setCancelable(false);
