@@ -20,6 +20,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
+import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
@@ -223,7 +224,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                ToastUtil.showToast(mContext, "点击了邀请好友");
+                gotoActivity(getActivity(), InviteFriendsActivity.class, null);
                 break;
         }
     }

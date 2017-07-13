@@ -38,7 +38,6 @@ import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
-import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
@@ -87,7 +86,6 @@ import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
-import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
 import com.umeng.analytics.MobclickAgent;
@@ -309,10 +307,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.rl_home_tianshen_card: //点击了天神卡
-                gotoActivity(getActivity(), InviteFriendsActivity.class, null);
-                if (true) {
-                    return;
-                }
                 Bundle cardBundle = new Bundle();
                 cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
                 gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
