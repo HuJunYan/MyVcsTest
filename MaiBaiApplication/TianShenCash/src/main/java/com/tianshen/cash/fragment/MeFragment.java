@@ -23,6 +23,7 @@ import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
+import com.tianshen.cash.activity.RedPackageActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
@@ -217,7 +218,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                ToastUtil.showToast(mContext, "点击了现金红包");
+                gotoActivity(getActivity(), RedPackageActivity.class, null);
                 break;
             case R.id.rl_me_tianshen_friend:
                 if (!TianShenUserUtil.isLogin(mContext)) {

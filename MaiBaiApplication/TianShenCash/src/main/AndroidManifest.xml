@@ -270,7 +270,9 @@
         <activity
             android:name=".activity.MyBankCardActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.RedPackageActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
@@ -290,7 +292,7 @@
 
         <activity
             android:name=".activity.InviteFriendsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
