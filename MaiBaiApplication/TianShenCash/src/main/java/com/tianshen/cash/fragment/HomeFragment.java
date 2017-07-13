@@ -1453,6 +1453,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         viewList.add(view1);
         viewList.add(view2);
 
+
+        ImageView iv_dialog_banner_red_package = (ImageView) view1.findViewById(R.id.iv_dialog_banner_red_package);
+        iv_dialog_banner_red_package.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "点击了红包");
+            }
+        });
+
+        View tv_dialog_banner_read = view2.findViewById(R.id.tv_dialog_banner_read);
+        tv_dialog_banner_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "点击了阅读");
+            }
+        });
+
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
             @Override
