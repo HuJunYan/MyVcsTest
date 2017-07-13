@@ -335,15 +335,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariable() {
-        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
-        if (mIsLogin) {
-            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-            initUserConfig();
-        } else {
-            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-            initSelWithdrawalsData();
-        }
-        initStaticsRoll();
+//        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+//        if (mIsLogin) {
+//            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+//            initUserConfig();
+//        } else {
+//            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+//            initSelWithdrawalsData();
+//        }
+//        initStaticsRoll();
+
+        showBannerDialog();
     }
 
     @Override
@@ -1421,6 +1423,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 
     /**
+     * 显示活动的Dialog
+     */
+    private void showBannerDialog() {
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_banner, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+
+        ImageView iv_dialog_banner_close = (ImageView) view.findViewById(R.id.iv_dialog_banner_close);
+
+        mDialog.setContentView(view);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+
+        iv_dialog_banner_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+
+        mDialog.show();
+    }
+
+    /**
      * 得到第三方验证码
      */
     private void initVerifySmsForConfirmLoanUrl(final String type) {
@@ -1626,8 +1652,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onRefresh() {
-            if (mUserConfig == null || mUserConfig.getData() == null){
-                ToastUtil.showToast(getActivity(),"数据错误");
+            if (mUserConfig == null || mUserConfig.getData() == null) {
+                ToastUtil.showToast(getActivity(), "数据错误");
                 return;
             }
             String status = mUserConfig.getData().getStatus();
