@@ -14,8 +14,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 211
-        versionName "2.1.1"
+        versionCode 220
+        versionName "2.2.0"
         resConfigs "zh", "en"
         // dex突破65535的限制
         multiDexEnabled true
@@ -88,6 +88,8 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     compile 'com.liulishuo.filedownloader:library:1.4.3'
+    //viewpager下面的圆点
+    compile 'me.relex:circleindicator:1.2.2@aar'
     //umeng
     compile 'com.umeng.analytics:analytics:latest.integration'
     //美团批量打包

@@ -394,6 +394,11 @@ public class LivenessActivity extends Activity implements PreviewCallback,
      * 跳转Activity传递信息
      */
     private void handleResult(final int resID) {
+        if(mDetector == null){
+            finish();
+            return;
+        }
+
         FaceIDDataStruct idDataStruct = mDetector.getFaceIDDataStruct();
         String resultString = getResources().getString(resID);
         try {

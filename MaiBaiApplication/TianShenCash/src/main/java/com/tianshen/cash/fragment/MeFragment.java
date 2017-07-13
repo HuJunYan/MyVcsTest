@@ -84,9 +84,19 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlMeSetting;
     @BindView(R.id.rl_me_tianshen_service_online)
     RelativeLayout rl_me_tianshen_service_online;
-
     @BindView(R.id.tv_me_weixin)
     TextView tv_me_weixin;
+
+    @BindView(R.id.rl_me_red_package)
+    RelativeLayout rl_me_red_package;
+    @BindView(R.id.rl_me_tianshen_friend)
+    RelativeLayout rl_me_tianshen_friend;
+
+    @BindView(R.id.tv_me_red_package)
+    TextView tv_me_red_package;
+    @BindView(R.id.tv_me_tianshen_friend)
+    TextView tv_me_tianshen_friend;
+
 
     @Override
     protected void initVariable() {
@@ -120,6 +130,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rlMeSetting.setOnClickListener(this);
         rl_me_tianshen_service_online.setOnClickListener(this);
         tv_me_weixin.setOnClickListener(this);
+        rl_me_red_package.setOnClickListener(this);
+        rl_me_tianshen_friend.setOnClickListener(this);
     }
 
     private void refreshUI() {
@@ -199,7 +211,20 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_me_weixin:
                 copyWeiXin();
                 break;
-
+            case R.id.rl_me_red_package:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                ToastUtil.showToast(mContext, "点击了现金红包");
+                break;
+            case R.id.rl_me_tianshen_friend:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                ToastUtil.showToast(mContext, "点击了邀请好友");
+                break;
         }
     }
 
