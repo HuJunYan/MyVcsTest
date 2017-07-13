@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.MainActivity;
-import com.tianshen.cash.base.MyApplication;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.SendBroadCastUtil;

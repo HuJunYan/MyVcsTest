@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.meituan.android.walle.WalleChannelReader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tencent.tinker.lib.tinker.TinkerInstaller;
+//import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -208,7 +208,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
                             ToastUtil.showToast(mContext, "加载补丁");
-                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
+//                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), tinker_new);
                         }
                     }
                 });

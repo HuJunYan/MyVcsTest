@@ -95,8 +95,8 @@ dependencies {
     //腾讯bug管理
     compile 'com.tencent.bugly:crashreport:2.6.5'
     //微信tinker热修复
-    compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
-    provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+//    compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
+//    provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
 //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

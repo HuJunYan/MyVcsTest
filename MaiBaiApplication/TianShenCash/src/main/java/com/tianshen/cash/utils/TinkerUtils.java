@@ -3,7 +3,7 @@ package com.tianshen.cash.utils;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.tencent.tinker.loader.shareutil.ShareConstants;
+//import com.tencent.tinker.loader.shareutil.ShareConstants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,8 +58,8 @@ public class TinkerUtils {
         if (!checkRomSpaceEnough(roomSize)) {
             return TinkerUtils.ERROR_PATCH_ROM_SPACE;
         }
-
-        return ShareConstants.ERROR_PATCH_OK;
+        return 0;
+//        return ShareConstants.ERROR_PATCH_OK;
     }
 
     public static boolean isXposedExists(Throwable thr) {

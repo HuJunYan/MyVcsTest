@@ -16,20 +16,23 @@
 
 package com.tianshen.cash.service;
 
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
-import com.tencent.tinker.lib.service.DefaultTinkerResultService;
-import com.tencent.tinker.lib.service.PatchResult;
-import com.tencent.tinker.lib.tinker.Tinker;
-import com.tencent.tinker.lib.util.TinkerLog;
-import com.tencent.tinker.lib.util.TinkerServiceInternals;
-import com.tencent.tinker.loader.shareutil.SharePatchFileUtil;
-import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
+//import com.tencent.tinker.lib.service.DefaultTinkerResultService;
+//import com.tencent.tinker.lib.service.PatchResult;
+//import com.tencent.tinker.lib.tinker.Tinker;
+//import com.tencent.tinker.lib.util.TinkerLog;
+//import com.tencent.tinker.lib.util.TinkerServiceInternals;
+//import com.tencent.tinker.loader.shareutil.SharePatchFileUtil;
+//import com.tencent.tinker.loader.shareutil.ShareTinkerInternals;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TinkerUtils;
 
@@ -40,99 +43,105 @@ import java.io.File;
  * optional, you can just use DefaultTinkerResultService
  * we can restart process when we are at background or screen off
  */
-public class TinkerResultService extends DefaultTinkerResultService {
-    private static final String TAG = "Tinker.SampleResultService";
-
-
+public class TinkerResultService extends Service{
+    @Nullable
     @Override
-    public void onPatchResult(final PatchResult result) {
-        if (result == null) {
-            TinkerLog.e(TAG, "SampleResultService received null result!!!!");
-            return;
-        }
-        TinkerLog.i(TAG, "SampleResultService receive result: %s", result.toString());
-
-        //first, we want to kill the recover process
-        TinkerServiceInternals.killTinkerPatchServiceProcess(getApplicationContext());
-
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (result.isSuccess) {
-                    LogUtil.d("abc", "补丁包加载成功!");
-                    ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
-                    android.os.Process.killProcess(android.os.Process.myPid());
-
-                } else {
-                    LogUtil.d("abc", "补丁包加载失败!");
-                    Tinker.with(getApplicationContext()).cleanPatch();
-                }
-            }
-        });
-        // is success and newPatch, it is nice to delete the raw file, and restart at once
-        // for old patch, you can't delete the patch file
-        if (result.isSuccess) {
-            File rawFile = new File(result.rawPatchFilePath);
-            if (rawFile.exists()) {
-                TinkerLog.i(TAG, "save delete raw patch file");
-                SharePatchFileUtil.safeDeleteFile(rawFile);
-            }
-            //not like TinkerResultService, I want to restart just when I am at background!
-            //if you have not install tinker this moment, you can use TinkerApplicationHelper api
-            if (checkIfNeedKill(result)) {
-                if (TinkerUtils.isBackground()) {
-                    TinkerLog.i(TAG, "it is in background, just restart process");
-                    restartProcess();
-                } else {
-                    //we can wait process at background, such as onAppBackground
-                    //or we can restart when the screen off
-                    TinkerLog.i(TAG, "tinker wait screen to restart process");
-                    new ScreenState(getApplicationContext(), new ScreenState.IOnScreenOff() {
-                        @Override
-                        public void onScreenOff() {
-                            restartProcess();
-                        }
-                    });
-                }
-            } else {
-                TinkerLog.i(TAG, "I have already install the newly patch version!");
-            }
-        }
+    public IBinder onBind(Intent intent) {
+        return null;
     }
-
-    /**
-     * you can restart your process through service or broadcast
-     */
-    private void restartProcess() {
-        TinkerLog.i(TAG, "app is background now, i can kill quietly");
-        //you can send service or broadcast intent to restart your process
-        android.os.Process.killProcess(android.os.Process.myPid());
-    }
-
-    static class ScreenState {
-        interface IOnScreenOff {
-            void onScreenOff();
-        }
-
-        ScreenState(Context context, final IOnScreenOff onScreenOffInterface) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(Intent.ACTION_SCREEN_OFF);
-            context.registerReceiver(new BroadcastReceiver() {
-
-                @Override
-                public void onReceive(Context context, Intent in) {
-                    String action = in == null ? "" : in.getAction();
-                    TinkerLog.i(TAG, "ScreenReceiver action [%s] ", action);
-                    if (Intent.ACTION_SCREEN_OFF.equals(action)) {
-                        context.unregisterReceiver(this);
-                        if (onScreenOffInterface != null) {
-                            onScreenOffInterface.onScreenOff();
-                        }
-                    }
-                }
-            }, filter);
-        }
-    }
+//        extends DefaultTinkerResultService {
+//    private static final String TAG = "Tinker.SampleResultService";
+//
+//
+//    @Override
+//    public void onPatchResult(final PatchResult result) {
+//        if (result == null) {
+//            TinkerLog.e(TAG, "SampleResultService received null result!!!!");
+//            return;
+//        }
+//        TinkerLog.i(TAG, "SampleResultService receive result: %s", result.toString());
+//
+//        //first, we want to kill the recover process
+//        TinkerServiceInternals.killTinkerPatchServiceProcess(getApplicationContext());
+//
+//        Handler handler = new Handler(Looper.getMainLooper());
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (result.isSuccess) {
+//                    LogUtil.d("abc", "补丁包加载成功!");
+//                    ShareTinkerInternals.killAllOtherProcess(getApplicationContext());
+//                    android.os.Process.killProcess(android.os.Process.myPid());
+//
+//                } else {
+//                    LogUtil.d("abc", "补丁包加载失败!");
+//                    Tinker.with(getApplicationContext()).cleanPatch();
+//                }
+//            }
+//        });
+//        // is success and newPatch, it is nice to delete the raw file, and restart at once
+//        // for old patch, you can't delete the patch file
+//        if (result.isSuccess) {
+//            File rawFile = new File(result.rawPatchFilePath);
+//            if (rawFile.exists()) {
+//                TinkerLog.i(TAG, "save delete raw patch file");
+//                SharePatchFileUtil.safeDeleteFile(rawFile);
+//            }
+//            //not like TinkerResultService, I want to restart just when I am at background!
+//            //if you have not install tinker this moment, you can use TinkerApplicationHelper api
+//            if (checkIfNeedKill(result)) {
+//                if (TinkerUtils.isBackground()) {
+//                    TinkerLog.i(TAG, "it is in background, just restart process");
+//                    restartProcess();
+//                } else {
+//                    //we can wait process at background, such as onAppBackground
+//                    //or we can restart when the screen off
+//                    TinkerLog.i(TAG, "tinker wait screen to restart process");
+//                    new ScreenState(getApplicationContext(), new ScreenState.IOnScreenOff() {
+//                        @Override
+//                        public void onScreenOff() {
+//                            restartProcess();
+//                        }
+//                    });
+//                }
+//            } else {
+//                TinkerLog.i(TAG, "I have already install the newly patch version!");
+//            }
+//        }
+//    }
+//
+//    /**
+//     * you can restart your process through service or broadcast
+//     */
+//    private void restartProcess() {
+//        TinkerLog.i(TAG, "app is background now, i can kill quietly");
+//        //you can send service or broadcast intent to restart your process
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//    }
+//
+//    static class ScreenState {
+//        interface IOnScreenOff {
+//            void onScreenOff();
+//        }
+//
+//        ScreenState(Context context, final IOnScreenOff onScreenOffInterface) {
+//            IntentFilter filter = new IntentFilter();
+//            filter.addAction(Intent.ACTION_SCREEN_OFF);
+//            context.registerReceiver(new BroadcastReceiver() {
+//
+//                @Override
+//                public void onReceive(Context context, Intent in) {
+//                    String action = in == null ? "" : in.getAction();
+//                    TinkerLog.i(TAG, "ScreenReceiver action [%s] ", action);
+//                    if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+//                        context.unregisterReceiver(this);
+//                        if (onScreenOffInterface != null) {
+//                            onScreenOffInterface.onScreenOff();
+//                        }
+//                    }
+//                }
+//            }, filter);
+//        }
+//    }
 
 }

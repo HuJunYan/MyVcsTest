@@ -19,7 +19,8 @@ import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tencent.tinker.lib.tinker.TinkerInstaller;
+//import com.tencent.tinker.lib.tinker.TinkerInstaller;
+//import com.tianshen.cash.R;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -277,14 +278,14 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                                             LogUtil.d("abc", "copy补丁包");
                                             LogUtil.d("abc", "打补丁");
                                             FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
-                                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
+//                                            TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
                                         }
                                     } else {
                                         LogUtil.d("abc", "之前没有补丁包");
                                         LogUtil.d("abc", "copy补丁包");
                                         LogUtil.d("abc", "打补丁");
                                         FileUtils.copyFile(TINKER_NEW, TINKER_OLD, true);
-                                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
+//                                        TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), TINKER_NEW);
                                     }
                                     LogUtil.d("abc", "进入主页面");
                                     gotoMainAcitivity();
