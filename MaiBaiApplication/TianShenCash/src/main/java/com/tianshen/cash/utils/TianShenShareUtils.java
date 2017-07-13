@@ -2,6 +2,8 @@ package com.tianshen.cash.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.idcard.util.Util;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/12.
@@ -51,7 +55,6 @@ public class TianShenShareUtils {
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "要分享的摘要");
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
         //本地url 或者网上的图片url
-
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "天神贷");
         mTencent.shareToQQ(mContext, params, listener);
@@ -65,6 +68,10 @@ public class TianShenShareUtils {
      *                {@link GlobalParams#SHARE_TO_WECHAT_TIMELINE}
      */
     public static void shareToWx(Context context, int flag) {
+        if (!isWeixinAvilible(context)) {
+            ToastUtil.showToast(context, "请先安装微信");
+            return;
+        }
         wxapi = WXAPIFactory.createWXAPI(context, GlobalParams.APP_WX_ID, true);
         wxapi.registerApp(GlobalParams.APP_WX_ID);
         WXWebpageObject webPage = new WXWebpageObject();
@@ -125,5 +132,21 @@ public class TianShenShareUtils {
         mediaObject.actionUrl = url;
         mediaObject.defaultText = "";
         return mediaObject;
+    }
+
+    //判断是否安装微信
+    public static boolean isWeixinAvilible(Context context) {
+        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mm")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
