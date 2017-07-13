@@ -30,6 +30,10 @@ public class InviteBottomDialog implements View.OnClickListener {
     private boolean mIsCheck;
     private IUiListener listener;
 
+    /**
+     * @param context
+     * @param listener qq分享回调监听
+     */
     public InviteBottomDialog(Activity context, IUiListener listener) {
         mContext = context;
         this.listener = listener;

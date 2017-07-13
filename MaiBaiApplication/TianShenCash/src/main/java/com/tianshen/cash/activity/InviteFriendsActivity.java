@@ -13,6 +13,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.net.base.BaseUiListener;
 import com.tianshen.cash.view.InviteBottomDialog;
 import com.tianshen.cash.view.InviteRankView;
+import com.tianshen.cash.view.InviteRuleView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,6 +24,8 @@ public class InviteFriendsActivity extends BaseActivity {
     @BindView(R.id.ll_invite_rank_data)
     LinearLayout ll_invite_rank_data;
     IUiListener listener;
+    @BindView(R.id.ll_invite_rule_data)
+    LinearLayout ll_invite_rule_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,12 @@ public class InviteFriendsActivity extends BaseActivity {
         ll_invite_rank_data.addView(inviteRankView);
         ll_invite_rank_data.addView(inviteRankView2);
         ll_invite_rank_data.addView(inviteRankView3);
+        InviteRuleView inviteRuleView = new InviteRuleView(getApplicationContext()).setData(R.drawable.invite_rule_1, "这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则");
+        InviteRuleView inviteRuleView2 = new InviteRuleView(getApplicationContext()).setData(R.drawable.invite_rule_2, "这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则");
+        InviteRuleView inviteRuleView3 = new InviteRuleView(getApplicationContext()).setData(R.drawable.invite_rule_3, "这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则这是规则");
+        ll_invite_rule_data.addView(inviteRuleView);
+        ll_invite_rule_data.addView(inviteRuleView2);
+        ll_invite_rule_data.addView(inviteRuleView3);
 
 
     }

@@ -24,7 +24,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -88,7 +89,7 @@
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:id="@+id/rl_invoke_rank_info"
+                android:id="@+id/ll_invoke_rank_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_invite_friends_make_money"
@@ -114,12 +115,20 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/iv_invite_rule_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_invoke_rank_info"
+                android:layout_below="@id/ll_invoke_rank_info"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="21dp"
                 android:background="@drawable/invite_friends_rule" />
+
+            <LinearLayout
+                android:id="@+id/ll_invite_rule_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_invite_rule_image"
+                android:orientation="vertical" />
         </RelativeLayout>
 
     </ScrollView>
