@@ -338,17 +338,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initVariable() {
-//        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
-//        if (mIsLogin) {
-//            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-//            initUserConfig();
-//        } else {
-//            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-//            initSelWithdrawalsData();
-//        }
-//        initStaticsRoll();
-
-        showBannerDialog();
+        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+        if (mIsLogin) {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+            initUserConfig();
+        } else {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+            initSelWithdrawalsData();
+        }
+        initStaticsRoll();
     }
 
     @Override
