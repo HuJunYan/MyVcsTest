@@ -15,17 +15,10 @@ import com.meituan.android.walle.WalleChannelReader;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-//import com.tencent.tinker.anno.DefaultLifeCycle;
-//import com.tencent.tinker.lib.listener.DefaultPatchListener;
-//import com.tencent.tinker.lib.patch.UpgradePatch;
-//import com.tencent.tinker.lib.reporter.DefaultLoadReporter;
-//import com.tencent.tinker.lib.reporter.DefaultPatchReporter;
-//import com.tencent.tinker.lib.tinker.TinkerInstaller;
-//import com.tencent.tinker.loader.app.DefaultApplicationLike;
-//import com.tencent.tinker.loader.shareutil.ShareConstants;
+
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.service.TinkerResultService;
+
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -33,33 +26,11 @@ import java.util.Iterator;
 
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
-//
-//@DefaultLifeCycle(application = "com.tianshen.cash.base.MyApplication",
-//        flags = ShareConstants.TINKER_ENABLE_ALL,
-//        loadVerifyFlag = false)
+
 public class MyApplicationLike extends MultiDexApplication {
 
-//    private static MyApplicationLike mMyApplicationLike;
     private static MyApplicationLike mApplication;
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<>();
-//
-//    public MyApplicationLike(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag, long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
-//        super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-//    @Override
-//    public void onBaseContextAttached(Context base) {
-//        super.onBaseContextAttached(base);
-//        MultiDex.install(base);
-//        TinkerInstaller.install(this, new DefaultLoadReporter(getApplication())
-//                , new DefaultPatchReporter(getApplication()), new DefaultPatchListener(getApplication()), TinkerResultService.class, new UpgradePatch());
-//    }
-
-//    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-//    public void registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks callback) {
-//        registerActivityLifecycleCallbacks(callback);
-//    }
 
     @Override
     public void onTerminate() {
@@ -70,13 +41,6 @@ public class MyApplicationLike extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-//        if (LeakCanary.isInAnalyzerProcess(getApplication())) {
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
-//            return;
-//        }
-//        LeakCanary.install(getApplication());三
-//        mMyApplicationLike = this;
         mApplication = this;
         SDKInitializer.initialize(mApplication);
         FMAgent.init(mApplication, NetConstantValue.checkIsReleaseService());
@@ -117,6 +81,7 @@ public class MyApplicationLike extends MultiDexApplication {
     public static Application getmApplication() {
         return mApplication;
     }
+
     public static Application getApplication() {
         return mApplication;
     }
