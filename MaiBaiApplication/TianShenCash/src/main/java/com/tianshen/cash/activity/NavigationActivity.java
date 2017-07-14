@@ -23,7 +23,6 @@ import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TimeCount;
-import com.tianshen.cash.utils.TinkerUtils;
 import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -39,12 +38,6 @@ import io.reactivex.functions.Consumer;
 public class NavigationActivity extends BaseActivity implements UpdateManager.Control {
     private long startTime;
     private long finishTime;
-    private final String TAG = "NavigationActivity";
-
-    //刚下载的补丁包
-    public static final String TINKER_NEW = Config.TINKER_CACHE_DIR + "tianshen";
-    //上一次下载的补丁包
-    public static final String TINKER_OLD = Config.TINKER_CACHE_DIR + "tianshenold";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +73,12 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     protected void onResume() {
         super.onResume();
         JPushInterface.onResume(mContext);
-        TinkerUtils.setBackground(false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         JPushInterface.onPause(mContext);
-        TinkerUtils.setBackground(true);
     }
 
     @Override
