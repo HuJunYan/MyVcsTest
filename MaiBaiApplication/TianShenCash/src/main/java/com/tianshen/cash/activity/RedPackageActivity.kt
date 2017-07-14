@@ -1,12 +1,24 @@
 package com.tianshen.cash.activity
 
+import android.app.Dialog
+import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.github.ui.adapter.RedPackageAdapter
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
+import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.model.GetBankListBean
 import com.tianshen.cash.model.RedPackageHistoryBean
+import com.tianshen.cash.net.api.GetBindBankList
+import com.tianshen.cash.net.base.BaseNetCallBack
+import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
+import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_red_package.*
+import kotlinx.android.synthetic.main.dialog_bind_bank_card.view.*
+import org.json.JSONObject
 
 
 class RedPackageActivity : BaseActivity() {
@@ -25,7 +37,7 @@ class RedPackageActivity : BaseActivity() {
         }
 
         tv_get_red_package.setOnClickListener {
-            ToastUtil.showToast(mContext, "点击了提现")
+            initMyBankCardData()
         }
 
         initRecyclerview()
@@ -33,7 +45,6 @@ class RedPackageActivity : BaseActivity() {
 
 
     private fun initRecyclerview() {
-
 
         var data = initData();
 
@@ -49,6 +60,57 @@ class RedPackageActivity : BaseActivity() {
             mAdapter?.setData(data)
             mAdapter?.notifyDataSetChanged()
         }
+    }
+
+    /**
+     * 获取银行卡信息
+     */
+    private fun initMyBankCardData() {
+        var getBindBankList = GetBindBankList(mContext)
+        var jsonobject = JSONObject()
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        getBindBankList.getBindBankList(jsonobject, null, true, object : BaseNetCallBack<GetBankListBean> {
+            override fun onSuccess(paramT: GetBankListBean?) {
+                var size = paramT?.data?.size
+                if (0 == size) {
+                    showUnBindBankCardDialog()
+                } else {
+                    ToastUtil.showToast(mContext,"去提现!")
+                }
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+
+            }
+
+        })
+
+    }
+
+    /**
+     * 显示提示绑定银行卡dialog
+     */
+    private fun showUnBindBankCardDialog() {
+
+        val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = mLayoutInflater.inflate(R.layout.dialog_bind_bank_card, null, false)
+        val dialog = Dialog(mContext, R.style.MyDialog)
+        val screenWidth = Utils.getWidthPixels(mContext)
+        val screenHeight = Utils.getHeightPixels(mContext)
+        dialog.setContentView(view, ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 1 / 3))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(true)
+
+        view.tv_dialog_bind_bank_card_ok.setOnClickListener {
+            gotoActivity(mContext, AuthBankCardActivity::class.java, null)
+            dialog.dismiss()
+        }
+
+        view.tv_dialog_bind_bank_card_cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     /**
