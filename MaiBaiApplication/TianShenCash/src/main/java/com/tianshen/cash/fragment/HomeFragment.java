@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -108,6 +110,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import me.relex.circleindicator.CircleIndicator;
 
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener {
@@ -1421,6 +1424,92 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 
     /**
+     * 显示活动的Dialog
+     */
+    private void showBannerDialog() {
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_banner, null, false);
+        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+
+        ViewPager vp_dialog_banner = (ViewPager) view.findViewById(R.id.vp_dialog_banner);
+        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator_dialog_banner_indicator);
+        ImageView iv_dialog_banner_close = (ImageView) view.findViewById(R.id.iv_dialog_banner_close);
+
+//        int screenWidth = Utils.getWidthPixels(mContext);
+//        int screenHeight = Utils.getHeightPixels(mContext);
+//        mDialog.setContentView(view, new ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 2 / 3));
+
+        mDialog.setContentView(view);
+
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.setCancelable(false);
+
+        View view1 = mLayoutInflater.inflate(R.layout.dialog_banner_redpackage, null);
+        View view2 = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
+        final ArrayList<View> viewList = new ArrayList<>();// 将要分页显示的View装入数组中
+        viewList.add(view1);
+        viewList.add(view2);
+
+
+        ImageView iv_dialog_banner_red_package = (ImageView) view1.findViewById(R.id.iv_dialog_banner_red_package);
+        iv_dialog_banner_red_package.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "点击了红包");
+            }
+        });
+
+        View tv_dialog_banner_read = view2.findViewById(R.id.tv_dialog_banner_read);
+        tv_dialog_banner_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "点击了阅读");
+            }
+        });
+
+        PagerAdapter pagerAdapter = new PagerAdapter() {
+
+            @Override
+            public boolean isViewFromObject(View arg0, Object arg1) {
+                return arg0 == arg1;
+            }
+
+            @Override
+            public int getCount() {
+                return viewList.size();
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position,
+                                    Object object) {
+                container.removeView(viewList.get(position));
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                container.addView(viewList.get(position));
+                return viewList.get(position);
+            }
+        };
+
+        vp_dialog_banner.setAdapter(pagerAdapter);
+        vp_dialog_banner.setOffscreenPageLimit(viewList.size());
+        indicator.setViewPager(vp_dialog_banner);
+        vp_dialog_banner.setCurrentItem(0);
+
+
+        iv_dialog_banner_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+
+        mDialog.show();
+    }
+
+
+    /**
      * 得到第三方验证码
      */
     private void initVerifySmsForConfirmLoanUrl(final String type) {
@@ -1626,8 +1715,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public void onRefresh() {
-            if (mUserConfig == null || mUserConfig.getData() == null){
-                ToastUtil.showToast(getActivity(),"数据错误");
+            if (mUserConfig == null || mUserConfig.getData() == null) {
+                ToastUtil.showToast(getActivity(), "数据错误");
                 return;
             }
             String status = mUserConfig.getData().getStatus();

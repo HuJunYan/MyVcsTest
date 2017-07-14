@@ -20,8 +20,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
+import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
+import com.tianshen.cash.activity.RedPackageActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
 import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
@@ -84,9 +86,19 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     RelativeLayout rlMeSetting;
     @BindView(R.id.rl_me_tianshen_service_online)
     RelativeLayout rl_me_tianshen_service_online;
-
     @BindView(R.id.tv_me_weixin)
     TextView tv_me_weixin;
+
+    @BindView(R.id.rl_me_red_package)
+    RelativeLayout rl_me_red_package;
+    @BindView(R.id.rl_me_tianshen_friend)
+    RelativeLayout rl_me_tianshen_friend;
+
+    @BindView(R.id.tv_me_red_package)
+    TextView tv_me_red_package;
+    @BindView(R.id.tv_me_tianshen_friend)
+    TextView tv_me_tianshen_friend;
+
 
     @Override
     protected void initVariable() {
@@ -120,6 +132,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rlMeSetting.setOnClickListener(this);
         rl_me_tianshen_service_online.setOnClickListener(this);
         tv_me_weixin.setOnClickListener(this);
+        rl_me_red_package.setOnClickListener(this);
+        rl_me_tianshen_friend.setOnClickListener(this);
     }
 
     private void refreshUI() {
@@ -199,7 +213,20 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_me_weixin:
                 copyWeiXin();
                 break;
-
+            case R.id.rl_me_red_package:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                gotoActivity(getActivity(), RedPackageActivity.class, null);
+                break;
+            case R.id.rl_me_tianshen_friend:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                gotoActivity(getActivity(), InviteFriendsActivity.class, null);
+                break;
         }
     }
 

@@ -11,10 +11,10 @@
 
         <TextView
             style="@style/title_txt_style"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的" />
+            android:text="我的"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -73,10 +73,60 @@
                 android:background="@color/global_line_bg" />
 
             <RelativeLayout
-                android:id="@+id/rl_me_history"
+                android:id="@+id/rl_me_red_package"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="12dp"
+                android:background="@color/global_bg_white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/global_line_bg" />
+
+                <ImageView
+                    android:id="@+id/iv_me_red_package"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_me_red_package" />
+
+                <TextView
+                    android:id="@+id/tv_me_red_package_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_me_red_package"
+                    android:text="现金红包"
+                    android:textColor="@color/global_txt_black4" />
+
+                <ImageView
+                    android:id="@+id/iv_me_red_package_arraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+                <TextView
+                    android:id="@+id/tv_me_red_package"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/iv_me_red_package_arraw"
+                    android:text="80元"
+                    android:textColor="#ff0000" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_me_history"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
                 android:background="@color/global_bg_white">
 
                 <View
@@ -156,12 +206,61 @@
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_marginTop="12dp"
                 android:background="@color/global_line_bg" />
+
+            <RelativeLayout
+                android:id="@+id/rl_me_tianshen_friend"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@color/global_bg_white">
+
+                <ImageView
+                    android:id="@+id/iv_me_tianshen_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_me_friend" />
+
+                <TextView
+                    android:id="@+id/tv_me_tianshen_friend_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_me_tianshen_friend"
+                    android:text="邀请好友"
+                    android:textColor="@color/global_txt_black4" />
+
+                <ImageView
+                    android:id="@+id/iv_me_tianshen_friend_arraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+                <TextView
+                    android:id="@+id/tv_me_tianshen_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/iv_me_tianshen_friend_arraw"
+                    android:text="拿20元现金红包"
+                    android:textColor="#ff0000" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/global_line_bg" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_me_tianshen_service_online"
@@ -206,8 +305,8 @@
                 android:id="@+id/rl_me_tianshen_service"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:visibility="gone"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_me_tianshen_service"

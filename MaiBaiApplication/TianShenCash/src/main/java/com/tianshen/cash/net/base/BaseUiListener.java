@@ -9,11 +9,12 @@ import com.tencent.tauth.UiError;
 /**
  * Created by Administrator on 2016/7/31.
  */
-public  class BaseUiListener implements IUiListener {
+public class BaseUiListener implements IUiListener {
 
     Context mContext;
-    public BaseUiListener(Context mContext){
-        this.mContext=mContext;
+
+    public BaseUiListener(Context mContext) {
+        this.mContext = mContext;
     }
 
     @Override
@@ -28,6 +29,6 @@ public  class BaseUiListener implements IUiListener {
 
     @Override
     public void onCancel() {
-
+        ToastUtil.showToast(mContext, "分享取消");
     }
 }

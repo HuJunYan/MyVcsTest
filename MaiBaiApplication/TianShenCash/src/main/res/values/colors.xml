@@ -85,5 +85,7 @@
     <color name="global_line_bg">#e0e0e0</color>
 
     <color name="home_tian_shen_card_yellow">#fee900</color>
-
+    <!--邀请好友字体颜色-->
+    <color name="invite_friends_text_color">#9C6832</color>
+    <color name="invite_friends_red_package_color">#FE0000</color>
 </resources>

@@ -120,7 +120,7 @@ public class GlobalParams {
         return "secret@9maibei.com";
     }
 
-    public static final String WX_APP_ID = "wx8f81903169fe60ea";//微信Key
+    //    public static final String WX_APP_ID = "wx8f81903169fe60ea";//微信Key
     public static final String GOTO_LOGIN_ACTIVITY = "goto_login_activity";
 
     //	public static final String IS_CALL_RECORDS_SAVED_KEY = "is_call_records_saved_key";
@@ -306,4 +306,16 @@ public class GlobalParams {
      * 用户的id key
      */
     public static final String USER_CUSTOMER_ID = "customer_id";
+
+    public static final String APP_QQ_ID = "1105998971";//qq id
+    public static final String APP_WX_ID = "wx0eff7356b7c5cda5";//微信id
+    public static final String APP_WEIBO_KEY = "3428550251"; //微博 key
+    public static final int SHARE_TO_WECHAT_SESSION = 0; //分享给朋友
+    public static final int SHARE_TO_WECHAT_TIMELINE = 1; //分享到朋友圈
+    public static final String WEIBO_OAUTH_ADDRESS = "https://api.weibo.com/oauth2/default.html";//微博分享回调页面
+    public static final String WEIBO_SCOPE = "email,direct_messages_read,direct_messages_write,"//微博分享权限
+            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+            + "follow_app_official_microblog," + "invitation_write";
+
+
 }

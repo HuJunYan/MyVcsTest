@@ -3,25 +3,34 @@ package com.tianshen.cash.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.utils.LogUtil;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tianshen.cash.utils.TianShenShareUtils;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+/**
+ * Created by Administrator on 2017/7/12.
+ */
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static IWXAPI api;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        api = WXAPIFactory.createWXAPI(this, GlobalParams.WX_APP_ID, false);
-        api.handleIntent(getIntent(), this);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        IWXAPI wxapi = TianShenShareUtils.getWxapi();
+        if (wxapi != null)
+            wxapi.handleIntent(getIntent(), this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override
@@ -31,21 +40,25 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        LogUtil.d("ret", "resp.errCode:" + baseResp.errCode + ",resp.errStr:"
-                + baseResp.errStr);
+        String result = null;
         switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                //分享成功
-                ToastUtil.showToast(this, "分享成功");
-                break;
+            case BaseResp.ErrCode.ERR_OK: {
+                result = "分享成功";
+            }
+            break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
-                //分享取消
-                ToastUtil.showToast(this, "分享取消");
+                result = "分享取消";
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                //分享拒绝
-                ToastUtil.showToast(this, "分享拒绝");
+                result = "分享被拒绝";
+                break;
+            default:
+                result = "分享返回";
                 break;
         }
+        ToastUtil.showToast(this, result);
+        this.finish();
     }
+
+
 }
