@@ -118,7 +118,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_red_package_arraw"
-                    android:text="80元"
                     android:textColor="#ff0000" />
 
             </RelativeLayout>
@@ -252,7 +251,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_tianshen_friend_arraw"
-                    android:text="拿20元现金红包"
                     android:textColor="#ff0000" />
 
                 <View

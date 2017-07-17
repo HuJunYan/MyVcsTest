@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,8 +31,12 @@ import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
+import com.tianshen.cash.model.ActivityBean;
 import com.tianshen.cash.model.CompanyInfoBean;
+import com.tianshen.cash.model.MyHomeBean;
+import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetCompayInfo;
+import com.tianshen.cash.net.api.GetMyHome;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
@@ -112,20 +117,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-
+        initUI();
     }
 
     @Override
     protected void initData() {
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            refreshUI();
+        boolean login = TianShenUserUtil.isLogin(mContext);
+        if (login) {
+            initMyInfo();
         }
     }
+
 
     @Override
     protected void setListensers() {
@@ -141,27 +143,64 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rl_me_tianshen_friend.setOnClickListener(this);
     }
 
+    private void initMyInfo() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            GetMyHome getMyHome = new GetMyHome(mContext);
+            getMyHome.myHome(jsonObject, null, true, new BaseNetCallBack<MyHomeBean>() {
+                @Override
+                public void onSuccess(MyHomeBean bean) {
+                    refreshUI(bean);
+                }
 
-    private void refreshUI() {
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    private void initUI() {
         boolean login = TianShenUserUtil.isLogin(mContext);
         if (login) {
-
             String phone = TianShenUserUtil.getUserPhoneNum(mContext);
             String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
             tvMeUserName.setText(encryptPhoneNum);
-
             boolean isShow = TianShenUserUtil.isShowServiceTelephone(mContext);
             if (isShow) {
                 rlMeTianshenService.setVisibility(View.VISIBLE);
             } else {
                 rlMeTianshenService.setVisibility(View.GONE);
             }
-
         } else {
             tvMeUserName.setText("未登录");
         }
+    }
 
+
+    private void refreshUI(MyHomeBean bean) {
+
+        MyHomeBean.Data data = bean.getData();
+        if (data == null) {
+            return;
+        }
+        String packetString = data.getRed_packet_string();
+        String shareString = data.getShare_string();
+        if (TextUtils.isEmpty(packetString)) {
+            tv_me_red_package.setVisibility(View.GONE);
+        } else {
+            tv_me_red_package.setText(packetString);
+        }
+        if (TextUtils.isEmpty(shareString)) {
+            tv_me_tianshen_friend.setVisibility(View.GONE);
+        } else {
+            tv_me_tianshen_friend.setText(packetString);
+        }
     }
 
     @Override

@@ -694,4 +694,11 @@ public class NetConstantValue {
         return COMMONURI + "Customer/activity";
     }
 
+    /**
+     * 我的页面
+     */
+    public static String getMyHomeUrl() {
+        return COMMONURI + "Customer/myHome";
+    }
+
 }
