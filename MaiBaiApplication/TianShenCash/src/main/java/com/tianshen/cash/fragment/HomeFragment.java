@@ -684,23 +684,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        //临时测试数据
-        ActivityBean activityBean = new ActivityBean();
-        ArrayList<ActivityBean.Data> datas = new ArrayList();
-        ActivityBean.Data data1 = new ActivityBean().new Data();
-        data1.setActivity_type("0");
-        data1.setPic_url("https://www.baidu.com/img/bd_logo1.png");
-        data1.setActivity_url("https://www.baidu.com");
-        datas.add(data1);
-        ActivityBean.Data data2 = new ActivityBean().new Data();
-        data2.setActivity_type("1");
-        data2.setPic_url("https://www.baidu.com/img/bd_logo1.png");
-        data2.setActivity_url("https://www.baidu.com");
-        datas.add(data2);
-        activityBean.setData(datas);
-        showBannerDialog(activityBean);
     }
 
     /**
