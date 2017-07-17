@@ -67,7 +67,7 @@ public class TianShenShareUtils {
      * @param flag    分享到微信或者朋友圈 标志 {@link GlobalParams#SHARE_TO_WECHAT_SESSION}
      *                {@link GlobalParams#SHARE_TO_WECHAT_TIMELINE}
      */
-    public static void shareToWx(Context context, int flag) {
+    public static void shareToWx(Context context, int flag, String mShareUrl) {
         if (!isWeixinAvilible(context)) {
             ToastUtil.showToast(context, "请先安装微信");
             return;
@@ -75,7 +75,7 @@ public class TianShenShareUtils {
         wxapi = WXAPIFactory.createWXAPI(context, GlobalParams.APP_WX_ID, true);
         wxapi.registerApp(GlobalParams.APP_WX_ID);
         WXWebpageObject webPage = new WXWebpageObject();
-        webPage.webpageUrl = "http://www.baidu.com";
+        webPage.webpageUrl = mShareUrl;
         WXMediaMessage msg = new WXMediaMessage(webPage);
         msg.title = "share title";
         msg.description = "share description";

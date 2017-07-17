@@ -15,13 +15,14 @@ import com.sina.weibo.sdk.share.WbShareHandler;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.WechatShareEvent;
 import com.tianshen.cash.model.InviteFriendsBean;
 import com.tianshen.cash.net.api.InviteFriendsApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.BaseUiListener;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.QRCodeUtils;
 import com.tianshen.cash.utils.TianShenShareUtils;
@@ -31,6 +32,7 @@ import com.tianshen.cash.view.InviteBottomDialog;
 import com.tianshen.cash.view.InviteRankView;
 import com.tianshen.cash.view.InviteRuleView;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,14 +41,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static android.R.attr.data;
-
 public class InviteFriendsActivity extends BaseActivity implements InviteBottomDialog.ShareWeiboListener {
 
     private InviteBottomDialog inviteBottomDialog;
     @BindView(R.id.ll_invite_rank_data)
     LinearLayout ll_invite_rank_data;
-    IUiListener listener;
     @BindView(R.id.ll_invite_rule_data)
     LinearLayout ll_invite_rule_data;
     private WbShareHandler wbShareHandler;
@@ -90,7 +89,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                String json = "{\"code\": 0,\"msg\": \"success\",\"data\":{\"invite_url\":\"邀请链接\",\"top_list\":[{\"mobile_string\":\"187****1234\",\"invite_num_string\":\"邀请好友人数\",\"invite_reward_string\":\"红包奖励\"}],\"activity_list\":[{\"activity_string\":\"规则内容\"}]}}";
+                String json = "{\"code\": 0,\"msg\": \"success\",\"data\":{\"invite_url\":\"http://www.baidu.com\",\"top_list\":[{\"mobile_string\":\"187****1234\",\"invite_num_string\":\"30人\",\"invite_reward_string\":\"500元\"},{\"mobile_string\":\"187****1234\",\"invite_num_string\":\"30人\",\"invite_reward_string\":\"500元\"}],\"activity_list\":[{\"activity_string\":\"规则内容\"}]}}";
                 InviteFriendsBean inviteFriendsBean = GsonUtil.json2bean(json, InviteFriendsBean.class);
                 InviteFriendsBean.InviteData data = inviteFriendsBean.data;
                 mShareUrl = data.invite_url;
@@ -133,7 +132,6 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
 
     @Override
     protected void setListensers() {
-        listener = new BaseUiListener(this);
     }
 
     @OnClick({R.id.tv_back, R.id.tv_invite_friends_make_money})
@@ -154,7 +152,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (120 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, listener).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap);
+        inviteBottomDialog = new InviteBottomDialog(this, listener).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl);
         inviteBottomDialog.show();
     }
 
@@ -184,7 +182,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         wbShareHandler.registerApp();
         WeiboMultiMessage weiboMultiMessage = new WeiboMultiMessage();
         weiboMultiMessage.textObject = TianShenShareUtils.getTextObj("haha");
-        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, "http://www.qq.com", "分享标题", "分享描述");
+        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, "分享标题", "分享描述");
         wbShareHandler.shareMessage(weiboMultiMessage, false);
     }
 
@@ -201,20 +199,56 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         @Override
         public void onWbShareSuccess() {
             ToastUtil.showToast(getApplicationContext(), "分享成功");
-            inviteBottomDialog.cancel();
+            if (inviteBottomDialog != null) {
+                inviteBottomDialog.cancel();
+            }
         }
 
         @Override
         public void onWbShareCancel() {
-            ToastUtil.showToast(getApplicationContext(), "分享取消");
-
+//            ToastUtil.showToast(getApplicationContext(), "分享取消");
         }
 
         @Override
         public void onWbShareFail() {
-            ToastUtil.showToast(getApplicationContext(), "分享失败");
+//            ToastUtil.showToast(getApplicationContext(), "分享失败");
+        }
+    };
 
+    IUiListener listener = new IUiListener() {
+        @Override
+        public void onComplete(Object o) {
+            ToastUtil.showToast(mContext, "分享成功");
+            if (inviteBottomDialog != null) {
+                inviteBottomDialog.cancel();
+            }
         }
 
+        @Override
+        public void onError(UiError uiError) {
+//            ToastUtil.showToast(mContext, "分享失败");
+        }
+
+        @Override
+        public void onCancel() {
+//            ToastUtil.showToast(mContext, "分享取消");
+        }
     };
+
+
+    @Subscribe
+    public void onWeChatShareEvent(WechatShareEvent event) {
+        if (inviteBottomDialog != null) {
+            inviteBottomDialog.cancel();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mQRBitmap != null && !mQRBitmap.isRecycled()) {
+            mQRBitmap.recycle();
+            mQRBitmap = null;
+        }
+    }
 }

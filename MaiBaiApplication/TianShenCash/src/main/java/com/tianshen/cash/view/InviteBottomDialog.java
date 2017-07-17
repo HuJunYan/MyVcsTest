@@ -15,6 +15,9 @@ import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.TianShenShareUtils;
+import com.tianshen.cash.utils.ViewUtil;
+
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by Administrator on 2017/7/10.
@@ -25,10 +28,10 @@ public class InviteBottomDialog implements View.OnClickListener {
     private Dialog bottomDialog;
     private ImageView mIvQRCode;
     private Activity mContext;
-    private Tencent mTencent;
     private boolean mIsCheck;
     private IUiListener listener;
     private ShareWeiboListener shareWeiboListener;
+    private String mShareUrl;
 
     /**
      * @param context
@@ -50,10 +53,10 @@ public class InviteBottomDialog implements View.OnClickListener {
         contentView.setLayoutParams(layoutParams);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         bottomDialog.getWindow().setWindowAnimations(R.style.invite_animation);
-        contentView.findViewById(R.id.iv_invite_share_friends).setOnClickListener(this);
-        contentView.findViewById(R.id.iv_invite_share_qq).setOnClickListener(this);
-        contentView.findViewById(R.id.iv_invite_share_wechat).setOnClickListener(this);
-        contentView.findViewById(R.id.iv_invite_share_weibo).setOnClickListener(this);
+        contentView.findViewById(R.id.ll_invite_share_friends).setOnClickListener(this);
+        contentView.findViewById(R.id.ll_invite_share_qq).setOnClickListener(this);
+        contentView.findViewById(R.id.ll_invite_share_wechat).setOnClickListener(this);
+        contentView.findViewById(R.id.ll_invite_share_weibo).setOnClickListener(this);
         mIvQRCode = (ImageView) contentView.findViewById(R.id.iv_qrcode);
     }
 
@@ -69,23 +72,23 @@ public class InviteBottomDialog implements View.OnClickListener {
         }
         mIsCheck = true;
         switch (v.getId()) {
-            case R.id.iv_invite_share_wechat:
+            case R.id.ll_invite_share_wechat:
                 shareToWeChatSession();
                 break;
-            case R.id.iv_invite_share_weibo:
-                sharetoWeibo();
+            case R.id.ll_invite_share_weibo:
+                shareToWeibo();
                 break;
-            case R.id.iv_invite_share_qq:
+            case R.id.ll_invite_share_qq:
                 shareToQQ();
                 break;
-            case R.id.iv_invite_share_friends:
+            case R.id.ll_invite_share_friends:
                 shareToWeChatTimeline();
                 break;
         }
         mIsCheck = false;
     }
 
-    private void sharetoWeibo() {
+    private void shareToWeibo() {
         if (shareWeiboListener != null) {
             shareWeiboListener.shareToWeibo();
         }
@@ -97,15 +100,15 @@ public class InviteBottomDialog implements View.OnClickListener {
     }
 
     private void shareToWeChatSession() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION, mShareUrl);
     }
 
     private void shareToWeChatTimeline() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE, mShareUrl);
     }
 
     private void shareToQQ() {
-        TianShenShareUtils.shareToQQ(mContext, "http://www.baidu.com", listener);
+        TianShenShareUtils.shareToQQ(mContext, mShareUrl, listener);
     }
 
     /**
@@ -126,6 +129,10 @@ public class InviteBottomDialog implements View.OnClickListener {
 
     }
 
+    public InviteBottomDialog setShareUrl(String mShareUrl) {
+        this.mShareUrl = mShareUrl;
+        return this;
+    }
 
     public interface ShareWeiboListener {
         void shareToWeibo();

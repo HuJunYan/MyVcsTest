@@ -21,6 +21,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:id="@+id/ll_invite_share_wechat"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -44,6 +45,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_invite_share_friends"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -68,6 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_invite_share_qq"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -92,6 +95,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_invite_share_weibo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -115,25 +119,28 @@
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/global_bg_gray"
         android:layout_height="wrap_content"
+        android:background="@color/global_bg_gray"
         android:orientation="vertical">
+
         <ImageView
-            android:layout_marginTop="24dp"
-            android:layout_width="120dp"
             android:id="@+id/iv_qrcode"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
-            android:layout_height="120dp" />
+            android:layout_marginTop="24dp" />
+
         <TextView
-            android:layout_marginTop="18dp"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@color/global_txt_black4"
-            android:text="@string/invite_share_dialog_text"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="18dp"
+            android:text="@string/invite_share_dialog_text"
+            android:textColor="@color/global_txt_black4"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>
