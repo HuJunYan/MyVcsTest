@@ -75,4 +75,6 @@
     <string name="invite_share_title_qq">QQ</string>
     <string name="invite_share_title_friends">朋友圈</string>
     <string name="invite_share_dialog_text">面对面邀请</string>
+    <string name="invite_share_text_title">天神贷送您10元现金红包，速来领取！</string>
+    <string name="invite_share_text_description">天神贷-年轻人的信用钱包！免费送您10元现金红包,猛戳去领取</string>
 </resources>

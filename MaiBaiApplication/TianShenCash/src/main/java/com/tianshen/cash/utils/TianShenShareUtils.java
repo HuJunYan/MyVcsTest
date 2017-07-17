@@ -24,6 +24,11 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.idcard.util.Util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,6 +38,7 @@ import java.util.List;
 public class TianShenShareUtils {
 
     private static IWXAPI wxapi;
+    private static int THUMB_SIZE = 150;
 
     private TianShenShareUtils() {
     }
@@ -51,13 +57,32 @@ public class TianShenShareUtils {
         Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, mContext);
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, "要分享的标题");
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "要分享的摘要");
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, mContext.getResources().getString(R.string.invite_share_text_title));
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, mContext.getResources().getString(R.string.invite_share_text_description));
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
         //本地url 或者网上的图片url
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
+//        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, getQQThumbPath(mContext));
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "天神贷");
         mTencent.shareToQQ(mContext, params, listener);
+    }
+
+    private static String getQQThumbPath(Context context) {
+        File file = new File(context.getCacheDir().getAbsolutePath(), "share_icon.png");
+        if (!file.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
+            try {
+                FileOutputStream out = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file.getAbsolutePath();
     }
 
     /**
@@ -72,18 +97,34 @@ public class TianShenShareUtils {
             ToastUtil.showToast(context, "请先安装微信");
             return;
         }
-        wxapi = WXAPIFactory.createWXAPI(context, GlobalParams.APP_WX_ID, true);
+        wxapi = WXAPIFactory.createWXAPI(context, GlobalParams.APP_WX_ID);
         wxapi.registerApp(GlobalParams.APP_WX_ID);
-        WXWebpageObject webPage = new WXWebpageObject();
-        webPage.webpageUrl = mShareUrl;
-        WXMediaMessage msg = new WXMediaMessage(webPage);
-        msg.title = "share title";
-        msg.description = "share description";
-        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-        msg.thumbData = Util.bmp2byteArr(thumb);
+//        WXWebpageObject webPage = new WXWebpageObject();
+//        webPage.webpageUrl = mShareUrl;
+//        WXMediaMessage msg = new WXMediaMessage(webPage);
+//        msg.title = context.getResources().getString(R.string.invite_share_text_description);
+//        msg.description = context.getResources().getString(R.string.invite_share_text_description);
+//        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(thumb, 150, 150, true);
+//        msg.thumbData = bmpToByteArray(scaledBitmap);
+////        msg.thumbData = Util.bmp2byteArr(thumb);
+//        SendMessageToWX.Req req = new SendMessageToWX.Req();
+//        req.transaction = "webpage" + System.currentTimeMillis();
+//        req.message = msg;
+//        req.scene = flag == GlobalParams.SHARE_TO_WECHAT_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+//        wxapi.sendReq(req);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = mShareUrl;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = context.getResources().getString(R.string.invite_share_text_description);
+        msg.description = context.getResources().getString(R.string.invite_share_text_description);
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
+        bmp.recycle();
+        msg.thumbData = bmpToByteArray(thumbBmp);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = "tianshenjr";
+        req.transaction = buildTransaction("webpage");
         req.message = msg;
         req.scene = flag == GlobalParams.SHARE_TO_WECHAT_SESSION ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         wxapi.sendReq(req);
@@ -126,7 +167,7 @@ public class TianShenShareUtils {
         mediaObject.identify = Utility.generateGUID();
         mediaObject.title = title;
         mediaObject.description = description;
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
         // 设置 Bitmap 类型的图片到视频对象里         设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
         mediaObject.setThumbImage(bitmap);
         mediaObject.actionUrl = url;
@@ -148,5 +189,23 @@ public class TianShenShareUtils {
         }
 
         return false;
+    }
+
+    public static byte[] bmpToByteArray(final Bitmap bmp) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private static String buildTransaction(final String type) {
+        return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 }
