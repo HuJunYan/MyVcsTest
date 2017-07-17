@@ -120,7 +120,10 @@ public class InviteBottomDialog implements View.OnClickListener {
     }
 
     public void cancel() {
-        bottomDialog.cancel();
+        if (bottomDialog.isShowing()) {
+            bottomDialog.cancel();
+        }
+
     }
 
 

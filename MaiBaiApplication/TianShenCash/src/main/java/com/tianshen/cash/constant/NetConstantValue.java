@@ -677,4 +677,13 @@ public class NetConstantValue {
     public static String getUploadUserInfoURL() {
         return COMMONURI + "Customer/savePhoneInfo";
     }
+
+    /**
+     * 获取邀请好友页面数据 url
+     *
+     * @return
+     */
+    public static String getInviteFriendsUrl() {
+        return COMMONURI + "Customer/invite";
+    }
 }

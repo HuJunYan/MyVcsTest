@@ -73,7 +73,7 @@
                 android:layout_below="@id/iv_invite_step"
                 android:layout_marginRight="26dp"
                 android:gravity="center"
-                android:text="邀请好友注册"
+                android:text="领取20元现金"
                 android:textColor="@color/invite_friends_text_color"
                 android:textSize="12sp" />
 
