@@ -686,4 +686,12 @@ public class NetConstantValue {
     public static String getInviteFriendsUrl() {
         return COMMONURI + "Customer/invite";
     }
+
+    /**
+     * 首页显示活动
+     */
+    public static String getActivityUrl() {
+        return COMMONURI + "Customer/activity";
+    }
+
 }
