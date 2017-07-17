@@ -38,6 +38,7 @@ import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
+import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
@@ -55,6 +56,7 @@ import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
+import com.tianshen.cash.model.ActivityBean;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.ContactsBean;
 import com.tianshen.cash.model.IknowBean;
@@ -67,6 +69,7 @@ import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
+import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
 import com.tianshen.cash.net.api.IKnow;
@@ -78,6 +81,7 @@ import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
@@ -342,6 +346,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (mIsLogin) {
             CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
             initUserConfig();
+            initActivity();
         } else {
             CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
             initSelWithdrawalsData();
@@ -655,6 +660,47 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 得到活动
+     */
+    private void initActivity() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            GetActivity getActivity = new GetActivity(mContext);
+            getActivity.activity(jsonObject, null, true, new BaseNetCallBack<ActivityBean>() {
+                @Override
+                public void onSuccess(ActivityBean activityBean) {
+                    showBannerDialog(activityBean);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        //临时测试数据
+        ActivityBean activityBean = new ActivityBean();
+        ArrayList<ActivityBean.Data> datas = new ArrayList();
+        ActivityBean.Data data1 = new ActivityBean().new Data();
+        data1.setActivity_type("0");
+        data1.setPic_url("https://www.baidu.com/img/bd_logo1.png");
+        data1.setActivity_url("https://www.baidu.com");
+        datas.add(data1);
+        ActivityBean.Data data2 = new ActivityBean().new Data();
+        data2.setActivity_type("1");
+        data2.setPic_url("https://www.baidu.com/img/bd_logo1.png");
+        data2.setActivity_url("https://www.baidu.com");
+        datas.add(data2);
+        activityBean.setData(datas);
+        showBannerDialog(activityBean);
     }
 
     /**
@@ -1426,7 +1472,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 显示活动的Dialog
      */
-    private void showBannerDialog() {
+    private void showBannerDialog(ActivityBean activityBean) {
+
+        ArrayList<ActivityBean.Data> activityBeanData = activityBean.getData();
+        if (activityBeanData == null || activityBeanData.size() == 0) {
+            return;
+        }
+
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_banner, null, false);
         final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
@@ -1443,30 +1495,41 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.setCancelable(false);
-
-        View view1 = mLayoutInflater.inflate(R.layout.dialog_banner_redpackage, null);
-        View view2 = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
         final ArrayList<View> viewList = new ArrayList<>();// 将要分页显示的View装入数组中
-        viewList.add(view1);
-        viewList.add(view2);
 
-
-        ImageView iv_dialog_banner_red_package = (ImageView) view1.findViewById(R.id.iv_dialog_banner_red_package);
-        iv_dialog_banner_red_package.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToast(mContext, "点击了红包");
+        for (int i = 0; i < activityBeanData.size(); i++) {
+            final ActivityBean.Data data = activityBeanData.get(i);
+            String activityType = data.getActivity_type();
+            String picUrl = data.getPic_url();
+            View pageView = null;
+            if ("0".equals(activityType)) {
+                pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
+                ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
+                ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
+                iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gotoActivity(mContext, InviteFriendsActivity.class, null);
+                        mDialog.dismiss();
+                    }
+                });
+            } else if ("1".equals(activityType)) {
+                pageView = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
+                ImageView iv_dialog_banner_read = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_read);
+                ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_read);
+                iv_dialog_banner_read.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        String url = data.getActivity_url();
+                        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+                        gotoActivity(mContext, WebActivity.class, bundle);
+                        mDialog.dismiss();
+                    }
+                });
             }
-        });
-
-        View tv_dialog_banner_read = view2.findViewById(R.id.tv_dialog_banner_read);
-        tv_dialog_banner_read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToast(mContext, "点击了阅读");
-            }
-        });
-
+            viewList.add(pageView);
+        }
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
             @Override
@@ -1742,6 +1805,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         LogUtil.d("abc", "收到了登录成功消息--刷新UI");
         CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
         initUserConfig();
+        initActivity();
     }
 
     @Subscribe

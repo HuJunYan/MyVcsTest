@@ -3,11 +3,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_dialog_banner_read"
+    <ImageView
+        android:id="@+id/iv_dialog_banner_read"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="阅读" />
+        android:scaleType="fitXY" />
 
 </LinearLayout>
+
