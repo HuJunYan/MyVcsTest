@@ -283,6 +283,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
+    protected void initView() {
+        initTextSwitcher();
+        density = getResources().getDisplayMetrics().density;
+    }
+
+    @Override
+    protected void initData() {
+        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
+        if (mIsLogin) {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+            initUserConfig();
+            initActivity();
+        } else {
+            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
+            initSelWithdrawalsData();
+        }
+        initStaticsRoll();
+    }
+
+    @Override
     protected void setListensers() {
         rlHomeTianshenCard.setOnClickListener(this);
         rlLoanDay.setOnClickListener(this);
@@ -293,12 +313,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         iv_danger_money.setOnClickListener(this);
         iv_home_market.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
-        initTextSwitcher();
-        initData();
-    }
-
-    private void initData() {
-        density = getResources().getDisplayMetrics().density;
     }
 
 
@@ -338,20 +352,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
 
         }
-    }
-
-    @Override
-    protected void initVariable() {
-        boolean mIsLogin = TianShenUserUtil.isLogin(mContext);
-        if (mIsLogin) {
-            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-            initUserConfig();
-            initActivity();
-        } else {
-            CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
-            initSelWithdrawalsData();
-        }
-        initStaticsRoll();
     }
 
     @Override

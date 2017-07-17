@@ -34,6 +34,7 @@ import com.tianshen.cash.model.CompanyInfoBean;
 import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -99,19 +100,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_me_tianshen_friend)
     TextView tv_me_tianshen_friend;
 
-
-    @Override
-    protected void initVariable() {
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            refreshUI();
-        }
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.fragment_me;
@@ -120,6 +108,23 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void findViews(View rootView) {
 
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            refreshUI();
+        }
     }
 
     @Override
@@ -135,6 +140,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         rl_me_red_package.setOnClickListener(this);
         rl_me_tianshen_friend.setOnClickListener(this);
     }
+
 
     private void refreshUI() {
 
