@@ -76,6 +76,9 @@ public class DealWithErrorUtils {
                 updateEvent.setDownload_url(download_url);
                 EventBus.getDefault().post(updateEvent);
                 break;
+            case 911: // 红包提现失败
+                ToastUtil.showToast(context, msg);
+                break;
             case 999: // 系统维护
                 ServiceErrorEvent errorEvent = new ServiceErrorEvent();
                 errorEvent.setMsg(msg);
