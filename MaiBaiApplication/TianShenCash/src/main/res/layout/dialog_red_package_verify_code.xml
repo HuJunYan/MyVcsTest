@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="25dp"
-        android:textColor="@color/global_txt_black4"
+        android:textColor="@color/global_txt_black5"
         android:textSize="18sp" />
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="提现金额"
-            android:textColor="@color/global_txt_black4"
+            android:textColor="@color/global_txt_black5"
             android:textSize="18sp" />
 
         <TextView
