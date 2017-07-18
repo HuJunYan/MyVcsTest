@@ -701,4 +701,11 @@ public class NetConstantValue {
         return COMMONURI + "Customer/myHome";
     }
 
+    /**
+     * 我的红包
+     */
+    public static String getMyRedPacketUrl() {
+        return COMMONURI + "Customer/myRedPacket";
+    }
+
 }
