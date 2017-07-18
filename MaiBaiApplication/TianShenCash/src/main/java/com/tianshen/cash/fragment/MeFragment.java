@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
@@ -30,6 +31,7 @@ import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.ActivityBean;
 import com.tianshen.cash.model.CompanyInfoBean;
@@ -363,6 +365,21 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         ToastUtil.showToast(mContext, "已复制微信公众号");
     }
 
+    /**
+     * 收到了登录成功的消息
+     */
+    @Subscribe
+    public void onLoginSuccess(LoginSuccessEvent event) {
+        String phone = TianShenUserUtil.getUserPhoneNum(mContext);
+        String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
+        tvMeUserName.setText(encryptPhoneNum);
+        boolean isShow = TianShenUserUtil.isShowServiceTelephone(mContext);
+        if (isShow) {
+            rlMeTianshenService.setVisibility(View.VISIBLE);
+        } else {
+            rlMeTianshenService.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 收到了在注册页面登录成功的消息
