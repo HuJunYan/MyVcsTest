@@ -1,15 +1,22 @@
 package com.tianshen.cash.activity
 
+import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.model.AuthStepBean
 import com.tianshen.cash.model.GetBankListBean
 import com.tianshen.cash.model.RedPackageBean
 import com.tianshen.cash.model.WithDrawalsListBean
+import com.tianshen.cash.net.api.GetAuthStep
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetRedPackage
 import com.tianshen.cash.net.base.BaseNetCallBack
@@ -22,12 +29,15 @@ import org.json.JSONObject
 class RedPackageActivity : BaseActivity() {
 
     private var mAdapter: RedPackageAdapter? = null
+    private var mIsAuthOK: Boolean = false
+
 
     override fun setContentView(): Int = R.layout.activity_red_package
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initData()
+        initRedPackageData()
+        initAuthStepData()
     }
 
     override fun findViews() {
@@ -40,15 +50,19 @@ class RedPackageActivity : BaseActivity() {
         }
 
         tv_get_red_package.setOnClickListener {
-            initMyBankCardData()
+            if (mIsAuthOK) {
+                initMyBankCardData()
+            } else {
+                showAuthDialog()
+            }
         }
 
     }
 
     /**
-     * 得到数据
+     * 得到页面数据
      */
-    private fun initData() {
+    private fun initRedPackageData() {
         var getRedPackage = GetRedPackage(mContext)
         var jsonobject = JSONObject()
         var userId = TianShenUserUtil.getUserId(mContext)
@@ -62,6 +76,55 @@ class RedPackageActivity : BaseActivity() {
 
             }
         })
+    }
+
+    /**
+     * 获取认证步骤信息
+     */
+    private fun initAuthStepData() {
+        var getAuthStep = GetAuthStep(mContext)
+        var jsonobject = JSONObject()
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        getAuthStep.authStep(jsonobject, null, true, object : BaseNetCallBack<AuthStepBean> {
+            override fun onSuccess(paramT: AuthStepBean?) {
+                if (paramT == null) {
+                    return
+                }
+                if (paramT.data?.all_step.equals(paramT.data?.current_step)) {
+                    mIsAuthOK = true
+                }
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+            }
+
+        })
+    }
+
+    /**
+     * 获取银行卡信息
+     */
+    private fun initMyBankCardData() {
+        var getBindBankList = GetBindBankList(mContext)
+        var jsonobject = JSONObject()
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        getBindBankList.getBindBankList(jsonobject, null, true, object : BaseNetCallBack<GetBankListBean> {
+            override fun onSuccess(paramT: GetBankListBean?) {
+                if (paramT == null) {
+                    ToastUtil.showToast(mContext, "获取银行卡数据失败")
+                    return
+                }
+                showGetMoneyDialog(paramT)
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+
+            }
+
+        })
+
     }
 
     /**
@@ -97,32 +160,6 @@ class RedPackageActivity : BaseActivity() {
     }
 
     /**
-     * 获取银行卡信息
-     */
-    private fun initMyBankCardData() {
-        var getBindBankList = GetBindBankList(mContext)
-        var jsonobject = JSONObject()
-        var userId = TianShenUserUtil.getUserId(mContext)
-        jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        getBindBankList.getBindBankList(jsonobject, null, true, object : BaseNetCallBack<GetBankListBean> {
-            override fun onSuccess(paramT: GetBankListBean?) {
-                var size = paramT?.data?.size
-                if (0 == size) {
-                    showAuthDialog()
-                } else {
-                    ToastUtil.showToast(mContext, "去提现!")
-                }
-            }
-
-            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
-
-            }
-
-        })
-
-    }
-
-    /**
      * 显示提示认证的dialog
      */
     private fun showAuthDialog() {
@@ -136,6 +173,23 @@ class RedPackageActivity : BaseActivity() {
                 .onNegative { _, _ ->
                 }
                 .show()
+    }
+
+    /**
+     * 显示提现Dialog
+     */
+    private fun showGetMoneyDialog(paramT: GetBankListBean) {
+
+        val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = mLayoutInflater.inflate(R.layout.dialog_red_package_verify_code, null, false)
+        var mVerifyCodeDialog = Dialog(mContext, R.style.MyDialog)
+        mVerifyCodeDialog.setContentView(view)
+        mVerifyCodeDialog.setCanceledOnTouchOutside(false)
+        mVerifyCodeDialog.setCancelable(true)
+
+        var tv_dialog_get_verify_code = view.findViewById(R.id.tv_dialog_get_verify_code) as TextView
+        val et_dialog_verify_code = view.findViewById(R.id.et_dialog_verify_code) as EditText
+        mVerifyCodeDialog.show()
     }
 
 }

@@ -708,4 +708,11 @@ public class NetConstantValue {
         return COMMONURI + "Customer/myRedPacket";
     }
 
+    /**
+     * 用户认证步骤
+     */
+    public static String getAuthStepUrl() {
+        return COMMONURI + "Customer/authStep";
+    }
+
 }
