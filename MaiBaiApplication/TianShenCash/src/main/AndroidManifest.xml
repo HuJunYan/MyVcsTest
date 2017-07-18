@@ -81,9 +81,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AddBankCardActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".idcard.activity.IDCardScanActivity"
             android:screenOrientation="portrait" />
         <activity
