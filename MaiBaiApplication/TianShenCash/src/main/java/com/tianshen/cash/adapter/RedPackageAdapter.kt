@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tianshen.cash.R
-import com.tianshen.cash.model.RedPackageHistoryBean
+import com.tianshen.cash.model.WithDrawalsListBean
 import kotlinx.android.synthetic.main.item_red_package_history.view.*
 
-class RedPackageAdapter(private val itemBean: MutableList<RedPackageHistoryBean>,
-                        val onClick: (RedPackageHistoryBean) -> Unit)
+class RedPackageAdapter(private val itemBean: MutableList<WithDrawalsListBean>,
+                        val onClick: (WithDrawalsListBean) -> Unit)
     : RecyclerView.Adapter<RedPackageAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -25,30 +25,23 @@ class RedPackageAdapter(private val itemBean: MutableList<RedPackageHistoryBean>
         }
     }
 
-    class ViewHolder(itemView: View, val onClick: (RedPackageHistoryBean) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, val onClick: (WithDrawalsListBean) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindData(itemBean: RedPackageHistoryBean) {
+        fun bindData(itemBean: WithDrawalsListBean) {
             with(itemBean) {
                 itemView.tv_item_red_package_history_title.text = itemBean.title;
-                itemView.tv_item_red_package_history_time.text = itemBean.time
-                var money = itemBean.money
-                if ("0".equals(itemBean.type)) {
-                    money = "-" + money
-                } else if ("1".equals(itemBean.type)) {
-                    money = "+" + money
-                }
-                itemView.tv_item_red_package_history_money.text = money
-
-                if ("0".equals(itemBean.is_withdrawals)) {
-                    itemView.tv_item_red_package_history_withdrawals.visibility = View.GONE
-                } else if ("1".equals(itemBean.is_withdrawals)) {
+                itemView.tv_item_red_package_history_time.text = itemBean.add_time_string
+                itemView.tv_item_red_package_history_money.text = itemBean.money_string
+                if ("3".equals(itemBean.status)) {
                     itemView.tv_item_red_package_history_withdrawals.visibility = View.VISIBLE
+                } else {
+                    itemView.tv_item_red_package_history_withdrawals.visibility = View.GONE
                 }
             }
         }
     }
 
-    fun setData(data: List<RedPackageHistoryBean>) {
+    fun setData(data: List<WithDrawalsListBean>) {
         itemBean.clear()
         itemBean.addAll(data)
     }

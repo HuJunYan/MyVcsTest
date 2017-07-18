@@ -50,6 +50,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_min_withdrawals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -60,11 +61,11 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_withdrawals_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="23dp"
         android:paddingLeft="15dp"
-        android:text="80.00"
         android:textColor="#FFBA00"
         android:textSize="60dp" />
 
@@ -91,10 +92,10 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_all_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="130.00"
                 android:textColor="@color/global_txt_black4"
                 android:textSize="14sp" />
 
@@ -116,10 +117,10 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_already_withdrawals_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="59.00"
                 android:textColor="@color/global_txt_black4"
                 android:textSize="14sp" />
 
