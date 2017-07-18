@@ -1,11 +1,8 @@
 package com.tianshen.cash.activity
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
@@ -18,9 +15,7 @@ import com.tianshen.cash.net.api.GetRedPackage
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
-import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_red_package.*
-import kotlinx.android.synthetic.main.dialog_bind_bank_card.view.*
 import org.json.JSONObject
 
 
@@ -113,7 +108,7 @@ class RedPackageActivity : BaseActivity() {
             override fun onSuccess(paramT: GetBankListBean?) {
                 var size = paramT?.data?.size
                 if (0 == size) {
-                    showUnBindBankCardDialog()
+                    showAuthDialog()
                 } else {
                     ToastUtil.showToast(mContext, "去提现!")
                 }
@@ -128,28 +123,19 @@ class RedPackageActivity : BaseActivity() {
     }
 
     /**
-     * 显示提示绑定银行卡dialog
+     * 显示提示认证的dialog
      */
-    private fun showUnBindBankCardDialog() {
-
-        val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = mLayoutInflater.inflate(R.layout.dialog_bind_bank_card, null, false)
-        val dialog = Dialog(mContext, R.style.MyDialog)
-        val screenWidth = Utils.getWidthPixels(mContext)
-        val screenHeight = Utils.getHeightPixels(mContext)
-        dialog.setContentView(view, ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 1 / 3))
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setCancelable(true)
-
-        view.tv_dialog_bind_bank_card_ok.setOnClickListener {
-            gotoActivity(mContext, AuthBankCardActivity::class.java, null)
-            dialog.dismiss()
-        }
-
-        view.tv_dialog_bind_bank_card_cancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
+    private fun showAuthDialog() {
+        MaterialDialog.Builder(mContext)
+                .content("如需提现，请先完成全部认证")
+                .positiveText("去认证")
+                .negativeText("取消")
+                .onPositive { _, _ ->
+                    gotoActivity(mContext, AuthCenterActivity::class.java, null)
+                }
+                .onNegative { _, _ ->
+                }
+                .show()
     }
 
 }
