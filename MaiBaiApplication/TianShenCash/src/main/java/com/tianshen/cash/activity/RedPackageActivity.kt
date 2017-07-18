@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.github.ui.adapter.RedPackageAdapter
 import com.tianshen.cash.R
+import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.GetBankListBean

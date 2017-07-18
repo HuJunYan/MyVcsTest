@@ -1,4 +1,4 @@
-package com.github.ui.adapter
+package com.tianshen.cash.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
