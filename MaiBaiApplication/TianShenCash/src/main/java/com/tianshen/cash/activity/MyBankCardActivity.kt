@@ -1,11 +1,8 @@
 package com.tianshen.cash.activity
 
-import android.app.Dialog
-import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.afollestad.materialdialogs.MaterialDialog
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyBankCardAdapter
 import com.tianshen.cash.base.BaseActivity
@@ -21,9 +18,7 @@ import com.tianshen.cash.net.api.UnBindMyBankCard
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
-import com.tianshen.cash.utils.Utils
 import kotlinx.android.synthetic.main.activity_my_bank_card.*
-import kotlinx.android.synthetic.main.dialog_unbind_bank_card.view.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONException
 import org.json.JSONObject
@@ -174,37 +169,28 @@ class MyBankCardActivity : BaseActivity() {
         }
     }
 
+
     /**
      * 显示解绑dialog
      */
     private fun showUnBindBankCardDialog(bean: GetBankListItemBean) {
 
-        val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = mLayoutInflater.inflate(R.layout.dialog_unbind_bank_card, null, false)
-        val dialog = Dialog(mContext, R.style.MyDialog)
-        val screenWidth = Utils.getWidthPixels(mContext)
-        val screenHeight = Utils.getHeightPixels(mContext)
-        dialog.setContentView(view, ViewGroup.LayoutParams(screenWidth * 8 / 9, screenHeight * 1 / 3))
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setCancelable(true)
-
         var bankCardNum = bean.getCard_num()
-
         var bankCardNumLast = bankCardNum.substring(bankCardNum.length - 4, bankCardNum.length)
+        var content = "您确定解除绑定尾号为 $bankCardNumLast 的银行卡吗"
 
-        view.tv_dialog_unbind_bank_card_msg.text = "您确定解除绑定\n尾号为 $bankCardNumLast 的银行卡吗"
-
-        view.tv_dialog_unbind_bank_card_ok.setOnClickListener {
-            dialog.dismiss()
-            isUnBind = true
-            unBind(bankCardNum)
-        }
-
-        view.tv_dialog_unbind_bank_card_cancel.setOnClickListener {
-            isUnBind = false
-            dialog.dismiss()
-        }
-        dialog.show()
+        MaterialDialog.Builder(mContext)
+                .content(content)
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive { _, _ ->
+                    isUnBind = true
+                    unBind(bankCardNum)
+                }
+                .onNegative { _, _ ->
+                    isUnBind = false
+                }
+                .show()
     }
 
 }
