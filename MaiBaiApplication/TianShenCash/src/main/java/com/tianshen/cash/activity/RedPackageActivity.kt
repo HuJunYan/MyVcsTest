@@ -2,6 +2,7 @@ package com.tianshen.cash.activity
 
 import android.app.Dialog
 import android.content.Context
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,6 +28,11 @@ class RedPackageActivity : BaseActivity() {
 
     override fun setContentView(): Int = R.layout.activity_red_package
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initData()
+    }
+
     override fun findViews() {
     }
 
@@ -40,14 +46,37 @@ class RedPackageActivity : BaseActivity() {
             initMyBankCardData()
         }
 
-        initRecyclerview()
     }
 
+    /**
+     * 模拟一些数据
+     */
+    private fun initData() {
+        var bean1 = RedPackageHistoryBean()
+        bean1.money = "500"
+        bean1.is_withdrawals = "1"
+        bean1.time = "2017/05/03 10:00"
+        bean1.title = "提现"
+        bean1.type = "0"
 
-    private fun initRecyclerview() {
+        var bean2 = RedPackageHistoryBean()
+        bean2.money = "10"
+        bean2.is_withdrawals = "0"
+        bean2.time = "2017/05/03 10:00"
+        bean2.title = "邀请注册-13123123123"
+        bean2.type = "1"
 
-        var data = initData();
+        var bean3 = RedPackageHistoryBean()
+        bean3.money = "20"
+        bean3.is_withdrawals = "0"
+        bean3.time = "2017/05/03 10:00"
+        bean3.title = "邀请注册-13123123123"
+        bean3.type = "1"
+        var data = mutableListOf<RedPackageHistoryBean>(bean1, bean2, bean3)
+        initRecyclerview(data)
+    }
 
+    private fun initRecyclerview(data: MutableList<RedPackageHistoryBean>) {
         if (mAdapter == null) {
             xrecyclerview_red_package.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             xrecyclerview_red_package.setPullRefreshEnabled(false)
@@ -76,7 +105,7 @@ class RedPackageActivity : BaseActivity() {
                 if (0 == size) {
                     showUnBindBankCardDialog()
                 } else {
-                    ToastUtil.showToast(mContext,"去提现!")
+                    ToastUtil.showToast(mContext, "去提现!")
                 }
             }
 
@@ -111,33 +140,6 @@ class RedPackageActivity : BaseActivity() {
             dialog.dismiss()
         }
         dialog.show()
-    }
-
-    /**
-     * 模拟一些数据
-     */
-    private fun initData(): MutableList<RedPackageHistoryBean> {
-        var bean1 = RedPackageHistoryBean()
-        bean1.money = "500"
-        bean1.is_withdrawals = "1"
-        bean1.time = "2017/05/03 10:00"
-        bean1.title = "提现"
-        bean1.type = "0"
-
-        var bean2 = RedPackageHistoryBean()
-        bean2.money = "10"
-        bean2.is_withdrawals = "0"
-        bean2.time = "2017/05/03 10:00"
-        bean2.title = "邀请注册-13123123123"
-        bean2.type = "1"
-
-        var bean3 = RedPackageHistoryBean()
-        bean3.money = "20"
-        bean3.is_withdrawals = "0"
-        bean3.time = "2017/05/03 10:00"
-        bean3.title = "邀请注册-13123123123"
-        bean3.type = "1"
-        return mutableListOf<RedPackageHistoryBean>(bean1, bean2, bean3)
     }
 
 }
