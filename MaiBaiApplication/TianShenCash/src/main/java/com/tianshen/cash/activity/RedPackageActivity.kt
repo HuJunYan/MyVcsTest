@@ -5,8 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
-import android.widget.EditText
-import android.widget.TextView
+import android.view.ViewGroup
 import com.afollestad.materialdialogs.MaterialDialog
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
@@ -20,9 +19,9 @@ import com.tianshen.cash.net.api.GetAuthStep
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetRedPackage
 import com.tianshen.cash.net.base.BaseNetCallBack
-import com.tianshen.cash.utils.TianShenUserUtil
-import com.tianshen.cash.utils.ToastUtil
+import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
+import kotlinx.android.synthetic.main.dialog_red_package_verify_code.view.*
 import org.json.JSONObject
 
 
@@ -112,8 +111,8 @@ class RedPackageActivity : BaseActivity() {
         jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
         getBindBankList.getBindBankList(jsonobject, null, true, object : BaseNetCallBack<GetBankListBean> {
             override fun onSuccess(paramT: GetBankListBean?) {
-                if (paramT == null) {
-                    ToastUtil.showToast(mContext, "获取银行卡数据失败")
+                if (paramT == null || paramT.data == null || paramT.data.size == 0) {
+                    ToastUtil.showToast(mContext, "获取银行卡信息失败")
                     return
                 }
                 showGetMoneyDialog(paramT)
@@ -178,18 +177,24 @@ class RedPackageActivity : BaseActivity() {
     /**
      * 显示提现Dialog
      */
-    private fun showGetMoneyDialog(paramT: GetBankListBean) {
+    private fun showGetMoneyDialog(bankListBean: GetBankListBean) {
+        LogUtil.d("abc","showGetMoneyDialog --in")
+        var bankName = bankListBean.data.get(0).bank_name
+        var bankNun = bankListBean.data.get(0).card_num
+        var bankNumEnd = StringUtil.getEndBankCard(bankNun)
 
         val mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = mLayoutInflater.inflate(R.layout.dialog_red_package_verify_code, null, false)
         var mVerifyCodeDialog = Dialog(mContext, R.style.MyDialog)
-        mVerifyCodeDialog.setContentView(view)
+        var screenWidth = Utils.getWidthPixels(mContext);
+        mVerifyCodeDialog.setContentView(view, ViewGroup.LayoutParams(screenWidth * 8 / 9, ViewGroup.LayoutParams.WRAP_CONTENT))
         mVerifyCodeDialog.setCanceledOnTouchOutside(false)
         mVerifyCodeDialog.setCancelable(true)
 
-        var tv_dialog_get_verify_code = view.findViewById(R.id.tv_dialog_get_verify_code) as TextView
-        val et_dialog_verify_code = view.findViewById(R.id.et_dialog_verify_code) as EditText
+        view.tv_dialog_red_package_bank.text = "到账银行卡 " + bankName + "(" + "$bankNumEnd)"
         mVerifyCodeDialog.show()
+
+        LogUtil.d("abc","showGetMoneyDialog --end")
     }
 
 }

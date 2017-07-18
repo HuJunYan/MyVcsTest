@@ -35,5 +35,14 @@ public class StringUtil {
         return sb.toString();
     }
 
+    public static String getEndBankCard(String cardNum) {
+        char[] array = cardNum.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = array.length - 4; i < array.length; i++) {
+            sb.append(array[i]);
+        }
+        return sb.toString();
+    }
+
 
 }
