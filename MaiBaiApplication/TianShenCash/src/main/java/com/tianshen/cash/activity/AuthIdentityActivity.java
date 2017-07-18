@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +53,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.RomUtils;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -245,6 +247,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     //请求相机权限 并根据结果 决定是否进行跳转
 
     private void requestPermissionsToNextActivity(final int id) {
+        boolean isReallyHasPermission = checkPermissionForFlyme();
+        if (!isReallyHasPermission) {
+            ToastUtil.showToast(this, "请去设置开启照相机权限");
+            return;
+        }
         RxPermissions rxPermissions = new RxPermissions(AuthIdentityActivity.this);
         rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
@@ -266,6 +273,23 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         });
+
+    }
+
+    //检查是否是魅族Flyme系统 如果是 则判断是否有相机权限 不是则不判断
+    private boolean checkPermissionForFlyme() {
+        boolean isFlyme = RomUtils.FlymeSetStatusBarLightMode(); //是否是魅族
+        boolean isReallyHasPermission;
+        if (isFlyme) {
+            if (isCameraCanUse()) {
+                isReallyHasPermission = true;
+            } else {
+                isReallyHasPermission = false;
+            }
+        } else {
+            isReallyHasPermission = true;
+        }
+        return isReallyHasPermission;
 
     }
 
@@ -673,14 +697,14 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String api_key;
         String api_secret;
         if (mFaceKeyIsNew) {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
         } else {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
         }
 
-        LogUtil.d("abc","mFaceKeyIsNew--->"+mFaceKeyIsNew);
+        LogUtil.d("abc", "mFaceKeyIsNew--->" + mFaceKeyIsNew);
 
         requestParams.put("api_key", api_key);
         requestParams.put("api_secret", api_secret);
@@ -920,11 +944,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String api_key;
         String api_secret;
         if (mFaceKeyIsNew) {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
         } else {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
         }
 
 
@@ -960,11 +984,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String api_key;
         String api_secret;
         if (mFaceKeyIsNew) {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_NEW;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_NEW;
         } else {
-            api_key =  GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
-            api_secret =  GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
+            api_key = GlobalParams.FACE_ADD_ADD_APPKEY_OLD;
+            api_secret = GlobalParams.FACE_ADD_ADD_APPSECRET_OLD;
         }
 
         new IDCardAction(this, api_key, api_secret).getIDCardInfo(data, new BaseNetCallBack<IDCardBean>() {
@@ -1036,4 +1060,22 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         return isCanPressBack;
     }
 
+    //针对魅族Flyme系统判断是否有相机权限
+    public boolean isCameraCanUse() {
+        boolean canUse = true;
+        Camera mCamera = null;
+        try {
+            mCamera = Camera.open();
+            // setParameters 是针对魅族MX5 做的。MX5 通过Camera.open() 拿到的Camera
+            // 对象不为null
+            Camera.Parameters mParameters = mCamera.getParameters();
+            mCamera.setParameters(mParameters);
+        } catch (Exception e) {
+            canUse = false;
+        }
+        if (mCamera != null) {
+            mCamera.release();
+        }
+        return canUse;
+    }
 }
