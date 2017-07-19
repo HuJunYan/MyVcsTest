@@ -56,6 +56,8 @@ public class DealWithErrorUtils {
                 finishActivityAndGotoLoginActivity();
                 break;
             case 101: // 下单失败
+                ToastUtil.showToast(context, msg);
+                break;
             case 204: // 坐标信息不正确
             case 211:
                 break;
