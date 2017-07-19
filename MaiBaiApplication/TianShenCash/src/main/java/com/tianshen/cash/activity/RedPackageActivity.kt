@@ -228,10 +228,12 @@ class RedPackageActivity : BaseActivity() {
         }
 
         view.tv_dialog_ok.setOnClickListener {
-
             var verify_code = view.et_dialog_verify_code.text.toString().trim()
-
             getMoney(verify_code, mRedPackageBean?.data?.withdrawals_money!!)
+        }
+
+        view.tv_dialog_cancel.setOnClickListener {
+            mVerifyCodeDialog.dismiss()
         }
 
         mVerifyCodeDialog.show()
