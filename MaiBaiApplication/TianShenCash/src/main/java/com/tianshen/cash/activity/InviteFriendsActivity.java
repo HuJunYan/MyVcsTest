@@ -177,8 +177,9 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         wbShareHandler = new WbShareHandler(activity);
         wbShareHandler.registerApp();
         WeiboMultiMessage weiboMultiMessage = new WeiboMultiMessage();
-        weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(getResources().getString(R.string.invite_share_text_title));
-        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, getResources().getString(R.string.invite_share_text_title), getResources().getString(R.string.invite_share_text_description));
+        weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(getResources().getString(R.string.invite_share_text_title) + mShareUrl);
+        weiboMultiMessage.imageObject = TianShenShareUtils.getImageObj(this);
+//        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, getResources().getString(R.string.invite_share_text_title), getResources().getString(R.string.invite_share_text_description));
         wbShareHandler.shareMessage(weiboMultiMessage, false);
     }
 

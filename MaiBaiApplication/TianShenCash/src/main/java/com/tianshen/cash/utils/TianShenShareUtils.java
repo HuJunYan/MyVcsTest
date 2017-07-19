@@ -151,7 +151,7 @@ public class TianShenShareUtils {
      */
     public static ImageObject getImageObj(Context context) {
         ImageObject imageObject = new ImageObject();
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }
