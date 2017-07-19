@@ -92,13 +92,6 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                String json = "{\"code\": 0,\"msg\": \"success\",\"data\":{\"invite_url\":\"http://www.baidu.com\",\"top_list\":[{\"mobile_string\":\"187****1234\",\"invite_num_string\":\"30人\",\"invite_reward_string\":\"500元\"},{\"mobile_string\":\"187****1234\",\"invite_num_string\":\"30人\",\"invite_reward_string\":\"500元\"}],\"activity_list\":[{\"activity_string\":\"规则内容\"}]}}";
-                InviteFriendsBean inviteFriendsBean = GsonUtil.json2bean(json, InviteFriendsBean.class);
-                InviteFriendsBean.InviteData data = inviteFriendsBean.data;
-                mShareUrl = data.invite_url;
-                mRuleList = data.activity_list;
-                mRankList = data.top_list;
-
                 refreshUI();
             }
         });
