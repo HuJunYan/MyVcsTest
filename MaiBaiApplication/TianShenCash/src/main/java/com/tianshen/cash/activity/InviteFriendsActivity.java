@@ -59,10 +59,12 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             R.drawable.invite_rule_7, R.drawable.invite_rule_8, R.drawable.invite_rule_9,};
     private Bitmap mQRBitmap;
     private float density;
+    private String mActivityId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivityId = getIntent().getExtras().getString(GlobalParams.ACTIVITY_ID);
         initData();
     }
 
@@ -71,6 +73,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
+            jsonObject.put("activity_id", mActivityId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

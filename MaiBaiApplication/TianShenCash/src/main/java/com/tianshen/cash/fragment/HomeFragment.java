@@ -1484,6 +1484,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             final ActivityBean.Data data = activityBeanData.get(i);
             String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
+            final String activityId = data.getActivity_id();
             View pageView = null;
             if ("0".equals(activityType)) {
                 pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
@@ -1492,7 +1493,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        gotoActivity(mContext, InviteFriendsActivity.class, null);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(GlobalParams.ACTIVITY_ID, activityId);
+                        gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                         mDialog.dismiss();
                     }
                 });

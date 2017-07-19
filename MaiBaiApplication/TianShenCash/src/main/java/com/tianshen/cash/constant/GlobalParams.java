@@ -293,6 +293,8 @@ public class GlobalParams {
     public static final String CHINA_MOBILE_TITLE_KEY = "china_mobile_title_key";
     public static final String WEB_URL_KEY = "web_url_key";
 
+    //活动
+    public static final String ACTIVITY_ID = "activity_id";
 
     public static final String SJD_BACK_DELAY_KEY = "sjd_back_delay_key";
 

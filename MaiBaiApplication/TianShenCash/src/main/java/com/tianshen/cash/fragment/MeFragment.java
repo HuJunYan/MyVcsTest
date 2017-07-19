@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -272,7 +273,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                gotoActivity(getActivity(), InviteFriendsActivity.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString(GlobalParams.ACTIVITY_ID, "");
+                gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                 break;
         }
     }

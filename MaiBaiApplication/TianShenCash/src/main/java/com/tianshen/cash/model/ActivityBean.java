@@ -35,9 +35,18 @@ public class ActivityBean {
 
     public class Data {
 
+        private String activity_id;
         private String pic_url;
         private String activity_url;
         private String activity_type;
+
+        public String getActivity_id() {
+            return activity_id;
+        }
+
+        public void setActivity_id(String activity_id) {
+            this.activity_id = activity_id;
+        }
 
         public String getPic_url() {
             return pic_url;
