@@ -342,7 +342,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 onClickIKnow();
                 break;
             case R.id.iv_procedures_home: //点击了借款提示
-                ToastUtil.showToast(mContext, "该手续费率及期限仅供参考，最终借款费率会根据借款金额、周期及提交资料审核后的综合信用评估结果来收取。");
+                ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
                 break;
             case R.id.iv_danger_money: //点击了逾期提示
                 showDangerTipsDialog();
