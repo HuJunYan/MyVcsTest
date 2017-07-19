@@ -3,23 +3,23 @@ package com.tianshen.cash.activity
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
-import com.tianshen.cash.model.AuthStepBean
-import com.tianshen.cash.model.GetBankListBean
-import com.tianshen.cash.model.RedPackageBean
-import com.tianshen.cash.model.RedPackageBean.Data
-import com.tianshen.cash.model.WithDrawalsListBean
+import com.tianshen.cash.model.*
 import com.tianshen.cash.net.api.GetAuthStep
 import com.tianshen.cash.net.api.GetBindBankList
 import com.tianshen.cash.net.api.GetRedPackage
+import com.tianshen.cash.net.api.GetVerifyCode
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
@@ -33,6 +33,20 @@ class RedPackageActivity : BaseActivity() {
     private var mAdapter: RedPackageAdapter? = null
     private var mIsAuthOK: Boolean = false
 
+    private var tv_dialog_get_verify_code: TextView? = null
+
+    private var mStartTime = 59
+
+    private val MSG_SEVERITY_TIME = 1
+    private val MSG_SEVERITY_DELAYED = 1 * 1000
+
+    private val mHandler = object : Handler() {
+        override fun handleMessage(message: Message) {
+            when (message.what) {
+                MSG_SEVERITY_TIME -> refreshSeverityTextUI()
+            }
+        }
+    }
 
     override fun setContentView(): Int = R.layout.activity_red_package
 
@@ -204,8 +218,57 @@ class RedPackageActivity : BaseActivity() {
             view.et_get_money.setText(moneyY.toString())
         }
 
+        tv_dialog_get_verify_code = view.tv_dialog_get_verify_code
+        tv_dialog_get_verify_code?.setOnClickListener {
+            refreshSeverityTextUI()
+            getVerifyCode()
+        }
+
         mVerifyCodeDialog.show()
 
+
     }
+
+    /**
+     * 刷新验证码
+     */
+    private fun refreshSeverityTextUI() {
+        if (isFinishing) {
+            return
+        }
+
+        tv_dialog_get_verify_code?.text = mStartTime.toString()
+
+        mStartTime--
+        if (mStartTime == 0) {
+            tv_dialog_get_verify_code?.text = "重获取验证码"
+            mStartTime = 59
+            tv_dialog_get_verify_code?.isEnabled = true
+            mHandler.removeMessages(MSG_SEVERITY_TIME)
+        } else {
+            tv_dialog_get_verify_code?.isEnabled = false
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED.toLong())
+        }
+    }
+
+    /**
+     * 得到验证码
+     */
+    private fun getVerifyCode() {
+        var getVerifyCode = GetVerifyCode(mContext)
+        var jsonObject = JSONObject()
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        jsonObject.put("type", "7")
+        getVerifyCode.getVerifyCode(jsonObject, null, true, object : BaseNetCallBack<VerifyCodeBean> {
+            override fun onSuccess(paramT: VerifyCodeBean?) {
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+            }
+
+        })
+    }
+
 
 }
