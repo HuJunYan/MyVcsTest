@@ -116,7 +116,7 @@ public class TianShenShareUtils {
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = mShareUrl;
         WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = context.getResources().getString(R.string.invite_share_text_description);
+        msg.title = context.getResources().getString(R.string.invite_share_text_title);
         msg.description = context.getResources().getString(R.string.invite_share_text_description);
         Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
