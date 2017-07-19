@@ -715,4 +715,13 @@ public class NetConstantValue {
         return COMMONURI + "Customer/authStep";
     }
 
+    /**
+     * 红包提现
+     */
+    public static String getInviteWithDrawalsUrl() {
+        return COMMONURI + "Customer/inviteWithdrawals";
+    }
+
+
+
 }

@@ -16,10 +16,7 @@ import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.*
-import com.tianshen.cash.net.api.GetAuthStep
-import com.tianshen.cash.net.api.GetBindBankList
-import com.tianshen.cash.net.api.GetRedPackage
-import com.tianshen.cash.net.api.GetVerifyCode
+import com.tianshen.cash.net.api.*
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
@@ -224,6 +221,13 @@ class RedPackageActivity : BaseActivity() {
             getVerifyCode()
         }
 
+        view.tv_dialog_ok.setOnClickListener {
+
+            var verify_code = view.et_dialog_verify_code.text.toString().trim()
+
+            getMoney(verify_code, mRedPackageBean?.data?.withdrawals_money!!)
+        }
+
         mVerifyCodeDialog.show()
 
 
@@ -265,6 +269,28 @@ class RedPackageActivity : BaseActivity() {
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+            }
+
+        })
+    }
+
+    /**
+     * 红包提现
+     */
+    private fun getMoney(verify_code: String, withdrawals_money: String) {
+        var getInviteWithDrawals = GetInviteWithDrawals(mContext)
+        var jsonObject = JSONObject()
+        var userId = TianShenUserUtil.getUserId(mContext)
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        jsonObject.put("verify_code", verify_code)
+        jsonObject.put("withdrawals_money", withdrawals_money)
+        getInviteWithDrawals.inviteWithDrawals(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
+            override fun onSuccess(paramT: PostDataBean?) {
+                initRedPackageData()
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+
             }
 
         })
