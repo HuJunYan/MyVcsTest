@@ -146,11 +146,17 @@ class RedPackageActivity : BaseActivity() {
      */
     private fun refreshUI() {
 
-        var data = mRedPackageBean?.Data();
-        tv_withdrawals_money.text = data?.withdrawals_money
-        tv_all_income.text = data?.all_income
-        tv_already_withdrawals_money.text = data?.already_withdrawals_money
-        tv_min_withdrawals.text = "满" + data?.already_withdrawals_money + "可提现"
+        var data = mRedPackageBean?.data
+
+        var withdrawals_money = MoneyUtils.changeF2Y(data?.withdrawals_money)
+        var all_income = MoneyUtils.changeF2Y(data?.all_income)
+        var already_withdrawals_money = MoneyUtils.changeF2Y(data?.already_withdrawals_money)
+        var min_withdrawals = MoneyUtils.changeF2Y(data?.min_withdrawals)
+
+        tv_withdrawals_money.text = withdrawals_money
+        tv_all_income.text = all_income
+        tv_already_withdrawals_money.text = already_withdrawals_money
+        tv_min_withdrawals.text = "满" + min_withdrawals + "可提现"
 
         var withdrawals_list = data?.withdrawals_list
         if (withdrawals_list != null) {
