@@ -268,7 +268,9 @@ class RedPackageActivity : BaseActivity() {
         var getVerifyCode = GetVerifyCode(mContext)
         var jsonObject = JSONObject()
         var userId = TianShenUserUtil.getUserId(mContext)
+        var mobile = TianShenUserUtil.getUserPhoneNum(mContext)
         jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        jsonObject.put("mobile", mobile)
         jsonObject.put("type", "7")
         getVerifyCode.getVerifyCode(jsonObject, null, true, object : BaseNetCallBack<VerifyCodeBean> {
             override fun onSuccess(paramT: VerifyCodeBean?) {
