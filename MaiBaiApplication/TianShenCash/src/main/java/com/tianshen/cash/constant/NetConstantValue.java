@@ -679,12 +679,19 @@ public class NetConstantValue {
     }
 
     /**
+     * 用户认证步骤
+     */
+    public static String getAuthStepUrl() {
+        return COMMONURI + "Customer/authStep";
+    }
+
+    /**
      * 获取邀请好友页面数据 url
      *
      * @return
      */
     public static String getInviteFriendsUrl() {
-        return COMMONURI + "Customer/invite";
+        return COMMONURI + "Invite/invite";
     }
 
     /**
@@ -698,28 +705,21 @@ public class NetConstantValue {
      * 我的页面
      */
     public static String getMyHomeUrl() {
-        return COMMONURI + "Customer/myHome";
+        return COMMONURI + "Invite/myHome";
     }
 
     /**
      * 我的红包
      */
     public static String getMyRedPacketUrl() {
-        return COMMONURI + "Customer/myRedPacket";
-    }
-
-    /**
-     * 用户认证步骤
-     */
-    public static String getAuthStepUrl() {
-        return COMMONURI + "Customer/authStep";
+        return COMMONURI + "Invite/myRedPacket";
     }
 
     /**
      * 红包提现
      */
     public static String getInviteWithDrawalsUrl() {
-        return COMMONURI + "Customer/inviteWithdrawals";
+        return COMMONURI + "Invite/inviteWithdrawals";
     }
 
 
