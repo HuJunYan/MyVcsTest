@@ -1485,9 +1485,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
             final String activityId = data.getActivity_id();
-            View pageView = null;
             if ("0".equals(activityType)) {
-                pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
+                View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
                 iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
@@ -1499,8 +1498,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         mDialog.dismiss();
                     }
                 });
+                viewList.add(pageView);
             } else if ("1".equals(activityType)) {
-                pageView = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
+                View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
                 ImageView iv_dialog_banner_read = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_read);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_read);
                 iv_dialog_banner_read.setOnClickListener(new View.OnClickListener() {
@@ -1513,8 +1513,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         mDialog.dismiss();
                     }
                 });
+                viewList.add(pageView);
             }
-            viewList.add(pageView);
+
         }
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
