@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.afollestad.materialdialogs.MaterialDialog
@@ -14,6 +15,7 @@ import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.AuthStepBean
 import com.tianshen.cash.model.GetBankListBean
 import com.tianshen.cash.model.RedPackageBean
+import com.tianshen.cash.model.RedPackageBean.Data
 import com.tianshen.cash.model.WithDrawalsListBean
 import com.tianshen.cash.net.api.GetAuthStep
 import com.tianshen.cash.net.api.GetBindBankList
@@ -27,6 +29,7 @@ import org.json.JSONObject
 
 class RedPackageActivity : BaseActivity() {
 
+    private var mRedPackageBean: RedPackageBean? = null
     private var mAdapter: RedPackageAdapter? = null
     private var mIsAuthOK: Boolean = false
 
@@ -68,7 +71,8 @@ class RedPackageActivity : BaseActivity() {
         jsonobject.put(GlobalParams.USER_CUSTOMER_ID, userId)
         getRedPackage.redPackage(jsonobject, null, true, object : BaseNetCallBack<RedPackageBean> {
             override fun onSuccess(paramT: RedPackageBean?) {
-                refreshUI(paramT)
+                mRedPackageBean = paramT
+                refreshUI()
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -129,9 +133,9 @@ class RedPackageActivity : BaseActivity() {
     /**
      * 刷新UI
      */
-    private fun refreshUI(bean: RedPackageBean?) {
+    private fun refreshUI() {
 
-        var data = bean?.Data();
+        var data = mRedPackageBean?.Data();
         tv_withdrawals_money.text = data?.withdrawals_money
         tv_all_income.text = data?.all_income
         tv_already_withdrawals_money.text = data?.already_withdrawals_money
@@ -178,7 +182,6 @@ class RedPackageActivity : BaseActivity() {
      * 显示提现Dialog
      */
     private fun showGetMoneyDialog(bankListBean: GetBankListBean) {
-        LogUtil.d("abc","showGetMoneyDialog --in")
         var bankName = bankListBean.data.get(0).bank_name
         var bankNun = bankListBean.data.get(0).card_num
         var bankNumEnd = StringUtil.getEndBankCard(bankNun)
@@ -192,9 +195,17 @@ class RedPackageActivity : BaseActivity() {
         mVerifyCodeDialog.setCancelable(true)
 
         view.tv_dialog_red_package_bank.text = "到账银行卡 " + bankName + "(" + "$bankNumEnd)"
+
+        if (!TextUtils.isEmpty(mRedPackageBean?.data?.withdrawals_money)) {
+            var moneyY = MoneyUtils.changeF2Y(mRedPackageBean?.data?.withdrawals_money).toInt()
+            if (moneyY > 1000) {
+                moneyY = 1000
+            }
+            view.et_get_money.setText(moneyY.toString())
+        }
+
         mVerifyCodeDialog.show()
 
-        LogUtil.d("abc","showGetMoneyDialog --end")
     }
 
 }

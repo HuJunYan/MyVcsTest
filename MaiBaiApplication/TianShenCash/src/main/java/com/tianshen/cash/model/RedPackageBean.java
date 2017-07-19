@@ -6,13 +6,13 @@ public class RedPackageBean {
 
     private int code;
     private String msg;
-    private ArrayList<Data> data;
+    private Data data;
 
-    public ArrayList<Data> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(ArrayList<Data> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 

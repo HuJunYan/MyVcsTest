@@ -48,8 +48,7 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="30dp"
         android:background="@null"
-        android:inputType="number"
-        android:maxLength="6"
+        android:editable="false"
         android:textSize="14dp" />
 
     <View
