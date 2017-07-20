@@ -15,12 +15,14 @@ import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.event.GetRedPackageEvent
 import com.tianshen.cash.model.*
 import com.tianshen.cash.net.api.*
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
 import kotlinx.android.synthetic.main.dialog_red_package_verify_code.view.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
 
@@ -300,6 +302,7 @@ class RedPackageActivity : BaseActivity() {
         getInviteWithDrawals.inviteWithDrawals(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
             override fun onSuccess(paramT: PostDataBean?) {
                 initRedPackageData()
+                EventBus.getDefault().post(GetRedPackageEvent())
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {

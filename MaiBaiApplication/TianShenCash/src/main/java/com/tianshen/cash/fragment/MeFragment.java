@@ -32,6 +32,7 @@ import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.event.GetRedPackageEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.ActivityBean;
@@ -396,5 +397,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public void onTokenError(FinishCurrentActivityEvent event) {
         tvMeUserName.setText("未登录");
 
+    }
+
+    /**
+     * 收到了红包提现成功的消息
+     */
+    @Subscribe
+    public void onGetRedPackageSuccess(GetRedPackageEvent event) {
+        LogUtil.d("abc", "收到了红包提现成功的消息--刷新UI");
+        initMyInfo();
     }
 }
