@@ -202,6 +202,7 @@ class RedPackageActivity : BaseActivity() {
      * 显示提现Dialog
      */
     private fun showGetMoneyDialog(bankListBean: GetBankListBean) {
+
         var bankName = bankListBean.data.get(0).bank_name
         var bankNun = bankListBean.data.get(0).card_num
         var bankNumEnd = StringUtil.getEndBankCard(bankNun)
@@ -214,12 +215,12 @@ class RedPackageActivity : BaseActivity() {
         mVerifyCodeDialog.setCanceledOnTouchOutside(false)
         mVerifyCodeDialog.setCancelable(true)
 
-        view.tv_dialog_red_package_bank.text = "到账银行卡 " + bankName + "(" + "$bankNumEnd)"
+        view.tv_dialog_red_package_bank.text = "到账银行卡 $bankName($bankNumEnd)"
 
         if (!TextUtils.isEmpty(mRedPackageBean?.data?.withdrawals_money)) {
-            var moneyY = MoneyUtils.changeF2Y(mRedPackageBean?.data?.withdrawals_money).toInt()
+            var moneyY = MoneyUtils.changeF2Y(mRedPackageBean?.data?.withdrawals_money).toFloat()
             if (moneyY > 1000) {
-                moneyY = 1000
+                moneyY = 1000F
             }
             view.et_get_money.setText(moneyY.toString())
         }
@@ -240,7 +241,6 @@ class RedPackageActivity : BaseActivity() {
         }
 
         mVerifyCodeDialog.show()
-
 
     }
 
