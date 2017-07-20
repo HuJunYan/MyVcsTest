@@ -153,6 +153,9 @@ class RedPackageActivity : BaseActivity() {
         var already_withdrawals_money = MoneyUtils.changeF2Y(data?.already_withdrawals_money)
         var min_withdrawals = MoneyUtils.changeF2Y(data?.min_withdrawals)
 
+        //设置提现按钮是否可以点击
+        tv_get_red_package.isEnabled = withdrawals_money > min_withdrawals
+
         tv_withdrawals_money.text = withdrawals_money
         tv_all_income.text = all_income
         tv_already_withdrawals_money.text = already_withdrawals_money
