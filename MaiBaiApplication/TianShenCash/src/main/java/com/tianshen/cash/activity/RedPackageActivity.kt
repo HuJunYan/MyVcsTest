@@ -150,10 +150,10 @@ class RedPackageActivity : BaseActivity() {
 
         var data = mRedPackageBean?.data
 
-        var withdrawals_money = MoneyUtils.changeF2Y(data?.withdrawals_money)
-        var all_income = MoneyUtils.changeF2Y(data?.all_income)
-        var already_withdrawals_money = MoneyUtils.changeF2Y(data?.already_withdrawals_money)
-        var min_withdrawals = MoneyUtils.changeF2Y(data?.min_withdrawals)
+        var withdrawals_money = MoneyUtils.changeF2Y(data?.withdrawals_money, 2)
+        var all_income = MoneyUtils.changeF2Y(data?.all_income, 2)
+        var already_withdrawals_money = MoneyUtils.changeF2Y(data?.already_withdrawals_money, 2)
+        var min_withdrawals = MoneyUtils.changeF2Y(data?.min_withdrawals, 2)
 
         //设置提现按钮是否可以点击
         tv_get_red_package.isEnabled = withdrawals_money > min_withdrawals
@@ -220,11 +220,12 @@ class RedPackageActivity : BaseActivity() {
         view.tv_dialog_red_package_bank.text = "到账银行卡 $bankName($bankNumEnd)"
 
         if (!TextUtils.isEmpty(mRedPackageBean?.data?.withdrawals_money)) {
-            var moneyY = MoneyUtils.changeF2Y(mRedPackageBean?.data?.withdrawals_money).toFloat()
-            if (moneyY > 1000) {
-                moneyY = 1000F
+            var moneyInt = mRedPackageBean?.data?.withdrawals_money?.toInt()
+            if (moneyInt!! > 100000) { //判断当前的提现金额是否大于1000，如果大于1000界面置为1000
+                moneyInt = 100000
             }
-            view.et_get_money.setText(moneyY.toString())
+            var moneyY = MoneyUtils.changeF2Y(moneyInt.toString(), 2)
+            view.et_get_money.setText(moneyY)
         }
 
         tv_dialog_get_verify_code = view.tv_dialog_get_verify_code

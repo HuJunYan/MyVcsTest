@@ -68,6 +68,21 @@ public class MoneyUtils {
     }
 
     /**
+     * 将分为单位的转换为元 （除100）
+     * 保留几位小数 四舍五入
+     *
+     * @param amount
+     * @return
+     * @throws Exception
+     */
+    public static String changeF2Y(String amount, int scale) throws Exception {
+        if (!amount.matches(CURRENCY_FEN_REGEX)) {
+            throw new Exception("金额格式有误");
+        }
+        return BigDecimal.valueOf(Long.valueOf(amount)).divide(new BigDecimal(100), scale, BigDecimal.ROUND_HALF_UP).toString();
+    }
+
+    /**
      * 将元为单位的转换为分 （乘100）
      *
      * @param amount
