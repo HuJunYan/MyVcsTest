@@ -171,6 +171,11 @@ class RedPackageActivity : BaseActivity() {
 
 
     private fun initRecyclerview(data: MutableList<WithDrawalsListBean>) {
+        //增加footer
+        if (data.size > 0) {
+            data.add(WithDrawalsListBean())
+        }
+
         if (mAdapter == null) {
             xrecyclerview_red_package.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             xrecyclerview_red_package.setPullRefreshEnabled(false)
