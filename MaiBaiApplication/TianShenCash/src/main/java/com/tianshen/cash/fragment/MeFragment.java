@@ -202,7 +202,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         if (TextUtils.isEmpty(shareString)) {
             tv_me_tianshen_friend.setVisibility(View.GONE);
         } else {
-            tv_me_tianshen_friend.setText(packetString);
+            tv_me_tianshen_friend.setText(shareString);
         }
     }
 
