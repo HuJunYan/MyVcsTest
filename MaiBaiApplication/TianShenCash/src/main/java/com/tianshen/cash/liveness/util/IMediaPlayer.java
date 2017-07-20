@@ -38,6 +38,9 @@ public class IMediaPlayer {
      * 播放成功回调接口
      */
     public void setOnCompletionListener(final Detector.DetectionType detectiontype) {
+        if (mMediaPlayer == null) {
+            return;
+        }
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
