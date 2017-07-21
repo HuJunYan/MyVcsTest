@@ -186,7 +186,7 @@ class RedPackageActivity : BaseActivity() {
             val fstart = str.indexOf("邀请好友")
             val fend = fstart + "邀请好友".length
             val style = SpannableStringBuilder(str)
-            style.setSpan(ForegroundColorSpan(mContext.getColor(R.color.orange)), fstart, fend, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            style.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.orange)), fstart, fend, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             tv_red_package_no_money.text = style
             tv_red_package_no_money.setOnClickListener {
                 val bundle = Bundle()
