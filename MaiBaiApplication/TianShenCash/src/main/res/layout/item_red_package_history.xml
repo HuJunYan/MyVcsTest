@@ -48,12 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-
             android:layout_below="@id/tv_item_red_package_history_money"
             android:layout_marginTop="5dp"
-
             android:gravity="center"
-            android:text="提现中"
             android:textColor="#FF0000"
             android:textSize="12dp" />
 

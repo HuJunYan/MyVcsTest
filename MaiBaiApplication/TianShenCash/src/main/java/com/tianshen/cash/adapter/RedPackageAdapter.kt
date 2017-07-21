@@ -53,10 +53,14 @@ class RedPackageAdapter(private val itemBean: MutableList<WithDrawalsListBean>,
                 itemView.tv_item_red_package_history_title.text = itemBean.title;
                 itemView.tv_item_red_package_history_time.text = itemBean.add_time_string
                 itemView.tv_item_red_package_history_money.text = itemBean.money_string
-                if ("3" == itemBean.status) {
-                    itemView.tv_item_red_package_history_withdrawals.visibility = View.VISIBLE
-                } else {
-                    itemView.tv_item_red_package_history_withdrawals.visibility = View.GONE
+
+                when (itemBean.status) {
+                    "1" -> itemView.tv_item_red_package_history_withdrawals.text = "提现成功"
+                    "2" -> itemView.tv_item_red_package_history_withdrawals.text = "提现失败"
+                    "3" -> itemView.tv_item_red_package_history_withdrawals.text = "提现中"
+                    else -> {
+                        itemView.tv_item_red_package_history_withdrawals.text = ""
+                    }
                 }
             }
         }
