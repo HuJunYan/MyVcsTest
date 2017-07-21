@@ -27,6 +27,8 @@ public class TianShenUserUtil {
     private static String IS_CLICKED_HOME_GET_MONEY_BUTTON_KEY = "is_clicked_home_get_money_button";
     private static String IS_CLICKED_HOME_REPAY_MONEY_BUTTON_KEY = "is_clicked_home_repay_money_button";
 
+    private static String SHOW_ACTIVITY_TIME = "show_activity_time";
+
     /**
      * 判断用户是否已经登录
      */
@@ -273,6 +275,20 @@ public class TianShenUserUtil {
         SharedPreferencesUtil.getInstance(context).putString(REPAY_ID_KEY, "0");
         SharedPreferencesUtil.getInstance(context).putBoolean(IS_CLICKED_HOME_GET_MONEY_BUTTON_KEY, false);
         SharedPreferencesUtil.getInstance(context).putBoolean(IS_CLICKED_HOME_REPAY_MONEY_BUTTON_KEY, false);
+    }
+
+    /**
+     * 保存上次活动显示的时间
+     */
+    public static void saveShowActivityTime(Context context, long show_activity_time) {
+        SharedPreferencesUtil.getInstance(context).putLong(SHOW_ACTIVITY_TIME, show_activity_time);
+    }
+
+    /**
+     * 得到上次活动显示的时间
+     */
+    public static long getShowActivityTime(Context context) {
+        return SharedPreferencesUtil.getInstance(context).getLong(SHOW_ACTIVITY_TIME);
     }
 
     /**

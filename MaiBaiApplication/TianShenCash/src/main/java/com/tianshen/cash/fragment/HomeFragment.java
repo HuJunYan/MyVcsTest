@@ -90,6 +90,7 @@ import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.UploadToServerUtil;
+import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
 import com.umeng.analytics.MobclickAgent;
@@ -1462,6 +1463,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
 
+        //判断是否是同一天
+        long lastTime = TianShenUserUtil.getShowActivityTime(mContext);
+        if (Utils.isSameDay(lastTime)) {
+            return;
+        }
+        long time = System.currentTimeMillis();
+        TianShenUserUtil.saveShowActivityTime(mContext, time);
+
+
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_banner, null, false);
         final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
@@ -1554,7 +1564,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 mDialog.dismiss();
             }
         });
-
         mDialog.show();
     }
 

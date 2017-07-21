@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -562,6 +564,28 @@ public class Utils {
         orderBean.getData().setDiscount(paramT.getData().getDiscount());
         orderBean.getData().setDown_payment(paramT.getData().getDown_payment());
         return orderBean;
+    }
+
+
+    /**
+     * 计算 传入的时间 和当前时间 是否是同一天ts 上次时间的毫秒值
+     */
+    public static boolean isSameDay(long ts) {
+        if (ts == 0) {
+            return false;
+        }
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(new Date());//设置当前时间
+        int yearNow = calender.get(Calendar.YEAR);//现在的年份
+        int dayNow = calender.get(Calendar.DAY_OF_YEAR);//消息在这一年的day
+
+        calender.setTime(new Date(ts));//设置传入的时间
+        int yearMsg = calender.get(Calendar.YEAR);//消息的年份
+        int dayMsg = calender.get(Calendar.DAY_OF_YEAR);//消息的day
+        if (yearNow == yearMsg && dayNow == dayMsg) {//说明是同天
+            return true;
+        }
+        return false;
     }
 
     /**
