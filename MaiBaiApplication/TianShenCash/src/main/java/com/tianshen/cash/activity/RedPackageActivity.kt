@@ -167,7 +167,7 @@ class RedPackageActivity : BaseActivity() {
 
         var withdrawals_list = data?.withdrawals_list
 
-`        if (withdrawals_money.toFloat() == 0F && already_withdrawals_money.toFloat() == 0F && all_income.toFloat() == 0F) {
+        if (withdrawals_money.toFloat() == 0F && already_withdrawals_money.toFloat() == 0F && all_income.toFloat() == 0F) {
             ll_red_package_no_money.visibility = View.VISIBLE
             ll_red_package_money_list.visibility = View.GONE
         } else {
