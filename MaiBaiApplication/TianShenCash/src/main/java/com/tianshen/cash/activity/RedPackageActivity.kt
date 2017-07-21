@@ -2,10 +2,12 @@ package com.tianshen.cash.activity
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -24,8 +26,15 @@ import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
 import kotlinx.android.synthetic.main.dialog_red_package_verify_code.view.*
 import kotlinx.android.synthetic.main.layout_red_package_money_list.*
+import kotlinx.android.synthetic.main.layout_red_package_no_money.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
+import android.text.style.BackgroundColorSpan
+import android.text.SpannableStringBuilder
+
+
 
 
 class RedPackageActivity : BaseActivity() {
@@ -168,8 +177,22 @@ class RedPackageActivity : BaseActivity() {
         var withdrawals_list = data?.withdrawals_list
 
         if (withdrawals_money.toFloat() == 0F && already_withdrawals_money.toFloat() == 0F && all_income.toFloat() == 0F) {
+
             ll_red_package_no_money.visibility = View.VISIBLE
             ll_red_package_money_list.visibility = View.GONE
+
+            val str = "竟然还没有现金红包，赶快邀请好友吧~"
+            val fstart = str.indexOf("邀请好友")
+            val fend = fstart + "邀请好友".length
+            val style = SpannableStringBuilder(str)
+            style.setSpan(ForegroundColorSpan(mContext.getColor(R.color.orange)), fstart, fend, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            tv_red_package_no_money.text = style
+            tv_red_package_no_money.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString(GlobalParams.ACTIVITY_ID, "")
+                gotoActivity(mContext, InviteFriendsActivity::class.java, bundle)
+            }
+
         } else {
             ll_red_package_no_money.visibility = View.GONE
             ll_red_package_money_list.visibility = View.VISIBLE
@@ -178,6 +201,7 @@ class RedPackageActivity : BaseActivity() {
                 initRecyclerview(withdrawals_list)
             }
         }
+
     }
 
 
