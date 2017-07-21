@@ -345,7 +345,6 @@ class RedPackageActivity : BaseActivity() {
         getInviteWithDrawals.inviteWithDrawals(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
             override fun onSuccess(paramT: PostDataBean?) {
                 initRedPackageData()
-                EventBus.getDefault().post(GetRedPackageEvent())
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -353,6 +352,14 @@ class RedPackageActivity : BaseActivity() {
             }
 
         })
+    }
+
+    /**
+     * 退出我的现金红包页面，给"我的"页面发送通知刷新UI
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().post(GetRedPackageEvent())
     }
 
 
