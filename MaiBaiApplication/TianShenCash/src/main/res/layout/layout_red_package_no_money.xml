@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="#EEEEEE"
     android:orientation="vertical">
 
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="没有更多记录了"
+        android:text="竟然还没有现金红包，赶快邀请好友吧~"
         android:textColor="#969696"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
 

@@ -129,30 +129,15 @@
 
     <View style="@style/split_line_style" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#EEEEEE"
-        android:paddingBottom="15dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp">
+    <include
+        android:id="@+id/ll_red_package_no_money"
+        layout="@layout/layout_red_package_no_money"
+        android:visibility="gone" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="收支明细"
-            android:textColor="@color/global_txt_black4"
-            android:textSize="12sp" />
+    <include
+        android:id="@+id/ll_red_package_money_list"
+        layout="@layout/layout_red_package_money_list"
+        android:visibility="gone" />
 
-    </RelativeLayout>
-
-    <View style="@style/split_line_style" />
-
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/xrecyclerview_red_package"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
 
 </LinearLayout>

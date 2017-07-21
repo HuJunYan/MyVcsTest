@@ -8,6 +8,7 @@ import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.afollestad.materialdialogs.MaterialDialog
@@ -22,6 +23,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.*
 import kotlinx.android.synthetic.main.activity_red_package.*
 import kotlinx.android.synthetic.main.dialog_red_package_verify_code.view.*
+import kotlinx.android.synthetic.main.layout_red_package_money_list.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 
@@ -164,8 +166,17 @@ class RedPackageActivity : BaseActivity() {
         tv_min_withdrawals.text = "满" + min_withdrawals + "可提现"
 
         var withdrawals_list = data?.withdrawals_list
-        if (withdrawals_list != null) {
-            initRecyclerview(withdrawals_list)
+
+        if (withdrawals_money.toInt() == 0 && already_withdrawals_money.toInt() == 0 && all_income.toInt() == 0) {
+            ll_red_package_no_money.visibility = View.VISIBLE
+            ll_red_package_money_list.visibility = View.GONE
+        } else {
+            ll_red_package_no_money.visibility = View.GONE
+            ll_red_package_money_list.visibility = View.VISIBLE
+
+            if (withdrawals_list != null) {
+                initRecyclerview(withdrawals_list)
+            }
         }
     }
 
