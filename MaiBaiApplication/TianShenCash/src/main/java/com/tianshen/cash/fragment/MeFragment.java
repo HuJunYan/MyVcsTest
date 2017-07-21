@@ -383,6 +383,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             rlMeTianshenService.setVisibility(View.GONE);
         }
+        initMyInfo();
     }
 
     /**
