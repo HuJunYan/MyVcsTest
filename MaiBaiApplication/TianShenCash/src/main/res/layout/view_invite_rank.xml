@@ -16,8 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="38dp"
-        android:src="@drawable/invite_rank_1" />
+        android:layout_marginLeft="38dp" />
 
     <TextView
         android:id="@+id/tv_rank_phone_number"
@@ -25,8 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="80dp"
-        android:src="@drawable/invite_rank_1"
-        android:text="130****3333"
         android:textColor="@color/invite_friends_text_color"
         android:textSize="12sp" />
 
@@ -37,8 +34,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="134dp"
-        android:src="@drawable/invite_rank_1"
-        android:text="2人"
         android:textColor="@color/invite_friends_text_color"
         android:textSize="12sp" />
 
@@ -49,8 +44,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="40dp"
-        android:src="@drawable/invite_rank_1"
-        android:text="3600元"
         android:textColor="@color/invite_friends_red_package_color"
         android:textSize="12sp" />
 

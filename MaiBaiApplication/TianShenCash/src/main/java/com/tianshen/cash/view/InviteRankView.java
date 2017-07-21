@@ -46,7 +46,6 @@ public class InviteRankView extends FrameLayout {
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(layoutParams);
         addView(view);
-        ButterKnife.bind(view);
         iv_rank = (ImageView) view.findViewById(R.id.iv_rank);
         tv_rank_money_number = (TextView) view.findViewById(R.id.tv_rank_money_number);
         tv_rank_phone_number = (TextView) view.findViewById(R.id.tv_rank_phone_number);

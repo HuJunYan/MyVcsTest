@@ -13,6 +13,7 @@ public class InviteFriendsBean {
 
 
     public class InviteData {
+        public String title;
         public String invite_url;
         public List<TopList> top_list;
         public List<RuleList> activity_list;

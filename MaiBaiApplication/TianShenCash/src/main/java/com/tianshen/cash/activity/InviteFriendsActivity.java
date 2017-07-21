@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -48,6 +49,8 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     LinearLayout ll_invite_rank_data;
     @BindView(R.id.ll_invite_rule_data)
     LinearLayout ll_invite_rule_data;
+    @BindView(R.id.tv_invite_title)
+    TextView tv_invite_title;
     private WbShareHandler wbShareHandler;
     private String mShareUrl;
     private List<InviteFriendsBean.TopList> mRankList;
@@ -60,6 +63,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     private Bitmap mQRBitmap;
     private float density;
     private String mActivityId;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                     mShareUrl = data.invite_url;
                     mRuleList = data.activity_list;
                     mRankList = data.top_list;
+                    mTitle = data.title;
                 }
                 refreshUI();
             }
@@ -98,6 +103,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     }
 
     private void refreshUI() {
+        tv_invite_title.setText(mTitle);
         ll_invite_rank_data.removeAllViews();
         ll_invite_rule_data.removeAllViews();
         if (mRankList != null) {
