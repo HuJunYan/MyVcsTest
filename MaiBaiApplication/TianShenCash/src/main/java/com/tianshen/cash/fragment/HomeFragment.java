@@ -1031,11 +1031,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void moveSeekBarThumbMoney(int progress) {
         String s = String.format(Locale.CHINA, "%d", progress);
         tv_home_max_sb_thumb.setText(s);
-
-        float val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
+        float val;
+        if (minMaxSb.getMax() == 0) {  //当服务器返回的min = max 的时候  getmax = 0  会导致下面的计算出错
+            val = 0;
+        } else {
+            val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
+        }
         float offset = minMaxSb.getThumbOffset();
         float newX = val + offset;
-        if (minMaxSb.getProgress() == minMaxSb.getMax()) {
+        if (minMaxSb.getProgress() == minMaxSb.getMax() && minMaxSb.getMax() != 0) {
             newX -= density * 10;
         }
         LogUtil.d("abcd", "val = " + val);
