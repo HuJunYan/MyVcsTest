@@ -115,19 +115,31 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     public class JSCallback {
 
         @JavascriptInterface
-        public void authCallBack(boolean result) {
-            if (result) {
-                ToastUtil.showToast(mContext, "认证成功!", Toast.LENGTH_LONG);
-            } else {
-                ToastUtil.showToast(mContext, "认证失败!", Toast.LENGTH_LONG);
-            }
-            backActivity();
+        public void authCallBack(final boolean result) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (result) {
+                        ToastUtil.showToast(mContext, "认证成功!", Toast.LENGTH_LONG);
+                    } else {
+                        ToastUtil.showToast(mContext, "认证失败!", Toast.LENGTH_LONG);
+                    }
+                    backActivity();
+                }
+            });
+
         }
 
         @JavascriptInterface
-        public void authCallBackStr(String result) {
-            ToastUtil.showToast(mContext, result, Toast.LENGTH_LONG);
-            backActivity();
+        public void authCallBackStr(final String result) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showToast(mContext, result, Toast.LENGTH_LONG);
+                    backActivity();
+                }
+            });
+
         }
 
     }
@@ -169,9 +181,10 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         }
         return super.onKeyDown(keyCode, event);
     }
+
     //检查 当前页面是否是认证成功页面
     private boolean checkIsAuthSuccess() {
-        if (loadHistoryUrls.size() > 0 && loadHistoryUrls.get(loadHistoryUrls.size() - 1) != null &&loadHistoryUrls.get(loadHistoryUrls.size() - 1) .endsWith("h5/sesame/se_order.html")) {
+        if (loadHistoryUrls.size() > 0 && loadHistoryUrls.get(loadHistoryUrls.size() - 1) != null && loadHistoryUrls.get(loadHistoryUrls.size() - 1).endsWith("h5/sesame/se_order.html")) {
             backActivity();
             return true;
         }

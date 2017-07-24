@@ -240,7 +240,7 @@ public class ServiceOnlineActivity extends BaseActivity {
                         switch (which) {
                             // 相机拍摄
                             case 0:
-                                openCarcme();
+                                openCamera();
                                 break;
                             // 手机相册
                             case 1:
@@ -273,7 +273,7 @@ public class ServiceOnlineActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private void openCarcme() {
+    private void openCamera() {
         RxPermissions rxPermissions = new RxPermissions(ServiceOnlineActivity.this);
         rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
