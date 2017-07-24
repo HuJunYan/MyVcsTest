@@ -26,7 +26,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -427,17 +426,33 @@
                 android:layout_height="1px"
                 android:background="@color/global_line_bg" />
 
-            <TextView
-                android:id="@+id/tv_me_weixin"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="60dp"
-                android:layout_marginTop="50dp"
-                android:gravity="center"
-                android:text="微信公众号:天神金融(tianshendai)"
-                android:textColor="@color/global_txt_green"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="微信公众号:"
+                    android:textColor="#969696"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_me_weixin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="天神金融(tianshendai)"
+                    android:textColor="@color/global_txt_green"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
         </LinearLayout>
 
