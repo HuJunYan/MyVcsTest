@@ -13,6 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:gravity="center"
+        android:textColor="#969696"
         android:textSize="14sp" />
 
 </LinearLayout>
