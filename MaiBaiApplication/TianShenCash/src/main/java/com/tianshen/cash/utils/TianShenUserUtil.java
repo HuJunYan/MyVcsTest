@@ -28,6 +28,7 @@ public class TianShenUserUtil {
     private static String IS_CLICKED_HOME_REPAY_MONEY_BUTTON_KEY = "is_clicked_home_repay_money_button";
 
     private static String SHOW_ACTIVITY_TIME = "show_activity_time";
+    private static String SHOW_ACTIVITY_COUNT = "show_activity_count";
 
     /**
      * 判断用户是否已经登录
@@ -290,6 +291,22 @@ public class TianShenUserUtil {
     public static long getShowActivityTime(Context context) {
         return SharedPreferencesUtil.getInstance(context).getLong(SHOW_ACTIVITY_TIME);
     }
+
+    /**
+     * 得到上次活动显示的次数
+     */
+    public static int getShowActivityCount(Context context) {
+        return SharedPreferencesUtil.getInstance(context).getInt(SHOW_ACTIVITY_COUNT);
+    }
+
+    /**
+     * 保存上次活动显示的次数
+     */
+    public static void saveShowActivityCount(Context context, int show_activity_count) {
+        SharedPreferencesUtil.getInstance(context).putInt(SHOW_ACTIVITY_COUNT, show_activity_count);
+    }
+
+
 
     /**
      * 清除所有的用户信息

@@ -1,18 +1,19 @@
 package com.tianshen.cash.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityBean {
 
     private int code;
     private String msg;
-    private ArrayList<Data> data;
+    private Data data;
 
-    public ArrayList<Data> getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(ArrayList<Data> data) {
+    public void setData(Data data) {
         this.data = data;
     }
 
@@ -35,42 +36,25 @@ public class ActivityBean {
 
     public class Data {
 
-        private String activity_id;
-        private String pic_url;
-        private String activity_url;
-        private String activity_type;
+        private ArrayList<ActivityDataBean> activity_list;
+        private String remind_num;
 
-        public String getActivity_id() {
-            return activity_id;
+        public ArrayList<ActivityDataBean> getActivity_list() {
+            return activity_list;
         }
 
-        public void setActivity_id(String activity_id) {
-            this.activity_id = activity_id;
+        public void setActivity_list(ArrayList<ActivityDataBean> activity_list) {
+            this.activity_list = activity_list;
         }
 
-        public String getPic_url() {
-            return pic_url;
+        public String getRemind_num() {
+            return remind_num;
         }
 
-        public void setPic_url(String pic_url) {
-            this.pic_url = pic_url;
+        public void setRemind_num(String remind_num) {
+            this.remind_num = remind_num;
         }
 
-        public String getActivity_url() {
-            return activity_url;
-        }
-
-        public void setActivity_url(String activity_url) {
-            this.activity_url = activity_url;
-        }
-
-        public String getActivity_type() {
-            return activity_type;
-        }
-
-        public void setActivity_type(String activity_type) {
-            this.activity_type = activity_type;
-        }
 
     }
 

@@ -57,6 +57,7 @@ import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.ActivityBean;
+import com.tianshen.cash.model.ActivityDataBean;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.ContactsBean;
 import com.tianshen.cash.model.IknowBean;
@@ -1461,20 +1462,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 显示活动的Dialog
      */
     private void showBannerDialog(ActivityBean activityBean) {
-
-        ArrayList<ActivityBean.Data> activityBeanData = activityBean.getData();
+        ArrayList<ActivityDataBean> activityBeanData = activityBean.getData().getActivity_list();
         if (activityBeanData == null || activityBeanData.size() == 0) {
             return;
         }
 
         //判断是否是同一天
         long lastTime = TianShenUserUtil.getShowActivityTime(mContext);
-        if (Utils.isSameDay(lastTime)) {
-            return;
+        if (Utils.isSameDay(lastTime)) {//同一天
+
+            //判断之前显示了几次
+            String remind_num = activityBean.getData().getRemind_num();
+            int remindNum = 0;
+            if (!TextUtils.isEmpty(remind_num)) {
+                remindNum = Integer.parseInt(remind_num);
+                remindNum = remindNum - 1;
+            }
+
+            int oldCount = TianShenUserUtil.getShowActivityCount(mContext);
+            if (oldCount > remindNum) {
+                //显示超过服务器约定的次数
+                return;
+            }
+            oldCount++;
+            TianShenUserUtil.saveShowActivityCount(mContext, oldCount);
+
+        } else { //不是同一天
+            TianShenUserUtil.saveShowActivityCount(mContext, 1);
         }
+
         long time = System.currentTimeMillis();
         TianShenUserUtil.saveShowActivityTime(mContext, time);
-
 
         LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = mLayoutInflater.inflate(R.layout.dialog_banner, null, false);
@@ -1495,7 +1513,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         final ArrayList<View> viewList = new ArrayList<>();// 将要分页显示的View装入数组中
 
         for (int i = 0; i < activityBeanData.size(); i++) {
-            final ActivityBean.Data data = activityBeanData.get(i);
+            final ActivityDataBean data = activityBeanData.get(i);
             String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
             final String activityId = data.getActivity_id();
