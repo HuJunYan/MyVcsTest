@@ -2,12 +2,10 @@ package com.tianshen.cash.activity
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +16,6 @@ import com.tianshen.cash.R
 import com.tianshen.cash.adapter.RedPackageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
-import com.tianshen.cash.event.GetRedPackageEvent
 import com.tianshen.cash.model.*
 import com.tianshen.cash.net.api.*
 import com.tianshen.cash.net.base.BaseNetCallBack
@@ -27,11 +24,9 @@ import kotlinx.android.synthetic.main.activity_red_package.*
 import kotlinx.android.synthetic.main.dialog_red_package_verify_code.view.*
 import kotlinx.android.synthetic.main.layout_red_package_money_list.*
 import kotlinx.android.synthetic.main.layout_red_package_no_money.*
-import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import android.text.Spannable
 import android.text.style.ForegroundColorSpan
-import android.text.style.BackgroundColorSpan
 import android.text.SpannableStringBuilder
 
 
@@ -352,14 +347,6 @@ class RedPackageActivity : BaseActivity() {
             }
 
         })
-    }
-
-    /**
-     * 退出我的现金红包页面，给"我的"页面发送通知刷新UI
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().post(GetRedPackageEvent())
     }
 
 

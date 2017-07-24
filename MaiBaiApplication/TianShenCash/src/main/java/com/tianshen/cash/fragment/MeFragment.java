@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
@@ -32,13 +31,10 @@ import com.tianshen.cash.activity.SettingActivity;
 import com.tianshen.cash.base.BaseFragment;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
-import com.tianshen.cash.event.GetRedPackageEvent;
 import com.tianshen.cash.event.LoginSuccessEvent;
 import com.tianshen.cash.event.LogoutSuccessEvent;
-import com.tianshen.cash.model.ActivityBean;
 import com.tianshen.cash.model.CompanyInfoBean;
 import com.tianshen.cash.model.MyHomeBean;
-import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.api.GetMyHome;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -187,7 +183,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 rlMeTianshenService.setVisibility(View.GONE);
             }
         } else {
-            tvMeUserName.setText("未登录");
+            showNoLoginUI();
         }
     }
 
@@ -211,6 +207,16 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             tv_me_tianshen_friend.setText(shareString);
         }
     }
+
+    /**
+     * 显示没有登录
+     */
+    private void showNoLoginUI(){
+        tvMeUserName.setText("未登录");
+        tv_me_red_package.setText("");
+        tv_me_tianshen_friend.setText("");
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -396,21 +402,12 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
-        tvMeUserName.setText("未登录");
+        showNoLoginUI();
     }
 
     @Subscribe
     public void onTokenError(FinishCurrentActivityEvent event) {
-        tvMeUserName.setText("未登录");
-
+        showNoLoginUI();
     }
 
-    /**
-     * 收到了红包提现成功的消息
-     */
-    @Subscribe
-    public void onGetRedPackageSuccess(GetRedPackageEvent event) {
-        LogUtil.d("abc", "收到了红包提现成功的消息--刷新UI");
-        initMyInfo();
-    }
 }
