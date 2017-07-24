@@ -229,7 +229,9 @@ class RedPackageActivity : BaseActivity() {
                 .positiveText("去认证")
                 .negativeText("取消")
                 .onPositive { _, _ ->
-                    gotoActivity(mContext, AuthCenterActivity::class.java, null)
+                    val bundle = Bundle()
+                    bundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false)
+                    gotoActivity(mContext, AuthCenterActivity::class.java, bundle)
                 }
                 .onNegative { _, _ ->
                 }
