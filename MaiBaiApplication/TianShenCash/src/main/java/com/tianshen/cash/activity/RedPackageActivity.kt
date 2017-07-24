@@ -163,7 +163,7 @@ class RedPackageActivity : BaseActivity() {
 
         //设置提现按钮是否可以点击
 
-        tv_get_red_package.isEnabled = withdrawals_money.toFloat() > min_withdrawals.toFloat()
+        tv_get_red_package.isEnabled = withdrawals_money.toFloat() >= min_withdrawals.toFloat()
 
         tv_withdrawals_money.text = withdrawals_money
         tv_all_income.text = all_income
