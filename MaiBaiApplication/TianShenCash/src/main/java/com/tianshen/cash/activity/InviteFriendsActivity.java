@@ -153,7 +153,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             showDataErrorTip();
             return;
         }
-        mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (120 * density + 0.5f));
+        mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
         inviteBottomDialog = new InviteBottomDialog(this, listener).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl);
         inviteBottomDialog.show();
     }

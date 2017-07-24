@@ -128,17 +128,17 @@
 
         <ImageView
             android:id="@+id/iv_qrcode"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="14dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="8dp"
             android:text="@string/invite_share_dialog_text"
             android:textColor="@color/global_txt_black4"
             android:textSize="14sp" />
