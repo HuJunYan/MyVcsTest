@@ -126,12 +126,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
         boolean login = TianShenUserUtil.isLogin(mContext);
         if (login) {
             initMyInfo();
         }
     }
-
 
     @Override
     protected void setListensers() {
@@ -153,7 +158,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetMyHome getMyHome = new GetMyHome(mContext);
-            getMyHome.myHome(jsonObject, null, true, new BaseNetCallBack<MyHomeBean>() {
+            getMyHome.myHome(jsonObject, null, false, new BaseNetCallBack<MyHomeBean>() {
                 @Override
                 public void onSuccess(MyHomeBean bean) {
                     refreshUI(bean);
