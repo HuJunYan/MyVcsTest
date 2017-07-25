@@ -274,7 +274,7 @@ class RedPackageActivity : BaseActivity() {
 
         view.tv_dialog_ok.setOnClickListener {
             var verify_code = view.et_dialog_verify_code.text.toString().trim()
-            getMoney(verify_code, mRedPackageBean?.data?.withdrawals_money!!)
+            getMoney(verify_code, view.tv_dialog_ok, mRedPackageBean?.data?.withdrawals_money!!)
             mVerifyCodeDialog.dismiss()
         }
 
@@ -332,14 +332,14 @@ class RedPackageActivity : BaseActivity() {
     /**
      * 红包提现
      */
-    private fun getMoney(verify_code: String, withdrawals_money: String) {
+    private fun getMoney(verify_code: String, view: View, withdrawals_money: String) {
         var getInviteWithDrawals = GetInviteWithDrawals(mContext)
         var jsonObject = JSONObject()
         var userId = TianShenUserUtil.getUserId(mContext)
         jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
         jsonObject.put("verify_code", verify_code)
         jsonObject.put("withdrawals_money", withdrawals_money)
-        getInviteWithDrawals.inviteWithDrawals(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
+        getInviteWithDrawals.inviteWithDrawals(jsonObject, view, true, object : BaseNetCallBack<PostDataBean> {
             override fun onSuccess(paramT: PostDataBean?) {
                 initRedPackageData()
             }
