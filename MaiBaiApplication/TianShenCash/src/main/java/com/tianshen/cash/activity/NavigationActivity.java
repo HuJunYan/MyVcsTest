@@ -162,7 +162,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                     String explain = paramT.getData().getIntroduction();//更新说明
                     String upgradeType = paramT.getData().getForce_upgrade();//更新类型
                     String is_ignore = paramT.getData().getIs_ignore();//是否忽略升级
-                    if ("1".equals(is_ignore)) {
+                    if ("1".equals(is_ignore)) {//当前是最新版本
                         gotoMainAcitivity();
                     } else {
                         UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType, NavigationActivity.this);
