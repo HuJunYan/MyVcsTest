@@ -66,7 +66,7 @@ public class PermissionUtils {
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
                     ResponseBean responseBean = (ResponseBean) GsonUtil.json2bean(result, ResponseBean.class);
-                    showPermissionWithoutStep(responseBean.getMsg());
+//                    showPermissionWithoutStep(responseBean.getMsg());
                 }
             });
         }catch (Exception e){
