@@ -319,7 +319,7 @@ public class IDCardScanActivity extends Activity implements
     private void showOpenTipDialog() {
         final Dialog dialog = new AlertDialog.Builder(mContext, R.style.dialog_input_by_hand).create();
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_try_input_by_hand, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         Button bt_continue = (Button) view.findViewById(R.id.bt_continue);
         Button bt_active = (Button) view.findViewById(R.id.bt_active);
         bt_continue.setOnClickListener(new OnClickListener() {

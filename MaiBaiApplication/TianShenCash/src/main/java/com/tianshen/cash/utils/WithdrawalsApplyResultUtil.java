@@ -32,7 +32,7 @@ public class WithdrawalsApplyResultUtil {
     public void showSuccessDialog(String amount){
         final Dialog dialog = new AlertDialog.Builder(context, R.style.withdrawals_diaog).create();
         View view = LayoutInflater.from(context).inflate(R.layout.view_dialog_withdrawals_success, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         TextView tv_amount=(TextView)view.findViewById(R.id.tv_amount);
         TextView tv_amount_small=(TextView)view.findViewById(R.id.tv_amount_small);
         Button bt_get_money=(Button)view.findViewById(R.id.bt_get_money);
@@ -55,7 +55,7 @@ public class WithdrawalsApplyResultUtil {
     public void showBorrowTerm(String amount){
         final Dialog dialog = new AlertDialog.Builder(context, R.style.withdrawals_diaog).create();
         View view = LayoutInflater.from(context).inflate(R.layout.view_dialog_add_borrow_tem, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         TextView tv_amount=(TextView)view.findViewById(R.id.tv_amount);
         TextView tv_amount_small=(TextView)view.findViewById(R.id.tv_amount_small);
         Button bt_get_money=(Button)view.findViewById(R.id.bt_get_money);
@@ -99,7 +99,7 @@ public class WithdrawalsApplyResultUtil {
     public void showFailDialog(String content, final boolean isMachine){
         final Dialog dialog = new AlertDialog.Builder(context, R.style.withdrawals_diaog).create();
         View view = LayoutInflater.from(context).inflate(R.layout.view_dialog_withdrawals_fail, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         TextView tv_content=(TextView)view.findViewById(R.id.tv_content);
         Button bt_confirm=(Button)view.findViewById(R.id.bt_confirm);
         tv_content.setText(content);

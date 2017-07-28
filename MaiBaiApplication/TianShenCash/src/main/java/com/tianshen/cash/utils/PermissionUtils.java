@@ -78,7 +78,7 @@ public class PermissionUtils {
         List<PermissionHintItemBean> list = paramT.getData().getOptions();
         final Dialog dialog = new AlertDialog.Builder(mContext, R.style.permission_without_step_dialog).create();
         View view = LayoutInflater.from(mContext).inflate(R.layout.view_dialog_permission, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         ListView listView = (ListView) view.findViewById(R.id.list_dialog_item);
         listView.setDivider(null);
         PermissionDialogAdapter adapter = new PermissionDialogAdapter(mContext, list);
@@ -113,7 +113,7 @@ public class PermissionUtils {
     public void showPermissionWithoutStep(String message){
         final Dialog dialog = new AlertDialog.Builder(mContext, R.style.permission_without_step_dialog).create();
         View view= LayoutInflater.from(mContext).inflate(R.layout.view_dialog_permission_without_step, null);
-        view.getBackground().setAlpha(100);//0~255透明度值
+        view.getBackground().mutate().setAlpha(100);//0~255透明度值
         Button bt_cancel=(Button)view.findViewById(R.id.bt_cancel);
         TextView tv_content=(TextView)view.findViewById(R.id.tv_content);
         if(!"".equals(message)&&message!=null){
