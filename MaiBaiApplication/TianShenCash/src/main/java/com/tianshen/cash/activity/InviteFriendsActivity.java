@@ -97,7 +97,6 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-                refreshUI();
             }
         });
     }
@@ -243,15 +242,6 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     public void onWeChatShareEvent(WechatShareEvent event) {
         if (inviteBottomDialog != null) {
             inviteBottomDialog.cancel();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mQRBitmap != null && !mQRBitmap.isRecycled()) {
-            mQRBitmap.recycle();
-            mQRBitmap = null;
         }
     }
 }
