@@ -64,6 +64,8 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     private float density;
     private String mActivityId;
     private String mTitle;
+    private String shareTitle;
+    private String shareDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                     mRuleList = data.activity_list;
                     mRankList = data.top_list;
                     mTitle = data.title;
+                    shareTitle = data.share_title;
+                    shareDescription = data.share_description;
                 }
                 refreshUI();
             }
@@ -153,7 +157,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, listener).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl);
+        inviteBottomDialog = new InviteBottomDialog(this, listener,shareTitle,shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl);
         inviteBottomDialog.show();
     }
 
@@ -182,7 +186,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         wbShareHandler = new WbShareHandler(activity);
         wbShareHandler.registerApp();
         WeiboMultiMessage weiboMultiMessage = new WeiboMultiMessage();
-        weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(getResources().getString(R.string.invite_share_text_title) + mShareUrl);
+        weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(shareTitle + mShareUrl);
         weiboMultiMessage.imageObject = TianShenShareUtils.getImageObj(this);
 //        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, getResources().getString(R.string.invite_share_text_title), getResources().getString(R.string.invite_share_text_description));
         wbShareHandler.shareMessage(weiboMultiMessage, false);

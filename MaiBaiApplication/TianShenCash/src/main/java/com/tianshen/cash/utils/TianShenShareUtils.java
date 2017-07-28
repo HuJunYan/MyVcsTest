@@ -22,7 +22,6 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.idcard.util.Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,14 +50,16 @@ public class TianShenShareUtils {
      * 分享到qq
      *
      * @param mContext
-     * @param url      分享的url
+     * @param url              分享的url
+     * @param shareTitle
+     * @param shareDescription
      */
-    public static void shareToQQ(Activity mContext, String url, IUiListener listener) {
+    public static void shareToQQ(Activity mContext, String url, IUiListener listener, String shareTitle, String shareDescription) {
         Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, mContext);
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, mContext.getResources().getString(R.string.invite_share_text_title));
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, mContext.getResources().getString(R.string.invite_share_text_description));
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTitle);
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareDescription);
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
         //本地url 或者网上的图片url
 //        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
@@ -89,10 +90,12 @@ public class TianShenShareUtils {
      * 分享到微信 /朋友圈
      *
      * @param context
-     * @param flag    分享到微信或者朋友圈 标志 {@link GlobalParams#SHARE_TO_WECHAT_SESSION}
-     *                {@link GlobalParams#SHARE_TO_WECHAT_TIMELINE}
+     * @param flag             分享到微信或者朋友圈 标志 {@link GlobalParams#SHARE_TO_WECHAT_SESSION}
+     *                         {@link GlobalParams#SHARE_TO_WECHAT_TIMELINE}
+     * @param shareTitle
+     * @param shareDescription
      */
-    public static void shareToWx(Context context, int flag, String mShareUrl) {
+    public static void shareToWx(Context context, int flag, String mShareUrl, String shareTitle, String shareDescription) {
         if (!isWeixinAvilible(context)) {
             ToastUtil.showToast(context, "请先安装微信");
             return;
@@ -116,8 +119,8 @@ public class TianShenShareUtils {
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = mShareUrl;
         WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = context.getResources().getString(R.string.invite_share_text_title);
-        msg.description = context.getResources().getString(R.string.invite_share_text_description);
+        msg.title = shareTitle;
+        msg.description = shareDescription;
         Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
         bmp.recycle();

@@ -32,14 +32,18 @@ public class InviteBottomDialog implements View.OnClickListener {
     private IUiListener listener;
     private ShareWeiboListener shareWeiboListener;
     private String mShareUrl;
+    private String shareTitle;
+    private String shareDescription;
 
     /**
      * @param context
      * @param listener qq分享回调监听
      */
-    public InviteBottomDialog(Activity context, IUiListener listener) {
+    public InviteBottomDialog(Activity context, IUiListener listener, String shareTitle, String shareDescription) {
         mContext = context;
         this.listener = listener;
+        this.shareTitle = shareTitle;
+        this.shareDescription = shareDescription;
         initDialog(context);
 
     }
@@ -100,15 +104,15 @@ public class InviteBottomDialog implements View.OnClickListener {
     }
 
     private void shareToWeChatSession() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION, mShareUrl);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION, mShareUrl, shareTitle, shareDescription);
     }
 
     private void shareToWeChatTimeline() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE, mShareUrl);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE, mShareUrl, shareTitle, shareDescription);
     }
 
     private void shareToQQ() {
-        TianShenShareUtils.shareToQQ(mContext, mShareUrl, listener);
+        TianShenShareUtils.shareToQQ(mContext, mShareUrl, listener, shareTitle, shareDescription);
     }
 
     /**
