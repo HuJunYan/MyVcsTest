@@ -270,6 +270,7 @@
         <activity
             android:name=".activity.RedPackageActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".service.UploadLogService"
             android:exported="false" />
@@ -309,6 +310,9 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.RegisteActivity2"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

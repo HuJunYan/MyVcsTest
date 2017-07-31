@@ -88,4 +88,11 @@
     <!--邀请好友字体颜色-->
     <color name="invite_friends_text_color">#9C6832</color>
     <color name="invite_friends_red_package_color">#FE0000</color>
+
+
+    <color name="edit_text_baseline_color">#E0E0E0</color>
+    <color name="edit_text_hint_color">#969696</color>
+    <color name="argument_color">#888888</color>
+    <color name="forget_pwd_color">#40A1F7</color>
+
 </resources>
