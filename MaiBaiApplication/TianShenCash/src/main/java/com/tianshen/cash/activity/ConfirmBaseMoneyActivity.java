@@ -78,6 +78,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
     @BindView(R.id.tv_confirm_base_protocol)
     TextView tv_confirm_base_protocol;
+    @BindView(R.id.tv_confirm_protocol_2)
+    TextView tv_confirm_protocol_2;
 
     private OrderConfirmBean mOrderConfirmBean;
 
@@ -112,6 +114,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
         tv_confirm_base_protocol.setOnClickListener(this);
+        tv_confirm_protocol_2.setOnClickListener(this);
     }
 
     /**
@@ -191,6 +194,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.tv_confirm_base_protocol:
                 gotoWebActivity();
+                break;
+            case R.id.tv_confirm_protocol_2:
+                ToastUtil.showToast(this, "居间协议");
                 break;
         }
     }
