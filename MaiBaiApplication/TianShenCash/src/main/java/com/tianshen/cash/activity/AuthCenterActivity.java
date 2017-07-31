@@ -175,6 +175,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
     private void onClickPost() {
         if (mIsAllAuthOK) {
+            EventBus.getDefault().post(new AuthCenterBackEvent());
             backActivity();
         } else {
             ToastUtil.showToast(mContext, "请先认证!");
