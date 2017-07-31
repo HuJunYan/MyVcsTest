@@ -1,8 +1,13 @@
 package com.tianshen.cash.utils;
 
+import android.app.Activity;
 import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.tianshen.cash.activity.RegisteActivity2;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -64,4 +69,17 @@ public class RomUtils {
         return result;
     }
 
+    public static void setStatusBarDarkMode(boolean darkmode, @NotNull Activity activity) {
+        Class<? extends Window> clazz = activity.getWindow().getClass();
+        try {
+            int darkModeFlag = 0;
+            Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+            extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

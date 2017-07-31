@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/global_bg_white">
 
-    <include layout="@layout/layout_back" />
+    <include
+        android:id="@+id/in_back"
+        layout="@layout/layout_back" />
 
     <FrameLayout
         android:id="@+id/ff_login"
@@ -52,7 +54,7 @@
         android:layout_marginRight="37dp"
         app:login_edit_hint="密码"
         app:login_edit_img_left="@drawable/regist_password"
-        app:login_edit_inputType="number" />
+        app:login_edit_inputType="password" />
 
     <TextView
         android:id="@+id/tv_login"
@@ -77,6 +79,6 @@
         android:clickable="true"
         android:gravity="center"
         android:textColor="@color/argument_color"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>
