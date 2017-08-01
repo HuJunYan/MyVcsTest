@@ -23,6 +23,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
+import com.tianshen.cash.activity.LoanHistoryActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.RedPackageActivity;
@@ -232,7 +233,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;
                 }
-                gotoActivity(mContext, ConsumptionRecordActivity.class, null);
+                gotoActivity(mContext, LoanHistoryActivity.class, null);
                 break;
             case R.id.rl_me_bank_card:
                 if (!TianShenUserUtil.isLogin(mContext)) {

@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.WithdrawalsRecordBean;
-import com.tianshen.cash.model.WithdrawalsRecordItemBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -14,7 +13,6 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -30,29 +28,6 @@ public class GetWithdrawalsRecord extends NetBase {
         super(context);
         mContext = context;
         mUrl = NetConstantValue.getWithdrawalsRecordURL();
-    }
-
-    public void getWithdrawalsBill(JSONObject jsonObject, final BaseNetCallBack<WithdrawalsRecordBean> mWithdrawalsRecordCallBack) {
-        try {
-            mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
-            if (mJSONObject == null) {
-                return;
-            }
-            getDataFromServerByPost(mUrl, mJSONObject, null, true, new CallBack() {
-                @Override
-                public void onSuccess(String result, String url) {
-                    successHandle(result, url, mWithdrawalsRecordCallBack);
-                }
-
-                @Override
-                public void onFailure(String result, int errorType, int errorCode) {
-                    failureHandle(result, errorType, errorCode, mWithdrawalsRecordCallBack);
-                }
-            });
-        } catch (Exception e) {
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-            e.printStackTrace();
-        }
     }
 
     public void getWithdrawalsBill(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<WithdrawalsRecordBean> mWithdrawalsRecordCallBack) {
