@@ -3,17 +3,19 @@ package com.tianshen.cash.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.FinishCurrentActivityEvent;
+import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.VerifyCodeBean;
 import com.tianshen.cash.net.api.GetVerifyCode;
+import com.tianshen.cash.net.api.ResetPassword;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RegexUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -22,22 +24,22 @@ import com.tianshen.cash.view.ChangeInterface;
 import com.tianshen.cash.view.MyEditText;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ForgetPasswordActivity extends BaseActivity implements View.OnClickListener, MyEditText.MyEditTextListener {
     private String mobile = "", verityCode = "";
-    private MyEditText et_mobile, et_card;
-    private Button bt_next;
+    private MyEditText et_mobile, et_card, et_set_new_pwd;
+    private TextView bt_next;
     private GetVerifyCode mGetVerifyCodeAction;
-    private Bundle bundle;
+    private TextView tv_reset_pwd_back;
     private final int SETTING_PASSWORD_SUCCESS = 3, REQUEST_SETING_PASSWORD = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGetVerifyCodeAction = new GetVerifyCode(this);
-        bundle = getIntent().getExtras();
     }
 
     @Override
@@ -48,13 +50,18 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     @Override
     protected void findViews() {
         et_mobile = (MyEditText) findViewById(R.id.et_mobile);
+        et_set_new_pwd = (MyEditText) findViewById(R.id.et_set_new_pwd);
+        tv_reset_pwd_back = (TextView) findViewById(R.id.tv_reset_pwd_back);
         et_card = (MyEditText) findViewById(R.id.et_card);
-        bt_next = (Button) findViewById(R.id.bt_next);
+        bt_next = (TextView) findViewById(R.id.bt_next);
+        bt_next.setClickable(false);
+        bt_next.setBackgroundResource(R.drawable.button_gray);
     }
 
     @Override
     protected void setListensers() {
         bt_next.setOnClickListener(this);
+        tv_reset_pwd_back.setOnClickListener(this);
         bt_next.setClickable(false);
         et_card.setListener(this);
         et_card.setChangeListener(new ChangeInterface() {
@@ -73,7 +80,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 if (verityCode.length() == 6 && mobile.length() == 11) {
                     if (RegexUtil.IsTelephone(mobile)) {
                         bt_next.setClickable(true);
-                        bt_next.setBackgroundResource(R.drawable.select_bt);
+                        bt_next.setBackgroundResource(R.drawable.shape_blue_corner);
                     }
                 } else {
                     bt_next.setClickable(false);
@@ -128,12 +135,19 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                     ToastUtil.showToast(mContext, "请输入验证码", Toast.LENGTH_SHORT);
                     return;
                 }
-                bundle.putString("mobile", mobile);
-                bundle.putString("verify_code", verityCode);
-                Intent intent = new Intent(mContext, ResetPwdActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, REQUEST_SETING_PASSWORD);
-                ((ForgetPasswordActivity) mContext).overridePendingTransition(R.anim.push_right_in, R.anim.not_exit_push_left_out);
+                String password = et_set_new_pwd.getEditTextString();
+                if (password.isEmpty()) {
+                    ToastUtil.showToast(mContext, "密码不能为空", Toast.LENGTH_SHORT);
+                    return;
+                }
+                if (password.length() > 5 && password.length() < 18) {
+                    changePassword(password, verityCode, mobile);
+                } else {
+                    ToastUtil.showToast(mContext, "密码为6~18位", Toast.LENGTH_SHORT);
+                }
+                break;
+            case R.id.tv_reset_pwd_back:
+                backActivity();
                 break;
         }
     }
@@ -143,7 +157,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     public boolean onRightClick(View view) {
         switch (view.getId()) {
             case R.id.et_card:
-                Log.d("ret", "onRightClick:11 ");
                 boolean login = TianShenUserUtil.isLogin(mContext);
                 if (login) {
                     String userPhoneNum = TianShenUserUtil.getUserPhoneNum(mContext);
@@ -176,11 +189,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         try {
             json = new JSONObject();
             json.put("mobile", et_mobile.getEditTextString());
-            if (GlobalParams.CHANGE_PAY_PASSWORD.equals(bundle.getString("type"))) {
-                json.put("type", "3");
-            } else {
-                json.put("type", "5");
-            }
+            json.put("type", "5");
         } catch (JSONException e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
@@ -197,6 +206,34 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             }
         });
         return true;
+    }
+
+
+    public void changePassword(final String password, String verityCode, String mobile) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("password", password);
+            json.put("verify_code", verityCode);
+            json.put("mobile", mobile);
+            ResetPassword resetPassword = new ResetPassword(mContext);
+            resetPassword.resetPassword(json, bt_next, true, new BaseNetCallBack<ResponseBean>() {
+                @Override
+                public void onSuccess(ResponseBean paramT) {
+                    UserUtil.setLoginPassword(mContext, password);
+                    ToastUtil.showToast(mContext, "密码设置成功", Toast.LENGTH_SHORT);
+                    TianShenUserUtil.clearUser(mContext);
+                    EventBus.getDefault().post(new FinishCurrentActivityEvent());
+                    gotoActivity(mContext, LoginActivity.class, null);
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    ToastUtil.showToast(mContext, "密码设置失败", Toast.LENGTH_SHORT);
+                }
+            });
+        } catch (Exception e) {
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
     }
 
 }

@@ -56,6 +56,7 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
         this.changeInterface = changeInterface;
         et_content.addTextChangedListener(new EditChangedListener());
     }
+
     private MyEditTextListener mListener;
 
 
@@ -129,15 +130,14 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
         et_content.setFocusable(isEdit);
     }
 
-    public void setHint(String hint){
+    public void setHint(String hint) {
         et_content.setHint(hint);
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        Log.d("ret", "hasFocus" + hasFocus);
         if (hasFocus) {
-            v_bottom.setBackgroundResource(R.color.shallow_blue);
+            v_bottom.setBackgroundResource(R.color.global_popular_color);
         } else {
             v_bottom.setBackgroundResource(R.color.light_gray);
         }
@@ -155,10 +155,11 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
         }
     }
 
-    public void startTimer(){
+    public void startTimer() {
         mTimer = new TimeCount(tv_right, 60000, 1000, "重新获取");
         mTimer.start();
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (leftWidth != 0) {
@@ -175,9 +176,10 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
         this.et_content.setInputType(inputType);
     }
 
-    public void setLength(int length){
+    public void setLength(int length) {
         this.et_content.setFilters(new InputFilter[]{new InputFilter.LengthFilter(length)});
     }
+
     public void setKeyListener(String typeHolder) {
 
         this.et_content.setKeyListener(DigitsKeyListener.getInstance(typeHolder));

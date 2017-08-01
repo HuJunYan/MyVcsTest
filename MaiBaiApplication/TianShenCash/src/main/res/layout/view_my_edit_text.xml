@@ -5,11 +5,12 @@
 
     <TextView
         android:id="@+id/tv_promp"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="25dp"
-        android:textColor="@color/black" />
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/global_txt_black5"
+        android:textSize="14sp" />
 
     <LinearLayout
         android:id="@+id/ll_right"
@@ -35,15 +36,16 @@
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
             android:background="@color/gray_line"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_right"
             android:layout_width="75dp"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:textColor="#FF1FA5DF"
-            android:visibility="gone"/>
+            android:gravity="center_horizontal"
+            android:textColor="#FFBA00"
+            android:textSize="14sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <EditText
@@ -56,6 +58,7 @@
         android:layout_toRightOf="@id/tv_promp"
         android:background="@null"
         android:textColorHint="@color/gray_line"
+        android:textCursorDrawable="@drawable/shape_my_new_edittext"
         android:textSize="14sp" />
 
     <View
