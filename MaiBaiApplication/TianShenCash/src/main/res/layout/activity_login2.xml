@@ -6,91 +6,103 @@
     android:layout_height="match_parent"
     android:background="@color/global_bg_white">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/ff_login"
+                android:layout_width="match_parent"
+                android:layout_height="235dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/regist_logo" />
+            </FrameLayout>
+
+            <com.tianshen.cash.view.MyNewLoginEditText
+                android:id="@+id/et_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/ff_login"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                app:login_edit_hint="手机号"
+                app:login_edit_img_left="@drawable/regist_phone"
+                app:login_edit_inputType="number" />
+
+            <com.tianshen.cash.view.MyNewLoginEditText
+                android:id="@+id/et_login_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/et_phone_number"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                app:login_edit_hint="密码"
+                app:login_edit_img_left="@drawable/regist_password"
+                app:login_edit_inputType="password" />
+
+            <TextView
+                android:id="@+id/tv_forget_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/et_login_pwd"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="13dp"
+                android:text="@string/forget_password"
+                android:textColor="@color/global_popular_color" />
+
+            <TextView
+                android:id="@+id/tv_login"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/tv_forget_pwd"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/shape_blue_corner"
+                android:gravity="center"
+                android:text="登录"
+                android:textColor="@color/global_bg_white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_regist"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/tv_login"
+                android:layout_marginLeft="37dp"
+                android:layout_marginRight="37dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_blue_corner2"
+                android:gravity="center"
+                android:text="注册"
+                android:textColor="@color/global_popular_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_service_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_regist"
+                android:layout_marginTop="44dp"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/argument_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </ScrollView>
+
     <include
         android:id="@+id/in_back"
         layout="@layout/layout_back" />
-
-    <FrameLayout
-        android:id="@+id/ff_login"
-        android:layout_width="match_parent"
-        android:layout_height="235dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/regist_logo" />
-    </FrameLayout>
-
-    <com.tianshen.cash.view.MyNewLoginEditText
-        android:id="@+id/et_phone_number"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/ff_login"
-        android:layout_marginLeft="37dp"
-        android:layout_marginRight="37dp"
-        app:login_edit_hint="手机号"
-        app:login_edit_img_left="@drawable/regist_phone"
-        app:login_edit_inputType="number" />
-
-    <com.tianshen.cash.view.MyNewLoginEditText
-        android:id="@+id/et_login_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/et_phone_number"
-        android:layout_marginLeft="37dp"
-        android:layout_marginRight="37dp"
-        app:login_edit_hint="密码"
-        app:login_edit_img_left="@drawable/regist_password"
-        app:login_edit_inputType="password" />
-
-    <TextView
-        android:id="@+id/tv_forget_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/et_login_pwd"
-        android:layout_marginRight="37dp"
-        android:layout_marginTop="13dp"
-        android:text="@string/forget_password"
-        android:textColor="@color/global_popular_color" />
-
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/tv_forget_pwd"
-        android:layout_marginLeft="37dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/shape_blue_corner"
-        android:gravity="center"
-        android:text="登录"
-        android:textColor="@color/global_bg_white"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tv_regist"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@id/tv_login"
-        android:layout_marginLeft="37dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_blue_corner2"
-        android:gravity="center"
-        android:text="注册"
-        android:textColor="@color/global_popular_color"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tv_service_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_regist"
-        android:layout_marginTop="44dp"
-        android:clickable="true"
-        android:gravity="center"
-        android:textColor="@color/argument_color"
-        android:textSize="12sp" />
 </RelativeLayout>
