@@ -33,6 +33,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
 
     private int width = 0, height = 0;
     private TextView tv_code;
+    private TextView tv_about_back;
     private MyTextView mtv_check_code, mtv_service, mtv_resolve, mtv_test_version, mtv_weixin_num, mtv_test_uid;
     private UpdateManager mUpdateManager;
 
@@ -55,6 +56,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void findViews() {
         tv_code = (TextView) findViewById(R.id.tv_code);
+        tv_about_back = (TextView) findViewById(R.id.tv_about_back);
         mtv_check_code = (MyTextView) findViewById(R.id.mtv_check_code);
         mtv_service = (MyTextView) findViewById(R.id.mtv_service);
         mtv_resolve = (MyTextView) findViewById(R.id.mtv_resolve);
@@ -66,6 +68,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void setListensers() {
         mtv_check_code.setOnClickListener(this);
+        tv_about_back.setOnClickListener(this);
     }
 
     @Override
@@ -73,6 +76,9 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.mtv_check_code:
                 checkUpdate();
+                break;
+            case R.id.tv_about_back:
+                backActivity();
                 break;
         }
     }
@@ -136,7 +142,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mtv_test_uid.setTv_right("用户ID:" + TianShenUserUtil.getUserId(mContext));
         }
         mtv_resolve.setTv_right(width + "*" + height);
-        tv_code.setText("当前版本 " + getVersion());
+        tv_code.setText("版本:" + getVersion());
 
         String weiXin = TianShenUserUtil.getWeiXin(mContext);
         mtv_weixin_num.setTv_right(weiXin);

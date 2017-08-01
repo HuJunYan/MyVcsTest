@@ -4,21 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/shadow_color"
+    android:background="@color/global_bg_gray"
     android:orientation="vertical"
     tools:context="com.tianshen.cash.activity.AboutMaibeiActivity">
 
-    <com.tianshen.cash.view.TitleBar
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:tbImage="@drawable/icon_houtui"
-        app:tbText="关于天神贷"></com.tianshen.cash.view.TitleBar>
+        android:layout_height="@dimen/title_height"
+        android:background="@color/global_bg_white">
+
+        <TextView
+            android:id="@+id/tv_about_back"
+            style="@style/title_back_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/title_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="关于天神贷" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
 
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/about_qutiqian_logo" />
 
     <TextView
@@ -26,15 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:text="当前版本"
-        android:textSize="16sp" />
+        android:layout_marginTop="12dp"
+        android:textColor="@color/global_popular_color"
+        android:text="版本:"
+        android:textSize="12sp" />
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_check_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="36dp"
         app:setting_img_right="@drawable/icon_my_next"
         app:setting_tv_content="检查更新"></com.tianshen.cash.view.MyTextView>
 
