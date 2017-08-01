@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_registe2.*
 import org.json.JSONException
 import org.json.JSONObject
 
-class RegisteActivity2 : BaseActivity() {
+class RegisteActivity : BaseActivity() {
 
 
     var str = "注册代表你同意\n天神贷用户服务协议"

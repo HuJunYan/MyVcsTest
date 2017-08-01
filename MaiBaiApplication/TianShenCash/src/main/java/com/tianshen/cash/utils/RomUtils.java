@@ -1,11 +1,8 @@
 package com.tianshen.cash.utils;
 
 import android.app.Activity;
-import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.tianshen.cash.activity.RegisteActivity2;
 
 import org.jetbrains.annotations.NotNull;
 

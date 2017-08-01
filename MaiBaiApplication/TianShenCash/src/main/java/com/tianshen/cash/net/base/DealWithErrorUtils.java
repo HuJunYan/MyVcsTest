@@ -12,7 +12,6 @@ import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.event.ServiceErrorEvent;
 import com.tianshen.cash.event.UpdateEvent;
-import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;

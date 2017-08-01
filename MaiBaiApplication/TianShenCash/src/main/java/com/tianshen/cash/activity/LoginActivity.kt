@@ -29,11 +29,12 @@ import com.tianshen.cash.utils.*
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_login2.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class LoginActivity2 : BaseActivity() {
+class LoginActivity : BaseActivity() {
     override fun setContentView(): Int = R.layout.activity_login2
     var str = "客服电话: 400-0000-8685"
     var hasTelephonePermission: Boolean? = false
@@ -52,7 +53,7 @@ class LoginActivity2 : BaseActivity() {
         val ss = SpannableStringBuilder(str)
         ss.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                ToastUtil.showToast(this@LoginActivity2, "haha")
+                ToastUtil.showToast(this@LoginActivity, "haha")
             }
 
             override fun updateDrawState(ds: TextPaint?) {
@@ -73,7 +74,7 @@ class LoginActivity2 : BaseActivity() {
         in_back.setOnClickListener { backActivity() }
         tv_login.setOnClickListener { loginHandle() }
         tv_forget_pwd.setOnClickListener { forgetPwd() }
-        tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity2::class.java, null) }
+        tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity::class.java, null) }
         initData()
         initHandler()
     }
@@ -131,7 +132,7 @@ class LoginActivity2 : BaseActivity() {
 
     fun initData() {
 
-        val rxPermissions = RxPermissions(this@LoginActivity2)
+        val rxPermissions = RxPermissions(this@LoginActivity)
         rxPermissions.request(Manifest.permission.READ_PHONE_STATE).subscribe { aBoolean ->
             if (aBoolean) {
                 val TelephonyMgr = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -220,5 +221,13 @@ class LoginActivity2 : BaseActivity() {
         if (RomUtils.isMIUI()) {
             RomUtils.setStatusBarDarkMode(true, this)
         }
+    }
+
+    /**
+     * 收到了在注册页面登录成功的消息
+     */
+    @Subscribe
+    fun onLoginSuccess(event: LoginSuccessEvent) {
+        backActivity()
     }
 }

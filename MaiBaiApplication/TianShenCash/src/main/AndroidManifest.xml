@@ -87,9 +87,6 @@
             android:name=".liveness.activity.LivenessActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.ForgetPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
@@ -198,10 +195,6 @@
         <activity
             android:name=".activity.InputVerificationActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.RegisteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
         <!-- 芝麻信用 -->
         <activity
             android:name="com.android.moblie.zmxy.antgroup.creditsdk.app.SDKActivity"
@@ -311,10 +304,10 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.RegisteActivity2"
+            android:name=".activity.RegisteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LoginActivity2"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
     </application>
 

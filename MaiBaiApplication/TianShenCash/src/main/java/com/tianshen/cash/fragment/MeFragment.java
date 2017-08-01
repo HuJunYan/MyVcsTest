@@ -39,7 +39,6 @@ import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.api.GetMyHome;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
