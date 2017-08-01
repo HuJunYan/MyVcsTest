@@ -41,7 +41,6 @@ class RegisteActivity : BaseActivity() {
     var str = "注册代表你同意\n天神贷用户服务协议"
     override fun setContentView(): Int = R.layout.activity_registe2
     override fun findViews() {
-        initRegisterOptions();
         initSpanString();
     }
 
@@ -64,23 +63,6 @@ class RegisteActivity : BaseActivity() {
         tv_argument.highlightColor = Color.TRANSPARENT
         tv_argument.setText(ss);
         tv_argument.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-
-    private fun initRegisterOptions() {
-        // 更改状态栏颜色
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = resources.getColor(android.R.color.white)
-
-            //底部导航栏
-            //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
-        }
-        if (RomUtils.isMIUI()) {
-            RomUtils.setStatusBarDarkMode(true, this)
-        }
     }
 
     override fun setListensers() {

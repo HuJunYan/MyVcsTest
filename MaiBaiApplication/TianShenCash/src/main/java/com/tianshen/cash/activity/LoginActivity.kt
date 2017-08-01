@@ -45,7 +45,6 @@ class LoginActivity : BaseActivity() {
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
     override fun findViews() {
-        initRegisterOptions();
         initSpanString();
     }
 
@@ -205,22 +204,6 @@ class LoginActivity : BaseActivity() {
         val bundle = Bundle()
         bundle.putString("type", GlobalParams.CHANGE_LOGIN_PASSWORD)
         gotoActivity(mContext, ForgetPasswordActivity::class.java, bundle)
-    }
-
-    private fun initRegisterOptions() {
-        // 更改状态栏颜色
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = resources.getColor(android.R.color.white)
-
-            //底部导航栏
-            //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
-        }
-        if (RomUtils.isMIUI()) {
-            RomUtils.setStatusBarDarkMode(true, this)
-        }
     }
 
     /**
