@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tianshen.cash.R;
@@ -26,10 +27,9 @@ import org.json.JSONObject;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener2 {
     private boolean isResume = true;
-    private Button bt_unregist;
+    private MyTextView bt_unregist;
     private MyTextView my_tv_changepassword;
-    private TitleBar titleBar;
-    private final int UNREGISTERE = 7;
+    private TextView tv_setting_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void findViews() {
-        bt_unregist = (Button) findViewById(R.id.bt_unregist);
-        titleBar = (TitleBar) findViewById(R.id.title_bar);
+        bt_unregist = (MyTextView) findViewById(R.id.bt_unregist);
+        tv_setting_back = (TextView) findViewById(R.id.tv_setting_back);
         my_tv_changepassword = (MyTextView) findViewById(R.id.my_tv_changepassword);
     }
 
     @Override
     protected void setListensers() {
         bt_unregist.setOnClickListener(this);
-        titleBar.setListener(this);
+        tv_setting_back.setOnClickListener(this);
         my_tv_changepassword.setOnClickListener(this);
     }
 
@@ -61,6 +61,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.bt_unregist:
                 logout();
+                break;
+            case R.id.tv_setting_back:
+                backActivity();
                 break;
             case R.id.my_tv_changepassword:
                 if (isResume) {
