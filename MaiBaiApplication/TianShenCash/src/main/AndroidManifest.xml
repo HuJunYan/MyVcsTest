@@ -313,6 +313,9 @@
         <activity
             android:name=".activity.RegisteActivity2"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginActivity2"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

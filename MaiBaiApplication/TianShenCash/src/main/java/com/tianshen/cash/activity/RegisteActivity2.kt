@@ -87,6 +87,7 @@ class RegisteActivity2 : BaseActivity() {
     override fun setListensers() {
         tv_login.setOnClickListener { register() }
         et_phone_number.setListener { getVerityCode() }
+        in_back.setOnClickListener { backActivity() }
     }
 
     private fun register() {
