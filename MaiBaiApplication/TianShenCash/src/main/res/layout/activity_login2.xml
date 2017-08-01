@@ -53,7 +53,7 @@
         android:layout_marginRight="37dp"
         android:layout_marginTop="13dp"
         android:text="@string/forget_password"
-        android:textColor="@color/forget_pwd_color" />
+        android:textColor="@color/global_popular_color" />
 
     <TextView
         android:id="@+id/tv_login"
@@ -80,7 +80,7 @@
         android:background="@drawable/shape_blue_corner2"
         android:gravity="center"
         android:text="注册"
-        android:textColor="@color/forget_pwd_color"
+        android:textColor="@color/global_popular_color"
         android:textSize="14sp" />
 
     <TextView

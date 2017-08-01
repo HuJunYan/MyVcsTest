@@ -26,9 +26,7 @@ import com.tianshen.cash.net.api.SignIn
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.net.base.UserUtil
 import com.tianshen.cash.utils.*
-import com.tianshen.cash.view.ChangeInterface
 import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login2.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONException
@@ -63,7 +61,7 @@ class LoginActivity2 : BaseActivity() {
             }
         }, 6, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //span 字体颜色
-        ss.setSpan(ForegroundColorSpan(resources.getColor(R.color.forget_pwd_color)), 6, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(ForegroundColorSpan(resources.getColor(R.color.global_popular_color)), 6, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         // span 默认背景颜色
         ss.setSpan(BackgroundColorSpan(Color.TRANSPARENT), 6, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_service_phone.highlightColor = Color.TRANSPARENT

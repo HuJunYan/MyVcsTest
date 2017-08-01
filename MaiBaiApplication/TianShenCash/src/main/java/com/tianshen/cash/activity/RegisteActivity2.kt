@@ -31,7 +31,6 @@ import com.tianshen.cash.utils.RegexUtil
 import com.tianshen.cash.utils.RomUtils
 import com.tianshen.cash.utils.ToastUtil
 import com.umeng.analytics.MobclickAgent
-import kotlinx.android.synthetic.main.activity_registe.*
 import kotlinx.android.synthetic.main.activity_registe2.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -59,7 +58,7 @@ class RegisteActivity2 : BaseActivity() {
             }
         }, 11, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         //span 字体颜色
-        ss.setSpan(ForegroundColorSpan(resources.getColor(R.color.forget_pwd_color)), 11, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(ForegroundColorSpan(resources.getColor(R.color.global_popular_color)), 11, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         // span 默认背景颜色
         ss.setSpan(BackgroundColorSpan(Color.TRANSPARENT), 11, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_argument.highlightColor = Color.TRANSPARENT

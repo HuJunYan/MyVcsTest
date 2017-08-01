@@ -383,10 +383,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了立即申请按钮
      */
     private void onClickApply() {
-//        gotoActivity(getActivity(), LoginActivity2.class, null);
-//        if (true) {
-//            return;
-//        }
+        gotoActivity(getActivity(), LoginActivity2.class, null);
+        if (true) {
+            return;
+        }
         if (mUserConfig == null || mUserConfig.getData() == null) {
             ToastUtil.showToast(getActivity(), "数据错误");
             return;
