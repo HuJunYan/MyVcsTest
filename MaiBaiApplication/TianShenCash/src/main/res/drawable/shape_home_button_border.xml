@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 设置背景色 -->
-    <solid android:color="@color/global_bg_green" />
+    <solid android:color="@color/global_popular_color" />
 
     <!-- 设置四个圆角的半径 -->
     <corners

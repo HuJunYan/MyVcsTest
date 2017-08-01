@@ -62,7 +62,7 @@ public class AuthCenterAdapter extends RecyclerView.Adapter<AuthCenterAdapter.Vi
                 viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_orange));
             } else {
                 viewHolder.tv_auth_center_status_item.setText("已认证");
-                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_green));
+                viewHolder.tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_popular_color));
             }
             Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_arraw_right);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
