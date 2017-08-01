@@ -1,5 +1,6 @@
 package com.tianshen.cash.utils;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -11,7 +12,7 @@ public class TimeCount extends CountDownTimer {
     private Button button;
     private TextView textView;
     private String msg;
-
+    private ColorStateList color;
     public TimeCount(long millisInFuture, long countDownInterval) {
         this(null, millisInFuture, countDownInterval, "");
     }
@@ -20,6 +21,9 @@ public class TimeCount extends CountDownTimer {
         super(millisInFuture, countDownInterval);
         if (textView != null) {
             textView.setClickable(false);
+        }
+        if (textView != null){
+            this.color = textView.getTextColors();
         }
         this.textView = textView;
         this.msg = msg;
@@ -37,7 +41,7 @@ public class TimeCount extends CountDownTimer {
     public void onFinish() {
         if (textView != null) {
             textView.setClickable(true);
-            textView.setTextColor(Color.parseColor("#FF1FA5DF"));
+            textView.setTextColor(color);
             textView.setText(msg);
         }
     }

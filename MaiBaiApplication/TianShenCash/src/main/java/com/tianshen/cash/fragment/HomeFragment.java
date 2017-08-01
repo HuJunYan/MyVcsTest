@@ -40,6 +40,7 @@ import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.activity.RegisteActivity2;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
@@ -381,7 +382,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了立即申请按钮
      */
     private void onClickApply() {
-
+        gotoActivity(getActivity(), RegisteActivity2.class, null);
+        if (true) {
+            return;
+        }
         if (mUserConfig == null || mUserConfig.getData() == null) {
             ToastUtil.showToast(getActivity(), "数据错误");
             return;

@@ -136,7 +136,7 @@ public class MyNewLoginEditText extends LinearLayout implements View.OnFocusChan
     public void onFocusChange(View v, boolean hasFocus) {
         Log.d("ret", "hasFocus" + hasFocus);
         if (hasFocus) {
-            view_line.setBackgroundResource(R.color.colorAccent);
+            view_line.setBackgroundResource(R.color.forget_pwd_color);
         } else {
             view_line.setBackgroundResource(R.color.edit_text_baseline_color);
         }

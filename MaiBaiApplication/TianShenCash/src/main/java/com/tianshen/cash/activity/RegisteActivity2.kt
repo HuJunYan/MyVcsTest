@@ -30,8 +30,6 @@ import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.RegexUtil
 import com.tianshen.cash.utils.RomUtils
 import com.tianshen.cash.utils.ToastUtil
-import com.tianshen.cash.view.MyEditText
-import com.tianshen.cash.view.MyNewLoginEditText
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_registe.*
 import kotlinx.android.synthetic.main.activity_registe2.*
@@ -88,6 +86,7 @@ class RegisteActivity2 : BaseActivity() {
 
     override fun setListensers() {
         tv_login.setOnClickListener { register() }
+        et_phone_number.setListener { getVerityCode() }
     }
 
     private fun register() {
@@ -150,8 +149,8 @@ class RegisteActivity2 : BaseActivity() {
         }
         try {
             val json = JSONObject()
-            json.put("mobile", et_mobile.getEditTextString().trim({ it <= ' ' }))
-            json.put("type", 4.toString() + "")
+            json.put("mobile", et_phone_number.text.trim())
+            json.put("type", 4.toString())
             val mGetVerifyCodeAction = GetVerifyCode(mContext)
             mGetVerifyCodeAction.getVerifyCode(json, object : BaseNetCallBack<VerifyCodeBean> {
                 override fun onSuccess(verifyCodeBean: VerifyCodeBean) {
@@ -159,7 +158,7 @@ class RegisteActivity2 : BaseActivity() {
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
-                    et_verify_code.finishTimer()
+                    et_phone_number.finishTimer()
                 }
             })
         } catch (e: JSONException) {
