@@ -19,6 +19,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
 
+import com.tianshen.cash.utils.RomUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class MyApplicationLike extends MultiDexApplication {
 
     private static MyApplicationLike mApplication;
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<>();
+    public static boolean isMIUI;
 
     @Override
     public void onTerminate() {
@@ -51,6 +53,7 @@ public class MyApplicationLike extends MultiDexApplication {
         FileDownloader.init(mApplication);
         //初始化bugly
         CrashReport.initCrashReport(mApplication, "64c5b81f2f", false);
+        isMIUI = RomUtils.isMIUI();
     }
 
     private void initLogger() {
