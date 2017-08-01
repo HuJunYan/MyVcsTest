@@ -67,7 +67,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.my_tv_changepassword:
                 if (isResume) {
-                    gotoActivity(mContext, ChangePwdSelectActivity.class, null);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type", GlobalParams.CHANGE_LOGIN_PASSWORD);
+                    gotoActivity(mContext, ForgetPasswordActivity.class, bundle);
                 } else {
                     ToastUtil.showToast(mContext, "您未登录，不可修改密码", Toast.LENGTH_SHORT);
                 }
