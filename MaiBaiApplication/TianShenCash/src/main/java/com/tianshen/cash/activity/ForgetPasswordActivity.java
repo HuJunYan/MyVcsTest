@@ -54,15 +54,12 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         tv_reset_pwd_back = (TextView) findViewById(R.id.tv_reset_pwd_back);
         et_card = (MyEditText) findViewById(R.id.et_card);
         bt_next = (TextView) findViewById(R.id.bt_next);
-        bt_next.setClickable(false);
-        bt_next.setBackgroundResource(R.drawable.button_gray);
     }
 
     @Override
     protected void setListensers() {
         bt_next.setOnClickListener(this);
         tv_reset_pwd_back.setOnClickListener(this);
-        bt_next.setClickable(false);
         et_card.setListener(this);
         et_card.setChangeListener(new ChangeInterface() {
             @Override
@@ -77,15 +74,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             @Override
             public void chageAfter(Editable s) {
                 verityCode = s.toString();
-                if (verityCode.length() == 6 && mobile.length() == 11) {
-                    if (RegexUtil.IsTelephone(mobile)) {
-                        bt_next.setClickable(true);
-                        bt_next.setBackgroundResource(R.drawable.shape_blue_corner);
-                    }
-                } else {
-                    bt_next.setClickable(false);
-                    bt_next.setBackgroundResource(R.drawable.button_gray);
-                }
             }
         });
         et_mobile.setChangeListener(new ChangeInterface() {
@@ -102,19 +90,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
             @Override
             public void chageAfter(Editable s) {
                 mobile = s.toString();
-                if (mobile.length() == 11) {
-                    if (RegexUtil.IsTelephone(mobile)) {
-                        if (verityCode.length() == 6) {
-                            bt_next.setClickable(true);
-                            bt_next.setBackgroundResource(R.drawable.select_bt);
-                        }
-                    } else {
-                        ToastUtil.showToast(mContext, "不是合法的手机号");
-                    }
-                } else {
-                    bt_next.setClickable(false);
-                    bt_next.setBackgroundResource(R.drawable.button_gray);
-                }
             }
         });
     }
