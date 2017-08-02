@@ -2,7 +2,9 @@ package com.tianshen.cash.activity
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -27,6 +29,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.net.base.UserUtil
 import com.tianshen.cash.utils.*
 import com.umeng.analytics.MobclickAgent
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_login2.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -37,6 +40,7 @@ import java.util.*
 class LoginActivity : BaseActivity() {
     override fun setContentView(): Int = R.layout.activity_login2
     var str = "客服电话: 400-0000-8685"
+    var phoneNum = "40000008685"
     var hasTelephonePermission: Boolean? = false
     var mUniqueId: String? = null
     var mobile: String? = null
@@ -52,7 +56,7 @@ class LoginActivity : BaseActivity() {
         val ss = SpannableStringBuilder(str)
         ss.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                ToastUtil.showToast(this@LoginActivity, "haha")
+                callPhone()
             }
 
             override fun updateDrawState(ds: TextPaint?) {
@@ -67,6 +71,18 @@ class LoginActivity : BaseActivity() {
         tv_service_phone.highlightColor = Color.TRANSPARENT
         tv_service_phone.setText(ss);
         tv_service_phone.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    //打电话
+    private fun callPhone() {
+        val rxPermissions = RxPermissions(this)
+        rxPermissions.request(Manifest.permission.CALL_PHONE).subscribe(Consumer<Boolean> {
+            if (it) {
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNum))
+                startActivity(intent)
+            }
+        })
+
     }
 
     override fun setListensers() {
@@ -151,8 +167,8 @@ class LoginActivity : BaseActivity() {
             ToastUtil.showToast(mContext, resources.getString(R.string.please_open_permission))
             return
         }
-        if (hasTelephonePermission == true && mUniqueId == null) {
-            mUniqueId = System.currentTimeMillis().toString() + ""
+        if (hasTelephonePermission == true && TextUtils.isEmpty(mUniqueId)) {
+            mUniqueId = System.currentTimeMillis().toString()
         }
         try {
             val json = JSONObject()
