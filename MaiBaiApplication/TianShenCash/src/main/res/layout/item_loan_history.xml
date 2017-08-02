@@ -5,9 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="15dp">
+    android:padding="15dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +13,7 @@
 
         <TextView
             android:id="@+id/tv_loan_time_key"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="申请时间"
@@ -27,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/tv_loan_time_key"
             android:gravity="center"
             android:textColor="@color/global_txt_black4"
@@ -41,7 +40,7 @@
 
         <TextView
             android:id="@+id/tv_loan_status_key"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="订单状态"
@@ -53,10 +52,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/tv_loan_status_key"
             android:gravity="center"
             android:textColor="#FF0000"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/tv_loan_organization_key"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="借款平台"
@@ -79,11 +79,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/tv_loan_organization_key"
             android:gravity="center"
             android:text="天神贷"
             android:textColor="@color/global_txt_black4"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -94,7 +95,7 @@
 
         <TextView
             android:id="@+id/tv_loan_money_key"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
