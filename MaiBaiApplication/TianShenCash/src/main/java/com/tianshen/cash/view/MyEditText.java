@@ -137,9 +137,9 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
-            v_bottom.setBackgroundResource(R.color.global_popular_color);
+            v_bottom.setBackgroundResource(R.color.global_bg_gray);
         } else {
-            v_bottom.setBackgroundResource(R.color.light_gray);
+            v_bottom.setBackgroundResource(R.color.global_bg_gray);
         }
     }
 
