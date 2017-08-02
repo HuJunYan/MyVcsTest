@@ -1575,9 +1575,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         vp_dialog_banner.setAdapter(pagerAdapter);
         vp_dialog_banner.setOffscreenPageLimit(viewList.size());
-        indicator.setViewPager(vp_dialog_banner);
-        vp_dialog_banner.setCurrentItem(0);
 
+        if (activityBeanData.size() == 1) {
+            indicator.setVisibility(View.GONE);
+        } else {
+            indicator.setViewPager(vp_dialog_banner);
+        }
+        vp_dialog_banner.setCurrentItem(0);
 
         iv_dialog_banner_close.setOnClickListener(new View.OnClickListener() {
             @Override
