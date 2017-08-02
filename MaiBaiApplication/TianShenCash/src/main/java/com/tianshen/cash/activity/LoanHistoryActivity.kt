@@ -16,11 +16,14 @@ import com.tianshen.cash.utils.TianShenUserUtil
 import kotlinx.android.synthetic.main.activity_loan_history.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.ArrayList
 
 class LoanHistoryActivity : BaseActivity() {
 
     private var mAdapter: LoanHistoryAdapter? = null
-    private var withdrawalsRecordItemBeanList = mutableListOf<WithdrawalsRecordItemBean>()
+    private var withdrawalsRecordItemBeanList: MutableList<WithdrawalsRecordItemBean>? = null
+
+    private var mIsRefresh: Boolean = false
 
     override fun setContentView(): Int = R.layout.activity_loan_history
 
@@ -32,8 +35,35 @@ class LoanHistoryActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initXRecyclerview()
         getBorrowBill(true)
     }
+
+
+    /**
+     * 初始化XRecyclerview
+     */
+    private fun initXRecyclerview() {
+
+
+        mAdapter = LoanHistoryAdapter(mutableListOf<WithdrawalsRecordItemBean>(), {
+        })
+
+        xrecyclerview_loan_history.layoutManager = LinearLayoutManager(this@LoanHistoryActivity, LinearLayoutManager.VERTICAL, false)
+        xrecyclerview_loan_history.adapter = mAdapter
+        xrecyclerview_loan_history.setLoadingListener(object : XRecyclerView.LoadingListener {
+            override fun onRefresh() {
+                mIsRefresh = true
+                getBorrowBill(true)
+            }
+
+            override fun onLoadMore() {
+                mIsRefresh = false
+                getBorrowBill(false)
+            }
+        })
+    }
+
 
     private fun getBorrowBill(isClear: Boolean) {
 
@@ -46,7 +76,7 @@ class LoanHistoryActivity : BaseActivity() {
             if (isClear) {
                 offset = "0"
             } else {
-                offset = withdrawalsRecordItemBeanList.size.toString()
+                offset = withdrawalsRecordItemBeanList?.size.toString()
             }
 
             jsonObject.put("offset", offset)
@@ -55,10 +85,17 @@ class LoanHistoryActivity : BaseActivity() {
             getWithdrawalsRecord.getWithdrawalsBill(jsonObject, null, true, object : BaseNetCallBack<WithdrawalsRecordBean> {
                 override fun onSuccess(paramT: WithdrawalsRecordBean) {
                     if (isClear) {
-                        withdrawalsRecordItemBeanList.clear()
+                        withdrawalsRecordItemBeanList?.clear()
                     }
-                    withdrawalsRecordItemBeanList.addAll(paramT.data.list)
-                    showLoanHistoryUI(withdrawalsRecordItemBeanList)
+                    withdrawalsRecordItemBeanList = paramT.data.list
+                    mAdapter?.setData(withdrawalsRecordItemBeanList!!)
+                    mAdapter?.notifyDataSetChanged()
+                    if (mIsRefresh) {
+                        xrecyclerview_loan_history.refreshComplete()
+                    } else {
+                        xrecyclerview_loan_history.loadMoreComplete()
+                    }
+
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
@@ -66,39 +103,6 @@ class LoanHistoryActivity : BaseActivity() {
             })
         } catch (e: JSONException) {
             e.printStackTrace()
-        }
-
-    }
-
-    /**
-     * 显示我的银行卡UI
-     */
-    private fun showLoanHistoryUI(data: MutableList<WithdrawalsRecordItemBean>) {
-        if (mAdapter == null) {
-            xrecyclerview_loan_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-            xrecyclerview_loan_history.setPullRefreshEnabled(true)
-            xrecyclerview_loan_history.setLoadingMoreEnabled(true)
-            xrecyclerview_loan_history.setLoadingListener(MyLoadingListener())
-            mAdapter = LoanHistoryAdapter(data, {
-            })
-            xrecyclerview_loan_history.adapter = mAdapter
-        } else {
-            mAdapter?.setData(data)
-            mAdapter?.notifyDataSetChanged()
-        }
-    }
-
-
-    inner class MyLoadingListener : XRecyclerView.LoadingListener {
-
-        override fun onLoadMore() {
-            LogUtil.d("abc", "onLoadMore")
-            xrecyclerview_loan_history.loadMoreComplete()
-        }
-
-        override fun onRefresh() {
-            LogUtil.d("abc", "onRefresh")
-            xrecyclerview_loan_history.refreshComplete()
         }
 
     }
