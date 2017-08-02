@@ -60,7 +60,7 @@ class LoginActivity : BaseActivity() {
             }
 
             override fun updateDrawState(ds: TextPaint?) {
-                super.updateDrawState(ds)
+//                super.updateDrawState(ds)
                 ds?.isUnderlineText = false;
             }
         }, 6, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
