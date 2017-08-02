@@ -214,47 +214,13 @@
         android:textColor="@color/global_txt_white"
         android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:id="@+id/tv_confirm_base_protocol"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="确认表示同意"
-            android:textColor="#969696"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/tv_confirm_base_protocol"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_protocol"
-            android:textColor="@color/global_txt_orange"
-            android:textSize="14dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="确认表示同意"
-            android:textColor="#969696"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/tv_confirm_protocol_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_protocol_2"
-            android:textColor="@color/global_txt_orange"
-            android:textSize="14dp" />
-    </LinearLayout>
+        android:gravity="center"
+        android:textColor="@color/edit_text_hint_color"
+        android:textSize="14dp" />
 
 </LinearLayout>

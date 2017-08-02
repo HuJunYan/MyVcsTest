@@ -2,7 +2,10 @@ package com.tianshen.cash.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.CharacterStyle;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,12 +24,16 @@ import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.SafeUtil;
+import com.tianshen.cash.utils.SpannableUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
@@ -68,9 +75,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmApply;
     @BindView(R.id.tv_confirm_protocol)
     TextView tvConfirmProtocol;
-    @BindView(R.id.tv_confirm_protocol2)
-    TextView tvConfirmProtocol2;
     private OrderConfirmBean mOrderConfirmBean;
+    private ArrayList<CharacterStyle> ssList;
 
 
     @Override
@@ -93,15 +99,13 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void findViews() {
-
+        initGotoWebData();
     }
 
     @Override
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
-        tvConfirmProtocol.setOnClickListener(this);
-        tvConfirmProtocol2.setOnClickListener(this);
     }
 
     /**
@@ -178,12 +182,6 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.tv_confirm_apply:
                 onClickApply();
-                break;
-            case R.id.tv_confirm_protocol:
-                gotoWebActivity();//借款协议
-                break;
-            case R.id.tv_confirm_protocol2:
-                gotoWebActivity2();//居间协议
                 break;
         }
     }
@@ -366,6 +364,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURLF);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
+
     private void gotoWebActivity2() {
         if (mOrderConfirmBean == null) {
             return;
@@ -375,17 +374,18 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount();//借款本金
         StringBuilder sb = new StringBuilder();
         sb.append(userPayProtocolURL);
-        sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" +TianShenUserUtil.getUserId(this));
+        sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
         sb.append("&repay_id=" + repay_id);
         sb.append("&consume_amount=" + consume_amount);
         sb.append("&agreement_type=" + "1");
 
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());
-        gotoActivity(mContext,WebActivity.class,bundle);
+        gotoActivity(mContext, WebActivity.class, bundle);
 
 
     }
+
     /**
      * 回到首页
      */
@@ -395,13 +395,40 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         finish();
     }
 
-//    /**
-//     * 从认证中心返回主页
-//     */
-//    @Subscribe
-//    public void onAuthCenterBack(LocationEvent event) {
-//        LogUtil.d("abc", "收到了定位成功的消息");
-//        onClickApply();
-//    }
+    //设置spannable点击规则
+    private void initGotoWebData() {
+        if (ssList == null) {
+            ssList = new ArrayList<>();
+        }
+        ssList.clear();
+        ssList.add(webSpan);
+        ssList.add(webSpan2);
+        String text = getResources().getString(R.string.confirm_protocol_all_text);
+        SpannableUtils.setWebSpannableString(tvConfirmProtocol, text, "《", "》", ssList, getResources().getColor(R.color.global_txt_orange));
+    }
 
+    private ClickableSpan webSpan = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            gotoWebActivity();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+//            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
+    };
+    private ClickableSpan webSpan2 = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            gotoWebActivity2();
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+//            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
+    };
 }
