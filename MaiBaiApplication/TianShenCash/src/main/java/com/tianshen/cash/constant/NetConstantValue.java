@@ -723,5 +723,9 @@ public class NetConstantValue {
     }
 
 
+    public static String getUserPayServerURL() {
+        return HOST + "h5/protocol/server.html";
+    }
+
 
 }

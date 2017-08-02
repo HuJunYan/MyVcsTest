@@ -180,10 +180,10 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                 onClickApply();
                 break;
             case R.id.tv_confirm_protocol:
-                gotoWebActivity();
+                gotoWebActivity();//借款协议
                 break;
             case R.id.tv_confirm_protocol2:
-                ToastUtil.showToast(this,"居间协议");
+                gotoWebActivity2();//居间协议
                 break;
         }
     }
@@ -366,7 +366,26 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
         bundle.putString(GlobalParams.WEB_URL_KEY, userPayProtocolURLF);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
+    private void gotoWebActivity2() {
+        if (mOrderConfirmBean == null) {
+            return;
+        }
+        String userPayProtocolURL = NetConstantValue.getUserPayServerURL();
+        String repay_id = mOrderConfirmBean.getData().getRepay_id();
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount();//借款本金
+        StringBuilder sb = new StringBuilder();
+        sb.append(userPayProtocolURL);
+        sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" +TianShenUserUtil.getUserId(this));
+        sb.append("&repay_id=" + repay_id);
+        sb.append("&consume_amount=" + consume_amount);
+        sb.append("&agreement_type=" + "1");
 
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());
+        gotoActivity(mContext,WebActivity.class,bundle);
+
+
+    }
     /**
      * 回到首页
      */
