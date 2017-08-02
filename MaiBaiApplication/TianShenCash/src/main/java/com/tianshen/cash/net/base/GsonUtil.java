@@ -16,14 +16,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class GsonUtil {
-	private static Context mContext;
-
-	public static void init(Context context) {
-		mContext = context;
-	}
 
 	public static <T> T json2bean(String result, Class<T> clazz) {
-		Gson gson = new Gson(mContext);
+		Gson gson = new Gson();
 		T t = gson.fromJson(result, clazz);
 		return t;
 	}
@@ -31,7 +26,7 @@ public class GsonUtil {
 	public static String bean2json(Object object) {
 		String s = "";
 		try {
-			Gson gson = new Gson(mContext);
+			Gson gson = new Gson();
 			s = gson.toJson(object);
 		} catch (Exception e) {
 			e.printStackTrace();
