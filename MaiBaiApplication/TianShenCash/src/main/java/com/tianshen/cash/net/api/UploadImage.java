@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -44,7 +43,6 @@ public class UploadImage {
     private Context mContext;
     //    private JSONObject mJSONObject;
     protected HttpUtils mHttpUtils;
-    protected BitmapUtils mBitmapUtils;
 
     public UploadImage(Context context) {
         mContext = context;
@@ -55,7 +53,6 @@ public class UploadImage {
     private void initXUtils() {
         XUtilsManager xUtilsManager = XUtilsManager.getInstance(mContext);
         mHttpUtils = xUtilsManager.getHttpUtils();
-        mBitmapUtils = xUtilsManager.getBitmapUtils();
     }
 
     public void uploadImage(JSONObject jsonObject, String fileFullPath, boolean isShowDialog, final BaseNetCallBack<UploadImageBean> mUploadImageCallBack) {
@@ -224,7 +221,7 @@ public class UploadImage {
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 try {
                     Log.d("ret", "mUrl = " + mUrl + " ; result = " + responseInfo.result);
-                    Logger.i("下行onSuccess--mUrl-->"+mUrl);
+                    Logger.i("下行onSuccess--mUrl-->" + mUrl);
                     Logger.json(responseInfo.result);
 
                     if (responseInfo != null && GsonUtil.isSuccess(responseInfo.result)) {

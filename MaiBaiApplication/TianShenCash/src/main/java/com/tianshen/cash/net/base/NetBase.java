@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -36,7 +35,6 @@ import java.util.List;
 public class NetBase {
     private Context mContext;
     private HttpUtils mHttpUtils;
-    private BitmapUtils mBitmapUtils;
 
     public NetBase(Context context) {
         this.mContext = context;
@@ -46,7 +44,6 @@ public class NetBase {
     private void init() {
         XUtilsManager mXUtilsManager = XUtilsManager.getInstance(this.mContext);
         this.mHttpUtils = mXUtilsManager.getHttpUtils();
-        this.mBitmapUtils = mXUtilsManager.getBitmapUtils();
     }
 
     public void getDataFromServerByPost(String url, JSONObject object, CallBack callBack) {
@@ -131,7 +128,7 @@ public class NetBase {
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
                     } else {
-                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result ,view);
+                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view);
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {
@@ -170,13 +167,8 @@ public class NetBase {
     /**
      * 检测token是否有效
      */
-    private void checkTokenIsOK(){
+    private void checkTokenIsOK() {
 
-    }
-
-
-    public BitmapUtils getBitmapUtils() {
-        return this.mBitmapUtils;
     }
 
     public boolean isShowNoNetworksPrompt() {
@@ -265,14 +257,15 @@ public class NetBase {
         }
         return false;
     }
+
     //安全关闭dialog 防止崩溃
-    public void cancelDialog(){
+    public void cancelDialog() {
         try {
-            if (mContext != null && !((Activity)mContext).isFinishing()){
+            if (mContext != null && !((Activity) mContext).isFinishing()) {
                 ViewUtil.cancelLoadingDialog();
             }
-        }catch (ClassCastException e){
-            MobclickAgent.reportError(mContext,LogUtil.getException(e));
+        } catch (ClassCastException e) {
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
 
     }
