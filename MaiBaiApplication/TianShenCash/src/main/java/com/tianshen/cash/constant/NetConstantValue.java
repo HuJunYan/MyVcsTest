@@ -722,7 +722,10 @@ public class NetConstantValue {
         return COMMONURI + "Invite/inviteWithdrawals";
     }
 
-
+    /**
+     * 协议URL
+     * @return
+     */
     public static String getUserPayServerURL() {
         return HOST + "h5/protocol/server.html";
     }
