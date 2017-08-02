@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class ImageLoader {
 
@@ -16,46 +17,46 @@ public class ImageLoader {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(activity).load(imageUrl).fitCenter().placeholder(placeholder).crossFade().into(iv);
+        Glide.with(activity).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().placeholder(placeholder).crossFade().into(iv);
     }
 
     public static void load(Activity activity, String imageUrl, ImageView iv) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(activity).load(imageUrl).fitCenter().crossFade().into(iv);
+        Glide.with(activity).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().crossFade().into(iv);
     }
 
     public static void load(Fragment fragment, String imageUrl, @DrawableRes int placeholder, ImageView iv) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(fragment).load(imageUrl).fitCenter().placeholder(placeholder).crossFade().into(iv);
+        Glide.with(fragment).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().placeholder(placeholder).crossFade().into(iv);
     }
 
     public static void load(Fragment fragment, String imageUrl, ImageView iv) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(fragment).load(imageUrl).fitCenter().crossFade().into(iv);
+        Glide.with(fragment).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().crossFade().into(iv);
     }
 
     public static void load(Context context, @DrawableRes int imageRes, ImageView view) {
-        Glide.with(context).load(imageRes).crossFade().into(view);
+        Glide.with(context).load(imageRes).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(view);
     }
 
     public static void load(Context context, String imageUrl, ImageView view) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(context).load(imageUrl).crossFade().into(view);
+        Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(view);
     }
 
     public static void load(Context context, String imageUrl, @DrawableRes int placeholder, ImageView iv) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(context).load(imageUrl).fitCenter().placeholder(placeholder).crossFade().into(iv);
+        Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().placeholder(placeholder).crossFade().into(iv);
     }
 
     public static void clear(Context context) {
