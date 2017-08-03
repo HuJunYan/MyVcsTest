@@ -31,6 +31,7 @@ class LoanHistoryActivity : BaseActivity() {
     }
 
     override fun setListensers() {
+        tv_loan_history_back.setOnClickListener { backActivity() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
