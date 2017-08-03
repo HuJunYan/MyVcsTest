@@ -13,6 +13,7 @@ import com.tianshen.cash.net.api.GetWithdrawalsRecord
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
+import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_loan_history.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -88,6 +89,16 @@ class LoanHistoryActivity : BaseActivity() {
                     if (isClear) {
                         withdrawalsRecordItemBeanList?.clear()
                     }
+
+                    if (!mIsRefresh) {
+                        if (paramT.data.list.size == 0) {
+                            ToastUtil.showToast(mContext, "没有更多内容了!")
+                            xrecyclerview_loan_history.setNoMore(true)
+                            xrecyclerview_loan_history.loadMoreComplete()
+                            return
+                        }
+                    }
+
                     withdrawalsRecordItemBeanList = paramT.data.list
                     mAdapter?.setData(withdrawalsRecordItemBeanList!!)
                     mAdapter?.notifyDataSetChanged()
