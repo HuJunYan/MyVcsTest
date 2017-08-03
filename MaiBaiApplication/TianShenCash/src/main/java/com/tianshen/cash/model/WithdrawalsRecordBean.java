@@ -49,6 +49,15 @@ public class WithdrawalsRecordBean implements Serializable {
         private String offset; // 本页起始位置
         private String length; // 本页长度
         private List<WithdrawalsRecordItemBean> list; // 数据内容
+        private int total; // 总条目
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
 
         public String getHas_next_page() {
             return has_next_page;

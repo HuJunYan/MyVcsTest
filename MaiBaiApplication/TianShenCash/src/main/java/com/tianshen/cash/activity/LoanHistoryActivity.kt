@@ -24,7 +24,7 @@ class LoanHistoryActivity : BaseActivity() {
     private var mAdapter: LoanHistoryAdapter? = null
     private var withdrawalsRecordItemBeanList: MutableList<WithdrawalsRecordItemBean>? = null
 
-    private var mIsRefresh: Boolean = false
+//    private var mIsRefresh: Boolean = false
 
     override fun setContentView(): Int = R.layout.activity_loan_history
 
@@ -52,22 +52,24 @@ class LoanHistoryActivity : BaseActivity() {
         })
 
         xrecyclerview_loan_history.layoutManager = LinearLayoutManager(this@LoanHistoryActivity, LinearLayoutManager.VERTICAL, false)
+        xrecyclerview_loan_history.setLoadingMoreEnabled(true)
+        xrecyclerview_loan_history.setPullRefreshEnabled(true)
         xrecyclerview_loan_history.adapter = mAdapter
         xrecyclerview_loan_history.setLoadingListener(object : XRecyclerView.LoadingListener {
             override fun onRefresh() {
-                mIsRefresh = true
+//                mIsRefresh = true
                 getBorrowBill(true)
             }
 
             override fun onLoadMore() {
-                mIsRefresh = false
+//                mIsRefresh = false
                 getBorrowBill(false)
             }
         })
     }
 
 
-    private fun getBorrowBill(isClear: Boolean) {
+    private fun getBorrowBill(isRefresh: Boolean) {
 
         try {
             val jsonObject = JSONObject()
@@ -75,7 +77,7 @@ class LoanHistoryActivity : BaseActivity() {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
 
             var offset = ""
-            if (isClear) {
+            if (isRefresh) {
                 offset = "0"
             } else {
                 offset = withdrawalsRecordItemBeanList?.size.toString()
@@ -86,28 +88,24 @@ class LoanHistoryActivity : BaseActivity() {
             val getWithdrawalsRecord = GetWithdrawalsRecord(mContext)
             getWithdrawalsRecord.getWithdrawalsBill(jsonObject, null, true, object : BaseNetCallBack<WithdrawalsRecordBean> {
                 override fun onSuccess(paramT: WithdrawalsRecordBean) {
-                    if (isClear) {
+
+                    if (isRefresh) { //下拉刷新
                         withdrawalsRecordItemBeanList?.clear()
+                        withdrawalsRecordItemBeanList = paramT.data.list
+                        mAdapter?.setData(withdrawalsRecordItemBeanList!!)
+                    } else {//上拉加载更多
+                        withdrawalsRecordItemBeanList?.addAll(paramT.data.list)
+                        mAdapter?.setData(withdrawalsRecordItemBeanList!!)
                     }
-
-                    if (!mIsRefresh) {
-                        if (paramT.data.list.size == 0) {
-                            ToastUtil.showToast(mContext, "没有更多内容了!")
-                            xrecyclerview_loan_history.setNoMore(true)
-                            xrecyclerview_loan_history.loadMoreComplete()
-                            return
-                        }
-                    }
-
-                    withdrawalsRecordItemBeanList = paramT.data.list
-                    mAdapter?.setData(withdrawalsRecordItemBeanList!!)
                     mAdapter?.notifyDataSetChanged()
-                    if (mIsRefresh) {
+                    if (isRefresh) {
                         xrecyclerview_loan_history.refreshComplete()
                     } else {
                         xrecyclerview_loan_history.loadMoreComplete()
+                        if (withdrawalsRecordItemBeanList?.size == paramT.data.total) {
+                            xrecyclerview_loan_history.setNoMore(true)
+                        }
                     }
-
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
