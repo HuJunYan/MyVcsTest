@@ -319,5 +319,8 @@ public class GlobalParams {
             + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
             + "follow_app_official_microblog," + "invitation_write";
 
+    public static String WEB_FROM = "web_from";//bundle key  webactivity
+    public static String FROM_HOME = "from_homefragment"; //bundle value from homefragment
+
 
 }

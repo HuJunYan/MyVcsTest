@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -12,6 +13,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -20,7 +22,6 @@ import butterknife.BindView;
  */
 
 public class WebActivity extends BaseActivity implements View.OnClickListener {
-
     @BindView(R.id.tv_web_back)
     TextView tv_web_back;
 
@@ -31,11 +32,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     WebView wv_web;
 
     private String mUrl;
+    private String mFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
+        mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
         initWebView();
     }
 
@@ -66,6 +69,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         // 便页面支持缩放
         webSettings.setJavaScriptEnabled(true); //支持js
+        webSettings.setDomStorageEnabled(true);
         webSettings.setSupportZoom(true); //支持缩放
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
     }
@@ -84,6 +88,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 return true;
             }
         });
+        if (GlobalParams.FROM_HOME.equals(mFrom)) {
+            wv_web.addJavascriptInterface(new IJavaScriptInterface(), "turnplate");
+        }
     }
 
     @Override
@@ -115,5 +122,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public class IJavaScriptInterface {
+        @JavascriptInterface
+        public void showDialog(final String message) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showToast(getApplicationContext(), "message received" + message);
+                }
+            });
+        }
     }
 }
