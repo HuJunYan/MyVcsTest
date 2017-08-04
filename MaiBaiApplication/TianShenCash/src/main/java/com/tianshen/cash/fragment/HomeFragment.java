@@ -1516,7 +1516,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
             final String activityId = data.getActivity_id();
-            if ("0".equals(activityType)) {
+            if ("0".equals(activityType)) {//分享活动
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
@@ -1530,7 +1530,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
                 viewList.add(pageView);
-            } else if ("1".equals(activityType)) {
+            } else if ("1".equals(activityType)) {//转盘活动
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_read, null);
                 ImageView iv_dialog_banner_read = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_read);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_read);
