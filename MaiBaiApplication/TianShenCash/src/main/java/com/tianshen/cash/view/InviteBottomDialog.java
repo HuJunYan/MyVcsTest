@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.annotation.DrawableRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ public class InviteBottomDialog implements View.OnClickListener {
     private String mShareUrl;
     private String shareTitle;
     private String shareDescription;
+    private int iconRes;
+    private String iconName;
 
     /**
      * @param context
@@ -104,15 +107,15 @@ public class InviteBottomDialog implements View.OnClickListener {
     }
 
     private void shareToWeChatSession() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION, mShareUrl, shareTitle, shareDescription);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_SESSION, mShareUrl, shareTitle, shareDescription, iconRes);
     }
 
     private void shareToWeChatTimeline() {
-        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE, mShareUrl, shareTitle, shareDescription);
+        TianShenShareUtils.shareToWx(mContext.getApplicationContext(), GlobalParams.SHARE_TO_WECHAT_TIMELINE, mShareUrl, shareTitle, shareDescription, iconRes);
     }
 
     private void shareToQQ() {
-        TianShenShareUtils.shareToQQ(mContext, mShareUrl, listener, shareTitle, shareDescription);
+        TianShenShareUtils.shareToQQ(mContext, mShareUrl, listener, shareTitle, shareDescription, iconRes, iconName);
     }
 
     /**
@@ -140,5 +143,11 @@ public class InviteBottomDialog implements View.OnClickListener {
 
     public interface ShareWeiboListener {
         void shareToWeibo();
+    }
+
+    public InviteBottomDialog setShareIconResAndName(@DrawableRes int res, String name) {
+        this.iconRes = res;
+        this.iconName = name;
+        return this;
     }
 }

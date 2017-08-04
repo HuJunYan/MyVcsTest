@@ -157,7 +157,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, listener,shareTitle,shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl);
+        inviteBottomDialog = new InviteBottomDialog(this, listener, shareTitle, shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
         inviteBottomDialog.show();
     }
 
@@ -187,7 +187,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         wbShareHandler.registerApp();
         WeiboMultiMessage weiboMultiMessage = new WeiboMultiMessage();
         weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(shareTitle + mShareUrl);
-        weiboMultiMessage.imageObject = TianShenShareUtils.getImageObj(this);
+        weiboMultiMessage.imageObject = TianShenShareUtils.getImageObj(this, R.drawable.inviteicon);
 //        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, getResources().getString(R.string.invite_share_text_title), getResources().getString(R.string.invite_share_text_description));
         wbShareHandler.shareMessage(weiboMultiMessage, false);
     }
