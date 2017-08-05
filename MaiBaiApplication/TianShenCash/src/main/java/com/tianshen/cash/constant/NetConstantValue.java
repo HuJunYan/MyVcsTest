@@ -9,7 +9,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://tsdapi.9maibei.com/";
 
     //正式
-//    public static String HOST = "http://pro.tianshenjr.com/";
+    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
 //    public static String HOST = "http://pre.tianshenjr.com/";
@@ -18,7 +18,7 @@ public class NetConstantValue {
 //   public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
-    public static String HOST = "http://dev.tianshenjr.com/";
+//    public static String HOST = "http://dev.tianshenjr.com/";
 
 
     public static String COMMONURI = HOST + "Home/";
@@ -29,7 +29,7 @@ public class NetConstantValue {
      * @return true 代表正式服务器，false代表测试服务器
      */
     public static boolean checkIsReleaseService() {
-        return "http://tsdapi.9maibei.com/Home/".equals(COMMONURI);
+        return "http://pro.tianshenjr.com/Home/".equals(COMMONURI);
     }
 
     /**
