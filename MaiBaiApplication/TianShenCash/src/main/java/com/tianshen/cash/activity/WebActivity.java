@@ -186,7 +186,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     try {
                         final TurnplateBean turnplateBean = GsonUtil.json2bean(message, TurnplateBean.class);
                         if (turnplateBean != null) {
-                            ToastUtil.showToast(getApplicationContext(), "message received" + message);
                             initShareDialogData(turnplateBean);
                         } else {
                             showDataErrorTip();
