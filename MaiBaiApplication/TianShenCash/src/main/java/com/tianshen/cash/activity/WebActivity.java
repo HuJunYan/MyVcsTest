@@ -7,6 +7,10 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -103,9 +107,30 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private void setWebView() {
 
         LogUtil.d("abc", "mUrl--->" + mUrl);
+        if (GlobalParams.FROM_HOME.equals(mFrom)) {
+            wv_web.addJavascriptInterface(new IJavaScriptInterface(), "turnplate");
+        }
+        wv_web.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                return super.onJsAlert(view, url, message, result);
 
-        wv_web.loadUrl(mUrl);
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                LogUtil.d("murl = ", "error = " + title);
+            }
+        });
         wv_web.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                LogUtil.d("murl2 =", "error" + error.toString());
+            }
+
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url != null) {
@@ -114,9 +139,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 return true;
             }
         });
-        if (GlobalParams.FROM_HOME.equals(mFrom)) {
-            wv_web.addJavascriptInterface(new IJavaScriptInterface(), "turnplate");
-        }
+        wv_web.loadUrl(mUrl);
     }
 
     @Override

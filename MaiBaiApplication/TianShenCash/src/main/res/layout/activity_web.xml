@@ -24,6 +24,7 @@
             android:layout_toRightOf="@id/tv_web_back"
             android:gravity="center"
             android:text="关闭"
+            android:visibility="gone"
             android:textColor="@color/global_txt_black4"
             android:textSize="14sp" />
 
