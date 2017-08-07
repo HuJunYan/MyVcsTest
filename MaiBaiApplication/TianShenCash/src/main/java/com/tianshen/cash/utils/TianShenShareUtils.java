@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -54,7 +55,7 @@ public class TianShenShareUtils {
      * @param shareTitle
      * @param shareDescription
      */
-    public static void shareToQQ(Activity mContext, String url, IUiListener listener, String shareTitle, String shareDescription) {
+    public static void shareToQQ(Activity mContext, String url, IUiListener listener, String shareTitle, String shareDescription, @DrawableRes int res, String iconName) {
         Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, mContext);
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
@@ -63,15 +64,15 @@ public class TianShenShareUtils {
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
         //本地url 或者网上的图片url
 //        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, "http://imgcache.qq.com/qzone/space_item/pre/0/66768.gif");
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, getQQThumbPath(mContext));
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, getQQThumbPath(mContext, res, iconName));
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "天神贷");
         mTencent.shareToQQ(mContext, params, listener);
     }
 
-    private static String getQQThumbPath(Context context) {
-        File file = new File(context.getCacheDir().getAbsolutePath(), "share_icon.png");
+    private static String getQQThumbPath(Context context, @DrawableRes int res, String name) {
+        File file = new File(context.getCacheDir().getAbsolutePath(), name + ".png");
         if (!file.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
             try {
                 FileOutputStream out = new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -95,7 +96,7 @@ public class TianShenShareUtils {
      * @param shareTitle
      * @param shareDescription
      */
-    public static void shareToWx(Context context, int flag, String mShareUrl, String shareTitle, String shareDescription) {
+    public static void shareToWx(Context context, int flag, String mShareUrl, String shareTitle, String shareDescription, @DrawableRes int res) {
         if (!isWeixinAvilible(context)) {
             ToastUtil.showToast(context, "请先安装微信");
             return;
@@ -121,7 +122,7 @@ public class TianShenShareUtils {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = shareTitle;
         msg.description = shareDescription;
-        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), res);
         Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true);
         bmp.recycle();
         msg.thumbData = bmpToByteArray(thumbBmp);
@@ -152,9 +153,9 @@ public class TianShenShareUtils {
      *
      * @return 图片消息对象。
      */
-    public static ImageObject getImageObj(Context context) {
+    public static ImageObject getImageObj(Context context, @DrawableRes int res) {
         ImageObject imageObject = new ImageObject();
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.inviteicon);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }

@@ -1539,7 +1539,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         String url = data.getActivity_url();
+                        url += "?customer=" + TianShenUserUtil.getUserId(getActivity());
+                        url += "&token=" + TianShenUserUtil.getUserToken(getActivity());
+                        url += "&type=1";
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
+                        bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_HOME);
+
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
