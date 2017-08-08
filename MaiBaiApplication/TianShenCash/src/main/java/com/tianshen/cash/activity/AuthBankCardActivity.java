@@ -1,9 +1,12 @@
 package com.tianshen.cash.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -179,6 +182,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                         String name = paramT.getData().getReal_name();
                         etAuthBankCardPerson.setText(name);
                     }
+
                     @Override
                     public void onFailure(String url, int errorType, int errorCode) {
 
@@ -414,9 +418,11 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 public void onSuccess(ResponseBean paramT) {
                     int code = paramT.getCode();
                     if (code == 0) {
-                        ToastUtil.showToast(mContext, "绑卡成功!");
-                        EventBus.getDefault().post(new UserConfigChangedEvent());
-                        backActivity();
+//                        ToastUtil.showToast(mContext, "绑卡成功!");
+//                        EventBus.getDefault().post(new UserConfigChangedEvent());
+//                        backActivity();
+
+                        showHaMiVerifyCodeDialog();
                     }
                 }
 
@@ -430,6 +436,47 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
 
+    }
+
+
+    /**
+     * 显示哈密银行绑卡验证码dialog
+     */
+    private void showHaMiVerifyCodeDialog() {
+
+        if (isFinishing()) {
+            return;
+        }
+
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_hami_verify_code, null, false);
+        Dialog mVerifyCodeDialog = new Dialog(mContext, R.style.MyDialog);
+        mVerifyCodeDialog.setContentView(view);
+        mVerifyCodeDialog.setCanceledOnTouchOutside(false);
+        mVerifyCodeDialog.setCancelable(true);
+
+        TextView tv_dialog_hami_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_hami_get_verify_code);
+        final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_hami_verify_code);
+        TextView tv_dialog_hami_ok = (TextView) view.findViewById(R.id.tv_dialog_hami_ok);
+
+        tv_dialog_hami_get_verify_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        tv_dialog_hami_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String verufy_code = et_dialog_verify_code.getText().toString().trim();
+                if (TextUtils.isEmpty(verufy_code)) {
+                    ToastUtil.showToast(mContext, "输入验证码");
+                    return;
+                }
+            }
+        });
+        mVerifyCodeDialog.show();
     }
 
 }
