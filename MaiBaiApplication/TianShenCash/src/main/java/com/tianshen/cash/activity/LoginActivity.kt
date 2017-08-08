@@ -39,8 +39,8 @@ import java.util.*
 
 class LoginActivity : BaseActivity() {
     override fun setContentView(): Int = R.layout.activity_login2
-    var str = "客服电话: 400-0000-8685"
-    var phoneNum = "40000008685"
+    var str = "客服电话: 400-000-8685"
+    var phoneNum = "4000008685"
     var hasTelephonePermission: Boolean? = false
     var mUniqueId: String? = null
     var mobile: String? = null

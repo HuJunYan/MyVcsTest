@@ -120,14 +120,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                LogUtil.d("murl = ", "error = " + title);
             }
         });
         wv_web.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                LogUtil.d("murl2 =", "error" + error.toString());
             }
 
 
