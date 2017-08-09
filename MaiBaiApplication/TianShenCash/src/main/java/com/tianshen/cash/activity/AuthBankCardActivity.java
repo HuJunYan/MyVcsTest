@@ -82,6 +82,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_auth_bank_card_title)
     TextView tv_auth_bank_card_title;
 
+    TextView tv_dialog_hami_get_verify_code;
+
     private BankListBean mBankListBean; //银行卡列表数据
     private ArrayList<String> mDialogData;// //银行卡列表dialog数据
 
@@ -94,6 +96,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
 
     private static final int MSG_SEVERITY_TIME = 1;
+    private static final int MSG_DIALOG_SEVERITY_TIME = 2;
     private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
 
     private Handler mHandler = new Handler() {
@@ -101,6 +104,9 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             switch (message.what) {
                 case MSG_SEVERITY_TIME:
                     refreshSeverityTextUI();
+                    break;
+                case MSG_DIALOG_SEVERITY_TIME:
+                    refreshDialogSeverityTextUI();
                     break;
             }
         }
@@ -289,6 +295,29 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 刷新验证码UI
+     */
+    private void refreshDialogSeverityTextUI() {
+
+        if (isFinishing()) {
+            return;
+        }
+
+        tv_dialog_hami_get_verify_code.setText(mStartTime + "");
+        mStartTime--;
+        if (mStartTime == 0) {
+            tv_dialog_hami_get_verify_code.setText("重获取验证码");
+            mStartTime = 59;
+            tv_dialog_hami_get_verify_code.setEnabled(true);
+            mHandler.removeMessages(MSG_DIALOG_SEVERITY_TIME);
+        } else {
+            tv_dialog_hami_get_verify_code.setEnabled(false);
+            mHandler.sendEmptyMessageDelayed(MSG_DIALOG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
+    }
+
+    /**
      * 得到验证码
      */
     private void initSeverityCode() {
@@ -455,14 +484,14 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         mVerifyCodeDialog.setCanceledOnTouchOutside(false);
         mVerifyCodeDialog.setCancelable(true);
 
-        TextView tv_dialog_hami_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_hami_get_verify_code);
+        tv_dialog_hami_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_hami_get_verify_code);
         final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_hami_verify_code);
         TextView tv_dialog_hami_ok = (TextView) view.findViewById(R.id.tv_dialog_hami_ok);
 
         tv_dialog_hami_get_verify_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getHaMiSeverityCode();
             }
         });
 
@@ -474,9 +503,20 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                     ToastUtil.showToast(mContext, "输入验证码");
                     return;
                 }
+                //todo 绑定哈密银行验证码
             }
         });
         mVerifyCodeDialog.show();
+    }
+
+    /**
+     * 得到哈密银行绑定银行卡验证码
+     */
+    private void getHaMiSeverityCode() {
+        mHandler.removeMessages(MSG_SEVERITY_TIME);
+        mStartTime = 59;
+        //todo 得到验证码成功后调用
+        refreshDialogSeverityTextUI();
     }
 
 }
