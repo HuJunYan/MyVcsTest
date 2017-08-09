@@ -207,6 +207,7 @@
 
         <CheckBox
             android:id="@+id/check_box"
+            android:background="@null"
             android:layout_width="wrap_content"
             android:checked="true"
             android:layout_height="wrap_content"
