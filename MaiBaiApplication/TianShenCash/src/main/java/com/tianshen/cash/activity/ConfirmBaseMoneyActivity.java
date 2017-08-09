@@ -8,7 +8,10 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -48,6 +51,8 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
+import static com.tianshen.cash.R.id.tv_confirm_apply;
+
 /**
  * 确认申请页面
  */
@@ -83,6 +88,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     TextView tvConfirmRepay;
     @BindView(R.id.tv_confirm_apply)
     TextView tvConfirmApply;
+    @BindView(R.id.check_box)
+    CheckBox check_box;
 
     @BindView(R.id.tv_confirm_base_protocol)
     TextView tv_confirm_base_protocol;
@@ -120,6 +127,18 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
+        check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    tvConfirmApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_border));
+                    tvConfirmApply.setEnabled(true);
+                } else {
+                    tvConfirmApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_unchecked));
+                    tvConfirmApply.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
@@ -194,7 +213,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             case R.id.tv_confirm_money_back:
                 backActivity();
                 break;
-            case R.id.tv_confirm_apply:
+            case tv_confirm_apply:
                 uploadUserInfo();
                 break;
         }
@@ -303,6 +322,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 
     /**
      * 跳转到WebActivity
+     *
      * @param type 1 居间协议 2 借款协议
      */
     private void gotoWebActivity(int type) {
@@ -446,7 +466,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         ssList.clear();
         ssList.add(webSpan);
         ssList.add(webSpan2);
-        String text = getResources().getString(R.string.confirm_protocol_all_text);
+        ssList.add(webSpan3);
+        String text = getResources().getString(R.string.confirm_protocol_all_text2);
         SpannableUtils.setWebSpannableString(tv_confirm_base_protocol, text, "《", "》", ssList, getResources().getColor(R.color.global_txt_orange));
     }
 
@@ -454,6 +475,18 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         @Override
         public void onClick(View widget) {
             gotoWebActivity(2);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+//            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
+    };
+    private ClickableSpan webSpan3 = new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+            gotoWebActivity(1);
         }
 
         @Override
