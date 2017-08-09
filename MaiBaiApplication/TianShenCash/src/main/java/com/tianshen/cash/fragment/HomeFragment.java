@@ -258,6 +258,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private static final int MSG_SHOW_TEXT = 1;
     private static final int SHOW_TEXT_TIME = 5 * 1000;
 
+    private static final int MSG_AUTO_TO_OTHER = 3;
+    private static final int MSG_AUTO_TO_OTHER_TIME = 3 * 1000;
+
     private float density;
 
     private Handler mHandler = new Handler() {
@@ -268,6 +271,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     break;
                 case MSG_SEVERITY_TIME:
                     refreshSeverityTextUI();
+                    break;
+                case MSG_AUTO_TO_OTHER:
+                    onClickMarket();
                     break;
             }
         }
@@ -755,6 +761,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
+                mHandler.sendEmptyMessageDelayed(MSG_AUTO_TO_OTHER, MSG_AUTO_TO_OTHER_TIME);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
