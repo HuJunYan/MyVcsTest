@@ -483,7 +483,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             ds.setUnderlineText(false);
         }
     };
-    private ClickableSpan webSpan3 = new ClickableSpan() {
+    private ClickableSpan webSpan2 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             gotoWebActivity(1);
@@ -495,7 +495,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             ds.setUnderlineText(false);
         }
     };
-    private ClickableSpan webSpan2 = new ClickableSpan() {
+    private ClickableSpan webSpan3 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
             gotoWebActivity(1);
