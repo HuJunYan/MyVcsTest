@@ -261,6 +261,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private static final int MSG_AUTO_TO_OTHER = 3;
     private static final int MSG_AUTO_TO_OTHER_TIME = 3 * 1000;
 
+    private boolean mIsAutoJumpToOther = true;
+
     private float density;
 
     private Handler mHandler = new Handler() {
@@ -761,7 +763,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case "4"://4:审核失败
                 showConsumeStatusUI();
-                mHandler.sendEmptyMessageDelayed(MSG_AUTO_TO_OTHER, MSG_AUTO_TO_OTHER_TIME);
                 break;
             case "5"://5:放款失败
                 showConsumeStatusUI();
@@ -869,6 +870,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 iv_home_market.setVisibility(View.GONE);
             } else {
                 iv_home_market.setVisibility(View.VISIBLE);
+                if (mIsAutoJumpToOther) {
+                    mIsAutoJumpToOther = false;
+                    mHandler.sendEmptyMessageDelayed(MSG_AUTO_TO_OTHER, MSG_AUTO_TO_OTHER_TIME);
+                }
+
             }
         }
     }
