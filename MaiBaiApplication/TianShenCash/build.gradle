@@ -104,6 +104,10 @@ dependencies {
     //微博分享
     compile 'com.sina.weibo.sdk:core:2.0.6:openDefaultRelease@aar'
 
+    //下拉刷新上拉加载
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+
 //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 //    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

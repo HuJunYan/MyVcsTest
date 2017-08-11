@@ -2,7 +2,9 @@ package com.tianshen.cash.activity
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import com.jcodecraeer.xrecyclerview.XRecyclerView
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.LoanHistoryAdapter
 import com.tianshen.cash.base.BaseActivity
@@ -11,13 +13,10 @@ import com.tianshen.cash.model.WithdrawalsRecordBean
 import com.tianshen.cash.model.WithdrawalsRecordItemBean
 import com.tianshen.cash.net.api.GetWithdrawalsRecord
 import com.tianshen.cash.net.base.BaseNetCallBack
-import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
-import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_loan_history.*
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.ArrayList
 
 class LoanHistoryActivity : BaseActivity() {
 
@@ -50,22 +49,12 @@ class LoanHistoryActivity : BaseActivity() {
 
         mAdapter = LoanHistoryAdapter(mutableListOf<WithdrawalsRecordItemBean>(), {
         })
-
+        refreshLayout.setOnRefreshListener { getBorrowBill(true) }
+        refreshLayout.setOnLoadmoreListener { getBorrowBill(false) }
+        refreshLayout.refreshHeader = ClassicsHeader(this) // header
+        refreshLayout.refreshFooter = ClassicsFooter(this).setSpinnerStyle(SpinnerStyle.Scale) //footer
         xrecyclerview_loan_history.layoutManager = LinearLayoutManager(this@LoanHistoryActivity, LinearLayoutManager.VERTICAL, false)
-        xrecyclerview_loan_history.setLoadingMoreEnabled(true)
-        xrecyclerview_loan_history.setPullRefreshEnabled(true)
         xrecyclerview_loan_history.adapter = mAdapter
-        xrecyclerview_loan_history.setLoadingListener(object : XRecyclerView.LoadingListener {
-            override fun onRefresh() {
-//                mIsRefresh = true
-                getBorrowBill(true)
-            }
-
-            override fun onLoadMore() {
-//                mIsRefresh = false
-                getBorrowBill(false)
-            }
-        })
     }
 
 
@@ -93,17 +82,19 @@ class LoanHistoryActivity : BaseActivity() {
                         withdrawalsRecordItemBeanList?.clear()
                         withdrawalsRecordItemBeanList = paramT.data.list
                         mAdapter?.setData(withdrawalsRecordItemBeanList!!)
+                        refreshLayout.setLoadmoreFinished(false)
                     } else {//上拉加载更多
                         withdrawalsRecordItemBeanList?.addAll(paramT.data.list)
                         mAdapter?.setData(withdrawalsRecordItemBeanList!!)
                     }
                     mAdapter?.notifyDataSetChanged()
                     if (isRefresh) {
-                        xrecyclerview_loan_history.refreshComplete()
+                        refreshLayout.finishRefresh()
                     } else {
-                        xrecyclerview_loan_history.loadMoreComplete()
+                        refreshLayout.finishLoadmore()
                         if (withdrawalsRecordItemBeanList?.size == paramT.data.total) {
-                            xrecyclerview_loan_history.setNoMore(true)
+//                            xrecyclerview_loan_history.setNoMore(true)
+                            refreshLayout.setLoadmoreFinished(true)
                         }
                     }
                 }

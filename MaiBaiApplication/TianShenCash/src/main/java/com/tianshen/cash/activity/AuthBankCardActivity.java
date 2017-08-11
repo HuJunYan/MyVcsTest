@@ -1,9 +1,12 @@
 package com.tianshen.cash.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -79,6 +82,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_auth_bank_card_title)
     TextView tv_auth_bank_card_title;
 
+    TextView tv_dialog_hami_get_verify_code;
+
     private BankListBean mBankListBean; //银行卡列表数据
     private ArrayList<String> mDialogData;// //银行卡列表dialog数据
 
@@ -91,6 +96,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
 
 
     private static final int MSG_SEVERITY_TIME = 1;
+    private static final int MSG_DIALOG_SEVERITY_TIME = 2;
     private static final int MSG_SEVERITY_DELAYED = 1 * 1000;
 
     private Handler mHandler = new Handler() {
@@ -98,6 +104,9 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             switch (message.what) {
                 case MSG_SEVERITY_TIME:
                     refreshSeverityTextUI();
+                    break;
+                case MSG_DIALOG_SEVERITY_TIME:
+                    refreshDialogSeverityTextUI();
                     break;
             }
         }
@@ -179,6 +188,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                         String name = paramT.getData().getReal_name();
                         etAuthBankCardPerson.setText(name);
                     }
+
                     @Override
                     public void onFailure(String url, int errorType, int errorCode) {
 
@@ -280,6 +290,29 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         } else {
             tvSeverityCode.setEnabled(false);
             mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
+        }
+
+    }
+
+    /**
+     * 刷新验证码UI
+     */
+    private void refreshDialogSeverityTextUI() {
+
+        if (isFinishing()) {
+            return;
+        }
+
+        tv_dialog_hami_get_verify_code.setText(mStartTime + "");
+        mStartTime--;
+        if (mStartTime == 0) {
+            tv_dialog_hami_get_verify_code.setText("重获取验证码");
+            mStartTime = 59;
+            tv_dialog_hami_get_verify_code.setEnabled(true);
+            mHandler.removeMessages(MSG_DIALOG_SEVERITY_TIME);
+        } else {
+            tv_dialog_hami_get_verify_code.setEnabled(false);
+            mHandler.sendEmptyMessageDelayed(MSG_DIALOG_SEVERITY_TIME, MSG_SEVERITY_DELAYED);
         }
 
     }
@@ -417,6 +450,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                         ToastUtil.showToast(mContext, "绑卡成功!");
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         backActivity();
+
+//                        showHaMiVerifyCodeDialog();
                     }
                 }
 
@@ -430,6 +465,58 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
 
+    }
+
+
+    /**
+     * 显示哈密银行绑卡验证码dialog
+     */
+    private void showHaMiVerifyCodeDialog() {
+
+        if (isFinishing()) {
+            return;
+        }
+
+        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = mLayoutInflater.inflate(R.layout.dialog_hami_verify_code, null, false);
+        Dialog mVerifyCodeDialog = new Dialog(mContext, R.style.MyDialog);
+        mVerifyCodeDialog.setContentView(view);
+        mVerifyCodeDialog.setCanceledOnTouchOutside(false);
+        mVerifyCodeDialog.setCancelable(true);
+
+        tv_dialog_hami_get_verify_code = (TextView) view.findViewById(R.id.tv_dialog_hami_get_verify_code);
+        final EditText et_dialog_verify_code = (EditText) view.findViewById(R.id.et_dialog_hami_verify_code);
+        TextView tv_dialog_hami_ok = (TextView) view.findViewById(R.id.tv_dialog_hami_ok);
+
+        tv_dialog_hami_get_verify_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHaMiSeverityCode();
+            }
+        });
+
+        tv_dialog_hami_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String verufy_code = et_dialog_verify_code.getText().toString().trim();
+                if (TextUtils.isEmpty(verufy_code)) {
+                    ToastUtil.showToast(mContext, "输入验证码");
+                    return;
+                }
+                //todo 绑定哈密银行验证码
+            }
+        });
+        mVerifyCodeDialog.show();
+    }
+
+    /**
+     * 得到哈密银行绑定银行卡验证码
+     */
+    private void getHaMiSeverityCode() {
+        mHandler.removeMessages(MSG_SEVERITY_TIME);
+        mStartTime = 59;
+        //todo 得到验证码成功后调用
+        refreshDialogSeverityTextUI();
     }
 
 }
