@@ -447,11 +447,11 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 public void onSuccess(ResponseBean paramT) {
                     int code = paramT.getCode();
                     if (code == 0) {
-//                        ToastUtil.showToast(mContext, "绑卡成功!");
-//                        EventBus.getDefault().post(new UserConfigChangedEvent());
-//                        backActivity();
+                        ToastUtil.showToast(mContext, "绑卡成功!");
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        backActivity();
 
-                        showHaMiVerifyCodeDialog();
+//                        showHaMiVerifyCodeDialog();
                     }
                 }
 
