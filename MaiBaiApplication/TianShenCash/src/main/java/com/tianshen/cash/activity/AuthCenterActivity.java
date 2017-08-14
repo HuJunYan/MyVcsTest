@@ -320,9 +320,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean6.setDrawable_id(R.drawable.ic_auth_center_zhi_ma_item);
         authCenterItemBean6.setStatus(zhima_pass);
 
-        AuthCenterItemBean authCenterItemBean7 = new AuthCenterItemBean();
-        authCenterItemBean7.setName("更多信息可选填");
-        authCenterItemBean7.setDrawable_id(R.drawable.ic_auth_center_more_item);
 
         authCenterItemBeans.add(authCenterItemBean0);
         authCenterItemBeans.add(authCenterItemBean1);
@@ -334,7 +331,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         }
         authCenterItemBeans.add(authCenterItemBean5);
         authCenterItemBeans.add(authCenterItemBean6);
-        authCenterItemBeans.add(authCenterItemBean7);
         return authCenterItemBeans;
     }
 
