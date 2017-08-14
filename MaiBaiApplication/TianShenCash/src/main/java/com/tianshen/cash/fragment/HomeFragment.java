@@ -90,7 +90,6 @@ import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tianshen.cash.utils.UploadToServerUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
@@ -247,7 +246,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private boolean mQuotaFlag; //只有页面正在显示的时候收到此消息才强制跳转到下单页面
     private int mQuotaCount;//工具类会发送2次事件...fuck bug
 
-    private UploadToServerUtil mUploadToServerUtil;
 
     private TextView tv_dialog_get_verify_code;
     private int mStartTime = 59;
@@ -543,49 +541,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    /**
-     * 上传联系人&通信录
-     */
-//    private void uploadContacts() {
-//        mUploadToServerUtil = new UploadToServerUtil(mContext);
-//        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
-//        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
-//    }
-
-//    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
-//
-//        @Override
-//        public void uploadSuccessCallBack(int type) {
-//            //上传通讯录、通话记录、短信等的回调
-//            switch (type) {
-//                case GlobalParams.UPLOADCALLCONTACTS:
-//                    //上传联系人成功
-//                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
-//                    break;
-//                case GlobalParams.UPLOADCALLRECORD:
-//                    //上传通话记录成功
-//                    break;
-//                case GlobalParams.UPLOADMESSAGE:
-//                    //上传短信成功
-//                    break;
-//            }
-//        }
-//
-//        @Override
-//        public void uploadFailCallBack(int type) {
-//            switch (type) {
-//                case GlobalParams.UPLOADCALLCONTACTS:
-//                    //上传联系人失败
-//                    break;
-//                case GlobalParams.UPLOADCALLRECORD:
-//                    //上传通话记录失败
-//                    break;
-//                case GlobalParams.UPLOADMESSAGE:
-//                    //上传短信失败
-//                    break;
-//            }
-//        }
-//    }
     private void initSelWithdrawalsData() {
 
         try {

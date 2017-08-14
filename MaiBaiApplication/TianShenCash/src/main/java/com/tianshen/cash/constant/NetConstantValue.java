@@ -6,7 +6,7 @@ package com.tianshen.cash.constant;
 public class NetConstantValue {
 
     //正式
-    public static String HOST = "http://pro.tianshenjr.com/";
+//    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
 //    public static String HOST = "http://pre.tianshenjr.com/";
@@ -15,7 +15,7 @@ public class NetConstantValue {
 //   public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
-//    public static String HOST = "http://dev.tianshenjr.com/";
+    public static String HOST = "http://dev.tianshenjr.com/";
 
 
     public static String COMMONURI = HOST + "Home/";
@@ -91,46 +91,6 @@ public class NetConstantValue {
         return COMMONURI + "Customer/getVerifyCode";
     }
 
-    /**
-     * 设置支付密码
-     * api: com.maibei.merchants.net.api.SetPayPassword.setPayPassword()
-     *
-     * @return
-     */
-    public static String getSetPayPassUrl() {
-        return COMMONURI + "Customer/setPayPass";
-    }
-
-    /**
-     * 验证支付密码
-     * api: com.maibei.merchants.net.api.VerifyPayPass.verifyPayPass()
-     *
-     * @return
-     */
-    public static String getVerifyPayPassUrl() {
-        return COMMONURI + "Customer/verifyPayPass";
-    }
-
-    /**
-     * 保存用户身份证信息
-     * api: com.maibei.merchants.net.api.SaveIdCardInformation.saveIdCardInformation()
-     *
-     * @return
-     */
-    public static String getSaveIdCardInformationUrl() {
-        return COMMONURI + "Customer/saveIdCardInformation";
-    }
-
-    /**
-     * 保存用户信息
-     * api: com.maibei.merchants.net.api.SaveInformation.saveInformation()
-     *
-     * @return
-     */
-    public static String getSaveInformationUrl() {
-        return COMMONURI + "Customer/saveInformation";
-    }
-
 
 //    /**
 //     * 添加银行卡（绑卡）
@@ -161,17 +121,6 @@ public class NetConstantValue {
     public static String getSaveContactsUrl() {
         return COMMONURI + "System/saveContacts";
     }
-
-    /**
-     * 批量保存通话记录 (支持增量，即只传上次上行数据之后的通话记录)
-     * api: com.maibei.merchants.net.api.SaveCallRecord.saveCallRecord()
-     *
-     * @return
-     */
-    public static String getSaveCallRecordUrl() {
-        return COMMONURI + "System/saveCallRecord";
-    }
-
     /**
      * 取上一次保存通话记录的时间，下次增量上传通话记录的开始时间
      * api: com.maibei.merchants.net.api.SetLastSaveCallRecordTime.getLastSaveCallRecordTime()
@@ -180,16 +129,6 @@ public class NetConstantValue {
      */
     public static String getLastSaveCallRecordTimeUrl() {
         return COMMONURI + "System/getLastSaveCallRecordTime";
-    }
-
-    /**
-     * 我的(我的主页)
-     * api: com.maibei.merchants.net.api.Mine.mine()
-     *
-     * @return
-     */
-    public static String getMineUrl() {
-        return COMMONURI + "UserCenter/mine";
     }
 
     /**
@@ -295,16 +234,6 @@ public class NetConstantValue {
     }
 
     /**
-     * 解绑银行卡
-     * api: com.maibei.merchants.net.api.UnbindBankCard.unbindBankCard()
-     *
-     * @return
-     */
-    public static String GetUnbindBankCardUrl() {
-        return COMMONURI + "Pay/unbindBankCard";
-    }
-
-    /**
      * 用户注册
      * api: com.maibei.merchants.net.api.GetSignUp.getSignUp()
      *
@@ -322,71 +251,6 @@ public class NetConstantValue {
     }
 
     /*
-    * 微信支付下单
-    * api:com.maibei.user.net.api.GetWeChatOrder.getWeChatOrder()
-    * */
-    public static String getWeChatOrderURl() {
-        return COMMONURI + "Pay/wxpayConfirm";
-    }
-
-    /*
-    * 获取用户当前认证信息
-    * api:com.maibei.user.net.api.GetCustomerAuth.getCustomerAuth()
-    * */
-    public static String getCustomerAuthURl() {
-        return COMMONURI + "Credit/getCustomerAuth";
-    }
-
-    /*
-    * 获取提升额度界面显示列表状态
-    *api:com.maibei.user.net.api.GetAuthListStatus.getAuthList()
-    * */
-    public static String getAuthListURL() {
-        return COMMONURI + "Credit/getAuthList";
-    }
-
-
-    /*
-     * 上传联系人信息
-     *api:com.maibei.user.net.api.UploadContactsInfo.uploadContactsInfo()
-    * */
-    public static String getUploadContactsInfoURL() {
-        return COMMONURI + "Credit/uploadContactsInfo";
-    }
-
-    /*
-    * 获取联系人信息
-    *api:com.maibei.user.net.api.GetContactsInfo.getContactsInfo()
-    * */
-    public static String getGetContactsInfoURL() {
-        return COMMONURI + "Credit/getContactsInfo";
-    }
-
-    /*
-    * 修改联系人信息
-    *api:com.maibei.user.net.api.ChangeContactsInfo.changeContactsInfo()
-    * */
-    public static String getChangeContactsInfoURL() {
-        return COMMONURI + "Credit/changeContactsInfo";
-    }
-
-    /*
-    * 获取提现账单
-    *api:com.maibei.user.net.api.GetWithdrawalsBill.getWithdrawalsBill()
-    * */
-    public static String getGetWithdrawalsBillURL() {
-        return COMMONURI + "UserCenter/getWithdrawalsBill";
-    }
-
-    /*
-    * 提现账单还款
-    *api:com.maibei.user.net.api.RepayWithdrawals.repayWithdrawals()
-    * */
-    public static String getRepayWithdrawalsURL() {
-        return COMMONURI + "UserCenter/repayWithdrawals";
-    }
-
-    /*
     * 提现产品选择
     *api:com.maibei.user.net.api.SelWithdrawals.selWithdrawals()
     * */
@@ -401,31 +265,6 @@ public class NetConstantValue {
     public static String getWithdrawalsApplyURL() {
         return COMMONURI + "WithdrawalsOrder/withdrawalsApply";
     }
-
-    /*
-    * 提现待审核刷新
-    *api:com.maibei.user.net.api.WithdrawalsRefresh.withdrawalsRefresh()
-    * */
-    public static String getWithdrawalsRefreshURL() {
-        return COMMONURI + "WithdrawalsOrder/withdrawalsRefresh";
-    }
-
-    /*
-    * 现金贷提现下单
-    *api:com.maibei.user.net.api.WithdrawalsOrder.withdrawalsOrder()
-    * */
-    public static String getWithdrawalsOrderURL() {
-        return COMMONURI + "WithdrawalsOrder/withdrawalsOrder";
-    }
-
-    /*
-    * 获取提现账单详情
-    *api:com.maibei.user.net.api.GetWithdrawalsBillInfo.getWithdrawalsBillInfo()
-    * */
-    public static String getWithdrawalsBillInfoURL() {
-        return COMMONURI + "UserCenter/GetWithdrawalsBillInfo";
-    }
-
     /*
     * 获取取现记录
     *api:com.maibei.user.net.api.GetWithdrawalsRecord.getWithdrawalsRecord()
@@ -452,16 +291,6 @@ public class NetConstantValue {
 //        return COMMONURI + "MerchantCRO/merchantUploadImage";
 //        return "http://192.168.31.178:8080/UploadFileServer/upload";
     }
-
-    /*
-    * 运营商已重复认证
-    * 分期消费等待审核界面使用
-    *
-    * */
-    public static String getAgainUrl() {
-        return COMMONURI + "Credit/creditMobile";
-    }
-
     /**
      * 首页滚动数据
      */

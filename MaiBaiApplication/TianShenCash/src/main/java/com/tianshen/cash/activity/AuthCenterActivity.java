@@ -26,7 +26,6 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tianshen.cash.utils.UploadToServerUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,7 +56,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
     private AuthCenterAdapter mAdapter;
 
-    private UploadToServerUtil mUploadToServerUtil;
 
     private UserAuthCenterBean mUserAuthCenterBean;
     private ArrayList<AuthCenterItemBean> mAuthCenterItemBeans;
@@ -216,50 +214,6 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 上传联系人&通信录
-     */
-    private void uploadContacts() {
-        mUploadToServerUtil = new UploadToServerUtil(mContext);
-        mUploadToServerUtil.setCallBack(new MyUploadCallBack());
-        mUploadToServerUtil.uploadUserInfo(GlobalParams.UPLOADCALLCONTACTS);
-    }
-
-    private class MyUploadCallBack implements UploadToServerUtil.UploadCallBack {
-
-        @Override
-        public void uploadSuccessCallBack(int type) {
-            //上传通讯录、通话记录、短信等的回调
-            switch (type) {
-                case GlobalParams.UPLOADCALLCONTACTS:
-                    //上传联系人成功
-                    gotoActivity(mContext, ConfirmMoneyActivity.class, null);
-                    break;
-                case GlobalParams.UPLOADCALLRECORD:
-                    //上传通话记录成功
-                    break;
-                case GlobalParams.UPLOADMESSAGE:
-                    //上传短信成功
-                    break;
-            }
-        }
-
-        @Override
-        public void uploadFailCallBack(int type) {
-            switch (type) {
-                case GlobalParams.UPLOADCALLCONTACTS:
-                    //上传联系人失败
-                    break;
-                case GlobalParams.UPLOADCALLRECORD:
-                    //上传通话记录失败
-                    break;
-                case GlobalParams.UPLOADMESSAGE:
-                    //上传短信失败
-                    break;
-            }
         }
     }
 

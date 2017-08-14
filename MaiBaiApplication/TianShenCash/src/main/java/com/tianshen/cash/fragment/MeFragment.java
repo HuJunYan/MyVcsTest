@@ -21,7 +21,6 @@ import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AboutMaibeiActivity;
-import com.tianshen.cash.activity.ConsumptionRecordActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoanHistoryActivity;
 import com.tianshen.cash.activity.LoginActivity;
