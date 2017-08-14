@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_auth_center_item"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/global_bg_white">
+
+    <ImageView
+        android:id="@+id/iv_auth_center_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp" />
+
+    <TextView
+        android:id="@+id/tv_auth_center_name_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dip"
+        android:layout_toRightOf="@+id/iv_auth_center_item"
+        android:gravity="center"
+        android:textColor="@color/global_txt_black4"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/tv_auth_center_status_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/global_txt_black4"
+        android:textSize="14dp" />
+
+
+</RelativeLayout>

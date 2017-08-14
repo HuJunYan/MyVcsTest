@@ -1,10 +1,20 @@
 package com.tianshen.cash.model;
 
-public class AuthCenterItemBean {
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
+public class AuthCenterItemBean implements MultiItemEntity {
+
+    public static final int NORMAL_TYPE = 1;
+    public static final int TXT_TYPE = 2;
 
     private int drawable_id;
     private String name;
     private String status;
+    private int itemType;
+
+    public void setItemType(int itemType) {
+        this.itemType = itemType;
+    }
 
     public String getStatus() {
         return status;
@@ -31,4 +41,8 @@ public class AuthCenterItemBean {
     }
 
 
+    @Override
+    public int getItemType() {
+        return itemType;
+    }
 }
