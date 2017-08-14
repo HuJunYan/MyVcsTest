@@ -16,8 +16,6 @@ public class ToastUtil {
         if (msg == null || "".equals(msg)) {
             return;
         }
-        LogUtil.d("thread", "main thread name = " + Looper.getMainLooper().getThread().getName());
-        LogUtil.d("thread", "thread name = " + Thread.currentThread().getName());
         if (toast == null) {
             toast = Toast.makeText(MyApplicationLike.getmApplication(), msg, Toast.LENGTH_LONG);
         } else {
@@ -31,8 +29,6 @@ public class ToastUtil {
         if (msg == null || "".equals(msg)) {
             return;
         }
-        LogUtil.d("thread", "main thread name = " + Looper.getMainLooper().getThread().getName());
-        LogUtil.d("thread", "thread name = " + Thread.currentThread().getName());
         if (toast == null) {
             toast = Toast.makeText(MyApplicationLike.getmApplication(), msg, time);
         } else {
@@ -43,8 +39,6 @@ public class ToastUtil {
     }
 
     public static void showToast(Context context, int resid) {
-        LogUtil.d("thread", "main thread name = " + Looper.getMainLooper().getThread().getName());
-        LogUtil.d("thread", "thread name = " + Thread.currentThread().getName());
         if (toast == null) {
             toast = Toast.makeText(MyApplicationLike.getmApplication(), resid, Toast.LENGTH_LONG);
         } else {
