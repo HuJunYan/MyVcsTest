@@ -498,7 +498,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     private ClickableSpan webSpan3 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            gotoWebActivity(1);
+            gotoWebActivity(3);
         }
 
         @Override
