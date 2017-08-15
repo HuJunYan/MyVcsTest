@@ -8,11 +8,18 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.moxie.client.manager.MoxieCallBack;
+import com.moxie.client.manager.MoxieCallBackData;
+import com.moxie.client.manager.MoxieContext;
+import com.moxie.client.manager.MoxieSDK;
+import com.moxie.client.model.MxParam;
 import com.tianshen.cash.R;
 import com.tianshen.cash.adapter.AuthListAdapter;
 import com.tianshen.cash.base.BaseActivity;
@@ -432,7 +439,59 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
                 gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 break;
+            case "淘宝认证":
+                gotoTaoBaoAuth();
+                break;
         }
+
+    }
+
+    /**
+     * 跳转到淘宝renz
+     */
+    private void gotoTaoBaoAuth() {
+        String userId = TianShenUserUtil.getUserId(mContext);
+        String apiKey = "c916e9aac6a244c2aa47552669c5a1e0";
+
+        MxParam mxParam = new MxParam();
+        mxParam.setUserId(userId);
+        mxParam.setApiKey(apiKey);
+        mxParam.setFunction(MxParam.PARAM_FUNCTION_TAOBAO);
+
+        MoxieSDK.getInstance().start(AuthCenterActivity.this, mxParam, new MoxieCallBack() {
+            @Override
+            public boolean callback(MoxieContext moxieContext, MoxieCallBackData moxieCallBackData) {
+                if (moxieCallBackData != null) {
+                    switch (moxieCallBackData.getCode()) {
+                        case MxParam.ResultCode.IMPORTING:
+                            break;
+                        case MxParam.ResultCode.IMPORT_UNSTART:
+                            break;
+                        case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.MOXIE_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.USER_INPUT_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_FAIL:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_SUCCESS:
+                            ToastUtil.showToast(mContext, "认证成功!");
+                            moxieContext.finish();
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
 
     }
 

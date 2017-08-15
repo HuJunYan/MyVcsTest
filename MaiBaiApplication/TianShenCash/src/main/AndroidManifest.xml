@@ -308,6 +308,9 @@
         <activity
             android:name=".activity.LoanHistoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.moxie.client.MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
