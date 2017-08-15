@@ -1673,7 +1673,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void onClickMarket() {
         String superMarkerNUM = mUserConfig.getData().getFlow_supermarket_num();
-        int superMarkerNum = Integer.parseInt(superMarkerNUM);
+        int superMarkerNum = 0;
+        if (!TextUtils.isEmpty(superMarkerNUM)) {
+            superMarkerNum = Integer.parseInt(superMarkerNUM);
+        }
         if (superMarkerNum == 1) {
             String flowSupermarketId = mUserConfig.getData().getFlow_supermarket_id();
             addSuperMarketCount(flowSupermarketId);
