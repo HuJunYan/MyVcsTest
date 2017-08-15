@@ -214,7 +214,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                         shareWeibo(turnplateBean);
                     }
                 });
-        inviteBottomDialog.show();
+        if (!isFinishing()) {
+            inviteBottomDialog.show();
+        }
     }
 
     private void shareWeibo(TurnplateBean turnplateBean) {
