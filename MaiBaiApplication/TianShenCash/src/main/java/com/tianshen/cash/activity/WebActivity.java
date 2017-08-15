@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -90,6 +91,20 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private void initWebView() {
         setWebViewSettings();
         setWebView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (wv_web != null) {
+            ViewGroup parent = (ViewGroup) wv_web.getParent();
+            if(parent!=null){
+                parent.removeView(wv_web);
+            }
+            wv_web.removeAllViews();
+            wv_web.destroy();
+            wv_web = null;
+        }
     }
 
     private void setWebViewSettings() {
