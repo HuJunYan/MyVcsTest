@@ -62,6 +62,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     private String mUrl;
     private String mFrom;
+    private String mType;
     private InviteBottomDialog inviteBottomDialog;
     private WbShareHandler wbShareHandler;
 
@@ -70,7 +71,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
         mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
+        mType = getIntent().getExtras().getString(GlobalParams.WEB_TYPE);
         initWebView();
+        if (GlobalParams.TYPE_READ.equals(mType)){
+            tv_web_exit.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

@@ -1563,6 +1563,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
                 viewList.add(pageView);
+            } else if ("2".equals(activityType)) { //阅读
+                View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
+                ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
+                ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
+                iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        String url = data.getActivity_url();
+                        bundle.putString(GlobalParams.WEB_URL_KEY, url);
+                        bundle.putString(GlobalParams.WEB_TYPE, GlobalParams.TYPE_READ);
+
+                        gotoActivity(mContext, WebActivity.class, bundle);
+                        mDialog.dismiss();
+                    }
+                });
+                viewList.add(pageView);
             }
 
         }
