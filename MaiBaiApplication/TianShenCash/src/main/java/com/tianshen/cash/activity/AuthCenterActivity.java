@@ -451,7 +451,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      */
     private void gotoTaoBaoAuth() {
         String userId = TianShenUserUtil.getUserId(mContext);
-        String apiKey = "c916e9aac6a244c2aa47552669c5a1e0";
+        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa";
 
         MxParam mxParam = new MxParam();
         mxParam.setUserId(userId);
