@@ -323,21 +323,28 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     /**
      * 跳转到WebActivity
      *
-     * @param type 1 居间协议 2 借款协议
+     * @param type 1 居间协议 2 借款协议 3 人行征信协议
      */
     private void gotoWebActivity(int type) {
         if (mOrderConfirmBean == null) {
             return;
         }
-        String userPayProtocolURL = NetConstantValue.getUserPayServerURL();
+        String userPayProtocolURL;
+        if (type == 3) {
+            userPayProtocolURL = mOrderConfirmBean.getData().getBank_credit_investigation_url();
+        } else {
+            userPayProtocolURL = NetConstantValue.getUserPayServerURL();
+        }
         String repay_id = mOrderConfirmBean.getData().getRepay_id();
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount();//借款本金
         StringBuilder sb = new StringBuilder();
         sb.append(userPayProtocolURL);
-        sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
-        sb.append("&repay_id=" + repay_id);
-        sb.append("&consume_amount=" + consume_amount);
-        sb.append("&agreement_type=" + type);
+        if (type != 3) {
+            sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
+            sb.append("&repay_id=" + repay_id);
+            sb.append("&consume_amount=" + consume_amount);
+            sb.append("&agreement_type=" + type);
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());

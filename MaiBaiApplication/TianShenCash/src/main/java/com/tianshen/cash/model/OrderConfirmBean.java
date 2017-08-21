@@ -56,6 +56,16 @@ public class OrderConfirmBean {
         private String protocol_num;
         private String overdue;
 
+        public String getBank_credit_investigation_url() {
+            return bank_credit_investigation_url;
+        }
+
+        public void setBank_credit_investigation_url(String bank_credit_investigation_url) {
+            this.bank_credit_investigation_url = bank_credit_investigation_url;
+        }
+
+        private String bank_credit_investigation_url;
+
         public String getConsume_amount() {
             return consume_amount;
         }
