@@ -1580,6 +1580,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
                 viewList.add(pageView);
+            }else if ("3".equals(activityType)) { //只看图片
+                View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
+                ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
+                ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
+                viewList.add(pageView);
             }
 
         }
