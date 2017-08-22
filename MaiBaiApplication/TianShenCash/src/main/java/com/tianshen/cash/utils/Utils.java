@@ -604,6 +604,8 @@ public class Utils {
      * vivo                # 2015
      * qqTencenta          # 2016
      * xinrui              # 2017
+     * xinruia             # 2018
+     * xinruib             # 2019
      */
     public static String channelName2channelID(String channelName) {
         String channelID = "2000";
@@ -647,9 +649,6 @@ public class Utils {
                 break;
             case "qqTencenta":
                 channelID = "2016";
-                break;
-            case "xinrui":
-                channelID = "2017";
                 break;
         }
         return channelID;

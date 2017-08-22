@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -108,6 +109,20 @@ public class ServiceOnlineActivity extends BaseActivity {
     @Override
     protected void setListensers() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webview != null) {
+            ViewGroup parent = (ViewGroup) webview.getParent();
+            if(parent!=null){
+                parent.removeView(webview);
+            }
+            webview.removeAllViews();
+            webview.destroy();
+            webview = null;
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

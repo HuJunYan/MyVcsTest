@@ -1,20 +1,27 @@
 package com.tianshen.cash.activity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.moxie.client.manager.MoxieCallBack;
+import com.moxie.client.manager.MoxieCallBackData;
+import com.moxie.client.manager.MoxieContext;
+import com.moxie.client.manager.MoxieSDK;
+import com.moxie.client.model.MxParam;
 import com.tianshen.cash.R;
-import com.tianshen.cash.adapter.AuthCenterAdapter;
+import com.tianshen.cash.adapter.AuthListAdapter;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.AuthCenterBackEvent;
@@ -48,13 +55,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.tv_auth_center_post)
     TextView tvAuthCenterPost;
     @BindView(R.id.xrecyclerview_auth_center)
-    XRecyclerView xrecyclerviewAuthCenter;
+    RecyclerView xrecyclerviewAuthCenter;
 
     private boolean mIsFromCard;
 
     private boolean mIsAllAuthOK;
 
-    private AuthCenterAdapter mAdapter;
+    private AuthListAdapter mAdapter;
 
 
     private UserAuthCenterBean mUserAuthCenterBean;
@@ -116,15 +123,12 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         if (mAdapter == null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            xrecyclerviewAuthCenter.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
             xrecyclerviewAuthCenter.setLayoutManager(layoutManager);
-            Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.item_divider);
-            xrecyclerviewAuthCenter.addItemDecoration(xrecyclerviewAuthCenter.new DividerItemDecoration(dividerDrawable));
-            xrecyclerviewAuthCenter.setLoadingMoreEnabled(false);
-            xrecyclerviewAuthCenter.setPullRefreshEnabled(false);
-            mAdapter = new AuthCenterAdapter(mContext, mAuthCenterItemBeans, mHandler);
+            mAdapter = new AuthListAdapter(mAuthCenterItemBeans, mHandler);
             xrecyclerviewAuthCenter.setAdapter(mAdapter);
         } else {
-            mAdapter.setData(mAuthCenterItemBeans);
+            mAdapter.replaceData(mAuthCenterItemBeans);
             mAdapter.notifyDataSetChanged();
         }
         checkIsAllAuthOK();
@@ -231,6 +235,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String userdetail_pass = data.getUserdetail_pass();
         String zhima_pass = data.getZhima_pass();
         String wecash_pass = data.getWecash_pass();
+        String taobao_pass = data.getTaobao_pass();
 
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
@@ -243,40 +248,52 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean0.setName("身份认证");
         authCenterItemBean0.setDrawable_id(R.drawable.ic_auth_center_identity_item);
         authCenterItemBean0.setStatus(id_num);
+        authCenterItemBean0.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean1 = new AuthCenterItemBean();
         authCenterItemBean1.setName("手机运营商");
         authCenterItemBean1.setDrawable_id(R.drawable.ic_auth_center_phone_item);
         authCenterItemBean1.setStatus(china_mobile);
+        authCenterItemBean1.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean2 = new AuthCenterItemBean();
         authCenterItemBean2.setName("个人信息");
         authCenterItemBean2.setDrawable_id(R.drawable.ic_auth_center_info_item);
         authCenterItemBean2.setStatus(userdetail_pass);
+        authCenterItemBean2.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean3 = new AuthCenterItemBean();
         authCenterItemBean3.setName("紧急联系人");
         authCenterItemBean3.setDrawable_id(R.drawable.ic_auth_center_urgent_item);
         authCenterItemBean3.setStatus(contacts_pass);
+        authCenterItemBean3.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean4 = new AuthCenterItemBean();
         authCenterItemBean4.setName("联系人信息认证");
         authCenterItemBean4.setDrawable_id(R.drawable.ic_auth_center_shan_yin_item);
         authCenterItemBean4.setStatus(wecash_pass);
+        authCenterItemBean4.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean5 = new AuthCenterItemBean();
         authCenterItemBean5.setName("收款银行卡");
         authCenterItemBean5.setDrawable_id(R.drawable.ic_auth_center_bank_card_item);
         authCenterItemBean5.setStatus(bankcard_pass);
+        authCenterItemBean5.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean6 = new AuthCenterItemBean();
         authCenterItemBean6.setName("芝麻信用");
         authCenterItemBean6.setDrawable_id(R.drawable.ic_auth_center_zhi_ma_item);
         authCenterItemBean6.setStatus(zhima_pass);
+        authCenterItemBean6.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         AuthCenterItemBean authCenterItemBean7 = new AuthCenterItemBean();
-        authCenterItemBean7.setName("更多信息可选填");
-        authCenterItemBean7.setDrawable_id(R.drawable.ic_auth_center_more_item);
+        authCenterItemBean7.setItemType(AuthCenterItemBean.TXT_TYPE);
+
+        AuthCenterItemBean authCenterItemBean8 = new AuthCenterItemBean();
+        authCenterItemBean8.setName("淘宝认证");
+        authCenterItemBean8.setDrawable_id(R.drawable.ic_auth_center_tao_bao_item);
+        authCenterItemBean8.setStatus(taobao_pass);
+        authCenterItemBean8.setItemType(AuthCenterItemBean.NORMAL_TYPE);
 
         authCenterItemBeans.add(authCenterItemBean0);
         authCenterItemBeans.add(authCenterItemBean1);
@@ -289,6 +306,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBeans.add(authCenterItemBean5);
         authCenterItemBeans.add(authCenterItemBean6);
         authCenterItemBeans.add(authCenterItemBean7);
+        authCenterItemBeans.add(authCenterItemBean8);
         return authCenterItemBeans;
     }
 
@@ -375,7 +393,59 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
                 gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 break;
+            case "淘宝认证":
+                gotoTaoBaoAuth();
+                break;
         }
+
+    }
+
+    /**
+     * 跳转到淘宝renz
+     */
+    private void gotoTaoBaoAuth() {
+        String userId = TianShenUserUtil.getUserId(mContext);
+        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa";
+
+        MxParam mxParam = new MxParam();
+        mxParam.setUserId(userId);
+        mxParam.setApiKey(apiKey);
+        mxParam.setFunction(MxParam.PARAM_FUNCTION_TAOBAO);
+
+        MoxieSDK.getInstance().start(AuthCenterActivity.this, mxParam, new MoxieCallBack() {
+            @Override
+            public boolean callback(MoxieContext moxieContext, MoxieCallBackData moxieCallBackData) {
+                if (moxieCallBackData != null) {
+                    switch (moxieCallBackData.getCode()) {
+                        case MxParam.ResultCode.IMPORTING:
+                            break;
+                        case MxParam.ResultCode.IMPORT_UNSTART:
+                            break;
+                        case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.MOXIE_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.USER_INPUT_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_FAIL:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_SUCCESS:
+                            ToastUtil.showToast(mContext, "认证成功!");
+                            moxieContext.finish();
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
 
     }
 

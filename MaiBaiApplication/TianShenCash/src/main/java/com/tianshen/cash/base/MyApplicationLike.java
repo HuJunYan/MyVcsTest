@@ -12,6 +12,7 @@ import android.support.multidex.MultiDexApplication;
 import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
+import com.moxie.client.manager.MoxieSDK;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -54,6 +55,8 @@ public class MyApplicationLike extends MultiDexApplication {
         //初始化bugly
         CrashReport.initCrashReport(mApplication, "64c5b81f2f", false);
         isMIUI = RomUtils.isMIUI();
+        //魔蝎淘宝认证
+        MoxieSDK.init(this);
     }
 
     private void initLogger() {

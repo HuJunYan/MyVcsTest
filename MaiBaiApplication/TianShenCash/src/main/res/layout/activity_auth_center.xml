@@ -31,11 +31,15 @@
 
     <View style="@style/split_line_style" />
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/xrecyclerview_auth_center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <View
+        style="@style/split_line_style"
         android:layout_marginTop="12dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/xrecyclerview_auth_center"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

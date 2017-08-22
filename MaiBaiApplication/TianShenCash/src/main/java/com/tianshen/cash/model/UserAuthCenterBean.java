@@ -59,6 +59,16 @@ public class UserAuthCenterBean {
         private String wecash_pass;
         private String wecash_pass_url;
         private String zhima_url;
+        private String taobao_pass;
+
+        public String getTaobao_pass() {
+            return taobao_pass;
+        }
+
+        public void setTaobao_pass(String taobao_pass) {
+            this.taobao_pass = taobao_pass;
+        }
+
 
         public String getZhima_url() {
             return zhima_url;

@@ -97,7 +97,9 @@ public class GlobalParams {
             + "follow_app_official_microblog," + "invitation_write";
 
     public static String WEB_FROM = "web_from";//bundle key  webactivity
+    public static String WEB_TYPE = "web_type";//bundle key  webactivity
     public static String FROM_HOME = "from_homefragment"; //bundle value from homefragment
+    public static String TYPE_READ = "type_read"; //bundle value from homefragment
 
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -61,6 +62,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     private String mUrl;
     private String mFrom;
+    private String mType;
     private InviteBottomDialog inviteBottomDialog;
     private WbShareHandler wbShareHandler;
 
@@ -69,7 +71,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
         mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
+        mType = getIntent().getExtras().getString(GlobalParams.WEB_TYPE);
         initWebView();
+        if (GlobalParams.TYPE_READ.equals(mType)){
+            tv_web_exit.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -90,6 +96,20 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private void initWebView() {
         setWebViewSettings();
         setWebView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (wv_web != null) {
+            ViewGroup parent = (ViewGroup) wv_web.getParent();
+            if(parent!=null){
+                parent.removeView(wv_web);
+            }
+            wv_web.removeAllViews();
+            wv_web.destroy();
+            wv_web = null;
+        }
     }
 
     private void setWebViewSettings() {
