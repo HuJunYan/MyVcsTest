@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         RequestPermissionUtil requestPermissionUtil=new RequestPermissionUtil(mContext);
         requestPermissionUtil.requestCameraContactsLocationPermission();
-        mLocationUtil = LocationUtil.getInstance(MainActivity.this);
+        mLocationUtil = LocationUtil.getInstance();
         regist();
         InitView();
     }

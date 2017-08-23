@@ -88,7 +88,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+        LocationUtil mLocationUtil = LocationUtil.getInstance();
         mLocationUtil.setIsCallBack(false);
     }
 
@@ -132,7 +132,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                            LocationUtil mLocationUtil = LocationUtil.getInstance();
                             mLocationUtil.startLocation(ConfirmMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
                         }

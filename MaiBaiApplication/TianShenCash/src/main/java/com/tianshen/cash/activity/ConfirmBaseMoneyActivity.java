@@ -109,7 +109,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+        LocationUtil mLocationUtil = LocationUtil.getInstance();
         mLocationUtil.setIsCallBack(false);
     }
 
@@ -164,7 +164,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                            LocationUtil mLocationUtil = LocationUtil.getInstance();
                             mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                             mLocationUtil.setIsCallBack(true);
                         } else {
@@ -387,7 +387,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 @Override
                 public void accept(Boolean aBoolean) throws Exception {
                     if (aBoolean) {
-                        LocationUtil mLocationUtil = LocationUtil.getInstance(mContext);
+                        LocationUtil mLocationUtil = LocationUtil.getInstance();
                         mLocationUtil.startLocation(ConfirmBaseMoneyActivity.this);
                         mLocationUtil.setIsCallBack(true);
                     }

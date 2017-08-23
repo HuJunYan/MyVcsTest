@@ -157,7 +157,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, listener, shareTitle, shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
+        inviteBottomDialog = new InviteBottomDialog(this, TianShenShareUtils.getIUiListenerInstance(), shareTitle, shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
         inviteBottomDialog.show();
     }
 
@@ -168,7 +168,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     //
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_QQ_SHARE) {
-            Tencent.handleResultData(data, listener);
+            Tencent.handleResultData(data, TianShenShareUtils.getIUiListenerInstance());
         }
     }
 
@@ -221,25 +221,6 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         }
     };
 
-    IUiListener listener = new IUiListener() {
-        @Override
-        public void onComplete(Object o) {
-            ToastUtil.showToast(mContext, "分享成功");
-            if (inviteBottomDialog != null) {
-                inviteBottomDialog.cancel();
-            }
-        }
-
-        @Override
-        public void onError(UiError uiError) {
-//            ToastUtil.showToast(mContext, "分享失败");
-        }
-
-        @Override
-        public void onCancel() {
-//            ToastUtil.showToast(mContext, "分享取消");
-        }
-    };
 
 
     @Subscribe

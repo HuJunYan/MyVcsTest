@@ -99,7 +99,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             }
         });
 
-        LocationUtil mLocationUtil = LocationUtil.getInstance(getApplicationContext());
+        LocationUtil mLocationUtil = LocationUtil.getInstance();
         mLocationUtil.startLocation(this);
     }
 

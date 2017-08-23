@@ -21,8 +21,13 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.tianshen.cash.R;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.WechatShareEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,7 +61,7 @@ public class TianShenShareUtils {
      * @param shareDescription
      */
     public static void shareToQQ(Activity mContext, String url, IUiListener listener, String shareTitle, String shareDescription, @DrawableRes int res, String iconName) {
-        Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, mContext);
+        Tencent mTencent = Tencent.createInstance(GlobalParams.APP_QQ_ID, MyApplicationLike.getmApplication());
         final Bundle params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
         params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTitle);
@@ -101,7 +106,7 @@ public class TianShenShareUtils {
             ToastUtil.showToast(context, "请先安装微信");
             return;
         }
-        wxapi = WXAPIFactory.createWXAPI(context, GlobalParams.APP_WX_ID);
+        wxapi = WXAPIFactory.createWXAPI(MyApplicationLike.getmApplication(), GlobalParams.APP_WX_ID);
         wxapi.registerApp(GlobalParams.APP_WX_ID);
 //        WXWebpageObject webPage = new WXWebpageObject();
 //        webPage.webpageUrl = mShareUrl;
@@ -212,4 +217,34 @@ public class TianShenShareUtils {
     private static String buildTransaction(final String type) {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
+
+
+    private static IUiListener sIUiListener;
+
+    public static IUiListener getIUiListenerInstance() {
+        if (sIUiListener == null) {
+            synchronized (TianShenShareUtils.class) {
+                if (sIUiListener == null) {
+                    sIUiListener = new IUiListener() {
+                        @Override
+                        public void onComplete(Object o) {
+                            ToastUtil.showToast(MyApplicationLike.getmApplication(), "分享成功");
+                            EventBus.getDefault().post(new WechatShareEvent());
+                        }
+
+                        @Override
+                        public void onError(UiError uiError) {
+                        }
+
+                        @Override
+                        public void onCancel() {
+                        }
+                    };
+                }
+            }
+        }
+        return sIUiListener;
+    }
+
+
 }

@@ -73,7 +73,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
         mType = getIntent().getExtras().getString(GlobalParams.WEB_TYPE);
         initWebView();
-        if (GlobalParams.TYPE_READ.equals(mType)){
+        if (GlobalParams.TYPE_READ.equals(mType)) {
             tv_web_exit.setVisibility(View.VISIBLE);
         }
     }
@@ -103,7 +103,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         super.onDestroy();
         if (wv_web != null) {
             ViewGroup parent = (ViewGroup) wv_web.getParent();
-            if(parent!=null){
+            if (parent != null) {
                 parent.removeView(wv_web);
             }
             wv_web.removeAllViews();
@@ -227,7 +227,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         }
         Bitmap qrCode = QRCodeUtils.createQRCode(turnplateBean.invite_url, (int) (getResources().getDisplayMetrics().density * 140));
         //分享dialog 创建
-        inviteBottomDialog = new InviteBottomDialog(WebActivity.this, listener, turnplateBean.share_title, turnplateBean.share_description)
+        inviteBottomDialog = new InviteBottomDialog(WebActivity.this, TianShenShareUtils.getIUiListenerInstance(), turnplateBean.share_title, turnplateBean.share_description)
                 .setQRCodeBitmap(qrCode).setShareIconResAndName(R.drawable.inviteicon, "share_icon").setShareUrl(turnplateBean.invite_url).setWeiBoListener(new InviteBottomDialog.ShareWeiboListener() {
                     @Override
                     public void shareToWeibo() {
@@ -250,26 +250,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         wbShareHandler.shareMessage(weiboMultiMessage, false);
     }
 
-
-    IUiListener listener = new IUiListener() {
-        @Override
-        public void onComplete(Object o) {
-            ToastUtil.showToast(mContext, "分享成功");
-            if (inviteBottomDialog != null) {
-                inviteBottomDialog.cancel();
-            }
-        }
-
-        @Override
-        public void onError(UiError uiError) {
-//            ToastUtil.showToast(mContext, "分享失败");
-        }
-
-        @Override
-        public void onCancel() {
-//            ToastUtil.showToast(mContext, "分享取消");
-        }
-    };
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -302,7 +282,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_QQ_SHARE) {
-            Tencent.handleResultData(data, listener);
+            Tencent.handleResultData(data, TianShenShareUtils.getIUiListenerInstance());
         }
 
     }

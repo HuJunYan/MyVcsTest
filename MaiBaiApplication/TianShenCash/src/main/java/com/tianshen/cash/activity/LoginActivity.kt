@@ -192,7 +192,7 @@ class LoginActivity : BaseActivity() {
 
 
                     val tags = HashSet<String>()
-                    val bdLocation = LocationUtil.getInstance(mContext).location
+                    val bdLocation = LocationUtil.getInstance().location
                     if (bdLocation != null) {
                         tags.add(bdLocation.cityCode)
                         tags.add(bdLocation.countryCode)

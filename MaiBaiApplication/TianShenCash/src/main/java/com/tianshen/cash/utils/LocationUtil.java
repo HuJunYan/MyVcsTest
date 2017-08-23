@@ -10,6 +10,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.event.LocationEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,9 +41,9 @@ public class LocationUtil implements BDLocationListener {
         mLocationClient.registerLocationListener(this);
     }
 
-    public static synchronized LocationUtil getInstance(Context context) {
+    public static synchronized LocationUtil getInstance() {
         if (mLocationUtil == null) {
-            mLocationUtil = new LocationUtil(context);
+            mLocationUtil = new LocationUtil(MyApplicationLike.getmApplication());
         }
         return mLocationUtil;
     }
