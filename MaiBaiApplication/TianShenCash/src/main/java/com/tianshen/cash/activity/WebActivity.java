@@ -2,11 +2,13 @@ package com.tianshen.cash.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -24,9 +26,7 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.tencent.connect.common.Constants;
-import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -43,8 +43,6 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-
-import static android.R.id.message;
 
 /**
  * 展示H5
@@ -130,6 +128,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (GlobalParams.FROM_HOME.equals(mFrom)) {
             wv_web.addJavascriptInterface(new IJavaScriptInterface(), "turnplate");
         }
+        wv_web.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                //使用系统自带的浏览器下载
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                }catch (Exception e){
+
+                }
+            }
+        });
         wv_web.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
@@ -151,8 +160,17 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                LogUtil.d("abc", "mUrl--->" + url);
                 if (url != null) {
-                    view.loadUrl(url);
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+                        view.loadUrl(url);
+                    } else {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(intent);
+                        } catch (Exception e) {
+                        }
+                    }
                 }
                 return true;
             }
