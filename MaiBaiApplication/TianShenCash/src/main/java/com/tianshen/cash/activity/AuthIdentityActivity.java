@@ -1091,13 +1091,13 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void uDunIdentity() {
-        String order = TianShenUserUtil.getUserId(mContext) + "-" + System.currentTimeMillis() / 1000;
+        String order = TianShenUserUtil.getUserId(mContext);
         AuthBuilder mAuthBuilder = new AuthBuilder(order, GlobalParams.UDUN_AUTH_KEY, NetConstantValue.getUDunNotifyURL(), new OnResultListener() {
             @Override
             public void onResult(String s) {
                 LogUtil.d("aaa", "onResult s = " + s);
                 UDanIDInfoBean uDanIDInfoBean = GsonUtil.json2bean(s, UDanIDInfoBean.class);
-                if (uDanIDInfoBean.ret_code == 000000 && "T".equals(uDanIDInfoBean.result_auth)) {
+                if ("000000".equals(uDanIDInfoBean.ret_code) && "T".equals(uDanIDInfoBean.result_auth)) {
                     ToastUtil.showToast(getApplicationContext(), "认证完成,处理中...");
                     backActivity();
 //                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_frontcard, ivIdentityAuthPic);

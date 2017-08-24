@@ -18,7 +18,7 @@ public class UDanIDInfoBean {
     public String branch_issued;//签发机关
     public String state_id;//民族
     public String url_backcard;//身份证背面图片url
-    public int ret_code;
+    public String ret_code;
     public String result_auth;//是否认真成功
     public String start_card;//有限日期
     public String url_photoliving;//活体图片url
@@ -26,6 +26,6 @@ public class UDanIDInfoBean {
     public RiskTag risk_tag;
 
     public class RiskTag {
-        public String living_attack;
+        public String living_attack;//活体攻击 1 存在风险 0 不存在风险
     }
 }
