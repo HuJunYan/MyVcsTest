@@ -41,15 +41,22 @@
             android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="还款金额" />
+            android:text="应还款总金额" />
 
         <TextView
             android:id="@+id/tv_confirm_repay"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/tv_confirm_repay_key"
+            android:layout_toRightOf="@+id/tv_confirm_repay_key"
             android:textSize="14dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/iv_dialog_money"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_confirm_repay"
+            android:src="@drawable/ic_danger_money"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
@@ -119,9 +126,9 @@
         <TextView
             android:id="@+id/tv_repay_severity_code_key"
             style="@style/auth_center_txt_style"
+            android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:layout_width="120dp"
             android:text="验证码" />
 
         <EditText
@@ -179,9 +186,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"

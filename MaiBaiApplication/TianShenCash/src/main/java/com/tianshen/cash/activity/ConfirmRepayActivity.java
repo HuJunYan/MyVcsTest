@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -73,6 +74,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
     EditText et_repay_severity_code;
     @BindView(R.id.tv_repay_severity_code)
     TextView tv_repay_severity_code;
+    @BindView(R.id.iv_dialog_money)
+    ImageView iv_dialog_money;
 
 
     private RepayInfoBean mRepayInfoBean;
@@ -124,6 +127,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmProtocol.setOnClickListener(this);
         tv_repay_severity_code.setOnClickListener(this);
+        iv_dialog_money.setOnClickListener(this);
         RxView.clicks(tvConfirmRepayApply)//1秒钟之内禁用重复点击
                 .throttleFirst(60, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Object>() {
@@ -148,6 +152,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
                 mHandler.sendEmptyMessage(MSG_SEVERITY_TIME);
                 initVerifySmsForRepayment();
                 break;
+            case R.id.iv_dialog_money: //TODO  弹出Dialog
+                break;
         }
     }
 
@@ -155,10 +161,16 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
      * 得到确认还款信息
      */
     private void initRepayData() {
+
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
-            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String consume_id = extras.getString(GlobalParams.CONSUME_ID, "");
+                jsonObject.put(GlobalParams.USER_CUSTOMER_ID, consume_id);
+            }
+            jsonObject.put(GlobalParams.CONSUME_ID, userId);
             GetRepayInfo getRepayInfo = new GetRepayInfo(mContext);
             getRepayInfo.getRepayInfo(jsonObject, null, true, new BaseNetCallBack<RepayInfoBean>() {
                 @Override

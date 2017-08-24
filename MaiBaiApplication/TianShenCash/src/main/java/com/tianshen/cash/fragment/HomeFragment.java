@@ -753,7 +753,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String sjdUrl = mUserConfig.getData().getSjd_url();
             gotoSJDActivity(sjdUrl);
         } else {
-            gotoActivity(mContext, ConfirmRepayActivity.class, null);
+            String consume_id = mUserConfig.getData().getConsume_id();
+            Bundle bundle = new Bundle();
+            bundle.putString(GlobalParams.CONSUME_ID, consume_id);
+            gotoActivity(mContext, ConfirmRepayActivity.class, bundle);
             ll_repay.setVisibility(View.GONE);
         }
     }
@@ -1535,7 +1538,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     }
                 });
                 viewList.add(pageView);
-            }else if ("3".equals(activityType)) { //只看图片
+            } else if ("3".equals(activityType)) { //只看图片
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);

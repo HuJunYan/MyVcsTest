@@ -102,4 +102,6 @@ public class GlobalParams {
     public static String TYPE_READ = "type_read"; //bundle value from homefragment
 
 
+
+    public static String CONSUME_ID = "consume_id";//KEY
 }
