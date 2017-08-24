@@ -38,6 +38,7 @@ public class IdNumInfoBean {
         private String back_idCard_url;
         private String face_url;
         private String face_change_key;
+        public int face_udn;
 
         public String getFace_change_key() {
             return face_change_key;

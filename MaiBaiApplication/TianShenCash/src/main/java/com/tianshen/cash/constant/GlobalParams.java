@@ -325,4 +325,6 @@ public class GlobalParams {
     public static String TYPE_READ = "type_read"; //bundle value from homefragment
 
 
+
+    public static String UDUN_AUTH_KEY = "0db4e877-004a-4edc-8426-95b31e557956";
 }

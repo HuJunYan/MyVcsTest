@@ -721,11 +721,19 @@ public class NetConstantValue {
 
     /**
      * 协议URL
+     *
      * @return
      */
     public static String getUserPayServerURL() {
         return HOST + "h5/protocol/server.html";
     }
 
-
+    /**
+     * 有盾 回调地址
+     *
+     * @return
+     */
+    public static String getUDunNotifyURL() {
+        return COMMONURI + "Udun/idAuthNotify";
+    }
 }

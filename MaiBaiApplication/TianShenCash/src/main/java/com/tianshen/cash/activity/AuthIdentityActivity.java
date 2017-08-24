@@ -20,7 +20,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.authreal.api.AuthBuilder;
+import com.authreal.api.OnResultListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -32,6 +35,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
 import com.tianshen.cash.idcard.util.Util;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
@@ -42,6 +46,7 @@ import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.UDanIDInfoBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
 import com.tianshen.cash.net.api.GetIdNumInfo;
@@ -50,6 +55,7 @@ import com.tianshen.cash.net.api.SaveIDCardBack;
 import com.tianshen.cash.net.api.SaveIDCardFront;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
@@ -257,17 +263,22 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    switch (id) {
-                        case R.id.iv_identity_auth_pic:
-                            onClickIdentity();
-                            break;
-                        case R.id.iv_identity_auth_pic2:
-                            onClickIdentityBack();
-                            break;
-                        case R.id.iv_identity_auth_face:
-                            onClickFace();
-                            break;
+                    if (mIdNumInfoBean.getData().face_udn == 0) {
+                        uDunIdentity();
+                    } else {
+                        switch (id) {
+                            case R.id.iv_identity_auth_pic:
+                                onClickIdentity();
+                                break;
+                            case R.id.iv_identity_auth_pic2:
+                                onClickIdentityBack();
+                                break;
+                            case R.id.iv_identity_auth_face:
+                                onClickFace();
+                                break;
+                        }
                     }
+
                 } else {
                     ToastUtil.showToast(AuthIdentityActivity.this, "请去设置开启照相机权限");
                 }
@@ -1077,5 +1088,26 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             mCamera.release();
         }
         return canUse;
+    }
+
+    public void uDunIdentity() {
+        String order = TianShenUserUtil.getUserId(mContext) + "-" + System.currentTimeMillis() / 1000;
+        AuthBuilder mAuthBuilder = new AuthBuilder(order, GlobalParams.UDUN_AUTH_KEY, NetConstantValue.getUDunNotifyURL(), new OnResultListener() {
+            @Override
+            public void onResult(String s) {
+                LogUtil.d("aaa", "onResult s = " + s);
+                UDanIDInfoBean uDanIDInfoBean = GsonUtil.json2bean(s, UDanIDInfoBean.class);
+                if (uDanIDInfoBean.ret_code == 000000 && "T".equals(uDanIDInfoBean.result_auth)) {
+                    ToastUtil.showToast(getApplicationContext(), "认证完成,处理中...");
+                    backActivity();
+//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_frontcard, ivIdentityAuthPic);
+//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_backcard, ivIdentityAuthPic2);
+//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_photoliving, ivIdentityAuthFace);
+                } else {
+                    ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
+                }
+            }
+        });
+        mAuthBuilder.faceAuth(mContext);
     }
 }
