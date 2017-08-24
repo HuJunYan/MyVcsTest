@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:text="还款金额=本金+罚金"
+                android:text="应还款总金额"
                 android:textColor="@color/global_txt_black4"
                 android:textSize="11sp" />
 

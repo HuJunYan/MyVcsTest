@@ -111,15 +111,34 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="3dp"
-            android:gravity="center_horizontal"
-            android:text="还款金额"
-            android:textColor="@color/global_txt_black4"
-            android:textSize="11sp" />
+
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="应还款总金额"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:id="@+id/iv_danger_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:src="@drawable/ic_danger_money" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
