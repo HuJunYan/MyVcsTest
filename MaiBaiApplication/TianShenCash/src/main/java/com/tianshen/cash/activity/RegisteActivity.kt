@@ -73,7 +73,7 @@ class RegisteActivity : BaseActivity() {
 
     private fun register() {
         if (TextUtils.isEmpty(et_phone_number.text.trim()) || !RegexUtil.IsTelephone(et_phone_number.text.trim())) {
-            ToastUtil.showToast(mContext, "请输入正确的手机号")
+            ToastUtil.showToast(mContext, "手机号格式不正确")
             return
         }
         if (TextUtils.isEmpty(et_verify_code.text.trim())) {
@@ -126,7 +126,7 @@ class RegisteActivity : BaseActivity() {
 
     private fun getVerityCode(): Boolean {
         if (TextUtils.isEmpty(et_phone_number.text.trim()) || !RegexUtil.IsTelephone(et_phone_number.text.trim())) {
-            ToastUtil.showToast(mContext, "请输入正确的手机号")
+            ToastUtil.showToast(mContext, "手机号格式不正确")
             return false;
         }
         try {

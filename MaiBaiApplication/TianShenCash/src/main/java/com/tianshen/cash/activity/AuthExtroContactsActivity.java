@@ -436,7 +436,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             return;
         }
         if (phone1.length() != 11 || phone2.length() != 11){
-            ToastUtil.showToast(mContext,"手机号格式不对");
+            ToastUtil.showToast(mContext,"手机号格式不正确");
             return;
         }
         String nexusTxt1 = tvAuthNexus1.getText().toString();
