@@ -127,7 +127,7 @@
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="电    话" />
+            android:text="手机号" />
 
         <EditText
             android:id="@+id/et_auth_nexus_phone"
@@ -240,7 +240,7 @@
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="电    话" />
+            android:text="手机号" />
 
         <EditText
             android:id="@+id/et_auth_nexus_phone2"

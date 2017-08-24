@@ -194,6 +194,9 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                                     HashMap<String, String> contactMap = contacts.get(i);
                                     String name = contactMap.get("name");
                                     String phone = contactMap.get("phone");
+                                    if (phone == null || phone.length() != 11) {
+                                        continue;
+                                    }
                                     contactsDialogDada.add(name + "-" + phone);
                                 }
                                 return contactsDialogDada;
@@ -430,6 +433,10 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
         }
         if (phone2.equals(userPhoneNum)) {
             ToastUtil.showToast(mContext, "联系人电话不能和注册手机号一致");
+            return;
+        }
+        if (phone1.length() != 11 || phone2.length() != 11){
+            ToastUtil.showToast(mContext,"手机号格式不对");
             return;
         }
         String nexusTxt1 = tvAuthNexus1.getText().toString();
