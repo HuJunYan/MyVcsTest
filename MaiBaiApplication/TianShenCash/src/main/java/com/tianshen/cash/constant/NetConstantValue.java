@@ -121,6 +121,7 @@ public class NetConstantValue {
     public static String getSaveContactsUrl() {
         return COMMONURI + "System/saveContacts";
     }
+
     /**
      * 取上一次保存通话记录的时间，下次增量上传通话记录的开始时间
      * api: com.maibei.merchants.net.api.SetLastSaveCallRecordTime.getLastSaveCallRecordTime()
@@ -265,6 +266,7 @@ public class NetConstantValue {
     public static String getWithdrawalsApplyURL() {
         return COMMONURI + "WithdrawalsOrder/withdrawalsApply";
     }
+
     /*
     * 获取取现记录
     *api:com.maibei.user.net.api.GetWithdrawalsRecord.getWithdrawalsRecord()
@@ -291,6 +293,7 @@ public class NetConstantValue {
 //        return COMMONURI + "MerchantCRO/merchantUploadImage";
 //        return "http://192.168.31.178:8080/UploadFileServer/upload";
     }
+
     /**
      * 首页滚动数据
      */
@@ -550,11 +553,19 @@ public class NetConstantValue {
 
     /**
      * 协议URL
+     *
      * @return
      */
     public static String getUserPayServerURL() {
         return HOST + "h5/protocol/server.html";
     }
 
+    /**
+     * 首页获取还款明细
+     * Home/UserCenter/getRepaymentDetails
+     */
+    public static String getRepayDetailURL() {
+        return COMMONURI + "UserCenter/getRepaymentDetails";
+    }
 
 }

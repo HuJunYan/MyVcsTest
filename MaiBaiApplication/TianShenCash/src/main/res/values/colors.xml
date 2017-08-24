@@ -94,5 +94,7 @@
     <color name="edit_text_hint_color">#969696</color>
     <color name="argument_color">#888888</color>
     <color name="global_popular_color">#878ff3</color>
+    <color name="dialog_item_line_color">#EEEEEE</color>
+
 
 </resources>

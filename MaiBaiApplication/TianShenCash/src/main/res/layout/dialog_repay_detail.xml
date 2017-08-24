@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog_border"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="应还本金"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_consume_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="支付利息"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_annual_interest_rate"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="40dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="年利率12%"
+                android:textColor="@color/edit_text_hint_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="手续费用"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_service_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="滞纳金"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_late_fee"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="逾期罚息"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_late_charge"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="逾期管理费"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_overdue_management_fee"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="500元"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_vertical"
+            android:text="应还款总金额"
+            android:textColor="@color/global_txt_black1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_collect_customer_money"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="500元"
+            android:textColor="@color/red"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

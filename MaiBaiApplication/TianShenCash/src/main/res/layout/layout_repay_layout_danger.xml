@@ -97,7 +97,8 @@
                 android:gravity="bottom"
                 android:text="="
                 android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_repay_principal_money"
@@ -106,7 +107,8 @@
                 android:gravity="bottom"
                 android:text="500"
                 android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
 
 
             <TextView
@@ -115,7 +117,8 @@
                 android:gravity="bottom"
                 android:text="+"
                 android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_repay_danger_money_key"
@@ -124,7 +127,8 @@
                 android:gravity="bottom"
                 android:text="5"
                 android:textColor="@color/global_txt_black4"
-                android:textSize="11sp" />
+                android:textSize="11sp"
+                android:visibility="gone" />
         </LinearLayout>
 
 

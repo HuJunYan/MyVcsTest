@@ -31,6 +31,7 @@ import android.widget.ViewSwitcher;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
@@ -68,6 +69,7 @@ import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
+import com.tianshen.cash.model.UserRepayDetailBean;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetActivity;
@@ -80,6 +82,7 @@ import com.tianshen.cash.net.api.SaveContacts;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
+import com.tianshen.cash.net.api.UserRepayDetailApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.ImageLoader;
@@ -93,6 +96,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
 import com.tianshen.cash.utils.ViewUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
+import com.tianshen.cash.view.RepayDetailDialogView;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -214,6 +218,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.iv_danger_money)
     ImageView iv_danger_money;
+    @BindView(R.id.iv_normal_money)
+    ImageView iv_normal_money;
 
     @BindView(R.id.rl_home_max_sb_thumb)
     RelativeLayout rl_home_max_sb_thumb;
@@ -320,6 +326,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
         iv_home_market.setOnClickListener(this);
+        iv_normal_money.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
@@ -353,6 +360,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
                 break;
             case R.id.iv_danger_money: //点击了逾期提示
+            case R.id.iv_normal_money: //点击了逾期提示
                 showDangerTipsDialog();
                 break;
             case R.id.iv_home_market: //点击了浏览超市
@@ -1363,21 +1371,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (getActivity().isFinishing()) {
             return;
         }
-
-        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = mLayoutInflater.inflate(R.layout.dialog_danger_tips, null, false);
-        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
-        mDialog.setContentView(view);
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.setCancelable(false);
-        TextView tv_dialog_danger_tips = (TextView) view.findViewById(R.id.tv_dialog_danger_tips);
-        tv_dialog_danger_tips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.show();
+        if (mUserConfig == null || mUserConfig.getData() == null) {
+            return;
+        }
+        new RepayDetailDialogView(getActivity(),TianShenUserUtil.getUserId(mContext), mUserConfig.getData().getConsume_id());
+//
+//        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View view = mLayoutInflater.inflate(R.layout.dialog_danger_tips, null, false);
+//        final Dialog mDialog = new Dialog(mContext, R.style.MyDialog);
+//        mDialog.setContentView(view);
+//        mDialog.setCanceledOnTouchOutside(false);
+//        mDialog.setCancelable(false);
+//        TextView tv_dialog_danger_tips = (TextView) view.findViewById(R.id.tv_dialog_danger_tips);
+//        tv_dialog_danger_tips.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mDialog.show();
     }
 
     /**
