@@ -114,6 +114,7 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     //魔蝎淘宝认证
     compile(name:'moxie-client-1.3.4', ext:'aar')
+    compile(name:'udidsafe', ext:'aar')
 
 //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
 //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
