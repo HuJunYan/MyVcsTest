@@ -186,9 +186,9 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String consume_id = extras.getString(GlobalParams.CONSUME_ID, "");
-                jsonObject.put(GlobalParams.USER_CUSTOMER_ID, consume_id);
+                jsonObject.put(GlobalParams.CONSUME_ID, consume_id);
             }
-            jsonObject.put(GlobalParams.CONSUME_ID, userId);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             GetRepayInfo getRepayInfo = new GetRepayInfo(mContext);
             getRepayInfo.getRepayInfo(jsonObject, null, true, new BaseNetCallBack<RepayInfoBean>() {
                 @Override
