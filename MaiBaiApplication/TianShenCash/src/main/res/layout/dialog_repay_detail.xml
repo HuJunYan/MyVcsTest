@@ -7,12 +7,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/ll_consume_amount"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
         <LinearLayout
-            android:id="@+id/ll_consume_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -44,11 +44,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/ll_interest"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_interest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -91,10 +91,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_service_charge"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_service_charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -125,11 +125,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/ll_late_fee"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_late_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -163,10 +163,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ll_late_charge"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_late_charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -200,11 +200,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/ll_overdue_management_fee"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_overdue_management_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

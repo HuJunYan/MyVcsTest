@@ -153,7 +153,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
                 mHandler.sendEmptyMessage(MSG_SEVERITY_TIME);
                 initVerifySmsForRepayment();
                 break;
-            case R.id.iv_dialog_money: //TODO  弹出Dialog
+            case R.id.iv_dialog_money:
                 showDetailDialog();
                 break;
         }
