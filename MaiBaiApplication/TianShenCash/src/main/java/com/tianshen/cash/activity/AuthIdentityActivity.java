@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.authreal.api.AuthBuilder;
 import com.authreal.api.OnResultListener;
@@ -1103,6 +1102,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 //                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_frontcard, ivIdentityAuthPic);
 //                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_backcard, ivIdentityAuthPic2);
 //                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_photoliving, ivIdentityAuthFace);
+                } else if ("900001".equals(uDanIDInfoBean.ret_code)) {
                 } else {
                     ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
                 }
