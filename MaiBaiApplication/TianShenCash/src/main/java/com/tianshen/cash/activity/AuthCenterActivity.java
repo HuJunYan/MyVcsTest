@@ -8,12 +8,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.moxie.client.manager.MoxieCallBack;
 import com.moxie.client.manager.MoxieCallBackData;
@@ -50,7 +48,7 @@ import butterknife.BindView;
 
 public class AuthCenterActivity extends BaseActivity implements View.OnClickListener {
 
-
+    private static final String TB_AUTH = "淘宝认证";
     @BindView(R.id.tv_auth_center_back)
     TextView tvAuthCenterBack;
     @BindView(R.id.tv_auth_center_post)
@@ -144,12 +142,16 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         for (int i = 0; i < mAuthCenterItemBeans.size(); i++) {
             AuthCenterItemBean authCenterItemBean = mAuthCenterItemBeans.get(i);
             String status = authCenterItemBean.getStatus();
+            if (TB_AUTH.equals(authCenterItemBean.getName())) {
+                continue;
+            }
             if ("0".equals(status)) {//没有认证
                 isAllAuthOK = false;
                 break;
             } else {
                 isAllAuthOK = true;
             }
+
         }
         mIsAllAuthOK = isAllAuthOK;
     }
@@ -336,7 +338,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean7.setItemType(AuthCenterItemBean.TXT_TYPE);
 
         AuthCenterItemBean authCenterItemBean8 = new AuthCenterItemBean();
-        authCenterItemBean8.setName("淘宝认证");
+        authCenterItemBean8.setName(TB_AUTH);
         authCenterItemBean8.setDrawable_id(R.drawable.ic_auth_center_tao_bao_item);
         authCenterItemBean8.setStatus(taobao_pass);
         authCenterItemBean8.setItemType(AuthCenterItemBean.NORMAL_TYPE);
@@ -439,7 +441,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
                 gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 break;
-            case "淘宝认证":
+            case TB_AUTH:
                 gotoTaoBaoAuth();
                 break;
         }

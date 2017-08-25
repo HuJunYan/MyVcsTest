@@ -45,7 +45,7 @@ import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.UDanIDInfoBean;
+import com.tianshen.cash.model.UDunIDInfoBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
 import com.tianshen.cash.net.api.GetIdNumInfo;
@@ -1095,14 +1095,16 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onResult(String s) {
                 LogUtil.d("aaa", "onResult s = " + s);
-                UDanIDInfoBean uDanIDInfoBean = GsonUtil.json2bean(s, UDanIDInfoBean.class);
-                if ("000000".equals(uDanIDInfoBean.ret_code) && "T".equals(uDanIDInfoBean.result_auth)) {
+                UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
+                if ("000000".equals(uDunIDInfoBean.ret_code) && "T".equals(uDunIDInfoBean.result_auth)) {
                     ToastUtil.showToast(getApplicationContext(), "认证完成,处理中...");
-                    backActivity();
-//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_frontcard, ivIdentityAuthPic);
-//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_backcard, ivIdentityAuthPic2);
-//                    ImageLoader.load(getApplicationContext(), uDanIDInfoBean.url_photoliving, ivIdentityAuthFace);
-                } else if ("900001".equals(uDanIDInfoBean.ret_code)) {
+//                    backActivity();
+                    etIdentityAuthName.setText(uDunIDInfoBean.id_name);
+                    etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
+                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_frontcard, ivIdentityAuthPic);
+                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_backcard, ivIdentityAuthPic2);
+                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_photoliving, ivIdentityAuthFace);
+                } else if ("900001".equals(uDunIDInfoBean.ret_code)) {
                 } else {
                     ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
                 }

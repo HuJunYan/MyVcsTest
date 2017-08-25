@@ -4,14 +4,14 @@ package com.tianshen.cash.model;
  * Created by Administrator on 2017/8/24.
  */
 
-public class UDanIDInfoBean {
+public class UDunIDInfoBean {
 
     public String url_photoget;
     public String flag_sex;//性别
     public String ret_msg;
-    public String id_name;
+    public String id_name;//名字
     public String be_idcard;//
-    public String id_no;//省份证号
+    public String id_no;//身份证号
     public String date_birthday;//生日
     public String url_frontcard;//身份证正面图片url
     public String addr_card;//地址
