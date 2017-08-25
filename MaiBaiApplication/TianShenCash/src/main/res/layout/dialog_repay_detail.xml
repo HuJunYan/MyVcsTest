@@ -10,10 +10,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
 
         <LinearLayout
             android:id="@+id/ll_consume_amount"
@@ -38,6 +34,12 @@
                 android:textColor="@color/global_txt_black4"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dialog_item_line_color" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -46,8 +48,8 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/ll_interest"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -92,9 +94,9 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_service_charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ll_service_charge"
             android:orientation="horizontal">
 
             <TextView
@@ -127,9 +129,9 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_late_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ll_late_fee"
             android:orientation="horizontal">
 
             <TextView
@@ -164,9 +166,9 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_late_charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ll_late_charge"
             android:orientation="horizontal">
 
             <TextView
@@ -202,8 +204,8 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/ll_overdue_management_fee"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 

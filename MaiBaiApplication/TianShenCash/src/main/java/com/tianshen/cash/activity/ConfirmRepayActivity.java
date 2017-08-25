@@ -1,22 +1,17 @@
 package com.tianshen.cash.activity;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -26,12 +21,10 @@ import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.RepayInfoBean;
 import com.tianshen.cash.model.ResponseBean;
-import com.tianshen.cash.model.UserRepayDetailBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
 import com.tianshen.cash.net.api.GetVerifySmsForRepayment;
 import com.tianshen.cash.net.api.PayConfirmZhangzhong;
 import com.tianshen.cash.net.api.Repayment;
-import com.tianshen.cash.net.api.UserRepayDetailApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -48,8 +41,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-
-import static com.tianshen.cash.R.style.dialog;
 
 /**
  * 确认还款页面
