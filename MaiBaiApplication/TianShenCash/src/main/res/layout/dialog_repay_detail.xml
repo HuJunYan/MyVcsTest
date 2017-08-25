@@ -6,45 +6,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/ll_consume_amount"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center_vertical"
-                android:text="应还本金"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_consume_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:id="@+id/ll_interest"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -54,6 +17,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_dialog_title"
                 android:layout_width="110dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
@@ -63,7 +27,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_interest"
+                android:id="@+id/tv_dialog_value"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -71,7 +35,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_annual_interest_rate"
+                android:id="@+id/tv_dialog_value2"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="40dp"
@@ -82,180 +46,10 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_base_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/dialog_item_line_color" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll_service_charge"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center_vertical"
-                android:text="手续费用"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_service_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/ll_late_fee"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center_vertical"
-                android:text="滞纳金"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_late_fee"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll_late_charge"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center_vertical"
-                android:text="逾期罚息"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_late_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/global_txt_black4"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/ll_overdue_management_fee"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:gravity="center_vertical"
-                android:text="逾期管理费"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_overdue_management_fee"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@color/global_txt_black5"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dialog_item_line_color" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:gravity="center_vertical"
-            android:text="应还款总金额"
-            android:textColor="@color/global_txt_black1"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_collect_customer_money"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/red"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-
 </LinearLayout>
