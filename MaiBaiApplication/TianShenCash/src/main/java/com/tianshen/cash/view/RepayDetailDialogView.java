@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.util.DensityUtil;
@@ -18,6 +19,8 @@ import com.tianshen.cash.utils.MoneyUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/8/24.
@@ -39,14 +42,28 @@ public class RepayDetailDialogView {
             public void onSuccess(UserRepayDetailBean paramT) {
                 Dialog dialog = new Dialog(activity, R.style.MyDialog);
                 View contentView = LayoutInflater.from(activity).inflate(R.layout.dialog_repay_detail, null);
+                LinearLayout rootView = (LinearLayout) contentView.findViewById(R.id.ll_dialog_root);
                 dialog.setContentView(contentView);
                 ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
                 layoutParams.width = DensityUtil.dp2px(300);
                 contentView.setLayoutParams(layoutParams);
                 dialog.getWindow().setGravity(Gravity.CENTER);
-                if (!activity.isFinishing()) {
-                    dialog.show();
+
+                List<UserRepayDetailBean.DetailInfo> dialog_list = paramT.data.dialog_list;
+                if (dialog_list != null) {
+                    for (int i = 0; i < dialog_list.size(); i++) {
+                        UserRepayDetailBean.DetailInfo detailInfo = dialog_list.get(i);
+                        if (i == dialog_list.size() - 1) {
+                            rootView.addView(new RepayDetailItemView(activity).setData(detailInfo).isLast());
+                        } else {
+                            rootView.addView(new RepayDetailItemView(activity).setData(detailInfo));
+                        }
+                    }
+                    if (!activity.isFinishing()) {
+                        dialog.show();
+                    }
                 }
+
             }
 
             @Override

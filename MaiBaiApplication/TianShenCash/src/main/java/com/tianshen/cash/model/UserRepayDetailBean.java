@@ -1,5 +1,7 @@
 package com.tianshen.cash.model;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/8/24.
  */
@@ -10,14 +12,13 @@ public class UserRepayDetailBean {
     public Detail data;
 
     public class Detail {
-        public String consume_amount;
-        public String interest;
-        public String service_charge;
-        public String late_fee;
-        public String late_charge;
-        public String overdue_management_fee;
-        public String annual_interest_rate;
-        public String collect_customer_money;
+        public List<DetailInfo> dialog_list;
+    }
+
+    public class DetailInfo {
+        public String title;
+        public String value;
+        public String value2;
     }
 
 }
