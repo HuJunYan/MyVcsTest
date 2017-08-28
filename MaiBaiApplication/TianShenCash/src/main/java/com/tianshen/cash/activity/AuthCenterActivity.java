@@ -82,6 +82,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         }
 
     };
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,7 +274,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      * 得到初始化数据(从本地得到)
      */
     private ArrayList<AuthCenterItemBean> initXRecyclerviewData() {
-
+        mBundle = new Bundle();
         UserAuthCenterBean.DataBean data = mUserAuthCenterBean.getData();
         String id_num = data.getId_num();
         String face_pass = data.getFace_pass();
@@ -284,7 +285,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String zhima_pass = data.getZhima_pass();
         String wecash_pass = data.getWecash_pass();
         String taobao_pass = data.getTaobao_pass();
-
+        mBundle.putString(GlobalParams.IDENTITY_STATE_KEY, face_pass);
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
             id_num = "0";
@@ -382,7 +383,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         switch (itemName) {
             case "身份认证":
-                gotoActivity(mContext, AuthIdentityActivity.class, null);
+                gotoActivity(mContext, AuthIdentityActivity.class, mBundle);
                 break;
             case "手机运营商":
                 if ("0".equals(identityStatus)) {

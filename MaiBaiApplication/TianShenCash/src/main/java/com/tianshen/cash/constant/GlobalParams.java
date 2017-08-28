@@ -323,7 +323,7 @@ public class GlobalParams {
     public static String WEB_TYPE = "web_type";//bundle key  webactivity
     public static String FROM_HOME = "from_homefragment"; //bundle value from homefragment
     public static String TYPE_READ = "type_read"; //bundle value from homefragment
-
+    public static String IDENTITY_STATE_KEY = "is_auth_idcard";
 
 
     public static String UDUN_AUTH_KEY = "0db4e877-004a-4edc-8426-95b31e557956";

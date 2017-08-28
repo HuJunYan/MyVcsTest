@@ -139,7 +139,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
-
+    //Udun相关
+    private static final String UDUN_VERIFY_SUCCESS_CODE = "000000"; //扫描完成
+    private static final String UDUN_VERIFY_USER_CANCEL = "900001";//用户取消
+    private static final String UDUN_VERIFY_SUCCESS_SIGN = "T";//扫描成功
+    private static final String ID_HAS_IDENTITY = "1"; //已认证
+    private static final int CHANGE_TYPE_UDUN = 2; //FACE++ 1  UDUN 2
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
@@ -161,6 +166,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             }
         }
     };
+    private String is_auth_idcard;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -252,6 +258,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     //请求相机权限 并根据结果 决定是否进行跳转
 
     private void requestPermissionsToNextActivity(final int id) {
+        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+            ToastUtil.showToast(this, "亲，您暂无权限进行重新认证");
+            return;
+        }
         boolean isReallyHasPermission = checkPermissionForFlyme();
         if (!isReallyHasPermission) {
             ToastUtil.showToast(this, "请去设置开启照相机权限");
@@ -262,7 +272,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    if (mIdNumInfoBean.getData().face_udn == 0) {
+                    if (mIdNumInfoBean.getData().change_type == CHANGE_TYPE_UDUN) {
                         uDunIdentity();
                     } else {
                         switch (id) {
@@ -307,7 +317,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 得到用户认证的信息
      */
     private void initIdNumInfo() {
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            is_auth_idcard = extras.getString(GlobalParams.IDENTITY_STATE_KEY, "0");
+        }
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -1096,15 +1109,16 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void onResult(String s) {
                 LogUtil.d("aaa", "onResult s = " + s);
                 UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
-                if ("000000".equals(uDunIDInfoBean.ret_code) && "T".equals(uDunIDInfoBean.result_auth)) {
-                    ToastUtil.showToast(getApplicationContext(), "认证完成,处理中...");
-//                    backActivity();
+                if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {
+                    if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+                        return;
+                    }
                     etIdentityAuthName.setText(uDunIDInfoBean.id_name);
                     etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
                     ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_frontcard, ivIdentityAuthPic);
                     ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_backcard, ivIdentityAuthPic2);
                     ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_photoliving, ivIdentityAuthFace);
-                } else if ("900001".equals(uDunIDInfoBean.ret_code)) {
+                } else if (UDUN_VERIFY_USER_CANCEL.equals(uDunIDInfoBean.ret_code)) {
                 } else {
                     ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
                 }
