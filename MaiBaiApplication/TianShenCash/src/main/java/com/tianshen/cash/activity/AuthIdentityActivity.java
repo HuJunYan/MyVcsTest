@@ -1107,21 +1107,25 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         AuthBuilder mAuthBuilder = new AuthBuilder(order, GlobalParams.UDUN_AUTH_KEY, NetConstantValue.getUDunNotifyURL(), new OnResultListener() {
             @Override
             public void onResult(String s) {
-                LogUtil.d("aaa", "onResult s = " + s);
-                UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
-                if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {
-                    if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
-                        return;
+                try {
+                    UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
+                    if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {
+                        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+                            return;
+                        }
+                        etIdentityAuthName.setText(uDunIDInfoBean.id_name);
+                        etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_frontcard, ivIdentityAuthPic);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_backcard, ivIdentityAuthPic2);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_photoliving, ivIdentityAuthFace);
+                    } else if (UDUN_VERIFY_USER_CANCEL.equals(uDunIDInfoBean.ret_code)) {
+                    } else {
+                        ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
                     }
-                    etIdentityAuthName.setText(uDunIDInfoBean.id_name);
-                    etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
-                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_frontcard, ivIdentityAuthPic);
-                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_backcard, ivIdentityAuthPic2);
-                    ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_photoliving, ivIdentityAuthFace);
-                } else if (UDUN_VERIFY_USER_CANCEL.equals(uDunIDInfoBean.ret_code)) {
-                } else {
-                    ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
+                } catch (Exception e) {
+                    //ignored
                 }
+
             }
         });
         mAuthBuilder.faceAuth(mContext);
