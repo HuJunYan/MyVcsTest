@@ -258,10 +258,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     //请求相机权限 并根据结果 决定是否进行跳转
 
     private void requestPermissionsToNextActivity(final int id) {
-        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
-            ToastUtil.showToast(this, "亲，您暂无权限进行重新认证");
-            return;
-        }
         boolean isReallyHasPermission = checkPermissionForFlyme();
         if (!isReallyHasPermission) {
             ToastUtil.showToast(this, "请去设置开启照相机权限");
@@ -273,6 +269,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
                     if (mIdNumInfoBean.getData().change_type == CHANGE_TYPE_UDUN) {
+                        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+                            ToastUtil.showToast(mContext, "亲，您暂无权限进行重新认证");
+                            return;
+                        }
                         uDunIdentity();
                     } else {
                         switch (id) {
