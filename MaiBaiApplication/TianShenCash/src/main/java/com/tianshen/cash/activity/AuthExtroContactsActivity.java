@@ -22,6 +22,7 @@ import com.tianshen.cash.net.api.SaveExtroContacts;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
+import com.tianshen.cash.utils.RegexUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
@@ -435,8 +436,8 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
             ToastUtil.showToast(mContext, "联系人电话不能和注册手机号一致");
             return;
         }
-        if (phone1.length() != 11 || phone2.length() != 11){
-            ToastUtil.showToast(mContext,"手机号格式不正确");
+        if (phone1.length() != 11 || phone2.length() != 11 || !RegexUtil.IsTelephone(phone1) || !RegexUtil.IsTelephone(phone2)) {
+            ToastUtil.showToast(mContext, "手机号格式不正确");
             return;
         }
         String nexusTxt1 = tvAuthNexus1.getText().toString();
