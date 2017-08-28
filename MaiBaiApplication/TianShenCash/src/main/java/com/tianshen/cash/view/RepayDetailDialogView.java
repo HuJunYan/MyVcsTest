@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import static android.R.attr.data;
+
 /**
  * Created by Administrator on 2017/8/24.
  */
@@ -48,7 +50,9 @@ public class RepayDetailDialogView {
                 layoutParams.width = DensityUtil.dp2px(300);
                 contentView.setLayoutParams(layoutParams);
                 dialog.getWindow().setGravity(Gravity.CENTER);
-
+                if (paramT == null || paramT.data == null) {
+                    return;
+                }
                 List<UserRepayDetailBean.DetailInfo> dialog_list = paramT.data.dialog_list;
                 if (dialog_list != null) {
                     for (int i = 0; i < dialog_list.size(); i++) {
