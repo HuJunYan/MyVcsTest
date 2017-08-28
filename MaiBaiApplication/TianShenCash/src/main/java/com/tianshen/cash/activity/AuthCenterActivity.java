@@ -285,13 +285,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String zhima_pass = data.getZhima_pass();
         String wecash_pass = data.getWecash_pass();
         String taobao_pass = data.getTaobao_pass();
-        mBundle.putString(GlobalParams.IDENTITY_STATE_KEY, face_pass);
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
             id_num = "0";
         } else {
             id_num = "1";
         }
+        mBundle.putString(GlobalParams.IDENTITY_STATE_KEY, id_num);
 
         AuthCenterItemBean authCenterItemBean0 = new AuthCenterItemBean();
         authCenterItemBean0.setName("身份认证");
