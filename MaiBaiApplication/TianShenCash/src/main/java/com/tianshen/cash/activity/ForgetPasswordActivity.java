@@ -103,7 +103,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 if (!et_mobile.getEditTextString().startsWith("1")) {
-                    ToastUtil.showToast(mContext, "请输入正确的手机号", Toast.LENGTH_SHORT);
+                    ToastUtil.showToast(mContext, "手机号格式不正确", Toast.LENGTH_SHORT);
                     return;
                 }
                 if (verityCode.equals("")) {
@@ -157,7 +157,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
 
     private boolean getVerityCode() {
         if (et_mobile.getEditTextString().length() != 11 || !RegexUtil.IsTelephone(mobile)) {
-            ToastUtil.showToast(this, "请输入正确的手机号");
+            ToastUtil.showToast(this, "手机号格式不正确");
             return false;
         }
         JSONObject json = null;

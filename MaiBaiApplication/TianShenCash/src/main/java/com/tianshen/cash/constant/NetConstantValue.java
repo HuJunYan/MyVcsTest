@@ -568,4 +568,10 @@ public class NetConstantValue {
         return COMMONURI + "UserCenter/getRepaymentDetails";
     }
 
+    /**
+     * 有盾 回调地址
+     **/
+    public static String getUDunNotifyURL() {
+        return COMMONURI + "Udun/idAuthNotify";
+    }
 }

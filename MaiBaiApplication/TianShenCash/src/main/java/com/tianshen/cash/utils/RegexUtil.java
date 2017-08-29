@@ -41,7 +41,7 @@ public final class RegexUtil {
      * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
      */
     public static boolean IsTelephone(String str) {
-        String regex = "^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9])\\d{8}$";
+        String regex = "^(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9]|19[0-9])\\d{8}$";
         return match(regex, str);
     }
 

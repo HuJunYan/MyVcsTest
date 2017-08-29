@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.authreal.api.AuthBuilder;
+import com.authreal.api.OnResultListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -32,6 +34,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
 import com.tianshen.cash.idcard.util.Util;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
@@ -42,6 +45,7 @@ import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.model.ResponseBean;
+import com.tianshen.cash.model.UDunIDInfoBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
 import com.tianshen.cash.net.api.GetIdNumInfo;
@@ -50,6 +54,7 @@ import com.tianshen.cash.net.api.SaveIDCardBack;
 import com.tianshen.cash.net.api.SaveIDCardFront;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
@@ -134,7 +139,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
-
+    //Udun相关
+    private static final String UDUN_VERIFY_SUCCESS_CODE = "000000"; //扫描完成
+    private static final String UDUN_VERIFY_USER_CANCEL = "900001";//用户取消
+    private static final String UDUN_VERIFY_SUCCESS_SIGN = "T";//扫描成功
+    private static final String ID_HAS_IDENTITY = "1"; //已认证
+    private static final int CHANGE_TYPE_UDUN = 2; //FACE++ 1  UDUN 2
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message message) {
@@ -156,6 +166,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             }
         }
     };
+    private String is_auth_idcard;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -257,17 +268,26 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
-                    switch (id) {
-                        case R.id.iv_identity_auth_pic:
-                            onClickIdentity();
-                            break;
-                        case R.id.iv_identity_auth_pic2:
-                            onClickIdentityBack();
-                            break;
-                        case R.id.iv_identity_auth_face:
-                            onClickFace();
-                            break;
+                    if (mIdNumInfoBean.getData().change_type == CHANGE_TYPE_UDUN) {
+                        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+                            ToastUtil.showToast(mContext, "亲，您暂无权限进行重新认证");
+                            return;
+                        }
+                        uDunIdentity();
+                    } else {
+                        switch (id) {
+                            case R.id.iv_identity_auth_pic:
+                                onClickIdentity();
+                                break;
+                            case R.id.iv_identity_auth_pic2:
+                                onClickIdentityBack();
+                                break;
+                            case R.id.iv_identity_auth_face:
+                                onClickFace();
+                                break;
+                        }
                     }
+
                 } else {
                     ToastUtil.showToast(AuthIdentityActivity.this, "请去设置开启照相机权限");
                 }
@@ -297,7 +317,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
      * 得到用户认证的信息
      */
     private void initIdNumInfo() {
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            is_auth_idcard = extras.getString(GlobalParams.IDENTITY_STATE_KEY, "0");
+        }
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -1077,5 +1100,34 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             mCamera.release();
         }
         return canUse;
+    }
+
+    public void uDunIdentity() {
+        String order = TianShenUserUtil.getUserId(mContext);
+        AuthBuilder mAuthBuilder = new AuthBuilder(order, GlobalParams.UDUN_AUTH_KEY, NetConstantValue.getUDunNotifyURL(), new OnResultListener() {
+            @Override
+            public void onResult(String s) {
+                try {
+                    UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
+                    if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {
+                        if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
+                            return;
+                        }
+                        etIdentityAuthName.setText(uDunIDInfoBean.id_name);
+                        etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_frontcard, ivIdentityAuthPic);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_backcard, ivIdentityAuthPic2);
+                        ImageLoader.load(getApplicationContext(), uDunIDInfoBean.url_photoliving, ivIdentityAuthFace);
+                    } else if (UDUN_VERIFY_USER_CANCEL.equals(uDunIDInfoBean.ret_code)) {
+                    } else {
+                        ToastUtil.showToast(getApplicationContext(), "身份认证失败,请稍候再试");
+                    }
+                } catch (Exception e) {
+                    //ignored
+                }
+
+            }
+        });
+        mAuthBuilder.faceAuth(mContext);
     }
 }

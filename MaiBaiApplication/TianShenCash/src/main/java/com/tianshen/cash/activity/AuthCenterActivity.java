@@ -8,12 +8,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.moxie.client.manager.MoxieCallBack;
 import com.moxie.client.manager.MoxieCallBackData;
@@ -49,7 +47,7 @@ import butterknife.BindView;
 
 public class AuthCenterActivity extends BaseActivity implements View.OnClickListener {
 
-
+    private static final String TB_AUTH = "淘宝认证";
     @BindView(R.id.tv_auth_center_back)
     TextView tvAuthCenterBack;
     @BindView(R.id.tv_auth_center_post)
@@ -82,6 +80,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         }
 
     };
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,12 +141,16 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         for (int i = 0; i < mAuthCenterItemBeans.size(); i++) {
             AuthCenterItemBean authCenterItemBean = mAuthCenterItemBeans.get(i);
             String status = authCenterItemBean.getStatus();
+            if (TB_AUTH.equals(authCenterItemBean.getName())) {
+                continue;
+            }
             if ("0".equals(status)) {//没有认证
                 isAllAuthOK = false;
                 break;
             } else {
                 isAllAuthOK = true;
             }
+
         }
         mIsAllAuthOK = isAllAuthOK;
     }
@@ -225,7 +228,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      * 得到初始化数据(从本地得到)
      */
     private ArrayList<AuthCenterItemBean> initXRecyclerviewData() {
-
+        mBundle = new Bundle();
         UserAuthCenterBean.DataBean data = mUserAuthCenterBean.getData();
         String id_num = data.getId_num();
         String face_pass = data.getFace_pass();
@@ -236,13 +239,13 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         String zhima_pass = data.getZhima_pass();
         String wecash_pass = data.getWecash_pass();
         String taobao_pass = data.getTaobao_pass();
-
         ArrayList<AuthCenterItemBean> authCenterItemBeans = new ArrayList<>();
         if ("0".equals(id_num) || "0".equals(face_pass)) {//判断身份认证和扫脸都成功没。如果有一个失败就算身份认证失败
             id_num = "0";
         } else {
             id_num = "1";
         }
+        mBundle.putString(GlobalParams.IDENTITY_STATE_KEY, id_num);
 
         AuthCenterItemBean authCenterItemBean0 = new AuthCenterItemBean();
         authCenterItemBean0.setName("身份认证");
@@ -290,7 +293,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean7.setItemType(AuthCenterItemBean.TXT_TYPE);
 
         AuthCenterItemBean authCenterItemBean8 = new AuthCenterItemBean();
-        authCenterItemBean8.setName("淘宝认证");
+        authCenterItemBean8.setName(TB_AUTH);
         authCenterItemBean8.setDrawable_id(R.drawable.ic_auth_center_tao_bao_item);
         authCenterItemBean8.setStatus(taobao_pass);
         authCenterItemBean8.setItemType(AuthCenterItemBean.NORMAL_TYPE);
@@ -334,7 +337,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
 
         switch (itemName) {
             case "身份认证":
-                gotoActivity(mContext, AuthIdentityActivity.class, null);
+                gotoActivity(mContext, AuthIdentityActivity.class, mBundle);
                 break;
             case "手机运营商":
                 if ("0".equals(identityStatus)) {
@@ -393,7 +396,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
                 String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
                 gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 break;
-            case "淘宝认证":
+            case TB_AUTH:
                 gotoTaoBaoAuth();
                 break;
         }
