@@ -266,12 +266,11 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         RxPermissions rxPermissions = new RxPermissions(AuthIdentityActivity.this);
         rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
-            public void accept(Boolean aBoolean) throws Exception {
+            public void accept(Boolean aBoolean)  {
                 if (mIdNumInfoBean == null || mIdNumInfoBean.getData() == null) {
                     return;
                 }
                 if (aBoolean) {
-
                     if (mIdNumInfoBean.getData().change_type == CHANGE_TYPE_UDUN) {
                         if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
                             ToastUtil.showToast(mContext, "亲，您暂无权限进行重新认证");
