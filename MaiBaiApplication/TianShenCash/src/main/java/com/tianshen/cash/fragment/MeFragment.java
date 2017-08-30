@@ -104,6 +104,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     TextView tv_me_red_package;
     @BindView(R.id.tv_me_tianshen_friend)
     TextView tv_me_tianshen_friend;
+    private String service_url;
 
     @Override
     protected int setContentView() {
@@ -158,6 +159,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(MyHomeBean bean) {
                     refreshUI(bean);
+                    if (bean == null || bean.getData() == null) {
+                        return;
+                    }
+                    service_url = bean.getData().getService_url();
                 }
 
                 @Override
@@ -211,7 +216,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 显示没有登录
      */
-    private void showNoLoginUI(){
+    private void showNoLoginUI() {
         tvMeUserName.setText("未登录");
         tv_me_red_package.setText("");
         tv_me_tianshen_friend.setText("");
@@ -296,7 +301,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      * 跳转到在线客服页面
      */
     private void gotoWebActivity() {
-        gotoActivity(mContext, ServiceOnlineActivity.class, null);
+        if (TextUtils.isEmpty(service_url)) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.SERVICE_ONLINE_KEY, service_url);
+        gotoActivity(mContext, ServiceOnlineActivity.class, bundle);
     }
 
     /**

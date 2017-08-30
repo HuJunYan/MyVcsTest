@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.Config;
 import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.ToastUtil;
@@ -56,6 +56,7 @@ public class ServiceOnlineActivity extends BaseActivity {
     private static final int REQ_CAMERA = 1;
     private static final int REQ_CHOOSE = 2;
     private static final int REQ_FILE_UPLOAD_5 = 3;
+    private String mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,10 @@ public class ServiceOnlineActivity extends BaseActivity {
     }
 
     private void initWebView() {
-
-        String address = NetConstantValue.getServiceOnlineURL();
+        Bundle mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            mUrl = mBundle.getString(GlobalParams.SERVICE_ONLINE_KEY, "");
+        }
         webview = (WebView) findViewById(R.id.sobot_view);
         webview.getSettings().setJavaScriptEnabled(true);//支持js脚本
         webview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//关闭webview中缓存
@@ -87,7 +90,7 @@ public class ServiceOnlineActivity extends BaseActivity {
         }
         webview.setWebChromeClient(new myWebClient());
         webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl(address);
+        webview.loadUrl(mUrl);
     }
 
     @Override
@@ -116,7 +119,7 @@ public class ServiceOnlineActivity extends BaseActivity {
         super.onDestroy();
         if (webview != null) {
             ViewGroup parent = (ViewGroup) webview.getParent();
-            if(parent!=null){
+            if (parent != null) {
                 parent.removeView(webview);
             }
             webview.removeAllViews();

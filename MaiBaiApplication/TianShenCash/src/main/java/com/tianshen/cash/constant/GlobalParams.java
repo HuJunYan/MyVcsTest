@@ -326,5 +326,7 @@ public class GlobalParams {
     public static String IDENTITY_STATE_KEY = "is_auth_idcard";
 
 
-    public static String UDUN_AUTH_KEY = "0db4e877-004a-4edc-8426-95b31e557956";
+    public static String UDUN_AUTH_KEY = "0db4e877-004a-4edc-8426-95b31e557956";//有盾 key
+
+    public static String SERVICE_ONLINE_KEY = "service_online_key";//客服地址bundl key
 }
