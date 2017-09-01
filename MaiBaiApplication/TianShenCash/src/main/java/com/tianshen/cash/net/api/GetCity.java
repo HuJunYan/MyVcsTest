@@ -13,6 +13,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -20,6 +21,7 @@ import org.json.JSONObject;
  */
 
 public class GetCity extends NetBase {
+    private int flag = 1;
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;
@@ -30,7 +32,17 @@ public class GetCity extends NetBase {
         mUrl = NetConstantValue.getCityUrl();
     }
 
+    public GetCity(Context context, int flag) {
+        this(context);
+        this.flag = flag;
+    }
+
     public void getCity(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<AddressBean> callBack) {
+        try {
+            jsonObject.put("flag", flag); // 正常选择  flag = 1  银行卡 flag = 2
+        } catch (JSONException e) {
+
+        }
         mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
         if (mJSONObject == null) {
             return;
@@ -49,10 +61,10 @@ public class GetCity extends NetBase {
     }
 
     private void successHandle(String result, String url, BaseNetCallBack<AddressBean> callBack) {
-        LogUtil.d("abc","解析前-----》");
+        LogUtil.d("abc", "解析前-----》");
         AddressBean addressBean = GsonUtil.json2bean(result, AddressBean.class);
         callBack.onSuccess(addressBean);
-        LogUtil.d("abc","解析后-----》");
+        LogUtil.d("abc", "解析后-----》");
     }
 
     private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<AddressBean> callBack) {

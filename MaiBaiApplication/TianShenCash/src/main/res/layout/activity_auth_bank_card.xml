@@ -104,6 +104,86 @@
     <View style="@style/split_line_style" />
 
     <RelativeLayout
+        android:id="@+id/rl_province"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_province"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="开户行省" />
+
+        <TextView
+            android:id="@+id/tv_bank_province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_province"
+            android:hint="请选择开户行所在省份"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_arrow_down" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
+        android:id="@+id/rl_city"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+        <View style="@style/split_line_style" />
+
+        <TextView
+            android:id="@+id/tv_city"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="开户行市" />
+
+        <TextView
+            android:id="@+id/tv_bank_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_city"
+            android:hint="请选择开户行所在市"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/ic_arrow_down" />
+
+    </RelativeLayout>
+
+    <View style="@style/split_line_style" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/global_bg_white">
