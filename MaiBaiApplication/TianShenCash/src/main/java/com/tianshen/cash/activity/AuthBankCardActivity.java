@@ -187,7 +187,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        GetProvince getProvince = new GetProvince(mContext,2);
+        GetProvince getProvince = new GetProvince(mContext, 2);
         getProvince.getProvince(jsonObject, rl_province, true,
                 new BaseNetCallBack<AddressBean>() {
                     @Override
@@ -203,6 +203,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                     }
                 });
     }
+
     /**
      * 解省数据给dialog用
      */
@@ -232,6 +233,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mProvincePosition = position;
+                        resetCityData();
                         tv_bank_province.setText(mProvinceData.get(position));
                     }
                 });
@@ -239,9 +241,17 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             builder.show();
         }
     }
+
+    private void resetCityData() {
+        tv_bank_city.setText("");
+        mCityData = null;
+        mCityBean = null;
+        mCityPosition = 0;
+    }
+
     private void initCityData() {
-        if (mProvinceData == null){
-            ToastUtil.showToast(mContext,"请先选择开户行省");
+        if (mProvinceData == null) {
+            ToastUtil.showToast(mContext, "请先选择开户行省");
             return;
         }
         JSONObject jsonObject = new JSONObject();
@@ -255,7 +265,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        final GetCity getCity = new GetCity(mContext,2);
+        final GetCity getCity = new GetCity(mContext, 2);
         getCity.getCity(jsonObject, rl_city, true,
                 new BaseNetCallBack<AddressBean>() {
                     @Override
@@ -271,6 +281,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
                 });
 
     }
+
     /**
      * 解城市数据给dialog用
      */
@@ -308,6 +319,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             builder.show();
         }
     }
+
     /**
      * 得到用户认证的信息
      */
@@ -555,7 +567,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "请先获取验证码!");
             return;
         }
-        if (TextUtils.isEmpty(city_code)){
+        if (TextUtils.isEmpty(city_code)) {
             ToastUtil.showToast(mContext, "请先完善资料!");
             return;
         }
