@@ -189,7 +189,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                         .map(new Function<List<HashMap<String, String>>, ArrayList<String>>() {
                             @Override
                             public ArrayList<String> apply(List<HashMap<String, String>> contacts) throws Exception {
-                                mContacts = contacts;
+                                mContacts = new ArrayList<HashMap<String, String>>();
                                 ArrayList<String> contactsDialogDada = new ArrayList<>();
                                 for (int i = 0; i < contacts.size(); i++) {
                                     HashMap<String, String> contactMap = contacts.get(i);
@@ -198,6 +198,7 @@ public class AuthExtroContactsActivity extends BaseActivity implements View.OnCl
                                     if (phone == null || phone.length() != 11) {
                                         continue;
                                     }
+                                    mContacts.add(contactMap);
                                     contactsDialogDada.add(name + "-" + phone);
                                 }
                                 return contactsDialogDada;
