@@ -34,6 +34,15 @@ public class MyHomeBean {
 
         private String red_packet_string;
         private String share_string;
+        private String service_url;
+
+        public String getService_url() {
+            return service_url;
+        }
+
+        public void setService_url(String service_url) {
+            this.service_url = service_url;
+        }
 
         public String getRed_packet_string() {
             return red_packet_string;

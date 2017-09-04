@@ -17,7 +17,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.UserConfigChangedEvent;
-import com.tianshen.cash.model.BankCardInfoBean;
+import com.tianshen.cash.model.AddressBean;
 import com.tianshen.cash.model.BankListBean;
 import com.tianshen.cash.model.BankListItemBean;
 import com.tianshen.cash.model.BindVerifySmsBean;
@@ -25,9 +25,10 @@ import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.BindBankCard;
 import com.tianshen.cash.net.api.GetAllBankList;
-import com.tianshen.cash.net.api.GetBankCardInfo;
 import com.tianshen.cash.net.api.GetBindVerifySms;
+import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetIdNumInfo;
+import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -49,9 +50,16 @@ import butterknife.BindView;
 
 public class AuthBankCardActivity extends BaseActivity implements View.OnClickListener {
 
-
+    @BindView(R.id.tv_bank_province)
+    TextView tv_bank_province;
+    @BindView(R.id.tv_bank_city)
+    TextView tv_bank_city;
     @BindView(R.id.rl_bank_card)
     RelativeLayout rl_bank_card;
+    @BindView(R.id.rl_province)
+    RelativeLayout rl_province;
+    @BindView(R.id.rl_city)
+    RelativeLayout rl_city;
     @BindView(R.id.tv_auth_bank_card_back)
     TextView tvAuthBankCardBack;
     @BindView(R.id.tv_auth_info_post)
@@ -111,6 +119,12 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             }
         }
     };
+    private AddressBean mProvinceBean;
+    private ArrayList<String> mProvinceData;
+    private int mProvincePosition;
+    private AddressBean mCityBean;
+    private ArrayList<String> mCityData;
+    private int mCityPosition;
 
 
     @Override
@@ -142,6 +156,8 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
         tvAuthInfoPost.setOnClickListener(this);
         rl_bank_card.setOnClickListener(this);
         tvSeverityCode.setOnClickListener(this);
+        rl_province.setOnClickListener(this);
+        rl_city.setOnClickListener(this);
     }
 
 
@@ -157,10 +173,159 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             case R.id.rl_bank_card:
                 initBankListData();
                 break;
+            case R.id.rl_province:
+                initProvinceData();
+                break;
+            case R.id.rl_city:
+                initCityData();
+                break;
             case R.id.tv_severity_code:
                 tvSeverityCode.setEnabled(false);
                 initSeverityCode();
                 break;
+        }
+    }
+
+    private void initProvinceData() {
+
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        GetProvince getProvince = new GetProvince(mContext, 2);
+        getProvince.getProvince(jsonObject, rl_province, true,
+                new BaseNetCallBack<AddressBean>() {
+                    @Override
+                    public void onSuccess(AddressBean paramT) {
+                        mProvinceBean = paramT;
+                        parserProvinceListData();
+                        showProvinceListDialog();
+                    }
+
+                    @Override
+                    public void onFailure(String url, int errorType, int errorCode) {
+
+                    }
+                });
+    }
+
+    /**
+     * 解省数据给dialog用
+     */
+    private void parserProvinceListData() {
+        ArrayList<AddressBean.Data> datas = mProvinceBean.getData();
+        mProvinceData = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            AddressBean.Data data = datas.get(i);
+            String provice_name = data.getProvice_name();
+            mProvinceData.add(provice_name);
+        }
+    }
+
+    /**
+     * 显示省的Dialog
+     */
+    private void showProvinceListDialog() {
+        if (mProvinceData == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
+            return;
+        }
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
+                .title("选择省份")
+                .items(mProvinceData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mProvincePosition = position;
+                        resetCityData();
+                        tv_bank_province.setText(mProvinceData.get(position));
+                    }
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
+        }
+    }
+
+    private void resetCityData() {
+        tv_bank_city.setText("");
+        mCityData = null;
+        mCityBean = null;
+        mCityPosition = 0;
+    }
+
+    private void initCityData() {
+        if (mProvinceData == null) {
+            ToastUtil.showToast(mContext, "请先选择开户行省");
+            return;
+        }
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        AddressBean.Data data = mProvinceBean.getData().get(mProvincePosition);
+        String province_id = data.getProvice_id();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            jsonObject.put("province_id", province_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final GetCity getCity = new GetCity(mContext, 2);
+        getCity.getCity(jsonObject, rl_city, true,
+                new BaseNetCallBack<AddressBean>() {
+                    @Override
+                    public void onSuccess(AddressBean paramT) {
+                        mCityBean = paramT;
+                        parserCityListData();
+                        showCityListDialog();
+                    }
+
+                    @Override
+                    public void onFailure(String url, int errorType, int errorCode) {
+                    }
+                });
+
+    }
+
+    /**
+     * 解城市数据给dialog用
+     */
+    private void parserCityListData() {
+        ArrayList<AddressBean.Data> datas = mCityBean.getData();
+        mCityData = new ArrayList<>();
+        for (int i = 0; i < datas.size(); i++) {
+            AddressBean.Data data = datas.get(i);
+            String city_name = data.getCity_name();
+            mCityData.add(city_name);
+        }
+    }
+
+    /**
+     * 显示城市的Dialog
+     */
+    private void showCityListDialog() {
+
+        if (mCityData == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
+            return;
+        }
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
+                .title("选择城市")
+                .items(mCityData)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mCityPosition = position;
+                        tv_bank_city.setText(mCityData.get(position));
+                    }
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
         }
     }
 
@@ -405,6 +570,10 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             BankListItemBean itemBean = mBankListBean.getData().get(mCurrentBankCardIndex);
             bank_id = itemBean.getBank_id();
         }
+        String city_code = "";
+        if (mCityBean != null) {
+            city_code = mCityBean.getData().get(mCityPosition).getCity_id();
+        }
 
         if (TextUtils.isEmpty(card_user_name)) {
             ToastUtil.showToast(mContext, "请先完善资料!");
@@ -430,6 +599,10 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "请先获取验证码!");
             return;
         }
+        if (TextUtils.isEmpty(city_code)) {
+            ToastUtil.showToast(mContext, "请先完善资料!");
+            return;
+        }
 
         try {
             JSONObject mJson = new JSONObject();
@@ -441,6 +614,7 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
             mJson.put("bank_name", bank_name);
             mJson.put("bank_id", bank_id);
             mJson.put("bind_no", bind_no);
+            mJson.put("city_code", city_code);
             BindBankCard mBindBankCard = new BindBankCard(mContext);
             mBindBankCard.bindBankCard(mJson, tvAuthInfoPost, true, new BaseNetCallBack<ResponseBean>() {
                 @Override

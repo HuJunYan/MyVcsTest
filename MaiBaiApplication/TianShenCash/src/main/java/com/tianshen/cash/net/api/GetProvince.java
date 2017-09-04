@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.AddressBean;
-import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -14,6 +13,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -24,6 +24,8 @@ public class GetProvince extends NetBase {
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;
+    private int flag = 1;
+
 
     public GetProvince(Context context) {
         super(context);
@@ -31,7 +33,17 @@ public class GetProvince extends NetBase {
         mUrl = NetConstantValue.getProvinceUrl();
     }
 
+    public GetProvince(Context context, int flag) {
+        this(context);
+        this.flag = flag;
+
+    }
+
     public void getProvince(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<AddressBean> callBack) {
+        try {//新字段
+            jsonObject.put("flag", flag);// 正常选择  flag = 1  银行卡 flag = 2
+        } catch (JSONException e) {
+        }
         mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
         if (mJSONObject == null) {
             return;
