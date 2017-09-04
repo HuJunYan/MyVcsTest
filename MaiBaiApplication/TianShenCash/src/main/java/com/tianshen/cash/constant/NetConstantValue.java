@@ -135,11 +135,12 @@ public class NetConstantValue {
     /**
      * 还款，立即还款
      * api: com.maibei.merchants.net.api.Repayment.repayment()
+     * //TODO  由此字段 替换为箭头指向字段 服务器还在改 暂时不能保证没有问题payConfirm->repaymentProcessing
      *
      * @return
      */
     public static String getRepaymentUrl() {
-        return COMMONURI + "Pay/payConfirm";
+        return COMMONURI + "Pay/repaymentProcessing";
     }
 
 
