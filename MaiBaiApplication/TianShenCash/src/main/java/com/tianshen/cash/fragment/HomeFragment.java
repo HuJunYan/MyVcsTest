@@ -754,6 +754,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 tv_home_confirm_money.setText("重新还款");
                 tv_home_confirm_money.setVisibility(View.VISIBLE);
                 break;
+            case "16"://16 提现申请已提交
+                showConsumeStatusUI();
+                tv_home_confirm_money.setVisibility(View.GONE);
+                break;
         }
 
     }
@@ -805,7 +809,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private void gotoDiffRateMoneyActivity() {
         String consume_id = mUserConfig.getData().getConsume_id();
         Bundle bundle = new Bundle();
-        bundle.putString(GlobalParams.CONSUME_ID,consume_id);
+        bundle.putString(GlobalParams.CONSUME_ID, consume_id);
         gotoActivity(mContext, ConfirmDiffRateMoneyActivity.class, bundle);
     }
 

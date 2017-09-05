@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -32,7 +34,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -77,7 +78,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     TextView tvConfirmProtocol;
     private OrderConfirmBean mOrderConfirmBean;
     private ArrayList<CharacterStyle> ssList;
-
+    @BindView(R.id.check_box)
+    CheckBox check_box;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,18 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
     protected void setListensers() {
         tvConfirmMoneyBack.setOnClickListener(this);
         tvConfirmApply.setOnClickListener(this);
+        check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    tvConfirmApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_border));
+                    tvConfirmApply.setEnabled(true);
+                } else {
+                    tvConfirmApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_unchecked));
+                    tvConfirmApply.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
@@ -307,7 +321,8 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 跳转到WebActivity
-     * @param  type 1 居间协议 2 借款协议
+     *
+     * @param type 1 居间协议 2 借款协议
      */
     private void gotoWebActivity(int type) {
         if (mOrderConfirmBean == null) {

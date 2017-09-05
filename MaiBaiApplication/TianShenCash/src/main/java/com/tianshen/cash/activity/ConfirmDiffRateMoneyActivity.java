@@ -11,8 +11,8 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.DiffRateInfoBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.net.api.GetDiffOrderPayApi;
 import com.tianshen.cash.net.api.GetDiffRateInfoApi;
-import com.tianshen.cash.net.api.Order;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -58,8 +58,6 @@ public class ConfirmDiffRateMoneyActivity extends BaseActivity implements View.O
     TextView tvConfirmRepay;
     @BindView(R.id.tv_confirm_apply)
     TextView tvConfirmApply;
-    @BindView(R.id.tv_confirm_protocol)
-    TextView tvConfirmProtocol;
     private String consume_id;
     private DiffRateInfoBean mDiffRateInfoBean;
     private boolean mInPostMoneyStatus;//是否请求提现状态
@@ -97,9 +95,9 @@ public class ConfirmDiffRateMoneyActivity extends BaseActivity implements View.O
     private void initOrderConfirmData() {
         Intent intent = getIntent();
         if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                consume_id = extras.getString(GlobalParams.CONSUME_ID);
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                consume_id = bundle.getString(GlobalParams.CONSUME_ID);
             }
         }
         try {
@@ -181,26 +179,33 @@ public class ConfirmDiffRateMoneyActivity extends BaseActivity implements View.O
      * 点击了确认
      */
     private void onClickApply() {
-        if (null == mDiffRateInfoBean || mInPostMoneyStatus == true) {
+        if (null == mDiffRateInfoBean || mInPostMoneyStatus || mDiffRateInfoBean.data == null) {
             return;
         }
         mInPostMoneyStatus = true;
         JSONObject jsonObject = new JSONObject();
-        Order order = new Order(mContext);
-        order.order(jsonObject, tvConfirmApply, new BaseNetCallBack<PostDataBean>() {
-            @Override
-            public void onSuccess(PostDataBean paramT) {
-                mInPostMoneyStatus = false;
-                if (paramT.getCode() == 0) {
-                    gotoMainActivity();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
+            jsonObject.put(GlobalParams.CONSUME_ID, consume_id);
+            GetDiffOrderPayApi getDiffOrderPayApi = new GetDiffOrderPayApi(this);
+            getDiffOrderPayApi.getDiffOrderPay(jsonObject, tvConfirmApply, true, new BaseNetCallBack<PostDataBean>() {
+                @Override
+                public void onSuccess(PostDataBean responseBean) {
+                    mInPostMoneyStatus = false;
+                    if (responseBean.getCode() == 0) {
+                        gotoMainActivity();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(String url, int errorType, int errorCode) {
-                mInPostMoneyStatus = false;
-            }
-        });
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                    mInPostMoneyStatus = false;
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

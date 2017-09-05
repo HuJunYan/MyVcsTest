@@ -583,4 +583,12 @@ public class NetConstantValue {
     public static String getDiffRateInfoURL() {
         return COMMONURI + "Order/diffOrderConfirm";
     }
+
+    /**
+     * 差异化订单确认提现
+     * @return
+     */
+    public static String getDiffOrderPayURL(){
+        return COMMONURI + "Order/diffOrderPay";
+    }
 }
