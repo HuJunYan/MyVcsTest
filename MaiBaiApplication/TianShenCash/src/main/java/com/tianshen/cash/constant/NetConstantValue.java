@@ -12,7 +12,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://pre.tianshenjr.com/";
 
     //测试
-//   public static String HOST = "http://tst.tianshenjr.com/";
+//    public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
     public static String HOST = "http://dev.tianshenjr.com/";
@@ -574,5 +574,13 @@ public class NetConstantValue {
      **/
     public static String getUDunNotifyURL() {
         return COMMONURI + "Udun/idAuthNotify";
+    }
+
+    /**
+     * 获取差异化数据地址
+     * @return
+     */
+    public static String getDiffRateInfoURL() {
+        return COMMONURI + "Order/diffOrderConfirm";
     }
 }

@@ -31,12 +31,12 @@ import android.widget.ViewSwitcher;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
+import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
@@ -69,7 +69,6 @@ import com.tianshen.cash.model.SelWithdrawalsBean;
 import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
-import com.tianshen.cash.model.UserRepayDetailBean;
 import com.tianshen.cash.model.WithdrawalsItemBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
 import com.tianshen.cash.net.api.GetActivity;
@@ -82,7 +81,6 @@ import com.tianshen.cash.net.api.SaveContacts;
 import com.tianshen.cash.net.api.SelWithdrawals;
 import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
-import com.tianshen.cash.net.api.UserRepayDetailApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.ImageLoader;
@@ -713,6 +711,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     } else if ("1".equals(zzOrderMark)) {
                         showVerifyCodeDialog();
                     }
+                } else if ("0".equals(is_payway)) {
+                    if (mUserConfig.getData().getDiff_rate() == 1) {
+                        tv_home_confirm_money.setText("提现");
+                        tv_home_confirm_money.setVisibility(View.VISIBLE);
+                    } else if (mUserConfig.getData().getDiff_rate() == 0) {
+                        tv_home_confirm_money.setText("我知道了");
+                        tv_home_confirm_money.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             case "3"://3:放款成功（钱已经到银行卡）；
@@ -783,6 +789,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 String is_payway = mUserConfig.getData().getIs_payway();
                 if ("1".equals(is_payway) && "0".equals(zzOrderMark)) {
                     gotoConfirmMoneyActivity();
+                } else if ("0".equals(is_payway) && mUserConfig.getData().getDiff_rate() == 1) {
+                    gotoDiffRateMoneyActivity();
                 }
                 break;
             case "3": //借款成功
@@ -792,6 +800,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 repayIknow();
                 break;
         }
+    }
+
+    private void gotoDiffRateMoneyActivity() {
+        String consume_id = mUserConfig.getData().getConsume_id();
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.CONSUME_ID,consume_id);
+        gotoActivity(mContext, ConfirmDiffRateMoneyActivity.class, bundle);
     }
 
     /**
@@ -1374,7 +1389,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (mUserConfig == null || mUserConfig.getData() == null) {
             return;
         }
-        new RepayDetailDialogView(getActivity(),TianShenUserUtil.getUserId(mContext), mUserConfig.getData().getConsume_id());
+        new RepayDetailDialogView(getActivity(), TianShenUserUtil.getUserId(mContext), mUserConfig.getData().getConsume_id());
 //
 //        LayoutInflater mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View view = mLayoutInflater.inflate(R.layout.dialog_danger_tips, null, false);

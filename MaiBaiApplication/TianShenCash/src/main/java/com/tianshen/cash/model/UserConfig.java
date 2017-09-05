@@ -59,6 +59,7 @@ public class UserConfig {
         private String flow_supermarket_url;
         private String flow_supermarket_num;
         private String zzOrderMark;
+        private int diff_rate; //"是不是差异化费率的订单，0：不是， 1：是（为1的时候，需要展示确认借款的页面）"
 
         public String getZzOrderMark() {
             return zzOrderMark;
@@ -258,6 +259,14 @@ public class UserConfig {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public int getDiff_rate() {
+            return diff_rate;
+        }
+
+        public void setDiff_rate(int diff_rate) {
+            this.diff_rate = diff_rate;
         }
 
 

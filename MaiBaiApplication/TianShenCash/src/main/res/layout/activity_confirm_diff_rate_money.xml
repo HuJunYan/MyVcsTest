@@ -55,8 +55,8 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
+    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -81,6 +81,7 @@
             android:textSize="14dp" />
 
     </RelativeLayout>
+
     <View style="@style/split_line_style" />
 
     <RelativeLayout

@@ -208,6 +208,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".activity.VerifyFailActivity"
             android:screenOrientation="portrait" />
@@ -307,6 +308,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.moxie.client.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ConfirmDiffRateMoneyActivity"
             android:screenOrientation="portrait" />
     </application>
 

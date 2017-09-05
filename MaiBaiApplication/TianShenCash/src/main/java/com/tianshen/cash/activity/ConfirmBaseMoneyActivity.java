@@ -473,8 +473,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         ssList.clear();
         ssList.add(webSpan);
         ssList.add(webSpan2);
-        ssList.add(webSpan3);
-        String text = getResources().getString(R.string.confirm_protocol_all_text2);
+//        ssList.add(webSpan3);
+        String text = getResources().getString(R.string.confirm_protocol_all_text);
         SpannableUtils.setWebSpannableString(tv_confirm_base_protocol, text, "《", "》", ssList, getResources().getColor(R.color.global_txt_orange));
     }
 
@@ -502,16 +502,16 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             ds.setUnderlineText(false);
         }
     };
-    private ClickableSpan webSpan3 = new ClickableSpan() {
-        @Override
-        public void onClick(View widget) {
-            gotoWebActivity(3);
-        }
-
-        @Override
-        public void updateDrawState(TextPaint ds) {
-//            super.updateDrawState(ds);
-            ds.setUnderlineText(false);
-        }
-    };
+//    private ClickableSpan webSpan3 = new ClickableSpan() {
+//        @Override
+//        public void onClick(View widget) {
+//            gotoWebActivity(3);
+//        }
+//
+//        @Override
+//        public void updateDrawState(TextPaint ds) {
+////            super.updateDrawState(ds);
+//            ds.setUnderlineText(false);
+//        }
+//    };
 }
