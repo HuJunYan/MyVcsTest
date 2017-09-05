@@ -715,9 +715,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     if (mUserConfig.getData().getDiff_rate() == 1) {
                         tv_home_confirm_money.setText("提现");
                         tv_home_confirm_money.setVisibility(View.VISIBLE);
-                    } else if (mUserConfig.getData().getDiff_rate() == 0) {
-                        tv_home_confirm_money.setText("我知道了");
-                        tv_home_confirm_money.setVisibility(View.VISIBLE);
                     }
                 }
                 break;
