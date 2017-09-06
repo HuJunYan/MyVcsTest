@@ -891,14 +891,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 String consume_amount = mUserConfig.getData().getConsume_amount(); //本金
                 String overdue_amount = mUserConfig.getData().getOverdue_amount();//罚金
-
                 String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
                 String overdue_amountY = MoneyUtils.changeF2Y(overdue_amount);
 
                 tv_repay_principal_money.setText(consume_amountY); //本金
                 tv_repay_danger_money_key.setText(overdue_amountY);//罚金
-                String sum = MoneyUtils.add(consume_amountY, overdue_amountY);
-                tv_repay_overdue_sum_money.setText(sum);//一共
+                tv_repay_overdue_sum_money.setText(MoneyUtils.getPointTwoMoney(consume_amount, overdue_amount));//一共
             } catch (Exception e) {
                 e.printStackTrace();
             }

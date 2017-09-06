@@ -1,6 +1,7 @@
 package com.tianshen.cash.utils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * 金钱换算的工具类
@@ -178,4 +179,19 @@ public class MoneyUtils {
     }
 
 
+    /**
+     * 计算总数并返回两位小数  传入为分
+     *
+     * @param values
+     * @return
+     */
+    public static String getPointTwoMoney(String... values) {
+        BigDecimal bigDecimal = new BigDecimal(0d);
+        for (int i = 0; i < values.length; i++) {
+            bigDecimal = bigDecimal.add(new BigDecimal(values[i]));
+        }
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        return df.format(bigDecimal.divide(new BigDecimal(100d)));
+    }
 }

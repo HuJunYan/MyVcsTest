@@ -217,22 +217,14 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             mIsPaywaySelf = false;
         }
 
-        try {
-            String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
-            String overdueAmountY = MoneyUtils.changeF2Y(overdueAmount);
-            String repayMoney = MoneyUtils.add(consumeAmountY, overdueAmountY);
-            tvConfirmRepay.setText(repayMoney + "元");
-            tvConfirmRepayBank.setText(bank_name);
-            tvConfirmRepayNumBank.setText(bank_card_num);
+        tvConfirmRepay.setText(MoneyUtils.getPointTwoMoney(consumeAmount,overdueAmount) + "元");
+        tvConfirmRepayBank.setText(bank_name);
+        tvConfirmRepayNumBank.setText(bank_card_num);
 
-            if (mIsPaywaySelf) {//自己的产品不需要验证码UI
-                rl_repay_severity_code.setVisibility(View.GONE);
-            } else {//掌众的产品展示获取验证码的UI
-                rl_repay_severity_code.setVisibility(View.VISIBLE);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mIsPaywaySelf) {//自己的产品不需要验证码UI
+            rl_repay_severity_code.setVisibility(View.GONE);
+        } else {//掌众的产品展示获取验证码的UI
+            rl_repay_severity_code.setVisibility(View.VISIBLE);
         }
     }
 
