@@ -76,6 +76,9 @@ public class JPushReceiver extends BroadcastReceiver {
                     case "99"://预下单有变化
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         break;
+                    case "100":
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
                 }
             } catch (Exception e) {
                 MobclickAgent.reportError(mContext, LogUtil.getException(e));
