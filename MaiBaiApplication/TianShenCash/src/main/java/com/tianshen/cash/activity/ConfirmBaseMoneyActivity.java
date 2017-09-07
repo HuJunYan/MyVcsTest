@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -429,7 +428,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                     if (data != null) {
                         message_last_date = data.getMsg_last_time();
                     }
-                    PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, message_last_date);
+                    if (!isFinishing()) {
+                        PhoneInfoUtil.getMessage_list(ConfirmBaseMoneyActivity.this, myCallBack, message_last_date);
+                    }
                 }
                 mJSONObject.put(jsonArrayName, jsonArray);
                 if (step == 3) {
