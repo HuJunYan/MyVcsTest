@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.tianshen.cash.model.InviteFriendsBean;
 import com.tianshen.cash.net.api.InviteFriendsApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.QRCodeUtils;
 import com.tianshen.cash.utils.TianShenShareUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -51,6 +53,8 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     LinearLayout ll_invite_rule_data;
     @BindView(R.id.tv_invite_title)
     TextView tv_invite_title;
+    @BindView(R.id.tv_invite_obtain_money)
+    TextView tv_invite_obtain_money;
     private WbShareHandler wbShareHandler;
     private String mShareUrl;
     private List<InviteFriendsBean.TopList> mRankList;
@@ -66,7 +70,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     private String mTitle;
     private String shareTitle;
     private String shareDescription;
-
+    private String mMoney;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +97,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                     mRuleList = data.activity_list;
                     mRankList = data.top_list;
                     mTitle = data.title;
+                    mMoney=data.money;
                     shareTitle = data.share_title;
                     shareDescription = data.share_description;
                 }
@@ -109,6 +114,14 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         tv_invite_title.setText(mTitle);
         ll_invite_rank_data.removeAllViews();
         ll_invite_rule_data.removeAllViews();
+        if(!TextUtils.isEmpty(mMoney)){
+            try {
+                String moneyY=MoneyUtils.changeF2Y(mMoney);
+                tv_invite_obtain_money.setText("领取"+moneyY+"元现金");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         if (mRankList != null) {
             for (int i = 0; i < (mRankList.size() > mRankResArray.length ? mRankResArray.length : mRankList.size()); i++) {
                 InviteFriendsBean.TopList rankBean = mRankList.get(i);

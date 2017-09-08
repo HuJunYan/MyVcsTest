@@ -17,6 +17,7 @@ public class InviteFriendsBean {
         public String invite_url;
         public String share_title;
         public String share_description;
+        public String money;
         public List<TopList> top_list;
         public List<RuleList> activity_list;
 
