@@ -910,7 +910,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             tv_repay_month.setText(repayment_time_month);
             tv_repay_day.setText(repayment_time_day);
             try {
-                String consumeAmountY = MoneyUtils.changeF2Y(consumeAmount);
+                String consumeAmountY = MoneyUtils.getPointTwoMoney(consumeAmount);
                 tv_repay_money.setText(consumeAmountY);
             } catch (Exception e) {
                 e.printStackTrace();
