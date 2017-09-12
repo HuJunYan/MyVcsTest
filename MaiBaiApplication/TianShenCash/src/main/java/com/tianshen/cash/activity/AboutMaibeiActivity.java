@@ -160,9 +160,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mjson.put("app_type", "1");
             mjson.put("device_id", UserUtil.getDeviceId(mContext));
 
-            String channel = WalleChannelReader.getChannel(this);
-            String channel_id = Utils.channelName2channelID(channel);
-
+            String channel_id = WalleChannelReader.getChannel(this);
             mjson.put("channel_id", channel_id);
             checkUpgrade.checkUpgrade(mjson, mtv_check_code, true, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override

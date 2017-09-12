@@ -151,9 +151,8 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
             mjson.put("app_type", "1");
             mjson.put("device_id", UserUtil.getDeviceId(mContext));
 
-            String channel = WalleChannelReader.getChannel(this);
-            String channel_id = Utils.channelName2channelID(channel);
-
+            String channel_id = WalleChannelReader.getChannel(this);
+            LogUtil.d("abc","channel_id--->"+channel_id);
             mjson.put("channel_id", channel_id);
             checkUpgrade.checkUpgrade(mjson, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
