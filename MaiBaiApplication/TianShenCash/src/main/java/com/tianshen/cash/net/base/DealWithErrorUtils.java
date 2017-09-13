@@ -98,7 +98,7 @@ public class DealWithErrorUtils {
         EventBus.getDefault().post(new FinishCurrentActivityEvent());
 
         MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
-        Application application = myApplicationLike.getApplication();
+        Application application = myApplicationLike.getsApplication();
 
         Intent intent = new Intent(application, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

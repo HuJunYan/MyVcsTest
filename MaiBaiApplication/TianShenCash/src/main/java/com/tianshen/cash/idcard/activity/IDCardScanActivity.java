@@ -270,7 +270,7 @@ public class IDCardScanActivity extends Activity implements
                                         IDCardQualityResult.IDCardFailedType errType = result.fails
                                                 .get(0);
                                         if (errType != mLstErrType) {
-                                            ToastUtil.showToast(MyApplicationLike.getmApplication(),
+                                            ToastUtil.showToast(MyApplicationLike.getsApplication(),
                                                     Util.errorType2HumanStr(
                                                             result.fails.get(0),
                                                             mSide), Toast.LENGTH_SHORT);

@@ -441,7 +441,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Manager manager = new Manager(MyApplicationLike.getmApplication());
+                Manager manager = new Manager(MyApplicationLike.getsApplication());
                 IDCardQualityLicenseManager idCardLicenseManager = new IDCardQualityLicenseManager(mContext);
                 manager.registerLicenseManager(idCardLicenseManager);
                 manager.takeLicenseFromNetwork(Util.getUUIDString(mContext));
