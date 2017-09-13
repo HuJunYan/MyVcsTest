@@ -7,7 +7,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
-import com.meituan.android.walle.WalleChannelReader;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -159,9 +158,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mjson.put("current_version", vesionNo);
             mjson.put("app_type", "1");
             mjson.put("device_id", UserUtil.getDeviceId(mContext));
-
-            String channel_id = WalleChannelReader.getChannel(this);
-            mjson.put("channel_id", channel_id);
+            mjson.put("channel_id", Utils.getChannelId());
             checkUpgrade.checkUpgrade(mjson, mtv_check_code, true, new BaseNetCallBack<CheckUpgradeBean>() {
                 @Override
                 public void onSuccess(CheckUpgradeBean paramT) {
@@ -173,7 +170,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
                         if ("1".equals(is_ignore)) {//当前是最新版本
                             ToastUtil.showToast(mContext, explain);
                         } else {
-                            mUpdateManager = new UpdateManager(mContext, apkUrl, explain, upgradeType,AboutMaibeiActivity.this);
+                            mUpdateManager = new UpdateManager(mContext, apkUrl, explain, upgradeType, AboutMaibeiActivity.this);
                             mUpdateManager.checkUpdateInfo();
                         }
                     }
