@@ -6,6 +6,7 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
 import com.meituan.android.walle.WalleChannelReader;
@@ -593,7 +594,7 @@ public class Utils {
     public static String getChannelId() {
         String channel_id = WalleChannelReader.getChannel(MyApplicationLike.getsApplication());
         LogUtil.d("abc", "channel_id--->" + channel_id);
-        if (channel_id == null) {
+        if (TextUtils.isEmpty(channel_id)) {
             channel_id = "2000";
         }
         return channel_id;
