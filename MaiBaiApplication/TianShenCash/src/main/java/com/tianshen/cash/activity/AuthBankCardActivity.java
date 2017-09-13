@@ -218,11 +218,13 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      */
     private void parserProvinceListData() {
         ArrayList<AddressBean.Data> datas = mProvinceBean.getData();
-        mProvinceData = new ArrayList<>();
-        for (int i = 0; i < datas.size(); i++) {
-            AddressBean.Data data = datas.get(i);
-            String provice_name = data.getProvice_name();
-            mProvinceData.add(provice_name);
+        if (datas != null) {
+            mProvinceData = new ArrayList<>();
+            for (int i = 0; i < datas.size(); i++) {
+                AddressBean.Data data = datas.get(i);
+                String provice_name = data.getProvice_name();
+                mProvinceData.add(provice_name);
+            }
         }
     }
 
@@ -297,11 +299,14 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void parserCityListData() {
         ArrayList<AddressBean.Data> datas = mCityBean.getData();
         mCityData = new ArrayList<>();
-        for (int i = 0; i < datas.size(); i++) {
-            AddressBean.Data data = datas.get(i);
-            String city_name = data.getCity_name();
-            mCityData.add(city_name);
+        if (datas != null) {
+            for (int i = 0; i < datas.size(); i++) {
+                AddressBean.Data data = datas.get(i);
+                String city_name = data.getCity_name();
+                mCityData.add(city_name);
+            }
         }
+
     }
 
     /**
@@ -397,10 +402,12 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
     private void parserBankListData() {
         List<BankListItemBean> datas = mBankListBean.getData();
         mDialogData = new ArrayList<>();
-        for (int i = 0; i < datas.size(); i++) {
-            BankListItemBean bankListItemBean = datas.get(i);
-            String bank_name = bankListItemBean.getBank_name();
-            mDialogData.add(bank_name);
+        if (datas != null) {
+            for (int i = 0; i < datas.size(); i++) {
+                BankListItemBean bankListItemBean = datas.get(i);
+                String bank_name = bankListItemBean.getBank_name();
+                mDialogData.add(bank_name);
+            }
         }
     }
 
@@ -431,8 +438,11 @@ public class AuthBankCardActivity extends BaseActivity implements View.OnClickLi
      * 刷新银行卡UI，吧用户选择的银行卡设置到EditText上
      */
     private void refreshBankUI() {
-        String bankCardName = mDialogData.get(mCurrentBankCardIndex);
-        tv_bank_card.setText(bankCardName);
+        if (mDialogData != null) {
+            String bankCardName = mDialogData.get(mCurrentBankCardIndex);
+            tv_bank_card.setText(bankCardName);
+        }
+
     }
 
 

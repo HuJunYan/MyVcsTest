@@ -763,6 +763,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 判断是手机贷还款还是其他还款
      */
     private void checkRepay() {
+        if (mUserConfig == null || mUserConfig.getData() == null) {
+            return;
+        }
         String isPayway = mUserConfig.getData().getIs_payway();
         if ("2".equals(isPayway)) {
             String sjdUrl = mUserConfig.getData().getSjd_url();

@@ -6,11 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/title_color_one</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:screenOrientation">portrait</item>
-        <item name="android:windowBackground">@drawable/satnav</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="loading_dialog" parent="@android:style/Theme.Dialog">
@@ -192,4 +188,16 @@
         <attr name="prefer" format="integer" />
     </declare-styleable>
 
+    <!-- Base application theme. -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/title_color_one</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowBackground">@drawable/satnav</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
 </resources>
