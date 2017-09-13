@@ -1,12 +1,7 @@
 package com.tianshen.cash.base;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -31,7 +26,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MyApplicationLike extends MultiDexApplication {
 
-    private static MyApplicationLike mApplication;
+    private static MyApplicationLike sApplication;
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<>();
     public static boolean isMIUI;
 
@@ -44,16 +39,16 @@ public class MyApplicationLike extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        mApplication = this;
-        SDKInitializer.initialize(mApplication);
-        FMAgent.init(mApplication, NetConstantValue.checkIsReleaseService());
+        sApplication = this;
+        SDKInitializer.initialize(sApplication);
+        FMAgent.init(sApplication, NetConstantValue.checkIsReleaseService());
         JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(mApplication); // 初始化 JPush
+        JPushInterface.init(sApplication); // 初始化 JPush
         initLogger();
         initUMeng();
-        FileDownloader.init(mApplication);
+        FileDownloader.init(sApplication);
         //初始化bugly
-        CrashReport.initCrashReport(mApplication, "64c5b81f2f", false);
+        CrashReport.initCrashReport(sApplication, "64c5b81f2f", false);
         isMIUI = RomUtils.isMIUI();
         //魔蝎淘宝认证
         MoxieSDK.init(this);
@@ -71,8 +66,8 @@ public class MyApplicationLike extends MultiDexApplication {
 
     private void initUMeng() {
         String appKey = "58d8d84f04e2055475001ba2";
-        String channel = WalleChannelReader.getChannel(mApplication);
-        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(mApplication, appKey, channel);
+        String channel = WalleChannelReader.getChannel(sApplication);
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig(sApplication, appKey, channel);
         MobclickAgent.startWithConfigure(config);
     }
 
@@ -84,13 +79,10 @@ public class MyApplicationLike extends MultiDexApplication {
         mTempActivity.remove(activity);
     }
 
-    public static Application getmApplication() {
-        return mApplication;
+    public static Application getsApplication() {
+        return sApplication;
     }
 
-    public static Application getApplication() {
-        return mApplication;
-    }
 
     public synchronized void clearTempActivityInBackStack() {
         Iterator<Activity> iterator = mTempActivity.iterator();
@@ -130,7 +122,7 @@ public class MyApplicationLike extends MultiDexApplication {
     }
 
     public static MyApplicationLike getMyApplicationLike() {
-        return mApplication;
+        return sApplication;
     }
 
     public ArrayList<Activity> getAllActivities() {

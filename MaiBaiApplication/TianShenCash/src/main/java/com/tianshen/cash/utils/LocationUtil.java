@@ -43,7 +43,7 @@ public class LocationUtil implements BDLocationListener {
 
     public static synchronized LocationUtil getInstance() {
         if (mLocationUtil == null) {
-            mLocationUtil = new LocationUtil(MyApplicationLike.getmApplication());
+            mLocationUtil = new LocationUtil(MyApplicationLike.getsApplication());
         }
         return mLocationUtil;
     }

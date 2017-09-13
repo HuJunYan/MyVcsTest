@@ -1,5 +1,20 @@
 package com.tianshen.cash.utils;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.Environment;
+import android.util.DisplayMetrics;
+
+import com.meituan.android.walle.WalleChannelReader;
+import com.tianshen.cash.base.MyApplicationLike;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.OrderBean;
+import com.tianshen.cash.model.OrderRealPayBean;
+import com.tianshen.cash.net.base.UserUtil;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,23 +25,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.content.ComponentName;
-import android.content.Context;
-import android.os.Environment;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.widget.Button;
-
-import com.tianshen.cash.R;
-import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.model.OrderBean;
-import com.tianshen.cash.model.OrderRealPayBean;
-import com.tianshen.cash.net.base.UserUtil;
 
 public class Utils {
 
@@ -586,5 +584,18 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 获取渠道号  默认2000 -> server
+     * @return
+     */
+    public static String getChannelId() {
+        String channel_id = WalleChannelReader.getChannel(MyApplicationLike.getsApplication());
+        LogUtil.d("abc", "channel_id--->" + channel_id);
+        if (channel_id == null) {
+            channel_id = "2000";
+        }
+        return channel_id;
     }
 }

@@ -1,6 +1,5 @@
 package com.tianshen.cash.activity;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
-import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.FinishCurrentActivityEvent;
 import com.tianshen.cash.model.ResponseBean;
@@ -194,19 +192,10 @@ public class ResetPwdActivity extends BaseActivity implements View.OnClickListen
                     if (GlobalParams.CHANGE_LOGIN_PASSWORD.equals(mBundle.getString("type"))) {
                         UserUtil.setLoginPassword(mContext, password);
                     }
-//                    setResult(SETTING_PASSWORD_SUCCESS);
-//                    backActivity();
                     ToastUtil.showToast(mContext, "密码设置成功", Toast.LENGTH_SHORT);
-
                     TianShenUserUtil.clearUser(mContext);
-
                     EventBus.getDefault().post(new FinishCurrentActivityEvent());
-
-                    MyApplicationLike myApplicationLike = MyApplicationLike.getMyApplicationLike();
-                    Application application = myApplicationLike.getApplication();
-
-                   gotoActivity(mContext,LoginActivity.class,null);
-
+                    gotoActivity(mContext, LoginActivity.class, null);
                 }
 
                 @Override
