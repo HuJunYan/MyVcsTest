@@ -1,0 +1,12 @@
+此文件只提供给此版本下的多渠道打包辅助功能cd到此目录
+使用方法:
+一.cd到此目录
+二.执行命令
+1.javac RenameFile.java
+2.jar cvfm rename.jar *.* MANIFEST.MF -C foo/ .
+3.放到多渠道打包目录下  .py文件添加如下代码
+
+#重命名渠道包
+renameChnnelName = "java -jar " + parentPath + "rename.jar"
+os.system(renameChnnelName)
+4. 运行.py文件
