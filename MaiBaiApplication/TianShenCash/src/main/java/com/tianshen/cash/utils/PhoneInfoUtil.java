@@ -119,7 +119,7 @@ public class PhoneInfoUtil {
     //通过内容解析者 获取短信内容
     private static List<SmsInfoBean> getSmsListFromResolver(Context activity, String lastDate) {
         List<SmsInfoBean> smsList = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        String lastDate = "2017-05-31 10:22:14";
         long timestamp = System.currentTimeMillis() - threeMonth;
         if (lastDate != null) {
@@ -339,7 +339,7 @@ public class PhoneInfoUtil {
                         String phoneNumber = data.getString(phoneNumberColumn);
                         String smsbody = data.getString(smsbodyColumn);
                         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                "yyyy-MM-dd hh:mm:ss");
+                                "yyyy-MM-dd HH:mm:ss");
                         Date d = new Date(Long.parseLong(data.getString(dateColumn)));
                         String date = dateFormat.format(d);
                         String type;
@@ -407,7 +407,7 @@ public class PhoneInfoUtil {
      *
      * @param activity
      * @param callback
-     * @param lastDate 上一次获取的电话记录的date  格式 :yyyy-MM-dd hh:mm:ss
+     * @param lastDate 上一次获取的电话记录的date  格式 :yyyy-MM-dd HH:mm:ss
      */
     public static void getCall_list(final Activity activity, final PhoneInfoCallback callback, final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
@@ -471,7 +471,7 @@ public class PhoneInfoUtil {
      *
      * @param activity
      * @param callback
-     * @param lastDate 上一次获取的短信的date  格式 :yyyy-MM-dd hh:mm:ss
+     * @param lastDate 上一次获取的短信的date  格式 :yyyy-MM-dd HH:mm:ss
      */
     public static void getMessage_list(final Activity activity, final PhoneInfoCallback callback, final String lastDate) {
         RxPermissions rxPermissions = new RxPermissions(activity);
