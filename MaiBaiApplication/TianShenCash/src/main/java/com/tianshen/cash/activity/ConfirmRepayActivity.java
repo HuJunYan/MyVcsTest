@@ -16,6 +16,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.constant.NetConstantValue;
+import com.tianshen.cash.event.RefreshRepayDataEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.RepayFailureEvent;
 import com.tianshen.cash.model.PostDataBean;
@@ -32,6 +33,7 @@ import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.RepayDetailDialogView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -217,7 +219,7 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             mIsPaywaySelf = false;
         }
 
-        tvConfirmRepay.setText(MoneyUtils.getPointTwoMoney(consumeAmount,overdueAmount) + "元");
+        tvConfirmRepay.setText(MoneyUtils.getPointTwoMoney(consumeAmount, overdueAmount) + "元");
         tvConfirmRepayBank.setText(bank_name);
         tvConfirmRepayNumBank.setText(bank_card_num);
 
@@ -404,5 +406,11 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             EventBus.getDefault().post(new RepayFailureEvent());
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Subscribe
+    public void onRefreshRepayDataEvent(RefreshRepayDataEvent event) {
+        initRepayData();
     }
 }

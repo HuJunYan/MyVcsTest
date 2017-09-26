@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.tianshen.cash.event.PayDataOKEvent;
+import com.tianshen.cash.event.RefreshRepayDataEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.JpushBaseBean;
@@ -77,7 +78,8 @@ public class JPushReceiver extends BroadcastReceiver {
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         break;
                     case "100":
-                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        EventBus.getDefault().post(new UserConfigChangedEvent());//刷新userconfig
+                        EventBus.getDefault().post(new RefreshRepayDataEvent());//刷新还款接口
                         break;
                 }
             } catch (Exception e) {
