@@ -73,7 +73,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private String mType;
     private InviteBottomDialog inviteBottomDialog;
     private WbShareHandler wbShareHandler;
-
+    private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -265,6 +265,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             showDataErrorTip();
             return;
         }
+        this.type = type;
         Bitmap qrCode = QRCodeUtils.createQRCode(turnplateBean.invite_url, (int) (getResources().getDisplayMetrics().density * 140));
         //分享dialog 创建
         inviteBottomDialog = new InviteBottomDialog(WebActivity.this, TianShenShareUtils.getIUiListenerInstance(), turnplateBean.share_title, turnplateBean.share_description, type)
@@ -307,7 +308,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             if (inviteBottomDialog != null) {
                 inviteBottomDialog.cancel();
             }
-            updateShareSuccess();
+            if (type == InviteBottomDialog.TYPE_WEB){
+                updateShareSuccess();
+            }
         }
 
         @Override
@@ -333,7 +336,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (inviteBottomDialog != null) {
             inviteBottomDialog.cancel();
         }
-        updateShareSuccess();
+        if (type == InviteBottomDialog.TYPE_WEB){
+            updateShareSuccess();
+        }
     }
 
     private void showDataErrorTip() {
