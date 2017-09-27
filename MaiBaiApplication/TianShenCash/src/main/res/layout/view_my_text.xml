@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/layout_father"
+    android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@color/white"
-    android:id="@+id/layout_father"
+    android:orientation="vertical">
 
-   >
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/light_gray"/>
-<TextView
-    android:id="@+id/tv_content"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:textColor="@color/black"
+        android:background="@color/global_line_bg" />
 
-    android:text="内容"
-    android:layout_marginLeft="10dp"/>
-<ImageView
-    android:id="@+id/iv_right"
-    android:layout_width="15dp"
-    android:layout_height="15dp"
-    android:layout_centerVertical="true"
-    android:src="@drawable/icon_my_next"
-    android:layout_alignParentRight="true"
-    android:layout_marginRight="20dp"
-    android:visibility="gone"
-   />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:text="内容"
+        android:textColor="@color/black" />
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/icon_my_next"
+        android:visibility="gone" />
 
 
     <TextView
         android:id="@+id/tv_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
 
 
@@ -44,8 +44,10 @@
 
 
     <View
-        android:layout_alignParentBottom="true"
+        android:id="@+id/view_bottom_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/light_gray"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/global_line_bg"
+        android:visibility="gone" />
 </RelativeLayout>

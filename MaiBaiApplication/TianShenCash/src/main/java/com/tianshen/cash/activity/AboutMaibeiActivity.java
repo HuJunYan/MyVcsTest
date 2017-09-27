@@ -62,6 +62,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
         mtv_test_version = (MyTextView) findViewById(R.id.mtv_test_version);
         mtv_weixin_num = (MyTextView) findViewById(R.id.mtv_weixin_num);
         mtv_test_uid = (MyTextView) findViewById(R.id.mtv_test_uid);
+        mtv_test_uid.setBottomLineVisibility(View.VISIBLE);
     }
 
     @Override

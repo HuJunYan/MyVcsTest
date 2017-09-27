@@ -52,28 +52,28 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         app:setting_img_right="@drawable/icon_my_next"
-        app:setting_tv_content="检查更新"></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_content="检查更新"/>
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_weixin_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:setting_tv_content="微信号码"
-        app:setting_tv_right=""></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_right=""/>
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:setting_tv_content="服务器"
-        app:setting_tv_right="测试"></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_right="测试"/>
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_resolve"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:setting_tv_content="分辨率"
-        app:setting_tv_right="测试"></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_right="测试"/>
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_test_version"
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:setting_tv_content="测试版本"
-        app:setting_tv_right="测试版本"></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_right="测试版本"/>
 
     <com.tianshen.cash.view.MyTextView
         android:id="@+id/mtv_test_uid"
@@ -89,5 +89,5 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:setting_tv_content="用户ID"
-        app:setting_tv_right="用户ID"></com.tianshen.cash.view.MyTextView>
+        app:setting_tv_right="用户ID"/>
 </LinearLayout>

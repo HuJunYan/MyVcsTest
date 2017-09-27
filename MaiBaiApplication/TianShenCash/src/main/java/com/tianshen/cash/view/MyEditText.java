@@ -2,7 +2,6 @@ package com.tianshen.cash.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -11,7 +10,6 @@ import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -136,11 +134,11 @@ public class MyEditText extends LinearLayout implements View.OnFocusChangeListen
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            v_bottom.setBackgroundResource(R.color.global_bg_gray);
-        } else {
-            v_bottom.setBackgroundResource(R.color.global_bg_gray);
-        }
+//        if (hasFocus) {
+//            v_bottom.setBackgroundResource(R.color.global_bg_gray);
+//        } else {
+//            v_bottom.setBackgroundResource(R.color.global_bg_gray);
+//        }
     }
 
     @Override

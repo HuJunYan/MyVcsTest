@@ -36,7 +36,7 @@
         android:layout_marginTop="10dp"
         app:setting_img_right="@drawable/icon_my_next"
         app:setting_layout_father_height="100"
-        app:setting_tv_content="  修改登录密码"
+        app:setting_tv_content="修改登录密码"
         app:setting_tv_size="14" />
 
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         app:setting_layout_father_height="100"
-        app:setting_tv_content="  退出"
+        app:setting_tv_content="退出"
         app:setting_tv_size="14" />
 
 </LinearLayout>

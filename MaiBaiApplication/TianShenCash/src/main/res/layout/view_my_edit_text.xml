@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="50dp">
 
     <TextView
         android:id="@+id/tv_promp"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:textColor="@color/global_txt_black5"
@@ -42,7 +43,7 @@
             android:id="@+id/tv_right"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:textColor="#FFBA00"
             android:textSize="14sp"
             android:visibility="gone" />
@@ -64,9 +65,9 @@
     <View
         android:id="@+id/v_bottom"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray" />
+        android:background="@color/global_line_bg" />
 
 
 </RelativeLayout>

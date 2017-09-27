@@ -3,7 +3,6 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +46,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         bt_unregist = (MyTextView) findViewById(R.id.bt_unregist);
         tv_setting_back = (TextView) findViewById(R.id.tv_setting_back);
         my_tv_changepassword = (MyTextView) findViewById(R.id.my_tv_changepassword);
+        bt_unregist.setBottomLineVisibility(View.VISIBLE);
+        my_tv_changepassword.setBottomLineVisibility(View.VISIBLE);
     }
 
     @Override
