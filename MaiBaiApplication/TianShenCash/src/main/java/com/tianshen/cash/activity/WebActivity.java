@@ -17,6 +17,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.JsonSyntaxException;
@@ -58,6 +59,11 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.wv_web)
     WebView wv_web;
 
+    @BindView(R.id.tv_web_title)
+    TextView tv_web_title;
+
+    @BindView(R.id.iv_web_share)
+    ImageView iv_web_share;
     private String mUrl;
     private String mFrom;
     private String mType;
@@ -89,6 +95,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     protected void setListensers() {
         tv_web_back.setOnClickListener(this);
         tv_web_exit.setOnClickListener(this);
+        iv_web_share.setOnClickListener(this);
     }
 
     private void initWebView() {
@@ -134,7 +141,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 //使用系统自带的浏览器下载
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -192,7 +199,18 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_web_exit:
                 backActivity();
                 break;
+            case R.id.iv_web_share:
+                shareToOther();
+                break;
         }
+    }
+
+    private void shareToOther() {
+        TurnplateBean turnplateBean = new TurnplateBean();
+        turnplateBean.invite_url = "http://www.baidu.com";
+        turnplateBean.share_title = "haha";
+        turnplateBean.share_description = "description description description description description description";
+        initShareDialogData(turnplateBean, InviteBottomDialog.TYPE_WEB);
     }
 
     @Override
@@ -222,7 +240,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     try {
                         final TurnplateBean turnplateBean = GsonUtil.json2bean(message, TurnplateBean.class);
                         if (turnplateBean != null) {
-                            initShareDialogData(turnplateBean);
+                            initShareDialogData(turnplateBean, InviteBottomDialog.TYPE_NORMAL_SHARE);
                         } else {
                             showDataErrorTip();
                         }
@@ -238,14 +256,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void initShareDialogData(final TurnplateBean turnplateBean) {
+    private void initShareDialogData(final TurnplateBean turnplateBean, int type) {
         if (TextUtils.isEmpty(turnplateBean.invite_url)) {
             showDataErrorTip();
             return;
         }
         Bitmap qrCode = QRCodeUtils.createQRCode(turnplateBean.invite_url, (int) (getResources().getDisplayMetrics().density * 140));
         //分享dialog 创建
-        inviteBottomDialog = new InviteBottomDialog(WebActivity.this, TianShenShareUtils.getIUiListenerInstance(), turnplateBean.share_title, turnplateBean.share_description,InviteBottomDialog.TYPE_NORMAL_SHARE)
+        inviteBottomDialog = new InviteBottomDialog(WebActivity.this, TianShenShareUtils.getIUiListenerInstance(), turnplateBean.share_title, turnplateBean.share_description, type)
                 .setQRCodeBitmap(qrCode).setShareIconResAndName(R.drawable.inviteicon, "share_icon").setShareUrl(turnplateBean.invite_url).setWeiBoListener(new InviteBottomDialog.ShareWeiboListener() {
                     @Override
                     public void shareToWeibo() {

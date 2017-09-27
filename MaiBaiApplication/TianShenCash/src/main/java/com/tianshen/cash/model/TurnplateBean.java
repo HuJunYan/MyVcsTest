@@ -2,7 +2,7 @@ package com.tianshen.cash.model;
 
 /**
  * Created by Administrator on 2017/8/4.
- * 转盘活动的bean
+ * 活动的bean
  */
 
 public class TurnplateBean {
