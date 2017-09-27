@@ -41,6 +41,7 @@ import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.activity.MessageCenterActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
@@ -228,6 +229,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.iv_home_market)
     ImageView iv_home_market;
 
+    @BindView(R.id.iv_home_msg)
+    ImageView iv_home_msg;
+
     private OrderStatusAdapter mOrderStatusAdapter;
 
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
@@ -325,6 +329,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         iv_danger_money.setOnClickListener(this);
         iv_home_market.setOnClickListener(this);
         iv_normal_money.setOnClickListener(this);
+        iv_home_msg.setOnClickListener(this);
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
@@ -363,6 +368,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.iv_home_market: //点击了浏览超市
                 onClickMarket();
+                break;
+            case R.id.iv_home_msg: //点击了消息
+                gotoActivity(mContext, MessageCenterActivity.class, null);
                 break;
 
         }

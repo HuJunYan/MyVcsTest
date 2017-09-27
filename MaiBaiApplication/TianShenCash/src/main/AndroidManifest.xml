@@ -52,9 +52,9 @@
     <application
         android:name=".base.MyApplicationLike"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
@@ -316,6 +316,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmDiffRateMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MessageCenterActivity"
             android:screenOrientation="portrait" />
     </application>
 
