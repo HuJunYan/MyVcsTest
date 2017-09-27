@@ -94,10 +94,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.ResetPwdActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -197,9 +193,7 @@
             android:name="JPUSH_APPKEY"
             android:value="18b3e0866fb0af8e4c546faf" />
 
-        <activity
-            android:name=".activity.InputVerificationActivity"
-            android:screenOrientation="portrait" />
+
         <!-- 芝麻信用 -->
         <activity
             android:name="com.android.moblie.zmxy.antgroup.creditsdk.app.SDKActivity"
