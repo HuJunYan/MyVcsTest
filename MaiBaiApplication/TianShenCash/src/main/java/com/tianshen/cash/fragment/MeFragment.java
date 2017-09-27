@@ -24,6 +24,7 @@ import com.tianshen.cash.activity.AboutMaibeiActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoanHistoryActivity;
 import com.tianshen.cash.activity.LoginActivity;
+import com.tianshen.cash.activity.MessageCenterActivity;
 import com.tianshen.cash.activity.MyBankCardActivity;
 import com.tianshen.cash.activity.RedPackageActivity;
 import com.tianshen.cash.activity.ServiceOnlineActivity;
@@ -103,6 +104,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     TextView tv_me_red_package;
     @BindView(R.id.tv_me_tianshen_friend)
     TextView tv_me_tianshen_friend;
+
+    @BindView(R.id.rl_me_tianshen_message_center)
+    RelativeLayout rl_me_tianshen_message_center;
+
     private String service_url;
 
     @Override
@@ -146,6 +151,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         tv_me_weixin.setOnClickListener(this);
         rl_me_red_package.setOnClickListener(this);
         rl_me_tianshen_friend.setOnClickListener(this);
+        rl_me_tianshen_message_center.setOnClickListener(this);
     }
 
     private void initMyInfo() {
@@ -292,6 +298,13 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 Bundle bundle = new Bundle();
                 bundle.putString(GlobalParams.ACTIVITY_ID, "");
                 gotoActivity(mContext, InviteFriendsActivity.class, bundle);
+                break;
+            case R.id.rl_me_tianshen_message_center:
+                if (!TianShenUserUtil.isLogin(mContext)) {
+                    gotoActivity(mContext, LoginActivity.class, null);
+                    return;
+                }
+                gotoActivity(mContext, MessageCenterActivity.class, null);
                 break;
         }
     }
