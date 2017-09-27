@@ -21,7 +21,10 @@
             android:id="@+id/tv_invite_title"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/global_line_bg"
+        android:layout_height="1px"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

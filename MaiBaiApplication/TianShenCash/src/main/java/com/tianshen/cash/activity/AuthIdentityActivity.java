@@ -266,7 +266,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         RxPermissions rxPermissions = new RxPermissions(AuthIdentityActivity.this);
         rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
-            public void accept(Boolean aBoolean)  {
+            public void accept(Boolean aBoolean) {
                 if (mIdNumInfoBean == null || mIdNumInfoBean.getData() == null) {
                     return;
                 }
@@ -399,6 +399,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         String front_idCard_url = mIdNumInfoBean.getData().getFront_idCard_url();
         String back_idCard_url = mIdNumInfoBean.getData().getBack_idCard_url();
         String face_url = mIdNumInfoBean.getData().getFace_url();
+        if (!TextUtils.isEmpty(real_name) && !TextUtils.isEmpty(id_num)) {
+            etIdentityAuthName.setTextColor(getResources().getColor(R.color.global_txt_black4));
+            etIdentityAuthNum.setTextColor(getResources().getColor(R.color.global_txt_black4));
+        }
         etIdentityAuthName.setText(real_name);
         etIdentityAuthNum.setText(id_num);
 
@@ -428,6 +432,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void refreshNameAndNumUI() {
         String name = mIDCardBean.name;
         String num = mIDCardBean.id_card_number;
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(num)) {
+            etIdentityAuthName.setTextColor(getResources().getColor(R.color.global_txt_black4));
+            etIdentityAuthNum.setTextColor(getResources().getColor(R.color.global_txt_black4));
+        }
         etIdentityAuthName.setText(name);
         etIdentityAuthNum.setText(num);
 
@@ -1116,6 +1124,10 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {
                         if (ID_HAS_IDENTITY.equals(is_auth_idcard)) {
                             return;
+                        }
+                        if (!TextUtils.isEmpty(uDunIDInfoBean.id_no) && !TextUtils.isEmpty(uDunIDInfoBean.id_name)) {
+                            etIdentityAuthName.setTextColor(getResources().getColor(R.color.global_txt_black4));
+                            etIdentityAuthNum.setTextColor(getResources().getColor(R.color.global_txt_black4));
                         }
                         etIdentityAuthName.setText(uDunIDInfoBean.id_name);
                         etIdentityAuthNum.setText(uDunIDInfoBean.id_no);
