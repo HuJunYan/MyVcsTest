@@ -66,7 +66,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_red_package"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="12dp"
                 android:background="@color/global_bg_white">
 
@@ -91,7 +91,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_red_package"
                     android:text="现金红包"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/iv_me_red_package_arraw"
@@ -107,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="12sp"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_red_package_arraw"
                     android:textColor="#ff0000" />
@@ -116,12 +118,13 @@
             <RelativeLayout
                 android:id="@+id/rl_me_history"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
                     android:background="@color/global_line_bg" />
 
                 <ImageView
@@ -140,7 +143,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_history"
                     android:text="借款记录"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -152,15 +156,18 @@
 
             </RelativeLayout>
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
+                android:layout_marginLeft="15dp"
                 android:background="@color/global_line_bg" />
+
 
             <RelativeLayout
                 android:id="@+id/rl_me_bank_card"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
                 <ImageView
@@ -179,7 +186,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_bank_card"
                     android:text="我的银行卡"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -205,7 +213,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_tianshen_friend"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
                 <ImageView
@@ -224,7 +232,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_tianshen_friend"
                     android:text="邀请好友"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/iv_me_tianshen_friend_arraw"
@@ -240,6 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="12sp"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_tianshen_friend_arraw"
                     android:textColor="#ff0000" />
@@ -247,6 +257,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
@@ -254,7 +265,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_tianshen_message_center"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
                 <ImageView
@@ -273,7 +284,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_tianshen_message_center"
                     android:text="消息中心"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -286,6 +298,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
@@ -293,7 +306,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_tianshen_service_online"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
                 <ImageView
@@ -312,7 +325,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_tianshen_service_online"
                     android:text="在线客服"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -325,6 +339,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
@@ -373,7 +388,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_about"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:background="@color/global_bg_white">
 
 
@@ -393,7 +408,8 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_about"
                     android:text="关于天神贷"
-                    android:textColor="@color/global_txt_black4" />
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -414,7 +430,7 @@
             <RelativeLayout
                 android:id="@+id/rl_me_setting"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="12dp"
                 android:background="@color/global_bg_white">
 
