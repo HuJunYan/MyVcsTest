@@ -9,5 +9,5 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:src="@drawable/regist_retract" />
+        android:src="@drawable/ic_arraw_left" />
 </RelativeLayout>
