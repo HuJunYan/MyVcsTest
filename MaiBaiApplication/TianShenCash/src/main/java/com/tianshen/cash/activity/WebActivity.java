@@ -33,15 +33,19 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.WechatShareEvent;
 import com.tianshen.cash.model.TurnplateBean;
+import com.tianshen.cash.net.api.UpdateShareCountApi;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.QRCodeUtils;
 import com.tianshen.cash.utils.TianShenShareUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.InviteBottomDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 
@@ -303,6 +307,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             if (inviteBottomDialog != null) {
                 inviteBottomDialog.cancel();
             }
+            updateShareSuccess();
         }
 
         @Override
@@ -328,10 +333,24 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (inviteBottomDialog != null) {
             inviteBottomDialog.cancel();
         }
+        updateShareSuccess();
     }
 
     private void showDataErrorTip() {
         ToastUtil.showToast(this, "数据错误");
+    }
+
+
+    public void updateShareSuccess() {
+        UpdateShareCountApi updateShareCountApi = new UpdateShareCountApi(this);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
+            jsonObject.put("msg_id", "1");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        updateShareCountApi.updateShareCount(jsonObject, iv_web_share, false);
     }
 
 }

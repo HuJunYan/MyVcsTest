@@ -578,6 +578,7 @@ public class NetConstantValue {
 
     /**
      * 获取差异化数据地址
+     *
      * @return
      */
     public static String getDiffRateInfoURL() {
@@ -586,9 +587,19 @@ public class NetConstantValue {
 
     /**
      * 差异化订单确认提现
+     *
      * @return
      */
-    public static String getDiffOrderPayURL(){
+    public static String getDiffOrderPayURL() {
         return COMMONURI + "Order/diffOrderPay";
+    }
+
+    /**
+     * 通知服务器分享成功地址
+     *
+     * @return
+     */
+    public static String getUpdateShareCountURL() {
+        return COMMONURI + "Message/updateShareCount";
     }
 }
