@@ -61,7 +61,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/iv_me_user"
-                    android:text="未登录"
+                    android:text="@string/text_me_login_or_register"
                     android:textColor="@color/global_txt_black4" />
 
             </RelativeLayout>

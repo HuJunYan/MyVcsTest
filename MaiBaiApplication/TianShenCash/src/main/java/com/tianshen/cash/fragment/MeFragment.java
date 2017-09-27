@@ -222,7 +222,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      * 显示没有登录
      */
     private void showNoLoginUI() {
-        tvMeUserName.setText("未登录");
+        tvMeUserName.setText(getResources().getString(R.string.text_me_login_or_register));
         tv_me_red_package.setText("");
         tv_me_tianshen_friend.setText("");
     }

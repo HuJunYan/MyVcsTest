@@ -41,7 +41,11 @@ public class AuthListAdapter extends BaseMultiItemQuickAdapter<AuthCenterItemBea
                 helper.setImageResource(R.id.iv_auth_center_item, drawable_id);
                 TextView tv_auth_center_status_item = helper.getView(R.id.tv_auth_center_status_item);
                 if ("0".equals(status)) {//没有认证
-                    tv_auth_center_status_item.setText("待填写");
+                    if (authCenterItemBean.isOptionalType()){
+                        tv_auth_center_status_item.setText("选填");
+                    }else {
+                        tv_auth_center_status_item.setText("待填写");
+                    }
                     tv_auth_center_status_item.setTextColor(mContext.getResources().getColor(R.color.global_txt_orange));
                 } else {
                     tv_auth_center_status_item.setText("已认证");

@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.moxie.client.manager.MoxieCallBack;
@@ -31,6 +29,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.view.CustomerItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,7 +121,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         if (mAdapter == null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            xrecyclerviewAuthCenter.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+            xrecyclerviewAuthCenter.addItemDecoration(new CustomerItemDecoration(this));
             xrecyclerviewAuthCenter.setLayoutManager(layoutManager);
             mAdapter = new AuthListAdapter(mAuthCenterItemBeans, mHandler);
             xrecyclerviewAuthCenter.setAdapter(mAdapter);
@@ -297,6 +296,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         authCenterItemBean8.setDrawable_id(R.drawable.ic_auth_center_tao_bao_item);
         authCenterItemBean8.setStatus(taobao_pass);
         authCenterItemBean8.setItemType(AuthCenterItemBean.NORMAL_TYPE);
+        authCenterItemBean8.setOptionalType(true);
 
         authCenterItemBeans.add(authCenterItemBean0);
         authCenterItemBeans.add(authCenterItemBean1);

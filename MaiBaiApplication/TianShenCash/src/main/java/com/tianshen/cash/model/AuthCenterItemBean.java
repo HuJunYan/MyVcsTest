@@ -11,6 +11,7 @@ public class AuthCenterItemBean implements MultiItemEntity {
     private String name;
     private String status;
     private int itemType;
+    private boolean isOptionalType;
 
     public void setItemType(int itemType) {
         this.itemType = itemType;
@@ -44,5 +45,13 @@ public class AuthCenterItemBean implements MultiItemEntity {
     @Override
     public int getItemType() {
         return itemType;
+    }
+
+    public void setOptionalType(boolean optionalType) {
+        isOptionalType = optionalType;
+    }
+
+    public boolean isOptionalType() {
+        return isOptionalType;
     }
 }
