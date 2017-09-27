@@ -15,9 +15,7 @@ import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.sina.weibo.sdk.share.WbShareHandler;
 import com.tencent.connect.common.Constants;
-import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -25,7 +23,6 @@ import com.tianshen.cash.event.WechatShareEvent;
 import com.tianshen.cash.model.InviteFriendsBean;
 import com.tianshen.cash.net.api.InviteFriendsApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.QRCodeUtils;
 import com.tianshen.cash.utils.TianShenShareUtils;
@@ -170,7 +167,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, TianShenShareUtils.getIUiListenerInstance(), shareTitle, shareDescription).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
+        inviteBottomDialog = new InviteBottomDialog(this, TianShenShareUtils.getIUiListenerInstance(), shareTitle, shareDescription,InviteBottomDialog.TYPE_NORMAL_SHARE).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
         inviteBottomDialog.show();
     }
 
