@@ -16,15 +16,14 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_invite_title"
             style="@style/title_txt_style"
             android:layout_width="wrap_content"
-            android:id="@+id/tv_invite_title"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/global_line_bg"
-        android:layout_height="1px"/>
+
+    <include layout="@layout/layout_global_line" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

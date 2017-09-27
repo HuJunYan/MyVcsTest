@@ -29,7 +29,7 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
+    <include layout="@layout/layout_global_line" />
 
     <ScrollView
         android:layout_width="match_parent"

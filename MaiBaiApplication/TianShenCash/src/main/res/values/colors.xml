@@ -96,5 +96,6 @@
     <color name="global_popular_color">#878ff3</color>
     <color name="dialog_item_line_color">#EEEEEE</color>
 
+    <color name="main_bottom_line_color">#cccccc</color>
 
 </resources>

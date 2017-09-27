@@ -27,7 +27,8 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
+
+    <include layout="@layout/layout_global_line" />
 
     <ImageView
         android:layout_width="80dp"

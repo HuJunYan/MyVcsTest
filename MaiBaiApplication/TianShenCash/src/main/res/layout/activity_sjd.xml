@@ -29,6 +29,8 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/layout_global_line" />
+
     <WebView
         android:id="@+id/wv_web"
         android:layout_width="match_parent"

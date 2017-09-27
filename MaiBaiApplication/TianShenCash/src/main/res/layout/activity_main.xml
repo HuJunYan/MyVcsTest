@@ -43,9 +43,9 @@
         android:layout_height="match_parent"
         android:layout_above="@id/rg_control_button" />
 
-    <View
+    <include layout="@layout/layout_global_line"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@id/vp_main"
-        android:background="#e0e0e0" />
+        />
 </RelativeLayout>

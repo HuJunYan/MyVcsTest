@@ -48,10 +48,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/global_line_bg" />
+    <include layout="@layout/layout_global_line" />
 
     <WebView
         android:id="@+id/wv_web"

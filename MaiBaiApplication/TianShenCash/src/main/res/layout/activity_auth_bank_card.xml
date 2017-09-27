@@ -30,7 +30,7 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
+    <include layout="@layout/layout_global_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,7 +61,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:id="@+id/rl_bank_card"
@@ -101,7 +100,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:id="@+id/rl_province"
@@ -141,7 +139,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:id="@+id/rl_city"
@@ -181,7 +178,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -212,7 +208,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -243,7 +238,6 @@
 
     </RelativeLayout>
 
-    <View style="@style/split_line_style" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -289,10 +283,10 @@
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toLeftOf="@id/tv_severity_code"
             android:background="@color/global_line_bg" />
-
     </RelativeLayout>
+    <View style="@style/split_line_style" />
 </LinearLayout>

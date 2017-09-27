@@ -18,10 +18,7 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/global_line_bg" />
+    <include layout="@layout/layout_global_line" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,11 +30,6 @@
             android:layout_height="wrap_content"
             android:background="@color/global_bg_gray"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/global_line_bg" />
 
             <RelativeLayout
                 android:id="@+id/rl_me_user"
@@ -496,6 +488,11 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/global_line_bg" />
 
 
 </LinearLayout>
