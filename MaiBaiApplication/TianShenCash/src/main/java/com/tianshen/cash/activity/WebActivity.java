@@ -75,6 +75,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private InviteBottomDialog inviteBottomDialog;
     private WbShareHandler wbShareHandler;
     private int type;
+    private MessageBean messageBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +86,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         //只用从消息中心页面过来的才取MessageBean对象
         if (GlobalParams.FROM_MESSAGE.equals(mFrom)) {
-            MessageBean messageBean = (MessageBean) getIntent().getExtras().getSerializable(GlobalParams.WEB_MSG_DATA_KEY);
+            messageBean = (MessageBean) getIntent().getExtras().getSerializable(GlobalParams.WEB_MSG_DATA_KEY);
             tv_web_title.setText(messageBean.getMsg_title());
             mUrl = messageBean.getMsg_url();
+            iv_web_share.setVisibility(View.VISIBLE);
         }
 
         initWebView();
@@ -220,11 +222,16 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void shareToOther() {
-        TurnplateBean turnplateBean = new TurnplateBean();
-        turnplateBean.invite_url = "http://www.baidu.com";
-        turnplateBean.share_title = "haha";
-        turnplateBean.share_description = "description description description description description description";
-        initShareDialogData(turnplateBean, InviteBottomDialog.TYPE_WEB);
+        if (messageBean != null) {
+            TurnplateBean turnplateBean = new TurnplateBean();
+            turnplateBean.invite_url = messageBean.getMsg_share_url();
+            turnplateBean.share_title = messageBean.getMsg_share_title();
+            turnplateBean.share_description = messageBean.getMsg_description();
+            initShareDialogData(turnplateBean, InviteBottomDialog.TYPE_WEB);
+        } else {
+            showDataErrorTip();
+        }
+
     }
 
     @Override
