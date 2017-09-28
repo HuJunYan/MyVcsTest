@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/tv_item_message_title"
+        android:id="@+id/tv_item_message_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -19,6 +19,7 @@
         android:textSize="14sp" />
 
     <LinearLayout
+        android:id="@+id/ll_item_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -27,20 +28,22 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_item_message_title"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="中秋福利提前送，借款额度您说了说！"
             android:textColor="@color/global_txt_black4"
             android:textSize="18sp" />
 
         <ImageView
+            android:id="@+id/iv_item_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_message_item_empty" />
+            android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/tv_item_message_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -48,7 +51,6 @@
             android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:text="描述描述描述描述描述述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述"
             android:textColor="@color/global_txt_black5"
             android:textSize="14sp" />
 

@@ -32,6 +32,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.WechatShareEvent;
+import com.tianshen.cash.model.MessageBean;
 import com.tianshen.cash.model.TurnplateBean;
 import com.tianshen.cash.net.api.UpdateShareCountApi;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -74,12 +75,21 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private InviteBottomDialog inviteBottomDialog;
     private WbShareHandler wbShareHandler;
     private int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
         mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
         mType = getIntent().getExtras().getString(GlobalParams.WEB_TYPE);
+
+        //只用从消息中心页面过来的才取MessageBean对象
+        if (GlobalParams.FROM_MESSAGE.equals(mFrom)) {
+            MessageBean messageBean = (MessageBean) getIntent().getExtras().getSerializable(GlobalParams.WEB_MSG_DATA_KEY);
+            tv_web_title.setText(messageBean.getMsg_title());
+            mUrl = messageBean.getMsg_url();
+        }
+
         initWebView();
         if (GlobalParams.TYPE_READ.equals(mType)) {
             tv_web_exit.setVisibility(View.VISIBLE);
@@ -308,7 +318,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             if (inviteBottomDialog != null) {
                 inviteBottomDialog.cancel();
             }
-            if (type == InviteBottomDialog.TYPE_WEB){
+            if (type == InviteBottomDialog.TYPE_WEB) {
                 updateShareSuccess();
             }
         }
@@ -336,7 +346,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (inviteBottomDialog != null) {
             inviteBottomDialog.cancel();
         }
-        if (type == InviteBottomDialog.TYPE_WEB){
+        if (type == InviteBottomDialog.TYPE_WEB) {
             updateShareSuccess();
         }
     }

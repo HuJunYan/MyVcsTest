@@ -1,12 +1,18 @@
 package com.tianshen.cash.adapter
 
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 import com.tianshen.cash.R
+import com.tianshen.cash.base.MyApplicationLike
 import com.tianshen.cash.model.MessageBean
+import com.tianshen.cash.utils.ImageLoader
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_message_center.view.*
+import java.util.concurrent.TimeUnit
 
 class MessageAdapter(private var messageBeans: MutableList<MessageBean>,
                      val onClick: (MessageBean) -> Unit)
@@ -28,8 +34,24 @@ class MessageAdapter(private var messageBeans: MutableList<MessageBean>,
 
         fun bindData(itemBean: MessageBean) {
             with(itemBean) {
-                var title = itemBean.msg_title
-                itemView.tv_item_message_title.text = title
+                itemView.tv_item_message_time.text = msg_time_str
+                itemView.tv_item_message_title.text = msg_title
+                itemView.tv_item_message_description.text = msg_description
+
+                if (TextUtils.isEmpty(msg_img_url)) {
+                    itemView.iv_item_message.visibility = View.GONE
+                } else {
+                    itemView.iv_item_message.visibility = View.VISIBLE
+                    ImageLoader.load(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
+                }
+
+                RxView.clicks(itemView.ll_item_message)//1秒钟之内禁用重复点击
+                        .throttleFirst(1, TimeUnit.SECONDS)
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            onClick(this)
+                        }
+
             }
         }
     }

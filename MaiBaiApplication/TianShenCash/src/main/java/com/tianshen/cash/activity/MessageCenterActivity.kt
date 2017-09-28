@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
@@ -10,13 +11,8 @@ import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.MessageBean
-import com.tianshen.cash.model.MessageDataBean
-import com.tianshen.cash.net.api.GetMessageCenter
-import com.tianshen.cash.net.base.BaseNetCallBack
-import com.tianshen.cash.utils.TianShenUserUtil
+import com.tianshen.cash.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_message_center.*
-import org.json.JSONException
-import org.json.JSONObject
 
 class MessageCenterActivity : BaseActivity() {
 
@@ -45,6 +41,12 @@ class MessageCenterActivity : BaseActivity() {
     private fun initXRecyclerview() {
 
         mAdapter = MessageAdapter(mutableListOf<MessageBean>(), {
+            LogUtil.d("abc", it.msg_title)
+            val bundle = Bundle()
+            bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
+            bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, it)
+            gotoActivity(mContext, WebActivity::class.java, bundle)
+
         })
         refreshLayout.setOnRefreshListener { getMessages(true) }
         refreshLayout.setOnLoadmoreListener { getMessages(false) }
@@ -58,9 +60,11 @@ class MessageCenterActivity : BaseActivity() {
         mMessageBeanList = mutableListOf()
         for (i in 1..5) {
             val message = MessageBean()
-            message.msg_description = "描述" + i
-            message.msg_time_str = "1989-01-01 10:30"
+            message.msg_description = "描述描述描述描述描述描描述描述述描述描述描述描述描述描述描述描述描述描述描述" + i
+            message.msg_time_str = "1989-01-01 10:30" + i
             message.msg_title = "标题" + i
+            message.msg_img_url = "https://www.baidu.com/img/bd_logo1.png"
+            message.msg_url = "https://www.baidu.com"
             mMessageBeanList?.add(message)
         }
         mAdapter?.setData(mMessageBeanList!!)

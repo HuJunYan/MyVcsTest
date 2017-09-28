@@ -1,7 +1,9 @@
 package com.tianshen.cash.model;
 
 
-public class MessageBean {
+import java.io.Serializable;
+
+public class MessageBean implements Serializable {
 
     private String msg_id;
     private String msg_time_str;
