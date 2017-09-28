@@ -22,6 +22,7 @@ import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.WechatShareEvent;
 import com.tianshen.cash.model.InviteFriendsBean;
 import com.tianshen.cash.net.api.InviteFriendsApi;
+import com.tianshen.cash.net.api.UpdateShareCountApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.QRCodeUtils;
@@ -68,6 +69,8 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     private String shareTitle;
     private String shareDescription;
     private String mMoney;
+    private String msg_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,9 +97,10 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                     mRuleList = data.activity_list;
                     mRankList = data.top_list;
                     mTitle = data.title;
-                    mMoney=data.money;
+                    mMoney = data.money;
                     shareTitle = data.share_title;
                     shareDescription = data.share_description;
+                    msg_id = data.msg_id;
                 }
                 refreshUI();
             }
@@ -111,11 +115,11 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         tv_invite_title.setText(mTitle);
         ll_invite_rank_data.removeAllViews();
         ll_invite_rule_data.removeAllViews();
-        if(!TextUtils.isEmpty(mMoney)){
+        if (!TextUtils.isEmpty(mMoney)) {
             try {
-                String moneyY=MoneyUtils.changeF2Y(mMoney);
-                tv_invite_obtain_money.setText("领取"+moneyY+"元现金");
-            }catch (Exception e){
+                String moneyY = MoneyUtils.changeF2Y(mMoney);
+                tv_invite_obtain_money.setText("领取" + moneyY + "元现金");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -167,7 +171,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             return;
         }
         mQRBitmap = QRCodeUtils.createQRCode(mShareUrl, (int) (140 * density + 0.5f));
-        inviteBottomDialog = new InviteBottomDialog(this, TianShenShareUtils.getIUiListenerInstance(), shareTitle, shareDescription,InviteBottomDialog.TYPE_NORMAL_SHARE).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon,"share_icon");
+        inviteBottomDialog = new InviteBottomDialog(this, TianShenShareUtils.getIUiListenerInstance(), shareTitle, shareDescription, InviteBottomDialog.TYPE_NORMAL_SHARE).setWeiBoListener(this).setQRCodeBitmap(mQRBitmap).setShareUrl(mShareUrl).setShareIconResAndName(R.drawable.inviteicon, "share_icon");
         inviteBottomDialog.show();
     }
 
@@ -218,6 +222,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
             if (inviteBottomDialog != null) {
                 inviteBottomDialog.cancel();
             }
+            updateShareSuccess();
         }
 
         @Override
@@ -232,11 +237,24 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     };
 
 
-
     @Subscribe
     public void onWeChatShareEvent(WechatShareEvent event) {
         if (inviteBottomDialog != null) {
             inviteBottomDialog.cancel();
         }
+        updateShareSuccess();
+    }
+
+
+    public void updateShareSuccess() {
+        UpdateShareCountApi updateShareCountApi = new UpdateShareCountApi(this);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
+            jsonObject.put("msg_id", msg_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        updateShareCountApi.updateShareCount(jsonObject, null, false);
     }
 }
