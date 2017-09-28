@@ -8,13 +8,22 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
+import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.MessageBean
+import com.tianshen.cash.model.MessageDataBean
+import com.tianshen.cash.net.api.GetMessageCenter
+import com.tianshen.cash.net.base.BaseNetCallBack
+import com.tianshen.cash.utils.TianShenUserUtil
 import kotlinx.android.synthetic.main.activity_message_center.*
+import org.json.JSONException
+import org.json.JSONObject
 
 class MessageCenterActivity : BaseActivity() {
 
     private var mAdapter: MessageAdapter? = null
     private var mMessageBeanList: MutableList<MessageBean>? = null
+
+    private var page = 1
 
     override fun setContentView(): Int = R.layout.activity_message_center
 
@@ -63,43 +72,48 @@ class MessageCenterActivity : BaseActivity() {
 //            val jsonObject = JSONObject()
 //            val userId = TianShenUserUtil.getUserId(mContext)
 //            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+//            jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
 //
-//            var offset = ""
+//
 //            if (isRefresh) {
-//                offset = "0"
+//                page = 1
 //            } else {
-//                offset = mMessageBeanList?.size.toString()
+//                page++
 //            }
+//            jsonObject.put("page", "$page")
 //
-//            jsonObject.put("offset", offset)
-//            jsonObject.put("length", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
-//            val getWithdrawalsRecord = GetWithdrawalsRecord(mContext)
-//            getWithdrawalsRecord.getWithdrawalsBill(jsonObject, null, true, object : BaseNetCallBack<WithdrawalsRecordBean> {
-//                override fun onSuccess(paramT: WithdrawalsRecordBean) {
+//            val messageCenter = GetMessageCenter(mContext)
+//            messageCenter.getMessages(jsonObject, null, true, object : BaseNetCallBack<MessageDataBean> {
+//                override fun onSuccess(paramT: MessageDataBean) {
 //
 //                    if (isRefresh) { //下拉刷新
 //                        mMessageBeanList?.clear()
-//                        mMessageBeanList = paramT.data.list
+//                        mMessageBeanList = paramT.data.message_list
 //                        mAdapter?.setData(mMessageBeanList!!)
-//                        refreshLayout.setLoadmoreFinished(false)
+//                        refreshLayout.isLoadmoreFinished = false
 //                    } else {//上拉加载更多
-//                        mMessageBeanList?.addAll(paramT.data.list)
+//                        mMessageBeanList?.addAll(paramT.data.message_list)
 //                        mAdapter?.setData(mMessageBeanList!!)
 //                    }
+//
+//                    if (mMessageBeanList == null || mMessageBeanList?.size == 0) {
+//                        refreshLayout.isLoadmoreFinished = true
+//                        return
+//                    }
+//
 //                    mAdapter?.notifyDataSetChanged()
 //                    if (isRefresh) {
 //                        refreshLayout.finishRefresh()
 //                    } else {
 //                        refreshLayout.finishLoadmore()
-//                        if (mMessageBeanList?.size == paramT.data.total) {
-//                            refreshLayout.isLoadmoreFinished = true
-//                        }
 //                    }
 //                }
 //
 //                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
 //                }
 //            })
+//
+//
 //        } catch (e: JSONException) {
 //            e.printStackTrace()
 //        }
