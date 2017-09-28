@@ -1,6 +1,5 @@
 package com.tianshen.cash.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
@@ -11,7 +10,6 @@ import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.MessageBean
-import com.tianshen.cash.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_message_center.*
 
 class MessageCenterActivity : BaseActivity() {
@@ -41,12 +39,21 @@ class MessageCenterActivity : BaseActivity() {
     private fun initXRecyclerview() {
 
         mAdapter = MessageAdapter(mutableListOf<MessageBean>(), {
-            LogUtil.d("abc", it.msg_title)
-            val bundle = Bundle()
-            bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
-            bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, it)
-            gotoActivity(mContext, WebActivity::class.java, bundle)
 
+            //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
+            when (it.msg_type) {
+                "0" -> {
+                    val bundle = Bundle()
+                    bundle.putString(GlobalParams.ACTIVITY_ID, it.activity_id)
+                    gotoActivity(mContext, InviteFriendsActivity::class.java, bundle)
+                }
+                else -> {
+                    val bundle = Bundle()
+                    bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
+                    bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, it)
+                    gotoActivity(mContext, WebActivity::class.java, bundle)
+                }
+            }
         })
         refreshLayout.setOnRefreshListener { getMessages(true) }
         refreshLayout.setOnLoadmoreListener { getMessages(false) }
@@ -58,13 +65,14 @@ class MessageCenterActivity : BaseActivity() {
 
     private fun getMessages(isRefresh: Boolean) {
         mMessageBeanList = mutableListOf()
-        for (i in 1..5) {
+        for (i in 0..5) {
             val message = MessageBean()
             message.msg_description = "描述描述描述描述描述描描述描述述描述描述描述描述描述描述描述描述描述描述描述" + i
             message.msg_time_str = "1989-01-01 10:30" + i
             message.msg_title = "标题" + i
             message.msg_img_url = "https://www.baidu.com/img/bd_logo1.png"
             message.msg_url = "https://www.baidu.com"
+            message.msg_type = "" + i
             mMessageBeanList?.add(message)
         }
         mAdapter?.setData(mMessageBeanList!!)
