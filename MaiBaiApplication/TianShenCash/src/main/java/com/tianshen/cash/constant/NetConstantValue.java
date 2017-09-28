@@ -602,4 +602,22 @@ public class NetConstantValue {
     public static String getUpdateShareCountURL() {
         return COMMONURI + "Message/updateShareCount";
     }
+
+    /**
+     * 通知服务器查看了信息的消息
+     *
+     * @return
+     */
+    public static String getUpdateMessageStatusURL() {
+        return COMMONURI + "Message/updateMessageStatus";
+    }
+
+    /**
+     * 得到消息中心的地址
+     *
+     * @return
+     */
+    public static String getMessageCenterURL() {
+        return COMMONURI + "Message/messageCenter";
+    }
 }
