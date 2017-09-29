@@ -10,7 +10,13 @@ import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.MessageBean
+import com.tianshen.cash.model.PostDataBean
+import com.tianshen.cash.net.api.UpdateMessageStatus
+import com.tianshen.cash.net.base.BaseNetCallBack
+import com.tianshen.cash.utils.TianShenUserUtil
 import kotlinx.android.synthetic.main.activity_message_center.*
+import org.json.JSONException
+import org.json.JSONObject
 
 class MessageCenterActivity : BaseActivity() {
 
@@ -39,21 +45,7 @@ class MessageCenterActivity : BaseActivity() {
     private fun initXRecyclerview() {
 
         mAdapter = MessageAdapter(mutableListOf<MessageBean>(), {
-
-            //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
-            when (it.msg_type) {
-                "0" -> {
-                    val bundle = Bundle()
-                    bundle.putString(GlobalParams.ACTIVITY_ID, it.activity_id)
-                    gotoActivity(mContext, InviteFriendsActivity::class.java, bundle)
-                }
-                else -> {
-                    val bundle = Bundle()
-                    bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
-                    bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, it)
-                    gotoActivity(mContext, WebActivity::class.java, bundle)
-                }
-            }
+            updateMessageStatus(it)
         })
         refreshLayout.setOnRefreshListener { getMessages(true) }
         refreshLayout.setOnLoadmoreListener { getMessages(false) }
@@ -130,6 +122,45 @@ class MessageCenterActivity : BaseActivity() {
 //            e.printStackTrace()
 //        }
 //
-//    }
+//    }u
+
+    private fun updateMessageStatus(msg: MessageBean) {
+
+        try {
+            val jsonObject = JSONObject()
+            val userId = TianShenUserUtil.getUserId(mContext)
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+            jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
+
+            val updateMessageStatus = UpdateMessageStatus(mContext)
+            updateMessageStatus.update(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
+                override fun onSuccess(paramT: PostDataBean) {
+
+                    //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
+                    when (msg.msg_type) {
+                        "0" -> {
+                            val bundle = Bundle()
+                            bundle.putString(GlobalParams.ACTIVITY_ID, msg.activity_id)
+                            gotoActivity(mContext, InviteFriendsActivity::class.java, bundle)
+                        }
+                        else -> {
+                            val bundle = Bundle()
+                            bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
+                            bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, msg)
+                            gotoActivity(mContext, WebActivity::class.java, bundle)
+                        }
+                    }
+                }
+
+                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+                }
+            })
+
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+    }
 
 }
