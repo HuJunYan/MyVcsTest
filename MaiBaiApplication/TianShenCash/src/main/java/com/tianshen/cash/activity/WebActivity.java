@@ -10,10 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -83,7 +79,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mUrl = getIntent().getExtras().getString(GlobalParams.WEB_URL_KEY);
         mFrom = getIntent().getExtras().getString(GlobalParams.WEB_FROM);
         mType = getIntent().getExtras().getString(GlobalParams.WEB_TYPE);
+        initUISetting();
+        initWebView();
 
+    }
+
+    private void initUISetting() {
         //只用从消息中心页面过来的才取MessageBean对象
         if (GlobalParams.FROM_MESSAGE.equals(mFrom)) {
             messageBean = (MessageBean) getIntent().getExtras().getSerializable(GlobalParams.WEB_MSG_DATA_KEY);
@@ -91,8 +92,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             mUrl = messageBean.getMsg_url();
             iv_web_share.setVisibility(View.VISIBLE);
         }
-
-        initWebView();
         if (GlobalParams.TYPE_READ.equals(mType)) {
             tv_web_exit.setVisibility(View.VISIBLE);
         }
@@ -148,7 +147,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private void setWebView() {
 
         LogUtil.d("abc", "mUrl--->" + mUrl);
-        if (GlobalParams.FROM_HOME.equals(mFrom)) {
+        if (GlobalParams.FROM_HOME.equals(mFrom)) { //添加接口
             wv_web.addJavascriptInterface(new IJavaScriptInterface(), "turnplate");
         }
         wv_web.setDownloadListener(new DownloadListener() {
@@ -162,25 +161,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
-        wv_web.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                return super.onJsAlert(view, url, message, result);
-
-            }
-
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-            }
-        });
         wv_web.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                super.onReceivedError(view, request, error);
-            }
-
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 LogUtil.d("abc", "mUrl--->" + url);
@@ -304,7 +285,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         WeiboMultiMessage weiboMultiMessage = new WeiboMultiMessage();
         weiboMultiMessage.textObject = TianShenShareUtils.getTextObj(turnplateBean.share_title + turnplateBean.invite_url);
         weiboMultiMessage.imageObject = TianShenShareUtils.getImageObj(this, R.drawable.inviteicon);
-//        weiboMultiMessage.mediaObject = TianShenShareUtils.getWebpageObj(this, mShareUrl, getResources().getString(R.string.invite_share_text_title), getResources().getString(R.string.invite_share_text_description));
         wbShareHandler.shareMessage(weiboMultiMessage, false);
     }
 
@@ -332,12 +312,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void onWbShareCancel() {
-//            ToastUtil.showToast(getApplicationContext(), "分享取消");
         }
 
         @Override
         public void onWbShareFail() {
-//            ToastUtil.showToast(getApplicationContext(), "分享失败");
         }
     };
 
@@ -364,11 +342,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
 
     public void updateShareSuccess() {
+        if (messageBean == null){
+            return;
+        }
         UpdateShareCountApi updateShareCountApi = new UpdateShareCountApi(this);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
-            jsonObject.put("msg_id", "1");
+            jsonObject.put("msg_id", messageBean.getMsg_id());
         } catch (JSONException e) {
             e.printStackTrace();
         }
