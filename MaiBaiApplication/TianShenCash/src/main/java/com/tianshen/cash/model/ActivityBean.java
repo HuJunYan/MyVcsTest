@@ -38,6 +38,15 @@ public class ActivityBean {
 
         private ArrayList<ActivityDataBean> activity_list;
         private String remind_num;
+        private String message_count;
+
+        public String getMessage_count() {
+            return message_count;
+        }
+
+        public void setMessage_count(String message_count) {
+            this.message_count = message_count;
+        }
 
         public ArrayList<ActivityDataBean> getActivity_list() {
             return activity_list;
