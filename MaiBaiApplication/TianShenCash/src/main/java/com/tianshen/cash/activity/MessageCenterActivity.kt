@@ -119,7 +119,8 @@ class MessageCenterActivity : BaseActivity() {
             val jsonObject = JSONObject()
             val userId = TianShenUserUtil.getUserId(mContext)
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-            jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
+            jsonObject.put("msg_id", msg.msg_id)
+            jsonObject.put("msg_type", msg.msg_type)
 
             val updateMessageStatus = UpdateMessageStatus(mContext)
             updateMessageStatus.update(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
