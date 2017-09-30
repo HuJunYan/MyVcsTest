@@ -71,6 +71,9 @@ public class JPushReceiver extends BroadcastReceiver {
                     case "4"://还款成功
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         break;
+                    case "5"://首页右上角有新消息了
+                        EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
                     case "30"://确认借款数据准备完毕的推送
                         EventBus.getDefault().post(new PayDataOKEvent());
                         break;
