@@ -652,6 +652,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             getActivity.activity(jsonObject, null, true, new BaseNetCallBack<ActivityBean>() {
                 @Override
                 public void onSuccess(ActivityBean activityBean) {
+
+                    showMessage(activityBean);
                     showBannerDialog(activityBean);
                 }
 
@@ -662,6 +664,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 显示右上角的消息
+     */
+    private void showMessage(ActivityBean activityBean) {
+
+        String count = activityBean.getData().getMessage_count();
+        int msgCount = 0;
+        if (!TextUtils.isEmpty(count)) {
+            msgCount = Integer.parseInt(count);
+        }
+        Drawable drawable ;
+        if (msgCount > 0) {
+            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home_new);
+        } else {
+            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home);
+        }
+        iv_home_msg.setImageDrawable(drawable);
     }
 
     /**
