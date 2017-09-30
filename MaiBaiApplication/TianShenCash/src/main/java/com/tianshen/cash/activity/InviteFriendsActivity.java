@@ -70,6 +70,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
     private String shareDescription;
     private String mMoney;
     private String msg_id;
+    private String msg_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                     shareTitle = data.share_title;
                     shareDescription = data.share_description;
                     msg_id = data.msg_id;
+                    msg_type = data.msg_type;
                 }
                 refreshUI();
             }
@@ -252,6 +254,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
             jsonObject.put("msg_id", msg_id);
+            jsonObject.put("msg_type", msg_type);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -350,6 +350,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
             jsonObject.put("msg_id", messageBean.getMsg_id());
+            jsonObject.put("msg_type",messageBean.getMsg_type());
         } catch (JSONException e) {
             e.printStackTrace();
         }

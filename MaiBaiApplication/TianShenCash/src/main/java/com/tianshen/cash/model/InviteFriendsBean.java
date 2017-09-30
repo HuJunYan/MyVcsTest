@@ -22,6 +22,7 @@ public class InviteFriendsBean {
         public List<TopList> top_list;
         public List<RuleList> activity_list;
 
+        public String msg_type;
     }
 
     public class TopList {
