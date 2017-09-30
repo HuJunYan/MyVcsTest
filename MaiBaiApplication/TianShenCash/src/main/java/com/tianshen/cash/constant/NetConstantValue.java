@@ -618,6 +618,6 @@ public class NetConstantValue {
      * @return
      */
     public static String getMessageCenterURL() {
-        return COMMONURI + "Message/messageCenter";
+        return COMMONURI + "Message/getMessageList";
     }
 }
