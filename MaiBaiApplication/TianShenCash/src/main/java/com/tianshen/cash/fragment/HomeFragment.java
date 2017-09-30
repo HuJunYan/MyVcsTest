@@ -652,8 +652,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             getActivity.activity(jsonObject, null, true, new BaseNetCallBack<ActivityBean>() {
                 @Override
                 public void onSuccess(ActivityBean activityBean) {
-
-                    showMessage(activityBean);
                     showBannerDialog(activityBean);
                 }
 
@@ -667,25 +665,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 显示右上角的消息
-     */
-    private void showMessage(ActivityBean activityBean) {
-
-        String count = activityBean.getData().getMessage_count();
-        int msgCount = 0;
-        if (!TextUtils.isEmpty(count)) {
-            msgCount = Integer.parseInt(count);
-        }
-        Drawable drawable ;
-        if (msgCount > 0) {
-            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home_new);
-        } else {
-            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home);
-        }
-        iv_home_msg.setImageDrawable(drawable);
-    }
-
-    /**
      * 检查用户当前的状态，显示不同的UI
      */
     private void checkUserConfig() {
@@ -694,6 +673,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             ToastUtil.showToast(getActivity(), "数据错误");
             return;
         }
+
+        //刷新右上角的消息
+        String count = mUserConfig.getData().getMessage_count();
+        refreshMessage(count);
+
         //刷新天神卡
         refreshCardUI();
 
@@ -1078,6 +1062,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
+     * 刷新右上角的消息
+     */
+    private void refreshMessage(String count) {
+        int msgCount = 0;
+        if (!TextUtils.isEmpty(count)) {
+            msgCount = Integer.parseInt(count);
+        }
+        Drawable drawable ;
+        if (msgCount > 0) {
+            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home_new);
+        } else {
+            drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home);
+        }
+        iv_home_msg.setImageDrawable(drawable);
+    }
+
+    /**
      * 刷新天神卡
      */
     private void refreshCardUI() {
@@ -1098,6 +1099,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
 
     /**
      * 重置天神卡UI

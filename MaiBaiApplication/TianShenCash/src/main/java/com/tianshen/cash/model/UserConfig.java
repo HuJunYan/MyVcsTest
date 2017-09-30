@@ -39,6 +39,7 @@ public class UserConfig {
         private String virtual_card_type; // 0:绿卡，1:银卡，2:金卡，3:钻石卡”
         private String cur_credit_step;//当前的认证步数
         private String total_credit_step; //总的认证步数
+        private String message_count; //右上角消息
         private String status;//0:新用户，没有提交过订单；1:订单待审核；2:审核通过待放款；3:放款成功（钱已经到银行卡）；4:审核失败；5:放款失败
         private String overdue_days;
         private String overdue_amount;//金额
@@ -269,6 +270,13 @@ public class UserConfig {
             this.diff_rate = diff_rate;
         }
 
+        public String getMessage_count() {
+            return message_count;
+        }
+
+        public void setMessage_count(String message_count) {
+            this.message_count = message_count;
+        }
 
         public class Consume {
 
