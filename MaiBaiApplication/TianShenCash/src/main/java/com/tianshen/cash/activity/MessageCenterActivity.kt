@@ -10,7 +10,9 @@ import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.MessageBean
+import com.tianshen.cash.model.MessageDataBean
 import com.tianshen.cash.model.PostDataBean
+import com.tianshen.cash.net.api.GetMessageCenter
 import com.tianshen.cash.net.api.UpdateMessageStatus
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
@@ -56,73 +58,60 @@ class MessageCenterActivity : BaseActivity() {
     }
 
     private fun getMessages(isRefresh: Boolean) {
-        mMessageBeanList = mutableListOf()
-        for (i in 0..5) {
-            val message = MessageBean()
-            message.msg_description = "描述描述描述描述描述描描述描述述描述描述描述描述描述描述描述描述描述描述描述" + i
-            message.msg_time_str = "1989-01-01 10:30" + i
-            message.msg_title = "标题" + i
-            message.msg_img_url = "https://www.baidu.com/img/bd_logo1.png"
-            message.msg_url = "https://www.baidu.com"
-            message.msg_type = "" + i
-            mMessageBeanList?.add(message)
-        }
-        mAdapter?.setData(mMessageBeanList!!)
-    }
 
-//    private fun getMessages(isRefresh: Boolean) {
-//
-//        try {
-//            val jsonObject = JSONObject()
-//            val userId = TianShenUserUtil.getUserId(mContext)
-//            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-//            jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
-//
-//
-//            if (isRefresh) {
-//                page = 1
-//            } else {
-//                page++
-//            }
-//            jsonObject.put("page", "$page")
-//
-//            val messageCenter = GetMessageCenter(mContext)
-//            messageCenter.getMessages(jsonObject, null, true, object : BaseNetCallBack<MessageDataBean> {
-//                override fun onSuccess(paramT: MessageDataBean) {
-//
-//                    if (isRefresh) { //下拉刷新
-//                        mMessageBeanList?.clear()
-//                        mMessageBeanList = paramT.data.message_list
-//                        mAdapter?.setData(mMessageBeanList!!)
-//                        refreshLayout.isLoadmoreFinished = false
-//                    } else {//上拉加载更多
-//                        mMessageBeanList?.addAll(paramT.data.message_list)
-//                        mAdapter?.setData(mMessageBeanList!!)
-//                    }
-//
-//                    if (mMessageBeanList == null || mMessageBeanList?.size == 0) {
-//                        refreshLayout.isLoadmoreFinished = true
-//                        return
-//                    }
-//
-//                    mAdapter?.notifyDataSetChanged()
-//                    if (isRefresh) {
-//                        refreshLayout.finishRefresh()
-//                    } else {
-//                        refreshLayout.finishLoadmore()
-//                    }
-//                }
-//
-//                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
-//                }
-//            })
-//
-//
-//        } catch (e: JSONException) {
-//            e.printStackTrace()
-//        }
-//
-//    }u
+        try {
+            val jsonObject = JSONObject()
+            val userId = TianShenUserUtil.getUserId(mContext)
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+            jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
+
+
+            if (isRefresh) {
+                page = 1
+            } else {
+                page++
+            }
+            jsonObject.put("page", "$page")
+
+            val messageCenter = GetMessageCenter(mContext)
+            messageCenter.getMessages(jsonObject, null, false, object : BaseNetCallBack<MessageDataBean> {
+                override fun onSuccess(paramT: MessageDataBean) {
+
+                    if (isRefresh) { //下拉刷新
+                        mMessageBeanList?.clear()
+                        mMessageBeanList = paramT.data.message_list
+                        mAdapter?.setData(mMessageBeanList!!)
+                        refreshLayout.isLoadmoreFinished = false
+                    } else {//上拉加载更多
+                        mMessageBeanList?.addAll(paramT.data.message_list)
+                        mAdapter?.setData(mMessageBeanList!!)
+                    }
+
+                    if (paramT.data.message_list.size == 0) {
+                        refreshLayout.isLoadmoreFinished = true
+                        refreshLayout.finishRefresh()
+                        refreshLayout.finishLoadmore()
+                        return
+                    }
+
+                    mAdapter?.notifyDataSetChanged()
+                    if (isRefresh) {
+                        refreshLayout.finishRefresh()
+                    } else {
+                        refreshLayout.finishLoadmore()
+                    }
+                }
+
+                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+                }
+            })
+
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+    }
 
     private fun updateMessageStatus(msg: MessageBean) {
 

@@ -59,6 +59,13 @@ public class ImageLoader {
         Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).fitCenter().placeholder(placeholder).crossFade().into(iv);
     }
 
+    public static void loadNoCache(Context context, String imageUrl, @DrawableRes int placeholder, ImageView iv) {
+        if (TextUtils.isEmpty(imageUrl)) {
+            return;
+        }
+        Glide.with(context).load(imageUrl).fitCenter().placeholder(placeholder).crossFade().into(iv);
+    }
+
     public static void clear(Context context) {
         Glide.get(context).clearMemory();
     }

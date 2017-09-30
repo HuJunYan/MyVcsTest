@@ -42,7 +42,7 @@ class MessageAdapter(private var messageBeans: MutableList<MessageBean>,
                     itemView.iv_item_message.visibility = View.GONE
                 } else {
                     itemView.iv_item_message.visibility = View.VISIBLE
-                    ImageLoader.load(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
+                    ImageLoader.loadNoCache(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
                 }
 
                 RxView.clicks(itemView.ll_item_message)//1秒钟之内禁用重复点击
