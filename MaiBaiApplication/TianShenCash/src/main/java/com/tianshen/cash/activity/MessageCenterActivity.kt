@@ -123,7 +123,7 @@ class MessageCenterActivity : BaseActivity() {
             jsonObject.put("msg_type", msg.msg_type)
 
             val updateMessageStatus = UpdateMessageStatus(mContext)
-            updateMessageStatus.update(jsonObject, null, true, object : BaseNetCallBack<PostDataBean> {
+            updateMessageStatus.update(jsonObject, null, false, object : BaseNetCallBack<PostDataBean> {
                 override fun onSuccess(paramT: PostDataBean) {
 
                     //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
