@@ -33,6 +33,7 @@ class MessageCenterActivity : BaseActivity() {
     }
 
     override fun setListensers() {
+        tv_message_center_back.setOnClickListener { backActivity() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
