@@ -31,6 +31,7 @@
     <string name="pay_protocol">《快捷支付协议》</string>
     <string name="confirm_protocol_all_text">同意《借款协议》《居间服务协议》</string>
     <string name="confirm_protocol_all_text2">同意《借款协议》《居间服务协议》《人行征信查询授权书》</string>
+    <string name="confirm_protocol_tips">借款到账后,平台将收取手续费用</string>
 
     <string name="tipsmouth">Open your mouth and close.</string>
     <string name="tipblink">Do blink with your eyes.</string>
