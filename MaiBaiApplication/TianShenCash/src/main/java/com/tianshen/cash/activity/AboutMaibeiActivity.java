@@ -135,7 +135,7 @@ public class AboutMaibeiActivity extends BaseActivity implements View.OnClickLis
             mtv_test_version.setVisibility(View.GONE);
             mtv_test_uid.setVisibility(View.GONE);
         } else {
-            mtv_service.setTv_right("测试");
+            mtv_service.setTv_right("测试-" + NetConstantValue.HOST.substring(7, 10));
             mtv_test_version.setVisibility(View.VISIBLE);
             mtv_test_version.setTv_right(String.format("编译: %s (%s)", getString(R.string.build_time), getString(R.string.githash)));
             mtv_test_uid.setVisibility(View.VISIBLE);
