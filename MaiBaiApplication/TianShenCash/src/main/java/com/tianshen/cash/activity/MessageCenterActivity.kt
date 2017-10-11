@@ -25,6 +25,7 @@ class MessageCenterActivity : BaseActivity() {
 
     private var mAdapter: MessageAdapter? = null
     private var mMessageBeanList: MutableList<MessageBean> = mutableListOf()
+    private var mTable: String = ""
 
     private var page = 1
 
@@ -67,6 +68,7 @@ class MessageCenterActivity : BaseActivity() {
             val userId = TianShenUserUtil.getUserId(mContext)
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
             jsonObject.put("count", GlobalParams.CONSUMPTIONRECORD_LOAD_LENGTH)
+            jsonObject.put("table", mTable)
 
 
             if (isRefresh) {
@@ -102,6 +104,8 @@ class MessageCenterActivity : BaseActivity() {
                         refreshLayout.finishLoadmore()
                         return
                     }
+
+                    mTable = paramT.data.table
 
                     mAdapter?.notifyDataSetChanged()
                     if (isRefresh) {

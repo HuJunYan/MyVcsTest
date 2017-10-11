@@ -37,6 +37,16 @@ public class MessageDataBean {
 
         private List<MessageBean> message_list;
 
+        private String table;
+
+        public String getTable() {
+            return table;
+        }
+
+        public void setTable(String table) {
+            this.table = table;
+        }
+
         public List<MessageBean> getMessage_list() {
             return message_list;
         }
