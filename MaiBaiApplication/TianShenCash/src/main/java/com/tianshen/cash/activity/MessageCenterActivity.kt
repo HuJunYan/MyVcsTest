@@ -2,6 +2,7 @@ package com.tianshen.cash.activity
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -23,7 +24,7 @@ import org.json.JSONObject
 class MessageCenterActivity : BaseActivity() {
 
     private var mAdapter: MessageAdapter? = null
-    private var mMessageBeanList: MutableList<MessageBean>? = null
+    private var mMessageBeanList: MutableList<MessageBean> = mutableListOf()
 
     private var page = 1
 
@@ -56,6 +57,7 @@ class MessageCenterActivity : BaseActivity() {
         refreshLayout.refreshFooter = ClassicsFooter(this).setSpinnerStyle(SpinnerStyle.Scale) //footer
         xrecyclerview_message_center.layoutManager = LinearLayoutManager(this@MessageCenterActivity, LinearLayoutManager.VERTICAL, false)
         xrecyclerview_message_center.adapter = mAdapter
+
     }
 
     private fun getMessages(isRefresh: Boolean) {
@@ -79,13 +81,19 @@ class MessageCenterActivity : BaseActivity() {
                 override fun onSuccess(paramT: MessageDataBean) {
 
                     if (isRefresh) { //下拉刷新
-                        mMessageBeanList?.clear()
+                        mMessageBeanList.clear()
                         mMessageBeanList = paramT.data.message_list
-                        mAdapter?.setData(mMessageBeanList!!)
+                        mAdapter?.setData(mMessageBeanList)
                         refreshLayout.isLoadmoreFinished = false
                     } else {//上拉加载更多
-                        mMessageBeanList?.addAll(paramT.data.message_list)
-                        mAdapter?.setData(mMessageBeanList!!)
+                        mMessageBeanList.addAll(paramT.data.message_list)
+                        mAdapter?.setData(mMessageBeanList)
+                    }
+
+                    if (mMessageBeanList.size == 0) {
+                        refreshLayout.visibility = View.GONE
+                        rl_message_empty.visibility = View.VISIBLE
+                        return
                     }
 
                     if (paramT.data.message_list.size == 0) {
@@ -104,6 +112,10 @@ class MessageCenterActivity : BaseActivity() {
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+
+                    refreshLayout.visibility = View.GONE
+                    rl_message_empty.visibility = View.VISIBLE
+
                 }
             })
 

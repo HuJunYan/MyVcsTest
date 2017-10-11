@@ -82,4 +82,7 @@
 
     <string name="text_share_web_cancel">取消</string>
     <string name="text_me_login_or_register">登录/注册</string>
+
+    <string name="message_center_empty">有消息会第一时间通知哦~</string>
+
 </resources>
