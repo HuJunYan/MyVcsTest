@@ -16,6 +16,16 @@ public class MessageBean implements Serializable {
     private String msg_share_url;
     private String msg_share_description;
     private String activity_id;
+    private String msg_status;
+
+    public String getMsg_status() {
+        return msg_status;
+    }
+
+    public void setMsg_status(String msg_status) {
+        this.msg_status = msg_status;
+    }
+
 
     public String getActivity_id() {
         return activity_id;

@@ -45,6 +45,14 @@ class MessageAdapter(private var messageBeans: MutableList<MessageBean>,
                     ImageLoader.loadNoCache(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
                 }
 
+                if ("0" == msg_status) {//0未读,1已读
+                    itemView.tv_item_message_title.setTextColor(MyApplicationLike.getsApplication().resources.getColor(R.color.global_txt_black4))
+                    itemView.tv_item_message_description.setTextColor(MyApplicationLike.getsApplication().resources.getColor(R.color.global_txt_black5))
+                }else{
+                    itemView.tv_item_message_title.setTextColor(MyApplicationLike.getsApplication().resources.getColor(R.color.edit_text_hint_color))
+                    itemView.tv_item_message_description.setTextColor(MyApplicationLike.getsApplication().resources.getColor(R.color.edit_text_hint_color))
+                }
+
                 RxView.clicks(itemView.ll_item_message)//1秒钟之内禁用重复点击
                         .throttleFirst(1, TimeUnit.SECONDS)
                         .subscribeOn(AndroidSchedulers.mainThread())
