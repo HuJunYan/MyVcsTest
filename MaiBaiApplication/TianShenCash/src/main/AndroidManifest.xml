@@ -193,7 +193,6 @@
             android:name="JPUSH_APPKEY"
             android:value="18b3e0866fb0af8e4c546faf" />
 
-
         <!-- 芝麻信用 -->
         <activity
             android:name="com.android.moblie.zmxy.antgroup.creditsdk.app.SDKActivity"
@@ -313,6 +312,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MessageCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BindBankCardConfirmActivity"
             android:screenOrientation="portrait" />
     </application>
 
