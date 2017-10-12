@@ -30,7 +30,7 @@ class BindBankCardConfirmActivity : BaseActivity() {
     override fun setContentView() = R.layout.activity_bind_bank_card_confirm
 
     override fun findViews() {
-        initData();
+        initData()
 
     }
 
@@ -56,15 +56,15 @@ class BindBankCardConfirmActivity : BaseActivity() {
 
 
     private fun initData() {
-        val jsonOjbect = JSONObject();
-        val userId = TianShenUserUtil.getUserId(mContext);
-        jsonOjbect.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        val getBankCardInfo = GetBankCardInfo(mContext);
-        getBankCardInfo.getBankCardInfo(jsonOjbect, object : BaseNetCallBack<BankCardInfoBean> {
+        val jsonObject = JSONObject()
+        val userId = TianShenUserUtil.getUserId(mContext)
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        val getBankCardInfo = GetBankCardInfo(mContext)
+        getBankCardInfo.getBankCardInfo(jsonObject, object : BaseNetCallBack<BankCardInfoBean> {
 
             override fun onSuccess(data: BankCardInfoBean?) {
-                mData = data;
-                refreshUI();
+                mData = data
+                refreshUI()
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -75,14 +75,14 @@ class BindBankCardConfirmActivity : BaseActivity() {
     }
 
     private fun refreshUI() {
-        val data = mData?.data;
+        val data = mData?.data
         if (data != null) {
-            tv_confirm_auth_bank_card_person.setText(data.card_user_name)
-            tv_bank_card.setText(data.bank_name)
-            tv_bank_province.setText(data.province_name)
-            tv_bank_city.setText(data.city_name)
-            tv_auth_card_num.setText(data.card_num)
-            tv_bank_card_phone_num.setText(data.reserved_mobile)
+            tv_confirm_auth_bank_card_person.text = data.card_user_name
+            tv_bank_card.text = data.bank_name
+            tv_bank_province.text = data.province_name
+            tv_bank_city.text = data.city_name
+            tv_auth_card_num.text = data.card_num
+            tv_bank_card_phone_num.text = data.reserved_mobile
         }
     }
 
