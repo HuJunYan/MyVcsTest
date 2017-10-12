@@ -75,7 +75,7 @@
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="选择银行" />
+            android:text="确认银行" />
 
         <TextView
             android:id="@+id/tv_bank_card"
