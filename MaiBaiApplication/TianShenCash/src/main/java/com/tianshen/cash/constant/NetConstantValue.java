@@ -620,4 +620,13 @@ public class NetConstantValue {
     public static String getMessageCenterURL() {
         return COMMONURI + "Message/getMessageList";
     }
+
+    /**
+     * 得到判断绑定了"向上"银行卡的地址
+     *
+     * @return
+     */
+    public static String getIsXiangShangURL() {
+        return COMMONURI + "Pay/IsXiangShang";
+    }
 }
