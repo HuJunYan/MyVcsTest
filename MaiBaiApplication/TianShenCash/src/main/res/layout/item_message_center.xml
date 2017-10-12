@@ -39,7 +39,7 @@
             android:id="@+id/iv_item_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/tv_item_message_description"
