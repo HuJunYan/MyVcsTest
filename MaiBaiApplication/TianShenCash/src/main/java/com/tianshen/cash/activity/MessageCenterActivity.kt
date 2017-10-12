@@ -2,6 +2,7 @@ package com.tianshen.cash.activity
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.KeyEvent
 import android.view.View
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -10,6 +11,8 @@ import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MessageAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.event.AuthCenterBackEvent
+import com.tianshen.cash.event.UserConfigChangedEvent
 import com.tianshen.cash.model.MessageBean
 import com.tianshen.cash.model.MessageDataBean
 import com.tianshen.cash.model.PostDataBean
@@ -18,6 +21,7 @@ import com.tianshen.cash.net.api.UpdateMessageStatus
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
 import kotlinx.android.synthetic.main.activity_message_center.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -35,7 +39,10 @@ class MessageCenterActivity : BaseActivity() {
     }
 
     override fun setListensers() {
-        tv_message_center_back.setOnClickListener { backActivity() }
+        tv_message_center_back.setOnClickListener {
+            EventBus.getDefault().post(UserConfigChangedEvent())
+            backActivity()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -168,6 +175,15 @@ class MessageCenterActivity : BaseActivity() {
             e.printStackTrace()
         }
 
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.repeatCount == 0) {
+            EventBus.getDefault().post(UserConfigChangedEvent())
+            backActivity()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }
