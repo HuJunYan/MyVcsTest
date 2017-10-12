@@ -1,5 +1,7 @@
 package com.tianshen.cash.activity
 
+import android.os.Handler
+import android.os.Message
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
@@ -12,6 +14,19 @@ import org.json.JSONObject
 
 class BindBankCardConfirmActivity : BaseActivity() {
     var mData: BankCardInfoBean? = null
+    private var mStartTime = 59
+
+    private val MSG_SEVERITY_TIME = 1
+    private val MSG_SEVERITY_DELAYED = 1 * 1000
+
+    private val mHandler = object : Handler() {
+        override fun handleMessage(message: Message) {
+            when (message.what) {
+                MSG_SEVERITY_TIME -> refreshSeverityTextUI()
+            }
+        }
+    }
+
     override fun setContentView() = R.layout.activity_bind_bank_card_confirm
 
     override fun findViews() {
@@ -22,13 +37,21 @@ class BindBankCardConfirmActivity : BaseActivity() {
     override fun setListensers() {
         tv_auth_bank_card_back.setOnClickListener { backActivity() }
         tv_severity_code.setOnClickListener { getVerifyCode() }
+        tv_auth_info_post.setOnClickListener { postConfirmBindCardInfo() }
+    }
+
+    /**
+     * 请求确认帮卡信息接口
+     */
+    private fun postConfirmBindCardInfo() {
+
     }
 
     /**
      * 获取验证码
      */
     private fun getVerifyCode() {
-
+        refreshSeverityTextUI()
     }
 
 
@@ -61,6 +84,34 @@ class BindBankCardConfirmActivity : BaseActivity() {
             tv_auth_card_num.setText(data.card_num)
             tv_bank_card_phone_num.setText(data.reserved_mobile)
         }
+    }
+
+    /**
+     * 刷新验证码UI
+     */
+    private fun refreshSeverityTextUI() {
+
+        if (isFinishing) {
+            return
+        }
+
+        tv_severity_code.text = mStartTime.toString()
+        mStartTime--
+        if (mStartTime == 0) {
+            tv_severity_code.text = "重获取验证码"
+            mStartTime = 59
+            tv_severity_code.isEnabled = true
+            mHandler.removeMessages(MSG_SEVERITY_TIME)
+        } else {
+            tv_severity_code.isEnabled = false
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, MSG_SEVERITY_DELAYED.toLong())
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler.removeCallbacksAndMessages(null)
     }
 
 }
