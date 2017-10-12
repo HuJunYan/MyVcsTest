@@ -42,7 +42,7 @@ class MessageAdapter(private var messageBeans: MutableList<MessageBean>,
                     itemView.iv_item_message.visibility = View.GONE
                 } else {
                     itemView.iv_item_message.visibility = View.VISIBLE
-                    ImageLoader.loadNoCache(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
+                    ImageLoader.loadCache(MyApplicationLike.getsApplication(), msg_img_url, R.drawable.ic_message_item_empty, itemView.iv_item_message)
                 }
 
                 if ("0" == msg_status) {//0未读,1已读

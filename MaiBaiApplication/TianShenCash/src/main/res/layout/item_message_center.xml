@@ -35,7 +35,7 @@
             android:textColor="@color/global_txt_black4"
             android:textSize="18sp" />
 
-        <ImageView
+        <com.tianshen.cash.view.HalfHeightImageView
             android:id="@+id/iv_item_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
