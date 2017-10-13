@@ -2,13 +2,16 @@ package com.tianshen.cash.activity
 
 import android.os.Handler
 import android.os.Message
+import android.text.TextUtils
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.BankCardInfoBean
+import com.tianshen.cash.model.XiangShangSubmitInfoBean
 import com.tianshen.cash.model.XiangShangVerifyCodeBean
 import com.tianshen.cash.net.api.GetBankCardInfo
 import com.tianshen.cash.net.api.GetBindXiangShangVerifyCodeApi
+import com.tianshen.cash.net.api.GetSubmitXiangShangBindApi
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
@@ -47,14 +50,48 @@ class BindBankCardConfirmActivity : BaseActivity() {
      * 请求确认帮卡信息接口
      */
     private fun postConfirmBindCardInfo() {
+        if (mData == null) {
+            ToastUtil.showToast(mContext, "数据错误")
+            return;
+        }
+        if (mVerifyData == null) {
+            ToastUtil.showToast(mContext, "请先获取验证码")
+            return;
+        }
+        var text = et_severity_code.text.toString()
+        if (TextUtils.isEmpty(text)) {
+            ToastUtil.showToast(mContext, "请输入验证码")
+            return;
+        }
+        text = text.trim()
+        var getSubmitXiangShangBindApi = GetSubmitXiangShangBindApi(mContext);
+        var jsonObject = JSONObject();
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext))
+        jsonObject.put("card_user_name", mData?.data?.card_user_name);
+        jsonObject.put("card_num", mData?.data?.card_num);
+        jsonObject.put("reserved_mobile", mData?.data?.reserved_mobile);
+        jsonObject.put("verify_code", text);
+        jsonObject.put("bank_name", mData?.data?.bank_name);
+        jsonObject.put("bank_id", mData?.data?.bank_id);
+        jsonObject.put("city_code", mData?.data?.city_code);
+        jsonObject.put("smsId", mVerifyData?.data?.smsId);
+        jsonObject.put("userNo", mVerifyData?.data?.userNo);
+        getSubmitXiangShangBindApi.getSubmitXiangShangBindInfo(jsonObject, tv_auth_info_post, true, object : BaseNetCallBack<XiangShangSubmitInfoBean> {
+            override fun onSuccess(paramT: XiangShangSubmitInfoBean?) {
+                ToastUtil.showToast(mContext, "验证银行卡信息成功");
+                backActivity();
+            }
 
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+            }
+        })
     }
 
     /**
      * 获取验证码
      */
     private fun getVerifyCode() {
-        if (mData == null){
+        if (mData == null) {
             return
         }
         val getBindXiangShangVerifyCodeApi = GetBindXiangShangVerifyCodeApi(mContext)

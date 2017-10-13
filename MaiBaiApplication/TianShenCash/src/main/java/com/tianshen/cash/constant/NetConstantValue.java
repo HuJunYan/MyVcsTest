@@ -638,4 +638,8 @@ public class NetConstantValue {
     public static String getBindXiangShangVerifyCodeURL() {
         return COMMONURI + "BindBank/bindVerifyXsSms";
     }
+
+    public static String getSubmitXiangShangBindInfoURL(){
+        return COMMONURI + "BindBank/bindConfirmXiangShang";
+    }
 }
