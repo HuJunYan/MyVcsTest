@@ -200,4 +200,15 @@
         <item name="android:windowNoTitle">true</item>
 
     </style>
+    <!--还款页面提示文字style-->
+    <style name="repay_tips_text_style">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/global_txt_black5</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
