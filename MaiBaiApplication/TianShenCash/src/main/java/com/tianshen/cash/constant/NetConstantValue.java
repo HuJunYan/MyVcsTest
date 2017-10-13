@@ -627,7 +627,7 @@ public class NetConstantValue {
      * @return
      */
     public static String getIsXiangShangURL() {
-        return COMMONURI + "Pay/IsXiangShang";
+        return COMMONURI + "BindBank/IsXiangShang";
     }
 
     /**
