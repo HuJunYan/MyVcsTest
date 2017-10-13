@@ -629,4 +629,13 @@ public class NetConstantValue {
     public static String getIsXiangShangURL() {
         return COMMONURI + "Pay/IsXiangShang";
     }
+
+    /**
+     * 获取绑定向上资金端验证码
+     *
+     * @return
+     */
+    public static String getBindXiangShangVerifyCodeURL() {
+        return COMMONURI + "BindBank/bindVerifyXsSms";
+    }
 }

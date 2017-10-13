@@ -6,16 +6,19 @@ import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.BankCardInfoBean
+import com.tianshen.cash.model.XiangShangVerifyCodeBean
 import com.tianshen.cash.net.api.GetBankCardInfo
+import com.tianshen.cash.net.api.GetBindXiangShangVerifyCodeApi
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.TianShenUserUtil
+import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_bind_bank_card_confirm.*
 import org.json.JSONObject
 
 class BindBankCardConfirmActivity : BaseActivity() {
     var mData: BankCardInfoBean? = null
     private var mStartTime = 59
-
+    var mVerifyData: XiangShangVerifyCodeBean? = null;
     private val MSG_SEVERITY_TIME = 1
     private val MSG_SEVERITY_DELAYED = 1 * 1000
 
@@ -51,7 +54,27 @@ class BindBankCardConfirmActivity : BaseActivity() {
      * 获取验证码
      */
     private fun getVerifyCode() {
-        refreshSeverityTextUI()
+        if (mData == null){
+            return
+        }
+        val getBindXiangShangVerifyCodeApi = GetBindXiangShangVerifyCodeApi(mContext)
+        var jsonObject = JSONObject()
+        jsonObject.put("bank_name", mData?.data?.bank_name)
+        jsonObject.put("bank_id", mData?.data?.bank_id)
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext))
+        jsonObject.put("card_user_name", mData?.data?.card_user_name)
+        jsonObject.put("card_num", mData?.data?.card_num)
+        jsonObject.put("reserved_mobile", mData?.data?.reserved_mobile)
+        getBindXiangShangVerifyCodeApi.getBindXiangShangVerifyCode(jsonObject, tv_severity_code, true, object : BaseNetCallBack<XiangShangVerifyCodeBean> {
+            override fun onSuccess(paramT: XiangShangVerifyCodeBean?) {
+                mVerifyData = paramT
+                ToastUtil.showToast(mContext, "验证码发送成功")
+                refreshSeverityTextUI()
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+            }
+        })
     }
 
 
