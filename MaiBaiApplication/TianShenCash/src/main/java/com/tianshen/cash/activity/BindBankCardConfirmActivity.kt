@@ -2,7 +2,11 @@ package com.tianshen.cash.activity
 
 import android.os.Handler
 import android.os.Message
+import android.text.TextPaint
 import android.text.TextUtils
+import android.text.style.CharacterStyle
+import android.text.style.ClickableSpan
+import android.view.View
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
@@ -13,6 +17,7 @@ import com.tianshen.cash.net.api.GetBankCardInfo
 import com.tianshen.cash.net.api.GetBindXiangShangVerifyCodeApi
 import com.tianshen.cash.net.api.GetSubmitXiangShangBindApi
 import com.tianshen.cash.net.base.BaseNetCallBack
+import com.tianshen.cash.utils.SpannableUtils
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_bind_bank_card_confirm.*
@@ -43,7 +48,16 @@ class BindBankCardConfirmActivity : BaseActivity() {
     override fun setListensers() {
         tv_auth_bank_card_back.setOnClickListener { backActivity() }
         tv_severity_code.setOnClickListener { getVerifyCode() }
-        tv_auth_info_post.setOnClickListener { postConfirmBindCardInfo() }
+        tv_confirm_apply.setOnClickListener { postConfirmBindCardInfo() }
+        check_box.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                tv_confirm_apply.background = resources.getDrawable(R.drawable.shape_home_button_border)
+                tv_confirm_apply.isEnabled = true
+            } else {
+                tv_confirm_apply.background = resources.getDrawable(R.drawable.shape_home_button_unchecked)
+                tv_confirm_apply.isEnabled = false
+            }
+        }
     }
 
     /**
@@ -74,9 +88,10 @@ class BindBankCardConfirmActivity : BaseActivity() {
         jsonObject.put("bank_name", mData?.data?.bank_name);
         jsonObject.put("bank_id", mData?.data?.bank_id);
         jsonObject.put("city_code", mData?.data?.city_code);
+        jsonObject.put("identity_code", mData?.data?.identity_code);
         jsonObject.put("smsId", mVerifyData?.data?.smsId);
         jsonObject.put("userNo", mVerifyData?.data?.userNo);
-        getSubmitXiangShangBindApi.getSubmitXiangShangBindInfo(jsonObject, tv_auth_info_post, true, object : BaseNetCallBack<XiangShangSubmitInfoBean> {
+        getSubmitXiangShangBindApi.getSubmitXiangShangBindInfo(jsonObject, tv_confirm_apply, true, object : BaseNetCallBack<XiangShangSubmitInfoBean> {
             override fun onSuccess(paramT: XiangShangSubmitInfoBean?) {
                 ToastUtil.showToast(mContext, "验证银行卡信息成功");
                 backActivity();
@@ -102,6 +117,7 @@ class BindBankCardConfirmActivity : BaseActivity() {
         jsonObject.put("card_user_name", mData?.data?.card_user_name)
         jsonObject.put("card_num", mData?.data?.card_num)
         jsonObject.put("reserved_mobile", mData?.data?.reserved_mobile)
+        jsonObject.put("identity_code", mData?.data?.identity_code)
         getBindXiangShangVerifyCodeApi.getBindXiangShangVerifyCode(jsonObject, tv_severity_code, true, object : BaseNetCallBack<XiangShangVerifyCodeBean> {
             override fun onSuccess(paramT: XiangShangVerifyCodeBean?) {
                 mVerifyData = paramT
@@ -132,15 +148,21 @@ class BindBankCardConfirmActivity : BaseActivity() {
             }
 
         })
+        initWebData();
+    }
+
+    private fun initWebData() {
+        var ssList = ArrayList<CharacterStyle>()
+        ssList.add(webSpan)
+        SpannableUtils.setWebSpannableString(tv_bind_card_agreement, resources.getString(R.string.bind_card_confirm_text), "《", "》", ssList, resources.getColor(R.color.global_txt_orange))
+
     }
 
     private fun refreshUI() {
         val data = mData?.data
         if (data != null) {
             tv_confirm_auth_bank_card_person.text = data.card_user_name
-            tv_bank_card.text = data.bank_name
-            tv_bank_province.text = data.province_name
-            tv_bank_city.text = data.city_name
+            tv_id_num.text = data.identity_code
             tv_auth_card_num.text = data.card_num
             tv_bank_card_phone_num.text = data.reserved_mobile
         }
@@ -172,6 +194,20 @@ class BindBankCardConfirmActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
+    }
+
+    private val webSpan = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            gotoWebActivity()
+        }
+
+        override fun updateDrawState(ds: TextPaint) {
+            ds.isUnderlineText = false
+        }
+    }
+
+    private fun gotoWebActivity() {
+        ToastUtil.showToast(mContext, "协议")
     }
 
 }

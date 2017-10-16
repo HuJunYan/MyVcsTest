@@ -66,6 +66,7 @@ public class BankCardInfoBean {
         private String city_name;
         private String province_code;
         private String province_name;
+        private String identity_code;
 
         public String getBank_id() {
             return bank_id;
@@ -113,6 +114,14 @@ public class BankCardInfoBean {
 
         public void setCity_code(String city_code) {
             this.city_code = city_code;
+        }
+
+        public String getIdentity_code() {
+            return identity_code;
+        }
+
+        public void setIdentity_code(String identity_code) {
+            this.identity_code = identity_code;
         }
     }
 

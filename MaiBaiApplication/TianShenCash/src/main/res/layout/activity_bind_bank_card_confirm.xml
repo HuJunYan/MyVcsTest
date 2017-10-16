@@ -22,11 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_confirm_bank_card_info" />
 
-        <TextView
-            android:id="@+id/tv_auth_info_post"
-            style="@style/auth_center_title_post_txt_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 
@@ -43,9 +39,10 @@
         <TextView
             android:id="@+id/tv_auth_bank_card_person"
             style="@style/auth_center_txt_style"
+            android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="持卡人" />
+            android:text="姓  名" />
 
         <TextView
             android:id="@+id/tv_confirm_auth_bank_card_person"
@@ -55,8 +52,8 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_bank_card_person"
             android:background="@null"
-            android:editable="false"
             android:maxLength="15"
+            android:textColor="@color/global_txt_black4"
             android:textSize="14dp" />
 
     </RelativeLayout>
@@ -73,16 +70,18 @@
         <TextView
             android:id="@+id/tv_bank_card_key"
             style="@style/auth_center_txt_style"
+            android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="确认银行" />
+            android:text="身份证号" />
 
         <TextView
-            android:id="@+id/tv_bank_card"
+            android:id="@+id/tv_id_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:textColor="@color/global_txt_black4"
             android:layout_toRightOf="@id/tv_bank_card_key"
             android:textSize="14dp" />
 
@@ -90,91 +89,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:paddingBottom="10dp"
             android:paddingLeft="30dp"
             android:paddingTop="10dp"
-            android:src="@drawable/ic_arrow_down" />
+            android:src="@drawable/ic_arrow_down"
 
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_province"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/global_bg_white">
-
-        <View style="@style/split_line_style" />
-
-        <TextView
-            android:id="@+id/tv_province"
-            style="@style/auth_center_txt_style"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="开户行省" />
-
-        <TextView
-            android:id="@+id/tv_bank_province"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_province"
-            android:textSize="14dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:visibility="gone"
-            android:paddingBottom="10dp"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/ic_arrow_down" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_city"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/global_bg_white">
-
-        <View style="@style/split_line_style" />
-
-        <TextView
-            android:id="@+id/tv_city"
-            style="@style/auth_center_txt_style"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="开户行市" />
-
-        <TextView
-            android:id="@+id/tv_bank_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_city"
-            android:textSize="14dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:paddingBottom="10dp"
-            android:visibility="gone"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp"
-            android:src="@drawable/ic_arrow_down" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -189,6 +111,8 @@
         <TextView
             android:id="@+id/tv_bank_card_num_key"
             style="@style/auth_center_txt_style"
+
+            android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="银行卡号" />
@@ -197,6 +121,7 @@
             android:id="@+id/tv_auth_card_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/global_txt_black4"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_num_key"
@@ -218,14 +143,17 @@
         <TextView
             android:id="@+id/tv_bank_card_phone_num_key"
             style="@style/auth_center_txt_style"
+            android:layout_width="120dp"
+
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="手机号" />
+            android:text="预留手机号" />
 
         <TextView
             android:id="@+id/tv_bank_card_phone_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/global_txt_black4"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_bank_card_phone_num_key"
@@ -247,6 +175,7 @@
         <TextView
             android:id="@+id/tv_severity_code_key"
             style="@style/auth_center_txt_style"
+            android:layout_width="120dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="验证码" />
@@ -256,6 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:textColorHint="#c5c5c5"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_severity_code_key"
             android:background="@null"
@@ -274,7 +204,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="获取验证码"
-            android:textColor="#fe9900"
+            android:textColor="@color/global_txt_orange"
             android:textSize="14sp" />
 
         <View
@@ -288,4 +218,40 @@
     </RelativeLayout>
 
     <View style="@style/split_line_style" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:button="@drawable/check_state"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/tv_bind_card_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/check_box"
+            android:textColor="@color/edit_text_hint_color"
+            android:textSize="12dp" />
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_confirm_apply"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/shape_home_button_border"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/global_txt_white"
+        android:textSize="18sp" />
 </LinearLayout>
