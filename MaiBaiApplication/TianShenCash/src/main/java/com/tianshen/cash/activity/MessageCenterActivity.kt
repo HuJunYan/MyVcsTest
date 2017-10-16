@@ -48,6 +48,10 @@ class MessageCenterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initXRecyclerview()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getMessages(true)
     }
 
@@ -149,6 +153,9 @@ class MessageCenterActivity : BaseActivity() {
             val updateMessageStatus = UpdateMessageStatus(mContext)
             updateMessageStatus.update(jsonObject, null, false, object : BaseNetCallBack<PostDataBean> {
                 override fun onSuccess(paramT: PostDataBean) {
+
+                    msg.msg_status = "1"
+                    mAdapter?.notifyDataSetChanged()
 
                     //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
                     when (msg.msg_type) {
