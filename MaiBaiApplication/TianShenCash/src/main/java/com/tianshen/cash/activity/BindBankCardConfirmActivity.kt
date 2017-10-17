@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.text.TextPaint
@@ -107,6 +108,7 @@ class BindBankCardConfirmActivity : BaseActivity() {
      */
     private fun getVerifyCode() {
         if (mData == null) {
+            ToastUtil.showToast(mContext,"数据错误")
             return
         }
         val getBindXiangShangVerifyCodeApi = GetBindXiangShangVerifyCodeApi(mContext)
@@ -207,7 +209,13 @@ class BindBankCardConfirmActivity : BaseActivity() {
     }
 
     private fun gotoWebActivity() {
-        ToastUtil.showToast(mContext, "协议")
+        if (mData == null || mData?.data == null) {
+            ToastUtil.showToast(mContext,"数据错误")
+            return;
+        }
+        val bundle = Bundle()
+        bundle.putString(GlobalParams.WEB_URL_KEY, mData?.data?.protocol_url)
+        gotoActivity(mContext, WebActivity::class.java, bundle)
     }
 
 }

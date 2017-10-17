@@ -67,6 +67,7 @@ public class BankCardInfoBean {
         private String province_code;
         private String province_name;
         private String identity_code;
+        private String protocol_url;
 
         public String getBank_id() {
             return bank_id;
@@ -122,6 +123,14 @@ public class BankCardInfoBean {
 
         public void setIdentity_code(String identity_code) {
             this.identity_code = identity_code;
+        }
+
+        public String getProtocol_url() {
+            return protocol_url;
+        }
+
+        public void setProtocol_url(String protocol_url) {
+            this.protocol_url = protocol_url;
         }
     }
 
