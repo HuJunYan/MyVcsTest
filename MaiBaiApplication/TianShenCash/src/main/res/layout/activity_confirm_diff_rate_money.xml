@@ -190,21 +190,13 @@
     </RelativeLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:text="@string/confirm_protocol_tips"
-        android:textColor="@color/edit_text_hint_color"
-        android:textSize="12sp" />
-    <TextView
         android:id="@+id/tv_confirm_apply"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/shape_home_button_border"
         android:gravity="center"
         android:text="确认"
