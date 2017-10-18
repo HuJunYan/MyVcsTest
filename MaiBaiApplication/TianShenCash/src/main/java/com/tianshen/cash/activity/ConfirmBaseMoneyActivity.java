@@ -1,15 +1,21 @@
 package com.tianshen.cash.activity;
 
 import android.Manifest;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -98,6 +104,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     private JSONObject mJSONObject;  // 上传用户信息的json
     private int step = 0;   // 获取信息的步数  分别为 app列表 短信 通话记录
     private List<CharacterStyle> ssList;
+    private String mPoundageY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +220,9 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
                 backActivity();
                 break;
             case tv_confirm_apply:
-                uploadUserInfo();
+                //1.弹窗信息
+                showMoneyPopu(mPoundageY);
+
                 break;
         }
     }
@@ -243,11 +252,11 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         String repayment_amout = mOrderConfirmBean.getData().getRepayment_amout();//到期还款金额
         try {
             String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
-            String poundageY = MoneyUtils.changeF2Y(poundage);
+            mPoundageY = MoneyUtils.changeF2Y(poundage);
             String amountY = MoneyUtils.changeF2Y(amount);
             String repaymentAmoutY = MoneyUtils.changeF2Y(repayment_amout);
             tvConfirmWithdrawal.setText(consume_amountY + "元");
-            tvConfirmProcedures.setText(poundageY + "元");
+            tvConfirmProcedures.setText(mPoundageY + "元");
             tvConfirmTransfer.setText(amountY + "元");
             tvConfirmRepay.setText(repaymentAmoutY + "元");
             tvConfirmTime.setText(timer + "天");
@@ -515,4 +524,50 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
 //            ds.setUnderlineText(false);
 //        }
 //    };
+
+    /**
+     * 借钱弹窗提示
+     */
+    public void showMoneyPopu(String money) {
+        View mContentView = LayoutInflater.from(this).inflate(R.layout.view_popuwindow_money, null);
+        final PopupWindow mPopUpWindow = new PopupWindow(this);
+        mPopUpWindow.setContentView(mContentView);
+        mPopUpWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopUpWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        //相对于父控件的位置（例如正中央Gravity.CENTER，下方Gravity.BOTTOM等），可以设置偏移或无偏移
+        mPopUpWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        mPopUpWindow.setOutsideTouchable(true);
+        mPopUpWindow.setFocusable(true);
+        mPopUpWindow.setTouchable(true);
+        mPopUpWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置背景颜色变暗
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.3f;
+        getWindow().setAttributes(lp);
+        mPopUpWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+
+        TextView confirm = (TextView) mContentView.findViewById(R.id.confirm);
+        TextView content = (TextView) mContentView.findViewById(R.id.content);
+        content.setText("借款到账后，将收取" + money + getResources().getString(R.string.text_popu_money));
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopUpWindow.dismiss();
+                //2.上传信息
+                uploadUserInfo();
+            }
+        });
+
+
+    }
 }
