@@ -1,7 +1,6 @@
 package com.tianshen.cash.activity;
 
 import android.Manifest;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -9,7 +8,6 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -529,8 +527,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 借钱弹窗提示
      */
     public void showMoneyPopu(String money) {
-        View mContentView = LayoutInflater.from(this).inflate(R.layout.view_popuwindow_money, null);
-        final PopupWindow mPopUpWindow = new PopupWindow(this);
+        View mContentView = View.inflate(this,R.layout.view_popuwindow_money, null);
+        final PopupWindow mPopUpWindow = new PopupWindow(mContentView);
         mPopUpWindow.setContentView(mContentView);
         mPopUpWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopUpWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -541,7 +539,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         mPopUpWindow.setOutsideTouchable(true);
         mPopUpWindow.setFocusable(true);
         mPopUpWindow.setTouchable(true);
-        mPopUpWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        mPopUpWindow.setBackgroundDrawable(null);
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.3f;
@@ -556,7 +554,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             }
         });
 
-        TextView confirm = (TextView) mContentView.findViewById(R.id.confirm);
+         TextView confirm = (TextView) mContentView.findViewById(R.id.confirm);
         TextView content = (TextView) mContentView.findViewById(R.id.content);
         content.setText("借款到账后，将收取" + money + getResources().getString(R.string.text_popu_money));
         confirm.setOnClickListener(new View.OnClickListener() {
