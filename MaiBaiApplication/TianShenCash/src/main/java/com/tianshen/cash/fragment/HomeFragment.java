@@ -1990,7 +1990,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 收到了极光推送过来的消息
+     * 刷新UserConfig
      */
     @Subscribe
     public void onUserConfigChangedEvent(UserConfigChangedEvent event) {

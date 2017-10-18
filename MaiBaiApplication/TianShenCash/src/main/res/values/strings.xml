@@ -88,4 +88,13 @@
 
     <string name="text_confirm_bank_card_info">确认银行卡信息</string>
 
+    <!--还款页面文本-->
+    <string name="text_repay_tips_title">郑重提示:</string>
+    <string name="text_repay_tips_important_tip">请勿在自己银行账户余额不足时就点击确认按钮！！</string>
+    <string name="text_repay_tips_normal_title">强烈建议用户还款时注意以下4点:</string>
+    <string name="text_repay_tips_normal_tip1">1.还款前请确保自己的银行账户内余额大于应还款总金额。</string>
+    <string name="text_repay_tips_normal_tip2">2.还款前如果是他人先转账给你,请在确认转账到账至少10分钟再进行还款操作。</string>
+    <string name="text_repay_tips_normal_tip3">3.单日点击还款按钮次数不要超过3次！</string>
+    <string name="text_repay_tips_normal_tip4">4.按时主动还款好处多,请尽量避免逾期还款。</string>
+
 </resources>
