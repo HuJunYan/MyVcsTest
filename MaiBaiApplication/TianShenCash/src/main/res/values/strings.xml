@@ -96,5 +96,6 @@
     <string name="text_repay_tips_normal_tip2">2.还款前如果是他人先转账给你,请在确认转账到账至少10分钟再进行还款操作。</string>
     <string name="text_repay_tips_normal_tip3">3.单日点击还款按钮次数不要超过3次！</string>
     <string name="text_repay_tips_normal_tip4">4.按时主动还款好处多,请尽量避免逾期还款。</string>
+    <string name="text_popu_money">元手续费。\n借款后请按时还款，逾期不还的用户将依法报送全国人民征信系统，不良的信用记录将影响您未来的其他贷款（如房贷和车贷）、个人求职、境外旅游等。</string>
 
 </resources>

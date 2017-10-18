@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+             android:background="@drawable/shape_white_border"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white_border"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="17dp"
+            android:text="温馨提示"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:lineSpacingExtra="5dp"
+            android:id="@+id/content"
+            style="@style/popu_money_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/shape_white_border2"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/white"
+            android:textSize="15dp"/>
+    </LinearLayout>
+
+</LinearLayout>
