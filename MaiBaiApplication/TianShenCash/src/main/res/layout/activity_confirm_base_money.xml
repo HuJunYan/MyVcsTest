@@ -94,7 +94,7 @@
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="手续费用" />
+            android:text="综合费用" />
 
         <TextView
             android:id="@+id/tv_confirm_procedures"
@@ -196,7 +196,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
-        android:text="以上期限、费用仅供参考，具体由审核时评定的信用等级决定"
+        android:text="以上费用仅供参考，实际金额由平台审核时评定的信用等级而定"
         android:textColor="@color/edit_text_hint_color"
         android:textSize="12sp" />
 
