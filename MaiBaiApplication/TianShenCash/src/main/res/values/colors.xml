@@ -97,5 +97,6 @@
     <color name="dialog_item_line_color">#EEEEEE</color>
 
     <color name="main_bottom_line_color">#cccccc</color>
+    <color name="orange_shape_end_color">#ffb352</color>
 
 </resources>
