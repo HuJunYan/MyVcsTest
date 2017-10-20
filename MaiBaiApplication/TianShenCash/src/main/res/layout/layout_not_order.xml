@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="到账金额(天)"
+                    android:text="到账金额(元)"
                     android:textColor="@color/global_txt_black2"
                     android:textSize="11sp" />
 
