@@ -482,7 +482,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="天神金融(tianshendai)"
-                    android:textColor="@color/global_popular_color"
+                    android:textColor="@color/me_weixin_color"
                     android:textSize="12sp" />
             </LinearLayout>
 
