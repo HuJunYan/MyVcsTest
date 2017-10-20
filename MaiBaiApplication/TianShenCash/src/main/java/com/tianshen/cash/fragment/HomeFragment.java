@@ -104,6 +104,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1034,32 +1035,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }, 350);
     }
 
-    /**
-     * 金额移动动画
-     */
-    private void moveSeekBarThumbMoney(int progress) {
-        String s = String.format(Locale.CHINA, "%d", progress);
-        tv_home_max_sb_thumb.setText(s);
-        float val;
-        if (minMaxSb.getMax() == 0) {  //当服务器返回的min = max 的时候  getmax = 0  会导致下面的计算出错
-            val = 0;
-        } else {
-            val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
-        }
-        float offset = minMaxSb.getThumbOffset();
-        float newX = val + offset;
-        if (minMaxSb.getProgress() == minMaxSb.getMax() && minMaxSb.getMax() != 0) {
-            newX -= density * 10;
-        }
-        LogUtil.d("abcd", "val = " + val);
-        LogUtil.d("abcd", "offset = " + offset);
-        ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
-        ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(x, y);
-        animatorSet.setDuration(0);
-        animatorSet.start();
-    }
+//    /**
+//     * 金额移动动画
+//     */
+//    private void moveSeekBarThumbMoney(int progress) {
+//        String s = String.format(Locale.CHINA, "%d", progress);
+//        tv_home_max_sb_thumb.setText(s);
+//        float val;
+//        if (minMaxSb.getMax() == 0) {  //当服务器返回的min = max 的时候  getmax = 0  会导致下面的计算出错
+//            val = 0;
+//        } else {
+//            val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
+//        }
+//        float offset = minMaxSb.getThumbOffset();
+//        float newX = val + offset;
+//        if (minMaxSb.getProgress() == minMaxSb.getMax() && minMaxSb.getMax() != 0) {
+//            newX -= density * 10;
+//        }
+//        LogUtil.d("abcd", "val = " + val);
+//        LogUtil.d("abcd", "offset = " + offset);
+//        ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
+//        ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
+//        AnimatorSet animatorSet = new AnimatorSet();
+//        animatorSet.playTogether(x, y);
+//        animatorSet.setDuration(0);
+//        animatorSet.start();
+//    }
 
     /**
      * 刷新右上角的消息
@@ -1191,14 +1192,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             tvHomeMaxSb.setText(max_cashInt + "元");
             minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
             minMaxSb.setCurrentProgress(def_cashInt);
-            //重置金额偏移量
-            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    moveSeekBarThumbMoney(def_cashInt);
-                }
-            });
+
+//            //重置金额偏移量
+//            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    moveSeekBarThumbMoney(def_cashInt);
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -1236,9 +1238,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         //设置借款金额
-        String s = String.format(Locale.CHINA, "%d", progress);
-        tv_home_money.setText(s);
-        tv_home_get_money.setText(s);
+        String currentMoney = MoneyUtils.addTwoPoint(progress);
+        tv_home_money.setText(currentMoney);
+        tv_home_get_money.setText(currentMoney);
 
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
@@ -1838,7 +1840,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onProgressChanged(float progress) {
             refreshLoanNumUI((int) progress);
-            moveSeekBarThumbMoney((int) progress);
+//            moveSeekBarThumbMoney((int) progress);
         }
 
         @Override

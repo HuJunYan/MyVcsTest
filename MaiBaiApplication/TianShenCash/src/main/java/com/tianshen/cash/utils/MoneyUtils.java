@@ -194,4 +194,8 @@ public class MoneyUtils {
 
         return df.format(bigDecimal.divide(new BigDecimal(100d)));
     }
+
+    public static String addTwoPoint(long num) {
+        return new java.text.DecimalFormat("#.00").format(num);
+    }
 }
