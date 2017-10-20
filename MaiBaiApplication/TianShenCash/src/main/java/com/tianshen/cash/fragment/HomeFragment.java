@@ -1229,7 +1229,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     /**
-     * 刷新当前借款的金额，和手续费用
+     * 刷新当前借款的金额，和综合费用
      */
     private void refreshLoanNumUI(int progress) {
 

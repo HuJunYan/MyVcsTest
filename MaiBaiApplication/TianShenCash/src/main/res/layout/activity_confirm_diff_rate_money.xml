@@ -94,7 +94,7 @@
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="手续费用" />
+            android:text="综合费用" />
 
         <TextView
             android:id="@+id/tv_confirm_procedures"
