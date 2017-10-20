@@ -72,7 +72,7 @@ public class StatusBarUtil {
                 }
             } else {
                 if (baseView != null) {
-                    baseView.setBackgroundResource(R.drawable.shape_navigation);
+                    baseView.setBackgroundResource(R.drawable.navigation_bg);
                 }
             }
             if (MyApplicationLike.isMIUI) {

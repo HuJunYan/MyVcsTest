@@ -89,6 +89,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneUtils;
+import com.tianshen.cash.utils.StatusBarUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -336,7 +337,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
-//        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), true);
+        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), true);
     }
 
     @Override

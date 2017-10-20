@@ -94,4 +94,6 @@
     <string name="text_repay_tips_normal_tip3">3.单日点击还款按钮次数不要超过3次！</string>
     <string name="text_repay_tips_normal_tip4">4.按时主动还款好处多,请尽量避免逾期还款。</string>
 
+    <string name="text_no_loan_history">暂无借款记录</string>
+
 </resources>

@@ -2,6 +2,7 @@ package com.tianshen.cash.activity
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -97,9 +98,18 @@ class LoanHistoryActivity : BaseActivity() {
                             refreshLayout.setLoadmoreFinished(true)
                         }
                     }
+                    if (withdrawalsRecordItemBeanList?.size == 0) {
+                        ll_no_history.visibility = View.VISIBLE
+                        refreshLayout.visibility = View.GONE
+                    }else {
+                        refreshLayout.visibility = View.VISIBLE
+                        ll_no_history.visibility = View.GONE
+                    }
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+                    ll_no_history.visibility = View.VISIBLE
+                    refreshLayout.visibility = View.GONE
                 }
             })
         } catch (e: JSONException) {
