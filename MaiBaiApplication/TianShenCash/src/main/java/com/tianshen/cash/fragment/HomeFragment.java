@@ -135,26 +135,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView tvHomeTianshenCardNum;
     @BindView(R.id.tv_home_tianshen_card_renzheng)
     TextView tvHomeTianshenCardRenzheng;
-    @BindView(R.id.tv_loan_num_key)
-    TextView tvLoanNumKey;
-    @BindView(R.id.tv_loan_num_value)
-    TextView tvLoanNumValue;
-    @BindView(R.id.iv_procedures_home)
-    ImageView ivProceduresHome;
-    @BindView(R.id.tv_procedures_value)
-    TextView tvProceduresValue;
-    @BindView(R.id.tv_procedures_key)
-    TextView tvProceduresKey;
     @BindView(R.id.tv_loan_day_key)
     TextView tvLoanDayKey;
     @BindView(R.id.tv_loan_day_value)
     TextView tvLoanDayValue;
-    @BindView(R.id.iv_loan_day_arrow)
-    ImageView ivLoanDayArrow;
     @BindView(R.id.ll_home_top)
     LinearLayout llHomeTop;
-    @BindView(R.id.rl_loan_day)
-    RelativeLayout rlLoanDay;
+    @BindView(R.id.ll_loan_day)
+    LinearLayout ll_loan_day;
     @BindView(R.id.rl_home_tianshen_card)
     RelativeLayout rlHomeTianshenCard;
     @BindView(R.id.tv_home_apply)
@@ -232,6 +220,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.iv_home_msg)
     ImageView iv_home_msg;
+
+    @BindView(R.id.tv_home_money)
+    TextView tv_home_money;
+
+    @BindView(R.id.tv_home_get_money)
+    TextView tv_home_get_money;
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -322,10 +316,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void setListensers() {
         rlHomeTianshenCard.setOnClickListener(this);
-        rlLoanDay.setOnClickListener(this);
+        ll_loan_day.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
         tv_goto_repay.setOnClickListener(this);
-        ivProceduresHome.setOnClickListener(this);
+//        ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
         iv_home_market.setOnClickListener(this);
@@ -353,7 +347,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
                 gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
                 break;
-            case R.id.rl_loan_day: //点击了期限选择
+            case R.id.ll_loan_day: //点击了期限选择
                 showSelectLoanDayDialog();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
@@ -365,9 +359,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
                 break;
-            case R.id.iv_procedures_home: //点击了借款提示
-                ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
-                break;
+//            case R.id.iv_procedures_home: //点击了借款提示
+//                ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
+//                break;
             case R.id.iv_danger_money: //点击了逾期提示
             case R.id.iv_normal_money: //点击了逾期提示
                 showDangerTipsDialog();
@@ -1243,8 +1237,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //设置借款金额
         String s = String.format(Locale.CHINA, "%d", progress);
-        tvLoanNumValue.setText(s + " 元");
-
+        tv_home_money.setText(s);
+        tv_home_get_money.setText(s);
 
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
@@ -1264,7 +1258,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     String proceduresStr = String.valueOf(procedures);
                     String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
                     //设置手续金额
-                    tvProceduresValue.setText(proceduresStrF + " 元");
+//                    tvProceduresValue.setText(proceduresStrF + " 元");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
