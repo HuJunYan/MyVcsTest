@@ -135,7 +135,9 @@
                     android:id="@+id/tv_loan_day_key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="2dp"
+                    android:gravity="center"
                     android:text="借款期限(天)"
                     android:textColor="@color/global_txt_black2"
                     android:textSize="11sp" />
@@ -176,7 +178,9 @@
                     android:id="@+id/tv_home_get_money_key"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="2dp"
+                    android:gravity="center"
                     android:text="到账金额(元)"
                     android:textColor="@color/global_txt_black2"
                     android:textSize="11sp" />
