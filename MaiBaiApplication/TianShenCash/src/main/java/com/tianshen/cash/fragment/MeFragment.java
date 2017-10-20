@@ -133,6 +133,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
+//        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), false);
         boolean login = TianShenUserUtil.isLogin(mContext);
         if (login) {
             initMyInfo();

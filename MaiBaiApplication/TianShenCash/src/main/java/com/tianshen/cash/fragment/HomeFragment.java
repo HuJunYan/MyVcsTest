@@ -333,6 +333,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+//        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), true);
+    }
 
     @Override
     public void onClick(View view) {
@@ -1069,7 +1074,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(count)) {
             msgCount = Integer.parseInt(count);
         }
-        Drawable drawable ;
+        Drawable drawable;
         if (msgCount > 0) {
             drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home_new);
         } else {
