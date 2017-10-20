@@ -1108,7 +1108,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
         tvHomeTianshenCardNum.setText(cardNum);
         tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 0);
-        tvHomeUserLimitValue.setText("0");
+        tvHomeUserLimitValue.setText("3000");
         tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
     }
 

@@ -116,7 +116,7 @@
                         android:id="@+id/tv_home_user_limit_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text="3000"
                         android:textColor="@color/global_txt_white"
                         android:textSize="48sp" />
 
