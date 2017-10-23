@@ -577,6 +577,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     parserLoanDayData();
                     showNoPayUI();
+                    refreshCardUI();
                     refreshLoanDayUI();
                     refreshBubbleSeekBarUI();
                     refreshLoanNumUI(minMaxSb.getMinMaxSeekBarCurrentProgress());
@@ -1083,34 +1084,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-        //设置天神卡号
-        String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
-        String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
-        tvHomeTianshenCardNum.setText(cardNum);
-        String cur_credit_step = mUserConfig.getData().getCur_credit_step();
-        String total_credit_step = mUserConfig.getData().getTotal_credit_step();
-        //设置认证步骤
-        tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
-        //设置信用额度
-        try {
-            String max_cash = mUserConfig.getData().getMax_cash();
-            String max_cashY = MoneyUtils.changeF2Y(max_cash);
-            tvHomeUserLimitValue.setText(max_cashY);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (TianShenUserUtil.isLogin(mContext)) {
+            if (mUserConfig == null) {
+                return;
+            }
+            //设置天神卡号
+            String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
+            String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
+            tvHomeTianshenCardNum.setText(cardNum);
+            String cur_credit_step = mUserConfig.getData().getCur_credit_step();
+            String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+            //设置认证步骤
+            tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
+            //设置信用额度
+            try {
+                String max_cash = mUserConfig.getData().getMax_cash();
+                String max_cashY = MoneyUtils.changeF2Y(max_cash);
+                tvHomeUserLimitValue.setText(max_cashY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (mSelWithdrawalsBean == null) {
+                return;
+            }
+            String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
+            tvHomeTianshenCardNum.setText(cardNum);
+            tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 0);
+            tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
+            try {
+                String max_cash = mSelWithdrawalsBean.getMax_cash();
+                String max_cashY = MoneyUtils.changeF2Y(max_cash);
+                tvHomeUserLimitValue.setText(max_cashY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-
-    /**
-     * 重置天神卡UI
-     */
-    private void resetCardUI() {
-        String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
-        tvHomeTianshenCardNum.setText(cardNum);
-        tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 0);
-        tvHomeUserLimitValue.setText("3000");
-        tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
     }
 
     /**
@@ -1897,7 +1906,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         CrashReport.setUserId("unknown");
         initSelWithdrawalsData();
         initStaticsRoll();
-        resetCardUI();
     }
 
     /**
@@ -1910,7 +1918,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         refreshMessage("0");
         initSelWithdrawalsData();
         initStaticsRoll();
-        resetCardUI();
     }
 
 
