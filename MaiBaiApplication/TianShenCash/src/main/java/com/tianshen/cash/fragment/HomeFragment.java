@@ -1907,6 +1907,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
         LogUtil.d("abc", "收到了退出登录成功消息--刷新UI");
         CrashReport.setUserId("unknown");
+        refreshMessage("0");
         initSelWithdrawalsData();
         initStaticsRoll();
         resetCardUI();
