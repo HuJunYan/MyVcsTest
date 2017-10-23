@@ -93,7 +93,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
     TextView tvConfirmApply;
     @BindView(R.id.check_box)
     CheckBox check_box;
-
+    @BindView(R.id.tv_confirm_rate_money)
+    TextView tv_confirm_rate_money;
     @BindView(R.id.tv_confirm_base_protocol)
     TextView tv_confirm_base_protocol;
 
@@ -248,6 +249,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
         String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
         String card_num = mOrderConfirmBean.getData().getCard_num();//绑定银行卡卡号
         String repayment_amout = mOrderConfirmBean.getData().getRepayment_amout();//到期还款金额
+        String interest = mOrderConfirmBean.getData().getInterest();//利息
         try {
             String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
             mPoundageY = MoneyUtils.changeF2Y(poundage);
@@ -260,6 +262,8 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             tvConfirmTime.setText(timer + "天");
             String cardNum = SafeUtil.encodeBankCardNum(card_num);
             tvConfirmBanckCard.setText(bank_name + cardNum);
+            String interestY = MoneyUtils.changeF2Y(interest);
+            tv_confirm_rate_money.setText(interestY + "元");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -527,7 +531,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
      * 借钱弹窗提示
      */
     public void showMoneyPopu(String money) {
-        View mContentView = View.inflate(this,R.layout.view_popuwindow_money, null);
+        View mContentView = View.inflate(this, R.layout.view_popuwindow_money, null);
         final PopupWindow mPopUpWindow = new PopupWindow(mContentView);
         mPopUpWindow.setContentView(mContentView);
         mPopUpWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -554,7 +558,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             }
         });
 
-         TextView confirm = (TextView) mContentView.findViewById(R.id.confirm);
+        TextView confirm = (TextView) mContentView.findViewById(R.id.confirm);
         TextView content = (TextView) mContentView.findViewById(R.id.content);
         content.setText("借款到账后，将收取" + money + getResources().getString(R.string.text_popu_money));
         confirm.setOnClickListener(new View.OnClickListener() {

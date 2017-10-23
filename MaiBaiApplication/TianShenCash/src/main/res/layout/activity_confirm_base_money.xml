@@ -106,7 +106,31 @@
             android:textSize="14dp" />
 
     </RelativeLayout>
+    <View style="@style/split_line_style" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/global_bg_white">
+
+
+        <TextView
+            android:id="@+id/tv_confirm_rate"
+            style="@style/auth_center_txt_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="利息" />
+
+        <TextView
+            android:id="@+id/tv_confirm_rate_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tv_confirm_rate"
+            android:textSize="14dp" />
+
+    </RelativeLayout>
     <View style="@style/split_line_style" />
 
     <View
