@@ -103,5 +103,6 @@
     <color name="orange_shape_end_color">#ffb352</color>
 
     <color name="me_weixin_color">#5a92e7</color>
+    <color name="auth_bank_texthint_color">#C9C6C0</color>
 
 </resources>

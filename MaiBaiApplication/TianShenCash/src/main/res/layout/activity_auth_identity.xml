@@ -161,7 +161,7 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="人脸识别" />
+                    android:text="人脸识别"/>
 
                 <ImageView
                     android:id="@+id/iv_identity_auth_face"
@@ -170,7 +170,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_identity_auth_face_key"
-                    android:src="@drawable/ic_identity_auth_face" />
+                    android:src="@drawable/ic_identity_auth_face"/>
 
             </RelativeLayout>
         </LinearLayout>
