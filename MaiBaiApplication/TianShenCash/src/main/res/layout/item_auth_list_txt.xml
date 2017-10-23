@@ -11,7 +11,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dip"
         android:gravity="center"
-        android:text="完成以下认证,可获取更高额度"
+        android:text="完成以下认证,可获取更高额度(选填)"
         android:textColor="@color/edit_text_hint_color"
         android:textSize="12dp" />
 

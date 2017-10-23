@@ -96,7 +96,7 @@
     <color name="edit_text_baseline_color">#E0E0E0</color>
     <color name="edit_text_hint_color">#969696</color>
     <color name="argument_color">#888888</color>
-    <color name="global_popular_color">#FF5353</color>
+    <color name="global_popular_color">#FF4442</color>
     <color name="dialog_item_line_color">#EEEEEE</color>
 
     <color name="main_bottom_line_color">#cccccc</color>
