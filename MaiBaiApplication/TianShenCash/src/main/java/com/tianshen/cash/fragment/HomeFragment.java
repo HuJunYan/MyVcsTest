@@ -1,8 +1,6 @@
 package com.tianshen.cash.fragment;
 
 import android.Manifest;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -104,11 +101,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -1262,12 +1257,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 int withdrawalAmountInt = Integer.valueOf(withdrawalAmountY); //申请的金额也就是滑动当前位置的金额
                 if (progress == withdrawalAmountInt) {
                     mCurrentOrderMoney = withdrawalAmount;
-                    String transfer_amount = cashSubItemBean.getTransfer_amount();
-                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
-                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
-                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
-                    String proceduresStr = String.valueOf(procedures);
-                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
+                    break;
+//                    String transfer_amount = cashSubItemBean.getTransfer_amount();
+//                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
+//                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
+//                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+//                    String proceduresStr = String.valueOf(procedures);
+//                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
                     //设置手续金额
 //                    tvProceduresValue.setText(proceduresStrF + " 元");
                 }
