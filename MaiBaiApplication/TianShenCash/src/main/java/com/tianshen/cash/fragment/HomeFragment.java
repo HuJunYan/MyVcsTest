@@ -1227,7 +1227,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if ("1".equals(repay_unit)) { //判断是月还是天  1-月，2-天
             tvLoanDayValue.setText(repayTimes + " 月");
         } else {
-            tvLoanDayValue.setText(repayTimes + " 天");
+            tvLoanDayValue.setText(repayTimes);
         }
 
     }
