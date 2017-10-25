@@ -80,11 +80,6 @@ public class StatusBarUtil {
             } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             }
-//            if (isEMUI()) {
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            } else {
-//                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            }
             window.setStatusBarColor(Color.TRANSPARENT);
             //底部导航栏
             //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
@@ -97,13 +92,13 @@ public class StatusBarUtil {
                 setStatusBarWhite(activity);
             }
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //设置6.0以上字体颜色为深色
             if (isWhite) {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
                 activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
             }
-            //设置6.0以上字体颜色为深色
         }
     }
 
