@@ -122,8 +122,10 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 @Override
                 public void run() {
                     if (result) {
+                        MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_21);
                         ToastUtil.showToast(mContext, "认证成功!", Toast.LENGTH_LONG);
                     } else {
+                        MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_22);
                         ToastUtil.showToast(mContext, "认证失败!", Toast.LENGTH_LONG);
                     }
                     backActivity();
