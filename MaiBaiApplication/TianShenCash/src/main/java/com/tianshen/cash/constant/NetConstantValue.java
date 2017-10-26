@@ -625,6 +625,6 @@ public class NetConstantValue {
      * 得到埋点的地址
      */
     public static String getMaiDianURL() {
-        return HOST + "Statistic/BuriedPoint/buriedPoint";
+        return COMMONURI + "BuriedPoint/buriedPoint";
     }
 }
