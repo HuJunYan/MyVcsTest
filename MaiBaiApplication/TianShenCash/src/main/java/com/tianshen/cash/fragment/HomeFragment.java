@@ -83,6 +83,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneUtils;
@@ -1551,7 +1552,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         for (int i = 0; i < activityBeanData.size(); i++) {
             final ActivityDataBean data = activityBeanData.get(i);
-            String activityType = data.getActivity_type();
+            final String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
             final String activityId = data.getActivity_id();
             if ("0".equals(activityType)) {//分享活动
@@ -1563,6 +1564,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString(GlobalParams.ACTIVITY_ID, activityId);
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,"-1",activityType);
                         gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1582,7 +1584,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         url += "&type=1";
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_HOME);
-
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,"-1",activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1599,7 +1601,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         String url = data.getActivity_url();
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_TYPE, GlobalParams.TYPE_READ);
-
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,"-1",activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1609,6 +1611,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
+                MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,"-1",activityType);
                 viewList.add(pageView);
             }
 
