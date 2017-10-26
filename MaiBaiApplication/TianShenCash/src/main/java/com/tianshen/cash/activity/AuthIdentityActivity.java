@@ -783,7 +783,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                                     ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
                                     selectLivenessControl(bean.name, bean.idcard);
                                 } else {
-                                    conformCreditFace();
+                                    conformCreditFace(confidence + "");
                                 }
                             }
                         } catch (Exception e1) {
@@ -806,7 +806,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     /**
      * 扫脸成功告诉服务器
      */
-    private void conformCreditFace() {
+    private void conformCreditFace(String score) {
         LogUtil.d("abc", "conformCreditFace---in");
 
         CreditFace creditFace = new CreditFace(mContext);
@@ -816,6 +816,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         try {
             json.put(GlobalParams.USER_CUSTOMER_ID, userID);
             json.put("face_pass", "1");
+            json.put("score", score);
         } catch (JSONException e) {
             e.printStackTrace();
         }
