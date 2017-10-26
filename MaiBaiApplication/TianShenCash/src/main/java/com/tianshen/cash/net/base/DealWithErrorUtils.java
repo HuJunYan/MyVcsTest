@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 public class DealWithErrorUtils {
 
-    public static void dealWithErrorCode(Context context, String result, View view) {
+    public static void dealWithErrorCode(Context context, String result, View view, boolean isShowToast) {
 
         JSONObject object = null;
         String msg = "";
@@ -38,7 +38,7 @@ public class DealWithErrorUtils {
             e.printStackTrace();
         }
 
-        if (object == null) {
+        if (object == null && isShowToast) {
             ToastUtil.showToast(context, msg);
             return;
         }
@@ -46,7 +46,7 @@ public class DealWithErrorUtils {
         switch (code) {
             case 10000:
             case 118: // 无升级
-                if (view != null) {
+                if (view != null && isShowToast) {
                     ToastUtil.showToast(context, msg);
                 }
                 break;
@@ -55,13 +55,17 @@ public class DealWithErrorUtils {
                 finishActivityAndGotoLoginActivity();
                 break;
             case 101: // 下单失败
-                ToastUtil.showToast(context, msg);
+                if (isShowToast) {
+                    ToastUtil.showToast(context, msg);
+                }
                 break;
             case 204: // 坐标信息不正确
             case 211:
                 break;
             case 501: // 服务器开小车了，请稍后重试
-                ToastUtil.showToast(context, "网络不给力：" + code);
+                if (isShowToast) {
+                    ToastUtil.showToast(context, "网络不给力：" + code);
+                }
                 break;
             case 131: // 获取掌中验证码1分钟重复点击了
                 break;
@@ -78,7 +82,9 @@ public class DealWithErrorUtils {
                 EventBus.getDefault().post(updateEvent);
                 break;
             case 911: // 红包提现失败
-                ToastUtil.showToast(context, msg);
+                if (isShowToast) {
+                    ToastUtil.showToast(context, msg);
+                }
                 break;
             case 999: // 系统维护
                 ServiceErrorEvent errorEvent = new ServiceErrorEvent();
@@ -86,7 +92,9 @@ public class DealWithErrorUtils {
                 EventBus.getDefault().post(errorEvent);
                 break;
             default:
-                ToastUtil.showToast(context, msg);
+                if (isShowToast) {
+                    ToastUtil.showToast(context, msg);
+                }
                 break;
         }
     }

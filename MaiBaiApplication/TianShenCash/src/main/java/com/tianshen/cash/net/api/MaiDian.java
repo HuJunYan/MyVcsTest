@@ -35,7 +35,7 @@ public class MaiDian extends NetBase {
         if (mJSONObject == null) {
             return;
         }
-        getDataFromServerByPost(mUrl, mJSONObject, null, false, new CallBack() {
+        getDataFromServerByPost(mUrl, mJSONObject, null, false, false, new CallBack() {
             @Override
             public void onSuccess(String result, String url) {
                 successHandle(result, url, callBack);
