@@ -14,6 +14,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
@@ -50,6 +51,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         mUrl = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_URL_KEY);
         tv_china_mobile_title.setText(mTitle);
         initWebView();
+        MaiDianUtil.ding(this,MaiDianUtil.FLAG_20);
     }
 
     @Override
