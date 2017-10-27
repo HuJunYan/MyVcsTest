@@ -495,6 +495,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onNext(List<ContactsBean> value) {
                 if (value.size() == 0) {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_14);
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
                         gotoConfirmBaseMoneyActivity();
@@ -502,6 +503,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
                 } else {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_15);
                     uploadContacts(value);
                 }
             }
@@ -533,6 +535,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mSaveContactsAction.saveContacts(json, tvHomeApply, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_16);
                     gotoConfirmBaseMoneyActivity();
                 }
 
