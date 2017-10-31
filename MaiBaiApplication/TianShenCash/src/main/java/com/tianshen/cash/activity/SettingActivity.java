@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.model.ResponseBean;
@@ -23,6 +24,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, TitleBar.TitleBarListener2 {
     private boolean isResume = true;
@@ -88,6 +91,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 ToastUtil.showToast(mContext, "您未登录，无需退出", Toast.LENGTH_SHORT);
                 return;
             }
+            final MyApplicationLike app = MyApplicationLike.getMyApplicationLike();
+
             String customerId = TianShenUserUtil.getUserId(mContext);
             Logout logout = new Logout(mContext);
             JSONObject json = new JSONObject();
@@ -97,6 +102,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onSuccess(ResponseBean paramT) {
                     TianShenUserUtil.clearUser(mContext);
+                    JPushInterface.stopPush(app);
                     EventBus.getDefault().post(new LogoutSuccessEvent());
                     backActivity();
                 }
@@ -104,6 +110,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
                     TianShenUserUtil.clearUser(mContext);
+                    JPushInterface.stopPush(app);
                     EventBus.getDefault().post(new LogoutSuccessEvent());
                     backActivity();
                 }
