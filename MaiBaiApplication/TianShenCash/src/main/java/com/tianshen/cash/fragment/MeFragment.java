@@ -40,6 +40,8 @@ import com.tianshen.cash.net.api.GetCompayInfo;
 import com.tianshen.cash.net.api.GetMyHome;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
+import com.tianshen.cash.utils.MaiDianUtil;
+import com.tianshen.cash.utils.StatusBarUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -133,6 +135,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
+        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), false);
         boolean login = TianShenUserUtil.isLogin(mContext);
         if (login) {
             initMyInfo();
@@ -291,6 +294,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 gotoActivity(getActivity(), RedPackageActivity.class, null);
                 break;
             case R.id.rl_me_tianshen_friend:
+                MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_24);
                 if (!TianShenUserUtil.isLogin(mContext)) {
                     gotoActivity(mContext, LoginActivity.class, null);
                     return;

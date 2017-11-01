@@ -43,6 +43,7 @@ public class OrderConfirmBean {
         private String repay_id;
         private String msg_last_time;
         private String call_last_time;
+        private String interest;
 
         private String second_party;
         private String id_num;
@@ -240,6 +241,14 @@ public class OrderConfirmBean {
 
         public void setCall_last_time(String call_last_time) {
             this.call_last_time = call_last_time;
+        }
+
+        public String getInterest() {
+            return interest;
+        }
+
+        public void setInterest(String interest) {
+            this.interest = interest;
         }
     }
 

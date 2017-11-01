@@ -21,6 +21,7 @@ import cn.jpush.android.api.JPushInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
+import com.tianshen.cash.base.MyApplicationLike
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.event.LoginSuccessEvent
 import com.tianshen.cash.model.TianShenLoginBean
@@ -120,7 +121,8 @@ class LoginActivity : BaseActivity() {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 if (380 == msg.what) {
-                    val reg_id = JPushInterface.getRegistrationID(mContext)
+                    val app = MyApplicationLike.getMyApplicationLike()
+                    val reg_id = JPushInterface.getRegistrationID(app)
                     LogUtil.d("ret", "reg_id = " + reg_id)
                     if (TextUtils.isEmpty(reg_id)) {
                         if (mRegIdQueryTimes == 7) {
@@ -170,6 +172,9 @@ class LoginActivity : BaseActivity() {
         if (hasTelephonePermission == true && TextUtils.isEmpty(mUniqueId)) {
             mUniqueId = System.currentTimeMillis().toString()
         }
+
+        val app = MyApplicationLike.getMyApplicationLike()
+
         try {
             val json = JSONObject()
             json.put("device_id", mUniqueId)
@@ -178,7 +183,7 @@ class LoginActivity : BaseActivity() {
 
             var jpushId = TianShenUserUtil.getUserJPushId(mContext)
             if (TextUtils.isEmpty(jpushId)) {
-                jpushId = JPushInterface.getRegistrationID(mContext)
+                jpushId = JPushInterface.getRegistrationID(app)
             }
             json.put("push_id", jpushId)
             val finalJpushId = jpushId
@@ -197,7 +202,10 @@ class LoginActivity : BaseActivity() {
                         tags.add(bdLocation.cityCode)
                         tags.add(bdLocation.countryCode)
                         tags.add(bdLocation.province)
-                        JPushInterface.setAliasAndTags(mContext, TianShenUserUtil.getUserId(mContext), tags)
+                        JPushInterface.setAliasAndTags(app, TianShenUserUtil.getUserId(app), tags)
+                        if (JPushInterface.isPushStopped(app)) {
+                            JPushInterface.resumePush(app)
+                        }
                     }
 
                     gotoActivity(mContext, MainActivity::class.java, null)

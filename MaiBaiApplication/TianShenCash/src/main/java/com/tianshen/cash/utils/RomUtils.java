@@ -1,14 +1,18 @@
 package com.tianshen.cash.utils;
 
 import android.app.Activity;
+import android.os.Environment;
 import android.view.Window;
 import android.view.WindowManager;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Properties;
 
 /**
  * Created by Administrator on 2017/7/17.
@@ -94,5 +98,38 @@ public class RomUtils {
         } catch (Exception ignored) {
         }
         return result;
+    }
+    /**
+     * 判断是否是华为手机
+     *
+     * @return
+     */
+    public static boolean isEMUI() {
+        // Finals 2016-6-14 如果获取过了就不用再获取了，因为读取配置文件很慢
+        Properties properties = new Properties();
+        File propFile = new File(Environment.getRootDirectory(), "build.prop");
+        FileInputStream fis = null;
+        if (propFile != null && propFile.exists()) {
+            try {
+                fis = new FileInputStream(propFile);
+                properties.load(fis);
+                fis.close();
+                fis = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+            }
+        }
+        if (properties.containsKey("ro.build.hw_emui_api_level")) {
+            return true;
+        }
+        return false;
     }
 }

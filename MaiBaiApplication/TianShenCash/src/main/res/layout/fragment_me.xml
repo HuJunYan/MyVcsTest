@@ -1,24 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/global_bg_gray"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_me_user"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_height"
-        android:background="@color/global_bg_white">
+        android:layout_height="wrap_content"
+        android:background="@drawable/me_bg">
 
-        <TextView
-            style="@style/title_txt_style"
+
+        <ImageView
+            android:id="@+id/iv_me_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的"
-            android:textSize="16sp" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="19dp"
+            android:src="@drawable/ic_me_user" />
+
+        <TextView
+            android:id="@+id/tv_me_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="36dp"
+            android:layout_toRightOf="@+id/iv_me_user"
+            android:text="@string/text_me_login_or_register"
+            android:textColor="@color/global_txt_white" />
 
     </RelativeLayout>
-
-    <include layout="@layout/layout_global_line" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,32 +42,6 @@
             android:background="@color/global_bg_gray"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rl_me_user"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:background="@color/global_bg_white">
-
-
-                <ImageView
-                    android:id="@+id/iv_me_user"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_me_user" />
-
-                <TextView
-                    android:id="@+id/tv_me_user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@+id/iv_me_user"
-                    android:text="@string/text_me_login_or_register"
-                    android:textColor="@color/global_txt_black4" />
-
-            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -108,10 +93,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="12sp"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_red_package_arraw"
-                    android:textColor="#ff0000" />
+                    android:textColor="#ff0000"
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -249,16 +234,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="12sp"
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/iv_me_tianshen_friend_arraw"
-                    android:textColor="#ff0000" />
+                    android:textColor="#ff0000"
+                    android:textSize="12sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
 
@@ -298,8 +283,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
 
@@ -339,8 +324,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginLeft="15dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="15dp"
                     android:background="@color/global_line_bg" />
             </RelativeLayout>
 
@@ -497,7 +482,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="天神金融(tianshendai)"
-                    android:textColor="@color/global_popular_color"
+                    android:textColor="@color/me_weixin_color"
                     android:textSize="12sp" />
             </LinearLayout>
 

@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
@@ -37,7 +36,7 @@ public class SpannableUtils {
             return;
         }
         SpannableStringBuilder ss = new SpannableStringBuilder(text);
-        int startIndex = 0;
+        int startIndex;
         int endIndex = 0;
         int count = 0;
         while ((startIndex = text.indexOf(start, endIndex)) != -1) {

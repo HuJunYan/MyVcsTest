@@ -218,7 +218,7 @@ public class ConfirmMoneyActivity extends BaseActivity implements View.OnClickLi
 
         String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
         String timer = mOrderConfirmBean.getData().getTimer();//借款时长
-        String poundage = mOrderConfirmBean.getData().getPoundage();//手续费
+        String poundage = mOrderConfirmBean.getData().getPoundage();//综合费
         String amount = mOrderConfirmBean.getData().getAmount();//到账金额
         String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
         String card_num = mOrderConfirmBean.getData().getCard_num();//绑定银行卡卡号

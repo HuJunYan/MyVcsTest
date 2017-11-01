@@ -27,6 +27,7 @@ import com.tianshen.cash.model.UserAuthCenterBean;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.CustomerItemDecoration;
@@ -85,6 +86,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsFromCard = getIntent().getExtras().getBoolean(GlobalParams.IS_FROM_CARD_KEY);
+        MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_2);
     }
 
 
@@ -159,6 +161,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.tv_auth_center_back:
                 EventBus.getDefault().post(new AuthCenterBackEvent());
+                MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_3);
                 backActivity();
                 break;
             case R.id.tv_auth_center_post:
@@ -171,6 +174,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
             EventBus.getDefault().post(new AuthCenterBackEvent());
+            MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_3);
             backActivity();
             return true;
         }
@@ -180,6 +184,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
     private void onClickPost() {
         if (mIsAllAuthOK) {
             EventBus.getDefault().post(new AuthCenterBackEvent());
+            MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_3);
             backActivity();
         } else {
             ToastUtil.showToast(mContext, "请先认证!");

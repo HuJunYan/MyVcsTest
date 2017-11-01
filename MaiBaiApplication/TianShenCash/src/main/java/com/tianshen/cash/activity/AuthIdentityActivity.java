@@ -58,6 +58,7 @@ import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.RomUtils;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -202,7 +203,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ding();
         initIdNumInfo();
+    }
+
+    private void ding() {
+        MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_4);
     }
 
     @Override
@@ -236,9 +242,8 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_identity_auth_back:
-                backActivity();
-                break;
             case R.id.tv_identity_post:
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_5);
                 backActivity();
                 break;
             case R.id.iv_identity_auth_pic:
@@ -491,6 +496,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     private void gotoFaceAddAddActivity() {
         switch (mIsClickPosition) {
             case 0: //正面
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_6);
                 Intent idCardScanIntent = new Intent(mContext, IDCardScanActivity.class);
                 idCardScanIntent.putExtra("isvertical", true);
                 idCardScanIntent.putExtra("side", 0);
@@ -498,6 +504,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 ToastUtil.showToast(mContext, "请拍摄身份证正面");
                 break;
             case 1://反面
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_8);
                 Intent idCardScanBackIntent = new Intent(mContext, IDCardScanActivity.class);
                 idCardScanBackIntent.putExtra("isvertical", true);
                 idCardScanBackIntent.putExtra("side", 1);
@@ -506,6 +513,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                 break;
             case 2://人脸检测
                 isCanPressBack = false;
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_10);
                 startActivityForResult(new Intent(mContext, LivenessActivity.class), GlobalParams.PAGE_INTO_LIVENESS);
                 break;
         }
@@ -515,6 +523,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
         MyMap myMap = (MyMap) bundle.getSerializable("images");
         if (myMap == null) {
+            MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_11, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
             ToastUtil.showToast(mContext, "检测失败，重新再试!");
             mIsClickPosition = 2;
             gotoFaceAddAddActivity();
@@ -539,10 +548,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             boolean isSuccess = result.getString("result").equals(getResources().getString(R.string.verify_success));
             if (isSuccess) {
                 // 保存活体检测时的照片
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_11, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 MyMap map = (MyMap) bundle.getSerializable("images");
                 saveLivenessImage(map);
                 upLoadLivenessImage(result.getString("delta"), map, IMAGE_TYPE_SCAN_FACE);
             } else {
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_11, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 ToastUtil.showToast(mContext, "检测失败，请重新检测");
                 gotoFaceAddAddActivity();
             }
@@ -633,7 +644,6 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
 
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
-
                 }
             });
         } catch (Exception e) {
@@ -773,7 +783,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                                     ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
                                     selectLivenessControl(bean.name, bean.idcard);
                                 } else {
-                                    conformCreditFace();
+                                    conformCreditFace(confidence + "");
                                 }
                             }
                         } catch (Exception e1) {
@@ -796,7 +806,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     /**
      * 扫脸成功告诉服务器
      */
-    private void conformCreditFace() {
+    private void conformCreditFace(String score) {
         LogUtil.d("abc", "conformCreditFace---in");
 
         CreditFace creditFace = new CreditFace(mContext);
@@ -806,6 +816,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         try {
             json.put(GlobalParams.USER_CUSTOMER_ID, userID);
             json.put("face_pass", "1");
+            json.put("score", score);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -838,6 +849,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
         } else if (5 <= scanTime) {
             UserUtil.setCashCreditReason(mContext, "您不符合我们的征信条件");
             gotoActivity(mContext, VerifyFailActivity.class, null);
+            MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_5);
             backActivity();
         } else {
             gotoFaceAddAddActivity();
@@ -992,7 +1004,9 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
                 mIDCardBean = paramT;
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 if (mIDCardBean.id_card_number.length() != 18) {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
                 refreshNameAndNumUI();
@@ -1002,6 +1016,7 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 backActivity();
                 ViewUtil.cancelLoadingDialog();
             }
@@ -1034,12 +1049,14 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
                     mIDCardBean.issued_by = paramT.issued_by;
                     mIDCardBean.valid_date = paramT.valid_date;
                     initSaveIDCardBack();
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 }
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 ViewUtil.cancelLoadingDialog();
             }
         });
@@ -1115,10 +1132,12 @@ public class AuthIdentityActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void uDunIdentity() {
+        MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_12);
         String order = TianShenUserUtil.getUserId(mContext);
         AuthBuilder mAuthBuilder = new AuthBuilder(order, GlobalParams.UDUN_AUTH_KEY, NetConstantValue.getUDunNotifyURL(), new OnResultListener() {
             @Override
             public void onResult(String s) {
+                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_13);
                 try {
                     UDunIDInfoBean uDunIDInfoBean = GsonUtil.json2bean(s, UDunIDInfoBean.class);
                     if (UDUN_VERIFY_SUCCESS_CODE.equals(uDunIDInfoBean.ret_code) && UDUN_VERIFY_SUCCESS_SIGN.equals(uDunIDInfoBean.result_auth)) {

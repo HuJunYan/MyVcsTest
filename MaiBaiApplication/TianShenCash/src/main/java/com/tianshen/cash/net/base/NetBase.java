@@ -35,6 +35,8 @@ import java.util.List;
 public class NetBase {
     private Context mContext;
     private HttpUtils mHttpUtils;
+    private boolean mIsShowToast = true;
+
 
     public NetBase(Context context) {
         this.mContext = context;
@@ -55,6 +57,11 @@ public class NetBase {
     }
 
     public void getDataFromServerByPost(final String url, JSONObject object, final View view, boolean isShowDialog, final CallBack callBack) {
+        getDataFromServerByPost(url, object, view, isShowDialog, mIsShowToast, callBack);
+    }
+
+    public void getDataFromServerByPost(final String url, JSONObject object, final View view, boolean isShowDialog, final boolean isShowToast, final CallBack callBack) {
+
         if (!NetCheck.isNetConnected(this.mContext)) {
             if (isShowNoNetworksPrompt()) {
                 ToastUtil.showToast(this.mContext, MemoryAddressUtils.check_network());
@@ -128,14 +135,14 @@ public class NetBase {
                     if (GsonUtil.isSuccess(result)) {
                         callBack.onSuccess(result, url);
                     } else {
-                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view);
+                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view, isShowToast);
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {
                     String g = (String) responseInfo.result;
                     Logger.i("下行Exception-->" + url + "result--->" + g);
                     callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
-                    DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view);
+                    DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view, isShowToast);
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
                 }
@@ -146,7 +153,7 @@ public class NetBase {
                 //如果是下单页面就不弹出来错误toast, 调用这个接口服务器会超时
                 // (暂时服务器不处理)呵呵哒
                 String withdrawalsApplyURL = NetConstantValue.getWithdrawalsApplyURL();
-                if (!withdrawalsApplyURL.equals(url)) {
+                if (!withdrawalsApplyURL.equals(url) && isShowToast) {
                     ToastUtil.showToast(NetBase.this.mContext, MemoryAddressUtils.ServiceFaile());
                 }
                 if (view != null) {
@@ -157,11 +164,12 @@ public class NetBase {
                 Logger.d("下行failed--msg-->" + m);
                 Logger.d("下行failed--code-->" + e.getExceptionCode());
                 callBack.onFailure("", -3, -1000);
-                DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view);
+                DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view, isShowToast);
                 cancelDialog();
             }
         });
     }
+
 
 
     /**
@@ -213,7 +221,7 @@ public class NetBase {
                         callBack.onSuccess(result, url);
                     } else {
                         ResponseBean mResponseBean = GsonUtil.json2bean(result, ResponseBean.class);
-                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view);
+                        DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view, mIsShowToast);
                         callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
                     }
                 } catch (Exception e) {

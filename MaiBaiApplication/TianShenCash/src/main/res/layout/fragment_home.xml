@@ -69,7 +69,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="天神贷普卡"
                         android:textColor="@color/global_txt_white"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/tv_home_tianshen_card_can_pay"
@@ -85,7 +85,7 @@
                         android:text="可借款"
                         android:textColor="@color/global_popular_color"
                         android:textSize="11sp"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -95,7 +95,7 @@
                     android:layout_below="@id/ll_card_name"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="21dp"
-                    android:src="@drawable/ic_card_gold" />
+                    android:src="@drawable/ic_card_gold"/>
 
                 <LinearLayout
                     android:id="@+id/ll_home_tianshen_card_limit"
@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:text="￥"
                         android:textColor="@color/global_txt_white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"/>
 
                     <TextView
                         android:id="@+id/tv_home_user_limit_value"
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/global_txt_white"
-                        android:textSize="48sp" />
+                        android:textSize="48sp"/>
 
                 </LinearLayout>
 
@@ -131,7 +131,7 @@
                     android:layout_marginTop="-3dp"
                     android:text="信用额度"
                     android:textColor="@color/global_txt_white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
 
                 <RelativeLayout
@@ -148,7 +148,7 @@
                         android:gravity="center"
                         android:text="8888 8888 8888 8888"
                         android:textColor="@color/global_txt_white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"/>
 
 
                     <TextView
@@ -162,7 +162,7 @@
                         android:paddingLeft="12dp"
                         android:text="认证0/0"
                         android:textColor="@color/global_txt_black5"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
 
                 </RelativeLayout>
 
@@ -177,25 +177,25 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:inAnimation="@anim/push_up_in"
-                android:outAnimation="@anim/push_up_out" />
+                android:outAnimation="@anim/push_up_out"/>
 
             <!--未登录或者未下单-->
             <include
                 android:id="@+id/ll_not_order"
                 layout="@layout/layout_not_order"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <!--已经下单等待中-->
             <include
                 android:id="@+id/ll_order"
                 layout="@layout/layout_order"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <!--已经借到钱了，还钱中-->
             <include
                 android:id="@+id/ll_repay"
                 layout="@layout/layout_repay"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
         </LinearLayout>
 

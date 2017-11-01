@@ -3,6 +3,7 @@ package com.tianshen.cash.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.base.MyApplicationLike;
 
 /**
  * Created by Administrator on 2017/8/1.
@@ -52,4 +54,75 @@ public class StatusBarUtil {
         }
         return statusBarHeight;
     }
+
+    /**
+     * 设置状态栏为白色 或者渐变色  只有本项目可用
+     *
+     * @param activity
+     * @param isWhite
+     */
+    public static void setStatusBarWhiteOrGradient(Activity activity, boolean isWhite) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = activity.getWindow();
+            View baseView = activity.findViewById(R.id.base_layout);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (isWhite) {
+                if (baseView != null) {
+                    baseView.setBackgroundColor(Color.WHITE);
+                }
+            } else {
+                if (baseView != null) {
+                    baseView.setBackgroundResource(R.drawable.navigation_bg);
+                }
+            }
+            if (MyApplicationLike.isMIUI) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            } else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            }
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //底部导航栏
+            //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+        }
+        //适配miui
+        if (MyApplicationLike.isMIUI) {
+            RomUtils.setStatusBarDarkMode(isWhite, activity);
+        } else if (RomUtils.FlymeSetStatusBarLightMode(activity.getWindow(), true)) { //适配Flyme4.0以上
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                setStatusBarWhite(activity);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //设置6.0以上字体颜色为深色
+            if (isWhite) {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+            }
+        }
+    }
+
+
+    public static void setStatusBarBgWhite(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(activity.getResources().getColor(R.color.global_bg_white));
+            //底部导航栏
+            //window.setNavigationBarColor(activity.getResources().getColor(colorResId));
+        }
+        //适配miui
+        if (MyApplicationLike.isMIUI) {
+            RomUtils.setStatusBarDarkMode(true, activity);
+        } else if (RomUtils.FlymeSetStatusBarLightMode(activity.getWindow(), true)) { //适配Flyme4.0以上
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                StatusBarUtil.setStatusBarWhite(activity);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //设置6.0以上字体颜色为深色
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
 }

@@ -10,6 +10,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 public class ImageLoader {
 
@@ -45,11 +48,17 @@ public class ImageLoader {
         Glide.with(context).load(imageRes).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(view);
     }
 
-    public static void load(Context context, String imageUrl, ImageView view) {
+    public static void load(Context context, String imageUrl, final ImageView view) {
         if (TextUtils.isEmpty(imageUrl)) {
             return;
         }
-        Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(view);
+
+        Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                view.setImageDrawable(resource);
+            }
+        });
     }
 
     public static void load(Context context, String imageUrl, @DrawableRes int placeholder, ImageView iv) {

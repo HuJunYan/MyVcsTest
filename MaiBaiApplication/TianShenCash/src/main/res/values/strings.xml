@@ -31,8 +31,9 @@
     <string name="pay_protocol">《快捷支付协议》</string>
     <string name="confirm_protocol_all_text">同意《借款协议》《居间服务协议》</string>
     <string name="confirm_protocol_all_text2">同意《借款协议》《居间服务协议》《人行征信查询授权书》</string>
+
     <string name="bind_card_confirm_text">我已阅读并同意《平安银行网络借贷资金三方存管协议》</string>
-    <string name="confirm_protocol_tips">借款到账后,平台将收取手续费用</string>
+    <string name="confirm_protocol_tips">借款到账后,平台将收取综合费用</string>
 
     <string name="tipsmouth">Open your mouth and close.</string>
     <string name="tipblink">Do blink with your eyes.</string>
@@ -96,6 +97,11 @@
     <string name="text_repay_tips_normal_tip2">2.还款前如果是他人先转账给你,请在确认转账到账至少10分钟再进行还款操作。</string>
     <string name="text_repay_tips_normal_tip3">3.单日点击还款按钮次数不要超过3次！</string>
     <string name="text_repay_tips_normal_tip4">4.按时主动还款好处多,请尽量避免逾期还款。</string>
-    <string name="text_popu_money">元手续费。\n借款后请按时还款，逾期不还的用户将依法报送全国人民征信系统，不良的信用记录将影响您未来的其他贷款（如房贷和车贷）、个人求职、境外旅游等。</string>
+
+    <string name="text_popu_money">元综合费用。\n借款后请按时还款，逾期不还的用户将依法报送全国人民征信系统，不良的信用记录将影响您未来的其他贷款（如房贷和车贷）、个人求职、境外旅游等。</string>
+
+    <string name="text_no_loan_history">暂无借款记录</string>
+    <string name="no_student_home">不得向学生借款</string>
+
 
 </resources>

@@ -85,6 +85,9 @@
     <color name="global_line_bg">#e0e0e0</color>
 
     <color name="home_tian_shen_card_yellow">#fee900</color>
+
+    <color name="home_money">#FE9900</color>
+
     <!--邀请好友字体颜色-->
     <color name="invite_friends_text_color">#9C6832</color>
     <color name="invite_friends_red_package_color">#FE0000</color>
@@ -93,9 +96,13 @@
     <color name="edit_text_baseline_color">#E0E0E0</color>
     <color name="edit_text_hint_color">#969696</color>
     <color name="argument_color">#888888</color>
-    <color name="global_popular_color">#878ff3</color>
+    <color name="global_popular_color">#FF4442</color>
     <color name="dialog_item_line_color">#EEEEEE</color>
 
     <color name="main_bottom_line_color">#cccccc</color>
+    <color name="orange_shape_end_color">#ffb352</color>
+
+    <color name="me_weixin_color">#5a92e7</color>
+    <color name="auth_bank_texthint_color">#C9C6C0</color>
 
 </resources>

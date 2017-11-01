@@ -56,7 +56,7 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="期限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元期期限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元限7天,手续费用10.5元申请借款500元,期限7天,手续费用10.5元"
+            android:text="期限7天,综合费用10.5元申请借款500元,期限7天,综合费用10.5元期期限7天,综合费用10.5元申请借款500元,期限7天,综合费用10.5元限7天,综合费用10.5元申请借款500元,期限7天,综合费用10.5元"
             android:textColor="@color/global_txt_black5"
             android:textSize="11dp" />
 

@@ -1,8 +1,6 @@
 package com.tianshen.cash.fragment;
 
 import android.Manifest;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -89,9 +86,11 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneUtils;
+import com.tianshen.cash.utils.StatusBarUtil;
 import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -109,7 +108,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -137,26 +135,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView tvHomeTianshenCardNum;
     @BindView(R.id.tv_home_tianshen_card_renzheng)
     TextView tvHomeTianshenCardRenzheng;
-    @BindView(R.id.tv_loan_num_key)
-    TextView tvLoanNumKey;
-    @BindView(R.id.tv_loan_num_value)
-    TextView tvLoanNumValue;
-    @BindView(R.id.iv_procedures_home)
-    ImageView ivProceduresHome;
-    @BindView(R.id.tv_procedures_value)
-    TextView tvProceduresValue;
-    @BindView(R.id.tv_procedures_key)
-    TextView tvProceduresKey;
     @BindView(R.id.tv_loan_day_key)
     TextView tvLoanDayKey;
     @BindView(R.id.tv_loan_day_value)
     TextView tvLoanDayValue;
-    @BindView(R.id.iv_loan_day_arrow)
-    ImageView ivLoanDayArrow;
     @BindView(R.id.ll_home_top)
     LinearLayout llHomeTop;
-    @BindView(R.id.rl_loan_day)
-    RelativeLayout rlLoanDay;
+    @BindView(R.id.ll_loan_day)
+    LinearLayout ll_loan_day;
     @BindView(R.id.rl_home_tianshen_card)
     RelativeLayout rlHomeTianshenCard;
     @BindView(R.id.tv_home_apply)
@@ -234,6 +220,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.iv_home_msg)
     ImageView iv_home_msg;
+
+    @BindView(R.id.tv_home_money)
+    TextView tv_home_money;
+
+    @BindView(R.id.tv_home_get_money)
+    TextView tv_home_get_money;
 
     private OrderStatusAdapter mOrderStatusAdapter;
 
@@ -324,10 +316,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void setListensers() {
         rlHomeTianshenCard.setOnClickListener(this);
-        rlLoanDay.setOnClickListener(this);
+        ll_loan_day.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
         tv_goto_repay.setOnClickListener(this);
-        ivProceduresHome.setOnClickListener(this);
+//        ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
         iv_home_market.setOnClickListener(this);
@@ -336,6 +328,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         minMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        StatusBarUtil.setStatusBarWhiteOrGradient(getActivity(), true);
+    }
 
     @Override
     public void onClick(View view) {
@@ -350,7 +347,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
                 gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
                 break;
-            case R.id.rl_loan_day: //点击了期限选择
+            case R.id.ll_loan_day: //点击了期限选择
                 showSelectLoanDayDialog();
                 break;
             case R.id.tv_home_apply: //点击了立即申请
@@ -362,9 +359,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
                 break;
-            case R.id.iv_procedures_home: //点击了借款提示
-                ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
-                break;
+//            case R.id.iv_procedures_home: //点击了借款提示
+//                ToastUtil.showToast(mContext, "本界面显示的费率及期限仅供参考，最终的借款金额、借款费率和期限，会根据您提交的资料是否真实以及综合信用评估结果来确定。");
+//                break;
             case R.id.iv_danger_money: //点击了逾期提示
             case R.id.iv_normal_money: //点击了逾期提示
                 showDangerTipsDialog();
@@ -530,6 +527,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onNext(List<ContactsBean> value) {
                 if (value.size() == 0) {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_14);
                     String is_need_contacts = mUserConfig.getData().getIs_need_contacts();
                     if ("0".equals(is_need_contacts)) {//不强制上传联系人
                         gotoConfirmBaseMoneyActivity();
@@ -537,6 +535,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         ToastUtil.showToast(mContext, "请您设置打开通信录读取");
                     }
                 } else {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_15);
                     uploadContacts(value);
                 }
             }
@@ -568,6 +567,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             mSaveContactsAction.saveContacts(json, tvHomeApply, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
+                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_16);
                     gotoConfirmBaseMoneyActivity();
                 }
 
@@ -608,6 +608,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     mSelWithdrawalsBean = selWithdrawalsBean;
                     parserLoanDayData();
                     showNoPayUI();
+                    refreshCardUI();
                     refreshLoanDayUI();
                     refreshBubbleSeekBarUI();
                     refreshLoanNumUI(minMaxSb.getMinMaxSeekBarCurrentProgress());
@@ -1066,32 +1067,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }, 350);
     }
 
-    /**
-     * 金额移动动画
-     */
-    private void moveSeekBarThumbMoney(int progress) {
-        String s = String.format(Locale.CHINA, "%d", progress);
-        tv_home_max_sb_thumb.setText(s);
-        float val;
-        if (minMaxSb.getMax() == 0) {  //当服务器返回的min = max 的时候  getmax = 0  会导致下面的计算出错
-            val = 0;
-        } else {
-            val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
-        }
-        float offset = minMaxSb.getThumbOffset();
-        float newX = val + offset;
-        if (minMaxSb.getProgress() == minMaxSb.getMax() && minMaxSb.getMax() != 0) {
-            newX -= density * 10;
-        }
-        LogUtil.d("abcd", "val = " + val);
-        LogUtil.d("abcd", "offset = " + offset);
-        ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
-        ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(x, y);
-        animatorSet.setDuration(0);
-        animatorSet.start();
-    }
+//    /**
+//     * 金额移动动画
+//     */
+//    private void moveSeekBarThumbMoney(int progress) {
+//        String s = String.format(Locale.CHINA, "%d", progress);
+//        tv_home_max_sb_thumb.setText(s);
+//        float val;
+//        if (minMaxSb.getMax() == 0) {  //当服务器返回的min = max 的时候  getmax = 0  会导致下面的计算出错
+//            val = 0;
+//        } else {
+//            val = (((float) minMaxSb.getProgress() * (float) (minMaxSb.getWidth() - 2 * minMaxSb.getThumbOffset())) / minMaxSb.getMax());
+//        }
+//        float offset = minMaxSb.getThumbOffset();
+//        float newX = val + offset;
+//        if (minMaxSb.getProgress() == minMaxSb.getMax() && minMaxSb.getMax() != 0) {
+//            newX -= density * 10;
+//        }
+//        LogUtil.d("abcd", "val = " + val);
+//        LogUtil.d("abcd", "offset = " + offset);
+//        ObjectAnimator x = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "x", rl_home_max_sb_thumb.getX(), newX);
+//        ObjectAnimator y = ObjectAnimator.ofFloat(rl_home_max_sb_thumb, "y", rl_home_max_sb_thumb.getY(), rl_home_max_sb_thumb.getY());
+//        AnimatorSet animatorSet = new AnimatorSet();
+//        animatorSet.playTogether(x, y);
+//        animatorSet.setDuration(0);
+//        animatorSet.start();
+//    }
 
     /**
      * 刷新右上角的消息
@@ -1101,7 +1102,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(count)) {
             msgCount = Integer.parseInt(count);
         }
-        Drawable drawable ;
+        Drawable drawable;
         if (msgCount > 0) {
             drawable = mContext.getResources().getDrawable(R.drawable.ic_message_home_new);
         } else {
@@ -1114,34 +1115,42 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 刷新天神卡
      */
     private void refreshCardUI() {
-        //设置天神卡号
-        String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
-        String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
-        tvHomeTianshenCardNum.setText(cardNum);
-        String cur_credit_step = mUserConfig.getData().getCur_credit_step();
-        String total_credit_step = mUserConfig.getData().getTotal_credit_step();
-        //设置认证步骤
-        tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
-        //设置信用额度
-        try {
-            String max_cash = mUserConfig.getData().getMax_cash();
-            String max_cashY = MoneyUtils.changeF2Y(max_cash);
-            tvHomeUserLimitValue.setText(max_cashY);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (TianShenUserUtil.isLogin(mContext)) {
+            if (mUserConfig == null) {
+                return;
+            }
+            //设置天神卡号
+            String virtual_card_num = mUserConfig.getData().getVirtual_card_num();
+            String cardNum = StringUtil.getTianShenCardNum(virtual_card_num);
+            tvHomeTianshenCardNum.setText(cardNum);
+            String cur_credit_step = mUserConfig.getData().getCur_credit_step();
+            String total_credit_step = mUserConfig.getData().getTotal_credit_step();
+            //设置认证步骤
+            tvHomeTianshenCardRenzheng.setText("认证" + cur_credit_step + "/" + total_credit_step);
+            //设置信用额度
+            try {
+                String max_cash = mUserConfig.getData().getMax_cash();
+                String max_cashY = MoneyUtils.changeF2Y(max_cash);
+                tvHomeUserLimitValue.setText(max_cashY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (mSelWithdrawalsBean == null) {
+                return;
+            }
+            String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
+            tvHomeTianshenCardNum.setText(cardNum);
+            tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 0);
+            tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
+            try {
+                String max_cash = mSelWithdrawalsBean.getMax_cash();
+                String max_cashY = MoneyUtils.changeF2Y(max_cash);
+                tvHomeUserLimitValue.setText(max_cashY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-
-    /**
-     * 重置天神卡UI
-     */
-    private void resetCardUI() {
-        String cardNum = StringUtil.getTianShenCardNum("8888888888888888");
-        tvHomeTianshenCardNum.setText(cardNum);
-        tvHomeTianshenCardRenzheng.setText("认证" + 0 + "/" + 0);
-        tvHomeUserLimitValue.setText("0");
-        tv_home_tianshen_card_can_pay.setVisibility(View.GONE);
     }
 
     /**
@@ -1223,14 +1232,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             tvHomeMaxSb.setText(max_cashInt + "元");
             minMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
             minMaxSb.setCurrentProgress(def_cashInt);
-            //重置金额偏移量
-            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    moveSeekBarThumbMoney(def_cashInt);
-                }
-            });
+
+//            //重置金额偏移量
+//            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    moveSeekBarThumbMoney(def_cashInt);
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -1253,13 +1263,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if ("1".equals(repay_unit)) { //判断是月还是天  1-月，2-天
             tvLoanDayValue.setText(repayTimes + " 月");
         } else {
-            tvLoanDayValue.setText(repayTimes + " 天");
+            tvLoanDayValue.setText(repayTimes);
         }
 
     }
 
     /**
-     * 刷新当前借款的金额，和手续费用
+     * 刷新当前借款的金额，和综合费用
      */
     private void refreshLoanNumUI(int progress) {
 
@@ -1268,9 +1278,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         //设置借款金额
-        String s = String.format(Locale.CHINA, "%d", progress);
-        tvLoanNumValue.setText(s + " 元");
-
+        String currentMoney = MoneyUtils.addTwoPoint(progress);
+        tv_home_money.setText(currentMoney);
+        tv_home_get_money.setText(currentMoney);
 
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
@@ -1283,14 +1293,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 int withdrawalAmountInt = Integer.valueOf(withdrawalAmountY); //申请的金额也就是滑动当前位置的金额
                 if (progress == withdrawalAmountInt) {
                     mCurrentOrderMoney = withdrawalAmount;
-                    String transfer_amount = cashSubItemBean.getTransfer_amount();
-                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
-                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
-                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
-                    String proceduresStr = String.valueOf(procedures);
-                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
+                    break;
+//                    String transfer_amount = cashSubItemBean.getTransfer_amount();
+//                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
+//                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
+//                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
+//                    String proceduresStr = String.valueOf(procedures);
+//                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
                     //设置手续金额
-                    tvProceduresValue.setText(proceduresStrF + " 元");
+//                    tvProceduresValue.setText(proceduresStrF + " 元");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1576,7 +1587,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         for (int i = 0; i < activityBeanData.size(); i++) {
             final ActivityDataBean data = activityBeanData.get(i);
-            String activityType = data.getActivity_type();
+            final String activityType = data.getActivity_type();
             String picUrl = data.getPic_url();
             final String activityId = data.getActivity_id();
             if ("0".equals(activityType)) {//分享活动
@@ -1588,6 +1599,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString(GlobalParams.ACTIVITY_ID, activityId);
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
                         gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1607,7 +1619,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         url += "&type=1";
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_HOME);
-
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1624,7 +1636,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         String url = data.getActivity_url();
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_TYPE, GlobalParams.TYPE_READ);
-
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1634,6 +1646,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
+                MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
                 viewList.add(pageView);
             }
 
@@ -1870,7 +1883,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         @Override
         public void onProgressChanged(float progress) {
             refreshLoanNumUI((int) progress);
-            moveSeekBarThumbMoney((int) progress);
+//            moveSeekBarThumbMoney((int) progress);
         }
 
         @Override
@@ -1927,7 +1940,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         CrashReport.setUserId("unknown");
         initSelWithdrawalsData();
         initStaticsRoll();
-        resetCardUI();
     }
 
     /**
@@ -1937,9 +1949,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void onLoginoutSuccess(LogoutSuccessEvent event) {
         LogUtil.d("abc", "收到了退出登录成功消息--刷新UI");
         CrashReport.setUserId("unknown");
+        refreshMessage("0");
         initSelWithdrawalsData();
         initStaticsRoll();
-        resetCardUI();
     }
 
 

@@ -24,6 +24,7 @@ import com.tianshen.cash.model.InviteFriendsBean;
 import com.tianshen.cash.net.api.InviteFriendsApi;
 import com.tianshen.cash.net.api.UpdateShareCountApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.QRCodeUtils;
 import com.tianshen.cash.utils.TianShenShareUtils;
@@ -162,6 +163,7 @@ public class InviteFriendsActivity extends BaseActivity implements InviteBottomD
                 backActivity();
                 break;
             case R.id.tv_invite_friends_make_money:
+                MaiDianUtil.ding(this,MaiDianUtil.FLAG_25);
                 showShareDialog();
                 break;
         }

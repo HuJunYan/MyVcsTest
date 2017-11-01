@@ -48,7 +48,7 @@
                 style="@style/auth_center_txt_style"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:text="您的姓名" />
+                android:text="您的姓名"/>
 
             <EditText
                 android:id="@+id/et_identity_auth_name"
@@ -59,7 +59,8 @@
                 android:layout_toRightOf="@id/tv_identity_auth_name"
                 android:background="@null"
                 android:hint="上传身份证自动识别姓名"
-                android:textSize="14dp" />
+                android:textColorHint="@color/auth_bank_texthint_color"
+                android:textSize="14dp"/>
 
         </RelativeLayout>
 
@@ -85,6 +86,7 @@
                 android:layout_toRightOf="@id/tv_identity_auth_num"
                 android:background="@null"
                 android:hint="上传身份证自动识别身份证号"
+                android:textColorHint="@color/auth_bank_texthint_color"
                 android:textSize="14dp" />
 
         </RelativeLayout>
@@ -161,7 +163,7 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="人脸识别" />
+                    android:text="人脸识别"/>
 
                 <ImageView
                     android:id="@+id/iv_identity_auth_face"
@@ -170,7 +172,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_identity_auth_face_key"
-                    android:src="@drawable/ic_identity_auth_face" />
+                    android:src="@drawable/ic_identity_auth_face"/>
 
             </RelativeLayout>
         </LinearLayout>

@@ -3,6 +3,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'walle'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.antfortune.freeline'
 
 android {
 
@@ -13,8 +14,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 245
-        versionName "2.4.5"
+        versionCode 246
+        versionName "2.4.6"
         resConfigs "zh", "en"
         // dex突破65535的限制
         multiDexEnabled true

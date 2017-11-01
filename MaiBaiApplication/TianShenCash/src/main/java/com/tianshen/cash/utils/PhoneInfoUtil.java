@@ -2,10 +2,7 @@ package com.tianshen.cash.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,7 +11,6 @@ import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -88,18 +84,6 @@ public class PhoneInfoUtil {
         return appNameLists;
     }
 
-    /**
-     * 获取设备id
-     *
-     * @param context 需要权限 Manifest.permission.READ_PHONE_STATE  动态申请
-     * @return
-     */
-    public static String getDevice_id(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = telephonyManager.getDeviceId();
-        return deviceId;
-    }
-
     static Context activity;
 
     /**
@@ -109,10 +93,6 @@ public class PhoneInfoUtil {
      * @return
      */
     private static List<SmsInfoBean> getSmsList(Activity activity, String lastDate) {
-//        PhoneInfoUtil.activity = activity;
-        //通过loader 读取短信  这种方式需要异步回调 未添加
-//        activity.getLoaderManager().initLoader(0, null, new SmsCallBack());
-        //通过内容解析者获取短信
         return getSmsListFromResolver(activity, lastDate);
     }
 
@@ -307,65 +287,6 @@ public class PhoneInfoUtil {
         return "WIFI".equals(strNetworkType);
     }
 
-    private static class SmsCallBack implements LoaderManager.LoaderCallbacks<Cursor> {
-        private final String[] SMS_PROJECTION = {
-                "_id", "address", "person",
-                "body", "date", "type"
-        };
-
-        @Override
-        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            CursorLoader cursorLoader = new CursorLoader(activity, Uri.parse(SMS_URI_ALL)
-                    , SMS_PROJECTION,
-                    null,
-                    null, null
-            );
-            return cursorLoader;
-        }
-
-        @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-            List<SmsInfoBean> smsList = new ArrayList<>();
-            if (data != null && !data.isClosed() && data.getCount() > 0) {
-                if (data.moveToFirst()) {
-                    int nameColumn = data.getColumnIndex("person");
-                    int phoneNumberColumn = data.getColumnIndex("address");
-                    int smsbodyColumn = data.getColumnIndex("body");
-                    int dateColumn = data.getColumnIndex("date");
-                    int typeColumn = data.getColumnIndex("type");
-                    SmsInfoBean smsinfoBean;
-                    do {
-                        String name = data.getString(nameColumn);
-                        String phoneNumber = data.getString(phoneNumberColumn);
-                        String smsbody = data.getString(smsbodyColumn);
-                        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                                "yyyy-MM-dd HH:mm:ss");
-                        Date d = new Date(Long.parseLong(data.getString(dateColumn)));
-                        String date = dateFormat.format(d);
-                        String type;
-                        int typeId = data.getInt(typeColumn);
-                        if (typeId == 1) {
-                            type = "接收";
-                        } else if (typeId == 2) {
-                            type = "发送";
-                        } else {
-                            type = "";
-                        }
-//                        smsinfoBean = new SmsInfoBean(name, type, phoneNumber, smsbody, date);
-//                        smsList.add(smsinfoBean);
-                    } while (data.moveToNext());
-                }
-                data.close();
-            }
-
-        }
-
-        @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
-
-        }
-    }
-
     /**
      * 获取 用户已安装的app 的 json数组
      *
@@ -377,8 +298,6 @@ public class PhoneInfoUtil {
             @Override
             public void onSubscribe(Disposable d) {
                 String loadText = activity.getResources().getText(MemoryAddressUtils.loading()).toString();
-                // TODO 此处应该显示dialog  暂时不显示
-                //ViewUtil.createLoadingDialog(activity,loadText,false);
             }
 
             @Override
@@ -418,9 +337,6 @@ public class PhoneInfoUtil {
                     getCall_listObservable(activity, lastDate).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JSONArray>() {
                         @Override
                         public void onSubscribe(Disposable d) {
-                            String loadText = activity.getResources().getText(MemoryAddressUtils.loading()).toString();
-                            // TODO 此处应该显示dialog  暂时不显示
-                            //ViewUtil.createLoadingDialog(activity,loadText,false);
                         }
 
                         @Override
@@ -442,20 +358,6 @@ public class PhoneInfoUtil {
 
                         }
                     });
-//                    ArrayList<PhoneRecordBean> phoneRecod = PhoneInfoUtil.getPhoneRecod(activity.getApplicationContext());
-//                    for (int i = 0; i < phoneRecod.size(); i++) {
-//                        JSONObject jsonObject = new JSONObject();
-//                        PhoneRecordBean phoneRecordBean = phoneRecod.get(i);
-//                        jsonObject.put("call_phone_num", phoneRecordBean.number);
-//                        jsonObject.put("call_name", phoneRecordBean.name);
-//                        jsonObject.put("call_time", phoneRecordBean.date);
-//                        if ("-1".equals(phoneRecordBean.duration)) {
-//                            jsonObject.put("call_duration", "0");
-//                        } else {
-//                            jsonObject.put("call_duration", phoneRecordBean.duration);
-//                        }
-//                        jsonArray.put(i, jsonObject);
-//                    }
                 } else {
                     if (callback != null) {
                         callback.sendMessageToRegister(new JSONArray(), GlobalParams.USER_INFO_CALL_LIST);
@@ -484,9 +386,6 @@ public class PhoneInfoUtil {
                             .subscribe(new Observer<JSONArray>() {
                                 @Override
                                 public void onSubscribe(Disposable d) {
-                                    String loadText = activity.getResources().getText(MemoryAddressUtils.loading()).toString();
-                                    // TODO 此处应该显示dialog  暂时不显示
-                                    //ViewUtil.createLoadingDialog(activity,loadText,false);
                                 }
 
                                 @Override
