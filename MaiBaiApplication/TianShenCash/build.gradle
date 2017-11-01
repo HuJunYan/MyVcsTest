@@ -14,8 +14,8 @@ android {
         applicationId "com.tianshen.cash"
         minSdkVersion rootProject.ext.minSdk
         targetSdkVersion rootProject.ext.targetSdk
-        versionCode 246
-        versionName "2.4.6"
+        versionCode 247
+        versionName "2.4.7"
         resConfigs "zh", "en"
         // dex突破65535的限制
         multiDexEnabled true
