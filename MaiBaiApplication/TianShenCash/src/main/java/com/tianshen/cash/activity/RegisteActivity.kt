@@ -86,11 +86,14 @@ class RegisteActivity : BaseActivity() {
             return
         }
         try {
-            var deviceId = ""
+            var deviceId = "null"
             val jsonObject = JSONObject()
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 val TelephonyMgr = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 deviceId = TelephonyMgr.deviceId
+            }
+            if (TextUtils.isEmpty(deviceId)) {
+                deviceId = "null"
             }
             jsonObject.put("device_id", deviceId)
             val signUp = SignUp(mContext);
