@@ -3,7 +3,6 @@ package com.tianshen.cash.activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.telephony.TelephonyManager
@@ -16,7 +15,6 @@ import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.WindowManager
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
@@ -28,7 +26,6 @@ import com.tianshen.cash.net.api.SignUp
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.RegexUtil
-import com.tianshen.cash.utils.RomUtils
 import com.tianshen.cash.utils.ToastUtil
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_registe2.*
@@ -89,11 +86,13 @@ class RegisteActivity : BaseActivity() {
             return
         }
         try {
+            var deviceId = ""
             val jsonObject = JSONObject()
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 val TelephonyMgr = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                jsonObject.put("device_id", TelephonyMgr.deviceId)
+                deviceId = TelephonyMgr.deviceId
             }
+            jsonObject.put("device_id", deviceId)
             val signUp = SignUp(mContext);
             jsonObject.put("mobile", et_phone_number.text.trim())
             jsonObject.put("password", et_login_pwd.text.trim())
