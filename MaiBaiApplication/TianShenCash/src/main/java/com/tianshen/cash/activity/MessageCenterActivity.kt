@@ -157,14 +157,14 @@ class MessageCenterActivity : BaseActivity() {
                     msg.msg_status = "1"
                     mAdapter?.notifyDataSetChanged()
 
-                    //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面)
+                    //"msg_type":"0",//0活动类型(原生页面),1活动类型(H5页面),2阅读类型(H5页面),3用户不能点击
                     when (msg.msg_type) {
                         "0" -> {
                             val bundle = Bundle()
                             bundle.putString(GlobalParams.ACTIVITY_ID, msg.activity_id)
                             gotoActivity(mContext, InviteFriendsActivity::class.java, bundle)
                         }
-                        else -> {
+                        "1", "2" -> {
                             val bundle = Bundle()
                             bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_MESSAGE)
                             bundle.putSerializable(GlobalParams.WEB_MSG_DATA_KEY, msg)
