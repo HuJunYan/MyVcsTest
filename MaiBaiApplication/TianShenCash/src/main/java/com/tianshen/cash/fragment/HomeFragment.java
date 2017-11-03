@@ -1646,7 +1646,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 View pageView = mLayoutInflater.inflate(R.layout.dialog_banner_invite_friends, null);
                 ImageView iv_dialog_banner_invite_friends = (ImageView) pageView.findViewById(R.id.iv_dialog_banner_invite_friends);
                 ImageLoader.load(mContext.getApplicationContext(), picUrl, iv_dialog_banner_invite_friends);
-                MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                    }
+                });
+
                 viewList.add(pageView);
             }
 
