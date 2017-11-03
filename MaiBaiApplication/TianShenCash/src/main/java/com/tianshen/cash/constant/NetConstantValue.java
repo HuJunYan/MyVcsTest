@@ -622,9 +622,33 @@ public class NetConstantValue {
     }
 
     /**
+<<<<<<< HEAD
+     * 得到判断绑定了"向上"银行卡的地址
+     *
+     * @return
+     */
+    public static String getIsXiangShangURL() {
+        return COMMONURI + "BindBank/IsXiangShang";
+    }
+
+    /**
+     * 获取绑定向上资金端验证码
+     *
+     * @return
+     */
+    public static String getBindXiangShangVerifyCodeURL() {
+        return COMMONURI + "BindBank/bindVerifyXsSms";
+    }
+
+    public static String getSubmitXiangShangBindInfoURL() {
+        return COMMONURI + "BindBank/bindConfirmXiangShang";
+    }
+
+    /**
      * 得到埋点的地址
      */
     public static String getMaiDianURL() {
         return COMMONURI + "BuriedPoint/buriedPoint";
+
     }
 }

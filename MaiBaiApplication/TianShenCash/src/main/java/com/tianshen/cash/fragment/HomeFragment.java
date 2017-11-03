@@ -32,6 +32,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
@@ -68,7 +69,9 @@ import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
+import com.tianshen.cash.model.XiangShangDataBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
+import com.tianshen.cash.net.api.CheckIsXiangShang;
 import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
@@ -414,16 +417,45 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUserRepayId(mContext, id);
         TianShenUserUtil.saveUserConsumeAmount(mContext, mCurrentOrderMoney);
 
-        if (cur_credit_step.equals(total_credit_step)) {//认证完毕直接跳转到确认借款页面
-            mQuotaCount = 0;
-            getContacts();
-//            uploadContacts();
+        if (cur_credit_step.equals(total_credit_step)) {//认证完毕检查是否绑定了"向上"银行卡
+            checkIsBindXiangShang();
         } else {//没有认证完毕跳转到认证中心页面
             Bundle applyBundle = new Bundle();
             applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
             gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
         }
 
+    }
+
+    /**
+     * 检查是否绑定了"向上"银行卡
+     */
+    private void checkIsBindXiangShang() {
+        CheckIsXiangShang mCheckIsXiangShang = new CheckIsXiangShang(mContext);
+        JSONObject json = new JSONObject();
+        try {
+            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+            mCheckIsXiangShang.check(json, new BaseNetCallBack<XiangShangDataBean>() {
+                @Override
+                public void onSuccess(XiangShangDataBean bean) {
+                    String isOK = bean.getData().getIs_xiangshang();
+                    if ("1".endsWith(isOK)) {//(1:是;0:否)
+                        mQuotaCount = 0;
+                        getContacts();
+                    } else {
+                        gotoActivity(mContext, BindBankCardConfirmActivity.class, null);
+                    }
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        }
     }
 
     /**

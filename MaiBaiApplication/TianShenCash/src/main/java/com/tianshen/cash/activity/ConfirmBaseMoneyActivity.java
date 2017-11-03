@@ -223,7 +223,7 @@ public class ConfirmBaseMoneyActivity extends BaseActivity implements View.OnCli
             case tv_confirm_apply:
                 //1.弹窗信息
                 showMoneyPopu(mPoundageY);
-                 MaiDianUtil.ding(this,MaiDianUtil.FLAG_18);
+                MaiDianUtil.ding(this,MaiDianUtil.FLAG_18);
                 break;
         }
     }
