@@ -317,6 +317,9 @@
             android:name=".activity.BindBankCardConfirmActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AuthCenterMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.RiskPreAuthIdentityActivity"
             android:screenOrientation="portrait" />
         <activity

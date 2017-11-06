@@ -32,6 +32,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterActivity;
+import com.tianshen.cash.activity.AuthCenterMenuActivity;
 import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
@@ -343,9 +344,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.rl_home_tianshen_card: //点击了天神卡
-                Bundle cardBundle = new Bundle();
-                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
-                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
+//                Bundle cardBundle = new Bundle();
+//                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
+//                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
+                gotoAuthCenterMenuActivity();
                 break;
             case R.id.ll_loan_day: //点击了期限选择
                 showSelectLoanDayDialog();
@@ -420,9 +422,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕检查是否绑定了"向上"银行卡
             checkIsBindXiangShang();
         } else {//没有认证完毕跳转到认证中心页面
-            Bundle applyBundle = new Bundle();
-            applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
-            gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
+//            Bundle applyBundle = new Bundle();
+//            applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
+//            gotoActivity(mContext, AuthCenterActivity.class, applyBundle);
+            gotoAuthCenterMenuActivity();
         }
 
     }
@@ -1879,6 +1882,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     private void gotoConfirmMoneyActivity() {
         gotoActivity(mContext, ConfirmMoneyActivity.class, null);
+    }
+
+    /**
+     * 跳转到认证中心菜单页面
+     */
+    private void gotoAuthCenterMenuActivity() {
+        gotoActivity(mContext, AuthCenterMenuActivity.class, null);
     }
 
     /**
