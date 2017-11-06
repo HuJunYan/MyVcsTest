@@ -103,5 +103,11 @@
     <string name="text_no_loan_history">暂无借款记录</string>
     <string name="no_student_home">不得向学生借款</string>
 
-
+    <string name="title_risk_pre_auth_identity">身份认证</string>
+    <string name="text_risk_pre_top_tips">公安部联网认证,请务必上传本人有效二代身份证</string>
+    <string name="text_risk_pre_identity_front">身份证人像面</string>
+    <string name="text_risk_pre_identity_back">身份证国徽面</string>
+    <string name="text_risk_pre_real_name">真实姓名</string>
+    <string name="text_risk_pre_id_number">身份证号</string>
+    <string name="text_risk_pre_bottom_tips">请确保识别出的身份信息与身份证一致</string>
 </resources>
