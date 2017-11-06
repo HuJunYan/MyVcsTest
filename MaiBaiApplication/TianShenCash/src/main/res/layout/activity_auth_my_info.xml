@@ -1,0 +1,381 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/global_bg_gray"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/global_bg_white">
+
+        <TextView
+            android:id="@+id/tv_auth_info_back"
+            style="@style/title_back_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/title_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人信息" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_auth_info_post"
+            style="@style/auth_center_title_post_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_global_line" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_marry_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="婚姻状态" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_marry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_marry_key"
+                    android:hint="请选择您的婚姻状态"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_educational_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="最高学历" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_educational"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_educational_key"
+                    android:hint="请选择您的最高学历"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/global_bg_white">
+
+                <View style="@style/split_line_style" />
+
+
+                <TextView
+                    android:textSize="@dimen/sp_12"
+                    android:text="请填写真实有效的信息"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_home_address_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="个人信息" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_auth_info_home_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/global_txt_black4"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_home_address_key"
+                    android:hint="省--市--区"
+                    android:textColorHint="@color/auth_bank_texthint_color"
+                    android:textSize="14dp" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+
+                <TextView
+                    android:text="收款银行卡"
+                    android:id="@+id/tv_auth_info_address_empty"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp" />
+
+
+
+
+
+
+               <EditText
+                    android:id="@+id/et_auth_info_address_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_address_empty"
+                    android:background="@null"
+                    android:textColorHint="@color/auth_bank_texthint_color"
+                    android:maxLength="120"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/global_bg_white">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_work_name"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="单位名称" />
+
+                <EditText
+                    android:id="@+id/et_auth_info_work_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_work_name"
+                    android:background="@null"
+                    android:hint="请输入您的单位名称"
+                    android:textColorHint="@color/auth_bank_texthint_color"
+                    android:maxLength="100"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_auth_info_position"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="职&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位" />
+
+                <EditText
+                    android:id="@+id/ev_auth_info_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_position"
+                    android:background="@null"
+                    android:hint="请输入您的职位信息"
+                    android:maxLength="100"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_occupation_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="职业身份" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_occupation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_occupation_key"
+                    android:hint="请选择您的职业身份"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white"
+                android:visibility="gone">
+
+                <View style="@style/split_line_style" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_income_key"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="月均收入" />
+
+                <TextView
+                    android:id="@+id/tv_auth_info_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_income_key"
+                    android:hint="请选择您的月均收入"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/ic_arraw_right2" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_auth_info_work_num"
+                    style="@style/auth_center_txt_style"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="单位电话" />
+
+                <EditText
+                    android:id="@+id/et_auth_info_work_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/tv_auth_info_work_num"
+                    android:background="@null"
+                    android:hint="请输入您的单位电话"
+                    android:textColorHint="@color/auth_bank_texthint_color"
+                    android:inputType="phone"
+                    android:maxLength="12"
+                    android:textSize="14dp" />
+
+            </RelativeLayout>
+
+
+
+
+            <View style="@style/split_line_style" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
