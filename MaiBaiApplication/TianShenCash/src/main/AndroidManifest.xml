@@ -319,6 +319,9 @@
         <activity
             android:name=".activity.RiskPreAuthIdentityActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AuthMyInfoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
