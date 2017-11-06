@@ -327,6 +327,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.AuthPersonInfoActivity">
         </activity>
+        <activity android:name=".activity.AuthCreditSesameActivity">
+        </activity>
     </application>
 
 </manifest>
