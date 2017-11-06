@@ -6,20 +6,19 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 
 /**
- * 个人信息认证
+ * 绑定收款银行卡界面
  */
-public class AuthPersonInfoActivity extends BaseActivity {
-
-
+public class AuthBlankActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_auth_blank);
     }
 
     @Override
     protected int setContentView() {
-        return R.layout.activity_auth_person_info;
+        return 0;
     }
 
     @Override
@@ -31,6 +30,4 @@ public class AuthPersonInfoActivity extends BaseActivity {
     protected void setListensers() {
 
     }
-
-
 }

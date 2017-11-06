@@ -13,19 +13,19 @@
             android:id="@+id/tv_auth_info_back"
             style="@style/title_back_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             style="@style/title_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="个人信息" />
+            android:text="个人信息"/>
 
         <TextView
             android:id="@+id/tv_auth_info_post"
             style="@style/auth_center_title_post_txt_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 

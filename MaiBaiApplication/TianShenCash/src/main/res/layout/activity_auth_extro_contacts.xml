@@ -38,14 +38,14 @@
         android:layout_marginTop="12dp"
         android:background="@color/global_bg_white">
 
-        <View style="@style/split_line_style" />
+        <View style="@style/split_line_style"/>
 
         <TextView
             android:id="@+id/tv_auth_nexus1_key"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="与我关系" />
+            android:text="与我关系"/>
 
         <RelativeLayout
             android:id="@+id/rl_auth_nexus1"
@@ -61,7 +61,7 @@
                 android:layout_centerVertical="true"
                 android:text="父母"
                 android:textColor="@color/global_txt_black4"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_arrow_down" />
+                android:src="@drawable/ic_arrow_down"/>
         </RelativeLayout>
 
     </RelativeLayout>

@@ -329,6 +329,8 @@
         </activity>
         <activity android:name=".activity.AuthCreditSesameActivity">
         </activity>
+        <activity android:name=".activity.AuthBlankActivity">
+        </activity>
     </application>
 
 </manifest>
