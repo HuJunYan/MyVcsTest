@@ -5,7 +5,7 @@ import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.AuthCenterMenuBean
-import com.tianshen.cash.net.api.AuthCenterMenu
+import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
@@ -44,7 +44,7 @@ class AuthCenterMenuActivity : BaseActivity() {
         val jsonObject = JSONObject()
         val userId = TianShenUserUtil.getUserId(mContext)
         jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        val authCenterMenu = AuthCenterMenu(mContext)
+        val authCenterMenu = AuthCenterMenuService(mContext)
         authCenterMenu.getData(jsonObject, object : BaseNetCallBack<AuthCenterMenuBean> {
 
             override fun onSuccess(data: AuthCenterMenuBean?) {

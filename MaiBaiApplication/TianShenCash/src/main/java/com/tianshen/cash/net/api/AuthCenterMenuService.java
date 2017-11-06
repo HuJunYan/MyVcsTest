@@ -18,13 +18,13 @@ import org.json.JSONObject;
  * Created by sbyh on 16/7/4.
  */
 
-public class AuthCenterMenu extends NetBase {
+public class AuthCenterMenuService extends NetBase {
     private boolean isRelease = false;
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;
 
-    public AuthCenterMenu(Context context) {
+    public AuthCenterMenuService(Context context) {
         super(context);
         mContext = context;
         mUrl = NetConstantValue.getAuthCenterMenuURL();
