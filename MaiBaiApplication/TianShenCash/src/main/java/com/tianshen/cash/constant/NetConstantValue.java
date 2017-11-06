@@ -651,4 +651,13 @@ public class NetConstantValue {
         return COMMONURI + "BuriedPoint/buriedPoint";
 
     }
+
+    /**
+     * 得到认证中心菜单页面URL
+     */
+    public static String getAuthCenterMenuURL() {
+        return COMMONURI + "UserCenter/authCenterMenu";
+
+    }
+
 }
