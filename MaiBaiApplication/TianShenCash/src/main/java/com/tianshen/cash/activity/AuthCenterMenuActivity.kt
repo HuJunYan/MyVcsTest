@@ -37,7 +37,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testOtherLoanService()
+        initData()
     }
 
     private fun initData() {
@@ -52,67 +52,6 @@ class AuthCenterMenuActivity : BaseActivity() {
                 LogUtil.d("abc", "one--->" + data?.data?.auth_id_num)
                 LogUtil.d("abc", "two--->" + data?.data?.auth_person_info)
                 LogUtil.d("abc", "two--->" + data?.data?.auth_credit)
-
-            }
-
-            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
-
-            }
-
-        })
-    }
-
-    private fun testCustomerInfo() {
-        val jsonObject = JSONObject()
-        val userId = TianShenUserUtil.getUserId(mContext)
-        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        val customerInfo = CustomerInfoService(mContext)
-        customerInfo.getData(jsonObject, object : BaseNetCallBack<ConstantBean> {
-
-            override fun onSuccess(data: ConstantBean?) {
-                LogUtil.d("abc", "onSuccess--->" + data?.code)
-                LogUtil.d("abc", "user_address_city--->" + data?.data?.user_address_city)
-                LogUtil.d("abc", "company_name--->" + data?.data?.company_name)
-
-            }
-
-            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
-
-            }
-
-        })
-    }
-
-    private fun testGetCashAmount() {
-        val jsonObject = JSONObject()
-        val userId = TianShenUserUtil.getUserId(mContext)
-        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        val getCashAmountService = GetCashAmountService(mContext)
-        getCashAmountService.getData(jsonObject, object : BaseNetCallBack<CashAmountBean> {
-
-            override fun onSuccess(data: CashAmountBean?) {
-                LogUtil.d("abc", "onSuccess--->" + data?.code)
-                LogUtil.d("abc", "cash_amount--->" + data?.data?.cash_amount)
-                LogUtil.d("abc", "cash_amount_status--->" + data?.data?.cash_amount_status)
-                LogUtil.d("abc", "joke_url--->" + data?.data?.joke_url)
-
-            }
-
-            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
-
-            }
-
-        })
-    }
-    private fun testOtherLoanService() {
-        val jsonObject = JSONObject()
-        val userId = TianShenUserUtil.getUserId(mContext)
-        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        jsonObject.put("withdrawal_amount", "100000")
-        val otherLoanService = OtherLoanService(mContext)
-        otherLoanService.postData(jsonObject, object : BaseNetCallBack<PostDataBean> {
-
-            override fun onSuccess(data: PostDataBean?) {
 
             }
 
