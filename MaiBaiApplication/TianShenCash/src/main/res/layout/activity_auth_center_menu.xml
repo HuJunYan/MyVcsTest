@@ -78,6 +78,7 @@
                 android:orientation="horizontal">
 
                 <RelativeLayout
+                    android:id="@+id/rl_identity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -124,6 +125,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_person_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -177,6 +179,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_credit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -232,6 +235,7 @@
                 android:layout_height="300dp" />
 
             <TextView
+                android:id="@+id/tv_goto_auth"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginLeft="15dp"
