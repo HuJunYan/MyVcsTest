@@ -649,7 +649,6 @@ public class NetConstantValue {
      */
     public static String getMaiDianURL() {
         return COMMONURI + "BuriedPoint/buriedPoint";
-
     }
 
     /**
@@ -657,7 +656,6 @@ public class NetConstantValue {
      */
     public static String getAuthCenterMenuURL() {
         return COMMONURI + "UserCenter/authCenterMenu";
-
     }
 
     /**
@@ -665,7 +663,13 @@ public class NetConstantValue {
      */
     public static String getOtherLoanURL() {
         return COMMONURI + "UserCenter/getOtherLoan";
+    }
 
+    /**
+     * 得到其他借款方式(提交申请)URL
+     */
+    public static String otherLoanURL() {
+        return COMMONURI + "UserCenter/otherLoan";
     }
 
 }

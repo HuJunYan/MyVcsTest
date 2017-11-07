@@ -4,14 +4,8 @@ import android.os.Bundle
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
-import com.tianshen.cash.model.AuthCenterMenuBean
-import com.tianshen.cash.model.CashAmountBean
-import com.tianshen.cash.model.ConstantBean
-import com.tianshen.cash.model.OtherLoanBean
-import com.tianshen.cash.net.api.AuthCenterMenuService
-import com.tianshen.cash.net.api.CustomerInfoService
-import com.tianshen.cash.net.api.GetCashAmountService
-import com.tianshen.cash.net.api.GetOtherLoanService
+import com.tianshen.cash.model.*
+import com.tianshen.cash.net.api.*
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
@@ -43,7 +37,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testGetOtherLoanService()
+        testOtherLoanService()
     }
 
     private fun initData() {
@@ -110,19 +104,15 @@ class AuthCenterMenuActivity : BaseActivity() {
 
         })
     }
-
-    private fun testGetOtherLoanService() {
+    private fun testOtherLoanService() {
         val jsonObject = JSONObject()
         val userId = TianShenUserUtil.getUserId(mContext)
         jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
-        val getOtherLoanService = GetOtherLoanService(mContext)
-        getOtherLoanService.getData(jsonObject, object : BaseNetCallBack<OtherLoanBean> {
+        jsonObject.put("withdrawal_amount", "100000")
+        val otherLoanService = OtherLoanService(mContext)
+        otherLoanService.postData(jsonObject, object : BaseNetCallBack<PostDataBean> {
 
-            override fun onSuccess(data: OtherLoanBean?) {
-                LogUtil.d("abc", "onSuccess--->" + data?.code)
-                LogUtil.d("abc", "max_cash--->" + data?.data?.max_cash)
-                LogUtil.d("abc", "min_cash--->" + data?.data?.min_cash)
-                LogUtil.d("abc", "[0]-withdrawal_amount--->" + data?.data?.cash_data?.get(0)?.withdrawal_amount)
+            override fun onSuccess(data: PostDataBean?) {
 
             }
 
@@ -132,6 +122,5 @@ class AuthCenterMenuActivity : BaseActivity() {
 
         })
     }
-
 
 }
