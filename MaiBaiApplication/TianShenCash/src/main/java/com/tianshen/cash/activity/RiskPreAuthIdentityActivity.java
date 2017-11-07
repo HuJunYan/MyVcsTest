@@ -57,18 +57,13 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     @BindView(R.id.iv_scan_identity_back) //身份证反面
             ImageView iv_scan_identity_back;
     private boolean mCanScanFace;
-    private boolean mHasIdentityInfo; //服务器已经保存了身份证信息
-    private byte[] mHeadImg;
-    private String is_auth_idcard;
     private IdNumInfoBean mIdNumInfoBean;
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，
 
-    private boolean mBackImageSaveSuccess; //身份证 正面图片上传成功
-    private boolean mFrontImageSaveSuccess; //身份证 反面图片上传成功
     private IDCardBean mIDCardBean;
     private final int IMAGE_TYPE_ID_CARD_FRONT = 20; //上传图片 type  身份证正面
     private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
-    private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
+    private boolean isSaveFrontImageSuccess; //身份证正面信息是否ok
 
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
@@ -86,6 +81,8 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             }
         }
     };
+    private String is_auth_idcard;
+    private byte[] mHeadImg;
 
 
     @Override
@@ -122,11 +119,11 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 requestPermissionsToNextActivity(R.id.iv_scan_identity_back);
                 break;
             case R.id.tv_risk_pre_commit:// 点击了提交 判断前往扫脸
-                if (mHasIdentityInfo) {//服务器已经有了身份证信息 直接跳转
-                    gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
-                    return;
-                }
-                if (mCanScanFace && mBackImageSaveSuccess && mFrontImageSaveSuccess) { //正反面 都已经扫描完毕
+//                if (mHasIdentityInfo) {//服务器已经有了身份证信息 直接跳转
+//                    gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
+//                    return;
+//                }
+                if (mCanScanFace) { //正反面 都已经扫描完毕
                     initSaveIDCardFront(); //保存正面信息
                     return;
                 } else {
@@ -196,7 +193,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 //        ImageLoader.load(getApplicationContext(), face_url, ivIdentityAuthFace);
 
         if (!TextUtils.isEmpty(front_idCard_url) && !TextUtils.isEmpty(back_idCard_url)) {
-            mHasIdentityInfo = true;
+            mCanScanFace = true;
         }
         TianShenUserUtil.saveUserName(mContext, real_name);
         TianShenUserUtil.saveUserIDNum(mContext, id_num);
@@ -246,7 +243,11 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      */
     private void onClickIdentityBack() {
         mIsClickPosition = 1;
-        idCardNetWorkWarranty();
+        if (isSaveFrontImageSuccess) {
+            idCardNetWorkWarranty();
+        } else {
+            ToastUtil.showToast(mContext, "先上传身份证正面");
+        }
     }
 
     /**
@@ -331,7 +332,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     private void upLoadImage(final byte[] imageByte) {
 
         String userID = TianShenUserUtil.getUserId(mContext);
-
+        LogUtil.d("wangchen", "mIsClickPosition = " + mIsClickPosition);
         String path = "";
         String type = "";
         switch (mIsClickPosition) {
@@ -342,8 +343,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             case 1:
                 type = IMAGE_TYPE_ID_CARD_BACK + "";
                 path = mImageFullPath[1];
-                break;
-            case 2:
                 break;
         }
 
@@ -357,18 +356,15 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
-                    LogUtil.d("abc", "upLoadImage--onSuccess");
-                    mHasIdentityInfo = false; //用户修改了信息
+                    LogUtil.d("wangchen", "upLoadImage--onSuccess mIsClickPosition = " + mIsClickPosition);
                     switch (mIsClickPosition) {
                         case 0:
                             setImageSource(imageByte);
                             getIdcardFrontInfo(imageByte);
-                            mFrontImageSaveSuccess = true;
                             break;
                         case 1:
                             setImageSource(imageByte);
                             getIdcardBackInfo(imageByte);
-                            mBackImageSaveSuccess = true;
                             break;
                     }
                 }
@@ -387,6 +383,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 得到身份证反面信息
      */
     private void getIdcardBackInfo(byte[] data) {
+        LogUtil.d("wangchen", "getIdcardBackInfo exe");
         ViewUtil.createLoadingDialog(this, "", false);
 
 
@@ -398,9 +395,17 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             @Override
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
-                if (mIDCardBean != null && paramT != null) {
-                    mIDCardBean.issued_by = paramT.issued_by;
-                    mIDCardBean.valid_date = paramT.valid_date;
+                mCanScanFace = true;
+
+                if (paramT != null) {
+                    if (mIdNumInfoBean == null) {
+                        mIdNumInfoBean = new IdNumInfoBean();
+                        mIdNumInfoBean.setData(new IdNumInfoBean.Data());
+                    }
+                    //设置身份证反面信息
+                    mIdNumInfoBean.getData().setValid_period(paramT.valid_date);
+                    mIdNumInfoBean.getData().setSign_organ(paramT.issued_by);
+                    LogUtil.d("wangchen", "设置身份证反面信息 success");
 //                    initSaveIDCardBack();
                     MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 }
@@ -409,6 +414,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
+                LogUtil.d("wangchen", "设置身份证反面信息 failure");
                 MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 ViewUtil.cancelLoadingDialog();
             }
@@ -419,9 +425,9 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 保存身份证反面信息到云端
      */
     private void initSaveIDCardBack() {
-
-        String sign_organ = mIDCardBean.issued_by; //身份证签发机关
-        String valid_date = mIDCardBean.valid_date; //身份证有效期限
+        IdNumInfoBean.Data data = mIdNumInfoBean.getData();
+        String sign_organ = data.getSign_organ(); //身份证签发机关
+        String valid_date = data.getValid_period(); //身份证有效期限
 
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
@@ -439,9 +445,8 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (0 == code) {
-                    mCanScanFace = true;
                     ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
-                    gotoActivity(mContext,RiskPreScanFaceActivity.class,null);
+                    gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
                 }
             }
 
@@ -484,11 +489,13 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             public void onSuccess(IDCardBean paramT) {
                 ViewUtil.cancelLoadingDialog();
                 mIDCardBean = paramT;
+                setIdBeanData();
                 MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 if (mIDCardBean.id_card_number.length() != 18) {
                     MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
+                isSaveFrontImageSuccess = true;
                 refreshNameAndNumUI();
 //                initSaveIDCardFront();
             }
@@ -501,6 +508,30 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 ViewUtil.cancelLoadingDialog();
             }
         });
+    }
+
+    //扫描完身份证正面信息 获取到以后  设置在bean中
+    private void setIdBeanData() {
+        if (mIDCardBean != null) {
+            if (mIdNumInfoBean == null) {
+                mIdNumInfoBean = new IdNumInfoBean();
+                mIdNumInfoBean.setData(new IdNumInfoBean.Data());
+            }
+            IdNumInfoBean.Data data = mIdNumInfoBean.getData();
+            data.setReal_name(mIDCardBean.name);
+            data.setGender(mIDCardBean.gender);
+            data.setNation(mIDCardBean.race);
+
+            IDCardBean.Birthday birthdayBean = mIDCardBean.birthday;
+            String year = birthdayBean.year;
+            String month = birthdayBean.month;
+            String day = birthdayBean.day;
+            data.setBirthday(year + "年" + month + "月" + day + "日");
+            data.setBirthplace(mIDCardBean.address);
+            data.setId_num(mIDCardBean.id_card_number);
+//            mIDCardBean.issued_by = paramT.issued_by;
+//            mIDCardBean.valid_date = paramT.valid_date;
+        }
     }
 
     /**
@@ -523,18 +554,18 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 保存身份证正面信息到云端
      */
     private void initSaveIDCardFront() {
+        IdNumInfoBean.Data data = mIdNumInfoBean.getData();
+        if (data == null) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
+        final String real_name = data.getReal_name(); //身份证姓名
+        String gender = data.getGender(); // 身份证性别
+        String nation = data.getNation(); // 民族
 
-
-        final String real_name = mIDCardBean.name; //身份证姓名
-        String gender = mIDCardBean.gender; // 身份证性别
-        String nation = mIDCardBean.race; // 民族
-        IDCardBean.Birthday birthdayBean = mIDCardBean.birthday;
-        String year = birthdayBean.year;
-        String month = birthdayBean.month;
-        String day = birthdayBean.day;
-        String birthday = year + "年" + month + "月" + day + "日"; //出生日期
-        String birthplace = mIDCardBean.address; //住址
-        final String id_num = mIDCardBean.id_card_number; // 身份证号
+        String birthday = data.getBirthday(); //出生日期
+        String birthplace = data.getBirthplace(); //住址
+        final String id_num = data.getId_num(); // 身份证号
 
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);

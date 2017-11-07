@@ -30,7 +30,7 @@ public class IdNumInfoBean {
         this.data = data;
     }
 
-    public class Data {
+    public static class Data {
 
         private String real_name;
         private String id_num;
