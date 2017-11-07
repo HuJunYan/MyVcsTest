@@ -1,8 +1,11 @@
 package com.tianshen.cash.utils;
 
+import android.content.Context;
 import android.os.Environment;
-import android.provider.MediaStore;
 
+import com.umeng.analytics.MobclickAgent;
+
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -181,6 +184,58 @@ public class FileUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 身份认证扫脸 身份证保存图片
+     * @param mContext
+     * @param data
+     * @param type
+     * @return
+     */
+    public static String authIdentitySaveJPGFile(Context mContext, byte[] data, int type) {
+        if (data == null)
+            return null;
+        File mediaStorageDir = mContext.getExternalFilesDir("idCardAndLiveness");
+        if (null == mediaStorageDir) {
+            return null;
+        }
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        try {
+            String jpgFileName = type + ".jpg";
+            fos = new FileOutputStream(mediaStorageDir + "/" + jpgFileName);
+            bos = new BufferedOutputStream(fos);
+            bos.write(data);
+            return mediaStorageDir.getAbsolutePath() + "/" + jpgFileName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    MobclickAgent.reportError(mContext, LogUtil.getException(e1));
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    MobclickAgent.reportError(mContext, LogUtil.getException(e1));
+                }
+            }
+        }
+        return null;
     }
 
 }

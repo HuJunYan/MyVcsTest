@@ -1,12 +1,10 @@
 package com.tianshen.cash.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +31,7 @@ import com.tianshen.cash.net.api.SaveIDCardBack;
 import com.tianshen.cash.net.api.SaveIDCardFront;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MaiDianUtil;
@@ -45,11 +44,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -76,8 +70,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     private static final int MSG_IDCARD_NETWORK_WARRANTY_OK = 1; //face++身份证联网授权成功
     private static final int MSG_IDCARD_NETWORK_WARRANTY_ERROR = 2;//face++身份证联网授权失败
-    private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
-    private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
 
     private String[] mImageFullPath = new String[7];
     private Handler mHandler = new Handler() {
@@ -88,14 +80,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                     break;
                 case MSG_IDCARD_NETWORK_WARRANTY_ERROR:
                     ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
-                    break;
-                case MSG_IDCARD_NETWORK_FACE_OK:
-                    ViewUtil.cancelLoadingDialog();
-                    gotoFaceAddAddActivity();
-                    break;
-                case MSG_IDCARD_NETWORK_FACE_ERROR:
-                    ToastUtil.showToast(mContext, "联网授权失败，请重新认证");
-                    ViewUtil.cancelLoadingDialog();
                     break;
             }
         }
@@ -123,7 +107,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_risk_pre_back, R.id.iv_scan_identity_front, R.id.iv_scan_identity_back})
+    @OnClick({R.id.tv_risk_pre_back, R.id.iv_scan_identity_front, R.id.iv_scan_identity_back,R.id.tv_risk_pre_commit})
     public void back(View view) {
         switch (view.getId()) {
             case R.id.tv_risk_pre_back:
@@ -134,6 +118,12 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 break;
             case R.id.iv_scan_identity_back://身份证反面
                 requestPermissionsToNextActivity(R.id.iv_scan_identity_back);
+                break;
+            case R.id.tv_risk_pre_commit:// 点击了提交 判断前往扫脸
+                if (!mCanScanFace){
+                    return;
+                }
+
                 break;
         }
     }
@@ -312,13 +302,13 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 case GlobalParams.INTO_IDCARDSCAN_FRONT_PAGE:
                     LogUtil.d("abc", "onActivityResult--身份证正面");
                     byte[] frontImg = data.getByteArrayExtra("idcardImg");
-                    mImageFullPath[0] = saveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
+                    mImageFullPath[0] = FileUtils.authIdentitySaveJPGFile(mContext, frontImg, IMAGE_TYPE_ID_CARD_FRONT);
                     upLoadImage(frontImg);
                     break;
                 case GlobalParams.INTO_IDCARDSCAN_BACK_PAGE:
                     LogUtil.d("abc", "onActivityResult--身份证反面");
                     byte[] backImg = data.getByteArrayExtra("idcardImg");
-                    mImageFullPath[1] = saveJPGFile(mContext, backImg, IMAGE_TYPE_ID_CARD_BACK);
+                    mImageFullPath[1] = FileUtils.authIdentitySaveJPGFile(mContext, backImg, IMAGE_TYPE_ID_CARD_BACK);
                     upLoadImage(backImg);
                     break;
 
@@ -575,57 +565,13 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     }
 
-    public static String saveJPGFile(Context mContext, byte[] data, int type) {
-        if (data == null)
-            return null;
-        File mediaStorageDir = mContext.getExternalFilesDir("idCardAndLiveness");
-        if (null == mediaStorageDir) {
-            return null;
-        }
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null;
-            }
-        }
 
-        BufferedOutputStream bos = null;
-        FileOutputStream fos = null;
-        try {
-            String jpgFileName = type + ".jpg";
-            fos = new FileOutputStream(mediaStorageDir + "/" + jpgFileName);
-            bos = new BufferedOutputStream(fos);
-            bos.write(data);
-            return mediaStorageDir.getAbsolutePath() + "/" + jpgFileName;
-        } catch (Exception e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-        } finally {
-            if (bos != null) {
-                try {
-                    bos.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                    MobclickAgent.reportError(mContext, LogUtil.getException(e1));
-                }
-            }
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                    MobclickAgent.reportError(mContext, LogUtil.getException(e1));
-                }
-            }
-        }
-        return null;
-    }
     //检查是否是魅族Flyme系统 如果是 则判断是否有相机权限 不是则不判断
 
     private boolean checkPermissionForFlyme() {
-        boolean isFlyme = RomUtils.FlymeSetStatusBarLightMode(); //是否是魅族
         boolean isReallyHasPermission;
-        if (isFlyme) {
-            if (isCameraCanUse()) {
+        if (MyApplicationLike.isFlyMe) {
+            if (RomUtils.isCameraCanUse()) {
                 isReallyHasPermission = true;
             } else {
                 isReallyHasPermission = false;
@@ -637,23 +583,5 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     }
 
-    //针对魅族Flyme系统判断是否有相机权限
-    public boolean isCameraCanUse() {
-        boolean canUse = true;
-        Camera mCamera = null;
-        try {
-            mCamera = Camera.open();
-            // setParameters 是针对魅族MX5 做的。MX5 通过Camera.open() 拿到的Camera
-            // 对象不为null
-            Camera.Parameters mParameters = mCamera.getParameters();
-            mCamera.setParameters(mParameters);
-        } catch (Exception e) {
-            canUse = false;
-        }
-        if (mCamera != null) {
-            mCamera.release();
-        }
-        return canUse;
-    }
 
 }

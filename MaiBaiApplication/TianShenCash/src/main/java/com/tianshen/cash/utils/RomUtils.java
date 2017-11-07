@@ -1,6 +1,7 @@
 package com.tianshen.cash.utils;
 
 import android.app.Activity;
+import android.hardware.Camera;
 import android.os.Environment;
 import android.view.Window;
 import android.view.WindowManager;
@@ -131,5 +132,25 @@ public class RomUtils {
             return true;
         }
         return false;
+    }
+
+
+    //针对魅族Flyme系统判断是否有相机权限
+    public static boolean isCameraCanUse() {
+        boolean canUse = true;
+        Camera mCamera = null;
+        try {
+            mCamera = Camera.open();
+            // setParameters 是针对魅族MX5 做的。MX5 通过Camera.open() 拿到的Camera
+            // 对象不为null
+            Camera.Parameters mParameters = mCamera.getParameters();
+            mCamera.setParameters(mParameters);
+        } catch (Exception e) {
+            canUse = false;
+        }
+        if (mCamera != null) {
+            mCamera.release();
+        }
+        return canUse;
     }
 }

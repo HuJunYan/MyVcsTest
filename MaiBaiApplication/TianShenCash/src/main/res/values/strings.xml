@@ -110,6 +110,7 @@
     <string name="text_risk_pre_real_name">真实姓名</string>
     <string name="text_risk_pre_id_number">身份证号</string>
     <string name="text_risk_pre_bottom_tips">请确保识别出的身份信息与身份证一致</string>
+    <string name="text_risk_pre_commit">提交</string>
 
     <string name="title_risk_pre_face_title">人脸识别</string>
 </resources>

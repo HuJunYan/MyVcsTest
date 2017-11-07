@@ -29,6 +29,7 @@ public class MyApplicationLike extends MultiDexApplication {
     private static MyApplicationLike sApplication;
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<>();
     public static boolean isMIUI;
+    public static boolean isFlyMe;
 
     @Override
     public void onTerminate() {
@@ -50,6 +51,7 @@ public class MyApplicationLike extends MultiDexApplication {
         //初始化bugly
         CrashReport.initCrashReport(sApplication, "64c5b81f2f", false);
         isMIUI = RomUtils.isMIUI();
+        isFlyMe = RomUtils.FlymeSetStatusBarLightMode();
         //魔蝎淘宝认证
         MoxieSDK.init(this);
     }
