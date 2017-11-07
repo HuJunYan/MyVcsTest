@@ -1,6 +1,6 @@
 package com.tianshen.cash.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ConstantBean {
 
@@ -45,6 +45,16 @@ public class ConstantBean {
         private String company_address_city;
         private String company_address_county;
         private String company_address_detail;
+
+        private List<ExtroContactBean> extroContacts;
+
+        public List<ExtroContactBean> getExtroContacts() {
+            return extroContacts;
+        }
+
+        public void setExtroContacts(List<ExtroContactBean> extroContacts) {
+            this.extroContacts = extroContacts;
+        }
 
 //        private ArrayList<String> marital_status_conf;  婚姻状态选项
 //        private ArrayList<String> educational_background_conf; 学历选项
