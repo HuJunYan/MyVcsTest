@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -37,7 +36,6 @@ import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.FileUtils;
-import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.RomUtils;
@@ -56,13 +54,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 public class RiskPreScanFaceActivity extends BaseActivity {
-    @BindView(R.id.iv_risk_pre_face)
-    ImageView iv_risk_pre_face;
 
     private String is_auth_idcard;
     private IdNumInfoBean mIdNumInfoBean;
@@ -172,7 +167,7 @@ public class RiskPreScanFaceActivity extends BaseActivity {
         }
         String face_url = mIdNumInfoBean.getData().getFace_url();
 
-        ImageLoader.load(getApplicationContext(), face_url, iv_risk_pre_face);
+//        ImageLoader.load(getApplicationContext(), face_url, iv_risk_pre_face);
 
 
     }
@@ -328,7 +323,7 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
                     LogUtil.d("abc", "upLoadLivenessImage---onSuccess");
-                    ImageLoader.load(getApplicationContext(), facePath, iv_risk_pre_face);
+//                    ImageLoader.load(getApplicationContext(), facePath, iv_risk_pre_face);
                     compareImage(delta, map);
                 }
 
