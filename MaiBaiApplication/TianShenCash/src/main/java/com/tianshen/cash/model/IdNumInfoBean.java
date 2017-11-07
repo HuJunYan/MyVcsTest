@@ -34,11 +34,73 @@ public class IdNumInfoBean {
 
         private String real_name;
         private String id_num;
+        private String gender;
+        private String nation;
+        private String birthday;
+        private String birthplace;
+        private String sign_organ;
+        private String valid_period;
         private String front_idCard_url;
         private String back_idCard_url;
         private String face_url;
         private String face_change_key;
         public int change_type; //1 face++ 2 udun
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
+            this.gender = gender;
+        }
+
+        public String getNation() {
+            return nation;
+        }
+
+        public void setNation(String nation) {
+            this.nation = nation;
+        }
+
+        public String getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(String birthday) {
+            this.birthday = birthday;
+        }
+
+        public String getBirthplace() {
+            return birthplace;
+        }
+
+        public void setBirthplace(String birthplace) {
+            this.birthplace = birthplace;
+        }
+
+        public String getSign_organ() {
+            return sign_organ;
+        }
+
+        public void setSign_organ(String sign_organ) {
+            this.sign_organ = sign_organ;
+        }
+
+        public String getValid_period() {
+            return valid_period;
+        }
+
+        public void setValid_period(String valid_period) {
+            this.valid_period = valid_period;
+        }
+
+        public int getChange_type() {
+            return change_type;
+        }
+
+        public void setChange_type(int change_type) {
+            this.change_type = change_type;
+        }
 
         public String getFace_change_key() {
             return face_change_key;
