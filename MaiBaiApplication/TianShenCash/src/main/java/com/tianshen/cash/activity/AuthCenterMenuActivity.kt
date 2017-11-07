@@ -7,9 +7,11 @@ import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.model.CashAmountBean
 import com.tianshen.cash.model.ConstantBean
+import com.tianshen.cash.model.OtherLoanBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.api.CustomerInfoService
 import com.tianshen.cash.net.api.GetCashAmountService
+import com.tianshen.cash.net.api.GetOtherLoanService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
@@ -41,7 +43,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testGetCashAmount()
+        testGetOtherLoanService()
     }
 
     private fun initData() {
@@ -99,6 +101,28 @@ class AuthCenterMenuActivity : BaseActivity() {
                 LogUtil.d("abc", "cash_amount--->" + data?.data?.cash_amount)
                 LogUtil.d("abc", "cash_amount_status--->" + data?.data?.cash_amount_status)
                 LogUtil.d("abc", "joke_url--->" + data?.data?.joke_url)
+
+            }
+
+            override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
+
+            }
+
+        })
+    }
+
+    private fun testGetOtherLoanService() {
+        val jsonObject = JSONObject()
+        val userId = TianShenUserUtil.getUserId(mContext)
+        jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
+        val getOtherLoanService = GetOtherLoanService(mContext)
+        getOtherLoanService.getData(jsonObject, object : BaseNetCallBack<OtherLoanBean> {
+
+            override fun onSuccess(data: OtherLoanBean?) {
+                LogUtil.d("abc", "onSuccess--->" + data?.code)
+                LogUtil.d("abc", "max_cash--->" + data?.data?.max_cash)
+                LogUtil.d("abc", "min_cash--->" + data?.data?.min_cash)
+                LogUtil.d("abc", "[0]-withdrawal_amount--->" + data?.data?.cash_data?.get(0)?.withdrawal_amount)
 
             }
 

@@ -622,7 +622,7 @@ public class NetConstantValue {
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * 得到判断绑定了"向上"银行卡的地址
      *
      * @return
@@ -657,6 +657,14 @@ public class NetConstantValue {
      */
     public static String getAuthCenterMenuURL() {
         return COMMONURI + "UserCenter/authCenterMenu";
+
+    }
+
+    /**
+     * 得到其他借款方式URL
+     */
+    public static String getOtherLoanURL() {
+        return COMMONURI + "UserCenter/getOtherLoan";
 
     }
 
