@@ -22,12 +22,14 @@ import com.tianshen.cash.utils.ToastUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.tianshen.cash.R.id.tv_auth_info_back;
+
 /**
  * 个人信息、信用认证入口view
  */
 public class AuthMyInfoActivity extends BaseActivity {
 
-    @BindView(R.id.tv_auth_info_back)
+    @BindView(tv_auth_info_back)
     TextView mTvAuthInfoBack;
     @BindView(R.id.tv_auth_info_post)
     TextView mTvAuthInfoPost;
@@ -71,7 +73,7 @@ public class AuthMyInfoActivity extends BaseActivity {
     public static final String  PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String  CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String  ACTIVITY_FLAG = "TYEP";
-    private  String TYPE ;
+    private  String type ="1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,8 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-//        showView(TYPE);
+//        type = getIntent().getExtras().getString(ACTIVITY_FLAG);
+        showView("1");
     }
 
     @Override
@@ -117,11 +120,15 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_auth_one, R.id.rl_auth_two, R.id.rl_auth_three})
+    @OnClick({tv_auth_info_back,R.id.rl_auth_one, R.id.rl_auth_two, R.id.rl_auth_three})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
+            case R.id.tv_auth_info_back:
+                finish();
+                break;
             case R.id.rl_auth_one:
-                if ("1".equals(TYPE)) {
+                if ("1".equals(type)) {
                     startActivity(new Intent(this, AuthPersonInfoActivity.class));
                 } else {
                     gotoChinaMobileActivity("", "手机认证");
@@ -129,7 +136,7 @@ public class AuthMyInfoActivity extends BaseActivity {
 
                 break;
             case R.id.rl_auth_two:
-                if ("1".equals(TYPE)) {
+                if ("1".equals(type)) {
                     //第一步认证过才可以认证第二步
                     startActivity(new Intent(this, AuthBlankActivity.class));
                 } else {

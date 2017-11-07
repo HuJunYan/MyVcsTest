@@ -1,5 +1,7 @@
 package com.tianshen.cash.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -16,16 +19,30 @@ import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetCounty;
 import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.MemoryAddressUtils;
+import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.ViewUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 个人信息认证界面
@@ -125,10 +142,18 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private ArrayList<String> mCountyData;
     private boolean mIsClickHome;
     private ArrayList<String> mNexus = new ArrayList<>();
+    private boolean isGetContactsing;//当前是否正在获取联系人
+    private MaterialDialog materialDialog;
+    private List<HashMap<String, String>> mContacts;
+    private int mContactsPoistion;
+    private ArrayList<String> mContactsDialogDada;
+    private boolean mIsClickContacts1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initDialogData();
     }
 
     @Override
@@ -147,9 +172,14 @@ public class AuthPersonInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_auth_info_home_address, R.id.tv_auth_info_work_address, R.id.iv_auth_contact_down, R.id.iv_auth_contacts1, R.id.iv_auth_contact_down2, R.id.iv_auth_contacts2, R.id.tv_auth_info_post})
+    @OnClick({R.id.tv_auth_info_back,R.id.tv_auth_info_home_address, R.id.tv_auth_info_work_address, R.id.iv_auth_contact_down, R.id.iv_auth_contacts1, R.id.iv_auth_contact_down2, R.id.iv_auth_contacts2, R.id.tv_auth_info_post})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
+            case R.id.tv_auth_info_back:
+                finish();
+
+                break;
             case R.id.tv_auth_info_home_address:
                 //常住地址
                 mIsClickHome=true;
@@ -160,12 +190,18 @@ public class AuthPersonInfoActivity extends BaseActivity {
                 initProvinceData();
                 break;
             case R.id.iv_auth_contact_down:
+                showExtroDialog(0);
                 break;
             case R.id.iv_auth_contacts1:
+                mIsClickContacts1 = true;
+                getContacts();
                 break;
             case R.id.iv_auth_contact_down2:
+                showExtroDialog(1);
                 break;
             case R.id.iv_auth_contacts2:
+                mIsClickContacts1 = false;
+                getContacts();
                 break;
             case R.id.tv_auth_info_post:
                 break;
@@ -407,6 +443,9 @@ public class AuthPersonInfoActivity extends BaseActivity {
         if (clickPosition == 0) {
             mNexus1.add(mNexus.get(0));
             mNexus1.add(mNexus.get(1));
+            mNexus1.add(mNexus.get(2));
+            mNexus1.add(mNexus.get(3));
+            mNexus1.add(mNexus.get(4));
         }
         new MaterialDialog.Builder(mContext)
                 .title("与我关系")
@@ -427,6 +466,137 @@ public class AuthPersonInfoActivity extends BaseActivity {
             mTvAuthNexus2.setText(mNexus.get(selectPosition));
         }
     }
+
+    /**
+     * 显示选择联系人的dialog
+     */
+    private void showContactsDialog() {
+
+        if (mContactsDialogDada.size() == 0) {
+            ToastUtil.showToast(mContext, "没有查找到联系人");
+            return;
+        }
+        if (!isFinishing()) {
+            materialDialog = new MaterialDialog.Builder(mContext)
+                    .title("选择联系人")
+                    .items(mContactsDialogDada)
+                    .itemsCallback(new MaterialDialog.ListCallback() {
+                        @Override
+                        public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                            mContactsPoistion = position;
+                            refreshContactUI();
+                        }
+                    }).show();
+        }
+    }
+
+    /**
+     * 得到联系人信息
+     */
+    private void getContacts() {
+
+        //判断当前是否执行任务
+        if (isGetContactsing) {
+            return;
+        }
+        //判断当前是否显示dialog
+        if (materialDialog != null && materialDialog.isShowing()) {
+            return;
+        }
+
+
+        RxPermissions rxPermissions = new RxPermissions(AuthPersonInfoActivity.this);
+        rxPermissions.request(Manifest.permission.READ_CONTACTS).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+
+                getObservable()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map(new Function<List<HashMap<String, String>>, ArrayList<String>>() {
+                            @Override
+                            public ArrayList<String> apply(List<HashMap<String, String>> contacts) throws Exception {
+                                mContacts = new ArrayList<HashMap<String, String>>();
+                                ArrayList<String> contactsDialogDada = new ArrayList<>();
+                                for (int i = 0; i < contacts.size(); i++) {
+                                    HashMap<String, String> contactMap = contacts.get(i);
+                                    String name = contactMap.get("name");
+                                    String phone = contactMap.get("phone");
+                                    if (phone == null || phone.length() != 11) {
+                                        continue;
+                                    }
+                                    mContacts.add(contactMap);
+                                    contactsDialogDada.add(name + "-" + phone);
+                                }
+                                return contactsDialogDada;
+                            }
+                        })
+                        .subscribe(getObserver());
+            }
+        });
+    }
+
+    private Observable<List<HashMap<String, String>>> getObservable() {
+        return Observable.create(new ObservableOnSubscribe<List<HashMap<String, String>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<HashMap<String, String>>> e) throws Exception {
+                if (!e.isDisposed()) {
+                    List<HashMap<String, String>> contacts = PhoneUtils.getAllContactInfo(mContext);
+                    e.onNext(contacts);
+                    e.onComplete();
+                }
+            }
+        });
+    }
+
+    private Observer<ArrayList<String>> getObserver() {
+        return new Observer<ArrayList<String>>() {
+            //任务执行之前
+            @Override
+            public void onSubscribe(Disposable d) {
+                isGetContactsing = true;
+                String loadText = mContext.getResources().getText(MemoryAddressUtils.loading()).toString();
+                ViewUtil.createLoadingDialog((Activity) mContext, loadText, false);
+            }
+
+            //任务执行之后
+            @Override
+            public void onNext(ArrayList<String> value) {
+                mContactsDialogDada = value;
+                isGetContactsing = false;
+            }
+
+            //任务执行完毕
+            @Override
+            public void onComplete() {
+                ViewUtil.cancelLoadingDialog();
+                showContactsDialog();
+                isGetContactsing = false;
+            }
+
+            //任务异常
+            @Override
+            public void onError(Throwable e) {
+                ViewUtil.cancelLoadingDialog();
+                isGetContactsing = false;
+            }
+
+        };
+    }
+
+    private void refreshContactUI() {
+        HashMap<String, String> hashMap = mContacts.get(mContactsPoistion);
+        String name = hashMap.get("name");
+        String phone = hashMap.get("phone");
+        if (mIsClickContacts1) {
+            mEtAuthNexusName1.setText(name);
+            mEtAuthNexusPhone.setText(phone);
+        } else {
+            mEtAuthNexusName2.setText(name);
+            mEtAuthNexusPhone2.setText(phone);
+        }
+    }
+
     /**
      * 初始化dialog数据
      */
