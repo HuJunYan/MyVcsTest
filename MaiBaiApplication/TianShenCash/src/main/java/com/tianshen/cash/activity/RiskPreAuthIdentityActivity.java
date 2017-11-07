@@ -23,7 +23,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.tv_auth_bank_card_back)
+    @OnClick(R.id.tv_risk_pre_back)
     public void back() {
         backActivity();
     }
