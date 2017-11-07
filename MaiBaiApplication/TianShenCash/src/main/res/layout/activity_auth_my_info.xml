@@ -154,7 +154,7 @@
                 <View style="@style/split_line_style"/>
 
                 <TextView
-                    android:id="@+id/tv_auth_info_home_address_key"
+                    android:id="@+id/tv_auth_info_one"
                     style="@style/auth_center_txt_style"
                     android:layout_alignBottom="@+id/imageView"
                     android:layout_alignParentStart="true"
@@ -162,18 +162,7 @@
                     android:layout_marginStart="14dp"
                     android:text="个人信息"/>
 
-                <TextView
-                    android:id="@+id/tv_auth_info_home_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@id/tv_auth_info_home_address_key"
-                    android:hint="省--市--区"
-                    android:textColor="@color/global_txt_black4"
-                    android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"
-                    android:visibility="gone"/>
+
 
 
                 <ImageView
@@ -215,6 +204,7 @@
 
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/et_auth_info_address_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

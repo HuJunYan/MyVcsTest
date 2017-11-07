@@ -13,12 +13,11 @@ public class AuthBlankActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth_blank);
     }
 
     @Override
     protected int setContentView() {
-        return 0;
+        return R.layout.activity_auth_blank;
     }
 
     @Override

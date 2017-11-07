@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -7,8 +8,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.moxie.client.manager.MoxieCallBack;
+import com.moxie.client.manager.MoxieCallBackData;
+import com.moxie.client.manager.MoxieContext;
+import com.moxie.client.manager.MoxieSDK;
+import com.moxie.client.model.MxParam;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.utils.TianShenUserUtil;
+import com.tianshen.cash.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -17,6 +26,7 @@ import butterknife.OnClick;
  * 个人信息、信用认证入口view
  */
 public class AuthMyInfoActivity extends BaseActivity {
+
     @BindView(R.id.tv_auth_info_back)
     TextView mTvAuthInfoBack;
     @BindView(R.id.tv_auth_info_post)
@@ -33,10 +43,7 @@ public class AuthMyInfoActivity extends BaseActivity {
     ImageView mRedPoint;
     @BindView(R.id.tv_auth_remind1)
     TextView mTvAuthRemind1;
-    @BindView(R.id.tv_auth_info_home_address_key)
-    TextView mTvAuthInfoHomeAddressKey;
-    @BindView(R.id.tv_auth_info_home_address)
-    TextView mTvAuthInfoHomeAddress;
+
     @BindView(R.id.imageView)
     ImageView mImageView;
     @BindView(R.id.tv_auth_info_money)
@@ -51,7 +58,6 @@ public class AuthMyInfoActivity extends BaseActivity {
     ImageView mIvAuthTb;
     @BindView(R.id.tv_auth_info_work_num)
     TextView mTvAuthInfoWorkNum;
-
     @BindView(R.id.title)
     TextView mTitle;
     @BindView(R.id.rl_auth_one)
@@ -60,11 +66,17 @@ public class AuthMyInfoActivity extends BaseActivity {
     RelativeLayout mRlAuthTwo;
     @BindView(R.id.rl_auth_three)
     RelativeLayout mRlAuthThree;
-    private String TYPE = "1";  //当前页面的标识： 1个人信息认证  2信用认证
+    @BindView(R.id.tv_auth_info_one)
+    TextView mTvAuthInfoOne;
+    public static final String  PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
+    public static final String  CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
+    public static final String  ACTIVITY_FLAG = "TYEP";
+    private  String TYPE ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -74,7 +86,7 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-
+//        showView(TYPE);
     }
 
     @Override
@@ -92,14 +104,14 @@ public class AuthMyInfoActivity extends BaseActivity {
             mTitle.setText("个人信息认证");
             mRlAuthExtral.setVisibility(View.GONE);
             mRlAuthThree.setVisibility(View.GONE);
-            mTvAuthInfoHomeAddressKey.setText("个人信息");
+            mTvAuthInfoOne.setText("个人信息");
             mTvAuthInfomoney.setText("收款银行卡");
 
         } else {
             mTitle.setText("信用认证");
             mRlAuthExtral.setVisibility(View.VISIBLE);
             mRlAuthThree.setVisibility(View.VISIBLE);
-            mTvAuthInfoHomeAddressKey.setText("手机运营商");
+            mTvAuthInfoOne.setText("手机运营商");
             mTvAuthInfomoney.setText("芝麻信用");
         }
 
@@ -109,11 +121,84 @@ public class AuthMyInfoActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_auth_one:
+                if ("1".equals(TYPE)) {
+                    startActivity(new Intent(this, AuthPersonInfoActivity.class));
+                } else {
+                    gotoChinaMobileActivity("", "手机认证");
+                }
+
                 break;
             case R.id.rl_auth_two:
+                if ("1".equals(TYPE)) {
+                    //第一步认证过才可以认证第二步
+                    startActivity(new Intent(this, AuthBlankActivity.class));
+                } else {
+                    gotoChinaMobileActivity("", "芝麻信用");
+                }
                 break;
             case R.id.rl_auth_three:
+                //淘宝认证
+                gotoTaoBaoAuth();
                 break;
         }
+    }
+
+    /**
+     * 跳转到运营商认证
+     */
+    private void gotoChinaMobileActivity(String url, String title) {
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, url);
+        bundle.putString(GlobalParams.CHINA_MOBILE_TITLE_KEY, title);
+        gotoActivity(mContext, ChinaMobileActivity.class, bundle);
+    }
+
+    /**
+     * 跳转到淘宝renz
+     */
+    private void gotoTaoBaoAuth() {
+        String userId = TianShenUserUtil.getUserId(mContext);
+        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa";
+
+        MxParam mxParam = new MxParam();
+        mxParam.setUserId(userId);
+        mxParam.setApiKey(apiKey);
+        mxParam.setFunction(MxParam.PARAM_FUNCTION_TAOBAO);
+
+        MoxieSDK.getInstance().start(AuthMyInfoActivity.this, mxParam, new MoxieCallBack() {
+            @Override
+            public boolean callback(MoxieContext moxieContext, MoxieCallBackData moxieCallBackData) {
+                if (moxieCallBackData != null) {
+                    switch (moxieCallBackData.getCode()) {
+                        case MxParam.ResultCode.IMPORTING:
+                            break;
+                        case MxParam.ResultCode.IMPORT_UNSTART:
+                            break;
+                        case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.MOXIE_SERVER_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.USER_INPUT_ERROR:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_FAIL:
+                            ToastUtil.showToast(mContext, "认证失败!");
+                            moxieContext.finish();
+                            break;
+                        case MxParam.ResultCode.IMPORT_SUCCESS:
+                            ToastUtil.showToast(mContext, "认证成功!");
+                            moxieContext.finish();
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
     }
 }

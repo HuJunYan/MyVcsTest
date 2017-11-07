@@ -69,7 +69,7 @@
             android:enabled="true"
             android:process=":remote"/>
 
-        <activity
+       <!-- <activity
             android:name=".activity.NavigationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -78,7 +78,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>-->
+
+        <activity
+            android:name=".activity.AuthMyInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
+
+
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
@@ -322,9 +335,9 @@
         <activity
             android:name=".activity.RiskPreAuthIdentityActivity"
             android:screenOrientation="portrait"/>
-        <activity
+       <!-- <activity
             android:name=".activity.AuthMyInfoActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"/>-->
         <activity android:name=".activity.AuthPersonInfoActivity">
         </activity>
         <activity android:name=".activity.AuthCreditSesameActivity">
