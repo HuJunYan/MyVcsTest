@@ -28,10 +28,14 @@ class AuthCenterMenuActivity : BaseActivity() {
             gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
         }
         tv_person_info.setOnClickListener {
-            gotoActivity(mContext, AuthMyInfoActivity::class.java, null)
+            val bundle = Bundle()
+            bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
+            gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
         }
         tv_credit.setOnClickListener {
-            gotoActivity(mContext, AuthMyInfoActivity::class.java, null)
+            val bundle = Bundle()
+            bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG)
+            gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
         }
     }
 
