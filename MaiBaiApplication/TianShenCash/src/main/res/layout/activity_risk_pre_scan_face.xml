@@ -24,6 +24,8 @@
             android:text="@string/title_risk_pre_face_title" />
     </RelativeLayout>
 
+    <View style="@style/split_line_style" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,18 +34,127 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
+
+            <View style="@style/split_line_style" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_white"
+                android:gravity="center_horizontal"
+                android:paddingBottom="17dp"
+                android:paddingTop="35dp"
+                android:text="@string/text_risk_pre_face_scan"
+                android:textColor="@color/global_txt_black5"
+                android:textSize="14sp" />
+
             <ImageView
-                android:layout_width="wrap_content"
                 android:id="@+id/iv_risk_pre_face"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content" />
+                android:background="@color/global_bg_white"
+                android:paddingBottom="29dp"
+                android:src="@drawable/risk_pre_face_default" />
+
+            <View style="@style/split_line_style" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical|start"
+                android:text="@string/text_risk_pre_face_notice" />
+
+            <View style="@style/split_line_style" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_white"
+                android:paddingBottom="18dp"
+                android:paddingTop="18dp"
+                android:text="@string/text_risk_pre_face_notice_1"
+                android:textColor="@color/global_txt_black4"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_white"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/risk_pre_face_mobile" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/risk_pre_face_light" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/risk_pre_face_clock" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_white"
+                android:orientation="horizontal"
+                android:paddingBottom="18dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/text_risk_pre_face_step_1"
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/text_risk_pre_face_step_2"
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/text_risk_pre_face_step_3"
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <View style="@style/split_line_style" />
+
             <TextView
                 android:id="@+id/tv_risk_pre_start_scan"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginBottom="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/shape_home_button_border"
                 android:gravity="center"
                 android:text="@string/text_risk_pre_face_start_scan"

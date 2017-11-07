@@ -114,4 +114,10 @@
 
     <string name="title_risk_pre_face_title">人脸识别</string>
     <string name="text_risk_pre_face_start_scan">开始检测</string>
+    <string name="text_risk_pre_face_scan">人脸识别扫描</string>
+    <string name="text_risk_pre_face_notice">注意事项</string>
+    <string name="text_risk_pre_face_notice_1">1.请本人亲自完成,将镜头对准您的脸,并按提示做动作。</string>
+    <string name="text_risk_pre_face_step_1">正对手机</string>
+    <string name="text_risk_pre_face_step_2">光线充足</string>
+    <string name="text_risk_pre_face_step_3">放慢动作</string>
 </resources>
