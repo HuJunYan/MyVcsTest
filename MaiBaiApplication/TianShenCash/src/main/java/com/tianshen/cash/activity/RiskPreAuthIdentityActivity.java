@@ -20,6 +20,8 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.FaceScanSuccessEvent;
+import com.tianshen.cash.event.IdcardImageEvent;
 import com.tianshen.cash.idcard.activity.IDCardScanActivity;
 import com.tianshen.cash.idcard.util.Util;
 import com.tianshen.cash.model.IDCardBean;
@@ -35,7 +37,6 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
-import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.RomUtils;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -43,8 +44,12 @@ import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -121,7 +126,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     }
 
     @OnClick({R.id.tv_risk_pre_back, R.id.iv_scan_identity_front, R.id.iv_scan_identity_back, R.id.tv_risk_pre_commit})
-    public void back(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_risk_pre_back:
                 backActivity();
@@ -296,7 +301,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     private void gotoFaceAddAddActivity() {
         switch (mIsClickPosition) {
             case 0: //正面
-                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_6);
                 Intent idCardScanIntent = new Intent(mContext, IDCardScanActivity.class);
                 idCardScanIntent.putExtra("isvertical", true);
                 idCardScanIntent.putExtra("side", 0);
@@ -304,7 +308,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 ToastUtil.showToast(mContext, "请拍摄身份证正面");
                 break;
             case 1://反面
-                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_8);
                 Intent idCardScanBackIntent = new Intent(mContext, IDCardScanActivity.class);
                 idCardScanBackIntent.putExtra("isvertical", true);
                 idCardScanBackIntent.putExtra("side", 1);
@@ -312,6 +315,19 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 ToastUtil.showToast(mContext, "请拍摄身份证反面");
                 break;
         }
+    }
+
+
+    /**
+     * 得到头像的byte[]
+     */
+    private byte[] getHeadImage() {
+        iv_scan_identity_front.setDrawingCacheEnabled(true);//获取bm前执行，否则无法获取
+        Bitmap bitmap = iv_scan_identity_front.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        iv_scan_identity_front.setDrawingCacheEnabled(false);
+        return baos.toByteArray();
     }
 
     @Override
@@ -424,7 +440,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                     mIdNumInfoBean.getData().setSign_organ(paramT.issued_by);
                     LogUtil.d("wangchen", "设置身份证反面信息 success");
 //                    initSaveIDCardBack();
-                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 }
             }
 
@@ -432,7 +447,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
                 LogUtil.d("wangchen", "设置身份证反面信息 failure");
-                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_9, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 ViewUtil.cancelLoadingDialog();
             }
         });
@@ -462,6 +476,8 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (0 == code) {
+                    byte[] headImage = getHeadImage();
+                    EventBus.getDefault().postSticky(new IdcardImageEvent(headImage));
                     ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
                     gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
                 }
@@ -507,9 +523,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 ViewUtil.cancelLoadingDialog();
                 mIDCardBean = paramT;
                 setIdBeanData();
-                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_SUCCESS, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 if (mIDCardBean.id_card_number.length() != 18) {
-                    MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
                 isSaveFrontImageSuccess = true;
@@ -520,7 +534,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
-                MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_7, MaiDianUtil.RESULT_FAILURE, MaiDianUtil.ACTIVITY_RESULT_DEFAULT);
                 backActivity();
                 ViewUtil.cancelLoadingDialog();
             }
@@ -637,6 +650,11 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         }
         return isReallyHasPermission;
 
+    }
+
+    @Subscribe
+    public void onFaceScanSuccessEvent(FaceScanSuccessEvent event) {
+        finish();
     }
 
 
