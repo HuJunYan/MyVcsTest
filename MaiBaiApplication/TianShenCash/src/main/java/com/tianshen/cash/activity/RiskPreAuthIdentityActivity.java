@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
@@ -56,6 +57,19 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             ImageView iv_scan_identity_front;
     @BindView(R.id.iv_scan_identity_back) //身份证反面
             ImageView iv_scan_identity_back;
+    @BindView(R.id.view_placeholder)
+    View view_placeholder; //占位view
+    @BindView(R.id.ll_risk_pre_bottom_tips_layout) //底部提示
+            View ll_risk_pre_bottom_tips_layout;
+    @BindView(R.id.rl_risk_pre_id_num_layout)//身份证号
+            View rl_risk_pre_id_num_layout;
+    @BindView(R.id.rl_risk_pre_name_layout)//名字
+            View rl_risk_pre_name_layout;
+    @BindView(R.id.et_risk_pre_id_num)
+    EditText et_risk_pre_id_num;
+    @BindView(R.id.et_risk_pre_real_name)
+    EditText et_risk_pre_real_name;
+
     private boolean mCanScanFace;
     private IdNumInfoBean mIdNumInfoBean;
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，
@@ -181,12 +195,15 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         String front_idCard_url = mIdNumInfoBean.getData().getFront_idCard_url();//身份证正面url
         String back_idCard_url = mIdNumInfoBean.getData().getBack_idCard_url(); //身份证反面url
         String face_url = mIdNumInfoBean.getData().getFace_url(); //扫脸url
+        //设置显隐 和信息
         if (!TextUtils.isEmpty(real_name) && !TextUtils.isEmpty(id_num)) {
-//            etIdentityAuthName.setTextColor(getResources().getColor(R.color.global_txt_black4));
-//            etIdentityAuthNum.setTextColor(getResources().getColor(R.color.global_txt_black4));
+            ll_risk_pre_bottom_tips_layout.setVisibility(View.VISIBLE);
+            rl_risk_pre_id_num_layout.setVisibility(View.VISIBLE);
+            rl_risk_pre_name_layout.setVisibility(View.VISIBLE);
+            view_placeholder.setVisibility(View.GONE);
+            et_risk_pre_real_name.setText(real_name);
+            et_risk_pre_id_num.setText(id_num);
         }
-//        etIdentityAuthName.setText(real_name);
-//        etIdentityAuthNum.setText(id_num);
 
         ImageLoader.load(getApplicationContext(), front_idCard_url, iv_scan_identity_front);
         ImageLoader.load(getApplicationContext(), back_idCard_url, iv_scan_identity_back);
@@ -538,17 +555,19 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 刷新名字和身份证号UI
      */
     private void refreshNameAndNumUI() {
-        String name = mIDCardBean.name;
-        String num = mIDCardBean.id_card_number;
+        String name = mIdNumInfoBean.getData().getReal_name();
+        String num = mIdNumInfoBean.getData().getId_num();
         //todo  设置身份证信息
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(num)) {
-//            etIdentityAuthName.setTextColor(getResources().getColor(R.color.global_txt_black4));
-//            etIdentityAuthNum.setTextColor(getResources().getColor(R.color.global_txt_black4));
+            ll_risk_pre_bottom_tips_layout.setVisibility(View.VISIBLE);
+            rl_risk_pre_id_num_layout.setVisibility(View.VISIBLE);
+            rl_risk_pre_name_layout.setVisibility(View.VISIBLE);
+            view_placeholder.setVisibility(View.GONE);
+            et_risk_pre_real_name.setText(name);
+            et_risk_pre_id_num.setText(num);
         }
-//        etIdentityAuthName.setText(name);
-//        etIdentityAuthNum.setText(num);
-
     }
+
 
     /**
      * 保存身份证正面信息到云端
@@ -559,14 +578,17 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
-        final String real_name = data.getReal_name(); //身份证姓名
+        final String real_name = et_risk_pre_real_name.getText().toString().trim(); //身份证姓名
         String gender = data.getGender(); // 身份证性别
         String nation = data.getNation(); // 民族
 
         String birthday = data.getBirthday(); //出生日期
         String birthplace = data.getBirthplace(); //住址
-        final String id_num = data.getId_num(); // 身份证号
-
+        final String id_num = et_risk_pre_id_num.getText().toString().trim(); // 身份证号
+        if (TextUtils.isEmpty(id_num) || TextUtils.isEmpty(real_name)) {
+            ToastUtil.showToast(mContext, "姓名和身份证号不能为空");
+            return;
+        }
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -609,11 +631,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     private boolean checkPermissionForFlyme() {
         boolean isReallyHasPermission;
         if (MyApplicationLike.isFlyMe) {
-            if (RomUtils.isCameraCanUse()) {
-                isReallyHasPermission = true;
-            } else {
-                isReallyHasPermission = false;
-            }
+            isReallyHasPermission = RomUtils.isCameraCanUse();
         } else {
             isReallyHasPermission = true;
         }
