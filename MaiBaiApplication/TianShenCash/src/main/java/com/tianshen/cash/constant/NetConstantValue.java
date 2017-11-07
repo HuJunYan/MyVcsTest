@@ -659,6 +659,14 @@ public class NetConstantValue {
     }
 
     /**
+     * 得到等待额度URL
+     */
+    public static String getCashAmountURL() {
+        return COMMONURI + "UserCenter/getCashAmount";
+    }
+
+
+    /**
      * 得到其他借款方式URL
      */
     public static String getOtherLoanURL() {

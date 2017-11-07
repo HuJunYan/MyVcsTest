@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.CashAmountBean;
-import com.tianshen.cash.model.ConstantBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -25,7 +24,7 @@ public class GetCashAmountService extends NetBase {
     public GetCashAmountService(Context context) {
         super(context);
         mContext = context;
-        mUrl = NetConstantValue.getCustomerInfoUrl();
+        mUrl = NetConstantValue.getCashAmountURL();
     }
 
     public void getData(JSONObject jsonObject, final BaseNetCallBack<CashAmountBean> callBack) {

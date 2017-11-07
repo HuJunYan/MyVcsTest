@@ -107,4 +107,6 @@
 
 
 
+    <color name="auth_center_menu_step">#FF5353</color>
+
 </resources>

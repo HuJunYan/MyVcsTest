@@ -120,4 +120,9 @@
     <string name="text_risk_pre_face_step_1">正对手机</string>
     <string name="text_risk_pre_face_step_2">光线充足</string>
     <string name="text_risk_pre_face_step_3">放慢动作</string>
+    <string name="auth_center_menu_info">首次借款请先完成以下认证信息</string>
+    <string name="auth_center_menu_identity">身份认证</string>
+    <string name="auth_center_menu_person_info">个人信息认证</string>
+    <string name="auth_center_menu_credit">信用认证</string>
+
 </resources>
