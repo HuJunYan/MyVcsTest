@@ -622,7 +622,6 @@ public class NetConstantValue {
     }
 
     /**
-     * <<<<<<< HEAD
      * 得到判断绑定了"向上"银行卡的地址
      *
      * @return

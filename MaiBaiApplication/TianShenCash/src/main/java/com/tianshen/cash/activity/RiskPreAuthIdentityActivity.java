@@ -365,7 +365,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     private void upLoadImage(final byte[] imageByte) {
 
         String userID = TianShenUserUtil.getUserId(mContext);
-        LogUtil.d("wangchen", "mIsClickPosition = " + mIsClickPosition);
+        LogUtil.d("abc", "mIsClickPosition = " + mIsClickPosition);
         String path = "";
         String type = "";
         switch (mIsClickPosition) {
@@ -389,7 +389,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             uploadImage.uploadImage(newJson, path, true, new BaseNetCallBack<UploadImageBean>() {
                 @Override
                 public void onSuccess(UploadImageBean uploadImageBean) {
-                    LogUtil.d("wangchen", "upLoadImage--onSuccess mIsClickPosition = " + mIsClickPosition);
+                    LogUtil.d("abc", "upLoadImage--onSuccess mIsClickPosition = " + mIsClickPosition);
                     switch (mIsClickPosition) {
                         case 0:
                             setImageSource(imageByte);
@@ -416,7 +416,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 得到身份证反面信息
      */
     private void getIdcardBackInfo(byte[] data) {
-        LogUtil.d("wangchen", "getIdcardBackInfo exe");
         ViewUtil.createLoadingDialog(this, "", false);
 
 
@@ -438,7 +437,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                     //设置身份证反面信息
                     mIdNumInfoBean.getData().setValid_period(paramT.valid_date);
                     mIdNumInfoBean.getData().setSign_organ(paramT.issued_by);
-                    LogUtil.d("wangchen", "设置身份证反面信息 success");
+                    LogUtil.d("abc", "设置身份证反面信息 success");
 //                    initSaveIDCardBack();
                 }
             }
@@ -446,7 +445,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 ToastUtil.showToast(mContext, "请使用身份证原件");
-                LogUtil.d("wangchen", "设置身份证反面信息 failure");
+                LogUtil.d("abc", "设置身份证反面信息 failure");
                 ViewUtil.cancelLoadingDialog();
             }
         });
