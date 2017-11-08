@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
 import com.megvii.licensemanager.Manager;
@@ -74,7 +75,8 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     EditText et_risk_pre_id_num;
     @BindView(R.id.et_risk_pre_real_name)
     EditText et_risk_pre_real_name;
-
+    @BindView(R.id.tv_risk_pre_forget_id_card)
+    TextView tv_risk_pre_forget_id_card; //忘带身份证提示
     private boolean mCanScanFace;
     private IdNumInfoBean mIdNumInfoBean;
     private int mIsClickPosition; //0==身份证正面,1==身份证背面，
@@ -125,7 +127,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_risk_pre_back, R.id.iv_scan_identity_front, R.id.iv_scan_identity_back, R.id.tv_risk_pre_commit})
+    @OnClick({R.id.tv_risk_pre_back, R.id.iv_scan_identity_front, R.id.iv_scan_identity_back, R.id.tv_risk_pre_commit, R.id.tv_risk_pre_forget_id_card})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_risk_pre_back:
@@ -148,6 +150,10 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 } else {
                     ToastUtil.showToast(mContext, "请先扫描身份证");
                 }
+                break;
+            case R.id.tv_risk_pre_forget_id_card: //点击了忘带身份证
+                gotoActivity(mContext, RiskPreAuthIdentitySupplyActivity.class, null);
+                finish();
                 break;
         }
     }
@@ -202,6 +208,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         String face_url = mIdNumInfoBean.getData().getFace_url(); //扫脸url
         //设置显隐 和信息
         if (!TextUtils.isEmpty(real_name) && !TextUtils.isEmpty(id_num)) {
+            tv_risk_pre_forget_id_card.setVisibility(View.GONE);
             ll_risk_pre_bottom_tips_layout.setVisibility(View.VISIBLE);
             rl_risk_pre_id_num_layout.setVisibility(View.VISIBLE);
             rl_risk_pre_name_layout.setVisibility(View.VISIBLE);
@@ -570,6 +577,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         String name = mIdNumInfoBean.getData().getReal_name();
         String num = mIdNumInfoBean.getData().getId_num();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(num)) {
+            tv_risk_pre_forget_id_card.setVisibility(View.GONE);
             ll_risk_pre_bottom_tips_layout.setVisibility(View.VISIBLE);
             rl_risk_pre_id_num_layout.setVisibility(View.VISIBLE);
             rl_risk_pre_name_layout.setVisibility(View.VISIBLE);

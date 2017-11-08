@@ -357,6 +357,9 @@
         <activity
             android:name=".activity.RiskPreConfirmBaseMoneyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RiskPreAuthIdentitySupplyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

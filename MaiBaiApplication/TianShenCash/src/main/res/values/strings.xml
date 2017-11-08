@@ -136,4 +136,9 @@
     <string name="text_risk_pre_agreement">我同意《借款协议》《居间服务协议》《征信查询授权书》</string>
     <string name="text_risk_pre_tips">借款到账后,将会收取一定手续费用</string>
 
+    <string name="title_risk_pre_supply">信息补充</string>
+    <string name="text_risk_pre_supply_name">请填写真实姓名</string>
+    <string name="text_risk_pre_supply_id_num">请填写真实身份证号</string>
+    <string name="text_risk_pre_supply_tip">请确保填写的信息与身份证一致</string>
+
 </resources>

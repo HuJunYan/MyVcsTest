@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/global_bg_gray"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.tianshen.cash.activity.RiskPreAuthIdentitySupplyActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +24,7 @@
             style="@style/title_txt_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_risk_pre_auth_identity" />
+            android:text="@string/title_risk_pre_supply" />
     </RelativeLayout>
 
     <include layout="@layout/layout_global_line" />
@@ -34,10 +37,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
-            <View style="@style/split_line_style" />
+            <View
+                style="@style/split_line_style"
+                android:layout_marginTop="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,7 +85,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/iv_scan_identity_front"
+                    android:id="@+id/iv_risk_pre_add_front"
                     android:layout_width="187dp"
                     android:layout_height="125dp"
                     android:layout_marginBottom="15dp"
@@ -108,7 +112,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/iv_scan_identity_back"
+                    android:id="@+id/iv_risk_pre_add_back"
                     android:layout_width="187dp"
                     android:layout_height="125dp"
                     android:layout_marginBottom="15dp"
@@ -123,10 +127,7 @@
                 android:id="@+id/rl_risk_pre_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <TextView
                     android:id="@+id/tv_risk_pre_real_name"
@@ -139,29 +140,24 @@
                     android:textSize="14sp" />\
 
                 <EditText
-                    android:id="@+id/et_risk_pre_real_name"
+                    android:id="@+id/et_risk_pre_supply_real_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@id/tv_risk_pre_real_name"
                     android:background="@null"
+                    android:hint="@string/text_risk_pre_supply_name"
                     android:textColor="@color/global_txt_black4"
+                    android:textColorHint="@color/global_txt_gray"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/icon_risk_pre_edit" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_risk_pre_id_num_layout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:background="@color/global_bg_white">
 
                 <View style="@style/split_line_style" />
 
@@ -176,22 +172,15 @@
                     android:textSize="14sp" />\
 
                 <EditText
-                    android:id="@+id/et_risk_pre_id_num"
+                    android:id="@+id/et_risk_pre_supply_id_num"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@id/tv_risk_pre_id_num"
                     android:background="@null"
+                    android:hint="@string/text_risk_pre_supply_id_num"
                     android:textColor="@color/global_txt_black4"
+                    android:textColorHint="@color/global_txt_gray"
                     android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/icon_risk_pre_edit" />
-
 
             </RelativeLayout>
 
@@ -199,8 +188,7 @@
                 android:id="@+id/ll_risk_pre_bottom_tips_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <View style="@style/split_line_style" />
 
@@ -208,28 +196,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/text_risk_pre_bottom_tips"
+                    android:text="@string/text_risk_pre_supply_tip"
                     android:textColor="@color/edit_text_hint_color"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="14dp"
-                android:id="@+id/tv_risk_pre_forget_id_card"
-                android:text="忘带身份证?"
-                android:textColor="@color/me_weixin_color"
-                android:textSize="14sp" />
-
-            <View
-                android:id="@+id/view_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="33dp" />
-
-            <TextView
-                android:id="@+id/tv_risk_pre_commit"
+                android:id="@+id/tv_risk_pre_supply_commit"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="30dp"
@@ -240,8 +213,6 @@
                 android:text="@string/text_risk_pre_commit"
                 android:textColor="@color/global_txt_white"
                 android:textSize="18sp" />
-
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>
