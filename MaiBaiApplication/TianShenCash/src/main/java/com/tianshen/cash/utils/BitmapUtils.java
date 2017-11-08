@@ -317,4 +317,38 @@ public final class BitmapUtils {
         bitmap.recycle();
         return bitmap;
     }
+
+    /**
+     * 设置bitmap 宽高 大于800 则限制在800以内 不大于则不处理
+     * @param source
+     * @return
+     */
+    public static Bitmap resizeBitmap(Bitmap source) {
+        Bitmap bitmap;
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int newWidth = width;
+        int newHeight = height;
+        float scale = 1.0f;
+        int screenWidth = 800;
+        int screenHeight = 800;
+        if (newWidth > screenWidth || newHeight > screenHeight) {
+            //格式化宽和高
+            if (newWidth > screenWidth) {
+                scale = screenWidth / (newWidth * 1.0f);
+                newHeight = (int) (newHeight * screenWidth / newWidth);
+            }
+            if (newHeight > screenHeight) {
+                scale = scale * screenHeight / (newHeight * 1.0f);
+            }
+        }
+        if (scale == 1.0f){
+          return source;
+        }
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        bitmap = Bitmap.createBitmap(source, 0, 0, width, height, matrix, false);
+        source.recycle();
+        return bitmap;
+    }
 }

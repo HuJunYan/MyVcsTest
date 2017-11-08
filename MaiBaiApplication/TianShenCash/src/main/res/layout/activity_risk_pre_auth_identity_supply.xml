@@ -90,7 +90,7 @@
                     android:layout_height="125dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/risk_pre_front_bg" />
+                    android:src="@drawable/risk_pre_supply_front" />
             </LinearLayout>
 
             <View style="@style/split_line_style" />
@@ -117,7 +117,7 @@
                     android:layout_height="125dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/risk_pre_back_bg" />
+                    android:src="@drawable/risk_pre_supply_back" />
 
             </LinearLayout>
 
