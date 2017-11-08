@@ -56,7 +56,8 @@ public class ImageLoader {
         Glide.with(context).load(imageUrl).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).crossFade().into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                view.setImageDrawable(resource);
+                if (view != null)
+                    view.setImageDrawable(resource);
             }
         });
     }
