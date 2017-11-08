@@ -3,10 +3,12 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -43,6 +45,8 @@ public class EvaluateAmountActivity extends BaseActivity {
     SmartRefreshLayout srl_evaluate;
     @BindView(R.id.ll_evaluate_tips)
     View ll_evaluate_tips;
+    @BindView(R.id.tv_tips2)
+    TextView tv_tips2;
     private CashAmountBean mCashAmountBean;
 
     @Override
@@ -137,17 +141,26 @@ public class EvaluateAmountActivity extends BaseActivity {
 
     private void resetViewSize() {
 
-        ll_evaluate_tips.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        tv_tips2.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                tv_tips2.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                //拿到屏幕高度
                 int heightPixels = getResources().getDisplayMetrics().heightPixels;
-                ll_evaluate_tips.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                //计算父控件需要的大小
                 int top = ll_evaluate_tips.getTop();
                 int bottom = ll_evaluate_tips.getBottom();
+                RelativeLayout.LayoutParams layoutParamsll = (RelativeLayout.LayoutParams) ll_evaluate_tips.getLayoutParams();
+                //设置布局规则
+                layoutParamsll.addRule(RelativeLayout.BELOW, R.id.iv_evaluate_top_bg);
+                ll_evaluate_tips.setLayoutParams(layoutParamsll);
                 int height = Math.abs(top - bottom);
+                //重新设置背景图大小
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv_evaluate_top_bg.getLayoutParams();
                 layoutParams.height = heightPixels - height;
                 iv_evaluate_top_bg.setLayoutParams(layoutParams);
+                //设置提示可见
+                ll_evaluate_tips.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -181,5 +194,13 @@ public class EvaluateAmountActivity extends BaseActivity {
     public void onAuthCenterBack(LocationEvent event) {
         LogUtil.d("abc", "收到了定位成功的消息");
         initData();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
