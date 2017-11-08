@@ -143,6 +143,7 @@ public class AuthBlankActivity extends BaseActivity {
 
                 break;
             case R.id.tv_auth_info_post:
+                bindBankCard();
                 break;
         }
     }
@@ -446,7 +447,7 @@ public class AuthBlankActivity extends BaseActivity {
         String userId = TianShenUserUtil.getUserId(mContext);
 
         try {
-           final JSONObject mJson = new JSONObject();
+            JSONObject mJson = new JSONObject();
             mJson.put("bank_name", bank_name);
             mJson.put("bank_id", bankId);
             mJson.put(GlobalParams.USER_CUSTOMER_ID, userId);
@@ -460,12 +461,12 @@ public class AuthBlankActivity extends BaseActivity {
                     ToastUtil.showToast(mContext, "验证码发送成功");
                     bind_no = paramT.getData().getBind_no();
                     refreshSeverityTextUI();
-                    LogUtil.i("test",mJson.toString());
+
                 }
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-                    LogUtil.i("test",mJson.toString());
+
                 }
             });
         } catch (JSONException e) {
@@ -551,7 +552,7 @@ public class AuthBlankActivity extends BaseActivity {
         }
 
         try {
-            JSONObject mJson = new JSONObject();
+            final JSONObject mJson = new JSONObject();
             mJson.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
             mJson.put("card_user_name", card_user_name);
             mJson.put("card_num", card_num);
@@ -562,11 +563,13 @@ public class AuthBlankActivity extends BaseActivity {
             mJson.put("bind_no", bind_no);
             mJson.put("city_code", city_code);
             BindBankCard mBindBankCard = new BindBankCard(mContext);
+            LogUtil.i("test",mJson.toString());
             mBindBankCard.bindBankCard(mJson, mTvAuthInfoPost, true, new BaseNetCallBack<ResponseBean>() {
                 @Override
                 public void onSuccess(ResponseBean paramT) {
                     int code = paramT.getCode();
                     if (code == 0) {
+                        LogUtil.i("test",mJson.toString());
                         ToastUtil.showToast(mContext, "绑卡成功!");
                         EventBus.getDefault().post(new UserConfigChangedEvent());
                         backActivity();
@@ -584,6 +587,7 @@ public class AuthBlankActivity extends BaseActivity {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
+
 
     }
 
