@@ -69,13 +69,16 @@ class AuthCenterMenuActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initData()
     }
 
     private fun initView() {
         initFragment()
         initViewPager()
-
     }
 
     private fun initFragment() {
@@ -100,11 +103,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
             override fun onSuccess(data: AuthCenterMenuBean?) {
                 mAuthCenterMenuBean = data
-                LogUtil.d("abc", "onSuccess--->" + data?.msg)
-                LogUtil.d("abc", "one--->" + data?.data?.auth_id_num)
-                LogUtil.d("abc", "two--->" + data?.data?.auth_person_info)
-                LogUtil.d("abc", "two--->" + data?.data?.auth_credit)
-                refreshUI()
+                checkShowStep()
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -114,6 +113,29 @@ class AuthCenterMenuActivity : BaseActivity() {
         })
     }
 
+    /**
+     * 判断当前在第几步
+     */
+    private fun checkShowStep() {
+
+        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+        val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
+
+        if ("0" == auth_id_num) {
+            vp_auth_center_menu.setCurrentItem(0, false)
+            refreshUI()
+        } else if ("0" == auth_person_info) {
+            vp_auth_center_menu.setCurrentItem(1, false)
+        } else if ("0" == auth_credit) {
+            vp_auth_center_menu.setCurrentItem(2, false)
+        }
+
+    }
+
+    /**
+     * 跳转到子页面去认证
+     */
     private fun checkGoToOtherActivity() {
 
         val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
@@ -148,6 +170,9 @@ class AuthCenterMenuActivity : BaseActivity() {
         }
     }
 
+    /**
+     * 刷新UI
+     */
     private fun refreshUI() {
 
         val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
