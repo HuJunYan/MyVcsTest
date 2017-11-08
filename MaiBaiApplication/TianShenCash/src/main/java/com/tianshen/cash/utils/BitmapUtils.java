@@ -62,7 +62,7 @@ public final class BitmapUtils {
          * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
 		 * yourself_sdk_path/docs/reference/android/content/Intent.html
 		 *//*
-		Intent intent = new Intent("com.android.camera.action.CROP");
+        Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
 		// 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
 		intent.putExtra("crop", "true");
@@ -306,7 +306,7 @@ public final class BitmapUtils {
      * @param height
      */
     public static Bitmap generateBitmapUseWidthAndHeight(Bitmap source, int width, int height) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         int sourceWidth = source.getWidth();
         int sourceHeight = source.getHeight();
         Matrix matrix = new Matrix();
@@ -314,7 +314,7 @@ public final class BitmapUtils {
         float scaleY = height / (sourceHeight * 1.0f);
         matrix.postScale(scaleX, scaleY);
         bitmap = Bitmap.createBitmap(source, 0, 0, sourceWidth, sourceHeight, matrix, false);
-
+        bitmap.recycle();
         return bitmap;
     }
 }
