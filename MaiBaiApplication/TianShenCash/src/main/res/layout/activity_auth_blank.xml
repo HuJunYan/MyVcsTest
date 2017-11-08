@@ -54,7 +54,6 @@
             android:text="持卡人" />
 
             <EditText
-                android:text="胡俊焰"
             android:id="@+id/et_auth_bank_card_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +61,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_bank_card_person"
             android:background="@null"
-            android:editable="true"
+            android:editable="false"
             android:maxLength="15"
             android:textSize="14dp" />
 

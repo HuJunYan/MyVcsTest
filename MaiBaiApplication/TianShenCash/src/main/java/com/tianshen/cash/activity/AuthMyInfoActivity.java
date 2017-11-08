@@ -16,8 +16,14 @@ import com.moxie.client.model.MxParam;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.UserAuthCenterBean;
+import com.tianshen.cash.net.api.GetUserAuthCenter;
+import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,12 +79,14 @@ public class AuthMyInfoActivity extends BaseActivity {
     public static final String  PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String  CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String  ACTIVITY_FLAG = "TYEP";
-    private  String type ="1";
+    private  String type ;
+    private UserAuthCenterBean mUserAuthCenterBean;
+    private String mMobileStatus; //身份證認證狀態
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initAuthCenterData();
     }
 
     @Override
@@ -88,8 +96,8 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-//        type = getIntent().getExtras().getString(ACTIVITY_FLAG);
-        showView("1");
+        type = getIntent().getExtras().getString(ACTIVITY_FLAG);
+        showView(type);
     }
 
     @Override
@@ -128,10 +136,21 @@ public class AuthMyInfoActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.rl_auth_one:
-                if ("1".equals(type)) {
-                    startActivity(new Intent(this, AuthPersonInfoActivity.class));
-                } else {
-                    gotoChinaMobileActivity("", "手机认证");
+
+                if ("1".equals(type)){
+
+                    startActivity(new Intent(this,AuthPersonInfoActivity.class));
+                }else {
+
+                    if (mUserAuthCenterBean != null) {
+                        mMobileStatus = mUserAuthCenterBean.getData().getChina_mobile();
+                    }
+                    if ("1".equals(mMobileStatus)) {
+                        ToastUtil.showToast(mContext, "之前已经认证");
+                        return;
+                    }
+                    String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
+                    gotoChinaMobileActivity(china_mobile_url, "手机认证");
                 }
 
                 break;
@@ -140,7 +159,13 @@ public class AuthMyInfoActivity extends BaseActivity {
                     //第一步认证过才可以认证第二步
                     startActivity(new Intent(this, AuthBlankActivity.class));
                 } else {
-                    gotoChinaMobileActivity("", "芝麻信用");
+                    String zhimaStatus = mUserAuthCenterBean.getData().getZhima_url();
+                    if ("1".equals(zhimaStatus)) {
+                        ToastUtil.showToast(mContext, "之前已经认证");
+                        return;
+                    }
+                    String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
+                    gotoChinaMobileActivity(zhima_url, "芝麻信用");
                 }
                 break;
             case R.id.rl_auth_three:
@@ -208,4 +233,31 @@ public class AuthMyInfoActivity extends BaseActivity {
         });
 
     }
+
+    /**
+     * 得到用户认证信息
+     */
+    private void initAuthCenterData() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            GetUserAuthCenter getUserAuthCenter = new GetUserAuthCenter(mContext);
+            getUserAuthCenter.userAuthCenter(jsonObject, null, true, new BaseNetCallBack<UserAuthCenterBean>() {
+                @Override
+                public void onSuccess(UserAuthCenterBean paramT) {
+                    mUserAuthCenterBean = paramT;
+                    mMobileStatus  = mUserAuthCenterBean.getData().getChina_mobile();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

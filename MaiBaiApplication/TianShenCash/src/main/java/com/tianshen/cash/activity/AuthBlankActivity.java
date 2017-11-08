@@ -171,7 +171,7 @@ public class AuthBlankActivity extends BaseActivity {
                             return;
                         }
                         String name = paramT.getData().getReal_name();
-                        mEtAuthBankCardPerson.setText("胡俊焰");
+                        mEtAuthBankCardPerson.setText(name);
                     }
 
                     @Override

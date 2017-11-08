@@ -49,6 +49,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+
 /**
  * 个人信息认证界面
  */
@@ -164,7 +165,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-
+//        mTvAuthInfoQq.setCompoundDrawables();
     }
 
     @Override
