@@ -562,6 +562,7 @@
             <View style="@style/split_line_style"/>
 
             <TextView
+                android:padding="10dp"
                 android:id="@+id/tv_auth_info_post"
                 style="@style/auth_center_title_post_txt_style"
                 android:layout_width="match_parent"

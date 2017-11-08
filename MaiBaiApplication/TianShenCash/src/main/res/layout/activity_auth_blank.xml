@@ -22,11 +22,7 @@
             android:layout_height="wrap_content"
             android:text="银行卡信息" />
 
-        <TextView
-            android:id="@+id/tv_auth_info_post"
-            style="@style/auth_center_title_post_txt_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 
@@ -58,6 +54,7 @@
             android:text="持卡人" />
 
             <EditText
+                android:text="胡俊焰"
             android:id="@+id/et_auth_bank_card_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +62,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/tv_auth_bank_card_person"
             android:background="@null"
-            android:editable="false"
+            android:editable="true"
             android:maxLength="15"
             android:textSize="14dp" />
 
@@ -81,7 +78,7 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_bank_card_key"
+            android:id="@+id/tv_bank_card_key_no"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -93,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_bank_card_key"
+            android:layout_toRightOf="@id/tv_bank_card_key_no"
             android:hint="请选择所属银行"
             android:textColorHint="@color/auth_bank_texthint_color"
             android:textSize="14dp" />
@@ -119,7 +116,7 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_bank_card_num_key"
+            android:id="@+id/tv_bank_card_num_key_no"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -131,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_bank_card_num_key"
+            android:layout_toRightOf="@id/tv_bank_card_num_key_no"
             android:background="@null"
             android:hint="请输入您的银行卡号"
             android:textColorHint="@color/auth_bank_texthint_color"
@@ -151,7 +148,7 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_province"
+            android:id="@+id/tv_province_no"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -163,8 +160,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_province"
-            android:hint="请选择开户行所在省份"
+            android:layout_toRightOf="@id/tv_province_no"
+            android:hint="请选择开户行所在省/市"
             android:textColorHint="@color/auth_bank_texthint_color"
             android:textSize="14dp" />
 
@@ -189,7 +186,7 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_bank_card_phone_num_key"
+            android:id="@+id/tv_bank_card_phone_num_key_no"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -201,7 +198,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_bank_card_phone_num_key"
+            android:layout_toRightOf="@id/tv_bank_card_phone_num_key_no"
             android:background="@null"
             android:hint="请输入预留手机号"
             android:textColorHint="@color/auth_bank_texthint_color"
@@ -220,7 +217,7 @@
         <View style="@style/split_line_style" />
 
         <TextView
-            android:id="@+id/tv_severity_code_key"
+            android:id="@+id/tv_severity_code_key_no"
             style="@style/auth_center_txt_style"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
@@ -232,7 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/tv_severity_code_key"
+            android:layout_toRightOf="@id/tv_severity_code_key_no"
             android:background="@null"
             android:hint="请输入验证码"
             android:textColorHint="@color/auth_bank_texthint_color"
@@ -263,6 +260,36 @@
             android:background="@color/global_line_bg" />
     </RelativeLayout>
     <View style="@style/split_line_style" />
-    </LinearLayout>
+
+          <TextView
+              android:layout_marginTop="15dp"
+              style="@style/auth_center_txt_style"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="15dp"
+              android:text="温馨提示:" />
+
+          <TextView
+              android:lineSpacingExtra="5dp"
+              android:layout_width="match_parent"
+              android:textSize="@dimen/sp_12"
+              android:layout_marginTop="15dp"
+              style="@style/auth_center_txt_style"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="15dp"
+              android:text="@string/auth_center_blank_credit" />
+
+
+          <TextView
+              android:layout_marginBottom="25dp"
+              android:gravity="center"
+              android:id="@+id/tv_auth_info_post"
+              style="@style/auth_center_title_post_txt_style"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="25dp"
+              android:padding="10dp"
+              android:layout_marginRight="25dp"
+              android:layout_marginTop="20dp"/>
+      </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,16 +16,20 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AddressBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetCounty;
 import com.tianshen.cash.net.api.GetProvince;
+import com.tianshen.cash.net.api.SaveUserInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.PhoneUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,16 +58,14 @@ public class AuthPersonInfoActivity extends BaseActivity {
     TextView mTvAuthInfoBack;
     @BindView(R.id.tv_auth_info_qq)
     TextView mTvAuthInfoQq;
-    @BindView(R.id.tv_auth_info_home_address_key_no)
-    TextView mTvAuthInfoHomeAddressKeyNo;
+
     @BindView(R.id.tv_auth_info_home_address)
     TextView mTvAuthInfoHomeAddress;
     @BindView(R.id.tv_auth_info_address_empty)
     TextView mTvAuthInfoAddressEmpty;
     @BindView(R.id.et_auth_info_address_details)
     EditText mEtAuthInfoAddressDetails;
-    @BindView(R.id.tv_auth_info_work_name_no)
-    TextView mTvAuthInfoWorkNameNo;
+
     @BindView(R.id.et_auth_info_work_name)
     EditText mEtAuthInfoWorkName;
     @BindView(R.id.tv_auth_info_position)
@@ -77,20 +80,17 @@ public class AuthPersonInfoActivity extends BaseActivity {
     TextView mTvAuthInfoIncomeKey;
     @BindView(R.id.tv_auth_info_income)
     TextView mTvAuthInfoIncome;
-    @BindView(R.id.tv_auth_info_work_num_no)
-    TextView mTvAuthInfoWorkNumNo;
+
     @BindView(R.id.et_auth_info_work_num)
     EditText mEtAuthInfoWorkNum;
-    @BindView(R.id.tv_auth_info_work_address_key_no)
-    TextView mTvAuthInfoWorkAddressKeyNo;
+
     @BindView(R.id.tv_auth_info_work_address)
     TextView mTvAuthInfoWorkAddress;
     @BindView(R.id.tv_auth_info_work_address_empty)
     TextView mTvAuthInfoWorkAddressEmpty;
     @BindView(R.id.et_auth_info_work_address_details)
     EditText mEtAuthInfoWorkAddressDetails;
-    @BindView(R.id.tv_auth_nexus1_key_no)
-    TextView mTvAuthNexus1KeyNo;
+
     @BindView(R.id.tv_auth_nexus1)
     TextView mTvAuthNexus1;
     @BindView(R.id.iv_auth_contact_down)
@@ -101,12 +101,10 @@ public class AuthPersonInfoActivity extends BaseActivity {
     EditText mEtAuthNexusName1;
     @BindView(R.id.rl_auth_nexus1)
     RelativeLayout mRlAuthNexus1;
-    @BindView(R.id.tv_auth_nexus_phone_no)
-    TextView mTvAuthNexusPhoneNo;
+
     @BindView(R.id.et_auth_nexus_phone)
     EditText mEtAuthNexusPhone;
-    @BindView(R.id.tv_auth_nexus2_key_no)
-    TextView mTvAuthNexus2KeyNo;
+
     @BindView(R.id.tv_auth_nexus2)
     TextView mTvAuthNexus2;
     @BindView(R.id.iv_auth_contact_down2)
@@ -117,8 +115,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
     EditText mEtAuthNexusName2;
     @BindView(R.id.rl_auth_nexus2)
     RelativeLayout mRlAuthNexus2;
-    @BindView(R.id.tv_auth_nexus_phone2_no)
-    TextView mTvAuthNexusPhone2No;
+
     @BindView(R.id.et_auth_nexus_phone2)
     EditText mEtAuthNexusPhone2;
     @BindView(R.id.tv_auth_info_post)
@@ -127,6 +124,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private int mProvincePosition;//选择省的位置
     private int mCityPosition;//选择城市的位置
     private int mCountyPosition;//选择区域的位置
+
     private String user_address_provice;//用户常驻地址省份,
     private String user_address_city;//用户常驻地址县市
     private String user_address_county;//用户常驻地址地区
@@ -134,6 +132,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private String company_address_provice;//用户公司地址省份
     private String company_address_city;//用户公司地址县市
     private String company_address_county;//用户公司地址地区
+    private String user_work_address;//用户工作省市区地址
 
     private AddressBean mCityBean;
     private AddressBean mCountyBean;
@@ -148,6 +147,8 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private int mContactsPoistion;
     private ArrayList<String> mContactsDialogDada;
     private boolean mIsClickContacts1;
+    private String type1 = "1";//紧急联系人1类型
+    private String type2 = "4";//紧急联系人2类型
 
 
     @Override
@@ -204,6 +205,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
                 getContacts();
                 break;
             case R.id.tv_auth_info_post:
+                postUserInfo();
                 break;
         }
     }
@@ -430,6 +432,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
             company_address_provice = province;
             company_address_city = city;
             company_address_county = county;
+            user_work_address = address;
             mTvAuthInfoWorkAddress.setText(address);
         }
     }
@@ -462,8 +465,10 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private void refreshNexusUI(int clickPosition, int selectPosition) {
         if (clickPosition == 0) {
             mTvAuthNexus1.setText(mNexus.get(selectPosition));
+            type1 = String.valueOf(selectPosition+1);
         } else {
             mTvAuthNexus2.setText(mNexus.get(selectPosition));
+            type2 = String.valueOf(selectPosition+1);
         }
     }
 
@@ -589,12 +594,145 @@ public class AuthPersonInfoActivity extends BaseActivity {
         String name = hashMap.get("name");
         String phone = hashMap.get("phone");
         if (mIsClickContacts1) {
+
             mEtAuthNexusName1.setText(name);
             mEtAuthNexusPhone.setText(phone);
         } else {
             mEtAuthNexusName2.setText(name);
             mEtAuthNexusPhone2.setText(phone);
         }
+    }
+
+    /**
+     * 提交个人信息
+     */
+    private void postUserInfo() {
+
+        String user_home_address = mTvAuthInfoHomeAddress.getText().toString().trim();
+        String user_address_detail = mEtAuthInfoAddressDetails.getText().toString().trim();
+        //单位名称
+        String company_name = mEtAuthInfoWorkName.getText().toString().trim();
+        String company_phone = mEtAuthInfoWorkNum.getText().toString().trim();
+        String company_work_address = mTvAuthInfoWorkAddress.getText().toString().trim();
+        String company_address_detail = mEtAuthInfoWorkAddressDetails.getText().toString().trim();
+        String contact_one_name = mEtAuthNexusName1.getText().toString().trim();
+        String contact_two_name= mEtAuthNexusName2.getText().toString().trim();
+        String contact_one_phone= mEtAuthNexusPhone.getText().toString().trim();
+        String contact_two_phone= mEtAuthNexusPhone2.getText().toString().trim();
+//        String marital_status = String.valueOf(mMaritalPosition);
+//        String educational = String.valueOf(mEducationalPosition);
+//        String income_per_month = String.valueOf(mIncomePosition);
+//        String occupational_identity = String.valueOf(mOccupationalPosition);
+//        String position = ev_auth_info_position.getText().toString().trim();
+
+
+        int length = company_phone.length();
+        if (length == 8 || length == 11 || length == 12) {
+        } else {
+            ToastUtil.showToast(mContext, "请填写正确的单位电话");
+            return;
+        }
+
+        if (TextUtils.isEmpty(company_work_address)) {
+            ToastUtil.showToast(mContext, "请选择常驻地址");
+            return;
+        }
+        if (TextUtils.isEmpty(user_work_address)) {
+            ToastUtil.showToast(mContext, "请选择单位地址");
+            return;
+        }
+        if (TextUtils.isEmpty(company_address_detail)) {
+            ToastUtil.showToast(mContext, "请填写常驻详细地址");
+            return;
+        }
+
+        if (TextUtils.isEmpty(contact_one_name)) {
+            ToastUtil.showToast(mContext, "请填写紧急联系人1姓名");
+            return;
+        }
+        if (TextUtils.isEmpty(contact_two_name)) {
+            ToastUtil.showToast(mContext, "请填写紧急联系人2姓名");
+            return;
+        }
+
+
+
+
+        if (TextUtils.isEmpty(contact_one_phone)) {
+            ToastUtil.showToast(mContext, "请填写紧急联系人1电话");
+            return;
+        }
+        if (TextUtils.isEmpty(contact_two_phone)) {
+            ToastUtil.showToast(mContext, "请填写紧急联系人2电话");
+            return;
+        }
+
+
+
+
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            jsonObject.put("user_address_provice", user_address_provice);
+            jsonObject.put("user_address_city", user_address_city);
+            jsonObject.put("user_address_county", user_address_county);
+            jsonObject.put("user_address_detail", user_address_detail);
+            jsonObject.put("company_name", company_name);
+            jsonObject.put("company_phone", company_phone);
+            jsonObject.put("company_address_provice", company_address_provice);
+            jsonObject.put("company_address_city", company_address_city);
+            jsonObject.put("company_address_county", company_address_county);
+            jsonObject.put("company_address_detail", company_address_detail);
+
+
+
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("type", type1 );
+            jsonObject1.put("contact_name", contact_one_name);
+            jsonObject1.put("contact_phone", contact_one_phone);
+
+
+            JSONObject jsonObject2 = new JSONObject();
+            jsonObject2.put("type", type2 );
+            jsonObject2.put("contact_name", contact_two_name);
+            jsonObject2.put("contact_phone", contact_two_phone);
+
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(0, jsonObject1);
+            jsonArray.put(1, jsonObject2);
+
+
+            jsonObject.put("extroContacts", jsonArray);
+//            jsonObject.put("marital_status", marital_status);
+//            jsonObject.put("educational", educational);
+//            jsonObject.put("income_per_month", income_per_month);
+//            jsonObject.put("occupational_identity", occupational_identity);
+//            jsonObject.put("position", position);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        LogUtil.i("test",jsonObject.toString());
+        SaveUserInfo saveUserInfo = new SaveUserInfo(mContext);
+        saveUserInfo.saveCustomerInfoUrl(jsonObject, new BaseNetCallBack<PostDataBean>() {
+            @Override
+            public void onSuccess(PostDataBean paramT) {
+                int code = paramT.getCode();
+                if (code == 0) {
+                    ToastUtil.showToast(mContext, "保存成功!");
+                    backActivity();
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+
     }
 
     /**
@@ -608,5 +746,18 @@ public class AuthPersonInfoActivity extends BaseActivity {
         mNexus.add("同事");
     }
 
+    /**
+     * 判断是否为空 return
+     * @param msg 判断信息
+     * @param toastMsg toast信息
+     */
+    public void ifReturn(String msg,String toastMsg){
+
+        if (TextUtils.isEmpty(msg)) {
+            ToastUtil.showToast(mContext, toastMsg);
+            return;
+        }
+
+    }
 
 }
