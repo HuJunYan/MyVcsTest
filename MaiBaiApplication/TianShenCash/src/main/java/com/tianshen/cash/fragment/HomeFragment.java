@@ -40,7 +40,6 @@ import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MessageCenterActivity;
-import com.tianshen.cash.activity.RiskPreConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
@@ -348,7 +347,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
 //                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
 //                gotoActivity(mContext, EvaluateAmountActivity.class,null);
-                gotoActivity(mContext, RiskPreConfirmBaseMoneyActivity.class, null);
+//                gotoActivity(mContext, RiskPreConfirmBaseMoneyActivity.class, null);
                 gotoAuthCenterMenuActivity();
                 break;
             case R.id.ll_loan_day: //点击了期限选择
