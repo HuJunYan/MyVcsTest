@@ -31,13 +31,13 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
-import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.AuthCenterMenuActivity;
 import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
+import com.tianshen.cash.activity.EvaluateAmountActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MessageCenterActivity;
@@ -347,6 +347,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                Bundle cardBundle = new Bundle();
 //                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
 //                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
+                gotoActivity(mContext, EvaluateAmountActivity.class,null);
                 gotoAuthCenterMenuActivity();
                 break;
             case R.id.ll_loan_day: //点击了期限选择

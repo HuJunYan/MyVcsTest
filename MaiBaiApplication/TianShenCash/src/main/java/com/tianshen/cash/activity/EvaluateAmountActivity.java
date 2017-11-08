@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
 public class EvaluateAmountActivity extends BaseActivity {
@@ -42,6 +43,7 @@ public class EvaluateAmountActivity extends BaseActivity {
     SmartRefreshLayout srl_evaluate;
     @BindView(R.id.ll_evaluate_tips)
     View ll_evaluate_tips;
+    private CashAmountBean mCashAmountBean;
 
     @Override
     protected int setContentView() {
@@ -100,17 +102,37 @@ public class EvaluateAmountActivity extends BaseActivity {
         getCashAmountService.getData(jsonObject, new BaseNetCallBack<CashAmountBean>() {
             @Override
             public void onSuccess(CashAmountBean bean) {
+                mCashAmountBean = bean;
                 srl_evaluate.finishRefresh();
-                LogUtil.d("abc", "evaluate Amount Success");
+                refreshDataAndCheckIsNeedGotoMain();
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 srl_evaluate.finishRefresh();
-                LogUtil.d("abc", "evaluate Amount failure");
 
             }
         });
+    }
+
+    private void refreshDataAndCheckIsNeedGotoMain() {
+        if (mCashAmountBean == null) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
+        //TODO 判断状态 根据状态进行不同操作
+
+    }
+
+    @OnClick(R.id.tv_evaluate_joke)
+    public void clickJoke(View v) {
+
+        if (mCashAmountBean == null || mCashAmountBean.getData() == null || TextUtils.isEmpty(mCashAmountBean.getData().getJoke_url())) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, mCashAmountBean.getData().getJoke_url());
+        gotoActivity(mContext, WebActivity.class, bundle);
     }
 
     private void resetViewSize() {
