@@ -6,7 +6,7 @@ package com.tianshen.cash.constant;
 public class NetConstantValue {
 
     //正式
-//    public static String HOST = "http://pro.tianshenjr.com/";
+    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
 //    public static String HOST = "http://pre.tianshenjr.com/";
@@ -15,7 +15,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
-    public static String HOST = "http://dev.tianshenjr.com/";
+//    public static String HOST = "http://dev.tianshenjr.com/";
 
 
     public static String COMMONURI = HOST + "Home/";
@@ -622,7 +622,7 @@ public class NetConstantValue {
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * 得到判断绑定了"向上"银行卡的地址
      *
      * @return
