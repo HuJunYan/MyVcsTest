@@ -125,4 +125,11 @@
     <string name="auth_center_menu_person_info">个人信息认证</string>
     <string name="auth_center_menu_credit">信用认证</string>
 
+    <string name="text_evaluate_amount_evaluating">额度评测中</string>
+    <string name="text_evaluate_amount_refresh">请10分钟后下拉刷新查看</string>
+    <string name="text_evaluate_amount_wait">等待无聊? 去看看笑话吧></string>
+    <string name="text_evaluate_amount_tips">温馨提示:</string>
+    <string name="text_evaluate_amount_tips_1">1.如果超过半小时仍在评测阶段,可能是第三方数据获取滞后,请您耐心等待;</string>
+    <string name="text_evaluate_amount_tips_2">2.如遇其他特殊情况,客服将会及时与您联系;</string>
+
 </resources>

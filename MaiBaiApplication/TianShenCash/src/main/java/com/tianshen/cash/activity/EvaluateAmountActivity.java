@@ -3,7 +3,10 @@ package com.tianshen.cash.activity;
 import android.Manifest;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -37,6 +40,8 @@ public class EvaluateAmountActivity extends BaseActivity {
     ImageView iv_evaluate_top_bg;
     @BindView(R.id.srl_evaluate)
     SmartRefreshLayout srl_evaluate;
+    @BindView(R.id.ll_evaluate_tips)
+    View ll_evaluate_tips;
 
     @Override
     protected int setContentView() {
@@ -50,6 +55,8 @@ public class EvaluateAmountActivity extends BaseActivity {
     }
 
     private void initData() {
+        resetViewSize();
+
 
         String location = TianShenUserUtil.getLocation(mContext);
         if (TextUtils.isEmpty(location)) {
@@ -94,14 +101,31 @@ public class EvaluateAmountActivity extends BaseActivity {
             @Override
             public void onSuccess(CashAmountBean bean) {
                 srl_evaluate.finishRefresh();
-                LogUtil.d("abc","evaluate Amount Success");
+                LogUtil.d("abc", "evaluate Amount Success");
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
                 srl_evaluate.finishRefresh();
-                LogUtil.d("abc","evaluate Amount failure");
+                LogUtil.d("abc", "evaluate Amount failure");
 
+            }
+        });
+    }
+
+    private void resetViewSize() {
+
+        ll_evaluate_tips.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightPixels = getResources().getDisplayMetrics().heightPixels;
+                ll_evaluate_tips.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int top = ll_evaluate_tips.getTop();
+                int bottom = ll_evaluate_tips.getBottom();
+                int height = Math.abs(top - bottom);
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv_evaluate_top_bg.getLayoutParams();
+                layoutParams.height = heightPixels - height;
+                iv_evaluate_top_bg.setLayoutParams(layoutParams);
             }
         });
     }
