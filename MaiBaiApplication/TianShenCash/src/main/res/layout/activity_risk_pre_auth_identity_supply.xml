@@ -14,7 +14,7 @@
         android:background="@color/global_bg_white">
 
         <TextView
-            android:id="@+id/tv_risk_pre_back"
+            android:id="@+id/tv_risk_pre_supply_back"
             style="@style/title_back_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

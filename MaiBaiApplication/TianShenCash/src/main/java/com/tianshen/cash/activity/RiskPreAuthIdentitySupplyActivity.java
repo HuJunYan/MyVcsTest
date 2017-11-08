@@ -79,9 +79,12 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_risk_pre_supply_commit, R.id.iv_risk_pre_add_front, R.id.iv_risk_pre_add_back})
+    @OnClick({R.id.tv_risk_pre_supply_back,R.id.tv_risk_pre_supply_commit, R.id.iv_risk_pre_add_front, R.id.iv_risk_pre_add_back})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_risk_pre_supply_back:
+                backActivity();
+                break;
             case R.id.tv_risk_pre_supply_commit://点击了提交
                 uploadInfo();
                 break;
