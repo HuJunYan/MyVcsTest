@@ -14,6 +14,7 @@ import com.tianshen.cash.fragment.AuthCenterMenuFragment
 import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
+import com.tianshen.cash.utils.CashAmountDialogUtils
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
@@ -104,6 +105,7 @@ class AuthCenterMenuActivity : BaseActivity() {
             override fun onSuccess(data: AuthCenterMenuBean?) {
                 mAuthCenterMenuBean = data
                 checkShowStep()
+                checkShowDialog()
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -131,6 +133,18 @@ class AuthCenterMenuActivity : BaseActivity() {
             vp_auth_center_menu.setCurrentItem(2, false)
         }
 
+    }
+
+    private fun checkShowDialog() {
+//        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+//        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+//        val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
+//        if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit) {
+//            CashAmountDialogUtils.show(mContext)
+//        }
+
+
+        CashAmountDialogUtils.show(mContext)
     }
 
     /**
