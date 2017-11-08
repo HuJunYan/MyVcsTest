@@ -101,7 +101,7 @@
     <string name="text_popu_money">元综合费用。\n借款后请按时还款，逾期不还的用户将依法报送全国人民征信系统，不良的信用记录将影响您未来的其他贷款（如房贷和车贷）、个人求职、境外旅游等。</string>
 
     <string name="text_no_loan_history">暂无借款记录</string>
-    <string name="no_student_home">不得向学生借款</string>
+    <string name="no_student_home">不向学生提供借款服务</string>
 
     <string name="title_risk_pre_auth_identity">身份认证</string>
     <string name="text_risk_pre_top_tips">公安部联网认证,请务必上传本人有效二代身份证</string>
