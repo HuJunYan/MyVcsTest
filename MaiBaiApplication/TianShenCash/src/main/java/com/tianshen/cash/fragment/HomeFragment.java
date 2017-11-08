@@ -40,6 +40,7 @@ import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MessageCenterActivity;
+import com.tianshen.cash.activity.RiskPreConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
@@ -347,6 +348,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 //                cardBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, true);
 //                gotoActivity(mContext, AuthCenterActivity.class, cardBundle);
 //                gotoActivity(mContext, EvaluateAmountActivity.class,null);
+                gotoActivity(mContext, RiskPreConfirmBaseMoneyActivity.class, null);
                 gotoAuthCenterMenuActivity();
                 break;
             case R.id.ll_loan_day: //点击了期限选择
@@ -1602,7 +1604,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString(GlobalParams.ACTIVITY_ID, activityId);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1622,7 +1624,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         url += "&type=1";
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_HOME);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1639,7 +1641,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         String url = data.getActivity_url();
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_TYPE, GlobalParams.TYPE_READ);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1652,7 +1654,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                     }
                 });
 
