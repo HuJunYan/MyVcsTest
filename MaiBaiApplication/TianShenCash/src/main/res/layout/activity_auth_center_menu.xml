@@ -108,6 +108,7 @@
                                 android:id="@+id/iv_auth_center_step1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:visibility="invisible"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_auth_center_menu_selected_1" />
 
@@ -156,6 +157,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:visibility="invisible"
                                 android:src="@drawable/ic_auth_center_menu_selected_2" />
 
                             <View
@@ -210,6 +212,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:visibility="invisible"
                                 android:src="@drawable/ic_auth_center_menu_selected_3" />
 
                             <View

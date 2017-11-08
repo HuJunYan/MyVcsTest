@@ -3,6 +3,8 @@ package com.tianshen.cash.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.text.TextUtils
+import android.view.View
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyViewPagerAdapter
 import com.tianshen.cash.base.BaseActivity
@@ -22,6 +24,7 @@ class AuthCenterMenuActivity : BaseActivity() {
     private var mFragmentList: ArrayList<Fragment> = ArrayList()
     private var mViewPagerAdapter: MyViewPagerAdapter? = null
     private var mCurrentIndex: Int = 0
+    private var mAuthCenterMenuBean: AuthCenterMenuBean? = null
 
     override fun setContentView() = R.layout.activity_auth_center_menu
 
@@ -53,6 +56,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 mCurrentIndex = position
+                refreshUI()
             }
 
         })
@@ -107,11 +111,12 @@ class AuthCenterMenuActivity : BaseActivity() {
         authCenterMenu.getData(jsonObject, object : BaseNetCallBack<AuthCenterMenuBean> {
 
             override fun onSuccess(data: AuthCenterMenuBean?) {
+                mAuthCenterMenuBean = data
                 LogUtil.d("abc", "onSuccess--->" + data?.msg)
                 LogUtil.d("abc", "one--->" + data?.data?.auth_id_num)
                 LogUtil.d("abc", "two--->" + data?.data?.auth_person_info)
                 LogUtil.d("abc", "two--->" + data?.data?.auth_credit)
-                refreshUI(data)
+                refreshUI()
             }
 
             override fun onFailure(url: String?, errorType: Int, errorCode: Int) {
@@ -121,7 +126,71 @@ class AuthCenterMenuActivity : BaseActivity() {
         })
     }
 
-    private fun refreshUI(data: AuthCenterMenuBean?) {
+    private fun refreshUI() {
+
+        val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+        val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
+        val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
+
+        when (mCurrentIndex) {
+            0 -> {
+                if ("0" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_1)
+                } else if ("1" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                }
+                if ("0" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_2)
+                } else if ("1" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+                if ("0" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_3)
+                } else if ("1" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+            }
+            1 -> {
+                if ("0" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_unselected_1)
+                } else if ("1" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+                if ("0" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_selected_2)
+                } else if ("1" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                }
+                if ("0" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_3)
+                } else if ("1" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+            }
+            2 -> {
+                if ("0" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_unselected_1)
+                } else if ("1" == auth_id_num) {
+                    iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+                if ("0" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_2)
+                } else if ("1" == auth_person_info) {
+                    iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
+                }
+                if ("0" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_selected_3)
+                } else if ("1" == auth_credit) {
+                    iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                }
+            }
+        }
+
+        iv_auth_center_step1.visibility = View.VISIBLE
+        iv_auth_center_step2.visibility = View.VISIBLE
+        iv_auth_center_step3.visibility = View.VISIBLE
+
         val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
         val fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
         val fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
