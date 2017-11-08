@@ -79,7 +79,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_risk_pre_supply_back,R.id.tv_risk_pre_supply_commit, R.id.iv_risk_pre_add_front, R.id.iv_risk_pre_add_back})
+    @OnClick({R.id.tv_risk_pre_supply_back, R.id.tv_risk_pre_supply_commit, R.id.iv_risk_pre_add_front, R.id.iv_risk_pre_add_back})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_risk_pre_supply_back:
@@ -191,16 +191,13 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
             try {
                 Bitmap bmp = BitmapFactory.decodeStream(cr.openInputStream(uri));
                 bitmap = BitmapUtils.resizeBitmap(bmp);
-                byte[] bytes = BitmapUtils.Bitmap2Bytes(bitmap);
                 //上传图片
-
-
             } catch (FileNotFoundException e) {
+                ToastUtil.showToast(mContext, "图片错误");
                 e.printStackTrace();
             }
             if (bitmap != null) {
                 byte[] bytes = BitmapUtils.Bitmap2Bytes(bitmap);
-                LogUtil.d("wangchen", "bitmap width = " + bitmap.getWidth() + ", height = " + bitmap.getHeight());
                 switch (requestCode) {
                     case IMAGE_TYPE_ID_CARD_FRONT:
                         mImageFullPath[0] = FileUtils.authIdentitySaveJPGFile(mContext, bytes, requestCode);
@@ -276,7 +273,6 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     private void setImageSource(byte[] imageSource, int mIsClickPosition) {
 
         Bitmap idcardBmp = BitmapFactory.decodeByteArray(imageSource, 0, imageSource.length);
-        LogUtil.d("wangchen", "drawable = " + idcardBmp + ",idcardBmp ,width = " + idcardBmp.getWidth() + ",height = " + idcardBmp.getHeight());
         switch (mIsClickPosition) {
             case IMAGE_TYPE_ID_CARD_FRONT:
                 iv_risk_pre_add_front.setImageBitmap(idcardBmp);
