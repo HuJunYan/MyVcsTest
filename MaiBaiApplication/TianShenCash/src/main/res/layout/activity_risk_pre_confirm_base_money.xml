@@ -70,11 +70,6 @@
                 android:background="@color/global_bg_white"
                 android:orientation="horizontal">
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center"
-                    android:background="@color/global_line_bg" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -101,6 +96,12 @@
                         android:textColor="@color/global_txt_black4"
                         android:textSize="15sp" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="38dp"
+                    android:layout_gravity="center"
+                    android:background="@color/global_line_bg" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -129,6 +130,8 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View style="@style/split_line_style" />
 
             <View
                 style="@style/split_line_style"
