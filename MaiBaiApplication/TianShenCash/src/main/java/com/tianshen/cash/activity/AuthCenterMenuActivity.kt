@@ -128,10 +128,20 @@ class AuthCenterMenuActivity : BaseActivity() {
 
     private fun refreshUI() {
 
+        val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
+        val fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
+        val fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
+
+        fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_1, "公安部联网认证")
+        fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_2, "填写真实信息，顺利通过认证")
+        fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_3, "信用贷款，还有机会提升额度")
+
+
         val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
         val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
+
 
         when (mCurrentIndex) {
             0 -> {
@@ -142,6 +152,7 @@ class AuthCenterMenuActivity : BaseActivity() {
                 }
                 if ("0" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_2)
+
                 } else if ("1" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
                 }
@@ -191,13 +202,22 @@ class AuthCenterMenuActivity : BaseActivity() {
         iv_auth_center_step2.visibility = View.VISIBLE
         iv_auth_center_step3.visibility = View.VISIBLE
 
-        val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
-        val fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
-        val fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
+        if ("0" == auth_id_num) {
+            fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_1, "公安部联网认证")
+        } else if ("1" == auth_id_num) {
+            fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_ok, "认证成功")
+        }
+        if ("0" == auth_person_info) {
+            fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_2, "填写真实信息，顺利通过认证")
+        } else if ("1" == auth_person_info) {
+            fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_ok, "认证成功")
+        }
+        if ("0" == auth_credit) {
+            fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_3, "信用贷款，还有机会提升额度")
+        } else if ("1" == auth_credit) {
+            fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_ok, "认证成功")
+        }
 
-        fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_1, "公安部联网认证")
-        fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_2, "填写真实信息，顺利通过认证")
-        fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_3, "信用贷款，还有机会提升额度")
     }
 
 }
