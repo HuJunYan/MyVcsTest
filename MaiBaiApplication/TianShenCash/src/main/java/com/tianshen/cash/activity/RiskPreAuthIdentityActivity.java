@@ -569,7 +569,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     private void refreshNameAndNumUI() {
         String name = mIdNumInfoBean.getData().getReal_name();
         String num = mIdNumInfoBean.getData().getId_num();
-        //todo  设置身份证信息
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(num)) {
             ll_risk_pre_bottom_tips_layout.setVisibility(View.VISIBLE);
             rl_risk_pre_id_num_layout.setVisibility(View.VISIBLE);

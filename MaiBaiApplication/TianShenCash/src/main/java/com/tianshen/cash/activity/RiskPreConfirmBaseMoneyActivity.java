@@ -218,7 +218,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
      * 借钱弹窗提示
      */
     public void showMoneyPopu(String money) {
-        if (TextUtils.isEmpty(money)){
+        if (TextUtils.isEmpty(money)) {
             return;
         }
         View mContentView = View.inflate(this, R.layout.view_popuwindow_money, null);
