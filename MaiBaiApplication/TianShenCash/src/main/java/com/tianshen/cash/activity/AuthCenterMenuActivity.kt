@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyViewPagerAdapter
 import com.tianshen.cash.base.BaseActivity
@@ -15,6 +16,7 @@ import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
+import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
 import org.json.JSONObject
 import java.util.*
@@ -30,21 +32,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
     override fun findViews() {
         tv_goto_auth.setOnClickListener {
-            when (mCurrentIndex) {
-                0 -> {
-                    gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
-                }
-                1 -> {
-                    val bundle = Bundle()
-                    bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
-                    gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
-                }
-                2 -> {
-                    val bundle = Bundle()
-                    bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG)
-                    gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
-                }
-            }
+            checkGoToOtherActivity()
         }
 
         vp_auth_center_menu.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -126,29 +114,59 @@ class AuthCenterMenuActivity : BaseActivity() {
         })
     }
 
+    private fun checkGoToOtherActivity() {
+
+        val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+
+        when (mCurrentIndex) {
+            0 -> {
+                gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
+            }
+            1 -> {
+                if ("0" == auth_id_num) {
+                    ToastUtil.showToast(mContext, "请先身份认证")
+                    return
+                }
+                val bundle = Bundle()
+                bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
+                gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
+            }
+            2 -> {
+                if ("0" == auth_id_num) {
+                    ToastUtil.showToast(mContext, "请先身份认证")
+                    return
+                }
+                if ("0" == auth_person_info) {
+                    ToastUtil.showToast(mContext, "请先个人信息认证")
+                    return
+                }
+                val bundle = Bundle()
+                bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG)
+                gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
+            }
+        }
+    }
+
     private fun refreshUI() {
 
         val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
         val fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
         val fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
 
-        fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_1, "公安部联网认证")
-        fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_2, "填写真实信息，顺利通过认证")
-        fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_3, "信用贷款，还有机会提升额度")
-
-
         val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
         val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
 
-
         when (mCurrentIndex) {
             0 -> {
                 if ("0" == auth_id_num) {
                     iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_1)
+                    tv_goto_auth.text = "进入认证"
                 } else if ("1" == auth_id_num) {
                     iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                    tv_goto_auth.text = "完善"
                 }
                 if ("0" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_2)
@@ -170,8 +188,10 @@ class AuthCenterMenuActivity : BaseActivity() {
                 }
                 if ("0" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_selected_2)
+                    tv_goto_auth.text = "进入认证"
                 } else if ("1" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                    tv_goto_auth.text = "完善"
                 }
                 if ("0" == auth_credit) {
                     iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_3)
@@ -192,8 +212,10 @@ class AuthCenterMenuActivity : BaseActivity() {
                 }
                 if ("0" == auth_credit) {
                     iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_selected_3)
+                    tv_goto_auth.text = "进入认证"
                 } else if ("1" == auth_credit) {
                     iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
+                    tv_goto_auth.text = "完善"
                 }
             }
         }
