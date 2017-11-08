@@ -122,9 +122,9 @@ class AuthCenterMenuActivity : BaseActivity() {
     }
 
     private fun refreshUI(data: AuthCenterMenuBean?) {
-        var fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
-        var fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
-        var fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
+        val fragmentStep1 = mFragmentList[0] as AuthCenterMenuFragment
+        val fragmentStep2 = mFragmentList[1] as AuthCenterMenuFragment
+        val fragmentStep3 = mFragmentList[2] as AuthCenterMenuFragment
 
         fragmentStep1.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_1, "公安部联网认证")
         fragmentStep2.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_2, "填写真实信息，顺利通过认证")
