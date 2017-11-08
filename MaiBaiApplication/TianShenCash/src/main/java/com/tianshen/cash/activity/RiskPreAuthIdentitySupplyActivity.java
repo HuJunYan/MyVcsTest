@@ -29,7 +29,6 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tianshen.cash.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -55,9 +54,10 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
     private int clickPosition;
     private String[] mImageFullPath = new String[2];
-    private boolean isUploadFrontImage;
-    private boolean isUploadBackImage;
-
+    private boolean isSaveFrontImage;
+    private boolean isSaveBackImage;
+    private String name;
+    private String id_num;
     @Override
     protected int setContentView() {
         return R.layout.activity_risk_pre_auth_identity_supply;
@@ -95,25 +95,10 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
         }
     }
 
-    private void uploadInfo() {
-        if (!isUploadFrontImage) {
-            ToastUtil.showToast(mContext, "请上传身份证正面照片");
-            return;
-        }
-        if (!isUploadBackImage) {
-            ToastUtil.showToast(mContext, "请上传身份证反面照片");
-            return;
-        }
-        final String name = et_risk_pre_supply_real_name.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
-            ToastUtil.showToast(mContext, "请输入真实姓名");
-            return;
-        }
-        final String id_num = et_risk_pre_supply_id_num.getText().toString().trim();
-        if (TextUtils.isEmpty(id_num)) {
-            ToastUtil.showToast(mContext, "请输入身份证号");
-            return;
-        }
+    /**
+     * 上传身份信息
+     */
+    public void upLoadIdNumAndName() {
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -147,7 +132,30 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
 
             }
         });
+    }
 
+    private void uploadInfo() {
+        if (!isSaveFrontImage) {
+            ToastUtil.showToast(mContext, "请上传身份证正面照片");
+            return;
+        }
+        if (!isSaveBackImage) {
+            ToastUtil.showToast(mContext, "请上传身份证反面照片");
+            return;
+        }
+        String name = et_risk_pre_supply_real_name.getText().toString().trim();
+        if (TextUtils.isEmpty(name)) {
+            ToastUtil.showToast(mContext, "请输入真实姓名");
+            return;
+        }
+        String id_num = et_risk_pre_supply_id_num.getText().toString().trim();
+        if (TextUtils.isEmpty(id_num)) {
+            ToastUtil.showToast(mContext, "请输入身份证号");
+            return;
+        }
+        this.name = name;
+        this.id_num = id_num;
+        upLoadImage(IMAGE_TYPE_ID_CARD_FRONT);
 
     }
 
@@ -184,7 +192,6 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            ViewUtil.createLoadingDialog(this, "", false);
             Uri uri = data.getData();
             ContentResolver cr = getContentResolver();
             Bitmap bitmap = null;
@@ -201,12 +208,16 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
                 switch (requestCode) {
                     case IMAGE_TYPE_ID_CARD_FRONT:
                         mImageFullPath[0] = FileUtils.authIdentitySaveJPGFile(mContext, bytes, requestCode);
+                        isSaveFrontImage = true;
                         break;
                     case IMAGE_TYPE_ID_CARD_BACK:
                         mImageFullPath[1] = FileUtils.authIdentitySaveJPGFile(mContext, bytes, requestCode);
+                        isSaveBackImage = true;
                         break;
                 }
-                upLoadImage(bytes, requestCode);
+                setImageSource(bytes, requestCode);
+
+//                upLoadImage(bytes, requestCode);
             } else {
                 ToastUtil.showToast(mContext, "图片错误");
             }
@@ -220,7 +231,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     /**
      * 上传图片
      */
-    private void upLoadImage(final byte[] imageByte, final int mIsClickPosition) {
+    private void upLoadImage(final int mIsClickPosition) {
 
         String userID = TianShenUserUtil.getUserId(mContext);
         LogUtil.d("abc", "mIsClickPosition = " + mIsClickPosition);
@@ -238,7 +249,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
         }
 
         try {
-            UploadImage uploadImage = new UploadImage(mContext);
+            final UploadImage uploadImage = new UploadImage(mContext);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userID);
             jsonObject.put("type", type);
@@ -250,12 +261,10 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
                     LogUtil.d("abc", "upLoadImage--onSuccess mIsClickPosition = " + mIsClickPosition);
                     switch (mIsClickPosition) {
                         case IMAGE_TYPE_ID_CARD_FRONT:
-                            isUploadFrontImage = true;
-                            setImageSource(imageByte, mIsClickPosition);
+                            upLoadImage(IMAGE_TYPE_ID_CARD_BACK);
                             break;
                         case IMAGE_TYPE_ID_CARD_BACK:
-                            isUploadBackImage = true;
-                            setImageSource(imageByte, mIsClickPosition);
+                            upLoadIdNumAndName();
                             break;
                     }
                 }
