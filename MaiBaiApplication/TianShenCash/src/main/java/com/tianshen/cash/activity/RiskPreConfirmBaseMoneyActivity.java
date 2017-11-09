@@ -26,6 +26,7 @@ import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
+import com.tianshen.cash.net.api.GetBaseLoanInfo;
 import com.tianshen.cash.net.api.UploadUserInfoApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -34,6 +35,7 @@ import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
+import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneInfoUtil;
 import com.tianshen.cash.utils.SpannableUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
@@ -82,6 +84,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private List<CharacterStyle> ssList;
     private JSONObject mJSONObject;
     private OrderConfirmBean mOrderConfirmBean;  //todo  这个bean 等接口修改替换
+    private String mPoundageY;
 
     @Override
     protected int setContentView() {
@@ -91,9 +94,124 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initBaseLoanInfoData();
         initGotoWebData();
     }
+
+    /**
+     * 得到确认借款数据
+     */
+    private void initBaseLoanInfoData() {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            String consume_amount = TianShenUserUtil.getUserConsumeAmount(mContext);
+            String repay_id = TianShenUserUtil.getUserRepayId(mContext);
+            String customer_id = TianShenUserUtil.getUserId(mContext);
+            String location = TianShenUserUtil.getLocation(mContext);
+            String city = TianShenUserUtil.getCity(mContext);
+            String country = TianShenUserUtil.getCountry(mContext);
+            String address = TianShenUserUtil.getAddress(mContext);
+            String province = TianShenUserUtil.getProvince(mContext);
+
+            if (TextUtils.isEmpty(location)) {
+                RxPermissions rxPermissions = new RxPermissions(RiskPreConfirmBaseMoneyActivity.this);
+                rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            LocationUtil mLocationUtil = LocationUtil.getInstance();
+                            mLocationUtil.startLocation(RiskPreConfirmBaseMoneyActivity.this);
+                            mLocationUtil.setIsCallBack(true);
+                        } else {
+                            ToastUtil.showToast(mContext, "请打开定位权限!");
+                        }
+                        return;
+                    }
+                });
+                ToastUtil.showToast(mContext, "请打开定位权限!");
+                return;
+            }
+
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, customer_id);
+            jsonObject.put("repay_id", repay_id);
+            jsonObject.put("consume_amount", consume_amount);
+
+            jsonObject.put("location", location);
+            jsonObject.put("province", province);
+            jsonObject.put("city", city);
+            jsonObject.put("country", country);
+            jsonObject.put("address", address);
+
+
+            final GetBaseLoanInfo getBaseLoanInfo = new GetBaseLoanInfo(mContext);
+            getBaseLoanInfo.baseLoanInfo(jsonObject, null, true, new BaseNetCallBack<OrderConfirmBean>() {
+                @Override
+                public void onSuccess(OrderConfirmBean bean) {
+                    mOrderConfirmBean = bean;
+                    refreshUI();
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 刷新UI
+     */
+    private void refreshUI() {
+        if (mOrderConfirmBean == null) {
+            return;
+        }
+        showNormalUI();
+    }
+
+    /**
+     * 显示正常的UI
+     */
+    private void showNormalUI() {
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount(); //用户申请金额
+        String timer = mOrderConfirmBean.getData().getTimer();//借款时长
+        String poundage = mOrderConfirmBean.getData().getPoundage();//综合费
+        String amount = mOrderConfirmBean.getData().getAmount();//到账金额
+        String bank_name = mOrderConfirmBean.getData().getBank_name();//绑定银行卡所属银行
+        String card_num = mOrderConfirmBean.getData().getCard_num();//绑定银行卡卡号
+        String repayment_amout = mOrderConfirmBean.getData().getRepayment_amout();//到期还款金额
+        String interest = mOrderConfirmBean.getData().getInterest();//利息
+        try {
+            String consume_amountY = MoneyUtils.changeF2Y(consume_amount);
+            mPoundageY = MoneyUtils.changeF2Y(poundage);
+//            String amountY = MoneyUtils.changeF2Y(amount);
+//            String repaymentAmoutY = MoneyUtils.changeF2Y(repayment_amout);
+            tv_risk_pre_money.setText(consume_amountY);
+//            tvConfirmProcedures.setText(mPoundageY + "元");
+//            tvConfirmTransfer.setText(amountY + "元");
+//            tvConfirmRepay.setText(repaymentAmoutY + "元");
+            tv_risk_pre_money_days.setText(timer);
+            tv_risk_pre_bank_num.setText(card_num);
+//            String cardNum = SafeUtil.encodeBankCardNum(card_num);
+            tv_risk_pre_money_bank.setText(bank_name);
+            String interestY = MoneyUtils.changeF2Y(interest);
+            tv_risk_pre_money_rates.setText(interestY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //存储ID
+        String repayId = mOrderConfirmBean.getData().getRepay_id();
+        TianShenUserUtil.saveUserRepayId(mContext, repayId);
+
+
+    }
+
 
     @Override
     protected void findViews() {
@@ -122,7 +240,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 backActivity();
                 break;
             case R.id.tv_risk_pre_confirm:
-                showMoneyPopu("1000"); //money  需要真实的 等接口
+                showMoneyPopu(mPoundageY); //money  需要真实的 等接口
                 //TODO  下单
                 break;
             case R.id.tv_risk_pre_money_verify_code: //获取验证码

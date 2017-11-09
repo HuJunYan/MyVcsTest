@@ -8,6 +8,7 @@ import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyViewPagerAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.event.RiskPreEvaluateFinishEvent
 import com.tianshen.cash.fragment.AuthCenterMenuFragment
 import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
@@ -16,6 +17,7 @@ import com.tianshen.cash.utils.CashAmountDialogUtils
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
+import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import java.util.*
 
@@ -155,10 +157,10 @@ class AuthCenterMenuActivity : BaseActivity() {
                 gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
             }
             1 -> {
-                 if ("0" == auth_id_num) {
-                     ToastUtil.showToast(mContext, "请先身份认证")
-                     return
-                 }
+                if ("0" == auth_id_num) {
+                    ToastUtil.showToast(mContext, "请先身份认证")
+                    return
+                }
                 val bundle = Bundle()
                 bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
@@ -274,6 +276,11 @@ class AuthCenterMenuActivity : BaseActivity() {
             fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_ok, "认证成功")
         }
 
+    }
+
+    @Subscribe
+    fun onRiskPreEvaluateFinishEvent(event: RiskPreEvaluateFinishEvent) {
+        finish()
     }
 
 }

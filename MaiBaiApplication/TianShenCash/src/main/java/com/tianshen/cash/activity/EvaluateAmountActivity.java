@@ -19,6 +19,7 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LocationEvent;
+import com.tianshen.cash.event.RiskPreEvaluateFinishEvent;
 import com.tianshen.cash.model.CashAmountBean;
 import com.tianshen.cash.net.api.GetCashAmountService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -29,6 +30,7 @@ import com.tianshen.cash.utils.StatusBarUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -131,9 +133,13 @@ public class EvaluateAmountActivity extends BaseActivity {
             String is_payway = data.getIs_payway();
             if ("0".equals(is_payway)) {
                 //todo 跳转到首页 并关闭认证中心页面
+                finish();
             } else if ("1".equals(is_payway)) {
                 //todo 跳转到掌众 并关闭所有页面
+                gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
+                finish();
             }
+            EventBus.getDefault().post(new RiskPreEvaluateFinishEvent(is_payway));
         }
     }
 

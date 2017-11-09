@@ -54,6 +54,7 @@ import com.tianshen.cash.event.LogoutSuccessEvent;
 import com.tianshen.cash.event.QuotaEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.RepayFailureEvent;
+import com.tianshen.cash.event.RiskPreEvaluateFinishEvent;
 import com.tianshen.cash.event.TimeOutEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.ActivityBean;
@@ -2038,4 +2039,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mQuotaCount++;
     }
 
+
+    @Subscribe
+    public void onRiskPreEvaluateFinishEvent(RiskPreEvaluateFinishEvent event){
+        if ("1".equals(event.type)){ //掌中 关闭页面
+            getActivity().finish();
+        }else if ("0".equals(event.type)){
+            initUserConfig(); //自营 刷新userconfig
+        }
+    }
 }
