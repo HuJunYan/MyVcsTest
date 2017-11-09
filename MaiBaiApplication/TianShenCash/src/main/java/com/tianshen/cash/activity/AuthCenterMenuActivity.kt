@@ -119,7 +119,7 @@ class AuthCenterMenuActivity : BaseActivity() {
      */
     private fun checkShowStep() {
 
-        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
 
@@ -135,7 +135,7 @@ class AuthCenterMenuActivity : BaseActivity() {
     }
 
     private fun checkShowDialog() {
-        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
         val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
@@ -193,7 +193,6 @@ class AuthCenterMenuActivity : BaseActivity() {
         val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
-        val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
 
         when (mCurrentIndex) {
             0 -> {
