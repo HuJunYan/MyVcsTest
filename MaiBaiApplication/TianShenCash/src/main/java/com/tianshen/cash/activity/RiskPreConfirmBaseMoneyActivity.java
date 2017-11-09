@@ -509,6 +509,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
         LocationUtil mLocationUtil = LocationUtil.getInstance();
         mLocationUtil.setIsCallBack(false);
     }
