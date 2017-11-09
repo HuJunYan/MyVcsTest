@@ -42,6 +42,7 @@ import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneInfoUtil;
 import com.tianshen.cash.utils.SpannableUtils;
+import com.tianshen.cash.utils.StringUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.ViewUtil;
@@ -211,7 +212,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
 //            tvConfirmTransfer.setText(amountY + "元");
 //            tvConfirmRepay.setText(repaymentAmoutY + "元");
             tv_risk_pre_money_days.setText(timer);
-            tv_risk_pre_bank_num.setText(card_num);
+            String cardNum = StringUtil.getTianShenCardNum(card_num);
+            tv_risk_pre_bank_num.setText(cardNum);
 //            String cardNum = SafeUtil.encodeBankCardNum(card_num);
             tv_risk_pre_money_bank.setText(bank_name);
             String interestY = MoneyUtils.changeF2Y(interest);
