@@ -139,7 +139,7 @@ class AuthCenterMenuActivity : BaseActivity() {
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
         val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
         val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
-        if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit && cash_amount == "0") {
+        if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit && "0" == cash_amount) {
             CashAmountDialogUtils.show(mContext)
         }
     }
