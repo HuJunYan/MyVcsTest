@@ -2,6 +2,8 @@ package com.tianshen.cash.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
@@ -25,8 +27,10 @@ import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.VerifyCodeBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
+import com.tianshen.cash.net.api.GetVerifyCode;
 import com.tianshen.cash.net.api.UploadUserInfoApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -83,8 +87,19 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     TextView tv_risk_pre_confirm;
     private List<CharacterStyle> ssList;
     private JSONObject mJSONObject;
-    private OrderConfirmBean mOrderConfirmBean;  //todo  这个bean 等接口修改替换
+    private OrderConfirmBean mOrderConfirmBean;
     private String mPoundageY;
+
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            refreshSeverityTextUI();
+        }
+    };
+    private int mStartTime = 59;
+    private int MSG_SEVERITY_TIME = 10001;
 
     @Override
     protected int setContentView() {
@@ -240,10 +255,10 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 backActivity();
                 break;
             case R.id.tv_risk_pre_confirm:
-                showMoneyPopu(mPoundageY); //money  需要真实的 等接口
-                //TODO  下单
+                showMoneyPopu(mPoundageY);
                 break;
             case R.id.tv_risk_pre_money_verify_code: //获取验证码
+                getVerifyCode();
                 break;
 
         }
@@ -338,6 +353,11 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
      */
     public void showMoneyPopu(String money) {
         if (TextUtils.isEmpty(money)) {
+            return;
+        }
+        String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
+        if (TextUtils.isEmpty(verify_code)) {
+            ToastUtil.showToast(mContext, "请输入验证码");
             return;
         }
         View mContentView = View.inflate(this, R.layout.view_popuwindow_money, null);
@@ -500,7 +520,11 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         if (mOrderConfirmBean == null) {
             return;
         }
-
+        String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
+        if (TextUtils.isEmpty(verify_code)) {
+            ToastUtil.showToast(mContext, "请输入验证码");
+            return;
+        }
         JSONObject jsonObject = new JSONObject();
         try {
 
@@ -527,6 +551,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             jsonObject.put("city", city);
             jsonObject.put("country", country);
             jsonObject.put("address", address);
+            jsonObject.put("verify_code", verify_code); //验证码
 
 
         } catch (JSONException e) {
@@ -548,6 +573,30 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * 刷新验证码UI
+     */
+    private void refreshSeverityTextUI() {
+
+        if (isFinishing()) {
+            return;
+        }
+
+        tv_risk_pre_money_verify_code.setText(String.valueOf(mStartTime));
+        mStartTime--;
+        if (mStartTime == 0) {
+            tv_risk_pre_money_verify_code.setText("重获取验证码");
+            mStartTime = 59;
+            tv_risk_pre_money_verify_code.setEnabled(true);
+            mHandler.removeMessages(MSG_SEVERITY_TIME);
+        } else {
+            tv_risk_pre_money_verify_code.setEnabled(false);
+            mHandler.sendEmptyMessageDelayed(MSG_SEVERITY_TIME, 1000);
+        }
+
+    }
+
     /**
      * 回到首页
      */
@@ -556,4 +605,38 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         gotoActivity(mContext, MainActivity.class, null);
         finish();
     }
+
+    /**
+     * 获取验证码
+     */
+    private void getVerifyCode() {
+        if (mOrderConfirmBean == null || mOrderConfirmBean.getData() == null) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
+        GetVerifyCode getVerifyCode = new GetVerifyCode(mContext);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+            jsonObject.put("mobile", mOrderConfirmBean.getData().getPhone());
+            jsonObject.put("type", "9");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getVerifyCode.getVerifyCode(jsonObject, new BaseNetCallBack<VerifyCodeBean>() {
+            @Override
+            public void onSuccess(VerifyCodeBean paramT) {
+                ToastUtil.showToast(mContext, "验证码发送成功");
+                refreshSeverityTextUI();
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+
+
+    }
+
 }
