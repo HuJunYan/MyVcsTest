@@ -34,6 +34,7 @@ public class CashAmountBean {
 
         private String cash_amount;
         private String cash_amount_status;
+        private String is_payway; //0 自营 /1 掌众
         private String joke_url;
 
         public String getCash_amount() {
@@ -60,5 +61,12 @@ public class CashAmountBean {
             this.joke_url = joke_url;
         }
 
+        public String getIs_payway() {
+            return is_payway;
+        }
+
+        public void setIs_payway(String is_payway) {
+            this.is_payway = is_payway;
+        }
     }
 }

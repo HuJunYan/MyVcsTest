@@ -20,6 +20,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
@@ -188,25 +189,25 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
      */
     private void gotoWebActivity(int type) {
         //TODO 协议
-//        if (mOrderConfirmBean == null) {
-//            return;
-//        }
-//        String userPayProtocolURL;
-//        if (type == 3) {
-//            userPayProtocolURL = mOrderConfirmBean.getData().getBank_credit_investigation_url();
-//        } else {
-//            userPayProtocolURL = NetConstantValue.getUserPayServerURL();
-//        }
-//        String repay_id = mOrderConfirmBean.getData().getRepay_id();
-//        String consume_amount = mOrderConfirmBean.getData().getConsume_amount();//借款本金
+        if (mOrderConfirmBean == null) {
+            return;
+        }
+        String userPayProtocolURL;
+        if (type == 3) {
+            userPayProtocolURL = mOrderConfirmBean.getData().getBank_credit_investigation_url();
+        } else {
+            userPayProtocolURL = NetConstantValue.getUserPayServerURL();
+        }
+        String repay_id = mOrderConfirmBean.getData().getRepay_id();
+        String consume_amount = mOrderConfirmBean.getData().getConsume_amount();//借款本金
         StringBuilder sb = new StringBuilder();
-//        sb.append(userPayProtocolURL);
-//        if (type != 3) {
-//            sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
-//            sb.append("&repay_id=" + repay_id);
-//            sb.append("&consume_amount=" + consume_amount);
-//            sb.append("&agreement_type=" + type);
-//        }
+        sb.append(userPayProtocolURL);
+        if (type != 3) {
+            sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
+            sb.append("&repay_id=" + repay_id);
+            sb.append("&consume_amount=" + consume_amount);
+            sb.append("&agreement_type=" + type);
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());

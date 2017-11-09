@@ -120,12 +120,21 @@ public class EvaluateAmountActivity extends BaseActivity {
     }
 
     private void refreshDataAndCheckIsNeedGotoMain() {
-        if (mCashAmountBean == null) {
+        if (mCashAmountBean == null || mCashAmountBean.getData() == null) {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
         //TODO 判断状态 根据状态进行不同操作
-
+        CashAmountBean.Data data = mCashAmountBean.getData();
+        String cash_amount_status = data.getCash_amount_status();
+        if ("1".equals(cash_amount_status)) {//测评完毕
+            String is_payway = data.getIs_payway();
+            if ("0".equals(is_payway)) {
+                //todo 跳转到首页 并关闭认证中心页面
+            } else if ("1".equals(is_payway)) {
+                //todo 跳转到掌众 并关闭所有页面
+            }
+        }
     }
 
     @OnClick(R.id.tv_evaluate_joke)
