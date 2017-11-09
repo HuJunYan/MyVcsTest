@@ -59,6 +59,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     private boolean isSaveBackImage;
     private String name;
     private String id_num;
+
     @Override
     protected int setContentView() {
         return R.layout.activity_risk_pre_auth_identity_supply;
@@ -110,6 +111,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
             jsonObject.put("birthday", "");
             jsonObject.put("birthplace", "");
             jsonObject.put("id_num", id_num);
+            jsonObject.put("up_status", "2");// 用户输入
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -233,7 +235,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
      * 上传图片
      */
     private void upLoadImage(final int mIsClickPosition) {
-        ViewUtil.createLoadingDialog(this,"",false);
+        ViewUtil.createLoadingDialog(this, "", false);
         String userID = TianShenUserUtil.getUserId(mContext);
         LogUtil.d("abc", "mIsClickPosition = " + mIsClickPosition);
         String path = "";

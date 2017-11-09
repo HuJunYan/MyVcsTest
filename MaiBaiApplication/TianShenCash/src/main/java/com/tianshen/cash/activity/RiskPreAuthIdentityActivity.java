@@ -618,6 +618,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             jsonObject.put("birthday", birthday);
             jsonObject.put("birthplace", birthplace);
             jsonObject.put("id_num", id_num);
+            jsonObject.put("up_status", "1");// 正常扫脸
 
         } catch (JSONException e) {
             e.printStackTrace();
