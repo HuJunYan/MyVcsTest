@@ -29,6 +29,7 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -136,11 +137,11 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
 
     private void uploadInfo() {
         if (!isSaveFrontImage) {
-            ToastUtil.showToast(mContext, "请上传身份证正面照片");
+            ToastUtil.showToast(mContext, "请选择身份证正面照片");
             return;
         }
         if (!isSaveBackImage) {
-            ToastUtil.showToast(mContext, "请上传身份证反面照片");
+            ToastUtil.showToast(mContext, "请选择身份证反面照片");
             return;
         }
         String name = et_risk_pre_supply_real_name.getText().toString().trim();
@@ -232,7 +233,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
      * 上传图片
      */
     private void upLoadImage(final int mIsClickPosition) {
-
+        ViewUtil.createLoadingDialog(this,"",false);
         String userID = TianShenUserUtil.getUserId(mContext);
         LogUtil.d("abc", "mIsClickPosition = " + mIsClickPosition);
         String path = "";
