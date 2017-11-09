@@ -27,6 +27,7 @@ import com.tencent.tauth.Tencent;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.event.WechatShareEvent;
 import com.tianshen.cash.model.MessageBean;
 import com.tianshen.cash.model.TurnplateBean;
@@ -342,7 +343,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
 
     public void updateShareSuccess() {
-        if (messageBean == null){
+        if (messageBean == null) {
             return;
         }
         UpdateShareCountApi updateShareCountApi = new UpdateShareCountApi(this);
@@ -350,11 +351,16 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(this));
             jsonObject.put("msg_id", messageBean.getMsg_id());
-            jsonObject.put("msg_type",messageBean.getMsg_type());
+            jsonObject.put("msg_type", messageBean.getMsg_type());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         updateShareCountApi.updateShareCount(jsonObject, iv_web_share, false);
     }
 
+    @Subscribe
+    public void onRiskPreFinishEvent(RiskPreFinishEvent event) {
+        //风控评分结束
+        ToastUtil.showToast(mContext, "您的额度评测已经结束,请返回查看");
+    }
 }

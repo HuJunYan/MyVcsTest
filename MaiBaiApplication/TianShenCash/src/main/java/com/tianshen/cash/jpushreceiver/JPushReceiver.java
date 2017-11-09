@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.RefreshRepayDataEvent;
+import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.JpushBaseBean;
@@ -73,6 +74,9 @@ public class JPushReceiver extends BroadcastReceiver {
                         break;
                     case "5"://首页右上角有新消息了
                         EventBus.getDefault().post(new UserConfigChangedEvent());
+                        break;
+                    case "6"://风控评测完毕
+                        EventBus.getDefault().post(new RiskPreFinishEvent());
                         break;
                     case "30"://确认借款数据准备完毕的推送
                         EventBus.getDefault().post(new PayDataOKEvent());

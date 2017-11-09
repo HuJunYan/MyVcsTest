@@ -20,6 +20,7 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.RiskPreEvaluateFinishEvent;
+import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.model.CashAmountBean;
 import com.tianshen.cash.net.api.GetCashAmountService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -50,6 +51,9 @@ public class EvaluateAmountActivity extends BaseActivity {
     @BindView(R.id.tv_tips2)
     TextView tv_tips2;
     private CashAmountBean mCashAmountBean;
+    private boolean isNeedRefresh; //是否需要刷新接口
+    private boolean isOnResumeExe;//是否在前台
+
 
     @Override
     protected int setContentView() {
@@ -59,13 +63,11 @@ public class EvaluateAmountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        resetViewSize();
         initData();
     }
 
     private void initData() {
-        resetViewSize();
-
-
         String location = TianShenUserUtil.getLocation(mContext);
         if (TextUtils.isEmpty(location)) {
             RxPermissions rxPermissions = new RxPermissions(EvaluateAmountActivity.this);
@@ -131,6 +133,8 @@ public class EvaluateAmountActivity extends BaseActivity {
         String cash_amount_status = data.getCash_amount_status();
         if ("1".equals(cash_amount_status)) {//测评完毕
             String is_payway = data.getIs_payway();
+            EventBus.getDefault().post(new RiskPreEvaluateFinishEvent(is_payway));
+            gotoActivity(mContext, MainActivity.class, null);
             if ("0".equals(is_payway)) {
                 //todo 跳转到首页 并关闭认证中心页面
                 finish();
@@ -139,7 +143,6 @@ public class EvaluateAmountActivity extends BaseActivity {
                 gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
                 finish();
             }
-            EventBus.getDefault().post(new RiskPreEvaluateFinishEvent(is_payway));
         }
     }
 
@@ -217,5 +220,29 @@ public class EvaluateAmountActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe
+    public void onRiskPreFinishEvent(RiskPreFinishEvent event) {
+        if (isOnResumeExe) { //如果在当前页面 刷新
+            initData();
+        } else {//不在当前页面 记录需要刷新状态
+            isNeedRefresh = true;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isNeedRefresh) { //需要刷新 刷新
+            initData();
+        }
+        isOnResumeExe = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isOnResumeExe = false;
     }
 }
