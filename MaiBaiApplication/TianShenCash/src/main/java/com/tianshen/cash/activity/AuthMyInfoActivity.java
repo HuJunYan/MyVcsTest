@@ -112,6 +112,10 @@ public class AuthMyInfoActivity extends BaseActivity {
      */
     public void showView(String type) {
         if ("1".equals(type)) {
+            mTvAuthRemind1.setText("请填写真实有效的信息");
+            mTvAuthRemind1.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_auth_center_menu_prompt),null,null,null);
+//            mTvAuthRemind1.setCompoundDrawablesRelativeWithIntrinsicBounds();
+            mRedPoint.setVisibility(View.GONE);
             mTitle.setText("个人信息认证");
             mRlAuthExtral.setVisibility(View.GONE);
             mRlAuthThree.setVisibility(View.GONE);
@@ -119,6 +123,8 @@ public class AuthMyInfoActivity extends BaseActivity {
             mTvAuthInfomoney.setText("收款银行卡");
 
         } else {
+            mRedPoint.setVisibility(View.VISIBLE);
+            mTvAuthRemind1.setText("完成以下信息，即可获取额度去借款");
             mTitle.setText("信用认证");
             mRlAuthExtral.setVisibility(View.VISIBLE);
             mRlAuthThree.setVisibility(View.VISIBLE);

@@ -13,8 +13,8 @@ import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.CashAmountDialogUtils
-import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
+import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
 import org.json.JSONObject
 import java.util.*
@@ -155,23 +155,23 @@ class AuthCenterMenuActivity : BaseActivity() {
                 gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
             }
             1 -> {
-                /* if ("0" == auth_id_num) {
+                 if ("0" == auth_id_num) {
                      ToastUtil.showToast(mContext, "请先身份认证")
                      return
-                 }*/
+                 }
                 val bundle = Bundle()
                 bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
             }
             2 -> {
-                /*if ("0" == auth_id_num) {
+                if ("0" == auth_id_num) {
                     ToastUtil.showToast(mContext, "请先身份认证")
                     return
                 }
                 if ("0" == auth_person_info) {
                     ToastUtil.showToast(mContext, "请先个人信息认证")
                     return
-                }*/
+                }
                 val bundle = Bundle()
                 bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG)
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
