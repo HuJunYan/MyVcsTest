@@ -106,7 +106,7 @@
     <color name="auth_bank_texthint_color">#C9C6C0</color>
 
 
-
+    <color name="auth_center_menu_dialog_up">#ffba00</color>
     <color name="auth_center_menu_step">#FF5353</color>
 
 </resources>

@@ -133,15 +133,13 @@ class AuthCenterMenuActivity : BaseActivity() {
     }
 
     private fun checkShowDialog() {
-//        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
-//        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
-//        val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
-//        if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit) {
-//            CashAmountDialogUtils.show(mContext)
-//        }
-
-
-        CashAmountDialogUtils.show(mContext)
+        var auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
+        val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+        val auth_credit = mAuthCenterMenuBean?.data?.auth_credit
+        val cash_amount = mAuthCenterMenuBean?.data?.cash_amount
+        if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit && cash_amount == "0") {
+            CashAmountDialogUtils.show(mContext)
+        }
     }
 
     /**
@@ -157,10 +155,10 @@ class AuthCenterMenuActivity : BaseActivity() {
                 gotoActivity(mContext, RiskPreAuthIdentityActivity::class.java, null)
             }
             1 -> {
-               /* if ("0" == auth_id_num) {
-                    ToastUtil.showToast(mContext, "请先身份认证")
-                    return
-                }*/
+                /* if ("0" == auth_id_num) {
+                     ToastUtil.showToast(mContext, "请先身份认证")
+                     return
+                 }*/
                 val bundle = Bundle()
                 bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.PERSONFLAG)
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
