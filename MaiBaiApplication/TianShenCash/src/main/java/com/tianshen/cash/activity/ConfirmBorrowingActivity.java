@@ -8,7 +8,20 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
+import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.CashSubItemBean;
+import com.tianshen.cash.model.OtherLoanBean;
+import com.tianshen.cash.net.api.GetOtherLoanService;
+import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MoneyUtils;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.view.MinMaxSeekBar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +56,13 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     TextView mTvConfirmProtocol;
     @BindView(R.id.tv_home_apply)
     TextView mTvHomeApply;
+    @BindView(R.id.tv_borrow_time)
+    TextView mTvBorrowTime;
+    @BindView(R.id.tv_borrow_blank_card)
+    TextView mTvBorrowBlankCard;
+    private OtherLoanBean mOtherLoanBean;
+    private String mCurrentOrderMoney;
+    private int mCurrentLoanDaysIndex;//当前选择产品在mLoanDays的角标
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +76,8 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-
+        initOtherLoanBeanData();
+        mTvHomeMoney.setText(0+"");
     }
 
     @Override
@@ -84,7 +105,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
         @Override
         public void onProgressChanged(float progress) {
-//            refreshLoanNumUI((int) progress);
+            refreshLoanNumUI((int) progress);
         }
 
         @Override
@@ -93,27 +114,25 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
         @Override
         public void onStopTrackingTouch(float progress) {
-//            refreshLoanNumUI((int) progress);
+            refreshLoanNumUI((int) progress);
         }
     }
 
     /**
      * 刷新当前借款的金额，和综合费用
      */
-    /*private void refreshLoanNumUI(int progress) {
+    private void refreshLoanNumUI(int progress) {
 
-        if (mSelWithdrawalsBean == null) {
+        if (mOtherLoanBean == null) {
             return;
         }
 
         //设置借款金额
         String currentMoney = MoneyUtils.addTwoPoint(progress);
         mTvHomeMoney.setText(currentMoney);
-        tv_home_get_money.setText(currentMoney);
 
-        List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
-        WithdrawalsItemBean withdrawalsItemBean = withdrawalsItemBeen.get(mCurrentLoanDaysIndex);
-        List<CashSubItemBean> cash_data = withdrawalsItemBean.getCash_data();
+        OtherLoanBean.Data data = mOtherLoanBean.getData();
+        List<CashSubItemBean> cash_data = data.getCash_data();
         for (int i = 0; i < cash_data.size(); i++) {
             CashSubItemBean cashSubItemBean = cash_data.get(i);
             String withdrawalAmount = cashSubItemBean.getWithdrawal_amount();
@@ -122,20 +141,45 @@ public class ConfirmBorrowingActivity extends BaseActivity {
                 int withdrawalAmountInt = Integer.valueOf(withdrawalAmountY); //申请的金额也就是滑动当前位置的金额
                 if (progress == withdrawalAmountInt) {
                     mCurrentOrderMoney = withdrawalAmount;
+                    mTvHomeMoney.setText(mCurrentOrderMoney);
                     break;
-//                    String transfer_amount = cashSubItemBean.getTransfer_amount();
-//                    String transfer_amountY = MoneyUtils.changeF2Y(transfer_amount);
-//                    int transfer_amountInt = Integer.valueOf(transfer_amountY); //到账金额
-//                    int procedures = withdrawalAmountInt - transfer_amountInt;//手续金额
-//                    String proceduresStr = String.valueOf(procedures);
-//                    String proceduresStrF = MoneyUtils.div(proceduresStr, "2", 0);
-                    //设置手续金额
-//                    tvProceduresValue.setText(proceduresStrF + " 元");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-    }*/
+    }
+
+    //初始化数据
+    private void initOtherLoanBeanData() {
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            String userId = TianShenUserUtil.getUserId(mContext);
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+            LogUtil.d("abc", "其他借款方式用户id:" + userId);
+            final GetOtherLoanService selWithdrawals = new GetOtherLoanService(mContext);
+            selWithdrawals.getData(jsonObject, new BaseNetCallBack<OtherLoanBean>() {
+
+
+                @Override
+                public void onSuccess(OtherLoanBean paramT) {
+                    mOtherLoanBean = paramT;
+                    mTvHomeMinSb.setText(mOtherLoanBean.getData().getMin_cash());
+                    mTvHomeMaxSb.setText(mOtherLoanBean.getData().getMax_cash());
+                    mTvBorrowTime.setText(mOtherLoanBean.getData().getRepay_times());
+                    mTvBorrowBlankCard.setText(mOtherLoanBean.getData().getBank_card_info_str());
+                    refreshLoanNumUI(mMinMaxSb.getMinMaxSeekBarCurrentProgress());
+                }
+
+                @Override
+                public void onFailure(String url, int errorType, int errorCode) {
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

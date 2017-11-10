@@ -267,6 +267,9 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     /**
      * 跳转到手机认证和芝麻信用认证
+     * @param url webview加载的url
+     * @param title webView标题
+     * @param type  区分是手机认证还是芝麻信用认证
      */
     private void gotoChinaMobileActivity(String url, String title,String type) {
         /*Bundle bundle = new Bundle();
@@ -363,6 +366,7 @@ public class AuthMyInfoActivity extends BaseActivity {
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
         switch (arg0){
             case RESTCODEUSERINFO:
+                //认证个人信息返回返回
                 if (arg2!=null) {
                     String statue = arg2.getStringExtra("RESULTSTATUE");
                     mUserInfoStatus=statue;
@@ -376,37 +380,46 @@ public class AuthMyInfoActivity extends BaseActivity {
 
                 break;
             case RESTCODEBLANKCARD:
-                String statue = arg2.getStringExtra("RESULTSTATUE");
+                //认证认证银行卡返回
+                if (arg2!=null) {
+                    String statue = arg2.getStringExtra("RESULTSTATUE");
 
-                if ("1".equals(statue)){
-                    mImageView2.setImageResource(R.drawable.authed_statue);
-                    backActivity();
-                }else{
-                    mImageView2.setImageResource(R.drawable.ic_arraw_right2);
+                    if ("1".equals(statue)) {
+                        mImageView2.setImageResource(R.drawable.authed_statue);
+                        backActivity();
+                    } else {
+                        mImageView2.setImageResource(R.drawable.ic_arraw_right2);
+                    }
                 }
 
                 break;
             case RESTCODEPHONE:
-                String statue3 = arg2.getStringExtra("RESULTSTATUE");
-                mMobileStatus = statue3;
+                //认证手机返回
+                if (arg2!=null) {
+                    String statue3 = arg2.getStringExtra("RESULTSTATUE");
+                    mMobileStatus = statue3;
 
-                if ("1".equals(statue3)){
-                    mImageView.setImageResource(R.drawable.authed_statue);
+                    if ("1".equals(statue3)) {
+                        mImageView.setImageResource(R.drawable.authed_statue);
 
-                }else{
-                    mImageView.setImageResource(R.drawable.ic_arraw_right2);
+                    } else {
+                        mImageView.setImageResource(R.drawable.ic_arraw_right2);
+                    }
                 }
 
                 break;
 
             case RESTCODEZGIMA:
-                String statue4 = arg2.getStringExtra("RESULTSTATUE");
+                //认证芝麻信用返回
+                if (arg2!=null) {
+                    String statue4 = arg2.getStringExtra("RESULTSTATUE");
 
-                if ("1".equals(statue4)){
-                    mImageView2.setImageResource(R.drawable.authed_statue);
-                    backActivity();
-                }else{
-                    mImageView2.setImageResource(R.drawable.ic_arraw_right2);
+                    if ("1".equals(statue4)) {
+                        mImageView2.setImageResource(R.drawable.authed_statue);
+                        backActivity();
+                    } else {
+                        mImageView2.setImageResource(R.drawable.ic_arraw_right2);
+                    }
                 }
 
                 break;

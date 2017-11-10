@@ -38,6 +38,9 @@ public class OtherLoanBean implements Serializable {
         private String max_cash;
         private String min_cash;
         private String unit;
+        private String bank_card_info_str;
+        private String repay_times;
+        private String repay_id;
         private List<CashSubItemBean> cash_data;
 
         public String getMax_cash() {
@@ -62,6 +65,30 @@ public class OtherLoanBean implements Serializable {
 
         public void setUnit(String unit) {
             this.unit = unit;
+        }
+
+        public String getBank_card_info_str() {
+            return bank_card_info_str;
+        }
+
+        public void setBank_card_info_str(String bank_card_info_str) {
+            this.bank_card_info_str = bank_card_info_str;
+        }
+
+        public String getRepay_times() {
+            return repay_times;
+        }
+
+        public void setRepay_times(String repay_times) {
+            this.repay_times = repay_times;
+        }
+
+        public String getRepay_id() {
+            return repay_id;
+        }
+
+        public void setRepay_id(String repay_id) {
+            this.repay_id = repay_id;
         }
 
         public List<CashSubItemBean> getCash_data() {

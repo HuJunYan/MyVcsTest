@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     private String mUrl;
     private String mTitle;
+    private String mstatue="0";//默认的认证状态 为0
 
     private ArrayList<String> loadHistoryUrls = new ArrayList<String>();
 
@@ -128,9 +130,13 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                     if (result) {
                         MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_21);
                         ToastUtil.showToast(mContext, "认证成功!", Toast.LENGTH_LONG);
+                        mstatue = "1";
+                        setResultValue(mstatue);
                     } else {
                         MaiDianUtil.ding(mContext,MaiDianUtil.FLAG_22);
                         ToastUtil.showToast(mContext, "认证失败!", Toast.LENGTH_LONG);
+                        mstatue = "0";
+                        setResultValue(mstatue);
                     }
                     backActivity();
                 }
@@ -144,6 +150,8 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 @Override
                 public void run() {
                     ToastUtil.showToast(mContext, result, Toast.LENGTH_LONG);
+                    mstatue = result;
+                    setResultValue(mstatue);
                     backActivity();
                 }
             });
@@ -163,10 +171,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
                 if (canGoBack) {
                     goBack();
                 } else {
+                  setResultValue(mstatue);
                     backActivity();
                 }
                 break;
             case R.id.tv_china_mobile_exit:
+                setResultValue(mstatue);
                 backActivity();
                 break;
         }
@@ -193,6 +203,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     //检查 当前页面是否是认证成功页面
     private boolean checkIsAuthSuccess() {
         if (loadHistoryUrls.size() > 0 && loadHistoryUrls.get(loadHistoryUrls.size() - 1) != null && loadHistoryUrls.get(loadHistoryUrls.size() - 1).contains("h5/sesame/se_order.html")) {
+            setResultValue(mstatue);
             backActivity();
             return true;
         }
@@ -204,6 +215,7 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     public void goBack() {
         if (loadHistoryUrls.size() > 1 && loadHistoryUrls.get(loadHistoryUrls.size() - 2).contains("index.html")) {
             if (loadHistoryUrls.size() == 2) {//如果第一个页面就是重定向 直接back
+                setResultValue(mstatue);
                 backActivity();
             } else {
                 //back 2 次
@@ -217,6 +229,13 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
             wvChinaMobile.goBack();
         }
         LogUtil.d("abcd", "size = " + loadHistoryUrls.size());
+    }
+
+    public void setResultValue(String value){
+        Intent intent = new Intent();
+        intent.putExtra("RESULTSTATUE",value);
+        ChinaMobileActivity.this.setResult(1,intent);
+
     }
 
 }
