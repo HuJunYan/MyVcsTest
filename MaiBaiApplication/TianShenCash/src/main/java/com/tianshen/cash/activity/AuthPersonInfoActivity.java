@@ -2,6 +2,7 @@ package com.tianshen.cash.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,9 +17,12 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.model.AddressBean;
+import com.tianshen.cash.model.ConstantBean;
+import com.tianshen.cash.model.ExtroContactBean;
 import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetCity;
 import com.tianshen.cash.net.api.GetCounty;
+import com.tianshen.cash.net.api.GetCustomerInfo;
 import com.tianshen.cash.net.api.GetProvince;
 import com.tianshen.cash.net.api.SaveUserInfo;
 import com.tianshen.cash.net.base.BaseNetCallBack;
@@ -150,12 +154,14 @@ public class AuthPersonInfoActivity extends BaseActivity {
     private boolean mIsClickContacts1;
     private String type1 = "1";//紧急联系人1类型
     private String type2 = "4";//紧急联系人2类型
+    private String mOnestatue;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDialogData();
+        initUserInfo();
     }
 
     @Override
@@ -165,7 +171,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-//        mTvAuthInfoQq.setCompoundDrawables();
+        mOnestatue = getIntent().getExtras().getString("ONESTATUE");
     }
 
     @Override
@@ -179,8 +185,8 @@ public class AuthPersonInfoActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.tv_auth_info_back:
-                finish();
-
+                setResultValue(mOnestatue);
+                backActivity();
                 break;
             case R.id.tv_auth_info_home_address:
                 //常住地址
@@ -209,6 +215,13 @@ public class AuthPersonInfoActivity extends BaseActivity {
                 postUserInfo();
                 break;
         }
+    }
+
+    public void setResultValue(String value){
+        Intent intent = new Intent();
+        intent.putExtra("RESULTSTATUE",value);
+        AuthPersonInfoActivity.this.setResult(1,intent);
+
     }
 
     /**
@@ -634,11 +647,11 @@ public class AuthPersonInfoActivity extends BaseActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(company_work_address)) {
+        if (TextUtils.isEmpty(user_home_address)) {
             ToastUtil.showToast(mContext, "请选择常驻地址");
             return;
         }
-        if (TextUtils.isEmpty(user_work_address)) {
+        if (TextUtils.isEmpty(company_work_address)) {
             ToastUtil.showToast(mContext, "请选择单位地址");
             return;
         }
@@ -686,31 +699,20 @@ public class AuthPersonInfoActivity extends BaseActivity {
             jsonObject.put("company_address_county", company_address_county);
             jsonObject.put("company_address_detail", company_address_detail);
 
-
-
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("type", type1 );
             jsonObject1.put("contact_name", contact_one_name);
             jsonObject1.put("contact_phone", contact_one_phone);
-
 
             JSONObject jsonObject2 = new JSONObject();
             jsonObject2.put("type", type2 );
             jsonObject2.put("contact_name", contact_two_name);
             jsonObject2.put("contact_phone", contact_two_phone);
 
-
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(0, jsonObject1);
             jsonArray.put(1, jsonObject2);
-
-
             jsonObject.put("extroContacts", jsonArray);
-//            jsonObject.put("marital_status", marital_status);
-//            jsonObject.put("educational", educational);
-//            jsonObject.put("income_per_month", income_per_month);
-//            jsonObject.put("occupational_identity", occupational_identity);
-//            jsonObject.put("position", position);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -723,6 +725,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
             public void onSuccess(PostDataBean paramT) {
                 int code = paramT.getCode();
                 if (code == 0) {
+                    setResultValue("1");
                     ToastUtil.showToast(mContext, "保存成功!");
                     backActivity();
                 }
@@ -730,11 +733,91 @@ public class AuthPersonInfoActivity extends BaseActivity {
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-
+                setResultValue(mOnestatue);
             }
         });
 
     }
+
+    /**
+     * 得到用户数据
+     */
+    private void initUserInfo() {
+        JSONObject jsonObject = new JSONObject();
+        String userId = TianShenUserUtil.getUserId(mContext);
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        GetCustomerInfo getCustomerInfo = new GetCustomerInfo(mContext);
+        getCustomerInfo.getCustomerInfo(jsonObject, null, true, new BaseNetCallBack<ConstantBean>() {
+            @Override
+            public void onSuccess(ConstantBean paramT) {
+                refreshRootUI(paramT);
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+    }
+
+    /**
+     * 刷新整体UI
+     */
+    private void refreshRootUI(ConstantBean constantBean) {
+        if (constantBean == null) {
+            return;
+        }
+
+        user_address_provice = constantBean.getData().getUser_address_provice();
+        user_address_city = constantBean.getData().getUser_address_city();
+        user_address_county = constantBean.getData().getUser_address_county();
+
+        company_address_city = constantBean.getData().getCompany_address_city();
+        company_address_county = constantBean.getData().getCompany_address_county();
+        company_address_provice = constantBean.getData().getCompany_address_provice();
+
+        String company_name = constantBean.getData().getCompany_name();
+        String company_phone = constantBean.getData().getCompany_phone();
+        String company_address_detail = constantBean.getData().getCompany_address_detail();
+        String user_address_detail = constantBean.getData().getUser_address_detail();
+        ExtroContactBean contactBean = constantBean.getData().getExtroContacts().get(0);
+        ExtroContactBean contactBean2 = constantBean.getData().getExtroContacts().get(1);
+        String contact_name_one = contactBean.getContact_name();
+        String contact_phone_one = contactBean.getContact_phone();
+        String contact_name_two = contactBean2.getContact_name();
+        String contact_phone_two = contactBean2.getContact_phone();
+
+        mEtAuthNexusName1.setText(contact_name_one);
+        mEtAuthNexusPhone.setText(contact_phone_one);
+        mEtAuthNexusName2.setText(contact_name_two);
+        mEtAuthNexusPhone2.setText(contact_phone_two);
+//
+
+        if (!TextUtils.isEmpty(user_address_provice)) {
+            String homeAddress = user_address_provice + "-" + user_address_city + "-" + user_address_county;
+            mTvAuthInfoHomeAddress.setText(homeAddress);
+        }
+
+        if (!TextUtils.isEmpty(company_address_provice)) {
+            String workAddress = company_address_provice + "-" + company_address_city + "-" + company_address_county;
+            mTvAuthInfoWorkAddress.setText(workAddress);
+        }
+
+        mEtAuthInfoAddressDetails.setText(user_address_detail);
+        mEtAuthInfoWorkAddressDetails.setText(company_address_detail);
+        mEtAuthInfoWorkName.setText(company_name);
+        mEtAuthInfoWorkNum.setText(company_phone);
+
+
+
+    }
+
 
     /**
      * 初始化dialog数据

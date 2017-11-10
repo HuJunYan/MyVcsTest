@@ -134,14 +134,35 @@
                     android:background="@drawable/red_dot"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_auth_remind1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/red_point"
+                    android:text="完成以下信息，即可获取额度去借款"
+                    android:textSize="@dimen/sp_12"/>
+
+                <ImageView
+                    android:src="@drawable/ic_auth_center_menu_prompt"
+                    android:id="@+id/red_point2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_auth_remind2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/red_point2"
                     android:text="请填写真实有效的信息"
                     android:textSize="@dimen/sp_12"/>
+
 
 
             </RelativeLayout>

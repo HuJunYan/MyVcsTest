@@ -1,5 +1,6 @@
 package com.tianshen.cash.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,7 +47,6 @@ import static com.tianshen.cash.R.id.et_auth_card_num;
 import static com.tianshen.cash.R.id.tv_bank_card;
 
 
-
 /**
  * 绑定收款银行卡界面
  */
@@ -63,7 +63,7 @@ public class AuthBlankActivity extends BaseActivity {
     TextView mTvAuthBankCardPerson;
     @BindView(R.id.et_auth_bank_card_person)
     EditText mEtAuthBankCardPerson;
-    @BindView(R.id.tv_bank_card)
+    @BindView(tv_bank_card)
     TextView mTvBankCard;
     @BindView(R.id.rl_bank_card)
     RelativeLayout mRlBankCard;
@@ -104,6 +104,7 @@ public class AuthBlankActivity extends BaseActivity {
         }
     };
     private int mCityPosition;
+    private String mTwostatue;//前面机界面信息携带的认证状态
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,7 @@ public class AuthBlankActivity extends BaseActivity {
     @Override
     protected void findViews() {
         initIdNumInfo();
+        mTwostatue = getIntent().getExtras().getString("TWOSTATUE");
 
     }
 
@@ -126,10 +128,11 @@ public class AuthBlankActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_auth_bank_card_back, tv_bank_card, R.id.tv_bank_province, R.id.tv_severity_code, R.id.tv_auth_info_post})
+    @OnClick({R.id.tv_auth_bank_card_back, R.id.tv_bank_card, R.id.tv_bank_province, R.id.tv_severity_code, R.id.tv_auth_info_post})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_auth_bank_card_back:
+                setResultValue(mTwostatue);
                 backActivity();
                 break;
             case tv_bank_card:
@@ -172,6 +175,7 @@ public class AuthBlankActivity extends BaseActivity {
                         }
                         String name = paramT.getData().getReal_name();
                         mEtAuthBankCardPerson.setText(name);
+
                     }
 
                     @Override
@@ -572,6 +576,7 @@ public class AuthBlankActivity extends BaseActivity {
                         LogUtil.i("test",mJson.toString());
                         ToastUtil.showToast(mContext, "绑卡成功!");
                         EventBus.getDefault().post(new UserConfigChangedEvent());
+                        setResultValue("1");//设置为绑定成功的状态
                         backActivity();
 
 //                        showHaMiVerifyCodeDialog();
@@ -580,7 +585,7 @@ public class AuthBlankActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(String url, int errorType, int errorCode) {
-
+                    setResultValue(mTwostatue);
                 }
             });
         } catch (JSONException e) {
@@ -591,7 +596,21 @@ public class AuthBlankActivity extends BaseActivity {
 
     }
 
+    public void setResultValue(String value){
+        Intent intent = new Intent();
+        intent.putExtra("RESULTSTATUE",value);
+        AuthBlankActivity.this.setResult(1,intent);
 
+    }
 
+    /*@Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            //返回本身状态 mOnestatue
+            setResultValue(mTwostatue);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }*/
 
 }

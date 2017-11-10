@@ -47,8 +47,12 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTitle = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_TITLE_KEY);
-        mUrl = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_URL_KEY);
+
+       /* mTitle = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_TITLE_KEY);
+        mUrl = getIntent().getExtras().getString(GlobalParams.CHINA_MOBILE_URL_KEY); */
+        mTitle = getIntent().getStringExtra(GlobalParams.CHINA_MOBILE_TITLE_KEY);
+        mUrl = getIntent().getStringExtra(GlobalParams.CHINA_MOBILE_URL_KEY);
+
         tv_china_mobile_title.setText(mTitle);
         initWebView();
         MaiDianUtil.ding(this,MaiDianUtil.FLAG_20);

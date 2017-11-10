@@ -49,6 +49,8 @@
                 <View style="@style/split_line_style"/>
 
                 <TextView
+
+                    android:drawablePadding="5dp"
                     android:drawableLeft="@drawable/ic_auth_center_menu_prompt"
                     android:id="@+id/tv_auth_info_qq"
                     style="@style/auth_center_txt_style"
