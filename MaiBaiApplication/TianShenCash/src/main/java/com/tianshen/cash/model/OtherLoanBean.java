@@ -41,6 +41,21 @@ public class OtherLoanBean implements Serializable {
         private String bank_card_info_str;
         private String repay_times;
         private String repay_id;
+        private String is_in_three_day;
+        private String second_party;
+        private String id_num;
+        private String unit_address;
+        private String common_address;
+        private String phone;
+        private String date_time;
+        private String expire;
+        private String days;
+        private String total;
+        private String protocol_num;
+        private String overdue;
+        private String bank_credit_investigation_url;
+
+
         private List<CashSubItemBean> cash_data;
 
         public String getMax_cash() {
@@ -89,6 +104,110 @@ public class OtherLoanBean implements Serializable {
 
         public void setRepay_id(String repay_id) {
             this.repay_id = repay_id;
+        }
+
+        public String getIs_in_three_day() {
+            return is_in_three_day;
+        }
+
+        public void setIs_in_three_day(String is_in_three_day) {
+            this.is_in_three_day = is_in_three_day;
+        }
+
+        public String getSecond_party() {
+            return second_party;
+        }
+
+        public void setSecond_party(String second_party) {
+            this.second_party = second_party;
+        }
+
+        public String getId_num() {
+            return id_num;
+        }
+
+        public void setId_num(String id_num) {
+            this.id_num = id_num;
+        }
+
+        public String getUnit_address() {
+            return unit_address;
+        }
+
+        public void setUnit_address(String unit_address) {
+            this.unit_address = unit_address;
+        }
+
+        public String getCommon_address() {
+            return common_address;
+        }
+
+        public void setCommon_address(String common_address) {
+            this.common_address = common_address;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getDate_time() {
+            return date_time;
+        }
+
+        public void setDate_time(String date_time) {
+            this.date_time = date_time;
+        }
+
+        public String getExpire() {
+            return expire;
+        }
+
+        public void setExpire(String expire) {
+            this.expire = expire;
+        }
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
+
+        public String getTotal() {
+            return total;
+        }
+
+        public void setTotal(String total) {
+            this.total = total;
+        }
+
+        public String getProtocol_num() {
+            return protocol_num;
+        }
+
+        public void setProtocol_num(String protocol_num) {
+            this.protocol_num = protocol_num;
+        }
+
+        public String getOverdue() {
+            return overdue;
+        }
+
+        public void setOverdue(String overdue) {
+            this.overdue = overdue;
+        }
+
+        public String getBank_credit_investigation_url() {
+            return bank_credit_investigation_url;
+        }
+
+        public void setBank_credit_investigation_url(String bank_credit_investigation_url) {
+            this.bank_credit_investigation_url = bank_credit_investigation_url;
         }
 
         public List<CashSubItemBean> getCash_data() {

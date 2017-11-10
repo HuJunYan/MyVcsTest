@@ -59,7 +59,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
             android:gravity="bottom"
-            android:text="300"
+            android:text=""
             android:textColor="@color/home_money"
             android:textSize="36sp"/>
 
@@ -135,12 +135,7 @@
                 android:textSize="11sp"/>
         </RelativeLayout>
 
-        <View
-            style="@style/split_line_style"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/global_line_bg"/>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -165,7 +160,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:text="14天"
+                android:text=""
                 android:textColor="@color/black"
                 />
 
@@ -195,62 +190,64 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:text="建设银行"
+                android:text=""
                 android:textColor="@color/black"
                 />
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:text="以上期限、费用仅供参考，具体由审核时评定的信用等级决定"
-            android:textColor="@color/edit_text_hint_color"
-            android:textSize="12sp"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp">
-
-            <CheckBox
-                android:id="@+id/check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:button="@drawable/check_state"
-                android:checked="true"/>
-
-            <TextView
-                android:id="@+id/tv_confirm_protocol"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/check_box"
-                android:textColor="@color/edit_text_hint_color"
-                android:textSize="12dp"/>
-
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/tv_home_apply"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/shape_home_gradient_button"
-            android:gravity="center"
-            android:text="立即申请"
-            android:textColor="@color/global_txt_white"
-            android:textSize="18sp"/>
-
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="以上期限、费用仅供参考，具体由审核时评定的信用等级决定"
+        android:textColor="@color/edit_text_hint_color"
+        android:textSize="12sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:button="@drawable/check_state"
+            android:checked="true"/>
+
+        <TextView
+            android:text="@string/confirm_protocol_all_text2"
+            android:id="@+id/tv_confirm_protocol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/check_box"
+            android:textColor="@color/global_txt_orange"
+            android:textSize="12dp"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_marginTop="40dp"
+        android:id="@+id/tv_home_apply"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_home_button_border"
+        android:gravity="center"
+        android:text="申请 借款"
+        android:textColor="@color/global_txt_white"
+        android:textSize="18sp"/>
 
 </LinearLayout>
 
