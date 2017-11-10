@@ -244,6 +244,11 @@ public class AuthMyInfoActivity extends BaseActivity {
                     startActivityForResult(intentTwo,RESTCODEBLANKCARD);
                 } else {
                    //     第一步认证过才可以认证第二步 芝麻信用认证
+                    if ("0".equals(mMobileStatus)){
+                        ToastUtil.showToast(getBaseContext(),"请先认证手机信息");
+                        return;
+                    }
+
                     String zhimaStatus = mUserAuthCenterBean.getData().getZhima_url();
                     if ("1".equals(zhimaStatus)) {
                         ToastUtil.showToast(mContext, "之前已经认证");
@@ -360,6 +365,7 @@ public class AuthMyInfoActivity extends BaseActivity {
             case RESTCODEUSERINFO:
                 if (arg2!=null) {
                     String statue = arg2.getStringExtra("RESULTSTATUE");
+                    mUserInfoStatus=statue;
 
                     if ("1".equals(statue)) {
                         mImageView.setImageResource(R.drawable.authed_statue);
@@ -382,6 +388,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 break;
             case RESTCODEPHONE:
                 String statue3 = arg2.getStringExtra("RESULTSTATUE");
+                mMobileStatus = statue3;
 
                 if ("1".equals(statue3)){
                     mImageView.setImageResource(R.drawable.authed_statue);
