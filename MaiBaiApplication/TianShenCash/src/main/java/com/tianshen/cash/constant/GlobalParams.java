@@ -101,6 +101,7 @@ public class GlobalParams {
     public static final String WEB_MSG_DATA_KEY = "web_msg_data_key";//bundle key  webactivity
     public static final String FROM_HOME = "from_homefragment"; //bundle value from homefragment
     public static final String FROM_MESSAGE = "from_message";//bundle value from messageCenterActvivity
+    public static final String FROM_JOKE = "from_joke";//bundle value from joke
     public static final String TYPE_READ = "type_read"; //bundle value from homefragment
     public static final String IDENTITY_STATE_KEY = "is_auth_idcard";
     public static final String CONSUME_ID = "consume_id";//KEY
