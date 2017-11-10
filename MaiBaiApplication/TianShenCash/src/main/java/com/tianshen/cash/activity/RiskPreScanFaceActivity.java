@@ -26,12 +26,10 @@ import com.tianshen.cash.event.IdcardImageEvent;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
 import com.tianshen.cash.liveness.bean.MyMap;
 import com.tianshen.cash.liveness.util.ConUtil;
-import com.tianshen.cash.model.IdNumInfoBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
-import com.tianshen.cash.net.api.GetIdNumInfo;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -59,8 +57,6 @@ import io.reactivex.functions.Consumer;
 
 public class RiskPreScanFaceActivity extends BaseActivity {
 
-    private String is_auth_idcard;
-    private IdNumInfoBean mIdNumInfoBean;
     private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
     private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
@@ -94,7 +90,6 @@ public class RiskPreScanFaceActivity extends BaseActivity {
             heads = event.bytes;
             EventBus.getDefault().removeStickyEvent(IdcardImageEvent.class);
         }
-        initIdNumInfo();
     }
 
     @Override
@@ -123,54 +118,6 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                 break;
         }
     }
-
-    /**
-     * 得到用户认证的信息
-     */
-    private void initIdNumInfo() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            is_auth_idcard = extras.getString(GlobalParams.IDENTITY_STATE_KEY, "0");
-        }
-        JSONObject jsonObject = new JSONObject();
-        String userId = TianShenUserUtil.getUserId(mContext);
-        try {
-            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        final GetIdNumInfo getIdNumInfo = new GetIdNumInfo(mContext);
-
-        getIdNumInfo.getIdNumInfo(jsonObject, false,
-                new BaseNetCallBack<IdNumInfoBean>() {
-                    @Override
-                    public void onSuccess(IdNumInfoBean paramT) {
-                        mIdNumInfoBean = paramT;
-                        refreshRootUI();
-                    }
-
-                    @Override
-                    public void onFailure(String url, int errorType, int errorCode) {
-
-                    }
-                });
-    }
-
-
-    /**
-     * 刷新整体UI
-     */
-    private void refreshRootUI() {
-
-        if (mIdNumInfoBean == null) {
-            return;
-        }
-        String face_url = mIdNumInfoBean.getData().getFace_url();
-
-//        ImageLoader.load(getApplicationContext(), face_url, iv_risk_pre_face);
-
-
-    }
     //请求相机权限 并根据结果 决定是否进行跳转
 
     private void requestPermissionsToNextActivity() {
@@ -183,9 +130,6 @@ public class RiskPreScanFaceActivity extends BaseActivity {
         rxPermissions.request(android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) {
-                if (mIdNumInfoBean == null || mIdNumInfoBean.getData() == null) {
-                    return;
-                }
                 if (aBoolean) {
                     livenessNetWorkWarranty();
                 } else {
