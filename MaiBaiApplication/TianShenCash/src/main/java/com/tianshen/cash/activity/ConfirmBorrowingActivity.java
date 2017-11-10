@@ -2,6 +2,7 @@ package com.tianshen.cash.activity;
 
 import android.os.Bundle;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -152,12 +153,8 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
         //设置借款金额
         String currentMoney = MoneyUtils.addTwoPoint(progress);
-        if (".00".equals(currentMoney)) {
-            mTvHomeMoney.setText("0.00");
-        } else {
-            mTvHomeMoney.setText(currentMoney);
-            mBorrowMoney = currentMoney;
-        }
+        mTvHomeMoney.setText(currentMoney);
+        mBorrowMoney = MoneyUtils.changeY2F(currentMoney);
 
 
         OtherLoanBean.Data data = mOtherLoanBean.getData();
@@ -171,12 +168,68 @@ public class ConfirmBorrowingActivity extends BaseActivity {
                 int withdrawalAmountInt = Integer.valueOf(withdrawalAmountY);
                 if (progress == withdrawalAmountInt) {
                     mCurrentOrderMoney = withdrawalAmount;
-                    mTvHomeMoney.setText(mCurrentOrderMoney);
                     break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+    }
+
+    /**
+     * 刷新seekBar
+     */
+    private void refreshBubbleSeekBarUI() {
+
+        try {
+            //最小值
+            String min_cash = mOtherLoanBean.getData().getMin_cash();
+            String min_cashY = MoneyUtils.changeF2Y(min_cash);
+            int min_cashInt = Integer.valueOf(min_cashY);
+
+            //最大值
+            String max_cash = mOtherLoanBean.getData().getMax_cash();
+            String max_cashY = MoneyUtils.changeF2Y(max_cash);
+            int max_cashInt = Integer.valueOf(max_cashY);
+
+            //默认值 为最大值
+            String def_cash = mOtherLoanBean.getData().getMax_cash();
+            String def_cashY = MoneyUtils.changeF2Y(def_cash);
+            final int def_cashInt = Integer.valueOf(def_cashY);
+            mBorrowMoney = mOtherLoanBean.getData().getMax_cash();
+
+
+                    //刻度值
+            String unit = mOtherLoanBean.getData().getUnit();
+            String unitY = MoneyUtils.changeF2Y(unit);
+            int unitInt = Integer.valueOf(unitY);
+            if (max_cashInt <= min_cashInt) {
+                mMinMaxSb.setEnabled(false);
+            } else {
+                mMinMaxSb.setEnabled(true);
+            }
+            mTvHomeMinSb.setText(min_cashInt + "元");
+            mTvHomeMaxSb.setText(max_cashInt + "元");
+
+
+
+            mMinMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
+            mMinMaxSb.setCurrentProgress(def_cashInt);
+
+//            //重置金额偏移量
+//            minMaxSb.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//                @Override
+//                public void onGlobalLayout() {
+//                    minMaxSb.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//                    moveSeekBarThumbMoney(def_cashInt);
+//                }
+//            });
+
+
+        } catch (Exception e) {
+            ToastUtil.showToast(mContext, "数据错误!");
+            e.printStackTrace();
         }
 
     }
@@ -248,19 +301,15 @@ public class ConfirmBorrowingActivity extends BaseActivity {
                 @Override
                 public void onSuccess(OtherLoanBean paramT) {
                     mOtherLoanBean = paramT;
-                    mTvHomeMinSb.setText(MoneyUtils.getPointTwoMoney(mOtherLoanBean.getData().getMin_cash()));
-                    mTvHomeMaxSb.setText(MoneyUtils.getPointTwoMoney(mOtherLoanBean.getData().getMax_cash()));
+                    String borrowDay = mOtherLoanBean.getData().getRepay_times();
 
-                    mTvBorrowTime.setText(mOtherLoanBean.getData().getRepay_times()+"天");
-                    mTvBorrowBlankCard.setText(mOtherLoanBean.getData().getBank_card_info_str());
-//                    refreshLoanNumUI(mMinMaxSb.getMinMaxSeekBarCurrentProgress());
-                    try {
-                        mMinMaxSb.setCurrentProgress(100);
-                        mBorrowMoney = MoneyUtils.getPointTwoMoney(mOtherLoanBean.getData().getMax_cash());
-                        mTvHomeMoney.setText(mBorrowMoney);
-                    } catch (MinMaxSeekBar.SeekBarStepException e) {
-                        e.printStackTrace();
+                    if (!TextUtils.isEmpty(borrowDay)){
+                        mTvBorrowTime.setText(borrowDay+"天");
                     }
+                    refreshBubbleSeekBarUI();
+                    mTvBorrowBlankCard.setText(mOtherLoanBean.getData().getBank_card_info_str());
+                    refreshLoanNumUI(mMinMaxSb.getMinMaxSeekBarCurrentProgress());
+
                 }
 
                 @Override
