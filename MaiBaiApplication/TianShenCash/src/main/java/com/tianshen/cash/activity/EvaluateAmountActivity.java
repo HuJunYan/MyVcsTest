@@ -128,7 +128,6 @@ public class EvaluateAmountActivity extends BaseActivity {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
-        //TODO 判断状态 根据状态进行不同操作
         CashAmountBean.Data data = mCashAmountBean.getData();
         String cash_amount_status = data.getCash_amount_status();
         if ("1".equals(cash_amount_status)) {//测评完毕
@@ -136,10 +135,8 @@ public class EvaluateAmountActivity extends BaseActivity {
             EventBus.getDefault().post(new RiskPreEvaluateFinishEvent(is_payway));
             gotoActivity(mContext, MainActivity.class, null);
             if ("0".equals(is_payway)) {
-                //todo 跳转到首页 并关闭认证中心页面
                 finish();
             } else if ("1".equals(is_payway)) {
-                //todo 跳转到掌众 并关闭所有页面
                 gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
                 finish();
             }

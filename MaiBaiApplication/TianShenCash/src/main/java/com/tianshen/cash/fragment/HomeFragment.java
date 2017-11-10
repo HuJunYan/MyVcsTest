@@ -2042,10 +2042,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Subscribe
-    public void onRiskPreEvaluateFinishEvent(RiskPreEvaluateFinishEvent event){
-        if ("1".equals(event.type)){ //掌中 关闭页面
+    public void onRiskPreEvaluateFinishEvent(RiskPreEvaluateFinishEvent event) {
+        if ("1".equals(event.is_payway)) { //掌中 关闭页面
             getActivity().finish();
-        }else if ("0".equals(event.type)){
+        } else if ("0".equals(event.is_payway)) {
             initUserConfig(); //自营 刷新userconfig
         }
     }

@@ -6,8 +6,8 @@ package com.tianshen.cash.event;
  */
 
 public class RiskPreEvaluateFinishEvent {
-    public String type;
-    public RiskPreEvaluateFinishEvent(String type){
-        this.type = type;
+    public String is_payway;
+    public RiskPreEvaluateFinishEvent(String is_payway){
+        this.is_payway = is_payway;
     }
 }
