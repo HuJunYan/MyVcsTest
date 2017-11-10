@@ -411,7 +411,8 @@ public class AuthMyInfoActivity extends BaseActivity {
 
             case RESTCODEZGIMA:
                 //认证芝麻信用返回
-                if (arg2!=null) {
+                initAuthCenterData();
+                /*if (arg2!=null) {
                     String statue4 = arg2.getStringExtra("RESULTSTATUE");
 
                     if ("1".equals(statue4)) {
@@ -420,7 +421,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                     } else {
                         mImageView2.setImageResource(R.drawable.ic_arraw_right2);
                     }
-                }
+                }*/
 
                 break;
 
