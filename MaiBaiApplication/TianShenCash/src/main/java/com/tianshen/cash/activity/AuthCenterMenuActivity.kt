@@ -137,6 +137,9 @@ class AuthCenterMenuActivity : BaseActivity() {
             vp_auth_center_menu.setCurrentItem(1, false)
         } else if ("0" == auth_credit) {
             vp_auth_center_menu.setCurrentItem(2, false)
+        } else if ("1" == auth_id_num && "1" == auth_person_info && "1" == auth_credit) {
+            vp_auth_center_menu.setCurrentItem(0, false)
+            refreshUI()
         }
 
     }
