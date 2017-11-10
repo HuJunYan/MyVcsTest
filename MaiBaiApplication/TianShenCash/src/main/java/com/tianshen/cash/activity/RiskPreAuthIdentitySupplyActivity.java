@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -29,7 +30,6 @@ import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
-import com.tianshen.cash.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -51,6 +51,8 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
     EditText et_risk_pre_supply_real_name; //姓名
     @BindView(R.id.et_risk_pre_supply_id_num)
     EditText et_risk_pre_supply_id_num;
+    @BindView(R.id.tv_risk_pre_supply_commit)
+    TextView tv_risk_pre_supply_commit;
     private final int IMAGE_TYPE_ID_CARD_FRONT = 20; //上传图片 type  身份证正面
     private final int IMAGE_TYPE_ID_CARD_BACK = 21; //上传图片 type  身份证反面
     private int clickPosition;
@@ -127,12 +129,13 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
                     ToastUtil.showToast(mContext, "上传身份证信息成功!");
                     gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
                 }
+                tv_risk_pre_supply_commit.setEnabled(true);
 
             }
 
             @Override
             public void onFailure(String url, int errorType, int errorCode) {
-
+                tv_risk_pre_supply_commit.setEnabled(true);
             }
         });
     }
@@ -156,6 +159,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
             ToastUtil.showToast(mContext, "请输入身份证号");
             return;
         }
+        tv_risk_pre_supply_commit.setEnabled(false);
         this.name = name;
         this.id_num = id_num;
         upLoadImage(IMAGE_TYPE_ID_CARD_FRONT);
@@ -235,7 +239,6 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
      * 上传图片
      */
     private void upLoadImage(final int mIsClickPosition) {
-        ViewUtil.createLoadingDialog(this, "", false);
         String userID = TianShenUserUtil.getUserId(mContext);
         LogUtil.d("abc", "mIsClickPosition = " + mIsClickPosition);
         String path = "";
@@ -274,6 +277,7 @@ public class RiskPreAuthIdentitySupplyActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
+                    tv_risk_pre_supply_commit.setEnabled(true);
                 }
             });
         } catch (Exception e) {
