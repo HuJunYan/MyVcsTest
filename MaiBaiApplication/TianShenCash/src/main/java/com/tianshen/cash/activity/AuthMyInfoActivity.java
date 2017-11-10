@@ -249,7 +249,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                         return;
                     }
 
-                    String zhimaStatus = mUserAuthCenterBean.getData().getZhima_url();
+                    String zhimaStatus = mUserAuthCenterBean.getData().getZhima_pass();
                     if ("1".equals(zhimaStatus)) {
                         ToastUtil.showToast(mContext, "之前已经认证");
                         return;
