@@ -165,12 +165,14 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.tv_china_mobile_back:
                 if (checkIsAuthSuccess()) {
+                    setResultValue(mstatue);
                     return;
                 }
                 boolean canGoBack = wvChinaMobile.canGoBack();
                 if (canGoBack) {
-                    goBack();
+                      goBack();
                 } else {
+                    //直接返回
                   setResultValue(mstatue);
                     backActivity();
                 }
@@ -213,9 +215,10 @@ public class ChinaMobileActivity extends BaseActivity implements View.OnClickLis
 
     //检查上一个页面是否为重定向页面并返回上一页页面
     public void goBack() {
+        setResultValue(mstatue);
         if (loadHistoryUrls.size() > 1 && loadHistoryUrls.get(loadHistoryUrls.size() - 2).contains("index.html")) {
             if (loadHistoryUrls.size() == 2) {//如果第一个页面就是重定向 直接back
-                setResultValue(mstatue);
+
                 backActivity();
             } else {
                 //back 2 次
