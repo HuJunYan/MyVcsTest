@@ -185,4 +185,11 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         gotoMainAcitivity();
     }
 
+    /**
+     * 根据当前用户的状态跳转到不同的页面
+     */
+    private void checkStatusGoActivity() {
+
+    }
+
 }

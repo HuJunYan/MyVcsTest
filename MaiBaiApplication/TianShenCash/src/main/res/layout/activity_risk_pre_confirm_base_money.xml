@@ -159,7 +159,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_risk_pre_money_bank_key"
                     android:textColor="@color/global_txt_black4"
                     android:textSize="14sp" />
@@ -178,18 +177,18 @@
                     android:id="@+id/tv_risk_pre_bank_num_key"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="银行卡号"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/tv_risk_pre_bank_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_risk_pre_bank_num_key"
                     android:textColor="@color/global_txt_black4"
                     android:textSize="14sp" />

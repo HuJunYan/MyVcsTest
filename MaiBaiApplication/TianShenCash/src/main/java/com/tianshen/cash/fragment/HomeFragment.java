@@ -33,13 +33,13 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterMenuActivity;
 import com.tianshen.cash.activity.BindBankCardConfirmActivity;
-import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MessageCenterActivity;
+import com.tianshen.cash.activity.RiskPreConfirmBaseMoneyActivity;
 import com.tianshen.cash.activity.SJDActivity;
 import com.tianshen.cash.activity.SuperMarkerActivity;
 import com.tianshen.cash.activity.WebActivity;
@@ -1876,7 +1876,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 跳转到预下单页面
      */
     private void gotoConfirmBaseMoneyActivity() {
-        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+//        gotoActivity(mContext, ConfirmBaseMoneyActivity.class, null);
+        gotoActivity(mContext, RiskPreConfirmBaseMoneyActivity.class, null);
     }
 
     /**
