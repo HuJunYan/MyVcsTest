@@ -89,10 +89,14 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         //只用从消息中心页面过来的才取MessageBean对象
         if (GlobalParams.FROM_MESSAGE.equals(mFrom)) {
             messageBean = (MessageBean) getIntent().getExtras().getSerializable(GlobalParams.WEB_MSG_DATA_KEY);
-            tv_web_title.setText(messageBean.getMsg_title());
+            if (messageBean != null)
+                tv_web_title.setText(messageBean.getMsg_title());
             mUrl = messageBean.getMsg_url();
             iv_web_share.setVisibility(View.VISIBLE);
+        } else if (GlobalParams.FROM_JOKE.equals(mFrom)) {
+            tv_web_title.setText("笑话大全");
         }
+
         if (GlobalParams.TYPE_READ.equals(mType)) {
             tv_web_exit.setVisibility(View.VISIBLE);
         }

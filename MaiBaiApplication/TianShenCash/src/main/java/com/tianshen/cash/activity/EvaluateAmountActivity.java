@@ -154,6 +154,7 @@ public class EvaluateAmountActivity extends BaseActivity {
         }
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_URL_KEY, mCashAmountBean.getData().getJoke_url());
+        bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_JOKE);
         gotoActivity(mContext, WebActivity.class, bundle);
     }
 
