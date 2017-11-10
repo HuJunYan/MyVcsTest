@@ -30,7 +30,7 @@ public class SaveUserInfo extends NetBase {
 
     public void saveCustomerInfoUrl(JSONObject jsonObject, final BaseNetCallBack<PostDataBean> callBack) {
         try {
-            mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
+            mJSONObject = SignUtils.signJsonContainList(jsonObject, "extroContacts");
             if (mJSONObject == null) {
                 return;
             }
