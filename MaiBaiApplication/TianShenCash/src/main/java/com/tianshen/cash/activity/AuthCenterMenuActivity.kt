@@ -8,6 +8,7 @@ import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyViewPagerAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.event.AuthCenterBackEvent
 import com.tianshen.cash.event.RiskPreEvaluateFinishEvent
 import com.tianshen.cash.fragment.AuthCenterMenuFragment
 import com.tianshen.cash.model.AuthCenterMenuBean
@@ -17,6 +18,7 @@ import com.tianshen.cash.utils.CashAmountDialogUtils
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import java.util.*
@@ -74,6 +76,11 @@ class AuthCenterMenuActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         initData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().post(AuthCenterBackEvent())
     }
 
     private fun initView() {
