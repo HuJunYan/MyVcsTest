@@ -168,7 +168,7 @@ class AuthCenterMenuActivity : BaseActivity() {
             }
             1 -> {
                 if ("0" == auth_id_num) {
-                    ToastUtil.showToast(mContext, "请先身份认证")
+                    ToastUtil.showToast(mContext, "请先进行身份认证")
                     return
                 }
                 val bundle = Bundle()
@@ -177,11 +177,11 @@ class AuthCenterMenuActivity : BaseActivity() {
             }
             2 -> {
                 if ("0" == auth_id_num) {
-                    ToastUtil.showToast(mContext, "请先身份认证")
+                    ToastUtil.showToast(mContext, "请先进行身份认证")
                     return
                 }
                 if ("0" == auth_person_info) {
-                    ToastUtil.showToast(mContext, "请先个人信息认证")
+                    ToastUtil.showToast(mContext, "请先进行个人信息认证")
                     return
                 }
                 val bundle = Bundle()
