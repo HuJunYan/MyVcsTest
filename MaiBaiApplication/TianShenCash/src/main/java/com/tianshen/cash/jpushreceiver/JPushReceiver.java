@@ -95,6 +95,19 @@ public class JPushReceiver extends BroadcastReceiver {
                 MobclickAgent.reportError(mContext, LogUtil.getException(e));
                 LogUtil.e("error", LogUtil.getException(e));
             }
+        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+            //TODO 自定义通知
+            Bundle bundle = intent.getExtras();
+            String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            JpushBaseBean jpushBaseBean = GsonUtil.json2bean(result, JpushBaseBean.class);
+            String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
+            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+            String msg_type = jpushBaseBean.msg_type;
+            JpushBaseBean.MsgContent msg_content = jpushBaseBean.msg_content;
+            LogUtil.d("wangchen", "onReceive: ACTION_NOTIFICATION_OPENED = " + "result = " + result + ",msgtype =" + msg_type + ",alert = " + alert
+                    + ",title = " + title + ",msg_content = " + msg_content);
+            ;
+
         }
     }
 }
