@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * 得到其他借款方式
  */
 public class OtherLoanService extends NetBase {
-    private boolean isRelease = false;
+    private boolean isRelease = true;
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;

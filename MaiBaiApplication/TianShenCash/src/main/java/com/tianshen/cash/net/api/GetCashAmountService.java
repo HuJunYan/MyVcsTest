@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 
 public class GetCashAmountService extends NetBase {
-    private boolean isRelease = false;
+    private boolean isRelease = true;
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;
