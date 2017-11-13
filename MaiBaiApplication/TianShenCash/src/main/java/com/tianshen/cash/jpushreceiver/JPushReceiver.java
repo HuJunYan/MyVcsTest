@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.tianshen.cash.activity.NavigationActivity;
+import com.tianshen.cash.activity.NotificationWebActivity;
+import com.tianshen.cash.base.MyApplicationLike;
+import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.PayDataOKEvent;
 import com.tianshen.cash.event.RefreshRepayDataEvent;
 import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
+import com.tianshen.cash.model.MsgContent;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.JpushBaseBean;
 import com.tianshen.cash.utils.LogUtil;
@@ -96,6 +101,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 LogUtil.e("error", LogUtil.getException(e));
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+
             //TODO 自定义通知
             Bundle bundle = intent.getExtras();
             String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -103,11 +109,57 @@ public class JPushReceiver extends BroadcastReceiver {
             String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
             String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
             String msg_type = jpushBaseBean.msg_type;
-            JpushBaseBean.MsgContent msg_content = jpushBaseBean.msg_content;
+            if (TextUtils.isEmpty(msg_type)) {
+                return;
+            }
+
+            MsgContent msg_content = jpushBaseBean.msg_content;
+            switch (msg_type) {
+                case "5"://打开消息中心
+                    processMsg(context, msg_content);
+                    break;
+                default: //打开首页
+                    if (MyApplicationLike.isOnResume) {
+                        return;
+                    }
+                    Intent realIntent = new Intent(context, NavigationActivity.class);
+                    realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    toIntent(context, realIntent);
+                    break;
+            }
+
             LogUtil.d("wangchen", "onReceive: ACTION_NOTIFICATION_OPENED = " + "result = " + result + ",msgtype =" + msg_type + ",alert = " + alert
                     + ",title = " + title + ",msg_content = " + msg_content);
             ;
 
+
         }
     }
+
+    private void processMsg(Context context, MsgContent msg_content) {
+        if (msg_content == null) {
+            return;
+        }
+        Intent realIntent;
+        if (TextUtils.isEmpty(msg_content.message_share_url)) {
+            realIntent = new Intent(context, NavigationActivity.class);
+        } else {
+            realIntent = new Intent(context, NotificationWebActivity.class);
+        }
+        //TODO  调用已读接口
+        realIntent.putExtra(GlobalParams.NOTIFICATION_MESSAGE_KEY, msg_content);
+        if (MyApplicationLike.isOnResume) {
+            realIntent.putExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, true);
+        } else {
+            realIntent.putExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, false);
+        }
+        realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        toIntent(context, realIntent);
+
+    }
+
+    private void toIntent(Context context, Intent realIntent) {
+        context.startActivity(realIntent);
+    }
+
 }

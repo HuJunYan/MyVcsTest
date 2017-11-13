@@ -2,6 +2,7 @@ package com.tianshen.cash.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -24,12 +25,14 @@ import java.util.Iterator;
 import cn.fraudmetrix.sdk.FMAgent;
 import cn.jpush.android.api.JPushInterface;
 
-public class MyApplicationLike extends MultiDexApplication {
+public class MyApplicationLike extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
 
     private static MyApplicationLike sApplication;
     private volatile ArrayList<Activity> mTempActivity = new ArrayList<>();
     public static boolean isMIUI;
     public static boolean isFlyMe;
+    public static boolean isOnResume; //判断应用是否在前台
+    private int resumeCount;
 
     @Override
     public void onTerminate() {
@@ -54,6 +57,7 @@ public class MyApplicationLike extends MultiDexApplication {
         isFlyMe = RomUtils.FlymeSetStatusBarLightMode();
         //魔蝎淘宝认证
         MoxieSDK.init(this);
+        registerActivityLifecycleCallbacks(this);
     }
 
     private void initLogger() {
@@ -129,5 +133,44 @@ public class MyApplicationLike extends MultiDexApplication {
 
     public ArrayList<Activity> getAllActivities() {
         return mTempActivity;
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        isOnResume = true;
+        resumeCount++;
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+        resumeCount--;
+        if (resumeCount == 0) {
+            isOnResume = false;
+        }
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
     }
 }

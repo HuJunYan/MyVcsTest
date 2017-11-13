@@ -109,4 +109,8 @@ public class GlobalParams {
     public static final String UDUN_AUTH_KEY = "0db4e877-004a-4edc-8426-95b31e557956";//有盾 key
 
     public static final String SERVICE_ONLINE_KEY = "service_online_key";//客服地址bundl key
+
+    //消息推送 用户点击用到的key
+    public static final String NOTIFICATION_MESSAGE_KEY = "notification_message_key";
+    public static final String NOTIFICATION_IS_ONRESUME_CLICK = "notification_is_onresume_click";
 }
