@@ -1,6 +1,5 @@
 package com.tianshen.cash.activity;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -14,19 +13,14 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
-import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.RiskPreEvaluateFinishEvent;
 import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.model.CashAmountBean;
 import com.tianshen.cash.net.api.GetCashAmountService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
-import com.tianshen.cash.utils.GetTelephoneUtils;
-import com.tianshen.cash.utils.LocationUtil;
-import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.StatusBarUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
@@ -38,7 +32,6 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 public class EvaluateAmountActivity extends BaseActivity {
 
@@ -68,44 +61,13 @@ public class EvaluateAmountActivity extends BaseActivity {
     }
 
     private void initData() {
-        String location = TianShenUserUtil.getLocation(mContext);
-        if (TextUtils.isEmpty(location)) {
-            RxPermissions rxPermissions = new RxPermissions(EvaluateAmountActivity.this);
-            rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
-                @Override
-                public void accept(Boolean aBoolean) throws Exception {
-                    if (aBoolean) {
-                        LocationUtil mLocationUtil = LocationUtil.getInstance();
-                        mLocationUtil.startLocation(EvaluateAmountActivity.this);
-                        mLocationUtil.setIsCallBack(true);
-                    } else {
-                        ToastUtil.showToast(mContext, "请打开定位权限!");
-                    }
-                }
-            });
-            ToastUtil.showToast(mContext, "请打开定位权限!");
-            return;
-        }
         JSONObject jsonObject = new JSONObject();
-        String city = TianShenUserUtil.getCity(mContext);
-        String country = TianShenUserUtil.getCountry(mContext);
-        String address = TianShenUserUtil.getAddress(mContext);
-        String province = TianShenUserUtil.getProvince(mContext);
-        String black_box = new GetTelephoneUtils(mContext).getBlackBox();
-        String jpush_id = TianShenUserUtil.getUserJPushId(mContext);
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
-            jsonObject.put("location", location);
-            jsonObject.put("province", province);
-            jsonObject.put("city", city);
-            jsonObject.put("country", country);
-            jsonObject.put("address", address);
-            jsonObject.put("black_box", black_box);
-            jsonObject.put("push_id", jpush_id);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         GetCashAmountService getCashAmountService = new GetCashAmountService(mContext);
         getCashAmountService.getData(jsonObject, new BaseNetCallBack<CashAmountBean>() {
             @Override
@@ -202,14 +164,6 @@ public class EvaluateAmountActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocationUtil mLocationUtil = LocationUtil.getInstance();
-        mLocationUtil.setIsCallBack(false);
-    }
-
-    @Subscribe
-    public void onAuthCenterBack(LocationEvent event) {
-        LogUtil.d("abc", "收到了定位成功的消息");
-        initData();
     }
 
     @Override
