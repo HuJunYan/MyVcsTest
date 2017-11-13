@@ -86,10 +86,12 @@ public class AuthMyInfoActivity extends BaseActivity {
     RelativeLayout mRlAuthThree;
     @BindView(R.id.tv_auth_info_one)
     TextView mTvAuthInfoOne;
-    public static final String  PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
-    public static final String  CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
-    public static final String  ACTIVITY_FLAG = "TYEP";
-    private  String type ;
+    public static final String PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
+    public static final String CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
+    public static final String ACTIVITY_FLAG = "TYEP";
+    @BindView(R.id.iv_auth_tb_statue)
+    ImageView mIvAuthTbStatue;
+    private String type;
     private UserAuthCenterBean mUserAuthCenterBean;
     private String mMobileStatus; //手机认证状态
     private String mUserInfoStatus; //用户信息认证状态
@@ -127,7 +129,7 @@ public class AuthMyInfoActivity extends BaseActivity {
      */
     public void showView(String type) {
         if ("1".equals(type)) {
-            mTvAuthRemind1.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_auth_center_menu_prompt),null,null,null);
+            mTvAuthRemind1.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_auth_center_menu_prompt), null, null, null);
             mTvAuthRemind1.setCompoundDrawablePadding(10);
 //            mTvAuthRemind1.setCompoundDrawablesRelativeWithIntrinsicBounds();
             mRedPoint.setVisibility(View.GONE);
@@ -140,15 +142,14 @@ public class AuthMyInfoActivity extends BaseActivity {
             mRlAuthThree.setVisibility(View.GONE);
             mTvAuthInfoOne.setText("个人信息");
             mTvAuthInfomoney.setText("收款银行卡");
-            if (mUserAuthCenterBean==null){
+            if (mUserAuthCenterBean == null) {
                 initAuthCenterData();
             }
-            mUserInfoStatus=mUserAuthCenterBean.getData().getUserdetail_pass();
-            mBlankStatus=mUserAuthCenterBean.getData().getBankcard_pass();
+            mUserInfoStatus = mUserAuthCenterBean.getData().getUserdetail_pass();
+            mBlankStatus = mUserAuthCenterBean.getData().getBankcard_pass();
 
-            showImageView(1,mUserInfoStatus);
-            showImageView(2,mBlankStatus);
-
+            showImageView(1, mUserInfoStatus);
+            showImageView(2, mBlankStatus);
 
 
         } else {
@@ -161,23 +162,28 @@ public class AuthMyInfoActivity extends BaseActivity {
             mRlAuthThree.setVisibility(View.VISIBLE);
             mTvAuthInfoOne.setText("手机运营商");
             mTvAuthInfomoney.setText("芝麻信用");
-            mMobileStatus=mUserAuthCenterBean.getData().getChina_mobile();
-            mZhiMaStatus=mUserAuthCenterBean.getData().getZhima_pass();
-            showImageView(1,mMobileStatus);
-            showImageView(2,mZhiMaStatus);
+            mMobileStatus = mUserAuthCenterBean.getData().getChina_mobile();
+            mZhiMaStatus = mUserAuthCenterBean.getData().getZhima_pass();
+            mTaobaotatus = mUserAuthCenterBean.getData().getTaobao_pass();
+            if ("1".equals(mTaobaotatus)){
+                //淘宝认证
+                mIvAuthTbStatue.setImageResource(R.drawable.authed_statue);
+            }
+            showImageView(1, mMobileStatus);
+            showImageView(2, mZhiMaStatus);
 
         }
 
     }
 
-    public void showImageView(int line,String statue){
+    public void showImageView(int line, String statue) {
 
-        switch (line){
+        switch (line) {
             case 1:
                 if ("1".equals(statue)) {
                     mImageView.setImageResource(R.drawable.authed_statue);
 
-                }else{
+                } else {
                     mImageView.setImageResource(R.drawable.ic_arraw_right2);
                 }
                 break;
@@ -186,7 +192,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 if ("1".equals(statue)) {
                     mImageView2.setImageResource(R.drawable.authed_statue);
 
-                }else{
+                } else {
                     mImageView2.setImageResource(R.drawable.ic_arraw_right2);
                 }
 
@@ -199,7 +205,7 @@ public class AuthMyInfoActivity extends BaseActivity {
         }
     }
 
-    @OnClick({tv_auth_info_back,R.id.rl_auth_one, R.id.rl_auth_two, R.id.rl_auth_three})
+    @OnClick({tv_auth_info_back, R.id.rl_auth_one, R.id.rl_auth_two, R.id.rl_auth_three})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -208,12 +214,12 @@ public class AuthMyInfoActivity extends BaseActivity {
                 break;
             case R.id.rl_auth_one:
 
-                if ("1".equals(type)){
-                     //个人信息认证
-                    Intent intentOne  =new Intent(this,AuthPersonInfoActivity.class);
-                    intentOne.putExtra("ONESTATUE",mUserInfoStatus);
-                    startActivityForResult(intentOne,RESTCODEUSERINFO);
-                }else {
+                if ("1".equals(type)) {
+                    //个人信息认证
+                    Intent intentOne = new Intent(this, AuthPersonInfoActivity.class);
+                    intentOne.putExtra("ONESTATUE", mUserInfoStatus);
+                    startActivityForResult(intentOne, RESTCODEUSERINFO);
+                } else {
                     //手机认证
                     if (mUserAuthCenterBean != null) {
                         mMobileStatus = mUserAuthCenterBean.getData().getChina_mobile();
@@ -223,29 +229,29 @@ public class AuthMyInfoActivity extends BaseActivity {
                         return;
                     }
                     String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
-                    gotoChinaMobileActivity(china_mobile_url, "手机认证","3");
+                    gotoChinaMobileActivity(china_mobile_url, "手机认证", "3");
                 }
 
                 break;
             case R.id.rl_auth_two:
                 if ("1".equals(type)) {
                     //手机认证
-                    if ("0".equals(mUserInfoStatus)){
-                        ToastUtil.showToast(getBaseContext(),"请先认证个人信息");
+                    if ("0".equals(mUserInfoStatus)) {
+                        ToastUtil.showToast(getBaseContext(), "请先认证个人信息");
                         return;
                     }
-                    if ("1".equals(mBlankStatus)){
-                        ToastUtil.showToast(getBaseContext(),"之前已经认证");
+                    if ("1".equals(mBlankStatus)) {
+                        ToastUtil.showToast(getBaseContext(), "之前已经认证");
                         return;
                     }
 
-                    Intent intentTwo  =new Intent(this,AuthBlankActivity.class);
-                    intentTwo.putExtra("TWOSTATUE",mUserInfoStatus);
-                    startActivityForResult(intentTwo,RESTCODEBLANKCARD);
+                    Intent intentTwo = new Intent(this, AuthBlankActivity.class);
+                    intentTwo.putExtra("TWOSTATUE", mUserInfoStatus);
+                    startActivityForResult(intentTwo, RESTCODEBLANKCARD);
                 } else {
-                   //     第一步认证过才可以认证第二步 芝麻信用认证
-                    if ("0".equals(mMobileStatus)){
-                        ToastUtil.showToast(getBaseContext(),"请先认证手机信息");
+                    //     第一步认证过才可以认证第二步 芝麻信用认证
+                    if ("0".equals(mMobileStatus)) {
+                        ToastUtil.showToast(getBaseContext(), "请先认证手机信息");
                         return;
                     }
 
@@ -255,7 +261,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                         return;
                     }
                     String zhima_url = mUserAuthCenterBean.getData().getZhima_url();
-                    gotoChinaMobileActivity(zhima_url, "芝麻信用","4");
+                    gotoChinaMobileActivity(zhima_url, "芝麻信用", "4");
                 }
                 break;
             case R.id.rl_auth_three:
@@ -267,21 +273,22 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     /**
      * 跳转到手机认证和芝麻信用认证
-     * @param url webview加载的url
+     *
+     * @param url   webview加载的url
      * @param title webView标题
      * @param type  区分是手机认证还是芝麻信用认证
      */
-    private void gotoChinaMobileActivity(String url, String title,String type) {
+    private void gotoChinaMobileActivity(String url, String title, String type) {
         /*Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.CHINA_MOBILE_URL_KEY, url);
         bundle.putString(GlobalParams.CHINA_MOBILE_TITLE_KEY, title);
         gotoActivity(mContext, ChinaMobileActivity.class, bundle);*/
-        Intent bundle = new Intent(this,ChinaMobileActivity.class);
+        Intent bundle = new Intent(this, ChinaMobileActivity.class);
         bundle.putExtra(GlobalParams.CHINA_MOBILE_URL_KEY, url);
         bundle.putExtra(GlobalParams.CHINA_MOBILE_TITLE_KEY, title);
         if ("3".equals(type)) {
             startActivityForResult(bundle, RESTCODEPHONE);
-        }else {
+        } else {
             startActivityForResult(bundle, RESTCODEZGIMA);
         }
     }
@@ -291,7 +298,8 @@ public class AuthMyInfoActivity extends BaseActivity {
      */
     private void gotoTaoBaoAuth() {
         String userId = TianShenUserUtil.getUserId(mContext);
-        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa";
+//        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa"; //正式key --- 对应pro
+        String apiKey =   "c916e9aac6a244c2aa47552669c5a1e0"; //测试key --- 对应dev
 
         MxParam mxParam = new MxParam();
         mxParam.setUserId(userId);
@@ -308,22 +316,27 @@ public class AuthMyInfoActivity extends BaseActivity {
                         case MxParam.ResultCode.IMPORT_UNSTART:
                             break;
                         case MxParam.ResultCode.THIRD_PARTY_SERVER_ERROR:
+                            mIvAuthTbStatue.setImageResource(R.drawable.ic_arraw_right2);
                             ToastUtil.showToast(mContext, "认证失败!");
                             moxieContext.finish();
                             break;
                         case MxParam.ResultCode.MOXIE_SERVER_ERROR:
+                            mIvAuthTbStatue.setImageResource(R.drawable.ic_arraw_right2);
                             ToastUtil.showToast(mContext, "认证失败!");
                             moxieContext.finish();
                             break;
                         case MxParam.ResultCode.USER_INPUT_ERROR:
+                            mIvAuthTbStatue.setImageResource(R.drawable.ic_arraw_right2);
                             ToastUtil.showToast(mContext, "认证失败!");
                             moxieContext.finish();
                             break;
                         case MxParam.ResultCode.IMPORT_FAIL:
+                            mIvAuthTbStatue.setImageResource(R.drawable.ic_arraw_right2);
                             ToastUtil.showToast(mContext, "认证失败!");
                             moxieContext.finish();
                             break;
                         case MxParam.ResultCode.IMPORT_SUCCESS:
+                            mIvAuthTbStatue.setImageResource(R.drawable.authed_statue);
                             ToastUtil.showToast(mContext, "认证成功!");
                             moxieContext.finish();
                             return true;
@@ -348,7 +361,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 @Override
                 public void onSuccess(UserAuthCenterBean paramT) {
                     mUserAuthCenterBean = paramT;
-                    mMobileStatus  = mUserAuthCenterBean.getData().getChina_mobile();
+                    mMobileStatus = mUserAuthCenterBean.getData().getChina_mobile();
                     showView(type);
                 }
 
@@ -364,12 +377,12 @@ public class AuthMyInfoActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        switch (arg0){
+        switch (arg0) {
             case RESTCODEUSERINFO:
                 //认证个人信息返回返回
-                if (arg2!=null) {
+                if (arg2 != null) {
                     String statue = arg2.getStringExtra("RESULTSTATUE");
-                    mUserInfoStatus=statue;
+                    mUserInfoStatus = statue;
 
                     if ("1".equals(statue)) {
                         mImageView.setImageResource(R.drawable.authed_statue);
@@ -381,7 +394,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 break;
             case RESTCODEBLANKCARD:
                 //认证认证银行卡返回
-                if (arg2!=null) {
+                if (arg2 != null) {
                     String statue = arg2.getStringExtra("RESULTSTATUE");
 
                     if ("1".equals(statue)) {
@@ -395,7 +408,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 break;
             case RESTCODEPHONE:
                 //认证手机返回
-                if (arg2!=null) {
+                if (arg2 != null) {
                     String statue3 = arg2.getStringExtra("RESULTSTATUE");
                     mMobileStatus = statue3;
 
@@ -411,7 +424,7 @@ public class AuthMyInfoActivity extends BaseActivity {
 
             case RESTCODEZGIMA:
                 //认证芝麻信用返回
-                if("1".equals(mZhiMaStatus)){
+                if ("1".equals(mZhiMaStatus)) {
                     //为1的时候 界面已经设置为认证完成状态 无需请求网络，减轻服务器压力
                     return;
                 }
@@ -430,9 +443,7 @@ public class AuthMyInfoActivity extends BaseActivity {
                 break;
 
 
-
         }
-
 
 
     }

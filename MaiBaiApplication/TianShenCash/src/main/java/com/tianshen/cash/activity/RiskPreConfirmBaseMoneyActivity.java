@@ -27,10 +27,9 @@ import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.VerifyCodeBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
-import com.tianshen.cash.net.api.GetVerifyCode;
+import com.tianshen.cash.net.api.GetLoanVerifyCode;
 import com.tianshen.cash.net.api.UploadUserInfoApi;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -617,18 +616,21 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
-        GetVerifyCode getVerifyCode = new GetVerifyCode(mContext);
+//        GetVerifyCode getVerifyCode = new GetVerifyCode(mContext);
+        GetLoanVerifyCode getVerifyCode = new GetLoanVerifyCode(mContext);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
-            jsonObject.put("mobile", mOrderConfirmBean.getData().getPhone());
-            jsonObject.put("type", "9");
+//            jsonObject.put("mobile", mOrderConfirmBean.getData().getPhone());
+//            jsonObject.put("type", "9");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getVerifyCode.getVerifyCode(jsonObject, new BaseNetCallBack<VerifyCodeBean>() {
+        //GetLoanVerifyCode getVerifyCode
+
+        getVerifyCode.send(jsonObject, tv_risk_pre_money_verify_code, true, new BaseNetCallBack<PostDataBean>() {
             @Override
-            public void onSuccess(VerifyCodeBean paramT) {
+            public void onSuccess(PostDataBean paramT) {
                 ToastUtil.showToast(mContext, "验证码发送成功");
                 refreshSeverityTextUI();
             }
