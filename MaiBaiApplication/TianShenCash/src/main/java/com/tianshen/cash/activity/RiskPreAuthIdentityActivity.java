@@ -212,6 +212,10 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             view_placeholder.setVisibility(View.GONE);
             et_risk_pre_real_name.setText(real_name);
             et_risk_pre_id_num.setText(id_num);
+            if (TextUtils.isEmpty(mIdNumInfoBean.getData().getNation())) {
+                up_status_front = "2";
+                up_status_back = "2";
+            }
         }
 
         ImageLoader.load(getApplicationContext(), front_idCard_url, iv_scan_identity_front);
@@ -221,10 +225,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         if (!TextUtils.isEmpty(front_idCard_url) && !TextUtils.isEmpty(back_idCard_url)) {
             mCanScanFace = true;
         }
-        if (TextUtils.isEmpty(mIdNumInfoBean.getData().getNation())) {
-            up_status_front = "2";
-            up_status_back = "2";
-        }
+
         TianShenUserUtil.saveUserName(mContext, real_name);
         TianShenUserUtil.saveUserIDNum(mContext, id_num);
 
