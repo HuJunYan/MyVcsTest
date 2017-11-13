@@ -411,6 +411,10 @@ public class AuthMyInfoActivity extends BaseActivity {
 
             case RESTCODEZGIMA:
                 //认证芝麻信用返回
+                if("1".equals(mZhiMaStatus)){
+                    //为1的时候 界面已经设置为认证完成状态 无需请求网络，减轻服务器压力
+                    return;
+                }
                 initAuthCenterData();
                 /*if (arg2!=null) {
                     String statue4 = arg2.getStringExtra("RESULTSTATUE");
