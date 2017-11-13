@@ -102,8 +102,9 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             }
         }
     };
-    private String is_auth_idcard;
-    private byte[] mHeadImg;
+
+    private String up_status_front = "1";
+    private String up_status_back = "1";
 
 
     @Override
@@ -163,10 +164,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
      * 得到用户认证的信息
      */
     private void initIdNumInfo() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            is_auth_idcard = extras.getString(GlobalParams.IDENTITY_STATE_KEY, "0");
-        }
         JSONObject jsonObject = new JSONObject();
         String userId = TianShenUserUtil.getUserId(mContext);
         try {
@@ -223,6 +220,10 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
         if (!TextUtils.isEmpty(front_idCard_url) && !TextUtils.isEmpty(back_idCard_url)) {
             mCanScanFace = true;
+        }
+        if (TextUtils.isEmpty(mIdNumInfoBean.getData().getNation())) {
+            up_status_front = "2";
+            up_status_back = "2";
         }
         TianShenUserUtil.saveUserName(mContext, real_name);
         TianShenUserUtil.saveUserIDNum(mContext, id_num);
@@ -441,6 +442,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                         mIdNumInfoBean = new IdNumInfoBean();
                         mIdNumInfoBean.setData(new IdNumInfoBean.Data());
                     }
+                    up_status_back = "1";
                     //设置身份证反面信息
                     mIdNumInfoBean.getData().setValid_period(paramT.valid_date);
                     mIdNumInfoBean.getData().setSign_organ(paramT.issued_by);
@@ -472,6 +474,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("sign_organ", sign_organ);
             jsonObject.put("valid_period", valid_date);
+            jsonObject.put("up_status", up_status_back);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -484,7 +487,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 if (0 == code) {
                     byte[] headImage = getHeadImage();
                     EventBus.getDefault().postSticky(new IdcardImageEvent(headImage));
-                    ToastUtil.showToast(mContext, "上传身份证反面信息成功!");
+                    ToastUtil.showToast(mContext, "上传身份证信息成功!");
                     gotoActivity(mContext, RiskPreScanFaceActivity.class, null);
                 }
             }
@@ -502,7 +505,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         Drawable drawable = new BitmapDrawable(idcardBmp);
         switch (mIsClickPosition) {
             case 0:
-                mHeadImg = imageSource;
                 iv_scan_identity_front.setImageDrawable(drawable);
                 LogUtil.d("abc", "设置身份证正面");
                 break;
@@ -532,6 +534,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 if (mIDCardBean.id_card_number.length() != 18) {
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
+                up_status_front = "1";
                 isSaveFrontImageSuccess = true;
                 refreshNameAndNumUI();
 //                initSaveIDCardFront();
@@ -618,7 +621,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             jsonObject.put("birthday", birthday);
             jsonObject.put("birthplace", birthplace);
             jsonObject.put("id_num", id_num);
-            jsonObject.put("up_status", "1");// 正常扫脸
+            jsonObject.put("up_status", up_status_front);// 正常扫脸
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -631,7 +634,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 if (0 == code) {
                     TianShenUserUtil.saveUserName(mContext, real_name);
                     TianShenUserUtil.saveUserIDNum(mContext, id_num);
-                    ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
+//                    ToastUtil.showToast(mContext, "上传身份证正面信息成功!");
                     initSaveIDCardBack();
                 }
 
