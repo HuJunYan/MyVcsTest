@@ -679,4 +679,11 @@ public class NetConstantValue {
         return COMMONURI + "UserCenter/otherLoan";
     }
 
+    /**
+     * 风控前置借款页面获取验证码URL
+     */
+    public static String getLoanVerifyCodeURL() {
+        return COMMONURI + "Order/getLoanVerifyCode";
+    }
+
 }
