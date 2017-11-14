@@ -145,7 +145,9 @@ public class JPushReceiver extends BroadcastReceiver {
         }
         boolean isOnResume = MyApplicationLike.isOnResume;
         Intent realIntent;
+        //判断url 如果为空 则启动首页
         if (TextUtils.isEmpty(msg_content.message_share_url)) {
+            //如果在后台状态下 才启动首页
             if (isOnResume) {
                 return;
             }
