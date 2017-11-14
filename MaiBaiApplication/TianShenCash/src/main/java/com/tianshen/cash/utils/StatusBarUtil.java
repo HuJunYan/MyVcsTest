@@ -131,23 +131,26 @@ public class StatusBarUtil {
      * @param activity
      */
     public static void setStatusViewTranslucent(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View baseView = activity.findViewById(R.id.base_layout);
             if (baseView != null) {
                 baseView.setFitsSystemWindows(false);
             }
+            View decorView = activity.getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         if (MyApplicationLike.isMIUI) {
             RomUtils.setStatusBarDarkMode(false, activity);
-        } else if (RomUtils.FlymeSetStatusBarLightMode(activity.getWindow(), false)) { //适配Flyme4.0以上
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-//                setStatusBarWhite(activity);
-//            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        }
+//        else if (RomUtils.FlymeSetStatusBarLightMode(activity.getWindow(), false)) { //适配Flyme4.0以上
+////            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+////                setStatusBarWhite(activity);
+////            }
+//        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //设置6.0以上字体颜色为浅色
             activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
