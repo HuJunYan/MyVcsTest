@@ -95,8 +95,8 @@ public class EvaluateAmountActivity extends BaseActivity {
         if ("1".equals(cash_amount_status)) {//测评完毕
             String is_payway = data.getIs_payway();
             EventBus.getDefault().post(new RiskPreEvaluateFinishEvent(is_payway));
-            gotoActivity(mContext, MainActivity.class, null);
             if ("0".equals(is_payway)) {
+                gotoActivity(mContext, MainActivity.class, null);
                 finish();
             } else if ("1".equals(is_payway)) {
                 gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
