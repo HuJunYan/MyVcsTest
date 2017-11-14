@@ -76,6 +76,7 @@ class AuthCenterMenuActivity : BaseActivity() {
         if (keyCode == KeyEvent.KEYCODE_BACK && event?.repeatCount == 0) {
             gotoActivity(mContext, MainActivity::class.java, null)
             finish()
+            return true
         }
         return super.onKeyDown(keyCode, event)
     }
