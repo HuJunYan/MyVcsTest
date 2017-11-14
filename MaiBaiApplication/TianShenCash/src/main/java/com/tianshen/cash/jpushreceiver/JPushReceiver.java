@@ -15,6 +15,7 @@ import com.tianshen.cash.event.RefreshRepayDataEvent;
 import com.tianshen.cash.event.RiskPreFinishEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.MsgContent;
+import com.tianshen.cash.net.api.UpdateMessageStatus;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.JpushBaseBean;
 import com.tianshen.cash.utils.LogUtil;
@@ -22,6 +23,8 @@ import com.tianshen.cash.utils.TianShenUserUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -147,6 +150,7 @@ public class JPushReceiver extends BroadcastReceiver {
             realIntent = new Intent(context, NotificationWebActivity.class);
         }
         //TODO  调用已读接口
+        tellServerHasRead(msg_content,context);
         realIntent.putExtra(GlobalParams.NOTIFICATION_MESSAGE_KEY, msg_content);
         if (MyApplicationLike.isOnResume) {
             realIntent.putExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, true);
@@ -162,4 +166,21 @@ public class JPushReceiver extends BroadcastReceiver {
         context.startActivity(realIntent);
     }
 
+    private void tellServerHasRead(MsgContent msgContent, Context context) {
+        if (msgContent == null) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(context));
+            jsonObject.put("msg_id", msgContent.message_id);
+            jsonObject.put("msg_type", msgContent.message_type);
+            if (!TextUtils.isEmpty(msgContent.message_mark))
+                jsonObject.put("message_mark", msgContent.message_mark);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        UpdateMessageStatus updateMessageStatus = new UpdateMessageStatus(context);
+        updateMessageStatus.update(jsonObject, null, false, null);
+    }
 }

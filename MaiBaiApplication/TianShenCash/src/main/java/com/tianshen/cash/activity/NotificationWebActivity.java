@@ -94,7 +94,9 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
             tv_web_title.setText(msgContent.message_title);
         }
 
+
     }
+
 
     @Override
     protected int setContentView() {
@@ -250,7 +252,42 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
         getCashAmountService.getData(jsonObject, new BaseNetCallBack<CashAmountBean>() {
             @Override
             public void onSuccess(CashAmountBean bean) {
-                //todo 根据不同的值 去判断跳转的页面
+                try {
+                    if (bean != null && bean.getData() != null) {
+                        CashAmountBean.Data data = bean.getData();
+                        String curStep = data.getCur_credit_step();
+                        String totalStep = data.getTotal_credit_step();
+                        String cashStatus = data.getCash_amount_status();
+                        String isPayway = data.getIs_payway();
+                        int cur_credit_step = Integer.parseInt(curStep);
+                        int total_credit_step = Integer.parseInt(totalStep);
+                        int cash_amount_status = Integer.parseInt(cashStatus);
+                        int is_payway = Integer.parseInt(isPayway);
+                        //根据不同的值 去判断跳转的页面
+                        if (cur_credit_step > 0 && cur_credit_step < total_credit_step) {
+                            // 跳转到认证中心页面
+                            gotoAuthMenuActivity();
+                            return;
+                        }
+                        if (cash_amount_status == 0) {
+                            //跳转到首页
+                            gotoMainActivity();
+                        } else if (cash_amount_status == 1 && is_payway == 0) {
+                            // 跳转到首页
+                            gotoMainActivity();
+                        } else if (cash_amount_status == 1 && is_payway == 1) {
+                            // 跳转到掌众借款页面
+                            gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
+                        } else if (cash_amount_status == 2) {
+                            //  跳转到跑分等待页面
+                            gotoActivity(mContext, EvaluateAmountActivity.class, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    LogUtil.d("abc", "error " + e.getMessage());
+                    backActivity();
+                }
+
 
             }
 
@@ -259,6 +296,14 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                 backActivity();
             }
         });
+    }
+
+    private void gotoMainActivity() {
+        gotoActivity(mContext, MainActivity.class, null);
+    }
+
+    private void gotoAuthMenuActivity() {
+        gotoActivity(mContext, AuthCenterMenuActivity.class, null);
     }
 
     public class IJavaScriptInterface {

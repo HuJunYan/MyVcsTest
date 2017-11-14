@@ -65,7 +65,9 @@ public class NetBase {
         if (!NetCheck.isNetConnected(this.mContext)) {
             if (isShowNoNetworksPrompt()) {
                 ToastUtil.showToast(this.mContext, MemoryAddressUtils.check_network());
-                callBack.onFailure("", -2, -1000);
+                if (callBack != null) {
+                    callBack.onFailure("", -2, -1000);
+                }
             }
             if (view != null) {
                 view.setEnabled(true);
@@ -133,15 +135,21 @@ public class NetBase {
                     Logger.i("下行onSuccess--url->" + url);
                     Logger.json(result);
                     if (GsonUtil.isSuccess(result)) {
-                        callBack.onSuccess(result, url);
+                        if (callBack != null) {
+                            callBack.onSuccess(result, url);
+                        }
                     } else {
                         DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view, isShowToast);
-                        callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
+                        if (callBack != null) {
+                            callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
+                        }
                     }
                 } catch (Exception e) {
                     String g = (String) responseInfo.result;
                     Logger.i("下行Exception-->" + url + "result--->" + g);
-                    callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
+                    if (callBack != null) {
+                        callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
+                    }
                     DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view, isShowToast);
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
@@ -163,13 +171,14 @@ public class NetBase {
                 Logger.d("下行failed--url-->" + url);
                 Logger.d("下行failed--msg-->" + m);
                 Logger.d("下行failed--code-->" + e.getExceptionCode());
-                callBack.onFailure("", -3, -1000);
+                if (callBack != null) {
+                    callBack.onFailure("", -3, -1000);
+                }
                 DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, "", view, isShowToast);
                 cancelDialog();
             }
         });
     }
-
 
 
     /**
@@ -196,7 +205,9 @@ public class NetBase {
         if (!NetCheck.isNetConnected(this.mContext)) {
             if (isShowNoNetworksPrompt()) {
                 ToastUtil.showToast(this.mContext, MemoryAddressUtils.check_network());
-                callBack.onFailure("", -2, -1000);
+                if (callBack != null) {
+                    callBack.onFailure("", -2, -1000);
+                }
             }
             if (view != null) {
                 view.setEnabled(true);
@@ -218,15 +229,21 @@ public class NetBase {
                     String result = (String) responseInfo.result;
                     LogUtil.d("ret", "url = " + url + ";  result = " + result);
                     if (GsonUtil.isSuccess(result)) {
-                        callBack.onSuccess(result, url);
+                        if (callBack != null) {
+                            callBack.onSuccess(result, url);
+                        }
                     } else {
                         ResponseBean mResponseBean = GsonUtil.json2bean(result, ResponseBean.class);
                         DealWithErrorUtils.dealWithErrorCode(NetBase.this.mContext, result, view, mIsShowToast);
-                        callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
+                        if (callBack != null) {
+                            callBack.onFailure(result, -1, GsonUtil.getErrorCode(result));
+                        }
                     }
                 } catch (Exception e) {
                     String g = (String) responseInfo.result;
-                    callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
+                    if (callBack != null) {
+                        callBack.onFailure(g, -1, GsonUtil.getErrorCode(g));
+                    }
                     MobclickAgent.reportError(NetBase.this.mContext, LogUtil.getException(e));
                     e.printStackTrace();
                 }
@@ -240,7 +257,9 @@ public class NetBase {
                     view.setEnabled(true);
                 }
                 LogUtil.d("ret", "failed: url = " + url + ",response = " + s + "--ExceptionCode-->" + e.getExceptionCode());
-                callBack.onFailure("", -3, -1000);
+                if (callBack != null) {
+                    callBack.onFailure("", -3, -1000);
+                }
                 cancelDialog();
             }
         });
@@ -268,13 +287,16 @@ public class NetBase {
 
     //安全关闭dialog 防止崩溃
     public void cancelDialog() {
-        try {
-            if (mContext != null && !((Activity) mContext).isFinishing()) {
-                ViewUtil.cancelLoadingDialog();
+        if (mContext != null && mContext instanceof Activity) {
+            try {
+                if (!((Activity) mContext).isFinishing()) {
+                    ViewUtil.cancelLoadingDialog();
+                }
+            } catch (ClassCastException e) {
+                MobclickAgent.reportError(mContext, LogUtil.getException(e));
             }
-        } catch (ClassCastException e) {
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
         }
+
 
     }
 }
