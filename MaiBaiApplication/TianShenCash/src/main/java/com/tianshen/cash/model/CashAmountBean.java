@@ -36,6 +36,24 @@ public class CashAmountBean {
         private String cash_amount_status;
         private String is_payway; //0 自营 /1 掌众
         private String joke_url;
+        private String cur_credit_step;
+        private String total_credit_step;
+
+        public String getCur_credit_step() {
+            return cur_credit_step;
+        }
+
+        public void setCur_credit_step(String cur_credit_step) {
+            this.cur_credit_step = cur_credit_step;
+        }
+
+        public String getTotal_credit_step() {
+            return total_credit_step;
+        }
+
+        public void setTotal_credit_step(String total_credit_step) {
+            this.total_credit_step = total_credit_step;
+        }
 
         public String getCash_amount() {
             return cash_amount;

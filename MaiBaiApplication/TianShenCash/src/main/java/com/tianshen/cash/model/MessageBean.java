@@ -17,6 +17,15 @@ public class MessageBean implements Serializable {
     private String msg_share_description;
     private String activity_id;
     private String msg_status;
+    private String message_mark;
+
+    public String getMessage_mark() {
+        return message_mark;
+    }
+
+    public void setMessage_mark(String message_mark) {
+        this.message_mark = message_mark;
+    }
 
     public String getMsg_status() {
         return msg_status;

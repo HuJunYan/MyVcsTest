@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 
 public class GetCashAmountService extends NetBase {
-    private boolean isRelease = true;
+    private boolean isRelease = false;
     private String mUrl;
     private Context mContext;
     private JSONObject mJSONObject;
@@ -81,6 +81,8 @@ public class GetCashAmountService extends NetBase {
         cashAmountBean.setCode(0);
         data.setCash_amount("0");
         data.setCash_amount_status("0");
+        data.setCur_credit_step("0");
+        data.setTotal_credit_step("3");
         data.setJoke_url("https://www.baidu.com");
         cashAmountBean.setData(data);
         return cashAmountBean;

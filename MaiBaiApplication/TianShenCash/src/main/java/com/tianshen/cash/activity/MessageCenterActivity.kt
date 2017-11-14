@@ -149,6 +149,7 @@ class MessageCenterActivity : BaseActivity() {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId)
             jsonObject.put("msg_id", msg.msg_id)
             jsonObject.put("msg_type", msg.msg_type)
+            jsonObject.put("message_mark", msg.message_mark)
 
             val updateMessageStatus = UpdateMessageStatus(mContext)
             updateMessageStatus.update(jsonObject, null, false, object : BaseNetCallBack<PostDataBean> {

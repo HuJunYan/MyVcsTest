@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.meituan.android.walle.WalleChannelReader;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -14,19 +16,25 @@ import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.manager.UpdateManager;
+import com.tianshen.cash.model.CashAmountBean;
 import com.tianshen.cash.model.CheckUpgradeBean;
 import com.tianshen.cash.net.api.CheckUpgrade;
+import com.tianshen.cash.net.api.GetCashAmountService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.Config;
+import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MaiDianUtil;
+import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
+import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
@@ -111,16 +119,16 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
         finish();
     }
 
-    private void gotoMainAcitivity() {
-        finishTime = System.currentTimeMillis();
-        new TimeCount(3000 + startTime - finishTime, 3000) {
-            @Override
-            public void onFinish() {
-                gotoActivity(NavigationActivity.this, MainActivity.class, null);
-                NavigationActivity.this.finish();
-            }
-        }.start();
-    }
+//    private void gotoMainAcitivity() {
+//        finishTime = System.currentTimeMillis();
+//        new TimeCount(3000 + startTime - finishTime, 3000) {
+//            @Override
+//            public void onFinish() {
+//                gotoActivity(NavigationActivity.this, MainActivity.class, null);
+//                NavigationActivity.this.finish();
+//            }
+//        }.start();
+//    }
 
     /**
      * 获取当前应用的版本号
@@ -160,7 +168,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                     String upgradeType = paramT.getData().getForce_upgrade();//更新类型
                     String is_ignore = paramT.getData().getIs_ignore();//是否忽略升级
                     if ("1".equals(is_ignore)) {//当前是最新版本
-                        gotoMainAcitivity();
+                        checkStatusGoActivity();
                     } else {
                         UpdateManager mUpdateManager = new UpdateManager(NavigationActivity.this, apkUrl, explain, upgradeType, NavigationActivity.this);
                         mUpdateManager.checkUpdateInfo();
@@ -170,7 +178,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 @Override
                 public void onFailure(String result, int errorType, int errorCode) {
                     if (errorCode == 118) {
-                        gotoMainAcitivity();
+                        checkStatusGoActivity();
                     }
                 }
             });
@@ -182,7 +190,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
 
     @Override
     public void cancelUpdate() {
-        gotoMainAcitivity();
+        checkStatusGoActivity();
     }
 
     /**
@@ -190,6 +198,83 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
      */
     private void checkStatusGoActivity() {
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        GetCashAmountService getCashAmountService = new GetCashAmountService(mContext);
+        getCashAmountService.getData(jsonObject, new BaseNetCallBack<CashAmountBean>() {
+            @Override
+            public void onSuccess(CashAmountBean bean) {
+                finishTime = System.currentTimeMillis();
+
+                String is_payway = bean.getData().getIs_payway();
+                String cash_amount_status = bean.getData().getCash_amount_status();
+
+                String cur_credit_step = bean.getData().getCur_credit_step();
+                String total_credit_step = bean.getData().getTotal_credit_step();
+
+                int totalCreditStep = 0;
+                int curCreditStep = 0;
+                if (TextUtils.isEmpty(cur_credit_step)){
+                    curCreditStep = Integer.parseInt(cur_credit_step);
+                }
+                if (TextUtils.isEmpty(total_credit_step)){
+                    totalCreditStep = Integer.parseInt(total_credit_step);
+                }
+                if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
+
+                    new TimeCount(2000 + startTime - finishTime, 2000) {
+                        @Override
+                        public void onFinish() {
+                            gotoActivity(NavigationActivity.this, AuthCenterMenuActivity.class, null);
+                            NavigationActivity.this.finish();
+                        }
+                    }.start();
+                    return;
+                }
+                if ("0".equals(cash_amount_status)) { //跳转到首页
+                    new TimeCount(2000 + startTime - finishTime, 2000) {
+                        @Override
+                        public void onFinish() {
+                            gotoActivity(NavigationActivity.this, MainActivity.class, null);
+                            NavigationActivity.this.finish();
+                        }
+                    }.start();
+                } else if ("1".equals(cash_amount_status) && "0".equals(is_payway)) { //跳转到首页
+                    new TimeCount(2000 + startTime - finishTime, 2000) {
+                        @Override
+                        public void onFinish() {
+                            gotoActivity(NavigationActivity.this, MainActivity.class, null);
+                            NavigationActivity.this.finish();
+                        }
+                    }.start();
+                } else if ("1".equals(cash_amount_status) && "1".equals(is_payway)) { //跳转到掌众借款页面
+                    new TimeCount(2000 + startTime - finishTime, 2000) {
+                        @Override
+                        public void onFinish() {
+                            gotoActivity(NavigationActivity.this, ConfirmBorrowingActivity.class, null);
+                            NavigationActivity.this.finish();
+                        }
+                    }.start();
+                } else if ("2".equals(cash_amount_status)) { //跳转到跑分等待页面
+                    new TimeCount(2000 + startTime - finishTime, 2000) {
+                        @Override
+                        public void onFinish() {
+                            gotoActivity(NavigationActivity.this, EvaluateAmountActivity.class, null);
+                            NavigationActivity.this.finish();
+                        }
+                    }.start();
+                }
+            }
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
     }
 
 }
