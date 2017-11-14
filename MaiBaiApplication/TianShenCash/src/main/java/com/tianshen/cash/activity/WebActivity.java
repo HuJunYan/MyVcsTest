@@ -140,7 +140,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private void setWebViewSettings() {
         WebSettings webSettings = wv_web.getSettings();
         // 打开页面时， 自适应屏幕
-//        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
+        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         // 便页面支持缩放
         webSettings.setJavaScriptEnabled(true); //支持js
