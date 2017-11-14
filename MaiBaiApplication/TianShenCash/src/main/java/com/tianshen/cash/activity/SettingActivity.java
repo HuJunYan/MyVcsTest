@@ -1,5 +1,7 @@
 package com.tianshen.cash.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -104,6 +106,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     TianShenUserUtil.clearUser(mContext);
                     JPushInterface.stopPush(app);
                     EventBus.getDefault().post(new LogoutSuccessEvent());
+
                     backActivity();
                 }
 
@@ -115,7 +118,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     backActivity();
                 }
             });
-
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancelAll();
         } catch (JSONException e) {
             e.printStackTrace();
             MobclickAgent.reportError(mContext, LogUtil.getException(e));

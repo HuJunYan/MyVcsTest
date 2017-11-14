@@ -105,7 +105,7 @@ public class JPushReceiver extends BroadcastReceiver {
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 
-            //TODO 自定义通知
+            // 自定义通知 事件
             Bundle bundle = intent.getExtras();
             String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
             JpushBaseBean jpushBaseBean = GsonUtil.json2bean(result, JpushBaseBean.class);
@@ -149,7 +149,7 @@ public class JPushReceiver extends BroadcastReceiver {
         } else {
             realIntent = new Intent(context, NotificationWebActivity.class);
         }
-        //TODO  调用已读接口
+        //  调用已读接口
         tellServerHasRead(msg_content,context);
         realIntent.putExtra(GlobalParams.NOTIFICATION_MESSAGE_KEY, msg_content);
         if (MyApplicationLike.isOnResume) {
