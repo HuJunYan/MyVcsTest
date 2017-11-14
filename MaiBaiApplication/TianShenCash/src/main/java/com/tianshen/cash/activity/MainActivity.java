@@ -17,14 +17,17 @@ import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.base.MyApplicationLike;
 import com.tianshen.cash.constant.GlobalParams;
 import com.tianshen.cash.event.LoginSuccessEvent;
+import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.fragment.HomeFragment;
 import com.tianshen.cash.fragment.MeFragment;
 import com.tianshen.cash.model.JpushAddBorrowTermBean;
 import com.tianshen.cash.utils.LocationUtil;
+import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.RequestPermissionUtil;
 import com.tianshen.cash.utils.WithdrawalsApplyResultUtil;
 import com.tianshen.cash.view.MyViewPager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -48,11 +51,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         regist();
         InitView();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        EventBus.getDefault().post(new UserConfigChangedEvent());
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         mLocationUtil.startLocation(this);
     }
+
 
     @Override
     protected int setContentView() {
