@@ -24,7 +24,9 @@ import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.base.MyApplicationLike
 import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.event.LoginSuccessEvent
+import com.tianshen.cash.model.CashAmountBean
 import com.tianshen.cash.model.TianShenLoginBean
+import com.tianshen.cash.net.api.GetCashAmountService
 import com.tianshen.cash.net.api.SignIn
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.net.base.UserUtil
@@ -207,10 +209,7 @@ class LoginActivity : BaseActivity() {
                             JPushInterface.resumePush(app)
                         }
                     }
-
-                    gotoActivity(mContext, MainActivity::class.java, null)
-                    EventBus.getDefault().post(LoginSuccessEvent())
-
+                    checkStatusGoActivity()
                 }
 
                 override fun onFailure(url: String, errorType: Int, errorCode: Int) {
@@ -228,6 +227,63 @@ class LoginActivity : BaseActivity() {
         val bundle = Bundle()
         bundle.putString("type", GlobalParams.CHANGE_LOGIN_PASSWORD)
         gotoActivity(mContext, ForgetPasswordActivity::class.java, bundle)
+    }
+
+    /**
+     * 根据当前用户的状态跳转到不同的页面
+     */
+    private fun checkStatusGoActivity() {
+
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext))
+
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        val getCashAmountService = GetCashAmountService(mContext)
+        getCashAmountService.getData(jsonObject, object : BaseNetCallBack<CashAmountBean> {
+            override fun onSuccess(bean: CashAmountBean) {
+
+                val is_payway = bean.data.is_payway
+                val cash_amount_status = bean.data.cash_amount_status
+
+                val cur_credit_step = bean.data.cur_credit_step
+                val total_credit_step = bean.data.total_credit_step
+
+                var totalCreditStep = 0
+                var curCreditStep = 0
+                if (!TextUtils.isEmpty(cur_credit_step)) {
+                    curCreditStep = Integer.parseInt(cur_credit_step)
+                }
+                if (!TextUtils.isEmpty(total_credit_step)) {
+                    totalCreditStep = Integer.parseInt(total_credit_step)
+                }
+                if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
+                    gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
+                    finish()
+                    return
+                }
+                if ("0" == cash_amount_status) { //跳转到首页
+                    gotoActivity(mContext, MainActivity::class.java, null)
+                    EventBus.getDefault().post(LoginSuccessEvent())
+                } else if ("1" == cash_amount_status && "0" == is_payway) { //跳转到首页
+                    gotoActivity(mContext, MainActivity::class.java, null)
+                    EventBus.getDefault().post(LoginSuccessEvent())
+                } else if ("1" == cash_amount_status && "1" == is_payway) { //跳转到掌众借款页面
+                    gotoActivity(mContext, ConfirmBorrowingActivity::class.java, null)
+                    finish()
+                } else if ("2" == cash_amount_status) { //跳转到跑分等待页面
+                    gotoActivity(mContext, EvaluateAmountActivity::class.java, null)
+                    finish()
+                }
+            }
+
+            override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+
+            }
+        })
     }
 
     /**
