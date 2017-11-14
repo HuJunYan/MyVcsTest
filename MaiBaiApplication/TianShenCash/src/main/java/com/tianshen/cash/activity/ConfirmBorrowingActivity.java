@@ -17,7 +17,9 @@ import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.CashSubItemBean;
 import com.tianshen.cash.model.OtherLoanBean;
+import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetOtherLoanService;
+import com.tianshen.cash.net.api.OtherLoanService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
@@ -42,8 +44,10 @@ import butterknife.OnClick;
  * 掌众确认借款界面
  */
 public class ConfirmBorrowingActivity extends BaseActivity {
-    public static final int TXTYPE = 3;
 
+    public static final int JKTYPE = 1;
+    public static final int JJTYPE = 2;
+    public static final int TXTYPE = 3;
     @BindView(R.id.tv_home_money)
     TextView mTvHomeMoney;
     @BindView(R.id.tv_home_money_key)
@@ -77,6 +81,8 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     //用户借款金额
     private String mBorrowMoney;
     private ArrayList<CharacterStyle> ssList;
+    //传过去的web标题
+    private String webTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +258,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     private ClickableSpan webSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
+            webTitle="借款协议";
             gotoWebActivity(2);
         }
 
@@ -263,6 +270,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     private ClickableSpan webSpan2 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
+            webTitle="居间服务协议";
             gotoWebActivity(1);
         }
 
@@ -361,10 +369,10 @@ public class ConfirmBorrowingActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        final GetOtherLoanService order = new GetOtherLoanService(mContext);
-        order.getData(jsonObject, new BaseNetCallBack<OtherLoanBean>() {
+        final OtherLoanService order = new OtherLoanService(mContext);
+        order.postData(jsonObject, new BaseNetCallBack<PostDataBean>() {
             @Override
-            public void onSuccess(OtherLoanBean paramT) {
+            public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
                     gotoMainActivity();
                 }
@@ -410,10 +418,17 @@ public class ConfirmBorrowingActivity extends BaseActivity {
         sb.append("&agreement_type=" + type);
 
         Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_PROTOCOL);
         if (TXTYPE==type){
+            //《借款协议》《居间服务协议》《人行征信查询授权书》
+            webTitle = "人行征信查询授权书";
             bundle.putString(GlobalParams.WEB_URL_KEY, mOtherLoanBean.getData().getBank_credit_investigation_url());
+            bundle.putString(GlobalParams.WEB_TYPE, webTitle);
         }else {
             bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());
+            bundle.putString(GlobalParams.WEB_TYPE, webTitle);
+
+
         }
         gotoActivity(mContext, WebActivity.class, bundle);
 

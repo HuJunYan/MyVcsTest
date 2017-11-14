@@ -95,6 +95,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             iv_web_share.setVisibility(View.VISIBLE);
         } else if (GlobalParams.FROM_JOKE.equals(mFrom)) {
             tv_web_title.setText("笑话大全");
+        }else if (GlobalParams.FROM_PROTOCOL.equals(mFrom)){
+            tv_web_title.setText(mType);
         }
 
         if (GlobalParams.TYPE_READ.equals(mType)) {

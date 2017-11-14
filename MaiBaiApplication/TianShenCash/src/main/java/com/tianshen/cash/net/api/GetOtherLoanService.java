@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.CashSubItemBean;
-import com.tianshen.cash.model.ConstantBean;
 import com.tianshen.cash.model.OtherLoanBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
@@ -19,7 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * 得到其他借款方式
+ * 获取其他借款方式
  */
 public class GetOtherLoanService extends NetBase {
     private boolean isRelease = true;

@@ -15,7 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 
 /**
- * 得到其他借款方式
+ * 提交其他借款方式
  */
 public class OtherLoanService extends NetBase {
     private boolean isRelease = true;

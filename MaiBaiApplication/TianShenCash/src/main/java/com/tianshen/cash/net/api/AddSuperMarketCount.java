@@ -5,7 +5,6 @@ import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.PostDataBean;
-import com.tianshen.cash.model.SuperMarkerBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
