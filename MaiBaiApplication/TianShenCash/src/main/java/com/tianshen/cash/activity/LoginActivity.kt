@@ -251,23 +251,34 @@ class LoginActivity : BaseActivity() {
 
                 val cur_credit_step = bean.data.cur_credit_step
                 val total_credit_step = bean.data.total_credit_step
+                val cash_amount = bean.data.cash_amount
 
                 var totalCreditStep = 0
                 var curCreditStep = 0
+                var cashAmount = 0
+
                 if (!TextUtils.isEmpty(cur_credit_step)) {
                     curCreditStep = Integer.parseInt(cur_credit_step)
                 }
                 if (!TextUtils.isEmpty(total_credit_step)) {
                     totalCreditStep = Integer.parseInt(total_credit_step)
                 }
+                if (!TextUtils.isEmpty(cash_amount)) {
+                    cashAmount = Integer.parseInt(cash_amount)
+                }
+
                 if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
                     gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
                     finish()
                     return
                 }
                 if ("0" == cash_amount_status) { //跳转到首页
-                    gotoActivity(mContext, MainActivity::class.java, null)
-                    EventBus.getDefault().post(LoginSuccessEvent())
+                    if (cashAmount == 0) { //跳转到认证中心页面
+                        gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
+                    } else {//跳转到首页
+                        gotoActivity(mContext, MainActivity::class.java, null)
+                        EventBus.getDefault().post(LoginSuccessEvent())
+                    }
                 } else if ("1" == cash_amount_status && "0" == is_payway) { //跳转到首页
                     gotoActivity(mContext, MainActivity::class.java, null)
                     EventBus.getDefault().post(LoginSuccessEvent())

@@ -259,6 +259,7 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         String totalStep = data.getTotal_credit_step();
                         String cash_amount_status = data.getCash_amount_status();
                         String is_payway = data.getIs_payway();
+                        String cash_amount = data.getCash_amount();
                         int cur_credit_step = 0;
                         if (!TextUtils.isEmpty(curStep)) {
                             cur_credit_step = Integer.parseInt(curStep);
@@ -276,8 +277,14 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                             return;
                         }
                         if ("0".equals(cash_amount_status)) {
-                            //跳转到首页
-                            gotoMainActivity();
+                            if ("0".equals(cash_amount) || TextUtils.isEmpty(cash_amount)) {
+                                //跳转到认证中心
+                                gotoAuthMenuActivity();
+                            } else {
+                                //跳转到首页
+                                gotoMainActivity();
+                            }
+
                         } else if ("1".equals(cash_amount_status) && "0".equals(is_payway)) {
                             // 跳转到首页
                             gotoMainActivity();

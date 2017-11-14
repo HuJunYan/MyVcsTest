@@ -206,21 +206,30 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
 
                 String cur_credit_step = bean.getData().getCur_credit_step();
                 String total_credit_step = bean.getData().getTotal_credit_step();
-
+                String cash_amount = bean.getData().getCash_amount();
                 int totalCreditStep = 0;
                 int curCreditStep = 0;
+                int cashAmount = 0;
+
                 if (!TextUtils.isEmpty(cur_credit_step)) {
                     curCreditStep = Integer.parseInt(cur_credit_step);
                 }
                 if (!TextUtils.isEmpty(total_credit_step)) {
                     totalCreditStep = Integer.parseInt(total_credit_step);
                 }
+                if (!TextUtils.isEmpty(cash_amount)) {
+                    cashAmount = Integer.parseInt(cash_amount);
+                }
                 if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
                     gotoOtherActivity(AuthCenterMenuActivity.class);
                     return;
                 }
-                if ("0".equals(cash_amount_status)) { //跳转到首页
-                    gotoOtherActivity(MainActivity.class);
+                if ("0".equals(cash_amount_status)) {
+                    if (cashAmount == 0) { //跳转到认证中心页面
+                        gotoOtherActivity(AuthCenterMenuActivity.class);
+                    } else {//跳转到首页
+                        gotoOtherActivity(MainActivity.class);
+                    }
                 } else if ("1".equals(cash_amount_status) && "0".equals(is_payway)) { //跳转到首页
                     gotoOtherActivity(MainActivity.class);
                 } else if ("1".equals(cash_amount_status) && "1".equals(is_payway)) { //跳转到掌众借款页面
