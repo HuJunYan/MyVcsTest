@@ -362,7 +362,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmBorrowingActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NotificationWebActivity"
             android:screenOrientation="portrait" />
