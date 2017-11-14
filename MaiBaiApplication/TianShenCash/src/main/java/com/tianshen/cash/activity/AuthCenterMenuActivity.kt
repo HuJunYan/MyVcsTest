@@ -53,7 +53,10 @@ class AuthCenterMenuActivity : BaseActivity() {
     }
 
     override fun setListensers() {
-        tv_auth_center_menu_back.setOnClickListener { backActivity() }
+        tv_auth_center_menu_back.setOnClickListener {
+            gotoActivity(mContext, MainActivity::class.java, null)
+            finish()
+        }
         rl_identity.setOnClickListener {
             vp_auth_center_menu.currentItem = 0
             mCurrentIndex = 0
