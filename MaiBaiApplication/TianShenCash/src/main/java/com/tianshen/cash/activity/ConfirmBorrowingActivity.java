@@ -39,7 +39,7 @@ import butterknife.OnClick;
 
 
 /**
- * 确认借款界面
+ * 掌众确认借款界面
  */
 public class ConfirmBorrowingActivity extends BaseActivity {
     public static final int TXTYPE = 3;
