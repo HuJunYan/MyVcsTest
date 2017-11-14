@@ -126,7 +126,7 @@ public class JPushReceiver extends BroadcastReceiver {
                         return;
                     }
                     Intent realIntent = new Intent(context, NavigationActivity.class);
-                    realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     toIntent(context, realIntent);
                     break;
             }
@@ -143,26 +143,33 @@ public class JPushReceiver extends BroadcastReceiver {
         if (msg_content == null) {
             return;
         }
+        boolean isOnResume = MyApplicationLike.isOnResume;
         Intent realIntent;
         if (TextUtils.isEmpty(msg_content.message_share_url)) {
+            if (isOnResume) {
+                return;
+            }
             realIntent = new Intent(context, NavigationActivity.class);
         } else {
             realIntent = new Intent(context, NotificationWebActivity.class);
         }
         //  调用已读接口
-        tellServerHasRead(msg_content,context);
+        tellServerHasRead(msg_content, context);
         realIntent.putExtra(GlobalParams.NOTIFICATION_MESSAGE_KEY, msg_content);
-        if (MyApplicationLike.isOnResume) {
+        if (isOnResume) {
             realIntent.putExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, true);
+            realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else {
             realIntent.putExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, false);
+            //没有在前台 清空栈内activity 根据具体逻辑去跳转
+            realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         }
-        realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         toIntent(context, realIntent);
 
     }
 
     private void toIntent(Context context, Intent realIntent) {
+
         context.startActivity(realIntent);
     }
 

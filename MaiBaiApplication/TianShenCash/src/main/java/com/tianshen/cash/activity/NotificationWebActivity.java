@@ -257,31 +257,38 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         CashAmountBean.Data data = bean.getData();
                         String curStep = data.getCur_credit_step();
                         String totalStep = data.getTotal_credit_step();
-                        String cashStatus = data.getCash_amount_status();
-                        String isPayway = data.getIs_payway();
-                        int cur_credit_step = Integer.parseInt(curStep);
-                        int total_credit_step = Integer.parseInt(totalStep);
-                        int cash_amount_status = Integer.parseInt(cashStatus);
-                        int is_payway = Integer.parseInt(isPayway);
-                        //根据不同的值 去判断跳转的页面
+                        String cash_amount_status = data.getCash_amount_status();
+                        String is_payway = data.getIs_payway();
+                        int cur_credit_step = 0;
+                        if (!TextUtils.isEmpty(curStep)) {
+                            cur_credit_step = Integer.parseInt(curStep);
+                        }
+                        int total_credit_step = 0;
+                        if (!TextUtils.isEmpty(totalStep)) {
+                            total_credit_step = Integer.parseInt(totalStep);
+                        }
+
+//                        //根据不同的值 去判断跳转的页面
                         if (cur_credit_step > 0 && cur_credit_step < total_credit_step) {
                             // 跳转到认证中心页面
                             gotoAuthMenuActivity();
+                            backActivity();
                             return;
                         }
-                        if (cash_amount_status == 0) {
+                        if ("0".equals(cash_amount_status)) {
                             //跳转到首页
                             gotoMainActivity();
-                        } else if (cash_amount_status == 1 && is_payway == 0) {
+                        } else if ("1".equals(cash_amount_status) && "0".equals(is_payway)) {
                             // 跳转到首页
                             gotoMainActivity();
-                        } else if (cash_amount_status == 1 && is_payway == 1) {
+                        } else if ("1".equals(cash_amount_status) && "1".equals(is_payway)) {
                             // 跳转到掌众借款页面
                             gotoActivity(mContext, ConfirmBorrowingActivity.class, null);
-                        } else if (cash_amount_status == 2) {
+                        } else if ("2".equals(cash_amount_status)) {
                             //  跳转到跑分等待页面
                             gotoActivity(mContext, EvaluateAmountActivity.class, null);
                         }
+                        backActivity();
                     }
                 } catch (Exception e) {
                     LogUtil.d("abc", "error " + e.getMessage());
