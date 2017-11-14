@@ -104,36 +104,41 @@ public class JPushReceiver extends BroadcastReceiver {
                 LogUtil.e("error", LogUtil.getException(e));
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
+            try {
+                // 自定义通知 事件
+                Bundle bundle = intent.getExtras();
+                String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
+                JpushBaseBean jpushBaseBean = GsonUtil.json2bean(result, JpushBaseBean.class);
+                String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
+                String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+                String msg_type = jpushBaseBean.msg_type;
+                if (TextUtils.isEmpty(msg_type)) {
+                    return;
+                }
 
-            // 自定义通知 事件
-            Bundle bundle = intent.getExtras();
-            String result = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            JpushBaseBean jpushBaseBean = GsonUtil.json2bean(result, JpushBaseBean.class);
-            String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
-            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
-            String msg_type = jpushBaseBean.msg_type;
-            if (TextUtils.isEmpty(msg_type)) {
-                return;
+                MsgContent msg_content = jpushBaseBean.msg_content;
+                switch (msg_type) {
+                    case "5"://打开消息中心
+                        processMsg(context, msg_content);
+                        break;
+                    default: //打开首页
+                        if (MyApplicationLike.isOnResume) {
+                            return;
+                        }
+                        Intent realIntent = new Intent(context, NavigationActivity.class);
+                        realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        toIntent(context, realIntent);
+                        break;
+                }
+
+                LogUtil.d("wangchen", "onReceive: ACTION_NOTIFICATION_OPENED = " + "result = " + result + ",msgtype =" + msg_type + ",alert = " + alert
+                        + ",title = " + title + ",msg_content = " + msg_content);
+                ;
+
+            } catch (Exception e) {
+                MobclickAgent.reportError(mContext, LogUtil.getException(e));
+                LogUtil.e("error", LogUtil.getException(e));
             }
-
-            MsgContent msg_content = jpushBaseBean.msg_content;
-            switch (msg_type) {
-                case "5"://打开消息中心
-                    processMsg(context, msg_content);
-                    break;
-                default: //打开首页
-                    if (MyApplicationLike.isOnResume) {
-                        return;
-                    }
-                    Intent realIntent = new Intent(context, NavigationActivity.class);
-                    realIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    toIntent(context, realIntent);
-                    break;
-            }
-
-            LogUtil.d("wangchen", "onReceive: ACTION_NOTIFICATION_OPENED = " + "result = " + result + ",msgtype =" + msg_type + ",alert = " + alert
-                    + ",title = " + title + ",msg_content = " + msg_content);
-            ;
 
 
         }
