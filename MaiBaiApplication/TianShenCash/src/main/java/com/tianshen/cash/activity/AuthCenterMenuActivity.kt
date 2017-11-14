@@ -3,6 +3,7 @@ package com.tianshen.cash.activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.view.KeyEvent
 import android.view.View
 import com.tianshen.cash.R
 import com.tianshen.cash.adapter.MyViewPagerAdapter
@@ -69,6 +70,14 @@ class AuthCenterMenuActivity : BaseActivity() {
             vp_auth_center_menu.currentItem = 2
             mCurrentIndex = 2
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event?.repeatCount == 0) {
+            gotoActivity(mContext, MainActivity::class.java, null)
+            finish()
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
