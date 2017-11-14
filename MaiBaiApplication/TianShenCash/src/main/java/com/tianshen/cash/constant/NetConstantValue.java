@@ -669,14 +669,14 @@ public class NetConstantValue {
      * 得到其他借款方式URL
      */
     public static String getOtherLoanURL() {
-        return COMMONURI + "UserCenter/getOtherLoan";
+        return COMMONURI + "Order/getOtherLoan";
     }
 
     /**
      * 得到其他借款方式(提交申请)URL
      */
     public static String otherLoanURL() {
-        return COMMONURI + "UserCenter/otherLoan";
+        return COMMONURI + "Order/otherLoan";
     }
 
     /**
