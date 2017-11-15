@@ -21,6 +21,7 @@ import com.tianshen.cash.model.PostDataBean;
 import com.tianshen.cash.net.api.GetOtherLoanService;
 import com.tianshen.cash.net.api.OtherLoanService;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.CashAmountDialogUtils;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MoneyUtils;
@@ -310,6 +311,12 @@ public class ConfirmBorrowingActivity extends BaseActivity {
                 public void onSuccess(OtherLoanBean paramT) {
                     mOtherLoanBean = paramT;
                     String borrowDay = mOtherLoanBean.getData().getRepay_times();
+
+                    if ("1".equals(mOtherLoanBean.getData().getIs_in_three_day())){
+                        //在3天之外弹窗
+                        CashAmountDialogUtils.show(ConfirmBorrowingActivity.this);
+
+                    }
 
                     if (!TextUtils.isEmpty(borrowDay)){
                         mTvBorrowTime.setText(borrowDay+"天");
