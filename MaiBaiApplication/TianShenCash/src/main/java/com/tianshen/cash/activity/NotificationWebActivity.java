@@ -259,7 +259,7 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         String totalStep = data.getTotal_credit_step();
                         String cash_amount_status = data.getCash_amount_status();
                         String is_payway = data.getIs_payway();
-                        String cash_amount = data.getCash_amount();
+                        String cashAmount = data.getCash_amount();
                         int cur_credit_step = 0;
                         if (!TextUtils.isEmpty(curStep)) {
                             cur_credit_step = Integer.parseInt(curStep);
@@ -267,6 +267,10 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         int total_credit_step = 0;
                         if (!TextUtils.isEmpty(totalStep)) {
                             total_credit_step = Integer.parseInt(totalStep);
+                        }
+                        int cash_amount = 0;
+                        if (!TextUtils.isEmpty(cashAmount)) {
+                            cash_amount = Integer.parseInt(cashAmount);
                         }
 
 //                        //根据不同的值 去判断跳转的页面
@@ -277,11 +281,12 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                             return;
                         }
                         if ("0".equals(cash_amount_status)) {
-                            if ("0".equals(cash_amount) || TextUtils.isEmpty(cash_amount)) {
+                            //如果额度是0,步数大于0 说明认证过 还未去测评额度
+                            if (cash_amount == 0 && cur_credit_step > 0) {
                                 //跳转到认证中心
                                 gotoAuthMenuActivity();
                             } else {
-                                //跳转到首页
+                                //说明额度不为0,或者还未认证 跳转到首页
                                 gotoMainActivity();
                             }
 
