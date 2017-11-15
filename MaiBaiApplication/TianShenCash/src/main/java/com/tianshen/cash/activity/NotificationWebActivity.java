@@ -91,8 +91,11 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
         if (intent != null) {
             msgContent = intent.getParcelableExtra(GlobalParams.NOTIFICATION_MESSAGE_KEY);
             isOnResumeClick = intent.getBooleanExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, true);
-            tv_web_title.setText(msgContent.message_title);
+            if (msgContent != null) {
+                tv_web_title.setText(msgContent.message_title);
+            }
         }
+        iv_web_share.setVisibility(View.VISIBLE);
 
 
     }
