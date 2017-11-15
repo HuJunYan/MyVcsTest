@@ -211,20 +211,6 @@
                     android:paddingLeft="15dp"
                     android:text="验证码" />
 
-                <EditText
-                    android:id="@+id/et_risk_pre_money_verify_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/tv_severity_code_key"
-                    android:background="@null"
-                    android:hint="请输入验证码"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:textColorHint="#c5c5c5"
-                    android:textSize="14dp" />
-
-
                 <TextView
                     android:id="@+id/tv_risk_pre_money_verify_code"
                     android:layout_width="wrap_content"
@@ -236,6 +222,22 @@
                     android:text="获取验证码"
                     android:textColor="@color/global_txt_orange"
                     android:textSize="14sp" />
+
+                <EditText
+                    android:layout_toLeftOf="@id/tv_risk_pre_money_verify_code"
+                    android:id="@+id/et_risk_pre_money_verify_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_severity_code_key"
+                    android:background="@null"
+                    android:hint="请输入验证码"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:textColorHint="#c5c5c5"
+                    android:textSize="14dp" />
+
+
 
                 <View
                     android:layout_width="1px"
