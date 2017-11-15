@@ -273,7 +273,7 @@ class LoginActivity : BaseActivity() {
                     return
                 }
                 if ("0" == cash_amount_status) { //跳转到首页
-                    if (cashAmount == 0) { //跳转到认证中心页面
+                    if (cashAmount == 0 && curCreditStep > 0) { //跳转到认证中心页面
                         gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
                     } else {//跳转到首页
                         gotoActivity(mContext, MainActivity::class.java, null)

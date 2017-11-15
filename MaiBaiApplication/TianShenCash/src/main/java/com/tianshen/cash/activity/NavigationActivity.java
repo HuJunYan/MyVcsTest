@@ -225,7 +225,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                     return;
                 }
                 if ("0".equals(cash_amount_status)) {
-                    if (cashAmount == 0) { //跳转到认证中心页面
+                    if (cashAmount == 0 && curCreditStep > 0) { //跳转到认证中心页面
                         gotoOtherActivity(AuthCenterMenuActivity.class);
                     } else {//跳转到首页
                         gotoOtherActivity(MainActivity.class);
