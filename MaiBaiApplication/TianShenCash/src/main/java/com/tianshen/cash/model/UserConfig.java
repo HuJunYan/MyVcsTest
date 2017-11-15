@@ -61,6 +61,16 @@ public class UserConfig {
         private String flow_supermarket_num;
         private String zzOrderMark;
         private int diff_rate; //"是不是差异化费率的订单，0：不是， 1：是（为1的时候，需要展示确认借款的页面）"
+        private String is_show_cash_amount_dialog;
+
+        public String getIs_show_cash_amount_dialog() {
+            return is_show_cash_amount_dialog;
+        }
+
+        public void setIs_show_cash_amount_dialog(String is_show_cash_amount_dialog) {
+            this.is_show_cash_amount_dialog = is_show_cash_amount_dialog;
+        }
+
 
         public String getZzOrderMark() {
             return zzOrderMark;

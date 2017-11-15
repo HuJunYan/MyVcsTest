@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,6 +86,7 @@ import com.tianshen.cash.net.api.StatisticsRoll;
 import com.tianshen.cash.net.api.SubmitVerifyCode;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.GsonUtil;
+import com.tianshen.cash.utils.CashAmountDialogUtils;
 import com.tianshen.cash.utils.ImageLoader;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.MaiDianUtil;
@@ -1703,6 +1705,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 mDialog.dismiss();
             }
         });
+
+
+        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+                if (mUserConfig == null || mUserConfig.getData() == null) {
+                    return;
+                }
+                String is_show_cash_amount_dialog = mUserConfig.getData().getIs_show_cash_amount_dialog();
+                if ("1".equals(is_show_cash_amount_dialog)) {
+                    CashAmountDialogUtils.show(getActivity());
+                }
+            }
+        });
+
         mDialog.show();
     }
 
