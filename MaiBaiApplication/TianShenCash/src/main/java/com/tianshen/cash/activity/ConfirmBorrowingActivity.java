@@ -77,6 +77,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     TextView mTvBorrowTime;
     @BindView(R.id.tv_borrow_blank_card)
     TextView mTvBorrowBlankCard;
+
     private OtherLoanBean mOtherLoanBean;
     private String mCurrentOrderMoney;
     //用户借款金额
@@ -106,9 +107,19 @@ public class ConfirmBorrowingActivity extends BaseActivity {
         mMinMaxSb.setOnMinMaxSeekBarChangeListener(new MyOnMinMaxSeekBarChangeListener());
     }
 
-    @OnClick({R.id.min_max_sb, R.id.tv_home_apply, R.id.tv_confirm_protocol})
+    @OnClick({R.id.check_box, R.id.min_max_sb, R.id.tv_home_apply, R.id.tv_confirm_protocol})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.check_box:
+
+                if ( mCheckBox.isChecked()) {
+                    mTvHomeApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_border));
+                    mTvHomeApply.setEnabled(true);
+                } else {
+                    mTvHomeApply.setBackground(getResources().getDrawable(R.drawable.shape_home_button_unchecked));
+                    mTvHomeApply.setEnabled(false);
+                }
+                break;
             case R.id.min_max_sb:
                 break;
 
@@ -207,7 +218,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
             mBorrowMoney = mOtherLoanBean.getData().getMax_cash();
 
 
-                    //刻度值
+            //刻度值
             String unit = mOtherLoanBean.getData().getUnit();
             String unitY = MoneyUtils.changeF2Y(unit);
             int unitInt = Integer.valueOf(unitY);
@@ -218,7 +229,6 @@ public class ConfirmBorrowingActivity extends BaseActivity {
             }
             mTvHomeMinSb.setText(min_cashInt + "元");
             mTvHomeMaxSb.setText(max_cashInt + "元");
-
 
 
             mMinMaxSb.setMaxMin(max_cashInt, min_cashInt, unitInt);
@@ -259,7 +269,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     private ClickableSpan webSpan = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            webTitle="借款协议";
+            webTitle = "借款协议";
             gotoWebActivity(2);
         }
 
@@ -271,7 +281,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
     private ClickableSpan webSpan2 = new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-            webTitle="居间服务协议";
+            webTitle = "居间服务协议";
             gotoWebActivity(1);
         }
 
@@ -312,14 +322,14 @@ public class ConfirmBorrowingActivity extends BaseActivity {
                     mOtherLoanBean = paramT;
                     String borrowDay = mOtherLoanBean.getData().getRepay_times();
 
-                    if ("1".equals(mOtherLoanBean.getData().getIs_in_three_day())){
+                    if ("1".equals(mOtherLoanBean.getData().getIs_in_three_day())) {
                         //在3天之外弹窗
                         CashAmountDialogUtils.show(ConfirmBorrowingActivity.this);
 
                     }
 
-                    if (!TextUtils.isEmpty(borrowDay)){
-                        mTvBorrowTime.setText(borrowDay+"天");
+                    if (!TextUtils.isEmpty(borrowDay)) {
+                        mTvBorrowTime.setText(borrowDay + "天");
                     }
                     refreshBubbleSeekBarUI();
                     mTvBorrowBlankCard.setText(mOtherLoanBean.getData().getBank_card_info_str());
@@ -336,7 +346,6 @@ public class ConfirmBorrowingActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
-
 
 
     /**
@@ -416,7 +425,7 @@ public class ConfirmBorrowingActivity extends BaseActivity {
         String userPayProtocolURL = NetConstantValue.getUserPayServerURL();
         String repay_id = mOtherLoanBean.getData().getRepay_id();
         //借款本金
-        String consume_amount =mBorrowMoney;
+        String consume_amount = mBorrowMoney;
         StringBuilder sb = new StringBuilder();
         sb.append(userPayProtocolURL);
         sb.append("?" + GlobalParams.USER_CUSTOMER_ID + "=" + TianShenUserUtil.getUserId(this));
@@ -426,12 +435,12 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_PROTOCOL);
-        if (TXTYPE==type){
+        if (TXTYPE == type) {
             //《借款协议》《居间服务协议》《人行征信查询授权书》
             webTitle = "人行征信查询授权书";
             bundle.putString(GlobalParams.WEB_URL_KEY, mOtherLoanBean.getData().getBank_credit_investigation_url());
             bundle.putString(GlobalParams.WEB_TYPE, webTitle);
-        }else {
+        } else {
             bundle.putString(GlobalParams.WEB_URL_KEY, sb.toString());
             bundle.putString(GlobalParams.WEB_TYPE, webTitle);
 
