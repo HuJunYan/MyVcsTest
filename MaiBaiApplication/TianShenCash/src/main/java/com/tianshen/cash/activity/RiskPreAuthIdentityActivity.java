@@ -104,7 +104,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
     };
 
     private String up_status_front = "1";
-    private String up_status_back = "1";
 
 
     @Override
@@ -214,7 +213,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             et_risk_pre_id_num.setText(id_num);
             if (TextUtils.isEmpty(mIdNumInfoBean.getData().getNation())) {
                 up_status_front = "2";
-                up_status_back = "2";
             }
         }
 
@@ -443,7 +441,6 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                         mIdNumInfoBean = new IdNumInfoBean();
                         mIdNumInfoBean.setData(new IdNumInfoBean.Data());
                     }
-                    up_status_back = "1";
                     //设置身份证反面信息
                     mIdNumInfoBean.getData().setValid_period(paramT.valid_date);
                     mIdNumInfoBean.getData().setSign_organ(paramT.issued_by);
@@ -475,7 +472,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("sign_organ", sign_organ);
             jsonObject.put("valid_period", valid_date);
-            jsonObject.put("up_status", up_status_back);
+            jsonObject.put("up_status", up_status_front);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -535,6 +532,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
                 if (mIDCardBean.id_card_number.length() != 18) {
                     ToastUtil.showToast(mContext, "身份证信息读取失败，请重新扫描身份证正面！");
                 }
+                mCanScanFace = false;
                 up_status_front = "1";
                 isSaveFrontImageSuccess = true;
                 refreshNameAndNumUI();
