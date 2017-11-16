@@ -360,8 +360,8 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                     public void onFailure(int i, Header[] headers,
                                           byte[] bytes, Throwable throwable) {
                         ViewUtil.cancelLoadingDialog();
-                        ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
-                        gotoFaceAddAddActivity();
+                        ToastUtil.showToast(mContext, "面部比对失败，请重新确认身份信息");
+                        backActivity();
                     }
                 });
     }
