@@ -428,13 +428,14 @@ public class AuthMyInfoActivity extends BaseActivity {
                     //为1的时候 界面已经设置为认证完成状态 无需请求网络，减轻服务器压力
                     return;
                 }
-                initAuthCenterData();
+                backActivity();
+//                initAuthCenterData();
                 /*if (arg2!=null) {
                     String statue4 = arg2.getStringExtra("RESULTSTATUE");
 
                     if ("1".equals(statue4)) {
                         mImageView2.setImageResource(R.drawable.authed_statue);
-                        backActivity();
+
                     } else {
                         mImageView2.setImageResource(R.drawable.ic_arraw_right2);
                     }
