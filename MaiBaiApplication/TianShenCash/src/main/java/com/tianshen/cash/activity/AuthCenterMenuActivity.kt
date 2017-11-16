@@ -222,9 +222,10 @@ class AuthCenterMenuActivity : BaseActivity() {
                 if ("0" == auth_id_num) {
                     iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_1)
                     tv_goto_auth.text = "进入认证"
+                    tv_goto_auth.visibility = View.VISIBLE
                 } else if ("1" == auth_id_num) {
                     iv_auth_center_step1.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
-                    tv_goto_auth.text = "完善"
+                    tv_goto_auth.visibility = View.GONE
                 }
                 if ("0" == auth_person_info) {
                     iv_auth_center_step2.setImageResource(R.drawable.ic_auth_center_menu_unselected_2)
@@ -256,6 +257,8 @@ class AuthCenterMenuActivity : BaseActivity() {
                 } else if ("1" == auth_credit) {
                     iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_unselected_ok)
                 }
+
+                tv_goto_auth.visibility = View.VISIBLE
             }
             2 -> {
                 if ("0" == auth_id_num) {
@@ -275,6 +278,8 @@ class AuthCenterMenuActivity : BaseActivity() {
                     iv_auth_center_step3.setImageResource(R.drawable.ic_auth_center_menu_selected_ok)
                     tv_goto_auth.text = "完善"
                 }
+
+                tv_goto_auth.visibility = View.VISIBLE
             }
         }
 
