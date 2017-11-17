@@ -41,6 +41,15 @@ public class AuthCenterMenuBean {
         private String auth_person_info;
         private String auth_credit;
         private String cash_amount;
+        private String show_dialog;
+
+        public String getShow_dialog() {
+            return show_dialog;
+        }
+
+        public void setShow_dialog(String show_dialog) {
+            this.show_dialog = show_dialog;
+        }
 
         public String getAuth_id_num() {
             return auth_id_num;
