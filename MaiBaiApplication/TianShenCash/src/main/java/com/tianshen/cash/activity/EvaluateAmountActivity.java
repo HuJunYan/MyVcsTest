@@ -64,6 +64,7 @@ public class EvaluateAmountActivity extends BaseActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+            jsonObject.put("request_type", "1");
         } catch (JSONException e) {
             e.printStackTrace();
         }
