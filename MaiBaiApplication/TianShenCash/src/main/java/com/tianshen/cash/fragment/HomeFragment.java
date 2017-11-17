@@ -424,7 +424,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         TianShenUserUtil.saveUserConsumeAmount(mContext, mCurrentOrderMoney);
 
         if (cur_credit_step.equals(total_credit_step)) {//认证完毕检查是否绑定了"向上"银行卡
-            checkIsBindXiangShang();
+            getContacts();
         } else {//没有认证完毕跳转到认证中心页面
 //            Bundle applyBundle = new Bundle();
 //            applyBundle.putBoolean(GlobalParams.IS_FROM_CARD_KEY, false);
@@ -437,33 +437,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 检查是否绑定了"向上"银行卡
      */
-    private void checkIsBindXiangShang() {
-        CheckIsXiangShang mCheckIsXiangShang = new CheckIsXiangShang(mContext);
-        JSONObject json = new JSONObject();
-        try {
-            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
-            mCheckIsXiangShang.check(json, new BaseNetCallBack<XiangShangDataBean>() {
-                @Override
-                public void onSuccess(XiangShangDataBean bean) {
-                    String isOK = bean.getData().getIs_xiangshang();
-                    if ("1".endsWith(isOK)) {//(1:是;0:否)
-                        mQuotaCount = 0;
-                        getContacts();
-                    } else {
-                        gotoActivity(mContext, BindBankCardConfirmActivity.class, null);
-                    }
-                }
-
-                @Override
-                public void onFailure(String url, int errorType, int errorCode) {
-                }
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            MobclickAgent.reportError(mContext, LogUtil.getException(e));
-        }
-    }
+//    private void checkIsBindXiangShang() {
+//        CheckIsXiangShang mCheckIsXiangShang = new CheckIsXiangShang(mContext);
+//        JSONObject json = new JSONObject();
+//        try {
+//            json.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+//            mCheckIsXiangShang.check(json, new BaseNetCallBack<XiangShangDataBean>() {
+//                @Override
+//                public void onSuccess(XiangShangDataBean bean) {
+//                    String isOK = bean.getData().getIs_xiangshang();
+//                    if ("1".endsWith(isOK)) {//(1:是;0:否)
+//                        mQuotaCount = 0;
+//                        getContacts();
+//                    } else {
+//                        gotoActivity(mContext, BindBankCardConfirmActivity.class, null);
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(String url, int errorType, int errorCode) {
+//                }
+//            });
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            MobclickAgent.reportError(mContext, LogUtil.getException(e));
+//        }
+//    }
 
     /**
      * 得到联系人信息
