@@ -263,6 +263,7 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         String cash_amount_status = data.getCash_amount_status();
                         String is_payway = data.getIs_payway();
                         String cashAmount = data.getCash_amount();
+                        String show_dialog = data.getShow_dialog();
                         int cur_credit_step = 0;
                         if (!TextUtils.isEmpty(curStep)) {
                             cur_credit_step = Integer.parseInt(curStep);
@@ -275,7 +276,11 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
                         if (!TextUtils.isEmpty(cashAmount)) {
                             cash_amount = Integer.parseInt(cashAmount);
                         }
-
+                        if ("0".equals(show_dialog)) { //掌众认证失败跳转到首页
+                            gotoActivity(mContext, MainActivity.class, null);
+                            finish();
+                            return;
+                        }
 //                        //根据不同的值 去判断跳转的页面
                         if (cur_credit_step > 0 && cur_credit_step < total_credit_step) {
                             // 跳转到认证中心页面
