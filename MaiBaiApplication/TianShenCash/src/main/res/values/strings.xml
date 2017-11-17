@@ -87,7 +87,7 @@
 
     <string name="message_center_empty">有消息会第一时间通知哦~</string>
 
-    <string name="text_confirm_bank_card_info">确认银行卡信息</string>
+    <string name="text_confirm_bank_card_info">确认收款信息</string>
 
     <!--还款页面文本-->
     <string name="text_repay_tips_title">郑重提示:</string>
