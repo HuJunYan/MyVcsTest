@@ -32,12 +32,21 @@ public class CashAmountBean {
 
     public class Data {
 
+        private String show_dialog;
         private String cash_amount;
         private String cash_amount_status;
         private String is_payway; //0 自营 /1 掌众
         private String joke_url;
         private String cur_credit_step;
         private String total_credit_step;
+
+        public String getShow_dialog() {
+            return show_dialog;
+        }
+
+        public void setShow_dialog(String show_dialog) {
+            this.show_dialog = show_dialog;
+        }
 
         public String getCur_credit_step() {
             return cur_credit_step;

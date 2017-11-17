@@ -207,6 +207,9 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 String cur_credit_step = bean.getData().getCur_credit_step();
                 String total_credit_step = bean.getData().getTotal_credit_step();
                 String cash_amount = bean.getData().getCash_amount();
+
+                String show_dialog = bean.getData().getShow_dialog();
+
                 int totalCreditStep = 0;
                 int curCreditStep = 0;
                 int cashAmount = 0;
@@ -219,6 +222,11 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
                 }
                 if (!TextUtils.isEmpty(cash_amount)) {
                     cashAmount = Integer.parseInt(cash_amount);
+                }
+
+                if ("0".equals(show_dialog)) { //掌众认证失败跳转到首页
+                    gotoOtherActivity(MainActivity.class);
+                    return;
                 }
                 if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
                     gotoOtherActivity(AuthCenterMenuActivity.class);

@@ -252,6 +252,7 @@ class LoginActivity : BaseActivity() {
                 val cur_credit_step = bean.data.cur_credit_step
                 val total_credit_step = bean.data.total_credit_step
                 val cash_amount = bean.data.cash_amount
+                val show_dialog = bean.data.show_dialog
 
                 var totalCreditStep = 0
                 var curCreditStep = 0
@@ -266,7 +267,11 @@ class LoginActivity : BaseActivity() {
                 if (!TextUtils.isEmpty(cash_amount)) {
                     cashAmount = Integer.parseInt(cash_amount)
                 }
-
+                if ("0" == show_dialog) { //掌众认证失败跳转到首页
+                    gotoActivity(mContext, MainActivity::class.java, null)
+                    EventBus.getDefault().post(LoginSuccessEvent())
+                    return
+                }
                 if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
                     gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
                     finish()
