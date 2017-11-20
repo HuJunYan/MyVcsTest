@@ -44,13 +44,15 @@ public class EqualWHAnimationImageView extends ImageView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        oa.start();
+        if (oa != null)
+            oa.start();
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        oa.cancel();
+        if (oa != null)
+            oa.cancel();
     }
 
     @Override
