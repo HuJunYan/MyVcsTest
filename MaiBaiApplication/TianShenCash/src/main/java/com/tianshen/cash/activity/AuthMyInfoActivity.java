@@ -228,6 +228,10 @@ public class AuthMyInfoActivity extends BaseActivity {
                         ToastUtil.showToast(mContext, "之前已经认证");
                         return;
                     }
+                    if (mUserAuthCenterBean==null || mUserAuthCenterBean.getData() ==null){
+                        ToastUtil.showToast(this,"网络异常");
+                        return;
+                    }
                     String china_mobile_url = mUserAuthCenterBean.getData().getChina_mobile_url();
                     gotoChinaMobileActivity(china_mobile_url, "手机认证", "3");
                 }
@@ -252,6 +256,11 @@ public class AuthMyInfoActivity extends BaseActivity {
                     //     第一步认证过才可以认证第二步 芝麻信用认证
                     if ("0".equals(mMobileStatus)) {
                         ToastUtil.showToast(getBaseContext(), "请先认证手机信息");
+                        return;
+                    }
+
+                    if (mUserAuthCenterBean==null || mUserAuthCenterBean.getData() ==null){
+                        ToastUtil.showToast(this,"网络异常");
                         return;
                     }
 

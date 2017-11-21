@@ -393,9 +393,10 @@
                         android:textSize="14sp"/>
 
                     <ImageView
+                        android:scaleType="center"
                         android:id="@+id/iv_auth_contact_down"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
@@ -494,9 +495,10 @@
                         android:textSize="14sp"/>
 
                     <ImageView
+                        android:scaleType="center"
                         android:id="@+id/iv_auth_contact_down2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="14dp"

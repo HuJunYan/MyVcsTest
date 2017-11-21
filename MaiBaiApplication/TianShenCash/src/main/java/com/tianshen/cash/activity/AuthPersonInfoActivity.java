@@ -460,9 +460,7 @@ public class AuthPersonInfoActivity extends BaseActivity {
         if (clickPosition == 0) {
             mNexus1.add(mNexus.get(0));
             mNexus1.add(mNexus.get(1));
-            mNexus1.add(mNexus.get(2));
-            mNexus1.add(mNexus.get(3));
-            mNexus1.add(mNexus.get(4));
+
         }
         new MaterialDialog.Builder(mContext)
                 .title("与我关系")
