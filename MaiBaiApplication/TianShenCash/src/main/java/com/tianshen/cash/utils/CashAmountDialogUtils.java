@@ -28,7 +28,17 @@ import org.json.JSONObject;
 
 public class CashAmountDialogUtils {
 
+    public interface CashAmountDialogCallBack {
+        void onClickGetAmount();
+
+        void onClickUpAmount();
+    }
+
     public static void show(final Context context) {
+        show(context, null);
+    }
+
+    public static void show(final Context context, final CashAmountDialogCallBack callback) {
         String userId = TianShenUserUtil.getUserId(context);
         if (TextUtils.isEmpty(userId)) {
             return;
@@ -60,6 +70,9 @@ public class CashAmountDialogUtils {
                     tv_auth_center_menu_dialog_get_amount.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if (callback != null) {
+                                callback.onClickGetAmount();
+                            }
                             Intent intent = new Intent(context, EvaluateAmountActivity.class);
                             context.startActivity(intent);
                             ((Activity) context).overridePendingTransition(R.anim.push_right_in, R.anim.not_exit_push_left_out);
@@ -68,6 +81,9 @@ public class CashAmountDialogUtils {
                     tv_auth_center_menu_dialog_up_amount.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if (callback != null) {
+                                callback.onClickUpAmount();
+                            }
                             Bundle bundle = new Bundle();
                             bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG);
                             Intent intent = new Intent(context, AuthMyInfoActivity.class);
