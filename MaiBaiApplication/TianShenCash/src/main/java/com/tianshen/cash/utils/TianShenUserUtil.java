@@ -29,6 +29,8 @@ public class TianShenUserUtil {
 
     private static String SHOW_ACTIVITY_TIME = "show_activity_time";
     private static String SHOW_ACTIVITY_COUNT = "show_activity_count";
+    private static String RISK_PRE_SMS_SMSID_key = "risk_pre_smsId_key"; //向上绑卡字段
+    private static String RISK_PRE_SMS_USERNo_key = "risk_pre_userno_key";//向上绑卡字段
 
     /**
      * 判断用户是否已经登录
@@ -306,7 +308,43 @@ public class TianShenUserUtil {
         SharedPreferencesUtil.getInstance(context).putInt(SHOW_ACTIVITY_COUNT, show_activity_count);
     }
 
+    /**
+     * 得到向上smsId
+     *
+     * @param context
+     */
+    public static String getSmsId(Context context) {
+        return SharedPreferencesUtil.getInstance(context).getString(RISK_PRE_SMS_SMSID_key);
+    }
 
+    /**
+     * 得到向上UserNo
+     *
+     * @param context
+     */
+    public static String getUserNo(Context context) {
+        return SharedPreferencesUtil.getInstance(context).getString(RISK_PRE_SMS_USERNo_key);
+    }
+
+    /**
+     * 保存smsId
+     *
+     * @param context
+     * @param smsId
+     */
+    public static void saveSmsId(Context context, String smsId) {
+        SharedPreferencesUtil.getInstance(context).putString(RISK_PRE_SMS_SMSID_key, smsId);
+    }
+
+    /**
+     * 保存userNo
+     *
+     * @param context
+     * @param userNo
+     */
+    public static void saveUserNo(Context context, String userNo) {
+        SharedPreferencesUtil.getInstance(context).putString(RISK_PRE_SMS_USERNo_key, userNo);
+    }
 
     /**
      * 清除所有的用户信息
@@ -314,5 +352,6 @@ public class TianShenUserUtil {
     public static void clearUser(Context context) {
         SharedPreferencesUtil.getInstance(context).clearSp();
     }
+
 
 }

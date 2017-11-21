@@ -90,8 +90,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private JSONObject mJSONObject;
     private OrderConfirmBean mOrderConfirmBean;
     private String mPoundageY;
-    private String smsId = "";
-    private String userNo = "";
+    private String smsId;
+    private String userNo;
 
 
     private Handler mHandler = new Handler() {
@@ -120,7 +120,9 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
      * 得到确认借款数据
      */
     private void initBaseLoanInfoData() {
-
+        //获取向上信息
+        smsId = TianShenUserUtil.getSmsId(mContext);
+        userNo = TianShenUserUtil.getUserNo(mContext);
         try {
             JSONObject jsonObject = new JSONObject();
 
@@ -569,6 +571,9 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             @Override
             public void onSuccess(PostDataBean paramT) {
                 if (paramT.getCode() == 0) {
+                    //向上信息初始化
+                    TianShenUserUtil.saveUserNo(mContext, "");
+                    TianShenUserUtil.saveSmsId(mContext, "");
                     gotoMainActivity();
                 }
             }
@@ -640,6 +645,9 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 if (paramT != null && paramT.getData() != null) {
                     smsId = paramT.getData().getSmsId();
                     userNo = paramT.getData().getUserNo();
+                    //更新向上信息
+                    TianShenUserUtil.saveUserNo(mContext, paramT.getData().getUserNo());
+                    TianShenUserUtil.saveSmsId(mContext, paramT.getData().getSmsId());
                 }
                 refreshSeverityTextUI();
             }
