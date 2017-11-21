@@ -324,7 +324,17 @@ public class ConfirmBorrowingActivity extends BaseActivity {
 
                     if ("1".equals(mOtherLoanBean.getData().getIs_in_three_day())) {
                         //在3天之外弹窗
-                        CashAmountDialogUtils.show(ConfirmBorrowingActivity.this);
+                        CashAmountDialogUtils.show(ConfirmBorrowingActivity.this, new CashAmountDialogUtils.CashAmountDialogCallBack() {
+                            @Override
+                            public void onClickGetAmount() {
+                                finish();
+                            }
+
+                            @Override
+                            public void onClickUpAmount() {
+
+                            }
+                        });
 
                     }
 
