@@ -90,8 +90,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private JSONObject mJSONObject;
     private OrderConfirmBean mOrderConfirmBean;
     private String mPoundageY;
-    private String smsId;
-    private String userNo;
+    private String smsId = "";
+    private String userNo = "";
 
 
     private Handler mHandler = new Handler() {
