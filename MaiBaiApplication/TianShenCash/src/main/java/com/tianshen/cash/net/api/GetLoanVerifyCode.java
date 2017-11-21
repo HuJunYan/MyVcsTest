@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.tianshen.cash.constant.NetConstantValue;
-import com.tianshen.cash.model.ActivityBean;
-import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.XiangShangVerifyCodeBean;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
@@ -31,7 +30,7 @@ public class GetLoanVerifyCode extends NetBase {
         mUrl = NetConstantValue.getLoanVerifyCodeURL();
     }
 
-    public void send(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<PostDataBean> callBack) {
+    public void send(JSONObject jsonObject, View view, boolean isShowDialog, final BaseNetCallBack<XiangShangVerifyCodeBean> callBack) {
         mJSONObject = SignUtils.signJsonNotContainList(jsonObject);
         if (mJSONObject == null) {
             return;
@@ -49,12 +48,12 @@ public class GetLoanVerifyCode extends NetBase {
         });
     }
 
-    private void successHandle(String result, String url, BaseNetCallBack<PostDataBean> callBack) {
-        PostDataBean bean = GsonUtil.json2bean(result, PostDataBean.class);
+    private void successHandle(String result, String url, BaseNetCallBack<XiangShangVerifyCodeBean> callBack) {
+        XiangShangVerifyCodeBean bean = GsonUtil.json2bean(result, XiangShangVerifyCodeBean.class);
         callBack.onSuccess(bean);
     }
 
-    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<PostDataBean> callBack) {
+    private void failureHandle(String result, int errorType, int errorCode, BaseNetCallBack<XiangShangVerifyCodeBean> callBack) {
         try {
             callBack.onFailure(result, errorType, errorCode);
         } catch (Exception e) {

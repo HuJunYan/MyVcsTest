@@ -27,6 +27,7 @@ import com.tianshen.cash.event.LocationEvent;
 import com.tianshen.cash.event.UserConfigChangedEvent;
 import com.tianshen.cash.model.OrderConfirmBean;
 import com.tianshen.cash.model.PostDataBean;
+import com.tianshen.cash.model.XiangShangVerifyCodeBean;
 import com.tianshen.cash.net.api.BaseLoanInfoApply;
 import com.tianshen.cash.net.api.GetBaseLoanInfo;
 import com.tianshen.cash.net.api.GetLoanVerifyCode;
@@ -89,6 +90,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private JSONObject mJSONObject;
     private OrderConfirmBean mOrderConfirmBean;
     private String mPoundageY;
+    private String smsId;
+    private String userNo;
 
 
     private Handler mHandler = new Handler() {
@@ -554,6 +557,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             jsonObject.put("country", country);
             jsonObject.put("address", address);
             jsonObject.put("verify_code", verify_code); //验证码
+            jsonObject.put("smsId", smsId); //验证码
+            jsonObject.put("userNo", userNo); //验证码
 
 
         } catch (JSONException e) {
@@ -628,10 +633,14 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         }
         //GetLoanVerifyCode getVerifyCode
 
-        getVerifyCode.send(jsonObject, tv_risk_pre_money_verify_code, true, new BaseNetCallBack<PostDataBean>() {
+        getVerifyCode.send(jsonObject, tv_risk_pre_money_verify_code, true, new BaseNetCallBack<XiangShangVerifyCodeBean>() {
             @Override
-            public void onSuccess(PostDataBean paramT) {
+            public void onSuccess(XiangShangVerifyCodeBean paramT) {
                 ToastUtil.showToast(mContext, "验证码发送成功");
+                if (paramT != null && paramT.getData() != null) {
+                    smsId = paramT.getData().getSmsId();
+                    userNo = paramT.getData().getUserNo();
+                }
                 refreshSeverityTextUI();
             }
 
