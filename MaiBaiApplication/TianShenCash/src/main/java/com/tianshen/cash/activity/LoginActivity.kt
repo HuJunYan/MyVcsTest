@@ -5,18 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.telephony.TelephonyManager
-import android.text.*
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.BackgroundColorSpan
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.WindowManager
 import cn.jpush.android.api.JPushInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tianshen.cash.R
@@ -51,8 +52,10 @@ class LoginActivity : BaseActivity() {
     var mHandler: Handler? = null
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
+    var mFlag:String? =null //0为密码登录  1为验证码登录
     override fun findViews() {
         initSpanString();
+        mFlag="0"
     }
 
     private fun initSpanString() {
@@ -92,9 +95,40 @@ class LoginActivity : BaseActivity() {
         in_back.setOnClickListener { backActivity() }
         tv_login.setOnClickListener { loginHandle() }
         tv_forget_pwd.setOnClickListener { forgetPwd() }
+        pwd_login.setOnClickListener{showView("0")}
+        code_login.setOnClickListener{showView("1")}
         tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity::class.java, null) }
         initData()
         initHandler()
+    }
+
+    /**
+     * 展示界面
+     */
+    private fun showView(type:String) {
+
+        if(mFlag==type){
+            return
+        }
+        mFlag=type
+
+        if ("0".equals(type)){
+            pwd_login.setBackgroundResource(R.drawable.change_login_pwdway_shape)
+            pwd_login.setTextColor(resources.getColor(R.color.white))
+            code_login!!.background=null
+            code_login.setTextColor(resources.getColor(R.color.global_popular_color))
+
+            pwd_layout!!.visibility=View.VISIBLE
+            code_layout!!.visibility=View.GONE
+        }else {
+            pwd_layout!!.visibility=View.GONE
+            code_layout!!.visibility=View.VISIBLE
+
+             code_login.setBackgroundResource(R.drawable.change_login_codeway_shape)
+            code_login.setTextColor(resources.getColor(R.color.white))
+            pwd_login!!.background=null
+             pwd_login.setTextColor(resources.getColor(R.color.global_popular_color))
+        }
     }
 
     //登录
