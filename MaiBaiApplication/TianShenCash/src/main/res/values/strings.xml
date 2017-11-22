@@ -133,7 +133,7 @@
     <string name="text_evaluate_amount_tips">温馨提示:</string>
     <string name="text_evaluate_amount_tips_1">1.如果超过半小时仍在评测阶段,可能是第三方数据获取滞后,请您耐心等待;</string>
     <string name="text_evaluate_amount_tips_2">2.如遇其他特殊情况,客服将会及时与您联系;</string>
-    <string name="text_risk_pre_agreement">我同意《借款协议》《居间服务协议》《征信查询授权书》</string>
+    <string name="text_risk_pre_agreement">本人已同意《借款协议》《居间服务协议》</string>
     <string name="text_risk_pre_tips">借款到账后,将依照协议收取平台综合费用</string>
 
     <string name="title_risk_pre_supply">信息补充</string>

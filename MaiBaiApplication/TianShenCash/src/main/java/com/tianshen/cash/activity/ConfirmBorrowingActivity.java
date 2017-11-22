@@ -261,8 +261,8 @@ public class ConfirmBorrowingActivity extends BaseActivity {
         ssList.clear();
         ssList.add(webSpan);
         ssList.add(webSpan2);
-        ssList.add(webSpan3);
-        String text = getResources().getString(R.string.confirm_protocol_all_text2);
+//        ssList.add(webSpan3);
+        String text = getResources().getString(R.string.text_risk_pre_agreement);
         SpannableUtils.setWebSpannableString(mTvConfirmProtocol, text, "《", "》", ssList, getResources().getColor(R.color.global_txt_orange));
     }
 

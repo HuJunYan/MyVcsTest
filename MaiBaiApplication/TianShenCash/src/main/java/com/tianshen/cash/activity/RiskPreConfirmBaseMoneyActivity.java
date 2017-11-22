@@ -278,7 +278,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         ssList.clear();
         ssList.add(webSpan);
         ssList.add(webSpan2);
-        ssList.add(webSpan3);
+//        ssList.add(webSpan3);
         String text = getResources().getString(R.string.text_risk_pre_agreement);
         SpannableUtils.setWebSpannableString(tv_risk_pre_agreement, text, "《", "》", ssList, getResources().getColor(R.color.global_txt_orange));
     }
