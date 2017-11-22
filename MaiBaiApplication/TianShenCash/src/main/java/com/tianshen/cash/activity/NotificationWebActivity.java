@@ -93,6 +93,7 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
             isOnResumeClick = intent.getBooleanExtra(GlobalParams.NOTIFICATION_IS_ONRESUME_CLICK, true);
             if (msgContent != null) {
                 tv_web_title.setText(msgContent.message_title);
+                mUrl = msgContent.message_url;
             }
         }
         iv_web_share.setVisibility(View.VISIBLE);
