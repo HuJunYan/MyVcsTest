@@ -194,7 +194,7 @@
 
 
                 <TextView
-                    android:id="@+id/tv_service_phone2"
+                    android:id="@+id/tv_argument"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_login2"

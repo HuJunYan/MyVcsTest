@@ -24,6 +24,7 @@ import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.base.MyApplicationLike
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.constant.NetConstantValue
 import com.tianshen.cash.event.LoginSuccessEvent
 import com.tianshen.cash.model.CashAmountBean
 import com.tianshen.cash.model.TianShenLoginBean
@@ -45,6 +46,7 @@ class LoginActivity : BaseActivity() {
     override fun setContentView(): Int = R.layout.activity_login2
     var str = "客服电话: 400-000-8685"
     var phoneNum = "4000008685"
+    var strRegist = "注册代表你同意\n天神贷用户服务协议"
     var hasTelephonePermission: Boolean? = false
     var mUniqueId: String? = null
     var mobile: String? = null
@@ -52,10 +54,11 @@ class LoginActivity : BaseActivity() {
     var mHandler: Handler? = null
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
-    var mFlag:String? =null //0为密码登录  1为验证码登录
+    var mFlag:String ="0" //0为密码登录  1为验证码登录
     override fun findViews() {
         initSpanString();
-        mFlag="0"
+        initRegistSpanString()
+        showView(mFlag)
     }
 
     private fun initSpanString() {
@@ -77,6 +80,37 @@ class LoginActivity : BaseActivity() {
         tv_service_phone.highlightColor = Color.TRANSPARENT
         tv_service_phone.setText(ss);
         tv_service_phone.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    /**
+     * 天神用户协议
+     */
+    private fun initRegistSpanString() {
+        val sss = SpannableStringBuilder(strRegist)
+        sss.setSpan(object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                gotoWebActivity()
+            }
+
+            override fun updateDrawState(ds: TextPaint?) {
+//                super.updateDrawState(ds)
+                ds?.isUnderlineText = false;
+            }
+        }, 11, strRegist.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        //span 字体颜色
+        sss.setSpan(ForegroundColorSpan(resources.getColor(R.color.global_popular_color)), 11, strRegist.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        // span 默认背景颜色
+        sss.setSpan(BackgroundColorSpan(Color.TRANSPARENT), 11, strRegist.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_argument.highlightColor = Color.TRANSPARENT
+        tv_argument.setText(sss);
+        tv_argument.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun gotoWebActivity() {
+        val userServiceProtocolURL = NetConstantValue.getUserServiceProtocolURL()
+        val bundle = Bundle()
+        bundle.putString(GlobalParams.WEB_URL_KEY, userServiceProtocolURL)
+        gotoActivity(mContext, WebActivity::class.java, bundle)
     }
 
     //打电话
@@ -107,12 +141,10 @@ class LoginActivity : BaseActivity() {
      */
     private fun showView(type:String) {
 
-        if(mFlag==type){
-            return
-        }
-        mFlag=type
+
 
         if ("0".equals(type)){
+            initSpanString()
             pwd_login.setBackgroundResource(R.drawable.change_login_pwdway_shape)
             pwd_login.setTextColor(resources.getColor(R.color.white))
             code_login!!.background=null
@@ -121,6 +153,7 @@ class LoginActivity : BaseActivity() {
             pwd_layout!!.visibility=View.VISIBLE
             code_layout!!.visibility=View.GONE
         }else {
+
             pwd_layout!!.visibility=View.GONE
             code_layout!!.visibility=View.VISIBLE
 
