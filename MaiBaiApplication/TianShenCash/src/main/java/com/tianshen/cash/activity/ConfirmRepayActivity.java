@@ -211,23 +211,10 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         String bank_name = mRepayInfoBean.getData().getBank_name();
         String consumeAmount = mRepayInfoBean.getData().getConsume_amount();
         String overdueAmount = mRepayInfoBean.getData().getOverdue_amount();
-        String is_payway = mRepayInfoBean.getData().getIs_payway();
-
-        if ("0".equals(is_payway)) {//0为自己的产品，1为掌众的产品"
-            mIsPaywaySelf = true;
-        } else {
-            mIsPaywaySelf = false;
-        }
-
         tvConfirmRepay.setText(MoneyUtils.getPointTwoMoney(consumeAmount, overdueAmount) + "元");
         tvConfirmRepayBank.setText(bank_name);
         tvConfirmRepayNumBank.setText(bank_card_num);
 
-        if (mIsPaywaySelf) {//自己的产品不需要验证码UI
-            rl_repay_severity_code.setVisibility(View.GONE);
-        } else {//掌众的产品展示获取验证码的UI
-            rl_repay_severity_code.setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -290,11 +277,8 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
             ToastUtil.showToast(mContext, "数据错误!");
             return;
         }
-        if (mIsPaywaySelf) {
-            repayBySelf();
-        } else {
-            repayByZhangZhong();
-        }
+        repayByZhangZhong();
+
     }
 
     /**

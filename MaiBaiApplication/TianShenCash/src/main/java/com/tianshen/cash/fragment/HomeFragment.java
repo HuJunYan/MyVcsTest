@@ -33,10 +33,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterMenuActivity;
-import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
+import com.tianshen.cash.activity.ConfirmRepayZiYingActivity;
 import com.tianshen.cash.activity.InviteFriendsActivity;
 import com.tianshen.cash.activity.LoginActivity;
 import com.tianshen.cash.activity.MessageCenterActivity;
@@ -71,9 +71,7 @@ import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
-import com.tianshen.cash.model.XiangShangDataBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
-import com.tianshen.cash.net.api.CheckIsXiangShang;
 import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
@@ -824,10 +822,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             String sjdUrl = mUserConfig.getData().getSjd_url();
             gotoSJDActivity(sjdUrl);
         } else {
+
             String consume_id = mUserConfig.getData().getConsume_id();
             Bundle bundle = new Bundle();
             bundle.putString(GlobalParams.CONSUME_ID, consume_id);
-            gotoActivity(mContext, ConfirmRepayActivity.class, bundle);
+
+            if ("0".equals(isPayway)) {
+                gotoActivity(mContext, ConfirmRepayZiYingActivity.class, bundle);
+            } else if ("1".equals(isPayway)) {
+                gotoActivity(mContext, ConfirmRepayActivity.class, bundle);
+            }
             ll_repay.setVisibility(View.GONE);
         }
     }
