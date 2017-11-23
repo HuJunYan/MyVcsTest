@@ -59,7 +59,7 @@ class LoginActivity : BaseActivity() {
     var mUniqueId: String? = null
     var mobile: String? = null
     var password: String? = null
-    var loginPhoneCode: String? = null
+    var loginPhoneCode: String?=null
     var mHandler: Handler? = null
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
@@ -139,10 +139,14 @@ class LoginActivity : BaseActivity() {
         tv_login.setOnClickListener { loginHandle() }
         tv_forget_pwd.setOnClickListener { forgetPwd() }
 
-        et_login_pwd2.setOnClickListener{getVerityCode()}
-        tv_login2.setOnClickListener{getVerityCode()}
-        pwd_login.setOnClickListener{showView("0")}
-        code_login.setOnClickListener{showView("1")}
+        et_login_pwd2.setListener{getVerityCode()}
+        tv_login2.setOnClickListener{codeLoginHandle()}
+        pwd_login.setOnClickListener{
+            mFlag="0"
+            showView(mFlag)}
+        code_login.setOnClickListener{
+            mFlag="1"
+            showView(mFlag)}
         tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity::class.java, null) }
         initData()
         initHandler()
@@ -154,6 +158,7 @@ class LoginActivity : BaseActivity() {
     private fun showView(type:String) {
 
         if ("0"==type){
+
             initSpanString()
             pwd_login.setBackgroundResource(R.drawable.change_login_pwdway_shape)
             pwd_login.setTextColor(resources.getColor(R.color.white))
@@ -220,28 +225,57 @@ class LoginActivity : BaseActivity() {
         mHandler = object : Handler() {
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
-                if (380 == msg.what) {
-                    val app = MyApplicationLike.getMyApplicationLike()
-                    val reg_id = JPushInterface.getRegistrationID(app)
-                    LogUtil.d("ret", "reg_id = " + reg_id)
-                    if (TextUtils.isEmpty(reg_id)) {
-                        if (mRegIdQueryTimes == 7) {
-                            login(mobile, password,pwdLoginType,"")
-                            mRegIdQueryTimes = 0
-                            return
-                        }
-                        val msgNext = Message()
-                        msgNext.what = 380
-                        mHandler?.sendMessageDelayed(msgNext, 500)
-                        mRegIdQueryTimes++
-                        if (mRegIdQueryTimes == 1) {
-                            ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
+
+                when (msg.what) {
+                    380 -> {
+                        val app = MyApplicationLike.getMyApplicationLike()
+                        val reg_id = JPushInterface.getRegistrationID(app)
+                        LogUtil.d("ret", "reg_id = " + reg_id)
+                        if (TextUtils.isEmpty(reg_id)) {
+                            if (mRegIdQueryTimes == 7) {
+                                login(mobile, password, pwdLoginType, "")
+                                mRegIdQueryTimes = 0
+                                return
+                            }
+                            val msgNext = Message()
+                            msgNext.what = 380
+                            mHandler?.sendMessageDelayed(msgNext, 500)
+                            mRegIdQueryTimes++
+                            if (mRegIdQueryTimes == 1) {
+                                ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
+                            }
                         }
                     }
 
-                    else {
-                        login(mobile, password,pwdLoginType,"")
-                        mRegIdQueryTimes = 0
+                    390 -> {
+                        val app = MyApplicationLike.getMyApplicationLike()
+                        val reg_id = JPushInterface.getRegistrationID(app)
+                        LogUtil.d("ret", "reg_id = " + reg_id)
+                        if (TextUtils.isEmpty(reg_id)) {
+                            if (mRegIdQueryTimes == 7) {
+                                login(mobile, "", codeLoginType, loginPhoneCode)
+                                mRegIdQueryTimes = 0
+                                return
+                            }
+                            val msgNext = Message()
+                            msgNext.what = 390
+                            mHandler?.sendMessageDelayed(msgNext, 500)
+                            mRegIdQueryTimes++
+                            if (mRegIdQueryTimes == 1) {
+                                ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
+                            }
+
+
+                        } else {
+
+                            if ("0"==mFlag){
+                                login(mobile, password,pwdLoginType,"")
+                            }else{
+                                login(mobile, "",codeLoginType,loginPhoneCode)
+                            }
+
+                            mRegIdQueryTimes = 0
+                        }
                     }
                 }
             }
@@ -266,7 +300,7 @@ class LoginActivity : BaseActivity() {
         mSignIn = SignIn(mContext)
     }
 
-    fun login(mobile: String?, password: String?, logingType:String,phoneCode:String) {
+    fun login(mobile: String?, password: String?, logingType:String,phoneCode:String?) {
         if (hasTelephonePermission == false) {
             ToastUtil.showToast(mContext, resources.getString(R.string.please_open_permission))
             return
@@ -281,12 +315,7 @@ class LoginActivity : BaseActivity() {
             val json = JSONObject()
             json.put("device_id", mUniqueId)
             json.put("mobile", mobile)
-            if (logingType==codeLoginType){
-                //验证码登录没有密码
-                json.put("password", "")
-            }else {
-                json.put("password", password)
-            }
+            json.put("password", password)
             json.put("login_type", logingType)
             json.put("code", phoneCode)
 
