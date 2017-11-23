@@ -274,6 +274,7 @@ class LoginActivity : BaseActivity() {
                 }
                 if (curCreditStep > 0 && curCreditStep < totalCreditStep) { //跳转到认证中心页面
                     gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
+                    EventBus.getDefault().post(LoginSuccessEvent())
                     finish()
                     return
                 }
@@ -282,8 +283,8 @@ class LoginActivity : BaseActivity() {
                         gotoActivity(mContext, AuthCenterMenuActivity::class.java, null)
                     } else {//跳转到首页
                         gotoActivity(mContext, MainActivity::class.java, null)
-                        EventBus.getDefault().post(LoginSuccessEvent())
                     }
+                    EventBus.getDefault().post(LoginSuccessEvent())
                 } else if ("1" == cash_amount_status && "0" == is_payway) { //跳转到首页
                     gotoActivity(mContext, MainActivity::class.java, null)
                     EventBus.getDefault().post(LoginSuccessEvent())
