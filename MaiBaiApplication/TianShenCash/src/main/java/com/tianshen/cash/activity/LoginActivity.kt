@@ -3,11 +3,13 @@ package com.tianshen.cash.activity
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.ContextCompat
 import android.telephony.TelephonyManager
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -27,9 +29,13 @@ import com.tianshen.cash.constant.GlobalParams
 import com.tianshen.cash.constant.NetConstantValue
 import com.tianshen.cash.event.LoginSuccessEvent
 import com.tianshen.cash.model.CashAmountBean
+import com.tianshen.cash.model.SignUpBean
 import com.tianshen.cash.model.TianShenLoginBean
+import com.tianshen.cash.model.VerifyCodeBean
 import com.tianshen.cash.net.api.GetCashAmountService
+import com.tianshen.cash.net.api.GetVerifyCode
 import com.tianshen.cash.net.api.SignIn
+import com.tianshen.cash.net.api.SignUp
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.net.base.UserUtil
 import com.tianshen.cash.utils.*
@@ -44,6 +50,8 @@ import java.util.*
 
 class LoginActivity : BaseActivity() {
     override fun setContentView(): Int = R.layout.activity_login2
+    var pwdLoginType = "2"
+    var codeLoginType = "1"
     var str = "客服电话: 400-000-8685"
     var phoneNum = "4000008685"
     var strRegist = "注册代表你同意\n天神贷用户服务协议"
@@ -51,6 +59,7 @@ class LoginActivity : BaseActivity() {
     var mUniqueId: String? = null
     var mobile: String? = null
     var password: String? = null
+    var loginPhoneCode: String? = null
     var mHandler: Handler? = null
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
@@ -129,6 +138,9 @@ class LoginActivity : BaseActivity() {
         in_back.setOnClickListener { backActivity() }
         tv_login.setOnClickListener { loginHandle() }
         tv_forget_pwd.setOnClickListener { forgetPwd() }
+
+        et_login_pwd2.setOnClickListener{getVerityCode()}
+        tv_login2.setOnClickListener{getVerityCode()}
         pwd_login.setOnClickListener{showView("0")}
         code_login.setOnClickListener{showView("1")}
         tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity::class.java, null) }
@@ -141,9 +153,7 @@ class LoginActivity : BaseActivity() {
      */
     private fun showView(type:String) {
 
-
-
-        if ("0".equals(type)){
+        if ("0"==type){
             initSpanString()
             pwd_login.setBackgroundResource(R.drawable.change_login_pwdway_shape)
             pwd_login.setTextColor(resources.getColor(R.color.white))
@@ -152,7 +162,7 @@ class LoginActivity : BaseActivity() {
 
             pwd_layout!!.visibility=View.VISIBLE
             code_layout!!.visibility=View.GONE
-        }else {
+        }else if ("1"==type) {
 
             pwd_layout!!.visibility=View.GONE
             code_layout!!.visibility=View.VISIBLE
@@ -185,6 +195,27 @@ class LoginActivity : BaseActivity() {
 
     }
 
+    //验证码登录
+    private fun codeLoginHandle() {
+        mobile = et_phone_number2.text.toString().trim()
+        loginPhoneCode = et_login_pwd2.text.toString().trim()
+        //检查账号
+        if (!TextUtils.isEmpty(mobile) and RegexUtil.IsTelephone(mobile)) {
+            if (TextUtils.isEmpty(loginPhoneCode)) {
+                return;
+            } else {
+                tv_login.isClickable = false
+                val msg = Message()
+                msg.what = 390
+                mHandler?.sendMessage(msg)
+            }
+        } else {
+            ToastUtil.showToast(mContext, "不是合法的手机号码")
+            return
+        }
+
+    }
+
     private fun initHandler() {
         mHandler = object : Handler() {
             override fun handleMessage(msg: Message) {
@@ -195,7 +226,7 @@ class LoginActivity : BaseActivity() {
                     LogUtil.d("ret", "reg_id = " + reg_id)
                     if (TextUtils.isEmpty(reg_id)) {
                         if (mRegIdQueryTimes == 7) {
-                            login(mobile, password)
+                            login(mobile, password,pwdLoginType,"")
                             mRegIdQueryTimes = 0
                             return
                         }
@@ -206,8 +237,10 @@ class LoginActivity : BaseActivity() {
                         if (mRegIdQueryTimes == 1) {
                             ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
                         }
-                    } else {
-                        login(mobile, password)
+                    }
+
+                    else {
+                        login(mobile, password,pwdLoginType,"")
                         mRegIdQueryTimes = 0
                     }
                 }
@@ -233,7 +266,7 @@ class LoginActivity : BaseActivity() {
         mSignIn = SignIn(mContext)
     }
 
-    fun login(mobile: String?, password: String?) {
+    fun login(mobile: String?, password: String?, logingType:String,phoneCode:String) {
         if (hasTelephonePermission == false) {
             ToastUtil.showToast(mContext, resources.getString(R.string.please_open_permission))
             return
@@ -248,7 +281,15 @@ class LoginActivity : BaseActivity() {
             val json = JSONObject()
             json.put("device_id", mUniqueId)
             json.put("mobile", mobile)
-            json.put("password", password)
+            if (logingType==codeLoginType){
+                //验证码登录没有密码
+                json.put("password", "")
+            }else {
+                json.put("password", password)
+            }
+            json.put("login_type", logingType)
+            json.put("code", phoneCode)
+
 
             var jpushId = TianShenUserUtil.getUserJPushId(mContext)
             if (TextUtils.isEmpty(jpushId)) {
@@ -368,6 +409,86 @@ class LoginActivity : BaseActivity() {
             }
         })
     }
+
+    /**
+     * 获取验证码
+     */
+    private fun getVerityCode(): Boolean {
+        if (TextUtils.isEmpty(et_phone_number2.text.trim()) || !RegexUtil.IsTelephone(et_phone_number2.text.trim())) {
+            ToastUtil.showToast(mContext, "手机号格式不正确")
+            return false;
+        }
+        try {
+            val json = JSONObject()
+            json.put("mobile", et_phone_number2.text.trim())
+            json.put("type", 10.toString())
+            val mGetVerifyCodeAction = GetVerifyCode(mContext)
+            mGetVerifyCodeAction.getVerifyCode(json, object : BaseNetCallBack<VerifyCodeBean> {
+                override fun onSuccess(verifyCodeBean: VerifyCodeBean) {
+                    ToastUtil.showToast(mContext, "验证码发送成功")
+                }
+
+                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+                    et_login_pwd2.finishTimer()
+                }
+            })
+        } catch (e: JSONException) {
+            MobclickAgent.reportError(mContext, LogUtil.getException(e))
+            e.printStackTrace()
+        }
+
+        return true
+    }
+
+
+    /**
+     * 注册账号
+     */
+    private fun register() {
+        if (TextUtils.isEmpty(et_phone_number2.text.trim()) || !RegexUtil.IsTelephone(et_phone_number.text.trim())) {
+            ToastUtil.showToast(mContext, "手机号格式不正确")
+            return
+        }
+        if (TextUtils.isEmpty(et_login_pwd2.text.trim())) {
+            ToastUtil.showToast(mContext, "请输入验证码")
+            return
+        }
+
+
+        try {
+            var deviceId = "null"
+            val jsonObject = JSONObject()
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                val TelephonyMgr = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                deviceId = TelephonyMgr.deviceId
+            }
+            if (TextUtils.isEmpty(deviceId)) {
+                deviceId = "null"
+            }
+            jsonObject.put("device_id", deviceId)
+            val signUp = SignUp(mContext);
+            jsonObject.put("mobile", et_phone_number2.text.trim())
+            jsonObject.put("password", et_login_pwd.text.trim())
+            jsonObject.put("verify_code", et_login_pwd2.text.trim())
+            signUp.signUp(jsonObject, tv_login, true, object : BaseNetCallBack<SignUpBean> {
+                override fun onSuccess(paramT: SignUpBean) {
+                    ToastUtil.showToast(mContext, "注册成功")
+                    backActivity()
+                    //                            gotoActivity(mContext, LoginActivity.class, null);
+                    //                            finish();
+                    //                           login(et_mobile.getEditTextString().trim(),et_password.getEditTextString().trim());
+                }
+
+                override fun onFailure(url: String, errorType: Int, errorCode: Int) {
+
+                }
+            })
+        } catch (e: Exception) {
+            MobclickAgent.reportError(mContext, LogUtil.getException(e))
+        }
+
+    }
+
 
     /**
      * 收到了在注册页面登录成功的消息
