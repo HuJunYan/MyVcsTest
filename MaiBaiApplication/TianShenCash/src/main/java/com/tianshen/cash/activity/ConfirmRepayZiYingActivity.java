@@ -1,8 +1,11 @@
 package com.tianshen.cash.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.net.api.GetRepayInfo;
 import com.tianshen.cash.net.api.Repayment;
 import com.tianshen.cash.net.base.BaseNetCallBack;
+import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
 import com.tianshen.cash.view.RepayItemView;
@@ -27,7 +31,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +56,8 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     TextView tv_ziying_repay_confirm;
     @BindView(R.id.ll_repay_money_container)
     LinearLayout ll_repay_money_container;
+    @BindView(R.id.iv_bank_icon)
+    ImageView iv_bank_icon;
 
     @Override
     protected int setContentView() {
@@ -59,6 +68,14 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initRepayData();
+        HashMap<String, String> bankIconInfo = FileUtils.getBankIconInfo(mContext);
+        try {
+            Bitmap cmb = BitmapFactory.decodeStream(getAssets().open("bank_icon" + File.separator + bankIconInfo.get("ABC")));
+
+            iv_bank_icon.setImageBitmap(cmb);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

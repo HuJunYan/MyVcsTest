@@ -3,6 +3,9 @@ package com.tianshen.cash.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.tianshen.cash.constant.GlobalParams;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedOutputStream;
@@ -12,7 +15,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 public class FileUtils {
 
@@ -188,6 +193,7 @@ public class FileUtils {
 
     /**
      * 身份认证扫脸 身份证保存图片
+     *
      * @param mContext
      * @param data
      * @param type
@@ -238,4 +244,21 @@ public class FileUtils {
         return null;
     }
 
+    /**
+     * 获取银行卡icon信息
+     * @param context
+     * @return
+     */
+    public static HashMap<String, String> getBankIconInfo(Context context) {
+        HashMap<String, String> bankInfo = null;
+        try {
+            InputStream open = context.getAssets().open(GlobalParams.BANK_FILE_PATH);
+            bankInfo = new Gson().fromJson(new InputStreamReader(open), new TypeToken<HashMap<String, String>>() {
+            }.getType());
+            LogUtil.d("wangchen", "bankinfo = " + bankInfo.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bankInfo;
+    }
 }
