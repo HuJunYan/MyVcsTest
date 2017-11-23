@@ -160,7 +160,7 @@ public class MyNewLoginEditText extends LinearLayout implements View.OnFocusChan
             case R.id.tv_verification:
                 if (mListener != null) {
                     if (v.getId() == R.id.tv_verification && mListener.onRightClick(this)) {
-                        mTimer = new TimeCount(tv_verification, 60000, 1000, "重新获取");
+                        mTimer = new TimeCount(tv_verification, 60000, 1000, "重新获取",false);
                         mTimer.start();
                     }
                 }
@@ -173,7 +173,7 @@ public class MyNewLoginEditText extends LinearLayout implements View.OnFocusChan
     }
 
     public void startTimer() {
-        mTimer = new TimeCount(tv_verification, 60000, 1000, "重新获取");
+        mTimer = new TimeCount(tv_verification, 60000, 1000, "重新获取",false);
         mTimer.start();
     }
 

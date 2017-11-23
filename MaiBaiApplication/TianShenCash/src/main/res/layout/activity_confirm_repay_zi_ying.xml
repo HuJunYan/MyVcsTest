@@ -28,6 +28,7 @@
     <View
         style="@style/split_line_style"
         android:layout_marginTop="12dp" />
+
     <ScrollView
         android:id="@+id/scrollview_ziying"
         android:layout_width="match_parent"
@@ -127,6 +128,13 @@
             </LinearLayout>
 
             <View style="@style/split_line_style" />
+
+            <LinearLayout
+                android:id="@+id/ll_repay_money_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/global_bg_white"
+                android:orientation="vertical" />
 
             <View
                 style="@style/split_line_style"
