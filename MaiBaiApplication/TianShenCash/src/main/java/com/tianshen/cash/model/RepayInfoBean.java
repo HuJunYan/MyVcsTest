@@ -1,5 +1,7 @@
 package com.tianshen.cash.model;
 
+import java.util.ArrayList;
+
 public class RepayInfoBean {
 
     private int code;
@@ -40,7 +42,9 @@ public class RepayInfoBean {
         private String id;
         private String repay_date;
         private String is_payway;
-        private MoneyDetail money_detail;
+        public MoneyDetail money_detail;
+        public ArrayList<CompositeDetail> composite_detail;
+        public RepayMentStyle repayment_style;
 
         public String getIs_payway() {
             return is_payway;
@@ -109,8 +113,30 @@ public class RepayInfoBean {
     }
 
     public class MoneyDetail {
-        private String consume_amount_str; //还款总额
-        private String consume_capital_amount_str; //应还本金
-        private String consume_interest_amount_str; //代收利息
+        public String consume_amount_str; //还款总额
+        public String consume_capital_amount_str; //应还本金
+        public String consume_interest_amount_str; //代收利息
+    }
+
+    public class CompositeDetail {
+        public String composite_amount_title;
+        public String composite_amount_str;
+    }
+
+    public class RepayMentStyle {
+        public ArrayList<BankList> bank_list;
+        public AliPay alipay;
+    }
+
+    public class BankList {
+        public String bank_name;
+        public String bank_card_num;
+        public String bank_gate_id;
+    }
+
+    public class AliPay {
+        public String title;
+        public String description;
+        public String alipay_url;
     }
 }

@@ -30,7 +30,6 @@
         android:layout_marginTop="12dp" />
 
     <ScrollView
-        android:id="@+id/scrollview_ziying"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -48,7 +47,6 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="30dp"
-                android:text="2000"
                 android:textColor="@color/global_txt_black4"
                 android:textSize="36sp" />
 
@@ -89,7 +87,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="20dp"
                         android:gravity="end|center"
-                        android:text="1200元"
                         android:textColor="@color/global_txt_black4"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -110,7 +107,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:gravity="center"
-                        android:text="应还本金"
+                        android:text="代收利息"
                         android:textColor="@color/global_txt_black5"
                         android:textSize="14sp" />
 
@@ -120,7 +117,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="15dp"
                         android:gravity="end|center"
-                        android:text="5.6元"
                         android:textColor="@color/global_txt_black4"
                         android:textSize="14sp" />
                 </LinearLayout>
