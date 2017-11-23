@@ -119,8 +119,8 @@ public class RepayInfoBean {
     }
 
     public class CompositeDetail {
-        public String composite_amount_title;
-        public String composite_amount_str;
+        public String title;
+        public String value;
     }
 
     public class RepayMentStyle {

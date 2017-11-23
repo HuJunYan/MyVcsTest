@@ -133,10 +133,11 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
         }
     }
 
+    //设置金额集合数据
     private void setMoneyListData(ArrayList<RepayInfoBean.CompositeDetail> composite_detail) {
         for (int i = 0; i < composite_detail.size(); i++) {
             RepayInfoBean.CompositeDetail compositeDetail = composite_detail.get(i);
-            ll_repay_money_container.addView(new RepayItemView(mContext).setData(compositeDetail.composite_amount_title, compositeDetail.composite_amount_str));
+            ll_repay_money_container.addView(new RepayItemView(mContext).setData(compositeDetail.title, compositeDetail.value));
         }
 
     }
