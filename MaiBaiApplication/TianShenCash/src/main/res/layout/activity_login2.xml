@@ -172,7 +172,7 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp"
                     app:login_edit_hint="请输入验证码"
-                    app:login_edit_tv_right="验证码"
+                    app:login_edit_tv_right="获取验证码"
                     app:login_edit_img_left="@drawable/regist_code"
                     app:login_edit_inputType="text" />
 

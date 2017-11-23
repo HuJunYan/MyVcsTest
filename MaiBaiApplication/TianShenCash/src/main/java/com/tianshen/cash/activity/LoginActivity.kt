@@ -244,6 +244,9 @@ class LoginActivity : BaseActivity() {
                             if (mRegIdQueryTimes == 1) {
                                 ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
                             }
+                        }else{
+                            login(mobile, password,pwdLoginType,"")
+                            mRegIdQueryTimes = 0
                         }
                     }
 
@@ -266,16 +269,12 @@ class LoginActivity : BaseActivity() {
                             }
 
 
-                        } else {
-
-                            if ("0"==mFlag){
-                                login(mobile, password,pwdLoginType,"")
-                            }else{
-                                login(mobile, "",codeLoginType,loginPhoneCode)
-                            }
-
+                        }else{
+                            login(mobile, "",codeLoginType,loginPhoneCode)
                             mRegIdQueryTimes = 0
                         }
+
+
                     }
                 }
             }
