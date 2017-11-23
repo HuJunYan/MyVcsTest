@@ -202,6 +202,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
         String front_idCard_url = mIdNumInfoBean.getData().getFront_idCard_url();//身份证正面url
         String back_idCard_url = mIdNumInfoBean.getData().getBack_idCard_url(); //身份证反面url
         String face_url = mIdNumInfoBean.getData().getFace_url(); //扫脸url
+        String faceThreshold = mIdNumInfoBean.getData().getFace_threshold();
         //设置显隐 和信息
         if (!TextUtils.isEmpty(real_name) && !TextUtils.isEmpty(id_num)) {
             tv_risk_pre_forget_id_card.setVisibility(View.GONE);
@@ -226,6 +227,7 @@ public class RiskPreAuthIdentityActivity extends BaseActivity {
 
         TianShenUserUtil.saveUserName(mContext, real_name);
         TianShenUserUtil.saveUserIDNum(mContext, id_num);
+        TianShenUserUtil.saveFaceThreshold(mContext, faceThreshold);
 
     }
     //请求相机权限 并根据结果 决定是否进行跳转

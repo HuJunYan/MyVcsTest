@@ -12,6 +12,7 @@ public class TianShenUserUtil {
     private static String PHONE_KEY = "phone";
     private static String SEX_KEY = "sex";
     private static String JPUSH_ID_KEY = "jpush_id";
+    private static String FACE_THRESHOLD_KEY = "face_threshold"; //face++的阈值
     private static String ID_NUM_KEY = "id_num"; //身份证号
     private static String REPAY_ID_KEY = "repay_id";
     private static String CONSUME_AMOUNT_KEY = "consume_amount";
@@ -125,6 +126,20 @@ public class TianShenUserUtil {
      */
     public static String getUserIDNum(Context context) {
         return SharedPreferencesUtil.getInstance(context).getString(ID_NUM_KEY, "");
+    }
+
+    /**
+     * 保存face++的阈值
+     */
+    public static void saveFaceThreshold(Context context, String face_threshold) {
+        SharedPreferencesUtil.getInstance(context).putString(FACE_THRESHOLD_KEY, face_threshold);
+    }
+
+    /**
+     * 得到face++的阈值
+     */
+    public static String getFaceThreshold(Context context) {
+        return SharedPreferencesUtil.getInstance(context).getString(FACE_THRESHOLD_KEY, "");
     }
 
     /**

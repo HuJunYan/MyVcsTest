@@ -60,9 +60,7 @@ public class RiskPreScanFaceActivity extends BaseActivity {
     private static final int MSG_IDCARD_NETWORK_FACE_OK = 3;//face++扫脸授权失败
     private static final int MSG_IDCARD_NETWORK_FACE_ERROR = 4;//face++扫脸授权失败
     private final int IMAGE_TYPE_SCAN_FACE = 25; //上传图片 type  活体检测图组
-    private int facePassScore = 65;
     private MediaPlayer mMediaPlayer;
-    private double confidence = 0;
 
     private boolean isCanPressBack = true;
     private Handler mHandler = new Handler() {
@@ -335,19 +333,25 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                         try {
                             jsonObject = new JSONObject(successStr);
                             if (!jsonObject.has("error")) {
-                                // 活体最好的一张照片和公安部系统上身份证上的照片比较
-                                confidence = jsonObject.getJSONObject("result_faceid").getDouble("confidence");
                                 // 活体最好的一张照片和拍摄身份证上的照片的比较
-                                // 解析faceGen
-                                JSONObject jObject = jsonObject.getJSONObject("face_genuineness");
-                                float mask_confidence = (float) jObject.getDouble("mask_confidence");
-                                float screen_replay_confidence = (float) jObject.getDouble("screen_replay_confidence");
-                                float synthetic_face_confidence = (float) jObject.getDouble("synthetic_face_confidence");
-                                if (mask_confidence > (float) facePassScore / 100 || screen_replay_confidence > (float) facePassScore / 100 || synthetic_face_confidence > (float) facePassScore / 100 || confidence < facePassScore) {
+                                double confidence = jsonObject.optJSONObject("result_faceid").optDouble("confidence");
+                                String faceThresholdKey = TianShenUserUtil.getFaceThreshold(mContext);
+                                double threshold = jsonObject.optJSONObject("result_faceid").optJSONObject("thresholds").optDouble(faceThresholdKey);
+
+                                LogUtil.d("abc", "自己的分----->" + confidence);
+                                LogUtil.d("abc", "face++阈值分----->" + threshold);
+
+                                if (confidence == 0 || threshold == 0) {
                                     ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
                                     selectLivenessControl(bean.name, bean.idcard);
-                                } else {
+                                    return;
+                                }
+
+                                if (confidence > threshold) {
                                     conformCreditFace(confidence + "");
+                                } else {
+                                    ToastUtil.showToast(mContext, "人脸比对失败，请重新检测");
+                                    selectLivenessControl(bean.name, bean.idcard);
                                 }
                             }
                         } catch (Exception e1) {
@@ -387,12 +391,6 @@ public class RiskPreScanFaceActivity extends BaseActivity {
             @Override
             public void onSuccess(ResponseBean paramT) {
                 Utils.delJPGFile(mContext);
-//                double mLivenessResult = 0;
-//                mLivenessResult = confidence;
-//                UserUtil.setCreditStep(mContext, GlobalParams.HAVE_SCAN_FACE + "");
-//                NumberFormat nFormat = NumberFormat.getNumberInstance();
-//                nFormat.setMaximumFractionDigits(2);//设置小数点后面位数为
-//                ToastUtil.showToast(mContext, "人脸比对成功，相似度" + nFormat.format(mLivenessResult) + "%");
                 isCanPressBack = true;
                 ToastUtil.showToast(mContext, "人脸比对成功!");
                 EventBus.getDefault().post(new FaceScanSuccessEvent());

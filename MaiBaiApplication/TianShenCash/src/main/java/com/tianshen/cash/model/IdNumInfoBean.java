@@ -45,6 +45,15 @@ public class IdNumInfoBean {
         private String face_url;
         private String face_change_key;
         public int change_type; //1 face++ 2 udun
+        public String face_threshold; //face++的阈值
+
+        public String getFace_threshold() {
+            return face_threshold;
+        }
+
+        public void setFace_threshold(String face_threshold) {
+            this.face_threshold = face_threshold;
+        }
 
         public String getGender() {
             return gender;
