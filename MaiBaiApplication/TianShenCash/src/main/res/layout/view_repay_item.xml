@@ -27,5 +27,7 @@
             android:layout_alignParentRight="true"
             android:textColor="@color/global_txt_black4"
             android:textSize="14sp" />
+        <View style="@style/split_line_style"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -40,6 +40,7 @@ public class RepayInfoBean {
         private String id;
         private String repay_date;
         private String is_payway;
+        private MoneyDetail money_detail;
 
         public String getIs_payway() {
             return is_payway;
@@ -107,4 +108,9 @@ public class RepayInfoBean {
 
     }
 
+    public class MoneyDetail {
+        private String consume_amount_str; //还款总额
+        private String consume_capital_amount_str; //应还本金
+        private String consume_interest_amount_str; //代收利息
+    }
 }
