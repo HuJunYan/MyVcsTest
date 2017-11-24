@@ -23,6 +23,7 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.service.UploadLogService;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
+import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.TimeCount;
 import com.tianshen.cash.utils.Utils;
@@ -45,14 +46,13 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gotoActivity(mContext, EvaluateAmountActivity.class, null);
-//
-//        init();
-//
-//        uploadLog(mContext);
-//        startTime = System.currentTimeMillis();
-//        checkUpdate();
-//        MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_1);
+
+        init();
+
+        uploadLog(mContext);
+        startTime = System.currentTimeMillis();
+        checkUpdate();
+        MaiDianUtil.ding(mContext, MaiDianUtil.FLAG_1);
     }
 
 
