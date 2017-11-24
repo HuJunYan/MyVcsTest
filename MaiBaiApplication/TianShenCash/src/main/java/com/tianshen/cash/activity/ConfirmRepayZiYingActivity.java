@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
@@ -32,9 +33,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by wang on 2017/11/23.
@@ -42,15 +46,16 @@ import butterknife.OnClick;
 
 public class ConfirmRepayZiYingActivity extends BaseActivity {
     private RepayInfoBean mRepayInfoBean;
-
+    @BindView(R.id.tv_ziying_repay_confirm)
+    TextView tv_ziying_repay_confirm;
+    @BindView(R.id.tv_alipay_repay_confirm)
+    TextView tv_alipay_repay_confirm;
     @BindView(R.id.tv_repay_total_money)
     TextView tv_repay_total_money;
     @BindView(R.id.tv_repay_money)
     TextView tv_repay_money;
     @BindView(R.id.tv_repay_rate)
     TextView tv_repay_rate;
-    @BindView(R.id.tv_ziying_repay_confirm)
-    TextView tv_ziying_repay_confirm;
     @BindView(R.id.ll_repay_money_container)
     LinearLayout ll_repay_money_container;
     @BindView(R.id.ll_bank_item_container)
@@ -59,6 +64,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     private HashMap<String, Integer> bankIconInfo;
     private String aliPayUrl;
     private boolean isAlipay;
+    private ArrayList<View> mItemViewList;
 
     @Override
     protected int setContentView() {
@@ -79,24 +85,41 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
 
     @Override
     protected void setListensers() {
-
+        RxView.clicks(tv_ziying_repay_confirm)//1秒钟之内禁用重复点击
+                .throttleFirst(60, TimeUnit.SECONDS)
+                .subscribeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                repayBySelf();
+            }
+        });
     }
 
-    @OnClick({R.id.tv_confirm_money_back})
+
+    @OnClick({R.id.tv_confirm_money_back, R.id.tv_alipay_repay_confirm})
     public void click(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm_money_back:
                 EventBus.getDefault().post(new RepayFailureEvent());//用户取消还款
                 backActivity();
                 break;
+            case R.id.tv_alipay_repay_confirm:
+                gotoAliPay();
+                break;
         }
+    }
+
+    private void gotoAliPay() {
+        ToastUtil.showToast(mContext, "支付宝");
     }
 
     /**
      * 得到确认还款信息
      */
     private void initRepayData() {
-
+        if (mItemViewList == null) {
+            mItemViewList = new ArrayList<>();
+        }
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
@@ -127,7 +150,6 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
      * 刷新UI
      */
     private void refreshUI() {
-
         if (mRepayInfoBean == null || mRepayInfoBean.getData() == null) {
             ToastUtil.showToast(mContext, "数据错误");
             return;
@@ -148,16 +170,33 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
             if (bank_list != null) {
                 for (int i = 0; i < bank_list.size(); i++) {
                     RepayInfoBean.BankList bankList = bank_list.get(i);
-                    ll_bank_item_container.addView(new RepayBankItemView(mContext).setData(bankList.bank_name, bankIconInfo.get(bankList.bank_gate_id), currentPosition, i));
+                    RepayBankItemView repayBankItemView = new RepayBankItemView(mContext).setData(bankList.bank_name, bankIconInfo.get(bankList.bank_gate_id), currentPosition, i);
+                    mItemViewList.add(repayBankItemView);
+                    ll_bank_item_container.addView(repayBankItemView);
                 }
             }
             RepayInfoBean.AliPay alipay = repayment_style.alipay;
             if (alipay != null) {
                 aliPayUrl = alipay.alipay_url;
                 int aliPayPosition = bank_list == null ? 0 : bank_list.size();
-                ll_bank_item_container.addView(new RepayBankItemView(mContext).setAliPayData(alipay.title, alipay.description, aliPayPosition, currentPosition));
-
+                RepayBankItemView repayBankItemView = new RepayBankItemView(mContext).setAliPayData(alipay.title, alipay.description, aliPayPosition, currentPosition);
+                mItemViewList.add(repayBankItemView);
+                ll_bank_item_container.addView(repayBankItemView);
             }
+            if (bank_list == null || bank_list.size() == 0) {
+                isAlipay = true;
+            }
+            refreshConfirmState(isAlipay);
+        }
+    }
+
+    private void refreshConfirmState(boolean isAlipay) {
+        if (isAlipay) {
+            tv_ziying_repay_confirm.setVisibility(View.GONE);
+            tv_alipay_repay_confirm.setVisibility(View.VISIBLE);
+        } else {
+            tv_ziying_repay_confirm.setVisibility(View.VISIBLE);
+            tv_alipay_repay_confirm.setVisibility(View.GONE);
         }
     }
 
@@ -174,6 +213,14 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
      * 自己产品还款
      */
     private void repayBySelf() {
+        if (true) {
+            ToastUtil.showToast(mContext, "自营");
+            return;
+        }
+        if (mRepayInfoBean == null || mRepayInfoBean.getData() == null || mRepayInfoBean.getData().repayment_style == null) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
@@ -243,10 +290,8 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        int childCount = ll_bank_item_container.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            EventBus.getDefault().unregister(ll_bank_item_container.getChildAt(i));
-
+        for (int i = 0; i < mItemViewList.size(); i++) {
+            EventBus.getDefault().unregister( mItemViewList.get(i));
         }
     }
 
@@ -254,5 +299,6 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     public void onBankSelectedChangeEvent(BankSelectedChangeEvent event) {
         currentPosition = event.currentPosition;
         isAlipay = event.isAlipay;
+        refreshConfirmState(isAlipay);
     }
 }

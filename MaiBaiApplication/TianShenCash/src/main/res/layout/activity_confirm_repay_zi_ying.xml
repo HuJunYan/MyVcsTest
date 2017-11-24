@@ -155,18 +155,37 @@
                 android:background="@color/global_bg_white"
                 android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/tv_ziying_repay_confirm"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="18dp"
-                android:background="@drawable/shape_home_button_border"
-                android:gravity="center"
-                android:text="确认"
-                android:textColor="@color/global_txt_white"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_ziying_repay_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/shape_home_button_border"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="@color/global_txt_white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_alipay_repay_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/shape_home_button_border"
+                    android:gravity="center"
+                    android:text="确认"
+                    android:textColor="@color/global_txt_white"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
