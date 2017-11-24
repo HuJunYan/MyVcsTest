@@ -161,6 +161,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
+        currentPosition = 0;
         RepayInfoBean.MoneyDetail money_detail = mRepayInfoBean.getData().money_detail;
         if (money_detail != null) {
             tv_repay_total_money.setText(money_detail.consume_amount_str);
@@ -172,9 +173,11 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
             setMoneyListData(composite_detail);
         }
         RepayInfoBean.RepayMentStyle repayment_style = mRepayInfoBean.getData().repayment_style;
+        ll_bank_item_container.removeAllViews();
         if (repayment_style != null) {
             ArrayList<RepayInfoBean.BankList> bank_list = repayment_style.bank_list;
             if (bank_list != null) {
+
                 for (int i = 0; i < bank_list.size(); i++) {
                     RepayInfoBean.BankList bankList = bank_list.get(i);
                     RepayBankItemView repayBankItemView = new RepayBankItemView(mContext).setData(bankList.bank_name, bankIconInfo.get(bankList.bank_gate_id), currentPosition, i);
@@ -209,6 +212,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
 
     //设置金额集合数据
     private void setMoneyListData(ArrayList<RepayInfoBean.CompositeDetail> composite_detail) {
+        ll_repay_money_container.removeAllViews();
         for (int i = 0; i < composite_detail.size(); i++) {
             RepayInfoBean.CompositeDetail compositeDetail = composite_detail.get(i);
             ll_repay_money_container.addView(new RepayItemView(mContext).setData(compositeDetail.title, compositeDetail.value));
@@ -220,21 +224,21 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
      * 自己产品还款
      */
     private void repayBySelf() {
-        if (true) {
-            ToastUtil.showToast(mContext, "自营");
-            return;
-        }
-        if (mRepayInfoBean == null || mRepayInfoBean.getData() == null || mRepayInfoBean.getData().repayment_style == null) {
+        if (mRepayInfoBean == null || mRepayInfoBean.getData() == null || mRepayInfoBean.getData().repayment_style == null || mRepayInfoBean.getData().repayment_style.bank_list == null) {
             ToastUtil.showToast(mContext, "数据错误");
             return;
         }
+        ArrayList<RepayInfoBean.BankList> bank_list = mRepayInfoBean.getData().repayment_style.bank_list;
+        currentPosition = currentPosition == bank_list.size() ? bank_list.size() - 1 : currentPosition;
+        RepayInfoBean.BankList bankList = bank_list.get(currentPosition);
+        String bank_gate_id = bankList.bank_gate_id;
         try {
             JSONObject jsonObject = new JSONObject();
             String userId = TianShenUserUtil.getUserId(mContext);
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
             jsonObject.put("paytype", "1"); // (支付渠道，写死1 联动优势)
             jsonObject.put("type", "1"); // （支付类型 1还款 2付首付 不传默认为1）
-
+            jsonObject.put("gate_id", bank_gate_id);
             String id = mRepayInfoBean.getData().getId();
             String consumeId = mRepayInfoBean.getData().getConsume_id();
             String repayDate = mRepayInfoBean.getData().getRepay_date();

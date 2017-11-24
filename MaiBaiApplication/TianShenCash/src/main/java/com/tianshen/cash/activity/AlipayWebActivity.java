@@ -46,7 +46,7 @@ public class AlipayWebActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected int setContentView() {
-        return R.layout.activity_web;
+        return R.layout.activity_alipay_web;
     }
 
     @Override
