@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -336,6 +337,9 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                                 // 活体最好的一张照片和拍摄身份证上的照片的比较
                                 double confidence = jsonObject.optJSONObject("result_faceid").optDouble("confidence");
                                 String faceThresholdKey = TianShenUserUtil.getFaceThreshold(mContext);
+                                if (TextUtils.isEmpty(faceThresholdKey)) {
+                                    faceThresholdKey = "1e-4";
+                                }
                                 double threshold = jsonObject.optJSONObject("result_faceid").optJSONObject("thresholds").optDouble(faceThresholdKey);
 
                                 LogUtil.d("abc", "自己的分----->" + confidence);
