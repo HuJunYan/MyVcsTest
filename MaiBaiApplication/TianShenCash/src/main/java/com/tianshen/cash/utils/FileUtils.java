@@ -243,37 +243,9 @@ public class FileUtils {
 
     /**
      * 获取银行卡icon信息
-     * "ABC":"bank_abc_icon.png",
-     * "CMB":"bank_cmb_icon.png",
-     * "BOB":"bank_bob_icon.png",
-     * "BOC":"bank_boc_icon.png",
-     * "BOS":"bank_bos_icon.png",
-     * "BOT":"bank_bot_icon.png",
-     * "BQD":"bank_bqd_icon.png",
-     * "CCB":"bank_ccb_icon.png",
-     * "CEB":"bank_ceb_icon.png",
-     * "CIB":"bank_cib_icon.png",
-     * "CITIC":"bank_citic_icon.png"
-     * "CMBC":"bank_cmbc_icon.png",
-     * "COMM":"bank_comm_icon.png",
-     * "CZB":"bank_czb_icon.png",
-     * "GDB":"bank_gdb_icon.png",
-     * "GZCB":"bank_gzcb_icon.png",
-     * "HUISHANG":"bank_huishang_icon
-     * "HXB":"bank_hxb_icon.png",
-     * "ICBC":"bank_icbc_icon.png",
-     * "LANZHOU":"bank_lanzhou_icon.
-     * "NINGBO":"bank_ningbo_icon.pn
-     * "PSBC":"bank_psbc_icon.png",
-     * "SDB":"bank_sdb_icon.png",
-     * "SPAB":"bank_spab_icon.png",
-     * "SPDB":"bank_spdb_icon.png",
-     * "YHCRB":"bank_yhrcb_icon.png"
-     *
-     * @param context
      * @return
      */
-    public static HashMap<String, Integer> getBankIconInfo(Context context) {
+    public static HashMap<String, Integer> getBankIconInfo() {
         HashMap<String, Integer> bankInfo = new HashMap<>();
         bankInfo.put("ABC", R.drawable.bank_abc_icon);
         bankInfo.put("CMB", R.drawable.bank_cmb_icon);
@@ -301,7 +273,6 @@ public class FileUtils {
         bankInfo.put("SPAB", R.drawable.bank_spab_icon);
         bankInfo.put("SPDB", R.drawable.bank_spdb_icon);
         bankInfo.put("YHCRB", R.drawable.bank_yhrcb_icon);
-
         return bankInfo;
     }
 }

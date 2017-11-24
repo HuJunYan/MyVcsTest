@@ -75,7 +75,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bankIconInfo = FileUtils.getBankIconInfo(mContext);
+        bankIconInfo = FileUtils.getBankIconInfo();
         initRepayData();
     }
 
