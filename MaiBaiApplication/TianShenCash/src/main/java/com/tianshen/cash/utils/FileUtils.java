@@ -3,9 +3,7 @@ package com.tianshen.cash.utils;
 import android.content.Context;
 import android.os.Environment;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.R;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedOutputStream;
@@ -15,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
 
@@ -246,19 +243,65 @@ public class FileUtils {
 
     /**
      * 获取银行卡icon信息
+     * "ABC":"bank_abc_icon.png",
+     * "CMB":"bank_cmb_icon.png",
+     * "BOB":"bank_bob_icon.png",
+     * "BOC":"bank_boc_icon.png",
+     * "BOS":"bank_bos_icon.png",
+     * "BOT":"bank_bot_icon.png",
+     * "BQD":"bank_bqd_icon.png",
+     * "CCB":"bank_ccb_icon.png",
+     * "CEB":"bank_ceb_icon.png",
+     * "CIB":"bank_cib_icon.png",
+     * "CITIC":"bank_citic_icon.png"
+     * "CMBC":"bank_cmbc_icon.png",
+     * "COMM":"bank_comm_icon.png",
+     * "CZB":"bank_czb_icon.png",
+     * "GDB":"bank_gdb_icon.png",
+     * "GZCB":"bank_gzcb_icon.png",
+     * "HUISHANG":"bank_huishang_icon
+     * "HXB":"bank_hxb_icon.png",
+     * "ICBC":"bank_icbc_icon.png",
+     * "LANZHOU":"bank_lanzhou_icon.
+     * "NINGBO":"bank_ningbo_icon.pn
+     * "PSBC":"bank_psbc_icon.png",
+     * "SDB":"bank_sdb_icon.png",
+     * "SPAB":"bank_spab_icon.png",
+     * "SPDB":"bank_spdb_icon.png",
+     * "YHCRB":"bank_yhrcb_icon.png"
+     *
      * @param context
      * @return
      */
-    public static HashMap<String, String> getBankIconInfo(Context context) {
-        HashMap<String, String> bankInfo = null;
-        try {
-            InputStream open = context.getAssets().open(GlobalParams.BANK_FILE_PATH);
-            bankInfo = new Gson().fromJson(new InputStreamReader(open), new TypeToken<HashMap<String, String>>() {
-            }.getType());
-            LogUtil.d("wangchen", "bankinfo = " + bankInfo.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static HashMap<String, Integer> getBankIconInfo(Context context) {
+        HashMap<String, Integer> bankInfo = new HashMap<>();
+        bankInfo.put("ABC", R.drawable.bank_abc_icon);
+        bankInfo.put("CMB", R.drawable.bank_cmb_icon);
+        bankInfo.put("BOB", R.drawable.bank_bob_icon);
+        bankInfo.put("BOC", R.drawable.bank_boc_icon);
+        bankInfo.put("BOS", R.drawable.bank_bos_icon);
+        bankInfo.put("BOT", R.drawable.bank_bot_icon);
+        bankInfo.put("BQD", R.drawable.bank_bqd_icon);
+        bankInfo.put("CCB", R.drawable.bank_ccb_icon);
+        bankInfo.put("CEB", R.drawable.bank_ceb_icon);
+        bankInfo.put("CIB", R.drawable.bank_cib_icon);
+        bankInfo.put("CITIC", R.drawable.bank_citic_icon);
+        bankInfo.put("CMBC", R.drawable.bank_cmbc_icon);
+        bankInfo.put("COMM", R.drawable.bank_comm_icon);
+        bankInfo.put("CZB", R.drawable.bank_czb_icon);
+        bankInfo.put("GDB", R.drawable.bank_gdb_icon);
+        bankInfo.put("GZCB", R.drawable.bank_gzcb_icon);
+        bankInfo.put("HUISHANG", R.drawable.bank_huishang_icon);
+        bankInfo.put("HXB", R.drawable.bank_hxb_icon);
+        bankInfo.put("ICBC", R.drawable.bank_icbc_icon);
+        bankInfo.put("LANZHOU", R.drawable.bank_lanzhou_icon);
+        bankInfo.put("NINGBO", R.drawable.bank_ningbo_icon);
+        bankInfo.put("PSBC", R.drawable.bank_psbc_icon);
+        bankInfo.put("SDB", R.drawable.bank_sdb_icon);
+        bankInfo.put("SPAB", R.drawable.bank_spab_icon);
+        bankInfo.put("SPDB", R.drawable.bank_spdb_icon);
+        bankInfo.put("YHCRB", R.drawable.bank_yhrcb_icon);
+
         return bankInfo;
     }
 }

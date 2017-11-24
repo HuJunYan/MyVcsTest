@@ -1,7 +1,5 @@
 package com.tianshen.cash.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,8 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,14 +64,9 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initRepayData();
-        HashMap<String, String> bankIconInfo = FileUtils.getBankIconInfo(mContext);
-        try {
-            Bitmap cmb = BitmapFactory.decodeStream(getAssets().open("bank_icon" + File.separator + bankIconInfo.get("ABC")));
+        HashMap<String, Integer> bankIconInfo = FileUtils.getBankIconInfo(mContext);
 
-            iv_bank_icon.setImageBitmap(cmb);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        iv_bank_icon.setImageResource(bankIconInfo.get("ABC"));
     }
 
     @Override
