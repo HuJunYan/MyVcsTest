@@ -24,6 +24,7 @@ public class SpannableUtils {
 
     /**
      * 设置去web页面的spannable样式
+     *
      * @param textView
      * @param text
      * @param start
@@ -60,5 +61,28 @@ public class SpannableUtils {
 
     private static void setSpanTextColor(SpannableStringBuilder ss, int start, int end, int color) {
         ss.setSpan(new ForegroundColorSpan(color), start, end, flag);
+    }
+
+    /**
+     * 设置制定范围内的文字颜色
+     *
+     * @param textView
+     * @param text
+     * @param start
+     * @param end
+     * @param spanTextColor
+     */
+    public static void setSpannableStringColor(TextView textView, String text, String start, String end, int spanTextColor) {
+        if (TextUtils.isEmpty(text) || TextUtils.isEmpty(start) || TextUtils.isEmpty(end)) {
+            return;
+        }
+        SpannableStringBuilder ss = new SpannableStringBuilder(text);
+        int startIndex = text.indexOf(start);
+        int endIndex = text.indexOf(end) + 1;
+        setTransparentBackgoundSpan(ss, startIndex, endIndex);
+        setSpanTextColor(ss, startIndex, endIndex, spanTextColor);
+        textView.setHighlightColor(Color.TRANSPARENT);
+        textView.setText(ss);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

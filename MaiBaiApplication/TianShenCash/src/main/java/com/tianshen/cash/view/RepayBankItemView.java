@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.tianshen.cash.R;
 import com.tianshen.cash.event.BankSelectedChangeEvent;
+import com.tianshen.cash.utils.SpannableUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,9 +69,12 @@ public class RepayBankItemView extends LinearLayout implements View.OnClickListe
     public RepayBankItemView setAliPayData(String name, String money, int itemPosition, int currentPosition) {
         mIvBankIcon.setImageResource(R.drawable.alipay_icon);
         isAliPay = true;
+        String format = String.format(getResources().getString(R.string.text_repay_bank_item_info), money);
+
         mTvBankInfo.setText(name);
         mTvAlipayInfo.setVisibility(View.VISIBLE);
-        mTvAlipayInfo.setText(money);
+//        mTvAlipayInfo.setText(format);
+        SpannableUtils.setSpannableStringColor(mTvAlipayInfo, format, money, "元", getResources().getColor(R.color.global_txt_orange));
         this.itemPosition = itemPosition;
         if (itemPosition == currentPosition) {
             mIvCheck.setBackgroundResource(R.drawable.repay_circle_selected);
