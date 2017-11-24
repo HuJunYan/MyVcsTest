@@ -5,17 +5,14 @@ import android.app.Application;
 import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.meituan.android.walle.WalleChannelReader;
 import com.moxie.client.manager.MoxieSDK;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-
 import com.tianshen.cash.adapter.AndroidLogAdapter;
 import com.tianshen.cash.constant.NetConstantValue;
-
 import com.tianshen.cash.utils.RomUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -44,7 +41,7 @@ public class MyApplicationLike extends MultiDexApplication implements Applicatio
     public void onCreate() {
         super.onCreate();
         sApplication = this;
-        SDKInitializer.initialize(sApplication);
+//        SDKInitializer.initialize(sApplication);
         FMAgent.init(sApplication, NetConstantValue.checkIsReleaseService());
         JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
         JPushInterface.init(sApplication); // 初始化 JPush
