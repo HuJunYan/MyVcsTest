@@ -3,7 +3,6 @@ package com.tianshen.cash.activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.utils.FileUtils;
 import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.ToastUtil;
+import com.tianshen.cash.view.RepayBankItemView;
 import com.tianshen.cash.view.RepayItemView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,8 +52,11 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     TextView tv_ziying_repay_confirm;
     @BindView(R.id.ll_repay_money_container)
     LinearLayout ll_repay_money_container;
-    @BindView(R.id.iv_bank_icon)
-    ImageView iv_bank_icon;
+    @BindView(R.id.ll_bank_item_container)
+    LinearLayout ll_bank_item_container;
+    private int currentPosition = 0;
+    private HashMap<String, Integer> bankIconInfo;
+    private String aliPayUrl;
 
     @Override
     protected int setContentView() {
@@ -63,10 +66,8 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bankIconInfo = FileUtils.getBankIconInfo(mContext);
         initRepayData();
-        HashMap<String, Integer> bankIconInfo = FileUtils.getBankIconInfo(mContext);
-
-        iv_bank_icon.setImageResource(bankIconInfo.get("ABC"));
     }
 
     @Override
@@ -138,6 +139,23 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
         ArrayList<RepayInfoBean.CompositeDetail> composite_detail = mRepayInfoBean.getData().composite_detail;
         if (composite_detail != null) {
             setMoneyListData(composite_detail);
+        }
+        RepayInfoBean.RepayMentStyle repayment_style = mRepayInfoBean.getData().repayment_style;
+        if (repayment_style != null) {
+            ArrayList<RepayInfoBean.BankList> bank_list = repayment_style.bank_list;
+            if (bank_list != null) {
+                for (int i = 0; i < bank_list.size(); i++) {
+                    RepayInfoBean.BankList bankList = bank_list.get(i);
+                    ll_bank_item_container.addView(new RepayBankItemView(mContext).setData(bankList.bank_name, bankIconInfo.get(bankList.bank_gate_id), currentPosition, i));
+                }
+            }
+            RepayInfoBean.AliPay alipay = repayment_style.alipay;
+            if (alipay != null) {
+                aliPayUrl = alipay.alipay_url;
+                int aliPayPosition = bank_list == null ? 0 : bank_list.size();
+                ll_bank_item_container.addView(new RepayBankItemView(mContext).setAliPayData(alipay.title, alipay.description, aliPayPosition, currentPosition));
+
+            }
         }
     }
 

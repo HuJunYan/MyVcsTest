@@ -148,92 +148,12 @@
 
             <View style="@style/split_line_style" />
 
-            <RelativeLayout
-                android:id="@+id/rl_repay_bank"
+            <LinearLayout
+                android:id="@+id/ll_bank_item_container"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="@color/global_bg_white"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iv_bank_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="15dp"/>
-
-                <TextView
-                    android:id="@+id/tv_repay_bank_name_and_card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/iv_bank_icon"
-                    android:gravity="center_vertical"
-                    android:text="工商银行 尾号2508"
-                    android:textColor="@color/global_txt_black4"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_repay_bank_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="18dp"
-                    android:src="@drawable/repay_circle_selected" />
-            </RelativeLayout>
-
-            <View style="@style/split_line_style" />
-
-            <RelativeLayout
-                android:id="@+id/rl_repay_alipay"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/global_bg_white"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iv_repay_alipay_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/alipay_icon" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/iv_repay_alipay_icon"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="支付宝"
-                        android:textColor="@color/global_txt_black4"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(支付宝将另收取2元支付通道费)"
-                        android:textColor="@color/edit_text_hint_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/iv_repay_alipay_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="18dp"
-                    android:src="@drawable/repay_circle_unselected" />
-            </RelativeLayout>
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/tv_ziying_repay_confirm"
