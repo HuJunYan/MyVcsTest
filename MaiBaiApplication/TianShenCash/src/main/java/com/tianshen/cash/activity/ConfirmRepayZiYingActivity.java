@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.event.BankSelectedChangeEvent;
 import com.tianshen.cash.event.RefreshRepayDataEvent;
 import com.tianshen.cash.event.RepayEvent;
 import com.tianshen.cash.event.RepayFailureEvent;
@@ -57,6 +58,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     private int currentPosition = 0;
     private HashMap<String, Integer> bankIconInfo;
     private String aliPayUrl;
+    private boolean isAlipay;
 
     @Override
     protected int setContentView() {
@@ -236,5 +238,21 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     @Subscribe
     public void onRefreshRepayDataEvent(RefreshRepayDataEvent event) {
         initRepayData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        int childCount = ll_bank_item_container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            EventBus.getDefault().unregister(ll_bank_item_container.getChildAt(i));
+
+        }
+    }
+
+    @Subscribe
+    public void onBankSelectedChangeEvent(BankSelectedChangeEvent event) {
+        currentPosition = event.currentPosition;
+        isAlipay = event.isAlipay;
     }
 }

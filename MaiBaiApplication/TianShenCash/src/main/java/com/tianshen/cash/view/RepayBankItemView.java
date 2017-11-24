@@ -11,12 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.event.BankSelectedChangeEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by wang on 2017/11/24.
  */
 
-public class RepayBankItemView extends LinearLayout {
+public class RepayBankItemView extends LinearLayout implements View.OnClickListener {
 
     private ImageView mIvBankIcon;
     private TextView mTvBankInfo;
@@ -39,13 +43,14 @@ public class RepayBankItemView extends LinearLayout {
     }
 
     private void init() {
+        EventBus.getDefault().register(this);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.view_repay_bank_item, null, false);
         addView(view);
         mIvBankIcon = (ImageView) view.findViewById(R.id.iv_repay_bank_icon);
         mTvBankInfo = (TextView) view.findViewById(R.id.tv_repay_bank_name_and_card);
         mIvCheck = (ImageView) view.findViewById(R.id.iv_repay_bank_check);
         mTvAlipayInfo = (TextView) view.findViewById(R.id.tv_repay_bank_alipay_info);
-
+        setOnClickListener(this);
     }
 
     public RepayBankItemView setData(String bankInfo, @DrawableRes int leftResId, int currentPosition, int itemPosition) {
@@ -73,5 +78,19 @@ public class RepayBankItemView extends LinearLayout {
             mIvCheck.setBackgroundResource(R.drawable.repay_circle_unselected);
         }
         return this;
+    }
+
+    @Subscribe
+    public void onBankSelectedChangeEvent(BankSelectedChangeEvent event) {
+        if (itemPosition == event.currentPosition) {
+            mIvCheck.setBackgroundResource(R.drawable.repay_circle_selected);
+        } else {
+            mIvCheck.setBackgroundResource(R.drawable.repay_circle_unselected);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        EventBus.getDefault().post(new BankSelectedChangeEvent(itemPosition, isAliPay));
     }
 }
