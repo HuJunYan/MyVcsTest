@@ -368,6 +368,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.ConfirmRepayZiYingActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AlipayWebActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

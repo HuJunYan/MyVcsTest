@@ -1,6 +1,7 @@
 package com.tianshen.cash.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -110,7 +111,13 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     }
 
     private void gotoAliPay() {
-        ToastUtil.showToast(mContext, "支付宝");
+        if (TextUtils.isEmpty(aliPayUrl)) {
+            ToastUtil.showToast(mContext, "数据错误");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(GlobalParams.WEB_URL_KEY, aliPayUrl);
+        gotoActivity(mContext, AlipayWebActivity.class, bundle);
     }
 
     /**
@@ -291,7 +298,7 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         for (int i = 0; i < mItemViewList.size(); i++) {
-            EventBus.getDefault().unregister( mItemViewList.get(i));
+            EventBus.getDefault().unregister(mItemViewList.get(i));
         }
     }
 

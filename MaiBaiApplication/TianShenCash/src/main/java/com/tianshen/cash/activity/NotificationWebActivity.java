@@ -103,7 +103,7 @@ public class NotificationWebActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected int setContentView() {
-        return R.layout.activity_web;
+        return R.layout.activity_notification_web;
     }
 
     @Override
