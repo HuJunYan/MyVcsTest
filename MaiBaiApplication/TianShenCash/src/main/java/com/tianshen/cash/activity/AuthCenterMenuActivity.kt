@@ -16,6 +16,7 @@ import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.CashAmountDialogUtils
+import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
@@ -49,7 +50,6 @@ class AuthCenterMenuActivity : BaseActivity() {
                 mCurrentIndex = position
                 refreshUI()
             }
-
         })
     }
 
@@ -59,16 +59,19 @@ class AuthCenterMenuActivity : BaseActivity() {
             finish()
         }
         rl_identity.setOnClickListener {
-            vp_auth_center_menu.currentItem = 0
+            tv_goto_auth.isEnabled = false
             mCurrentIndex = 0
+            vp_auth_center_menu.currentItem = 0
         }
         rl_person_info.setOnClickListener {
-            vp_auth_center_menu.currentItem = 1
+            tv_goto_auth.isEnabled = false
             mCurrentIndex = 1
+            vp_auth_center_menu.currentItem = 1
         }
         rl_credit.setOnClickListener {
-            vp_auth_center_menu.currentItem = 2
+            tv_goto_auth.isEnabled = false
             mCurrentIndex = 2
+            vp_auth_center_menu.currentItem = 2
         }
     }
 
@@ -303,6 +306,8 @@ class AuthCenterMenuActivity : BaseActivity() {
         } else if ("1" == auth_credit) {
             fragmentStep3.setPicAndTxt(R.drawable.ic_auth_center_menu_pic_ok, "认证成功")
         }
+
+        tv_goto_auth.isEnabled = true
 
     }
 
