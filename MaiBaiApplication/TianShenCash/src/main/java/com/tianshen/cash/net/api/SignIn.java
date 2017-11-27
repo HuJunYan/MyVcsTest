@@ -6,15 +6,12 @@ import android.view.View;
 import com.tianshen.cash.constant.NetConstantValue;
 import com.tianshen.cash.model.SignInBean;
 import com.tianshen.cash.model.TianShenLoginBean;
-import com.tianshen.cash.model.User;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.CallBack;
 import com.tianshen.cash.net.base.GsonUtil;
 import com.tianshen.cash.net.base.NetBase;
-import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.LogUtil;
 import com.tianshen.cash.utils.SignUtils;
-import com.tianshen.cash.utils.TianShenUserUtil;
 import com.tianshen.cash.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -86,6 +83,9 @@ public class SignIn extends NetBase {
         List<String> keyList = SignUtils.copyIterator(jsonObject.keys());
         if (keyList.contains("password")) {
             jsonObject.put("password", Utils.MD5SHA1AndReverse(jsonObject.getString("password")));
+        }
+        if (keyList.contains("channel_id")) {
+            jsonObject.put("channel_id", Utils.MD5SHA1AndReverse(Utils.MD5SHA1AndReverse(jsonObject.getString("channel_id"))));
         }
     }
 

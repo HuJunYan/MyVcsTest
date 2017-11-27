@@ -116,6 +116,9 @@ public class SignUp extends NetBase {
         if (keyList.contains("password")) {
             jsonObject.put("password", Utils.MD5SHA1AndReverse(jsonObject.getString("password")));
         }
+        if (keyList.contains("channel_id")) {
+            jsonObject.put("channel_id", Utils.MD5SHA1AndReverse(Utils.MD5SHA1AndReverse(jsonObject.getString("channel_id"))));
+        }
     }
 
     private SignUpBean test() {
