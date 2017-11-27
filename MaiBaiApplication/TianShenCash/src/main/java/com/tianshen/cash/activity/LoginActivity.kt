@@ -317,6 +317,7 @@ class LoginActivity : BaseActivity() {
             json.put("password", password)
             json.put("login_type", logingType)
             json.put("code", phoneCode)
+            json.put("channel_id", Utils.getChannelId())
 
 
             var jpushId = TianShenUserUtil.getUserJPushId(mContext)
