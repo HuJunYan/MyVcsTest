@@ -37,7 +37,6 @@ import com.tianshen.cash.net.base.UserUtil;
 import com.tianshen.cash.utils.GetTelephoneUtils;
 import com.tianshen.cash.utils.LocationUtil;
 import com.tianshen.cash.utils.LogUtil;
-import com.tianshen.cash.utils.MaiDianUtil;
 import com.tianshen.cash.utils.MemoryAddressUtils;
 import com.tianshen.cash.utils.MoneyUtils;
 import com.tianshen.cash.utils.PhoneInfoUtil;
@@ -489,7 +488,6 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         uploadUserInfoApi.uploadUserInfo(mJSONObject, new BaseNetCallBack<PostDataBean>() {
             @Override
             public void onSuccess(PostDataBean paramT) {
-                MaiDianUtil.ding(getBaseContext(), MaiDianUtil.FLAG_19);
                 onClickApply();
                 LogUtil.d("userinfo", "code = " + paramT.getCode() + "msg = " + paramT.getMsg());
             }
