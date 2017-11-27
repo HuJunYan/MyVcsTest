@@ -27,6 +27,7 @@ import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.RegexUtil
 import com.tianshen.cash.utils.ToastUtil
+import com.tianshen.cash.utils.Utils
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_registe2.*
 import org.json.JSONException
@@ -96,10 +97,11 @@ class RegisteActivity : BaseActivity() {
                 deviceId = "null"
             }
             jsonObject.put("device_id", deviceId)
-            val signUp = SignUp(mContext);
+            val signUp = SignUp(mContext)
             jsonObject.put("mobile", et_phone_number.text.trim())
             jsonObject.put("password", et_login_pwd.text.trim())
             jsonObject.put("verify_code", et_verify_code.text.trim())
+            jsonObject.put("channel_id", Utils.getChannelId())
             signUp.signUp(jsonObject, tv_login, true, object : BaseNetCallBack<SignUpBean> {
                 override fun onSuccess(paramT: SignUpBean) {
                     ToastUtil.showToast(mContext, "注册成功")
