@@ -56,11 +56,20 @@ public class UserConfig {
         private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
+        private String ali_repay_url;
         private String flow_supermarket_id;
         private String flow_supermarket_url;
         private String flow_supermarket_num;
         private String zzOrderMark;
         private int diff_rate; //"是不是差异化费率的订单，0：不是， 1：是（为1的时候，需要展示确认借款的页面）"
+
+        public String getAli_repay_url() {
+            return ali_repay_url;
+        }
+
+        public void setAli_repay_url(String ali_repay_url) {
+            this.ali_repay_url = ali_repay_url;
+        }
 
         public String getZzOrderMark() {
             return zzOrderMark;

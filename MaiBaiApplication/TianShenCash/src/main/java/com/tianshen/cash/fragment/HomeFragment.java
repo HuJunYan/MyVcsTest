@@ -31,6 +31,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
+import com.tianshen.cash.activity.AliRepayWebActivity;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
@@ -171,8 +172,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_confirm_money)
     TextView tv_home_confirm_money;
 
-    @BindView(R.id.tv_goto_repay)
-    TextView tv_goto_repay;
+    @BindView(R.id.tv_repay_by_bank)
+    TextView tv_repay_by_bank;
+
+    @BindView(R.id.tv_repay_by_ali)
+    TextView tv_repay_by_ali;
 
     @BindView(R.id.ll_repay_normal)
     LinearLayout ll_repay_normal;
@@ -318,7 +322,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlHomeTianshenCard.setOnClickListener(this);
         ll_loan_day.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
-        tv_goto_repay.setOnClickListener(this);
+        tv_repay_by_bank.setOnClickListener(this);
+        tv_repay_by_ali.setOnClickListener(this);
 //        ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
@@ -353,8 +358,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_home_apply: //点击了立即申请
                 onClickApply();
                 break;
-            case R.id.tv_goto_repay: //点击了立即还款
-                checkRepay();
+            case R.id.tv_repay_by_bank: //点击了银行卡还款
+                repayByBank();
+                break;
+            case R.id.tv_repay_by_ali: //点击了支付宝还款
+                repayByAli();
                 break;
             case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
@@ -808,7 +816,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 判断是手机贷还款还是其他还款
      */
-    private void checkRepay() {
+    private void repayByBank() {
         if (mUserConfig == null || mUserConfig.getData() == null) {
             return;
         }
@@ -823,6 +831,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             gotoActivity(mContext, ConfirmRepayActivity.class, bundle);
             ll_repay.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 跳转到支付宝还款
+     */
+    private void repayByAli() {
+        if (mUserConfig == null || mUserConfig.getData() == null) {
+            return;
+        }
+        Bundle bundle = new Bundle();
+        String url = mUserConfig.getData().getAli_repay_url();
+        String ali_repay_url = url + "&src=android";
+        bundle.putString(GlobalParams.WEB_URL_KEY, ali_repay_url);
+        gotoActivity(mContext, AliRepayWebActivity.class, bundle);
+        ll_repay.setVisibility(View.GONE);
     }
 
     /**

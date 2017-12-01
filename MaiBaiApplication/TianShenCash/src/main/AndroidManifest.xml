@@ -314,6 +314,9 @@
         <activity
             android:name=".activity.BindBankCardConfirmActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AliRepayWebActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
