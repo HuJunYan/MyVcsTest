@@ -35,7 +35,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
-import com.tianshen.cash.activity.AliRepayWebActivity;
 import com.tianshen.cash.activity.AuthCenterActivity;
 import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmBaseMoneyActivity;
@@ -169,6 +168,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.ll_repay)
     LinearLayout ll_repay;
+    @BindView(R.id.rl_alipay)
+    RelativeLayout mRlAlipay;
 
     @BindView(R.id.xrecyclerview_order_status)
     XRecyclerView xrecyclerview_order_status;
@@ -305,6 +306,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void initView() {
         initTextSwitcher();
         density = getResources().getDisplayMetrics().density;
+
     }
 
     @Override
@@ -713,10 +715,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 检查用户当前的状态，显示不同的UI
      */
     private void checkUserConfig() {
+
         if (mUserConfig == null || mUserConfig.getData() == null) {
             //TODO 展示解析错误的UI
             ToastUtil.showToast(getActivity(), "数据错误");
             return;
+        }
+
+        //    如果没有唤醒支付宝url,就隐藏支付宝还款入口
+        String url = mUserConfig.getData().getAli_repay_url();
+        if (TextUtils.isEmpty(url)){
+            mRlAlipay.setVisibility(View.GONE);
+        }else {
+            mRlAlipay.setVisibility(View.VISIBLE);
         }
 
         //刷新右上角的消息
@@ -846,6 +857,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 //        Bundle bundle = new Bundle();
         String url = mUserConfig.getData().getAli_repay_url();
+        if (TextUtils.isEmpty(url)){
+            ToastUtil.showToast(getActivity(),"您暂不支持支付宝还款,请联系客服");
+            return;
+        }
+
         String ali_repay_url = url + "&src=android";
 //        bundle.putString(GlobalParams.WEB_URL_KEY, ali_repay_url);
 //        gotoActivity(mContext, AliRepayWebActivity.class, bundle);
