@@ -4,10 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +28,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -840,12 +844,39 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         if (mUserConfig == null || mUserConfig.getData() == null) {
             return;
         }
-        Bundle bundle = new Bundle();
+//        Bundle bundle = new Bundle();
         String url = mUserConfig.getData().getAli_repay_url();
         String ali_repay_url = url + "&src=android";
-        bundle.putString(GlobalParams.WEB_URL_KEY, ali_repay_url);
-        gotoActivity(mContext, AliRepayWebActivity.class, bundle);
+//        bundle.putString(GlobalParams.WEB_URL_KEY, ali_repay_url);
+//        gotoActivity(mContext, AliRepayWebActivity.class, bundle);
+
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(ali_repay_url);
+        intent.setData(content_url);
+        startActivity(intent);
+
         ll_repay.setVisibility(View.GONE);
+        showRrefreshAliRepayDialog();
+    }
+
+    /**
+     * 显示刷新支付宝结果的dialog
+     */
+    private void showRrefreshAliRepayDialog() {
+
+        new MaterialDialog.Builder(mContext)
+                .title("温馨提示")
+                .content("请点击确定按钮,查看还款是否成功")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        initUserConfig();
+                    }
+                })
+                .show()
+                .setCancelable(false);
     }
 
     /**
@@ -1622,7 +1653,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(View v) {
                         Bundle bundle = new Bundle();
                         bundle.putString(GlobalParams.ACTIVITY_ID, activityId);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, InviteFriendsActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1642,7 +1673,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         url += "&type=1";
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_FROM, GlobalParams.FROM_HOME);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1659,7 +1690,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                         String url = data.getActivity_url();
                         bundle.putString(GlobalParams.WEB_URL_KEY, url);
                         bundle.putString(GlobalParams.WEB_TYPE, GlobalParams.TYPE_READ);
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                         gotoActivity(mContext, WebActivity.class, bundle);
                         mDialog.dismiss();
                     }
@@ -1672,7 +1703,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 iv_dialog_banner_invite_friends.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MaiDianUtil.ding(getActivity(),MaiDianUtil.FLAG_23,MaiDianUtil.RESULT_DEFAULT,activityType);
+                        MaiDianUtil.ding(getActivity(), MaiDianUtil.FLAG_23, MaiDianUtil.RESULT_DEFAULT, activityType);
                     }
                 });
 
