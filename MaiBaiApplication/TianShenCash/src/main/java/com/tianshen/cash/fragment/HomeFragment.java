@@ -729,14 +729,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             return;
         }
 
-        //    如果没有唤醒支付宝url,就隐藏支付宝还款入口
-        String url = mUserConfig.getData().getAli_repay_url();
-        if (TextUtils.isEmpty(url)){
-            mRlAlipay.setVisibility(View.GONE);
-        }else {
-            mRlAlipay.setVisibility(View.VISIBLE);
-        }
-
         //刷新右上角的消息
         String count = mUserConfig.getData().getMessage_count();
         refreshMessage(count);
@@ -994,6 +986,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ll_not_order.setVisibility(View.GONE);
         ll_order.setVisibility(View.GONE);
         ll_repay.setVisibility(View.VISIBLE);
+
+        //    如果没有唤醒支付宝url,就隐藏支付宝还款入口
+        String url = mUserConfig.getData().getAli_repay_url();
+        if (TextUtils.isEmpty(url)){
+            mRlAlipay.setVisibility(View.GONE);
+        }else {
+            mRlAlipay.setVisibility(View.VISIBLE);
+        }
 
         String is_payway = mUserConfig.getData().getIs_payway();
         String repayment_day = mUserConfig.getData().getRepayment_time_day();
