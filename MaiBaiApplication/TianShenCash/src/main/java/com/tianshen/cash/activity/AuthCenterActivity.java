@@ -412,6 +412,7 @@ public class AuthCenterActivity extends BaseActivity implements View.OnClickList
      * 跳转到淘宝renz
      */
     private void gotoTaoBaoAuth() {
+        //上线需要测试淘宝认证，或者服务器需要改回调地址
         String userId = TianShenUserUtil.getUserId(mContext);
         String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa";
 
