@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +29,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -167,6 +171,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.ll_repay)
     LinearLayout ll_repay;
+    @BindView(R.id.rl_alipay)
+    RelativeLayout mRlAlipay;
 
     @BindView(R.id.xrecyclerview_order_status)
     XRecyclerView xrecyclerview_order_status;
@@ -174,8 +180,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.tv_home_confirm_money)
     TextView tv_home_confirm_money;
 
-    @BindView(R.id.tv_goto_repay)
-    TextView tv_goto_repay;
+    @BindView(R.id.tv_repay_by_bank)
+    TextView tv_repay_by_bank;
+
+    @BindView(R.id.tv_repay_by_ali)
+    TextView tv_repay_by_ali;
 
     @BindView(R.id.ll_repay_normal)
     LinearLayout ll_repay_normal;
@@ -300,6 +309,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void initView() {
         initTextSwitcher();
         density = getResources().getDisplayMetrics().density;
+
     }
 
     @Override
@@ -321,7 +331,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         rlHomeTianshenCard.setOnClickListener(this);
         ll_loan_day.setOnClickListener(this);
         tvHomeApply.setOnClickListener(this);
-        tv_goto_repay.setOnClickListener(this);
+        tv_repay_by_bank.setOnClickListener(this);
+        tv_repay_by_ali.setOnClickListener(this);
 //        ivProceduresHome.setOnClickListener(this);
         tv_home_confirm_money.setOnClickListener(this);
         iv_danger_money.setOnClickListener(this);
@@ -359,8 +370,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.tv_home_apply: //点击了立即申请
                 onClickApply();
                 break;
-            case R.id.tv_goto_repay: //点击了立即还款
-                checkRepay();
+            case R.id.tv_repay_by_bank: //点击了银行卡还款
+                repayByBank();
+                break;
+            case R.id.tv_repay_by_ali: //点击了支付宝还款
+                repayByAli();
                 break;
             case R.id.tv_home_confirm_money: //点击了刷新&我知道了按钮
                 onClickIKnow();
@@ -708,10 +722,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 检查用户当前的状态，显示不同的UI
      */
     private void checkUserConfig() {
+
         if (mUserConfig == null || mUserConfig.getData() == null) {
             //TODO 展示解析错误的UI
             ToastUtil.showToast(getActivity(), "数据错误");
             return;
+        }
+
+        //    如果没有唤醒支付宝url,就隐藏支付宝还款入口
+        String url = mUserConfig.getData().getAli_repay_url();
+        if (TextUtils.isEmpty(url)){
+            mRlAlipay.setVisibility(View.GONE);
+        }else {
+            mRlAlipay.setVisibility(View.VISIBLE);
         }
 
         //刷新右上角的消息
@@ -815,7 +838,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 判断是手机贷还款还是其他还款
      */
-    private void checkRepay() {
+    private void repayByBank() {
         if (mUserConfig == null || mUserConfig.getData() == null) {
             return;
         }
@@ -830,6 +853,53 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             gotoActivity(mContext, ConfirmRepayActivity.class, bundle);
             ll_repay.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * 跳转到支付宝还款
+     */
+    private void repayByAli() {
+        if (mUserConfig == null || mUserConfig.getData() == null) {
+            return;
+        }
+//        Bundle bundle = new Bundle();
+        String url = mUserConfig.getData().getAli_repay_url();
+        if (TextUtils.isEmpty(url)){
+            ToastUtil.showToast(getActivity(),"您暂不支持支付宝还款,请联系客服");
+            return;
+        }
+
+        String ali_repay_url = url + "&src=android";
+//        bundle.putString(GlobalParams.WEB_URL_KEY, ali_repay_url);
+//        gotoActivity(mContext, AliRepayWebActivity.class, bundle);
+
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(ali_repay_url);
+        intent.setData(content_url);
+        startActivity(intent);
+
+        ll_repay.setVisibility(View.GONE);
+        showRrefreshAliRepayDialog();
+    }
+
+    /**
+     * 显示刷新支付宝结果的dialog
+     */
+    private void showRrefreshAliRepayDialog() {
+
+        new MaterialDialog.Builder(mContext)
+                .title("温馨提示")
+                .content("请点击确定按钮,查看还款是否成功")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        initUserConfig();
+                    }
+                })
+                .show()
+                .setCancelable(false);
     }
 
     /**

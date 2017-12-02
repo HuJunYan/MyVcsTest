@@ -56,6 +56,7 @@ public class UserConfig {
         private String is_need_contacts;
         private ArrayList<Consume> consume_status_list;
         private String sjd_url;
+        private String ali_repay_url;
         private String flow_supermarket_id;
         private String flow_supermarket_url;
         private String flow_supermarket_num;
@@ -71,6 +72,14 @@ public class UserConfig {
             this.is_show_cash_amount_dialog = is_show_cash_amount_dialog;
         }
 
+
+        public String getAli_repay_url() {
+            return ali_repay_url;
+        }
+
+        public void setAli_repay_url(String ali_repay_url) {
+            this.ali_repay_url = ali_repay_url;
+        }
 
         public String getZzOrderMark() {
             return zzOrderMark;
