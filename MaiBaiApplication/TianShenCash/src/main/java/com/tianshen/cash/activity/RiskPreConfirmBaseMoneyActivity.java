@@ -101,7 +101,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             refreshSeverityTextUI();
         }
     };
-    private int mStartTime = 59;
+    private int mStartTime = 60;
     private int MSG_SEVERITY_TIME = 10001;
 
     @Override
@@ -594,12 +594,11 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         if (isFinishing()) {
             return;
         }
-
-        tv_risk_pre_money_verify_code.setText(String.valueOf(mStartTime));
         mStartTime--;
+        tv_risk_pre_money_verify_code.setText(String.valueOf(mStartTime));
         if (mStartTime == 0) {
             tv_risk_pre_money_verify_code.setText("重获取验证码");
-            mStartTime = 59;
+            mStartTime = 60;
             tv_risk_pre_money_verify_code.setEnabled(true);
             mHandler.removeMessages(MSG_SEVERITY_TIME);
         } else {
