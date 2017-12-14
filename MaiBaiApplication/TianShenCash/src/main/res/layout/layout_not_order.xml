@@ -120,6 +120,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:drawablePadding="@dimen/dp_4"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:id="@+id/tv_loan_day_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="借款期限(天)"
+                    android:textColor="@color/global_txt_black2"
+                    android:textSize="11sp" />
+
+                <TextView
                     android:id="@+id/tv_loan_day_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,16 +143,7 @@
                     android:textColor="@color/global_txt_black4"
                     android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/tv_loan_day_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center"
-                    android:text="借款期限(天)"
-                    android:textColor="@color/global_txt_black2"
-                    android:textSize="11sp" />
+
 
             </LinearLayout>
 
@@ -163,6 +167,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_home_get_money_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="到账金额(元)"
+                    android:textColor="@color/global_txt_black2"
+                    android:textSize="11sp" />
+
+                <TextView
                     android:id="@+id/tv_home_get_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,16 +188,7 @@
                     android:textColor="@color/global_txt_black4"
                     android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/tv_home_get_money_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="2dp"
-                    android:gravity="center"
-                    android:text="到账金额(元)"
-                    android:textColor="@color/global_txt_black2"
-                    android:textSize="11sp" />
+
 
             </LinearLayout>
 
@@ -231,7 +237,7 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/shape_home_gradient_button"
         android:gravity="center"
-        android:text="立即申请"
+        android:text="立即借款"
         android:textColor="@color/global_txt_white"
         android:textSize="18sp" />
 

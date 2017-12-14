@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -85,6 +86,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     TextView tv_risk_pre_agreement; //协议
     @BindView(R.id.tv_risk_pre_confirm)
     TextView tv_risk_pre_confirm;
+    @BindView(R.id.tv_way)
+    TextView mTvWay;
     private List<CharacterStyle> ssList;
     private JSONObject mJSONObject;
     private OrderConfirmBean mOrderConfirmBean;
@@ -102,6 +105,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     };
     private int mStartTime = 60;
     private int MSG_SEVERITY_TIME = 10001;
+    private int mWayPosition;
 
     @Override
     protected int setContentView() {
@@ -253,7 +257,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.tv_risk_pre_confirm_money_back, R.id.tv_risk_pre_confirm, R.id.tv_risk_pre_money_verify_code})
+    @OnClick({R.id.tv_risk_pre_confirm_money_back, R.id.tv_risk_pre_confirm, R.id.tv_risk_pre_money_verify_code,R.id.tv_way,R.id.iv_down})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_risk_pre_confirm_money_back:
@@ -264,6 +268,11 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 break;
             case R.id.tv_risk_pre_money_verify_code: //获取验证码
                 getVerifyCode();
+                break;
+            case R.id.tv_way:
+            case R.id.iv_down:
+                ToastUtil.showToast(this,"显示弹窗way");
+//                showWayDiaolog(list);
                 break;
 
         }
@@ -655,6 +664,28 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             }
         });
 
+
+    }
+
+    public void showWayDiaolog(List<String> list){
+
+        if (list == null) {
+            ToastUtil.showToast(mContext, "请稍后再试");
+            return;
+        }
+
+        final MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
+                .items(list)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mWayPosition = position;
+
+                    }
+                });
+        if (this != null && !isFinishing()) {
+            builder.show();
+        }
 
     }
 

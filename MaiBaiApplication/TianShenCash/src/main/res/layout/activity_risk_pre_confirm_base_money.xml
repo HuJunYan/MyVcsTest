@@ -137,6 +137,48 @@
                 style="@style/split_line_style"
                 android:layout_marginTop="12dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/global_bg_white">
+
+
+                <TextView
+                    android:id="@+id/tv_way_key"
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="借款用途"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_down"
+                    android:src="@drawable/ic_arrow_down"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <TextView
+                    android:textColorHint="#c5c5c5"
+                    android:hint="请选择借款用途"
+                    android:id="@+id/tv_way"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_way_key"
+                    android:layout_toLeftOf="@id/iv_down"
+                    android:textColor="@color/global_txt_black4"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <View style="@style/split_line_style" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -164,6 +206,7 @@
                     android:textSize="14sp" />
 
             </RelativeLayout>
+            <View style="@style/split_line_style" />
 
             <View style="@style/split_line_style" />
 
