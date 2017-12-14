@@ -94,6 +94,9 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private String mPoundageY;
     private String smsId;
     private String userNo;
+    private String mSpendWay;//消费方式
+    private String mSpendWayId;//消费方式Id
+    private List<String> mWayList;//确认借款方式数据
 
 
     private Handler mHandler = new Handler() {
@@ -174,6 +177,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 public void onSuccess(OrderConfirmBean bean) {
                     mOrderConfirmBean = bean;
                     refreshUI();
+                    pariseWayData();
                 }
 
                 @Override
@@ -185,6 +189,18 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * 解析用途方式数据
+     */
+    private void pariseWayData() {
+
+        if (mOrderConfirmBean !=null && mOrderConfirmBean.getData()!=null && mOrderConfirmBean.getData().getSpend_list()!=null) {
+            for (int i = 0; i < mOrderConfirmBean.getData().getSpend_list().size(); i++) {
+               mWayList.add(mOrderConfirmBean.getData().getSpend_list().get(i).getSpend_way());
+            }
+        }
     }
 
     /**
@@ -239,6 +255,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
+        mWayList = new ArrayList<String>();
     }
 
     @Override
@@ -272,7 +289,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             case R.id.tv_way:
             case R.id.iv_down:
                 ToastUtil.showToast(this,"显示弹窗way");
-//                showWayDiaolog(list);
+                showWayDiaolog(mWayList);
                 break;
 
         }
@@ -567,8 +584,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             jsonObject.put("address", address);
             jsonObject.put("verify_code", verify_code); //验证码
             jsonObject.put("smsId", smsId); //验证码
-            jsonObject.put("userNo", userNo); //验证码
-
+            jsonObject.put("userNo", userNo);
+            jsonObject.put("spend_way_id", mSpendWayId);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -680,6 +697,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                         mWayPosition = position;
+                        mSpendWay = mOrderConfirmBean.getData().getSpend_list().get(mWayPosition).getSpend_way();
+                        mSpendWayId = mOrderConfirmBean.getData().getSpend_list().get(mWayPosition).getSpend_way_id();
 
                     }
                 });

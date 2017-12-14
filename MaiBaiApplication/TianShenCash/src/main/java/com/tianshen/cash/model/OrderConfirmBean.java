@@ -1,10 +1,13 @@
 package com.tianshen.cash.model;
 
+import java.util.List;
+
 public class OrderConfirmBean {
 
     private int code;
     private String msg;
     private Data data;
+
 
     public int getCode() {
         return code;
@@ -29,6 +32,7 @@ public class OrderConfirmBean {
     public void setData(Data data) {
         this.data = data;
     }
+
 
     public class Data {
 
@@ -56,6 +60,7 @@ public class OrderConfirmBean {
         private String total;
         private String protocol_num;
         private String overdue;
+        private List<SpendListBean> spend_list;
 
         public String getBank_credit_investigation_url() {
             return bank_credit_investigation_url;
@@ -250,7 +255,45 @@ public class OrderConfirmBean {
         public void setInterest(String interest) {
             this.interest = interest;
         }
+
+        public List<SpendListBean> getSpend_list() {
+            return spend_list;
+        }
+
+        public void setSpend_list(List<SpendListBean> spend_list) {
+            this.spend_list = spend_list;
+        }
+
+        public  class SpendListBean {
+            /**
+             * spend_way : 旅游
+             * spend_way_id : 1
+             */
+
+            private String spend_way;
+            private String spend_way_id;
+
+            public String getSpend_way() {
+                return spend_way;
+            }
+
+            public void setSpend_way(String spend_way) {
+                this.spend_way = spend_way;
+            }
+
+            public String getSpend_way_id() {
+                return spend_way_id;
+            }
+
+            public void setSpend_way_id(String spend_way_id) {
+                this.spend_way_id = spend_way_id;
+            }
+        }
+
+
     }
+
+
 
 
 }
