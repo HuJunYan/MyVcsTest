@@ -218,7 +218,9 @@ public class ConfirmRepayActivity extends BaseActivity implements View.OnClickLi
         } else {
             mIsPaywaySelf = false;
         }
-
+        if (TextUtils.isEmpty(overdueAmount)){
+            overdueAmount = "0";
+        }
         tvConfirmRepay.setText(MoneyUtils.getPointTwoMoney(consumeAmount, overdueAmount) + "元");
         tvConfirmRepayBank.setText(bank_name);
         tvConfirmRepayNumBank.setText(bank_card_num);
