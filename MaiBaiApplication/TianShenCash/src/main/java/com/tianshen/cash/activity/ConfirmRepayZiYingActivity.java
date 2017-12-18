@@ -180,7 +180,11 @@ public class ConfirmRepayZiYingActivity extends BaseActivity {
 
                 for (int i = 0; i < bank_list.size(); i++) {
                     RepayInfoBean.BankList bankList = bank_list.get(i);
-                    RepayBankItemView repayBankItemView = new RepayBankItemView(mContext).setData(bankList.bank_name, bankIconInfo.get(bankList.bank_gate_id), currentPosition, i);
+                    int bank_res_id = -1;
+                    if (bankIconInfo.containsKey(bankList.bank_gate_id)) {
+                        bank_res_id = bankIconInfo.get(bankList.bank_gate_id);
+                    }
+                    RepayBankItemView repayBankItemView = new RepayBankItemView(mContext).setData(bankList.bank_name, bank_res_id, currentPosition, i);
                     mItemViewList.add(repayBankItemView);
                     ll_bank_item_container.addView(repayBankItemView);
                 }

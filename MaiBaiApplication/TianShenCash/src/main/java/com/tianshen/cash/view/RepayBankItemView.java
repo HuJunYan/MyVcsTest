@@ -1,7 +1,6 @@
 package com.tianshen.cash.view;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -54,9 +53,11 @@ public class RepayBankItemView extends LinearLayout implements View.OnClickListe
         setOnClickListener(this);
     }
 
-    public RepayBankItemView setData(String bankInfo, @DrawableRes int leftResId, int currentPosition, int itemPosition) {
+    public RepayBankItemView setData(String bankInfo, int leftResId, int currentPosition, int itemPosition) {
         mTvBankInfo.setText(bankInfo);
-        mIvBankIcon.setImageResource(leftResId);
+        if (leftResId != -1){
+            mIvBankIcon.setImageResource(leftResId);
+        }
         this.itemPosition = itemPosition;
         if (itemPosition == currentPosition) {
             mIvCheck.setBackgroundResource(R.drawable.repay_circle_selected);
