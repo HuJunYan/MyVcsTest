@@ -96,7 +96,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
     private String smsId;
     private String userNo;
     private String mSpendWay;//消费方式
-    private String mSpendWayId;//消费方式Id
+    private String mSpendWayId = "";//消费方式Id
     private List<String> mWayList;//确认借款方式数据
 
 
@@ -394,11 +394,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             return;
         }
 
-        String way = mTvWay.getText().toString().trim();
-        if (TextUtils.isEmpty(way)) {
-            ToastUtil.showToast(mContext, "请选择借款用途");
-            return;
-        }
+
 
         String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
         if (TextUtils.isEmpty(verify_code)) {
@@ -566,11 +562,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
             return;
         }
 
-        String way = mTvWay.getText().toString().trim();
-        if (TextUtils.isEmpty(way)) {
-            ToastUtil.showToast(mContext, "请选择借款用途");
-            return;
-        }
+
 
         String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
         if (TextUtils.isEmpty(verify_code)) {
