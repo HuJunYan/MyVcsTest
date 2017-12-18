@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -37,7 +38,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tianshen.cash.R;
 import com.tianshen.cash.activity.AuthCenterMenuActivity;
-import com.tianshen.cash.activity.BindBankCardConfirmActivity;
 import com.tianshen.cash.activity.ConfirmDiffRateMoneyActivity;
 import com.tianshen.cash.activity.ConfirmMoneyActivity;
 import com.tianshen.cash.activity.ConfirmRepayActivity;
@@ -75,9 +75,7 @@ import com.tianshen.cash.model.StatisticsRollBean;
 import com.tianshen.cash.model.StatisticsRollDataBean;
 import com.tianshen.cash.model.UserConfig;
 import com.tianshen.cash.model.WithdrawalsItemBean;
-import com.tianshen.cash.model.XiangShangDataBean;
 import com.tianshen.cash.net.api.AddSuperMarketCount;
-import com.tianshen.cash.net.api.CheckIsXiangShang;
 import com.tianshen.cash.net.api.GetActivity;
 import com.tianshen.cash.net.api.GetUserConfig;
 import com.tianshen.cash.net.api.GetVerifySmsForConfirmLoan;
@@ -1396,7 +1394,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 
         new MaterialDialog.Builder(mContext)
-                .title("选择期限")
+                .itemsGravity(GravityEnum.CENTER)
+                .title("选择期限(天)")
+                .titleGravity(GravityEnum.CENTER)
                 .items(mLoanDays)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override

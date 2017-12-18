@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
@@ -201,6 +202,8 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                mWayList.add(mOrderConfirmBean.getData().getSpend_list().get(i).getSpend_way());
             }
         }
+
+
     }
 
     /**
@@ -288,8 +291,12 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 break;
             case R.id.tv_way:
             case R.id.iv_down:
-                ToastUtil.showToast(this,"显示弹窗way");
-                showWayDiaolog(mWayList);
+                if (mWayList.size()>0) {
+                    showWayDiaolog(mWayList);
+                }else {
+                    ToastUtil.showToast(this,"信息有误");
+                    return;
+                }
                 break;
 
         }
@@ -386,6 +393,13 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         if (TextUtils.isEmpty(money)) {
             return;
         }
+
+        String way = mTvWay.getText().toString().trim();
+        if (TextUtils.isEmpty(way)) {
+            ToastUtil.showToast(mContext, "请选择借款用途");
+            return;
+        }
+
         String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
         if (TextUtils.isEmpty(verify_code)) {
             ToastUtil.showToast(mContext, "请输入验证码");
@@ -551,6 +565,13 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         if (mOrderConfirmBean == null) {
             return;
         }
+
+        String way = mTvWay.getText().toString().trim();
+        if (TextUtils.isEmpty(way)) {
+            ToastUtil.showToast(mContext, "请选择借款用途");
+            return;
+        }
+
         String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
         if (TextUtils.isEmpty(verify_code)) {
             ToastUtil.showToast(mContext, "请输入验证码");
@@ -692,6 +713,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
         }
 
         final MaterialDialog.Builder builder = new MaterialDialog.Builder(mContext)
+                .itemsGravity(GravityEnum.CENTER)
                 .items(list)
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
@@ -699,7 +721,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                         mWayPosition = position;
                         mSpendWay = mOrderConfirmBean.getData().getSpend_list().get(mWayPosition).getSpend_way();
                         mSpendWayId = mOrderConfirmBean.getData().getSpend_list().get(mWayPosition).getSpend_way_id();
-
+                        mTvWay.setText(mSpendWay);
                     }
                 });
         if (this != null && !isFinishing()) {
