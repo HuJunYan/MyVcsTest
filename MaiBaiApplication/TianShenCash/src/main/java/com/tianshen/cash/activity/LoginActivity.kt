@@ -21,6 +21,8 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import cn.jpush.android.api.JPushInterface
+import com.creditx.xbehavior.sdk.CreditXAgent
+import com.creditx.xbehavior.sdk.LoginMethod
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.tianshen.cash.R
 import com.tianshen.cash.base.BaseActivity
@@ -59,11 +61,11 @@ class LoginActivity : BaseActivity() {
     var mUniqueId: String? = null
     var mobile: String? = null
     var password: String? = null
-    var loginPhoneCode: String?=null
+    var loginPhoneCode: String? = null
     var mHandler: Handler? = null
     var mRegIdQueryTimes = 0
     var mSignIn: SignIn? = null
-    var mFlag:String ="0" //0为密码登录  1为验证码登录
+    var mFlag: String = "0" //0为密码登录  1为验证码登录
     override fun findViews() {
         initSpanString();
         initRegistSpanString()
@@ -139,14 +141,16 @@ class LoginActivity : BaseActivity() {
         tv_login.setOnClickListener { loginHandle() }
         tv_forget_pwd.setOnClickListener { forgetPwd() }
 
-        et_login_pwd2.setListener{getVerityCode()}
-        tv_login2.setOnClickListener{codeLoginHandle()}
-        pwd_login.setOnClickListener{
-            mFlag="0"
-            showView(mFlag)}
-        code_login.setOnClickListener{
-            mFlag="1"
-            showView(mFlag)}
+        et_login_pwd2.setListener { getVerityCode() }
+        tv_login2.setOnClickListener { codeLoginHandle() }
+        pwd_login.setOnClickListener {
+            mFlag = "0"
+            showView(mFlag)
+        }
+        code_login.setOnClickListener {
+            mFlag = "1"
+            showView(mFlag)
+        }
         tv_regist.setOnClickListener { gotoActivity(mContext, RegisteActivity::class.java, null) }
         initData()
         initHandler()
@@ -155,27 +159,27 @@ class LoginActivity : BaseActivity() {
     /**
      * 展示界面
      */
-    private fun showView(type:String) {
+    private fun showView(type: String) {
 
-        if ("0"==type){
+        if ("0" == type) {
 
             initSpanString()
             pwd_login.setBackgroundResource(R.drawable.change_login_pwdway_shape)
             pwd_login.setTextColor(resources.getColor(R.color.white))
-            code_login!!.background=null
+            code_login!!.background = null
             code_login.setTextColor(resources.getColor(R.color.global_popular_color))
 
-            pwd_layout!!.visibility=View.VISIBLE
-            code_layout!!.visibility=View.GONE
-        }else if ("1"==type) {
+            pwd_layout!!.visibility = View.VISIBLE
+            code_layout!!.visibility = View.GONE
+        } else if ("1" == type) {
 
-            pwd_layout!!.visibility=View.GONE
-            code_layout!!.visibility=View.VISIBLE
+            pwd_layout!!.visibility = View.GONE
+            code_layout!!.visibility = View.VISIBLE
 
-             code_login.setBackgroundResource(R.drawable.change_login_codeway_shape)
+            code_login.setBackgroundResource(R.drawable.change_login_codeway_shape)
             code_login.setTextColor(resources.getColor(R.color.white))
-            pwd_login!!.background=null
-             pwd_login.setTextColor(resources.getColor(R.color.global_popular_color))
+            pwd_login!!.background = null
+            pwd_login.setTextColor(resources.getColor(R.color.global_popular_color))
         }
     }
 
@@ -244,8 +248,8 @@ class LoginActivity : BaseActivity() {
                             if (mRegIdQueryTimes == 1) {
                                 ToastUtil.showToast(mContext, resources.getString(R.string.initialization_please_wait))
                             }
-                        }else{
-                            login(mobile, password,pwdLoginType,"")
+                        } else {
+                            login(mobile, password, pwdLoginType, "")
                             mRegIdQueryTimes = 0
                         }
                     }
@@ -269,8 +273,8 @@ class LoginActivity : BaseActivity() {
                             }
 
 
-                        }else{
-                            login(mobile, "",codeLoginType,loginPhoneCode)
+                        } else {
+                            login(mobile, "", codeLoginType, loginPhoneCode)
                             mRegIdQueryTimes = 0
                         }
 
@@ -299,7 +303,7 @@ class LoginActivity : BaseActivity() {
         mSignIn = SignIn(mContext)
     }
 
-    fun login(mobile: String?, password: String?, logingType:String,phoneCode:String?) {
+    fun login(mobile: String?, password: String?, logingType: String, phoneCode: String?) {
         if (hasTelephonePermission == false) {
             ToastUtil.showToast(mContext, resources.getString(R.string.please_open_permission))
             return
@@ -333,7 +337,11 @@ class LoginActivity : BaseActivity() {
                     TianShenUserUtil.saveUserId(mContext, paramT.data.customer_id)
                     TianShenUserUtil.saveUserPhoneNum(mContext, mobile)
                     TianShenUserUtil.saveUserJPushId(mContext, finalJpushId)
-
+                    if (TextUtils.isEmpty(password)) {
+                        CreditXAgent.onUserLoginSuccess(LoginMethod.VERIFICATION_CODE, TianShenUserUtil.getUserId(mContext))
+                    } else {
+                        CreditXAgent.onUserLoginSuccess(LoginMethod.PASSWORD, TianShenUserUtil.getUserId(mContext))
+                    }
 
                     val tags = HashSet<String>()
                     val bdLocation = LocationUtil.getInstance().location
