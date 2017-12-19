@@ -177,13 +177,15 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style" />
 
+
+            <View style="@style/split_line_style" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
 
                 <TextView
@@ -194,7 +196,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="开户银行"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_risk_pre_money_bank"
@@ -203,10 +206,10 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/tv_risk_pre_money_bank_key"
                     android:textColor="@color/global_txt_black4"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    />
 
             </RelativeLayout>
-            <View style="@style/split_line_style" />
 
             <View style="@style/split_line_style" />
 
@@ -320,6 +323,7 @@
             </RelativeLayout>
 
             <TextView
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -336,7 +340,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/shape_home_button_border"
                 android:gravity="center"
                 android:text="确认"

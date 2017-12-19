@@ -38,25 +38,29 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_auth_center_menu_prompt" />
+                    android:src="@drawable/ic_auth_center_menu_prompt"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,59 +69,67 @@
                     android:layout_marginLeft="6dp"
                     android:text="@string/auth_center_menu_info"
                     android:textColor="@color/global_txt_black5"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    />
 
             </LinearLayout>
 
-            <include layout="@layout/layout_global_line" />
+            <include layout="@layout/layout_global_line"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="69dp"
                 android:background="@color/white"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <RelativeLayout
                     android:id="@+id/rl_identity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/tv_identity"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="20dp"
                             android:gravity="center"
                             android:text="@string/auth_center_menu_identity"
                             android:textColor="@color/auth_center_menu_step"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="6dp">
+                            android:layout_marginTop="6dp"
+                            >
 
                             <ImageView
                                 android:id="@+id/iv_auth_center_step1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:visibility="invisible"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/ic_auth_center_menu_selected_1" />
+                                android:src="@drawable/ic_auth_center_menu_selected_1"
+                                android:visibility="invisible"
+                                />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@id/iv_auth_center_step1"
-                                android:background="@color/auth_center_menu_step" />
+                                android:background="@color/auth_center_menu_step"
+                                />
 
                         </RelativeLayout>
 
@@ -129,50 +141,57 @@
                     android:id="@+id/rl_person_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/tv_person_info"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="20dp"
                             android:gravity="bottom|center_horizontal"
                             android:text="@string/auth_center_menu_person_info"
                             android:textColor="@color/auth_center_menu_step"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="6dp">
+                            android:layout_marginTop="6dp"
+                            >
 
                             <ImageView
                                 android:id="@+id/iv_auth_center_step2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:src="@drawable/ic_auth_center_menu_selected_2"
                                 android:visibility="invisible"
-                                android:src="@drawable/ic_auth_center_menu_selected_2" />
+                                />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@id/iv_auth_center_step2"
-                                android:background="@color/auth_center_menu_step" />
+                                android:background="@color/auth_center_menu_step"
+                                />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@id/iv_auth_center_step2"
-                                android:background="@color/auth_center_menu_step" />
+                                android:background="@color/auth_center_menu_step"
+                                />
                         </RelativeLayout>
 
 
@@ -184,43 +203,49 @@
                     android:id="@+id/rl_credit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <TextView
                             android:id="@+id/tv_credit"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="20dp"
                             android:gravity="bottom|center_horizontal"
                             android:text="@string/auth_center_menu_credit"
                             android:textColor="@color/auth_center_menu_step"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="6dp">
+                            android:layout_marginTop="6dp"
+                            >
 
                             <ImageView
                                 android:id="@+id/iv_auth_center_step3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:src="@drawable/ic_auth_center_menu_selected_3"
                                 android:visibility="invisible"
-                                android:src="@drawable/ic_auth_center_menu_selected_3" />
+                                />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@id/iv_auth_center_step3"
-                                android:background="@color/auth_center_menu_step" />
+                                android:background="@color/auth_center_menu_step"
+                                />
 
                         </RelativeLayout>
 
@@ -230,12 +255,13 @@
 
             </LinearLayout>
 
-            <include layout="@layout/layout_global_line" />
+            <include layout="@layout/layout_global_line"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_auth_center_menu"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="300dp"
+                />
 
             <TextView
                 android:id="@+id/tv_goto_auth"
@@ -248,7 +274,8 @@
                 android:gravity="center"
                 android:text="进入认证"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                />
 
         </LinearLayout>
 

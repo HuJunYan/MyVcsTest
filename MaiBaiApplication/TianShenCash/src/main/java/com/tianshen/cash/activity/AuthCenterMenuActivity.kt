@@ -16,7 +16,6 @@ import com.tianshen.cash.model.AuthCenterMenuBean
 import com.tianshen.cash.net.api.AuthCenterMenuService
 import com.tianshen.cash.net.base.BaseNetCallBack
 import com.tianshen.cash.utils.CashAmountDialogUtils
-import com.tianshen.cash.utils.LogUtil
 import com.tianshen.cash.utils.TianShenUserUtil
 import com.tianshen.cash.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_auth_center_menu.*
@@ -49,6 +48,7 @@ class AuthCenterMenuActivity : BaseActivity() {
             override fun onPageSelected(position: Int) {
                 mCurrentIndex = position
                 refreshUI()
+                setTextSize(position)
             }
         })
     }
@@ -178,6 +178,7 @@ class AuthCenterMenuActivity : BaseActivity() {
 
         val auth_id_num = mAuthCenterMenuBean?.data?.auth_id_num
         val auth_person_info = mAuthCenterMenuBean?.data?.auth_person_info
+
 
         when (mCurrentIndex) {
             0 -> {
@@ -316,4 +317,30 @@ class AuthCenterMenuActivity : BaseActivity() {
         finish()
     }
 
+
+    fun setTextSize(num:Int){
+
+       when(num){
+           0->{
+               tv_identity.textSize=16f
+               tv_person_info.textSize=14f
+               tv_credit.textSize=14f
+           }
+
+           1->{
+               tv_identity.textSize=14f
+               tv_person_info.textSize=16f
+               tv_credit.textSize=14f
+
+           }
+
+           2->{
+               tv_identity.textSize=14f
+               tv_person_info.textSize=14f
+               tv_credit.textSize=16f
+
+           }
+
+       }
+    }
 }

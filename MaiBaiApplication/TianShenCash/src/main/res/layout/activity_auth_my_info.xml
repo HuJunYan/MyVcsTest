@@ -36,19 +36,22 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -57,7 +60,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="婚姻状态"/>
+                    android:text="婚姻状态"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_marry"
@@ -67,7 +71,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_auth_info_marry_key"
                     android:hint="请选择您的婚姻状态"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -75,7 +80,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -83,7 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -92,7 +99,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="最高学历"/>
+                    android:text="最高学历"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_educational"
@@ -102,7 +110,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_auth_info_educational_key"
                     android:hint="请选择您的最高学历"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -110,7 +119,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -120,37 +130,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/red_point"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/red_dot"/>
+                    android:background="@drawable/red_dot"
+                    android:visibility="gone"
+                    />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_auth_remind1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/red_point"
                     android:text="完成以下信息，即可获取额度去借款"
-                    android:textSize="@dimen/sp_12"/>
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone"
+                    />
 
                 <ImageView
-                    android:src="@drawable/ic_auth_center_menu_prompt"
                     android:id="@+id/red_point2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_auth_center_menu_prompt"
                     />
 
                 <TextView
@@ -158,11 +171,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/red_point2"
                     android:text="请填写真实有效的信息"
-                    android:textSize="@dimen/sp_12"/>
-
+                    android:textSize="@dimen/sp_12"
+                    />
 
 
             </RelativeLayout>
@@ -171,7 +184,8 @@
                 android:id="@+id/rl_auth_one"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -182,9 +196,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="14dp"
-                    android:text="个人信息"/>
-
-
+                    android:text="个人信息"
+                    />
 
 
                 <ImageView
@@ -194,7 +207,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -204,7 +218,8 @@
                 android:id="@+id/rl_auth_two"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
 
                 <TextView
@@ -212,7 +227,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="收款银行卡"/>
+                    android:text="收款银行卡"
+                    />
 
 
                 <ImageView
@@ -222,33 +238,38 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
 
                 <EditText
-                    android:visibility="gone"
                     android:id="@+id/et_auth_info_address_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_auth_info_money"
+                    android:layout_alignBottom="@+id/tv_auth_info_money"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginLeft="20dp"
                     android:background="@null"
                     android:maxLength="120"
                     android:textColorHint="@color/auth_bank_texthint_color"
                     android:textSize="14dp"
-                    android:layout_alignBaseline="@+id/tv_auth_info_money"
-                    android:layout_alignBottom="@+id/tv_auth_info_money"
-                    android:layout_alignParentEnd="true"/>
+                    android:visibility="gone"
+                    />
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style"/>
+            <View
+                android:id="@+id/view"
+                style="@style/split_line_style"/>
 
             <RelativeLayout
                 android:id="@+id/rl_auth_extral"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -258,16 +279,18 @@
                     android:layout_height="8dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/green_dot"/>
+                    android:background="@drawable/green_dot"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/green_point"
                     android:text="完善以下信息，有机会提升额度"
-                    android:textSize="@dimen/sp_12"/>
+                    android:textSize="@dimen/sp_12"
+                    />
 
 
             </RelativeLayout>
@@ -278,7 +301,8 @@
                 android:id="@+id/rl_auth_three"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
 
                 <ImageView
@@ -287,7 +311,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_auth_center_tao_bao_item"/>
+                    android:src="@drawable/ic_auth_center_tao_bao_item"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_work_num"
@@ -295,7 +320,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@id/iv_auth_tb"
-                    android:text="淘宝"/>
+                    android:text="淘宝"
+                    />
 
 
                 <ImageView
@@ -305,7 +331,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 

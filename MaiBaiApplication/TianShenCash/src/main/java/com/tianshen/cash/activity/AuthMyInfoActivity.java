@@ -86,6 +86,8 @@ public class AuthMyInfoActivity extends BaseActivity {
     RelativeLayout mRlAuthThree;
     @BindView(R.id.tv_auth_info_one)
     TextView mTvAuthInfoOne;
+    @BindView(R.id.view)
+    View mView;
     public static final String PERSONFLAG = "1";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String CREDITFLAG = "2";  //当前页面的标识： 1个人信息认证  2信用认证
     public static final String ACTIVITY_FLAG = "TYEP";
@@ -140,6 +142,7 @@ public class AuthMyInfoActivity extends BaseActivity {
             mTitle.setText("个人信息认证");
             mRlAuthExtral.setVisibility(View.GONE);
             mRlAuthThree.setVisibility(View.GONE);
+            mView.setVisibility(View.GONE);
             mTvAuthInfoOne.setText("个人信息");
             mTvAuthInfomoney.setText("收款银行卡");
             if (mUserAuthCenterBean == null) {
@@ -160,6 +163,7 @@ public class AuthMyInfoActivity extends BaseActivity {
             mTitle.setText("信用认证");
             mRlAuthExtral.setVisibility(View.VISIBLE);
             mRlAuthThree.setVisibility(View.VISIBLE);
+            mView.setVisibility(View.VISIBLE);
             mTvAuthInfoOne.setText("手机运营商");
             mTvAuthInfomoney.setText("芝麻信用");
             mMobileStatus = mUserAuthCenterBean.getData().getChina_mobile();

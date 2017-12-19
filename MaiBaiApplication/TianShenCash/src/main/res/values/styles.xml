@@ -138,7 +138,7 @@
     <!-- 认证中心title栏提交 -->
     <style name="auth_center_title_post_txt_style">
         <item name="android:maxLines">1</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:text">提交</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/global_txt_white</item>

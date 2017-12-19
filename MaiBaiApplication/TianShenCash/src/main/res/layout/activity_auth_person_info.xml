@@ -30,12 +30,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
 
             <View style="@style/split_line_style"/>
@@ -44,21 +46,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
                 <TextView
 
-                    android:drawablePadding="5dp"
-                    android:drawableLeft="@drawable/ic_auth_center_menu_prompt"
                     android:id="@+id/tv_auth_info_qq"
                     style="@style/auth_center_txt_style"
                     android:layout_width="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
+                    android:drawableLeft="@drawable/ic_auth_center_menu_prompt"
+                    android:drawablePadding="5dp"
                     android:text="为保证通过认证，请填写真实信息"
-                    android:textSize="@dimen/sp_12"/>
+                    android:textSize="@dimen/sp_12"
+                    />
 
 
             </RelativeLayout>
@@ -66,7 +70,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -75,7 +80,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="常住地址"/>
+                    android:text="常住地址"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_home_address"
@@ -87,7 +93,8 @@
                     android:hint="省--市--区"
                     android:textColor="@color/global_txt_black4"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
 
                 <ImageView
@@ -97,7 +104,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -106,14 +114,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
 
                 <TextView
                     android:id="@+id/tv_auth_info_address_empty"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_info_address_details"
@@ -126,7 +136,8 @@
                     android:hint="请输入街道路及门牌号"
                     android:maxLength="120"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -136,7 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -145,7 +157,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="单位名称"/>
+                    android:text="单位名称"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_info_work_name"
@@ -158,7 +171,8 @@
                     android:hint="请输入您的单位名称"
                     android:maxLength="100"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -168,14 +182,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/tv_auth_info_position"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="职&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位"/>
+                    android:text="职&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;位"
+                    />
 
                 <EditText
                     android:id="@+id/ev_auth_info_position"
@@ -187,7 +203,8 @@
                     android:background="@null"
                     android:hint="请输入您的职位信息"
                     android:maxLength="100"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -196,7 +213,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -205,7 +223,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="职业身份"/>
+                    android:text="职业身份"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_occupation"
@@ -215,7 +234,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_auth_info_occupation_key"
                     android:hint="请选择您的职业身份"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -223,7 +243,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -231,7 +252,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/global_bg_white"
-                android:visibility="gone">
+                android:visibility="gone"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -240,7 +262,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="月均收入"/>
+                    android:text="月均收入"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_income"
@@ -250,7 +273,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/tv_auth_info_income_key"
                     android:hint="请选择您的月均收入"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -258,7 +282,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -266,14 +291,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <TextView
                     android:id="@+id/tv_auth_info_work_num_no"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="单位电话"/>
+                    android:text="单位电话"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_info_work_num"
@@ -287,7 +314,8 @@
                     android:inputType="phone"
                     android:maxLength="12"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -295,7 +323,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -304,7 +333,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="单位地址"/>
+                    android:text="单位地址"
+                    />
 
                 <TextView
                     android:id="@+id/tv_auth_info_work_address"
@@ -316,7 +346,8 @@
                     android:hint="省--市--区"
                     android:textColor="@color/global_txt_black4"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
 
                 <ImageView
@@ -325,7 +356,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_arraw_right2"/>
+                    android:src="@drawable/ic_arraw_right2"
+                    />
 
             </RelativeLayout>
 
@@ -333,7 +365,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -341,7 +374,8 @@
                     android:id="@+id/tv_auth_info_work_address_empty"
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginLeft="15dp"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_info_work_address_details"
@@ -354,7 +388,8 @@
                     android:hint="请输入街道路及门牌号"
                     android:maxLength="120"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -365,7 +400,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -374,14 +410,16 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="紧急联系人1"/>
+                    android:text="紧急联系人1"
+                    />
 
                 <RelativeLayout
                     android:id="@+id/rl_auth_nexus1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/tv_auth_nexus1_key_no">
+                    android:layout_toRightOf="@+id/tv_auth_nexus1_key_no"
+                    >
 
                     <TextView
                         android:id="@+id/tv_auth_nexus1"
@@ -390,10 +428,10 @@
                         android:layout_centerVertical="true"
                         android:text="父母"
                         android:textColor="@color/global_txt_black4"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        />
 
                     <ImageView
-                        android:scaleType="center"
                         android:id="@+id/iv_auth_contact_down"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -401,7 +439,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@+id/tv_auth_nexus1"
-                        android:src="@drawable/ic_arrow_down"/>
+                        android:scaleType="center"
+                        android:src="@drawable/ic_arrow_down"
+                        />
 
                     <ImageView
                         android:id="@+id/iv_auth_contacts1"
@@ -410,7 +450,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_contacts"/>
+                        android:src="@drawable/ic_contacts"
+                        />
 
                     <EditText
                         android:id="@+id/et_auth_nexus_name1"
@@ -424,7 +465,8 @@
                         android:hint="请输入姓名"
                         android:maxLength="50"
                         android:textColorHint="@color/auth_bank_texthint_color"
-                        android:textSize="14dp"/>
+                        android:textSize="14dp"
+                        />
 
                 </RelativeLayout>
 
@@ -434,7 +476,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -443,7 +486,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="手机号"/>
+                    android:text="手机号"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_nexus_phone"
@@ -457,7 +501,8 @@
                     android:inputType="phone"
                     android:maxLength="18"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
@@ -467,7 +512,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -476,14 +522,16 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="紧急联系人2"/>
+                    android:text="紧急联系人2"
+                    />
 
                 <RelativeLayout
                     android:id="@+id/rl_auth_nexus2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/tv_auth_nexus2_key_no">
+                    android:layout_toRightOf="@+id/tv_auth_nexus2_key_no"
+                    >
 
                     <TextView
                         android:id="@+id/tv_auth_nexus2"
@@ -492,10 +540,10 @@
                         android:layout_centerVertical="true"
                         android:text="朋友"
                         android:textColor="@color/global_txt_black4"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        />
 
                     <ImageView
-                        android:scaleType="center"
                         android:id="@+id/iv_auth_contact_down2"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -503,7 +551,9 @@
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="14dp"
                         android:layout_toEndOf="@+id/tv_auth_nexus2"
-                        android:src="@drawable/ic_arrow_down"/>
+                        android:scaleType="center"
+                        android:src="@drawable/ic_arrow_down"
+                        />
 
                     <ImageView
                         android:id="@+id/iv_auth_contacts2"
@@ -512,7 +562,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:src="@drawable/ic_contacts"/>
+                        android:src="@drawable/ic_contacts"
+                        />
 
                     <EditText
                         android:id="@+id/et_auth_nexus_name2"
@@ -526,7 +577,8 @@
                         android:hint="请输入姓名"
                         android:maxLength="50"
                         android:textColorHint="@color/auth_bank_texthint_color"
-                        android:textSize="14dp"/>
+                        android:textSize="14dp"
+                        />
 
 
                 </RelativeLayout>
@@ -537,7 +589,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/global_bg_white">
+                android:background="@color/global_bg_white"
+                >
 
                 <View style="@style/split_line_style"/>
 
@@ -546,7 +599,8 @@
                     style="@style/auth_center_txt_style"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:text="手机号"/>
+                    android:text="手机号"
+                    />
 
                 <EditText
                     android:id="@+id/et_auth_nexus_phone2"
@@ -560,23 +614,25 @@
                     android:inputType="phone"
                     android:maxLength="18"
                     android:textColorHint="@color/auth_bank_texthint_color"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp"
+                    />
 
             </RelativeLayout>
 
             <View style="@style/split_line_style"/>
 
             <TextView
-                android:padding="10dp"
                 android:id="@+id/tv_auth_info_post"
                 style="@style/auth_center_title_post_txt_style"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:layout_marginBottom="30dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:padding="10dp"
+                />
 
         </LinearLayout>
     </ScrollView>
