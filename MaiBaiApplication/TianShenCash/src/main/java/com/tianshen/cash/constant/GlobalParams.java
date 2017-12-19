@@ -114,4 +114,6 @@ public class GlobalParams {
     //消息推送 用户点击用到的key
     public static final String NOTIFICATION_MESSAGE_KEY = "notification_message_key";
     public static final String NOTIFICATION_IS_ONRESUME_CLICK = "notification_is_onresume_click";
+    //氪信的key
+    public static final String KEXIN_KEY = "a6e8009528d52c93c3634294";
 }

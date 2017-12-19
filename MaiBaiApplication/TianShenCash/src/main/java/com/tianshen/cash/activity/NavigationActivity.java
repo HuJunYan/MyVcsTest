@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.creditx.xbehavior.sdk.CreditXAgent;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianshen.cash.R;
 import com.tianshen.cash.base.BaseActivity;
@@ -46,7 +47,7 @@ public class NavigationActivity extends BaseActivity implements UpdateManager.Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        CreditXAgent.init(getApplication(),GlobalParams.KEXIN_KEY,"server");
         init();
 
         uploadLog(mContext);
