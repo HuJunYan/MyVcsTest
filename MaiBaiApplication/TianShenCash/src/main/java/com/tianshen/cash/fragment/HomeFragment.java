@@ -238,7 +238,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     TextView tv_home_get_money;
 
     private OrderStatusAdapter mOrderStatusAdapter;
-
+    private static final int DEFAULT_LOAN_DAY_INDEX = -1;//登录成功后 将借款天数的index置成此值 用于等待接口
     private static final String STATUS_NEW = "0"; //新用户，没有下过单
 
     private SelWithdrawalsBean mSelWithdrawalsBean; //数据root bean
@@ -419,7 +419,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 点击了立即申请按钮
      */
     private void onClickApply() {
-        if (mUserConfig == null || mUserConfig.getData() == null) {
+        if (mUserConfig == null || mUserConfig.getData() == null || mCurrentLoanDaysIndex == DEFAULT_LOAN_DAY_INDEX) {
             ToastUtil.showToast(getActivity(), "数据错误");
             return;
         }
@@ -854,8 +854,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
 //        Bundle bundle = new Bundle();
         String url = mUserConfig.getData().getAli_repay_url();
-        if (TextUtils.isEmpty(url)){
-            ToastUtil.showToast(getActivity(),"您暂不支持支付宝还款,请联系客服");
+        if (TextUtils.isEmpty(url)) {
+            ToastUtil.showToast(getActivity(), "您暂不支持支付宝还款,请联系客服");
             return;
         }
 
@@ -987,9 +987,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         //    如果没有唤醒支付宝url,就隐藏支付宝还款入口
         String url = mUserConfig.getData().getAli_repay_url();
-        if (TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             mRlAlipay.setVisibility(View.GONE);
-        }else {
+        } else {
             mRlAlipay.setVisibility(View.VISIBLE);
         }
 
@@ -1068,6 +1068,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      * 解析出借款期限
      */
     private void parserLoanDayData() {
+        mCurrentLoanDaysIndex = 0;
         mLoanDays = new ArrayList<>();
         List<WithdrawalsItemBean> withdrawalsItemBeen = mSelWithdrawalsBean.getData();
         for (int i = 0; i < withdrawalsItemBeen.size(); i++) {
@@ -2036,6 +2037,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
      */
     @Subscribe
     public void onRegisterAndLoginSuccess(LoginSuccessEvent event) {
+        if (mLoanDays != null) {
+            mLoanDays.clear();//清空借款天数数据  防止出现问题
+            mLoanDays = null;
+        }
+        if (tvLoanDayValue != null) {
+            tvLoanDayValue.setText("");
+        }
+        mCurrentLoanDaysIndex = DEFAULT_LOAN_DAY_INDEX;
         LogUtil.d("abc", "收到了登录成功消息--刷新UI");
         CrashReport.setUserId(TianShenUserUtil.getUserId(mContext));
         initUserConfig();
