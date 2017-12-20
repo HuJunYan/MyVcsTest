@@ -284,7 +284,7 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 backActivity();
                 break;
             case R.id.tv_risk_pre_confirm:
-                showMoneyPopu(mPoundageY);
+                checkUIContent();
                 break;
             case R.id.tv_risk_pre_money_verify_code: //获取验证码
                 getVerifyCode();
@@ -294,12 +294,25 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
                 if (mWayList.size()>0) {
                     showWayDiaolog(mWayList);
                 }else {
-                    ToastUtil.showToast(this,"信息有误");
+                    ToastUtil.showToast(this,"数据错误");
                     return;
                 }
                 break;
 
         }
+    }
+
+    private void checkUIContent() {
+        String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
+        if (TextUtils.isEmpty(verify_code)) {
+            ToastUtil.showToast(mContext, "请输入验证码");
+            return;
+        }
+        if (TextUtils.isEmpty(mSpendWayId)){
+            ToastUtil.showToast(mContext,"请选择借款用途");
+            return;
+        }
+        showMoneyPopu(mPoundageY);
     }
 
 
@@ -565,10 +578,6 @@ public class RiskPreConfirmBaseMoneyActivity extends BaseActivity {
 
 
         String verify_code = et_risk_pre_money_verify_code.getText().toString().trim();
-        if (TextUtils.isEmpty(verify_code)) {
-            ToastUtil.showToast(mContext, "请输入验证码");
-            return;
-        }
         JSONObject jsonObject = new JSONObject();
         try {
 
