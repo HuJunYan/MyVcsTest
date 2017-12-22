@@ -194,17 +194,15 @@ class AuthCenterMenuActivity : BaseActivity() {
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
             }
             2 -> {
-                if ("0" == auth_id_num) {
-                    ToastUtil.showToast(mContext, "请先进行身份认证")
-                    return
-                }
-                if ("0" == auth_person_info) {
-                    ToastUtil.showToast(mContext, "请先进行个人信息认证")
-                    return
-                }
-                val bundle = Bundle()
-                bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG)
-                gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
+//                if ("0" == auth_id_num) {
+//                    ToastUtil.showToast(mContext, "请先进行身份认证")
+//                    return
+//                }
+//                if ("0" == auth_person_info) {
+//                    ToastUtil.showToast(mContext, "请先进行个人信息认证")
+//                    return
+//                }
+                gotoActivity(mContext, AuthCreditActivity::class.java, null)
             }
         }
     }
@@ -318,29 +316,29 @@ class AuthCenterMenuActivity : BaseActivity() {
     }
 
 
-    fun setTextSize(num:Int){
+    fun setTextSize(num: Int) {
 
-       when(num){
-           0->{
-               tv_identity.textSize=16f
-               tv_person_info.textSize=14f
-               tv_credit.textSize=14f
-           }
+        when (num) {
+            0 -> {
+                tv_identity.textSize = 16f
+                tv_person_info.textSize = 14f
+                tv_credit.textSize = 14f
+            }
 
-           1->{
-               tv_identity.textSize=14f
-               tv_person_info.textSize=16f
-               tv_credit.textSize=14f
+            1 -> {
+                tv_identity.textSize = 14f
+                tv_person_info.textSize = 16f
+                tv_credit.textSize = 14f
 
-           }
+            }
 
-           2->{
-               tv_identity.textSize=14f
-               tv_person_info.textSize=14f
-               tv_credit.textSize=16f
+            2 -> {
+                tv_identity.textSize = 14f
+                tv_person_info.textSize = 14f
+                tv_credit.textSize = 16f
 
-           }
+            }
 
-       }
+        }
     }
 }

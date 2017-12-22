@@ -6,7 +6,7 @@ package com.tianshen.cash.constant;
 public class NetConstantValue {
 
     //正式
-    public static String HOST = "http://pro.tianshenjr.com/";
+//    public static String HOST = "http://pro.tianshenjr.com/";
 
     //预发布
 //    public static String HOST = "http://pre.tianshenjr.com/";
@@ -15,7 +15,7 @@ public class NetConstantValue {
 //    public static String HOST = "http://tst.tianshenjr.com/";
 
     //开发
-//    public static String HOST = "http://dev.tianshenjr.com/";
+    public static String HOST = "http://dev.tianshenjr.com/";
 
 
     public static String COMMONURI = HOST + "Home/";
@@ -684,6 +684,13 @@ public class NetConstantValue {
      */
     public static String getLoanVerifyCodeURL() {
         return COMMONURI + "Order/getLoanVerifyCode";
+    }
+
+    /**
+     * 得到认证列表
+     */
+    public static String getCreditConfURL() {
+        return COMMONURI + "CreditConf/creditConf";
     }
 
 }

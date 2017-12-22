@@ -369,6 +369,9 @@
         <activity
             android:name=".activity.AliRepayWebActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AuthCreditActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

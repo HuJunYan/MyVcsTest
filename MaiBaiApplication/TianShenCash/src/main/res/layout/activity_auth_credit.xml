@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/global_bg_gray"
+    android:orientation="vertical"
+    tools:context="com.tianshen.cash.activity.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_auth_credit_back"
+            style="@style/title_back_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/title_txt_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="信用认证" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_global_line" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_auth_credit_required"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_auth_credit_required"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp" />
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_global_line" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_credit_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/layout_global_line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/global_bg_gray" />
+
+            <include layout="@layout/layout_global_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_auth_credit_not_required"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_auth_credit_not_required"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp" />
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_global_line" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_credit_not_required"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
