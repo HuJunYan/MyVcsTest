@@ -28,6 +28,13 @@
 
     <include layout="@layout/layout_global_line" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/global_bg_gray" />
+
+    <include layout="@layout/layout_global_line" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
