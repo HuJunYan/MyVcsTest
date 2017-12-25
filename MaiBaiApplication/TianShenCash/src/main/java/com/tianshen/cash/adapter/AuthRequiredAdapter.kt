@@ -4,10 +4,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 import com.tianshen.cash.R
 import com.tianshen.cash.model.RequiredBean
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_loan_history.view.*
 import kotlinx.android.synthetic.main.item_required.view.*
+import java.util.concurrent.TimeUnit
 
 class AuthRequiredAdapter(private var messageBeans: MutableList<RequiredBean>,
                           val onClick: (RequiredBean) -> Unit)
@@ -35,19 +38,18 @@ class AuthRequiredAdapter(private var messageBeans: MutableList<RequiredBean>,
                     "1" -> itemView.iv_item_required_status.setImageResource(R.drawable.authed_statue)
                 }
 
-//                RxView.clicks(itemView.ll_item_message)//1秒钟之内禁用重复点击
-//                        .throttleFirst(1, TimeUnit.SECONDS)
-//                        .subscribeOn(AndroidSchedulers.mainThread())
-//                        .subscribe {
-//                            onClick(this)
-//                        }
+                RxView.clicks(itemView.rl_item_required_root)//1秒钟之内禁用重复点击
+                        .throttleFirst(1, TimeUnit.SECONDS)
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            onClick(this)
+                        }
 
             }
         }
     }
 
-    fun setData(data: List<RequiredBean>) {
-        messageBeans.clear()
-        messageBeans.addAll(data)
+    fun setData(data: MutableList<RequiredBean>) {
+        messageBeans = data
     }
 }
