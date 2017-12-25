@@ -125,15 +125,6 @@ class AuthCreditActivity : BaseActivity() {
      */
     private fun checkTypeGoAuth(requiredBean: RequiredBean) {
 
-        requiredBean.is_click == "1"
-
-        (mAuthCreditBean!!.data.required).forEach {
-            it.is_click = "1"
-        }
-
-
-        LogUtil.d("abc", "requiredBean.is_click ->" + requiredBean.is_click)
-
         if ("1" == requiredBean.is_click) {
             return
         }
