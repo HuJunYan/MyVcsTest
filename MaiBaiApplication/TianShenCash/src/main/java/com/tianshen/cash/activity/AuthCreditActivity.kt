@@ -67,6 +67,7 @@ class AuthCreditActivity : BaseActivity() {
 
     private fun refreshUI() {
 
+        //设置必填项
         if (mAuthCreditBean!!.data.required.size > 0) {
             ll_credit_required_title.visibility = View.VISIBLE
             ImageLoader.load(mContext, mAuthCreditBean!!.data!!.required_background, iv_auth_credit_required)
@@ -87,7 +88,7 @@ class AuthCreditActivity : BaseActivity() {
             ll_credit_required_title.visibility = View.GONE
         }
 
-
+        //设置选填项
         if (mAuthCreditBean!!.data.not_required.size > 0) {
             ll_credit_not_required_title.visibility = View.VISIBLE
             credit_not_required_line_1.visibility = View.VISIBLE
