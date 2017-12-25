@@ -3,9 +3,8 @@ package com.tianshen.cash.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.moxie.client.manager.MoxieCallBack
-import com.moxie.client.manager.MoxieCallBackData
-import com.moxie.client.manager.MoxieContext
 import com.moxie.client.manager.MoxieSDK
 import com.moxie.client.model.MxParam
 import com.tianshen.cash.R
@@ -67,35 +66,50 @@ class AuthCreditActivity : BaseActivity() {
     }
 
     private fun refreshUI() {
-        ImageLoader.load(mContext, mAuthCreditBean!!.data!!.required_background, iv_auth_credit_required)
-        tv_auth_credit_required.text = mAuthCreditBean!!.data!!.required_content
 
-        ImageLoader.load(mContext, mAuthCreditBean!!.data!!.not_required_background, iv_auth_credit_not_required)
-        tv_auth_credit_not_required.text = mAuthCreditBean!!.data!!.not_required_content
+        if (mAuthCreditBean!!.data.required.size > 0) {
+            ll_credit_required_title.visibility = View.VISIBLE
+            ImageLoader.load(mContext, mAuthCreditBean!!.data!!.required_background, iv_auth_credit_required)
+            tv_auth_credit_required.text = mAuthCreditBean!!.data!!.required_content
+            if (mAuthRequiredAdapter == null) {
+                mAuthRequiredAdapter = AuthRequiredAdapter(mAuthCreditBean!!.data.required, {
+                    checkTypeGoAuth(it)
+                })
+                recyclerview_credit_required.layoutManager = LinearLayoutManager(this@AuthCreditActivity, LinearLayoutManager.VERTICAL, false)
+                recyclerview_credit_required.adapter = mAuthRequiredAdapter
+                recyclerview_credit_required.addItemDecoration(CustomerItemDecoration(this))
+            } else {
+                mAuthRequiredAdapter?.setData(mAuthCreditBean!!.data.required)
+                mAuthRequiredAdapter?.notifyDataSetChanged()
+            }
 
-        if (mAuthRequiredAdapter == null) {
-            mAuthRequiredAdapter = AuthRequiredAdapter(mAuthCreditBean!!.data.required, {
-                checkTypeGoAuth(it)
-            })
-            recyclerview_credit_required.layoutManager = LinearLayoutManager(this@AuthCreditActivity, LinearLayoutManager.VERTICAL, false)
-            recyclerview_credit_required.adapter = mAuthRequiredAdapter
-            recyclerview_credit_required.addItemDecoration(CustomerItemDecoration(this))
         } else {
-            LogUtil.d("abc", "refreshUI--setData1")
-            mAuthRequiredAdapter?.setData(mAuthCreditBean!!.data.required)
-            mAuthRequiredAdapter?.notifyDataSetChanged()
+            ll_credit_required_title.visibility = View.GONE
         }
-        if (mAuthNotRequiredAdapter == null) {
-            mAuthNotRequiredAdapter = AuthNotRequiredAdapter(mAuthCreditBean!!.data.not_required, {
-                checkTypeGoAuth(it)
-            })
-            recyclerview_credit_not_required.layoutManager = LinearLayoutManager(this@AuthCreditActivity, LinearLayoutManager.VERTICAL, false)
-            recyclerview_credit_not_required.adapter = mAuthNotRequiredAdapter
-            recyclerview_credit_not_required.addItemDecoration(CustomerItemDecoration(this))
+
+
+        if (mAuthCreditBean!!.data.not_required.size > 0) {
+            ll_credit_not_required_title.visibility = View.VISIBLE
+            credit_not_required_line_1.visibility = View.VISIBLE
+            credit_not_required_line_2.visibility = View.VISIBLE
+            ImageLoader.load(mContext, mAuthCreditBean!!.data!!.not_required_background, iv_auth_credit_not_required)
+            tv_auth_credit_not_required.text = mAuthCreditBean!!.data!!.not_required_content
+
+            if (mAuthNotRequiredAdapter == null) {
+                mAuthNotRequiredAdapter = AuthNotRequiredAdapter(mAuthCreditBean!!.data.not_required, {
+                    checkTypeGoAuth(it)
+                })
+                recyclerview_credit_not_required.layoutManager = LinearLayoutManager(this@AuthCreditActivity, LinearLayoutManager.VERTICAL, false)
+                recyclerview_credit_not_required.adapter = mAuthNotRequiredAdapter
+                recyclerview_credit_not_required.addItemDecoration(CustomerItemDecoration(this))
+            } else {
+                mAuthNotRequiredAdapter?.setData(mAuthCreditBean!!.data.not_required)
+                mAuthNotRequiredAdapter?.notifyDataSetChanged()
+            }
         } else {
-            mAuthNotRequiredAdapter?.setData(mAuthCreditBean!!.data.not_required)
-            mAuthNotRequiredAdapter?.notifyDataSetChanged()
-            LogUtil.d("abc", "refreshUI--setData2")
+            ll_credit_not_required_title.visibility = View.GONE
+            credit_not_required_line_1.visibility = View.GONE
+            credit_not_required_line_2.visibility = View.GONE
         }
 
     }

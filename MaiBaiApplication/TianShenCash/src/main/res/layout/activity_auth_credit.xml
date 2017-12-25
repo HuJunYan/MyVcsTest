@@ -46,6 +46,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_credit_required_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white">
@@ -80,9 +81,12 @@
                 android:layout_height="20dp"
                 android:background="@color/global_bg_gray" />
 
-            <include layout="@layout/layout_global_line" />
+            <include
+                android:id="@+id/credit_not_required_line_1"
+                layout="@layout/layout_global_line" />
 
             <LinearLayout
+                android:id="@+id/ll_credit_not_required_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white">
@@ -103,7 +107,9 @@
 
             </LinearLayout>
 
-            <include layout="@layout/layout_global_line" />
+            <include
+                android:id="@+id/credit_not_required_line_2"
+                layout="@layout/layout_global_line" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_credit_not_required"
