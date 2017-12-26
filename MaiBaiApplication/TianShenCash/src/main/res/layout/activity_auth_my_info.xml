@@ -264,6 +264,7 @@
                 style="@style/split_line_style"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_auth_extral"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -295,9 +296,9 @@
 
             </RelativeLayout>
 
-            <View style="@style/split_line_style"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_auth_three"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
