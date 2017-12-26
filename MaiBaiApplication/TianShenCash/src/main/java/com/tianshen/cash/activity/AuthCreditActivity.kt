@@ -39,6 +39,11 @@ class AuthCreditActivity : BaseActivity() {
     }
 
     override fun setListensers() {
+
+        tv_auth_credit_back.setOnClickListener {
+            backActivity()
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
