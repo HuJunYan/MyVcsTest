@@ -693,4 +693,12 @@ public class NetConstantValue {
         return COMMONURI + "CreditConf/creditConf";
     }
 
+    /**
+     * 得到扫脸结果
+     *
+     * @return
+     */
+    public static String getFaceResultURL() {
+        return COMMONURI + "Customer/getFaceResult";
+    }
 }

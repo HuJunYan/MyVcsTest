@@ -26,10 +26,12 @@ import com.tianshen.cash.event.IdcardImageEvent;
 import com.tianshen.cash.liveness.activity.LivenessActivity;
 import com.tianshen.cash.liveness.bean.MyMap;
 import com.tianshen.cash.liveness.util.ConUtil;
+import com.tianshen.cash.model.GetFaceResultBean;
 import com.tianshen.cash.model.ImageVerifyRequestBean;
 import com.tianshen.cash.model.ResponseBean;
 import com.tianshen.cash.model.UploadImageBean;
 import com.tianshen.cash.net.api.CreditFace;
+import com.tianshen.cash.net.api.GetFaceResult;
 import com.tianshen.cash.net.api.UploadImage;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 import com.tianshen.cash.net.base.UserUtil;
@@ -268,7 +270,7 @@ public class RiskPreScanFaceActivity extends BaseActivity {
                 public void onSuccess(UploadImageBean uploadImageBean) {
                     LogUtil.d("abc", "upLoadLivenessImage---onSuccess");
 //                    ImageLoader.load(getApplicationContext(), facePath, iv_risk_pre_face);
-                    compareImage(delta, map);
+                    compareImage(delta, facePath);
                 }
 
                 @Override
@@ -282,17 +284,44 @@ public class RiskPreScanFaceActivity extends BaseActivity {
         }
     }
 
-    private void compareImage(String delta, MyMap map) {
-        ImageVerifyRequestBean bean = new ImageVerifyRequestBean();
-        String name = TianShenUserUtil.getUserName(mContext);
-        String id_num = TianShenUserUtil.getUserIDNum(mContext);
-        byte[] headImage = heads;
-        bean.name = name;
-        bean.idcard = id_num;
-        bean.imageref = Utils.saveJPGFile(this, headImage, "image_ref1");
-        bean.delta = delta;
-        bean.images = map.getImages();
-        imageVerify_2_noScanIDCard(bean);
+    private void compareImage(String delta, String path) {
+        GetFaceResult getFaceResult = new GetFaceResult(mContext);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(GlobalParams.USER_CUSTOMER_ID, TianShenUserUtil.getUserId(mContext));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject newJson = SignUtils.signJsonNotContainList(jsonObject);
+        getFaceResult.uploadImage(newJson, path, true, new BaseNetCallBack<GetFaceResultBean>() {
+            @Override
+            public void onSuccess(GetFaceResultBean paramT) {
+                if (paramT != null && paramT.getData() != null && "1".equals(paramT.getData().getIs_pass())) {
+                    isCanPressBack = true;
+                    ToastUtil.showToast(mContext, "人脸比对成功!");
+                    EventBus.getDefault().post(new FaceScanSuccessEvent());
+                    finish();
+                }else {
+                    ToastUtil.showToast(mContext, "人脸比对失败，请重新检测!");
+                }
+            }
+
+            @Override
+            public void onFailure(String url, int errorType, int errorCode) {
+
+            }
+        });
+
+//        ImageVerifyRequestBean bean = new ImageVerifyRequestBean();
+//        String name = TianShenUserUtil.getUserName(mContext);
+//        String id_num = TianShenUserUtil.getUserIDNum(mContext);
+//        byte[] headImage = heads;
+//        bean.name = name;
+//        bean.idcard = id_num;
+//        bean.imageref = Utils.saveJPGFile(this, headImage, "image_ref1");
+//        bean.delta = delta;
+//        bean.images = map.getImages();
+//        imageVerify_2_noScanIDCard(bean);
 
     }
 
