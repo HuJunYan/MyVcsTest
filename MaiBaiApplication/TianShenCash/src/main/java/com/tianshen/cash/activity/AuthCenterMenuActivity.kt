@@ -194,14 +194,14 @@ class AuthCenterMenuActivity : BaseActivity() {
                 gotoActivity(mContext, AuthMyInfoActivity::class.java, bundle)
             }
             2 -> {
-//                if ("0" == auth_id_num) {
-//                    ToastUtil.showToast(mContext, "请先进行身份认证")
-//                    return
-//                }
-//                if ("0" == auth_person_info) {
-//                    ToastUtil.showToast(mContext, "请先进行个人信息认证")
-//                    return
-//                }
+                if ("0" == auth_id_num) {
+                    ToastUtil.showToast(mContext, "请先进行身份认证")
+                    return
+                }
+                if ("0" == auth_person_info) {
+                    ToastUtil.showToast(mContext, "请先进行个人信息认证")
+                    return
+                }
                 gotoActivity(mContext, AuthCreditActivity::class.java, null)
             }
         }
