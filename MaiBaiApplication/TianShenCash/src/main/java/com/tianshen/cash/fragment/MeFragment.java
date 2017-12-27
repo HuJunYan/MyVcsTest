@@ -219,6 +219,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         } else {
             tv_me_tianshen_friend.setText(shareString);
         }
+
+        String phone = TianShenUserUtil.getUserPhoneNum(mContext);
+        String encryptPhoneNum = StringUtil.encryptPhoneNum(phone);
+        tvMeUserName.setText(encryptPhoneNum);
     }
 
     /**
