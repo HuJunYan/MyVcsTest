@@ -12,15 +12,21 @@ import android.widget.TextView;
 import android.os.Bundle;
 
 import com.tianshen.cash.R;
+import com.tianshen.cash.activity.AuthCreditActivity;
 import com.tianshen.cash.activity.AuthMyInfoActivity;
 import com.tianshen.cash.activity.EvaluateAmountActivity;
 import com.tianshen.cash.constant.GlobalParams;
+import com.tianshen.cash.model.AuthCreditBean;
+import com.tianshen.cash.model.RequiredBean;
 import com.tianshen.cash.model.UserAuthCenterBean;
+import com.tianshen.cash.net.api.GetCreditConf;
 import com.tianshen.cash.net.api.GetUserAuthCenter;
 import com.tianshen.cash.net.base.BaseNetCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * 完成认证&提升额度的dialog工具类
@@ -46,11 +52,12 @@ public class CashAmountDialogUtils {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(GlobalParams.USER_CUSTOMER_ID, userId);
-            GetUserAuthCenter getUserAuthCenter = new GetUserAuthCenter(context);
-            getUserAuthCenter.userAuthCenter(jsonObject, null, true, new BaseNetCallBack<UserAuthCenterBean>() {
+
+            GetCreditConf getCreditConf = new GetCreditConf(context);
+            getCreditConf.getData(jsonObject, new BaseNetCallBack<AuthCreditBean>() {
                 @Override
-                public void onSuccess(UserAuthCenterBean paramT) {
-                    String taobaoPass = paramT.getData().getTaobao_pass();
+                public void onSuccess(AuthCreditBean paramT) {
+
                     LayoutInflater mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View view = mLayoutInflater.inflate(R.layout.dialog_cash_amount, null, false);
                     final Dialog mDialog = new Dialog(context, R.style.MyDialog);
@@ -61,7 +68,22 @@ public class CashAmountDialogUtils {
                     TextView tv_auth_center_menu_dialog_get_amount = (TextView) view.findViewById(R.id.tv_auth_center_menu_dialog_get_amount);
                     TextView tv_auth_center_menu_dialog_up_amount = (TextView) view.findViewById(R.id.tv_auth_center_menu_dialog_up_amount);
 
-                    if ("0".equals(taobaoPass)) {
+
+                    ArrayList<RequiredBean> notRequired = paramT.getData().getNot_required();
+                    boolean isShowUpAmount = false;
+                    if (notRequired == null || notRequired.size() == 0) {
+                        isShowUpAmount = false;
+                    } else {
+                        for (int i = 0; i < notRequired.size(); i++) {
+                            RequiredBean requiredBean = notRequired.get(i);
+                            String status = requiredBean.getStatus();
+                            if ("0".equals(status)) {
+                                isShowUpAmount = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isShowUpAmount) {
                         tv_auth_center_menu_dialog_up_amount.setVisibility(View.VISIBLE);
                     } else {
                         tv_auth_center_menu_dialog_up_amount.setVisibility(View.GONE);
@@ -84,10 +106,7 @@ public class CashAmountDialogUtils {
                             if (callback != null) {
                                 callback.onClickUpAmount();
                             }
-                            Bundle bundle = new Bundle();
-                            bundle.putString(AuthMyInfoActivity.ACTIVITY_FLAG, AuthMyInfoActivity.CREDITFLAG);
-                            Intent intent = new Intent(context, AuthMyInfoActivity.class);
-                            intent.putExtras(bundle);
+                            Intent intent = new Intent(context, AuthCreditActivity.class);
                             context.startActivity(intent);
                             ((Activity) context).overridePendingTransition(R.anim.push_right_in, R.anim.not_exit_push_left_out);
                         }
