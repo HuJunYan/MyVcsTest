@@ -12,6 +12,7 @@ import com.tianshen.cash.adapter.AuthNotRequiredAdapter
 import com.tianshen.cash.adapter.AuthRequiredAdapter
 import com.tianshen.cash.base.BaseActivity
 import com.tianshen.cash.constant.GlobalParams
+import com.tianshen.cash.constant.NetConstantValue
 import com.tianshen.cash.model.AuthCreditBean
 import com.tianshen.cash.model.RequiredBean
 import com.tianshen.cash.net.api.GetCreditConf
@@ -166,9 +167,13 @@ class AuthCreditActivity : BaseActivity() {
 
     private fun gotoMoXieActivity(requiredBean: RequiredBean) {
 
+        var apiKey = ""
+        if (NetConstantValue.checkIsReleaseService()) {
+            apiKey = "012a5b3a9bf94ac984fbb7c400c460aa"; //正式key --- 对应pro
+        } else {
+            apiKey = "c916e9aac6a244c2aa47552669c5a1e0" //测试key --- 对应dev
+        }
         val userId = TianShenUserUtil.getUserId(mContext)
-//        String apiKey = "012a5b3a9bf94ac984fbb7c400c460aa"; //正式key --- 对应pro
-        val apiKey = "c916e9aac6a244c2aa47552669c5a1e0" //测试key --- 对应dev
 
         val mxParam = MxParam()
         mxParam.userId = userId
